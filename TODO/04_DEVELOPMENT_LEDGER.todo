@@ -1,6 +1,20 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-18 - Initial source committed and pushed
+Action: Committed 27 reviewed source/documentation files as
+b9c3891798cb1fa59ec51fa1f4b75398e8085554 and pushed main to Zanark/Verona.
+Evidence: Both author and committer are Zanark using the account-associated
+public email returned by authenticated GitHub. Required Copilot/session trailers
+are present. PAT-backed HTTPS used an invocation-only gh credential helper;
+ls-remote verified refs/heads/main exactly equals the initial commit.
+Verification: Nine focused checks, real CPU numerical probe and pip check passed.
+Staged whitespace/scope and credential-pattern checks passed. Model files,
+virtual environment, report and private context were excluded.
+Effect: Source is now available in the private repository; the README documents
+the runnable numerical check. No visual face/player or speech accuracy is implied.
+This publication receipt follows the initial source commit.
+
 2026-11-18 - Runnable check and source publication requested
 Action: Owner requested a runnable test and explicitly authorized add/commit/push.
 Effect: README now gives the existing CPU probe command and precise limitations.
