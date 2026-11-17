@@ -1,0 +1,50 @@
+ID: vr-06
+Title: Qualify a free-local CPU speech-to-face inference path
+GitHub issue: https://github.com/Zanark/Verona/issues/5
+
+Status: DONE
+Milestone: Actual bounded CPU inference evidence before backend adoption.
+Dependencies: vr-05
+
+Purpose:
+Honor the owner's choice to keep everything free and local on the current AMD
+machine. Investigate standard ONNX execution of the publicly released A2F Mark
+regression network before accepting the larger UniTalker dependency/asset path.
+This is a custom CPU experiment, not official SDK CPU support.
+
+Tasks:
+[x] Record the owner's free/local-only compute decision.
+[x] Inspect exact model assets, license and inference/reconstruction contracts.
+[x] Isolate CPU dependencies and bound threads/work size on the shared machine.
+[x] Run a small numerical inference/reconstruction check, reporting real failures.
+[x] Record measured feasibility separately from articulation/human acceptance.
+[x] Reconcile documentation, issue/Project tracking and private continuity.
+
+Acceptance criteria:
+No CUDA, paid service, remote inference, recording upload or device activation.
+Model/runtime versions and asset hashes are explicit; no untrusted pickle load.
+Finite, correctly shaped outputs are necessary but not a claim of accurate speech.
+If the model cannot run here, report the exact blocker rather than faking motion.
+No changes to global packages, sibling runtimes or other users' processes.
+
+Completion evidence:
+Chapter 05 documents pinned assets, exact data/conditioning/PCA contracts,
+reproduction commands, measured results and explicit omissions.
+CPU-only ORT1.23.2 produced finite [30,301] output and [61520,3] skin geometry.
+One synthetic non-speech second: median network20.26ms/frame, total0.613s;
+single skin reconstruction6.56ms. Not end-to-end speed or speech accuracy.
+Nine focused checks and dependency consistency passed. No persistent process.
+Stable issue5 and unique Project item verified using saved identities; owned
+continuity records the free/local choice, actual CPU result and remaining gates.
+Seven book sources and local links/required workstream fields checked.
+
+Completion log:
+2026-11-18 - Owner selected "Keep everything free and local on this AMD machine".
+Public metadata suggests a custom ONNX CPU experiment; not yet a working backend.
+2026-11-18 - Actual CPU inference and PCA succeeded using pinned public assets,
+isolated NumPy/ORT, two inference threads and no CUDA or remote inference.
+Synthetic input only. Full SDK postprocess, topology/player and real-speech
+qualification remain future work; do not call the whole app complete.
+2026-11-18 - Source/book, focused validation, local-only model/env receipts,
+issue/backlink/Project identity and continuity reconciled. This finite numerical
+feasibility task is complete; full speaking-face implementation remains open.

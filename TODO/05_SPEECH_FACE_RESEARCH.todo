@@ -1,0 +1,54 @@
+ID: vr-05
+Title: Research accurate speech-driven wireframe facial animation
+GitHub issue: https://github.com/Zanark/Verona/issues/4
+
+Status: DONE
+Milestone: Evidence-grounded technology recommendation before implementation.
+Dependencies: None
+
+Purpose:
+Research recorded audio to a speaking connected face mesh, prioritizing accurate
+articulation, timing and expression support over appearance. Preserve a future
+streaming assistant path without building it during this research.
+
+Tasks:
+[x] Survey neural audio-to-geometry, phoneme/viseme and TTS-native timing paths.
+[x] Trace shortlisted implementations, dependencies, licenses and representations.
+[x] Verify actual local hardware constraints without installing or running models.
+[x] Compare published evidence and identify incomparable/unverified quality claims.
+[x] Define a bounded one-line prototype and accuracy/evaluation gates.
+[x] Write sourced research, recommendation, open questions and book updates.
+[x] Reconcile issue/Project tracking and private continuity.
+
+Acceptance criteria:
+Primary sources and pinned implementation references support consequential claims.
+Recommendation distinguishes current-machine feasibility from quality aspirations.
+Phoneme timing, coarticulation, geometry, synchronization and expressions are
+treated separately. No promise of unique ground-truth facial motion from audio.
+Code, weights, assets and dataset licensing are not conflated.
+No application code/model inference, dependency installation, private audio
+upload, camera/microphone activation, commit/push or deployment.
+
+Completion evidence:
+docs/chapters/04-speech-driven-face-research.md contains the five-lens research,
+conditional shortlist, implementation traces, math/clock contracts and concrete
+qualification corpus/gates. docs/research/speech-face-sources.md records pinned
+primary sources across 12 repositories plus papers and official documentation.
+book/manifest.json includes both authored sources. No model was executed.
+Stable issue4 and its unique Project15item were read back with exact managed
+body/state/status; issue3 now reflects the received idea and is In Progress.
+Owned continuity records research findings and remaining compute/access choice.
+Research completion is not implementation or accuracy acceptance.
+
+Completion log:
+2026-11-18 - Owner explicitly requested extensive deep research first and
+emphasized accuracy. Initial scope excludes application implementation.
+2026-11-18 - Source investigation found CUDA/TensorRT in the reviewed A2F runtime,
+unimplemented regression inference in its Python runner, character rather than
+phone-tier WhisperX alignment, and distinct rig/metric/license contracts.
+Current inventory shows AMD Radeon780M and no listed NVIDIA GPU. Recommendations
+remain conditional; CPU portability, real accuracy and latency are unmeasured.
+2026-11-18 - Six manifest inputs, Markdown file links, citation receipts and
+eight-field workstream structure checked. Initial new Project membership read
+lagged; a fresh inventory found the saved item, with no duplicate creation.
+Research deliverable complete; product definition continues under vr-03.

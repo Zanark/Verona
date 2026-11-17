@@ -1,0 +1,45 @@
+ID: vr-03
+Title: Define Verona's first useful outcome
+GitHub issue: https://github.com/Zanark/Verona/issues/3
+
+Status: IN_PROGRESS
+Milestone: Owner-grounded product brief and first vertical-slice acceptance.
+Dependencies: None
+
+Purpose:
+Turn the received idea into a bounded original application, not assumptions
+inherited from KardboardCode. Initial idea is received; technology/acceptance
+choices depend on the explicitly requested research before implementation.
+
+Tasks:
+[x] Read the owner's initial idea and reconcile docs/product-brief.md.
+[ ] Establish audience, inputs/outputs, platform, privacy and non-goals.
+[x] Decide whether face mesh is needed and what behavior would justify reuse.
+[x] Compare appropriate minimal stacks using actual constraints.
+[ ] Define a first end-to-end slice, acceptance checks and dependent workstreams.
+
+Acceptance criteria:
+Brief faithfully records owner intent and clearly labels remaining proposals.
+First useful behavior, failures, exclusions and verification path are concrete.
+Stack and any tracking reuse follow requirements rather than precede them.
+
+Completion evidence:
+Initial speech-driven connected-face-mesh requirements are recorded in
+docs/product-brief.md. Chapter 04 and its pinned source register compare motion
+backends, rig/time contracts, local hardware and a proposed first slice.
+Wireframe face generation is required; camera tracking is not its motion source.
+Owner selected free/local AMD compute. Chapter 05 now verifies a bounded Mark
+ONNX CPU numerical path; no completed animation backend or measured speech
+accuracy is established. Scope acceptance/face player remain unresolved.
+
+Completion log:
+2026-11-18 - Owner explicitly said the full idea will follow project preparation.
+No implementation started; BLOCKED is an input dependency, not an app failure.
+2026-11-18 - Owner supplied the idea: recorded speech -> synchronized animated
+wireframe face with articulation/expressions; future voiced conversational
+assistant. Research first, accuracy over appearance. Missing-idea blocker lifted.
+2026-11-18 - Research synthesis proposes offline native-geometry playback before
+streaming/retargeting. Available compute/service/license route still needs an
+owner choice; this product-definition workstream remains IN_PROGRESS.
+2026-11-18 - Owner chose free/local AMD. vr-06 demonstrates numerical CPU
+inference/PCA, not yet a complete speaking-face slice or acceptance.

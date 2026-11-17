@@ -1,0 +1,50 @@
+ID: vr-01
+Title: Prepare the Verona project foundation
+GitHub issue: https://github.com/Zanark/Verona/issues/1
+
+Status: DONE
+Milestone: Project preparation without speculative application scaffolding.
+Dependencies: None
+
+Purpose:
+Establish independent continuity, contributor rules, numbered tracking, an
+engineering-book manuscript and the private GitHub Project before product design.
+
+Tasks:
+[x] Inspect the existing empty checkout and register the owner-designated base.
+[x] Read the development manual and record Verona's development/book contract.
+[x] Prepare private continuity, public-safe documentation and numbered TODOs.
+[x] Verify Zanark through the existing PAT runner and create/link private Project.
+[x] Mirror finite workstreams with persistent issue backlinks and verified statuses.
+[x] Reconcile preparation evidence and persist the context milestone.
+
+Acceptance criteria:
+Verona is discoverable in Context Mesh with an owned continuity store.
+No application stack, runtime, dependencies or camera use is assumed.
+Contributor/workflow/book documents are navigable and truthful about their state.
+Each finite workstream has exactly one issue and Project item with correct status.
+Private continuity and credential files are Git-ignored.
+No Git commit, push, release, deployment or background automation is performed.
+
+Completion evidence:
+Initial checkout contained only .git; existing origin is Zanark/Verona.
+PAT runner returned login Zanark; repository is private and ADMIN-accessible.
+Created private Project 15 and linked it to Verona; discovered actual Status IDs.
+Mesh --check after adding the exact root discovered 42 contexts including Verona.
+Three unique issue/Project mappings read back successfully; rerun required no
+remote writes. vr-02 is closed/completed/Done; vr-03 remains open/Todo, blocked.
+Four book inputs, Markdown file links and all eight workstream fields checked.
+Owned context reconciles source review, remote tracking and preparation limits.
+Cross-session milestone persisted as ep_1371; final checked mesh publication is
+the session handoff gate, not application implementation or publication.
+
+Completion log:
+2026-11-18 - Owner requested preparation before supplying the product idea.
+2026-11-18 - First mesh build succeeded but omitted Verona because its root was
+not configured. Added only Verona's exact discovery root; next build found 42.
+2026-11-18 - Initial import stopped on unsupported updateIssue stateReason;
+used closeIssue instead and recovered via saved stable IDs without duplicates.
+Immediate Project membership read missed the newly added third item; next fresh
+inventory found the saved item and all three passed exact verification as no-ops.
+2026-11-18 - Foundation authored and persisted. Product idea remains vr-03's
+explicit blocker; no speculative implementation or book-rendering claim.

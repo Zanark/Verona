@@ -1,0 +1,37 @@
+# Verona engineering book
+
+**Status:** foundation and research manuscript, not a finished product book or
+rendered PDF. The speech-driven-face idea is recorded; proposed architecture
+and technology choices are distinguished from implemented behavior. A bounded
+numerical CPU inference tool exists, not yet a face player.
+
+## Reading paths
+
+For orientation, read chapters 01 then 02. For the potential face-tracking
+building block, read chapter 03; it describes another application's source,
+not implemented Verona behavior. Chapter 04 is the current technology decision
+and accuracy-qualification reading path.
+
+1. [Project foundation and boundaries](chapters/01-project-foundation.md)
+2. [Development, evidence and documentation](chapters/02-development-workflow.md)
+3. [Face mesh: read-only KardboardCode reference](chapters/03-face-mesh-reference.md)
+4. [Speech-driven face: research, architecture and qualification](chapters/04-speech-driven-face-research.md)
+5. [Local CPU feasibility: real ONNX inference, not yet lip-sync acceptance](chapters/05-local-cpu-feasibility.md)
+
+[Primary-source register](research/speech-face-sources.md) pins the reviewed code.
+[Product brief](product-brief.md) records requirements and remaining choices.
+[GitHub tracking](github-tracking.md) defines the issue/Project mapping.
+[Book production contract](../book/README.md) defines future edition gates.
+
+## How this becomes a book
+
+The chapters above are the canonical manuscript, not disposable notes to be
+rewritten at release. Add source-linked architecture, data/algorithms, design
+principles, subsystems, UI, quality and delivery chapters only as those subjects
+exist. Each implemented workstream updates its affected chapter in the same
+working slice and records the causal story in the development ledger.
+
+When a rendered edition is requested, assemble only the explicit manifest
+allowlist, render diagrams locally, generate reading HTML and native PDF, then
+inspect actual output and freeze a versioned edition receipt. No arbitrary page
+quota, copied private diary, placeholder chapter padding or automatic publication.

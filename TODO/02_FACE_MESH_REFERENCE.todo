@@ -1,0 +1,36 @@
+ID: vr-02
+Title: Understand the KardboardCode face-mesh pipeline
+GitHub issue: https://github.com/Zanark/Verona/issues/2
+
+Status: DONE
+Milestone: Source-grounded prior art without adopting the sibling application.
+Dependencies: None
+
+Purpose:
+Understand inference, normalized state, smoothing, actions and diagnostic mesh
+drawing so a later Verona design can assess reuse without becoming the same app.
+
+Tasks:
+[x] Resolve the canonical KardboardCode-VTuber base through Context Mesh.
+[x] Read relevant continuity, engineering docs, tracking source and integration.
+[x] Explain input/results, eye conventions, filters, pose, calibration and drawing.
+[x] Record source revision, limits, stale-doc discrepancies and reuse boundaries.
+
+Acceptance criteria:
+Reference explains actual mechanisms with source symbols and scope limits.
+Distinguish face landmarks, synthetic diagnostics and the cardboard avatar.
+No sibling source/store edits, dependency installation or camera activation.
+No live performance/privacy/reuse claim is inferred from historical documentation.
+
+Completion evidence:
+docs/chapters/03-face-mesh-reference.md documents the direct source review at
+KardboardCode-VTuber commit 75e7dd68de6af2a444b62213c28e4bcf9fd5100c.
+Read mediapipe_tracker.py, models.py, filters.py, eyes.py, events.py; CLI live
+integration lines 430-700; relevant normalization/debug tests lines 1-220.
+Only sibling private context files were already dirty; no writes made there.
+Source review only: no sibling tests/live input or output qualification performed.
+
+Completion log:
+2026-11-18 - Completed read-only tracking/mesh review and canonical reference.
+2026-11-18 - Found stale "future renderer" diagram wording; recorded rather than
+editing the sibling or repeating it as current implementation.

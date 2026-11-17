@@ -1,0 +1,80 @@
+Verona development ledger
+Newest entries first. Perpetual history; excluded from finite issue inventory.
+
+2026-11-18 - Runnable check and source publication requested
+Action: Owner requested a runnable test and explicitly authorized add/commit/push.
+Effect: README now gives the existing CPU probe command and precise limitations.
+Evidence: Re-ran nine focused checks, CPU inference/PCA and pip consistency.
+The numerical probe succeeds; it still has no visual face or speech playback.
+Identity: PAT-backed account check returns Zanark; use its API-associated public
+email for repository-scoped author/committer identity, not ambient credentials.
+Boundary: Publish intended source only. .local model/env/report, private
+.agent-context and credentials remain excluded. Issue projections now state
+that Git publication is independent rather than retaining a stale unpushed label.
+Next consequence: Review staged source, commit, push and verify the exact ref.
+
+2026-11-18 - Free/local CPU hypothesis tested
+Action: Owner chose free/local AMD. Inspected public Mark ONNX/PCA metadata and
+SDK window/conditioning/layout code; implemented an isolated pinned CPU probe.
+Effect: Real CPU-only network inference and finite skin reconstruction succeed.
+Why/mechanism: SDK CUDA dependence did not prove the released ONNX graph required
+CUDA. Exact implicit condition, audio context/strength and PCA deltas are explicit.
+Evidence: .local/cpu-probe.json records 30 synthetic frames, [30,301] outputs,
+[61520,3] reconstruction, median20.26ms network frame and6.56ms one reconstruction.
+Nine focused checks and pip consistency passed. Chapter05 is canonical evidence.
+Next consequence: Implement/qualify postprocess, matching topology/rig and an
+audio-clocked face player using actual speech. Do not switch to a coarse fallback.
+Limits: Non-speech smoke input; no speech accuracy, SDK parity, rendering, real
+end-to-end latency or peak-memory claim. Model assets/env stay ignored/local.
+
+2026-11-18 - Speech-to-face research synthesis
+Action: Traced pinned primary implementations and reviewed papers/model cards,
+commercial CPU documentation, timing contracts and licenses before app work.
+Effect: Chapter 04 and the source register provide a conditional shortlist,
+bounded first slice and independent articulation/geometry/clock quality gates.
+Why/mechanism: Camera tracking observes a performance; Verona must generate one.
+Reviewed A2F paths use CUDA/TensorRT, while this machine lists AMD graphics.
+Stock UniTalker also uses CUDA; CPU adaptation is a proposal, not a tested path.
+Evidence: Twelve pinned repository receipts; code-level inference/alignment/
+duration/playback traces; official commercial/model documentation; local hardware
+inventory. Published benchmarks are not local measurements or universal rankings.
+Tracking: vr-03/issue3 updated to In Progress; vr-05/issue4 and its unique saved
+Project item verified. Fresh read recovered initial membership propagation lag.
+Six book inputs and local document links/required TODO fields checked.
+Next consequence: Resolve compute/service/license route and qualify real clips.
+Limits: No model execution/install, voice upload, capture, app, commit or push.
+
+2026-11-18 - Foundation completion
+Action: Persisted continuity and reconciled the final foundation status.
+Effect: vr-01/issue1 and vr-02/issue2 are completed/Done; vr-03/issue3 remains
+open/Todo with an explicit missing-product-idea blocker.
+Evidence: Exact final readback verified all three managed bodies, issue states,
+completed reasons and original Project item statuses. No duplicate creation.
+Next consequence: Await the owner's idea and reconcile the product brief.
+Source remains local/uncommitted/unpushed; book is manuscript-only.
+
+2026-11-18 - Tracking import recovered and verified
+Action: Previewed only vr-01..03, created their issues and linked issue items.
+Effect: Persistent mappings in TODO/github-tracking.json; existing IDs reused
+after partial failures. No duplicate issues or Project draft cards.
+Why/mechanism: An unsupported updateIssue stateReason input blocked closure;
+switched to closeIssue. An immediate membership read lacked the latest item;
+a subsequent fresh inventory found that exact saved item, without recreating it.
+Evidence: Three-workstream rerun was no-op and verified exact managed bodies,
+issue states and Project statuses. vr-02 is completed/Done; vr-03 open/Todo.
+Limits: These are initial explicit operations, not installed unattended sync.
+
+2026-11-18 - Independent project foundation
+Action: Read the development manual and canonical face-tracking source, register
+Verona and establish its documentation/tracking layers.
+Effect: Future product work has a resumable base and source-grounded prior art
+without importing the VTuber application or selecting a premature stack.
+Why: The owner wants Verona prepared before supplying its product idea.
+Mechanism: Ignored continuity, contributor contract, eight-field numbered
+workstreams, canonical book chapters and a dedicated private GitHub Project.
+Evidence: PAT runner verified Zanark. Private Project 15 is linked to private
+Zanark/Verona. Corrected exact mesh root discovery; checked build found 42 bases.
+Face review: Chapter 03 records source commit, mechanisms and source-only limits.
+Next consequence: Reconcile issue/Project/backlinks, then await the owner's idea.
+Limits: No runnable Verona app, model install, camera capture, PDF, source push,
+release, deployment, scheduler or sibling app/store modification.
