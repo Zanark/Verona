@@ -1,5 +1,10 @@
 # 06 - From plain text to a local speaking-face clip
 
+**Historical baseline:** this chapter records the original Mark implementation
+at `7c12a34`, including its commands and measurements. The current checkout uses
+Claire and application-owned escaped SSML; follow the README and
+[chapter 07](07-hazel-claire-and-performance.md) for current setup/contracts.
+
 **Status:** text/audio/motion generation and the interactive browser player are
 implemented and functionally exercised on real synthesized speech. Rendered
 screenshots were inspected; playback tests were muted. Human articulation/

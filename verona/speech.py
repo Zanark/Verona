@@ -1,6 +1,6 @@
 """Bounded Windows offline plain-text synthesis, with no user text in commands."""
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 import io
 import json
 import os
@@ -8,6 +8,11 @@ from pathlib import Path
 import subprocess
 import tempfile
 import wave
+import xml.etree.ElementTree as ET
+
+os.environ["OPENBLAS_NUM_THREADS"] = "2"
+os.environ["OMP_NUM_THREADS"] = "2"
+import numpy as np
 
 from scripts.fetch_cpu_model import ROOT
 
@@ -41,7 +46,8 @@ try {
             [System.Speech.AudioFormat.AudioBitsPerSample]::Sixteen,
             [System.Speech.AudioFormat.AudioChannel]::Mono)
         $synth.SetOutputToWaveFile($request.output, $format)
-        $synth.Speak([string]$request.text)
+        $synth.Rate = [int]$request.rate
+        $synth.SpeakSsml([string]$request.ssml)
         $synth.SetOutputToNull()
         Write-Output '{"ok":true}'
     } else { throw 'Unsupported speech action.' }
@@ -50,10 +56,65 @@ try {
 
 
 @dataclass(frozen=True)
+class VoiceSettings:
+    pitch: int = 0
+    rate: int = 0
+    emphasis: str = "none"
+    bass: int = 0
+    treble: int = 0
+
+    @classmethod
+    def parse(cls, values: object) -> "VoiceSettings":
+        if not isinstance(values, dict) or set(values) - set(asdict(cls())):
+            raise ValueError("Supply only pitch, rate, emphasis, bass and treble voice settings.")
+        settings = cls(**values)
+        for name, low, high in (("pitch", -8, 8), ("rate", -5, 5),
+                                ("bass", -6, 6), ("treble", -6, 6)):
+            value = getattr(settings, name)
+            if isinstance(value, bool) or not isinstance(value, int) or not low <= value <= high:
+                raise ValueError(f"Voice {name} must be an integer from {low} to {high}.")
+        if settings.emphasis not in ("none", "reduced", "moderate", "strong"):
+            raise ValueError("Choose none, reduced, moderate or strong emphasis.")
+        return settings
+
+
+def preferred_voice(voices: list[dict[str, str]]) -> str:
+    return next((v["name"] for v in voices if v["name"] == "Microsoft Hazel Desktop"), voices[0]["name"])
+
+
+def speech_markup(text: str, culture: str, settings: VoiceSettings) -> str:
+    namespace = "http://www.w3.org/2001/10/synthesis"
+    root = ET.Element("speak", {"xmlns": namespace, "version": "1.0",
+                               "xml:lang": culture})
+    prosody = ET.SubElement(root, "prosody", {"pitch": f"{settings.pitch:+d}st"})
+    ET.SubElement(prosody, "emphasis", {"level": settings.emphasis}).text = text
+    return ET.tostring(root, encoding="unicode")
+
+
+def shape_tone(raw: bytes, bass: int, treble: int) -> bytes:
+    if bass == treble == 0:
+        return raw
+    samples = np.frombuffer(raw, dtype="<i2").astype(np.float64) / 32768
+    # Separate the clip's ends before applying the FFT-domain shelves.
+    padding = SAMPLE_RATE // 2
+    padded = np.pad(samples, (padding, padding))
+    frequencies = np.fft.rfftfreq(len(padded), 1 / SAMPLE_RATE)
+    low = 1 / (1 + (frequencies / 300) ** 4)
+    high = 1 - 1 / (1 + (frequencies / 2200) ** 4)
+    gain = 10 ** ((bass * low + treble * high) / 20)
+    shaped = np.fft.irfft(np.fft.rfft(padded) * gain, n=len(padded))[padding:padding + len(samples)]
+    peak = float(np.max(np.abs(shaped)))
+    if peak > 0.98:
+        shaped *= 0.98 / peak
+    return np.rint(shaped * 32767).astype("<i2").tobytes()
+
+
+@dataclass(frozen=True)
 class Speech:
     wav: bytes
     pcm: bytes
     voice: str
+    settings: VoiceSettings = VoiceSettings()
 
     @property
     def seconds(self) -> float:
@@ -67,6 +128,8 @@ def validate_text(text: object) -> str:
         raise ValueError("Text contains unsupported control characters.")
     if any(0xD800 <= ord(c) <= 0xDFFF for c in text):
         raise ValueError("Text contains an invalid Unicode surrogate.")
+    if "\ufffe" in text or "\uffff" in text:
+        raise ValueError("Text contains an unsupported XML character.")
     return text.strip()
 
 
@@ -121,15 +184,21 @@ def package_pcm(raw: bytes) -> bytes:
         return output.getvalue()
 
 
-def synthesize(text: object, voice: str, voices: list[dict[str, str]]) -> Speech:
+def synthesize(
+    text: object, voice: str, voices: list[dict[str, str]],
+    settings: VoiceSettings = VoiceSettings(),
+) -> Speech:
     text = validate_text(text)
+    settings = VoiceSettings.parse(asdict(settings))
     if voice not in [v["name"] for v in voices]:
         raise ValueError("Choose one of the installed English voices.")
     work = ROOT / ".local" / "work"
     work.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="speech-", dir=work) as directory:
         target = Path(directory) / "speech.wav"
-        speech_command({"action": "speak", "text": text, "voice": voice, "output": str(target)})
+        culture = next(v.get("culture", "en-US") for v in voices if v["name"] == voice)
+        speech_command({"action": "speak", "voice": voice, "output": str(target),
+                        "rate": settings.rate, "ssml": speech_markup(text, culture, settings)})
         if not target.is_file() or target.stat().st_size > MAX_SECONDS * SAMPLE_RATE * 2 + 4096:
             raise ValueError(f"Speech must fit within {MAX_SECONDS} seconds; shorten the text.")
         with wave.open(str(target), "rb") as stream:
@@ -139,7 +208,8 @@ def synthesize(text: object, voice: str, voices: list[dict[str, str]]) -> Speech
             raw = stream.readframes(stream.getnframes())
             if not raw or len(raw) != stream.getnframes() * 2:
                 raise RuntimeError("Windows speech produced empty or truncated audio.")
+    raw = shape_tone(raw, settings.bass, settings.treble)
     pcm = bytes(LEAD_SAMPLES * 2) + raw + bytes(TAIL_SAMPLES * 2)
     if len(pcm) > MAX_SECONDS * SAMPLE_RATE * 2:
         raise ValueError(f"Speech must fit within {MAX_SECONDS} seconds; shorten the text.")
-    return Speech(package_pcm(pcm), pcm, voice)
+    return Speech(package_pcm(pcm), pcm, voice, settings)

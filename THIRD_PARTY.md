@@ -6,22 +6,29 @@ size and SHA-256. A digest establishes identity, not a universal safety guarante
 These data and installed environments stay under ignored `.local`; no model,
 sample scene or Windows voice is bundled in this repository.
 
-- NVIDIA Audio2Face-3D-v2.3-Mark weights/PCA/emotion data: **NVIDIA Open Model
+- NVIDIA Audio2Face-3D-v2.3.1-Claire (current app) and v2.3-Mark (historical
+  optional probe) weights/PCA/emotion data: **NVIDIA Open Model
   License**, not the SDK's MIT license. See
   <https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/>.
-  Source revision and per-file hashes are in `scripts/fetch_cpu_model.py`.
-- NVIDIA/Maya-ACE Mark v2 topology sample: repository **MIT license**, pinned
+  Source revisions/hashes are in `scripts/fetch_claire_model.py` and
+  `scripts/fetch_cpu_model.py`.
+- NVIDIA/Maya-ACE Claire/Mark v2 topology samples: repository **MIT license**, pinned
   revision `f0dc13670952c495450dab1655c94e9056c9d7d9`.
   [Compatibility guide](https://github.com/NVIDIA/Maya-ACE/blob/f0dc13670952c495450dab1655c94e9056c9d7d9/sample_project/README.md)
-  explicitly pairs `mark_geom_v2_topo1.ma` with v2.3-Mark geometry.
-  `scripts/fetch_face_mesh.py` records the source/hash. Treat the scene strictly
+  explicitly pairs `claire_geom_v2_topo1.ma` with v2.3.x-Claire and
+  `mark_geom_v2_topo1.ma` with v2.3-Mark.
+  `scripts/fetch_claire_model.py` and `scripts/fetch_face_mesh.py` record the
+  sources/hashes. Treat each scene strictly
   as data; Verona does not execute MEL, load Maya plug-ins or resolve references.
 - NumPy 2.3.5: BSD-3-Clause and the notices in its installed distribution.
 - ONNX Runtime 1.23.2: MIT and its installed third-party notices.
 - Windows System.Speech/SAPI and installed voices are existing OS components,
-  governed by their Microsoft terms. Verona uses ordinary local plain-text
-  synthesis, not SSML, voice cloning or a cloud speech service.
-- The browser renderer uses built-in WebGL/Web Audio, without a CDN or JS package.
+  governed by their Microsoft terms. Verona escapes plain text into application-
+  owned SSML for bounded local prosody. User SSML, voice cloning and cloud speech
+  are not supported.
+- The browser renderer uses built-in WebGL2 and HTML audio, without a CDN or JS package.
+- The small procedural hair geometry is original Verona code; no hair model,
+  texture, animation package or additional third-party asset was downloaded.
 
 ## NVIDIA/Maya-ACE sample license
 

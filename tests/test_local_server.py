@@ -98,6 +98,10 @@ class LocalServerTests(unittest.TestCase):
             self.payload(intensity=float("nan")),
             self.payload(intensity=True),
             self.payload(extra="not-supported"),
+            self.payload(voiceSettings={"pitch": 99}),
+            self.payload(voiceSettings={"rate": True}),
+            self.payload(voiceSettings={"extra": 1}),
+            self.payload(voiceSettings=[]),
             "[]",
         ):
             status, _, _ = self.request("POST", "/api/generate", payload)
@@ -127,6 +131,31 @@ class LocalServerTests(unittest.TestCase):
         self.state.clip = None
         status, _, _ = self.request("GET", "/api/clip/fixture-clip/audio")
         self.assertEqual(status, 404)
+
+    def test_preview_and_latest_clip_caches_are_bounded_and_settings_sensitive(self):
+        pcm = bytes(1600)
+        sample = Speech(package_pcm(pcm), pcm, "fixture")
+        with (patch("verona.server.synthesize", return_value=sample) as synth,
+              patch.object(self.state.engine, "generate", wraps=self.state.engine.generate) as generate):
+            status, headers, body = self.request("POST", "/api/preview", self.payload())
+            self.assertEqual((status, headers["Content-Type"], body), (200, "audio/wav", sample.wav))
+            self.assertIsNone(self.state.clip)
+            generate.assert_not_called()
+            status, _, first = self.request("POST", "/api/generate", self.payload())
+            self.assertEqual(status, 200)
+            self.assertTrue(json.loads(first)["speechCacheHit"])
+            _, _, repeated = self.request("POST", "/api/generate", self.payload())
+            self.assertTrue(json.loads(repeated)["cacheHit"])
+            self.assertEqual(generate.call_count, 1)
+            self.assertEqual(synth.call_count, 1)
+            self.request("POST", "/api/generate", self.payload(expression="happy"))
+            self.assertEqual(generate.call_count, 2)
+            self.assertEqual(synth.call_count, 1)
+            self.request("POST", "/api/generate", self.payload(voiceSettings={"pitch": 2}))
+            self.assertEqual(synth.call_count, 2)
+            self.request("POST", "/api/generate", self.payload())
+            self.assertEqual(synth.call_count, 3)
+            self.assertEqual(generate.call_count, 4)
 
     def test_engine_failure_is_an_error_and_generation_slot_recovers(self):
         with patch("verona.server.synthesize", side_effect=RuntimeError("fixture failure")):

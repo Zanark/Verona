@@ -1,7 +1,10 @@
 """Read fixed Maya numerical arrays without executing any scene commands."""
 
 from pathlib import Path
+import hashlib
 import re
+import tempfile
+from zipfile import BadZipFile
 
 import numpy as np
 
@@ -80,14 +83,16 @@ def read_mesh(path: Path, node: str = SKIN_NODE) -> tuple[np.ndarray, np.ndarray
 
 
 def reduced_mesh(
-    vertices: np.ndarray, edges: np.ndarray, triangles: np.ndarray
+    vertices: np.ndarray, edges: np.ndarray, triangles: np.ndarray,
+    mouth_y: tuple[float, float] = (149.5, 156),
+    mouth_x: float = 5.2,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Contract native edges inside cells; never join spatially adjacent lips."""
     steps = np.full(len(vertices), 0.85, dtype=np.float32)
     mouth = (
-        (np.abs(vertices[:, 0]) < 5.2)
-        & (vertices[:, 1] > 149.5)
-        & (vertices[:, 1] < 156)
+        (np.abs(vertices[:, 0]) < mouth_x)
+        & (vertices[:, 1] > mouth_y[0])
+        & (vertices[:, 1] < mouth_y[1])
         & (vertices[:, 2] > 2.5)
     )
     steps[mouth] = 0.15
@@ -127,3 +132,46 @@ def reduced_mesh(
         & (compact_triangles[:, 2] != compact_triangles[:, 0])
     )
     return selected, compact_edges.astype("<u4"), compact_triangles[keep].astype("<u4")
+
+
+def claire_topology(
+    neutral: np.ndarray, scene: Path, cache: Path, fingerprint: str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, float]:
+    """Cache only derived geometry; callers still verify every original asset."""
+    cache.mkdir(parents=True, exist_ok=True)
+    target = cache / f"claire-{hashlib.sha256(fingerprint.encode()).hexdigest()[:20]}.npz"
+    if target.exists():
+        try:
+            with np.load(target, allow_pickle=False) as data:
+                selected, edges, triangles = (data[n].copy() for n in ("selected", "edges", "triangles"))
+                maximum = float(data["maximum"])
+        except (ValueError, TypeError, KeyError, EOFError, BadZipFile) as error:
+            raise ValueError(f"Unreadable derived geometry cache; remove only {target} and restart.") from error
+        if (selected.ndim != 1 or not 0 < len(selected) <= len(neutral)
+                or selected.dtype != np.dtype("int32") or len(np.unique(selected)) != len(selected)
+                or selected.min() < 0 or selected.max() >= len(neutral)
+                or not np.isfinite(maximum) or not 0 <= maximum <= 1.1):
+            raise ValueError(f"Invalid derived geometry cache; remove only {target} and restart.")
+        for indices, width in ((edges, 2), (triangles, 3)):
+            if (indices.dtype != np.dtype("<u4") or indices.ndim != 2 or indices.shape[1] != width
+                    or not indices.size or indices.max() >= len(selected)):
+                raise ValueError(f"Invalid derived topology cache; remove only {target} and restart.")
+        return selected, edges, triangles, maximum
+    source, edges, triangles = read_mesh(scene)
+    if source.shape != neutral.shape or len(edges) != 123036 or len(triangles) != 123036:
+        raise ValueError("Claire native skin/topology dimensions do not match the model.")
+    distances = np.linalg.norm(source - neutral, axis=1)
+    maximum = float(np.max(distances))
+    if maximum > 1.1 or np.median(distances) > .08:
+        raise ValueError("Claire per-index native rest correspondence changed.")
+    selected, edges, triangles = reduced_mesh(neutral, edges, triangles, (138.7, 141.8), 4.5)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=cache, delete=False) as stream:
+            temporary = Path(stream.name)
+            np.savez(stream, selected=selected, edges=edges, triangles=triangles, maximum=maximum)
+        temporary.replace(target)
+    finally:
+        if temporary is not None and temporary.exists():
+            temporary.unlink()
+    return selected, edges, triangles, maximum

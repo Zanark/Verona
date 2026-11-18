@@ -1,6 +1,30 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-18 - Hazel editing and matching Claire candidate qualified
+Action: Implemented bounded local voice settings/preview/reset, native Claire
+model/topology, original procedural bob, batch-four inference/PCA, persistent
+derived-topology cache and latest-only speech/clip RAM caches. Chapter07 is
+the current architecture; Chapter06 preserves the Mark baseline.
+Why/mechanism: Do not relabel or warp Mark into a female identity. Claire uses
+its own140/169 layout, input strength1.0 and cp1_neutral/frame212 conditioning.
+Speech shaping precedes both motion inference and playback on one timeline.
+Evidence: Thirty-one unit/HTTP checks, actual Hazel waveform changes, all three
+Windows voices, sixteen isolated Edge scenarios, dependency check and real CLI
+export. Inspected final frontal/turned/speaking screenshots; no external page
+requests or page exceptions. Owned browser/server/profile cleaned up.
+Corrections: Initial larger mouth region densified the chin. Hair screenshots
+exposed scalp penetration then curtains hiding eyes; refined shell/opening and
+added a central-expression-region regression. First browser network assertion
+misclassified embedded native-audio data icons; corrected classification while
+retaining failed evidence. No arbitrary SSML or network/security bypass.
+Tradeoff: Final warm startup1.36-1.53s vs original3.586s; repeat ready0.059s vs
+new greeting6.807s on the shared machine. Motion payload37% smaller at30fps.
+Claire's bigger network is slower on new lines than Mark; no universal speedup,
+listening acceptance or anatomical-contact claim. No new dependency or TTS model.
+Tracking: New unique vr-08/issue7/item verified In Progress. Publication and
+continuity closure remain separate from this technical qualification milestone.
+
 2026-11-18 - Interactive prototype source published and finite scope complete
 Action: Committed twenty intended source/docs/test files as
 af797df9ed83e9c88e69c0707d7e2548f48c7f4f and pushed main via the Zanark PAT

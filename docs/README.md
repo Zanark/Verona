@@ -6,6 +6,8 @@ and technology choices are distinguished from implemented behavior. A bounded
 numerical CPU inference tool, complete local text-to-motion generator and
 audio-clocked browser player exist. Chapter 06 records their actual mechanisms,
 real-browser qualification and still-unaccepted articulation limits.
+Chapter 07 extends that baseline with editable Hazel, native Claire/hair and
+measured caching/performance mechanisms.
 
 ## Reading paths
 
@@ -20,6 +22,7 @@ and accuracy-qualification reading path.
 4. [Speech-driven face: research, architecture and qualification](chapters/04-speech-driven-face-research.md)
 5. [Local CPU feasibility: real ONNX inference, not yet lip-sync acceptance](chapters/05-local-cpu-feasibility.md)
 6. [Text to local speech, matching topology and complete face clips](chapters/06-text-to-face-prototype.md)
+7. [Editable Hazel, matching Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
 
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.

@@ -19,6 +19,12 @@ button:disabled, input:disabled, select:disabled { opacity: .5; cursor: default;
 :focus-visible { outline: 2px solid #9af9df; outline-offset: 3px; }
 .examples { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
 .examples button { font-size: 12px; padding: 4px 8px; }
+.voice-options { margin-top: 12px; border-top: 1px solid #26424f; padding-top: 8px; }
+.voice-options summary { cursor: pointer; color: #a4e7de; }
+.voice-options input[type="range"] { width: 100%; }
+.voice-options output { float: right; font-size: 12px; }
+.voice-actions { display: flex; gap: 8px; margin-top: 12px; }
+#voice-preview { width: 100%; margin-top: 10px; height: 36px; }
 .primary { width: 100%; background: #1d655f; border-color: #69beac; margin-top: 18px; font-weight: 600; }
 input[type="range"] { accent-color: #78dfce; cursor: pointer; max-width: 100%; }
 #intensity { width: 100%; }

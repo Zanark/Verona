@@ -1,8 +1,12 @@
 const $ = (id) => document.getElementById(id);
 const audio = $("audio");
 const controls = ["play", "restart", "seek"];
+const settingNames = ["pitch", "rate", "bass", "treble"];
+const editing = ["generate", "preview", "reset-voice", "text", "voice", "expression", "intensity",
+  ...settingNames, "emphasis"];
+const preview = $("voice-preview");
 let token = window.location.hash.slice(1);
-let renderer, clip, audioUrl, raf = 0, busy = false;
+let renderer, clip, audioUrl, previewUrl, defaultVoice, raf = 0, busy = false;
 
 function failure(error) {
   $("error").textContent = error instanceof Error ? error.message : String(error);
@@ -87,12 +91,19 @@ class FaceRenderer {
     this.neutral = this.buffer(gl.ARRAY_BUFFER, new Int16Array(binary, 0, meta.vertices * 3));
     this.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.edgeOffset, meta.edges * 2));
     this.triangles = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3));
+    const hair = meta.hair;
+    this.hair = {
+      positions: this.buffer(gl.ARRAY_BUFFER, new Int16Array(binary, hair.positionOffset, hair.vertices * 3)),
+      edges: this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, hair.edgeOffset, hair.edges * 2)),
+      triangles: this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3)),
+    };
     this.motion = null;
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
     canvas.addEventListener("webglcontextlost", (event) => {
       event.preventDefault();
       audio.pause();
+      preview.pause();
       failure(new Error("Graphics context was lost. Reload Verona to rebuild the face."));
     });
     canvas.addEventListener("webglcontextrestored", () => {
@@ -171,6 +182,20 @@ class FaceRenderer {
       gl.uniform3f(u.color, 0.59, 0.98, 0.85);
       gl.drawArrays(gl.POINTS, 0, this.meta.vertices);
     }
+    if ($("hair").checked) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.hair.positions);
+      for (const location of this.attributes) gl.vertexAttribPointer(location, 3, gl.SHORT, false, 0, 0);
+      gl.uniform1i(u.points, 0);
+      gl.uniform1f(u.blend, 0);
+      gl.enable(gl.POLYGON_OFFSET_FILL);
+      gl.uniform3f(u.color, 0.11, 0.13, 0.22);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.hair.triangles);
+      gl.drawElements(gl.TRIANGLES, this.meta.hair.triangles * 3, gl.UNSIGNED_INT, 0);
+      gl.disable(gl.POLYGON_OFFSET_FILL);
+      gl.uniform3f(u.color, 0.56, 0.46, 0.77);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.hair.edges);
+      gl.drawElements(gl.LINES, this.meta.hair.edges * 2, gl.UNSIGNED_INT, 0);
+    }
     $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
   }
 }
@@ -198,7 +223,60 @@ function clearClip() {
   for (const id of controls) $(id).disabled = true;
   $("spoken").textContent = "No generated speech yet.";
   $("details").textContent = "";
+  delete $("details").dataset.readySeconds;
   draw();
+}
+
+function voiceSettings() {
+  return Object.fromEntries([...settingNames.map((name) => [name, Number($(name).value)]),
+    ["emphasis", $("emphasis").value]]);
+}
+
+function clearPreview() {
+  preview.pause();
+  preview.removeAttribute("src");
+  preview.load();
+  preview.hidden = true;
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = null;
+}
+
+function refreshSettings() {
+  for (const name of settingNames) {
+    const value = Number($(name).value);
+    const unit = name === "pitch" ? " st" : name === "rate" ? "" : " dB";
+    $(`${name}-value`).textContent = `${value > 0 ? "+" : ""}${value}${unit}`;
+  }
+  clearPreview();
+}
+
+async function previewVoice() {
+  if (busy) return;
+  $("error").hidden = true;
+  const text = $("text").value.trim();
+  if (!text || text.length > 280) { failure(new Error("Enter 1-280 characters of plain text.")); return; }
+  busy = true;
+  audio.pause();
+  clearPreview();
+  for (const id of editing) $(id).disabled = true;
+  $("status").textContent = "Synthesizing local voice preview without neural face generation.";
+  try {
+    const response = await request("/api/preview", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, voice: $("voice").value, voiceSettings: voiceSettings(),
+        expression: $("expression").value, intensity: Number($("intensity").value) }),
+    });
+    previewUrl = URL.createObjectURL(await response.blob());
+    preview.src = previewUrl;
+    preview.hidden = false;
+    $("status").textContent = "Voice preview ready. Press its Play control; Generate face applies this voice to the mesh.";
+  } catch (error) {
+    $("status").textContent = "Voice preview failed. Correct the settings, then retry.";
+    failure(error);
+  } finally {
+    busy = false;
+    for (const id of editing) $(id).disabled = false;
+  }
 }
 
 async function generate() {
@@ -210,8 +288,10 @@ async function generate() {
     return;
   }
   busy = true;
+  clearPreview();
   clearClip();
-  for (const id of ["generate", "text", "voice", "expression", "intensity"]) $(id).disabled = true;
+  const started = performance.now();
+  for (const id of editing) $(id).disabled = true;
   $("status").textContent = "Generating local speech and complete neural motion. No audio is uploaded.";
   try {
     const response = await request("/api/generate", {
@@ -220,6 +300,7 @@ async function generate() {
       body: JSON.stringify({
         text, voice: $("voice").value, expression: $("expression").value,
         intensity: Number($("intensity").value),
+        voiceSettings: voiceSettings(),
       }),
     });
     const metadata = await response.json();
@@ -248,12 +329,17 @@ async function generate() {
       throw new Error("Loaded audio duration does not match its face timeline.");
     }
     clip = metadata;
+    const readySeconds = (performance.now() - started) / 1000;
+    $("details").dataset.readySeconds = String(readySeconds);
     $("seek").max = String(clip.duration);
     for (const id of controls) $(id).disabled = false;
     $("spoken").textContent = text;
-    $("details").textContent = `${metadata.voice} | ${metadata.duration.toFixed(2)} s | `
-      + `${metadata.frames} frames | ${metadata.generationSeconds.toFixed(2)} s motion generation `
-      + `(excludes voice synthesis/startup)`;
+    const settings = metadata.voiceSettings;
+    $("details").textContent = `${metadata.voice} | pitch ${settings.pitch} st, speed ${settings.rate}, `
+      + `bass ${settings.bass} dB, treble ${settings.treble} dB, ${settings.emphasis} emphasis | `
+      + `${metadata.duration.toFixed(2)} s | ${metadata.frames} frames | `
+      + `${metadata.cacheHit ? "reused complete clip" : metadata.speechCacheHit ? "reused speech" : "new speech"} | `
+      + `${readySeconds.toFixed(2)} s ready (${metadata.requestSeconds.toFixed(2)} s server; excludes startup)`;
     $("status").textContent = "Ready. Press Play; the mesh follows the audio clock.";
     draw();
   } catch (error) {
@@ -262,14 +348,25 @@ async function generate() {
     failure(error);
   } finally {
     busy = false;
-    for (const id of ["generate", "text", "voice", "expression", "intensity"]) $(id).disabled = false;
+    for (const id of editing) $(id).disabled = false;
   }
 }
 
 $("generate").addEventListener("click", generate);
+$("preview").addEventListener("click", previewVoice);
+$("reset-voice").addEventListener("click", () => {
+  $("voice").value = defaultVoice;
+  for (const name of settingNames) $(name).value = "0";
+  $("emphasis").value = "none";
+  refreshSettings();
+});
+for (const name of settingNames) $(name).addEventListener("input", refreshSettings);
+for (const id of ["text", "voice", "emphasis"]) $(id).addEventListener("input", clearPreview);
+preview.addEventListener("play", () => audio.pause());
 $("play").addEventListener("click", async () => {
   $("error").hidden = true;
   if (!clip) return;
+  preview.pause();
   if (!audio.paused) { audio.pause(); return; }
   if (audio.ended) audio.currentTime = 0;
   try { await audio.play(); } catch (error) { failure(error); }
@@ -283,15 +380,15 @@ $("seek").addEventListener("input", () => {
   audio.currentTime = Number($("seek").value);
   draw();
 });
-$("volume").addEventListener("input", () => { audio.volume = Number($("volume").value); });
+$("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
-for (const id of ["edges", "points", "yaw", "zoom"]) $(id).addEventListener("input", draw);
+for (const id of ["edges", "points", "hair", "yaw", "zoom"]) $(id).addEventListener("input", draw);
 for (const button of document.querySelectorAll("[data-example]")) {
   button.addEventListener("click", () => {
-    if (!busy) { $("text").value = button.dataset.example; $("text").focus(); }
+    if (!busy) { $("text").value = button.dataset.example; clearPreview(); $("text").focus(); }
   });
 }
-audio.volume = Number($("volume").value);
+audio.volume = preview.volume = Number($("volume").value);
 audio.addEventListener("play", () => {
   cancelAnimationFrame(raf);
   $("play").textContent = "Pause";
@@ -309,7 +406,9 @@ audio.addEventListener("error", () => {
 });
 window.addEventListener("pagehide", (event) => {
   audio.pause();
+  preview.pause();
   if (!event.persisted && audioUrl) URL.revokeObjectURL(audioUrl);
+  if (!event.persisted && previewUrl) URL.revokeObjectURL(previewUrl);
 });
 
 try {
@@ -323,12 +422,18 @@ try {
     option.textContent = `${voice.name} (${voice.culture})`;
     $("voice").append(option);
   }
+  defaultVoice = session.defaultVoice;
+  $("voice").value = defaultVoice;
+  $("voice-notice").textContent = defaultVoice === "Microsoft Hazel Desktop"
+    ? "Default: Hazel, installed locally." : `Hazel is not installed. Using ${defaultVoice}; choose another installed voice if preferred.`;
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary);
   new ResizeObserver(draw).observe($("face"));
   $("voice").disabled = false;
   $("generate").disabled = false;
-  $("status").textContent = `Ready. ${session.mesh.vertices.toLocaleString()} connected face points; enter text and generate.`;
+  $("preview").disabled = false;
+  $("reset-voice").disabled = false;
+  $("status").textContent = `Ready. ${session.mesh.identity}; ${session.mesh.vertices.toLocaleString()} connected face points.`;
   draw();
 } catch (error) {
   $("status").textContent = "The local face could not start.";

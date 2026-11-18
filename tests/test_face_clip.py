@@ -6,10 +6,12 @@ import threading
 import unittest
 from unittest.mock import patch
 import wave
+import xml.etree.ElementTree as ET
 
 from verona import speech
+from verona.appearance import claire_hair
 from verona.engine import FaceEngine, expression_condition, pack_positions
-from verona.mesh import read_mesh, reduced_mesh
+from verona.mesh import claire_topology, read_mesh, reduced_mesh
 
 import numpy as np
 
@@ -25,6 +27,36 @@ createNode transform -n "unrelated";
 
 
 class MeshTests(unittest.TestCase):
+    def test_hair_leaves_the_central_expression_region_uncovered(self):
+        vertices, _, _ = claire_hair()
+        in_front_of_face = (np.abs(vertices[:, 0]) < 5) & (vertices[:, 2] > 0)
+        self.assertTrue(in_front_of_face.any())
+        self.assertGreater(float(vertices[in_front_of_face, 1].min()), 152)
+
+    def test_claire_cache_reuses_only_valid_derived_native_topology(self):
+        neutral = np.zeros((4, 3), dtype=np.float32)
+        derived = (np.array([0, 1, 2], dtype=np.int32),
+                   np.array([[0, 1], [1, 2]], dtype="<u4"),
+                   np.array([[0, 1, 2]], dtype="<u4"))
+        with tempfile.TemporaryDirectory() as directory:
+            cache = Path(directory)
+            with (patch("verona.mesh.read_mesh", return_value=(
+                    neutral, np.zeros((123036, 2)), np.zeros((123036, 3)))) as read,
+                  patch("verona.mesh.reduced_mesh", return_value=derived)):
+                cold = claire_topology(neutral, Path("unused.ma"), cache, "fixture-v1")
+                warm = claire_topology(neutral, Path("unused.ma"), cache, "fixture-v1")
+                self.assertEqual(read.call_count, 1)
+            for a, b in zip(cold[:3], warm[:3]):
+                np.testing.assert_array_equal(a, b)
+            target = next(cache.glob("*.npz"))
+            np.savez(target, selected=np.array([999], dtype=np.int32),
+                     edges=derived[1], triangles=derived[2], maximum=0)
+            with self.assertRaisesRegex(ValueError, "remove only"):
+                claire_topology(neutral, Path("unused.ma"), cache, "fixture-v1")
+            target.write_bytes(b"not-a-numerical-archive")
+            with self.assertRaisesRegex(ValueError, "Unreadable"):
+                claire_topology(neutral, Path("unused.ma"), cache, "fixture-v1")
+
     def test_reads_all_face_chunks_and_reversed_native_edge(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "fixture.ma"
@@ -63,8 +95,40 @@ class MeshTests(unittest.TestCase):
 
 
 class SpeechTests(unittest.TestCase):
+    def test_settings_validate_ranges_and_markup_escapes_text(self):
+        for value in (None, [], {"pitch": True}, {"pitch": 9}, {"rate": -6},
+                      {"bass": 6.1}, {"treble": float("nan")}, {"emphasis": "unknown"},
+                      {"ssml": "<audio src='https://invalid/'/>"}):
+            with self.assertRaises(ValueError):
+                speech.VoiceSettings.parse(value)
+        text = '</emphasis><audio src="https://invalid/"> & hello'
+        settings = speech.VoiceSettings.parse({"pitch": 4, "rate": 2, "emphasis": "strong"})
+        root = ET.fromstring(speech.speech_markup(text, "en-GB", settings))
+        ns = "{http://www.w3.org/2001/10/synthesis}"
+        self.assertEqual(root.find(ns + "prosody").get("pitch"), "+4st")
+        self.assertEqual(root.find(".//" + ns + "emphasis").text, text)
+        self.assertIsNone(root.find(".//" + ns + "audio"))
+
+    def test_tone_changes_frequency_balance_without_time_stretch_or_clipping(self):
+        t = np.arange(16000) / 16000
+        samples = .1 * np.sin(2 * np.pi * 100 * t) + .1 * np.sin(2 * np.pi * 4000 * t)
+        raw = np.rint(samples * 32767).astype("<i2").tobytes()
+        shaped = speech.shape_tone(raw, 6, -6)
+        self.assertEqual(len(shaped), len(raw))
+        spectrum = np.abs(np.fft.rfft(np.frombuffer(shaped, dtype="<i2")))
+        self.assertGreater(spectrum[100] / spectrum[4000], 3)
+        loud = np.rint(.95 * np.sin(2 * np.pi * 100 * t) * 32767).astype("<i2").tobytes()
+        self.assertLessEqual(np.abs(np.frombuffer(speech.shape_tone(loud, 6, 6), dtype="<i2")).max(), 32113)
+        self.assertEqual(speech.shape_tone(raw, 0, 0), raw)
+
+    def test_hazel_is_preferred_without_reordering_the_installed_voices(self):
+        voices = [{"name": "other"}, {"name": "Microsoft Hazel Desktop"}]
+        self.assertEqual(speech.preferred_voice(voices), "Microsoft Hazel Desktop")
+        self.assertEqual(speech.preferred_voice(voices[:1]), "other")
+        self.assertEqual(voices[0]["name"], "other")
+
     def test_text_validation_rejects_empty_oversized_and_invalid_unicode(self):
-        for value in (None, "", "  ", "x" * 281, "\0hello", "\ud800"):
+        for value in (None, "", "  ", "x" * 281, "\0hello", "\ud800", "\ufffe"):
             with self.assertRaises(ValueError):
                 speech.validate_text(value)
         self.assertEqual(speech.validate_text("  Hey!\nHow are you?  "), "Hey!\nHow are you?")
@@ -130,9 +194,12 @@ class ClipTests(unittest.TestCase):
             calls = 0
 
             def run(self, names, inputs):
-                self.calls += 1
-                result = np.zeros((1, 1, 301), dtype=np.float32)
-                result[0, 0, 0] = self.calls * .01
+                batch = inputs["input"].shape[0]
+                self.batches.append(batch)
+                self.assertions.append(inputs["emotion"].shape == (batch, 1, 26))
+                result = np.zeros((batch, 1, 169), dtype=np.float32)
+                result[:, 0, 0] = np.arange(self.calls + 1, self.calls + batch + 1) * .01
+                self.calls += batch
                 return [result]
 
             def get_providers(self):
@@ -141,22 +208,40 @@ class ClipTests(unittest.TestCase):
         engine = FaceEngine.__new__(FaceEngine)
         engine.selected = np.arange(3)
         engine.neutral = np.zeros((3, 3), dtype=np.float32)
-        engine.basis = np.zeros((272, 3, 3), dtype=np.float32)
+        engine.basis = np.zeros((140, 3, 3), dtype=np.float32)
         engine.basis[0, :, 0] = 1
         engine.center, engine.scale = np.zeros(3), 1
         engine.condition = np.zeros((1, 1, 26), dtype=np.float32)
         engine.session = Session()
-        pcm = bytes(534 * 2)
+        engine.session.batches, engine.session.assertions = [], []
+        pcm = bytes(3000 * 2)
         audio = speech.Speech(speech.package_pcm(pcm), pcm, "fixture")
         clip = engine.generate(audio)
-        self.assertEqual(clip.metadata["frames"], 2)
-        self.assertEqual(len(clip.motion), 2 * 3 * 3 * 2)
+        self.assertEqual(clip.metadata["frames"], 6)
+        self.assertEqual(len(clip.motion), 6 * 3 * 3 * 2)
+        self.assertEqual(engine.session.batches, [4, 2])
+        self.assertTrue(all(engine.session.assertions))
+        expected = np.arange(1, 7) * .01 * 8192
+        np.testing.assert_allclose(np.frombuffer(clip.motion, dtype="<i2").reshape(6, 3, 3)[:, 0, 0],
+                                   expected, atol=.5)
         self.assertEqual(clip.audio, audio.wav)
         self.assertGreater(clip.metadata["maximumSkinChangeCm"], 0)
         stop = threading.Event()
         stop.set()
         with self.assertRaisesRegex(RuntimeError, "stopped"):
             engine.generate(audio, stop=stop)
+        stop.clear()
+        original_run = engine.session.run
+
+        def stop_after_batch(names, inputs):
+            output = original_run(names, inputs)
+            stop.set()
+            return output
+
+        with patch.object(engine.session, "run", side_effect=stop_after_batch) as run:
+            with self.assertRaisesRegex(RuntimeError, "stopped"):
+                engine.generate(audio, stop=stop)
+            self.assertEqual(run.call_count, 1)
 
 
 if __name__ == "__main__":

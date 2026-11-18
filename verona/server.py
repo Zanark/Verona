@@ -1,14 +1,19 @@
 """Loopback-only bounded prototype HTTP service, not a production web server."""
 
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from dataclasses import asdict
+import hashlib
 import json
 from pathlib import Path
 import secrets
 import sys
 import threading
+import time
 
 from .engine import FaceEngine, expression_condition
-from .speech import MAX_SECONDS, MAX_TEXT, installed_voices, synthesize, validate_text
+from .speech import (
+    MAX_SECONDS, MAX_TEXT, VoiceSettings, installed_voices, preferred_voice, synthesize, validate_text,
+)
 
 
 WEB = Path(__file__).with_name("web")
@@ -31,6 +36,9 @@ class State:
         self.voices = voices
         self.token = secrets.token_urlsafe(32)
         self.clip = None
+        self.clip_key = None
+        self.speech = None
+        self.speech_key = None
         self.busy = threading.Lock()
         self.stop = threading.Event()
 
@@ -142,6 +150,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.guard(authenticated=True):
                 self.json_reply(200, {
                     "voices": state.voices,
+                    "defaultVoice": preferred_voice(state.voices),
                     "mesh": state.engine.mesh_metadata,
                     "limits": {"characters": MAX_TEXT, "seconds": MAX_SECONDS},
                 })
@@ -169,7 +178,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.headers.get_all("Origin", []) != [self.server.origin]:
             self.json_reply(403, {"error": "Generation requires this local page's origin."})
             return
-        if self.path != "/api/generate":
+        if self.path not in ("/api/generate", "/api/preview"):
             self.json_reply(404, {"error": "Unknown Verona operation."})
             return
         lengths = self.headers.get_all("Content-Length", [])
@@ -190,24 +199,49 @@ class Handler(BaseHTTPRequestHandler):
             self.json_reply(409, {"error": "One local clip is already generating; wait for it to finish."})
             return
         try:
+            started = time.perf_counter()
             raw = self.rfile.read(length)
             if len(raw) != length:
                 self.json_reply(400, {"error": "Request body is incomplete."})
                 return
             request = json.loads(raw)
-            if not isinstance(request, dict) or set(request) != {"text", "voice", "expression", "intensity"}:
-                raise ValueError("Supply text, voice, expression and intensity only.")
+            required = {"text", "voice", "expression", "intensity"}
+            if (not isinstance(request, dict) or not required <= set(request)
+                    or set(request) - required - {"voiceSettings"}):
+                raise ValueError("Supply text, voice, expression, intensity and optional voiceSettings only.")
             text = validate_text(request["text"])
             voice = request["voice"]
             if not isinstance(voice, str) or voice not in [v["name"] for v in state.voices]:
                 raise ValueError("Choose one of the installed English voices.")
             expression_condition(state.engine.condition, request["expression"], request["intensity"])
-            speech = synthesize(text, voice, state.voices)
+            settings = VoiceSettings.parse(request.get("voiceSettings", {}))
+            speech_key = hashlib.sha256(json.dumps(
+                [text, voice, asdict(settings)], sort_keys=True, ensure_ascii=True
+            ).encode("utf-8")).hexdigest()
+            clip_key = f"{speech_key}:{request['expression']}:{float(request['intensity'])}"
+            if self.path == "/api/generate" and state.clip is not None and state.clip_key == clip_key:
+                self.json_reply(200, {
+                    **state.clip.metadata, "cacheHit": True,
+                    "requestSeconds": time.perf_counter() - started,
+                })
+                return
+            speech_hit = state.speech is not None and state.speech_key == speech_key
+            if not speech_hit:
+                state.speech = synthesize(text, voice, state.voices, settings)
+                state.speech_key = speech_key
+            speech = state.speech
+            if self.path == "/api/preview":
+                self.reply(200, speech.wav, "audio/wav")
+                return
             clip = state.engine.generate(
                 speech, request["expression"], request["intensity"], stop=state.stop
             )
             state.clip = clip
-            self.json_reply(200, clip.metadata)
+            state.clip_key = clip_key
+            self.json_reply(200, {
+                **clip.metadata, "cacheHit": False, "speechCacheHit": speech_hit,
+                "requestSeconds": time.perf_counter() - started,
+            })
         except (ValueError, UnicodeDecodeError) as error:
             self.json_reply(400, {"error": str(error)})
         except TimeoutError:

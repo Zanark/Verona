@@ -13,7 +13,7 @@ await new Promise((resolve, reject) => {
   ws.addEventListener("open", resolve, { once: true });
   ws.addEventListener("error", reject, { once: true });
 });
-let next = 0, generationRequest;
+let next = 0, generationRequest, embeddedImages = 0;
 const pending = new Map(), exceptions = [], external = [], networkFailures = [];
 const report = { audioAudition: "Playback tested muted; no listening/human acceptance claim.", checks: [] };
 ws.addEventListener("message", (event) => {
@@ -28,7 +28,9 @@ ws.addEventListener("message", (event) => {
   } else if (message.method === "Network.requestWillBeSent") {
     const { request, requestId } = message.params;
     if (request.url === `${origin}/api/generate`) generationRequest = requestId;
-    if (!request.url.startsWith(origin + "/") && !request.url.startsWith(`blob:${origin}/`)) {
+    if (request.url.startsWith("data:image/")) {
+      embeddedImages++;
+    } else if (!request.url.startsWith(origin + "/") && !request.url.startsWith(`blob:${origin}/`)) {
       external.push(request.url.split("#")[0]);
     }
   } else if (message.method === "Network.loadingFailed") {
@@ -95,6 +97,14 @@ try {
   await cdp("Emulation.setDeviceMetricsOverride", { width: 1280, height: 980, deviceScaleFactor: 1, mobile: false });
   await cdp("Page.navigate", { url: `${origin}/#${capability}` });
   await waitFor(`document.getElementById("generate") && !document.getElementById("generate").disabled`);
+  await check("Hazel is the explicit default when installed, otherwise substitution is disclosed", async () => {
+    const data = await evaluate(`({voices:Array.from(document.getElementById("voice").options,o=>o.value),
+      selected:document.getElementById("voice").value,notice:document.getElementById("voice-notice").textContent})`);
+    const expected = data.voices.includes("Microsoft Hazel Desktop") ? "Microsoft Hazel Desktop" : data.voices[0];
+    assert.equal(data.selected, expected);
+    if (expected !== "Microsoft Hazel Desktop") assert.match(data.notice, /not installed/);
+    report.defaultVoice = data.selected;
+  });
   await check("Real WebGL2 neutral face, no GL errors and visible connected geometry", async () => {
     const result = await evaluate(`(() => {
       document.getElementById("yaw").dispatchEvent(new Event("input"));
@@ -110,8 +120,26 @@ try {
     report.renderer = result;
     await screenshot("01-neutral");
   });
+  await check("Original procedural hair toggles independently and the female native head turns", async () => {
+    const hairPixels = await evaluate(`(() => {
+      const count=()=>{const c=document.getElementById("face"),g=c.getContext("webgl2");
+        const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+        let n=0;for(let i=0;i<p.length;i+=4)if(p[i+2]>70&&p[i+2]>p[i]*1.1&&p[i+2]>p[i+1]*1.3)n++;return n;};
+      document.getElementById("hair").dispatchEvent(new Event("input"));const on=count();
+      document.getElementById("hair").checked=false;
+      document.getElementById("hair").dispatchEvent(new Event("input"));return {on,off:count()};
+    })()`);
+    assert(hairPixels.on > hairPixels.off + 500, JSON.stringify(hairPixels));
+    await screenshot("01b-skin-only");
+    await evaluate(`document.getElementById("hair").checked=true;document.getElementById("yaw").value=".55";
+      document.getElementById("yaw").dispatchEvent(new Event("input"));`);
+    await screenshot("01c-turned-hair");
+    await evaluate(`document.getElementById("yaw").value="0";document.getElementById("yaw").dispatchEvent(new Event("input"));`);
+    report.hairPixels = hairPixels;
+  });
   const greeting = await generate("Hey, how are you?");
   report.greeting = greeting;
+  report.firstClientReadySeconds = await evaluate(`Number(document.getElementById("details").dataset.readySeconds)`);
   await check("Actual text synthesis, complete motion and browser WAV decode", async () => {
     const data = await evaluate(`({duration:document.getElementById("audio").duration,
       source:document.getElementById("audio").currentSrc.startsWith("blob:"),
@@ -122,6 +150,16 @@ try {
     assert.equal(data.quote, "Hey, how are you?");
     assert(greeting.maximumSkinChangeCm > .01);
     assert.equal(greeting.frames, Math.ceil(greeting.duration * 30));
+    assert.equal(greeting.identity, "Claire v2.3.1");
+  });
+  await check("Exact latest request reuses the identical complete clip without neural regeneration", async () => {
+    const repeat = await generate("Hey, how are you?");
+    assert.equal(repeat.cacheHit, true);
+    assert.equal(repeat.id, greeting.id);
+    assert.equal(repeat.motionSha256, greeting.motionSha256);
+    assert.equal(repeat.audioPcmSha256, greeting.audioPcmSha256);
+    report.repeatedRequestSeconds = repeat.requestSeconds;
+    report.repeatedClientReadySeconds = await evaluate(`Number(document.getElementById("details").dataset.readySeconds)`);
   });
   await check("Real muted audio-clock advance and pause/resume", async () => {
     await evaluate(`document.getElementById("audio").muted=true;`);
@@ -165,13 +203,45 @@ try {
     assert.notEqual(happy.id, greeting.id);
     assert.notEqual(happy.motionSha256, greeting.motionSha256);
     assert.equal(happy.expression, "happy");
+    assert.equal(happy.speechCacheHit, true);
+    assert.equal(happy.audioPcmSha256, greeting.audioPcmSha256);
     await evaluate(`document.getElementById("seek").value=".9";document.getElementById("seek").dispatchEvent(new Event("input"));`);
     await screenshot("04-happy");
   });
+  await check("Voice preview skips motion, edited voice drives generation and reset restores Hazel defaults", async () => {
+    await evaluate(`document.querySelector(".voice-options").open=true;
+      for(const [id,value] of Object.entries({pitch:4,rate:2,bass:3,treble:-2})){
+        document.getElementById(id).value=value;document.getElementById(id).dispatchEvent(new Event("input"));}
+      document.getElementById("emphasis").value="strong";document.getElementById("voice-preview").muted=true;`);
+    await click("preview");
+    await waitFor(`!document.getElementById("preview").disabled`);
+    assert.equal(await evaluate(`document.getElementById("error").hidden`), true);
+    await waitFor(`document.getElementById("voice-preview").readyState>=1`);
+    assert.equal(await evaluate(`document.getElementById("voice-preview").paused`), true);
+    assert.equal(await evaluate(`document.getElementById("play").disabled`), false);
+    const shaped = await generate("Hey, how are you?");
+    assert.deepEqual(shaped.voiceSettings, {pitch:4,rate:2,emphasis:"strong",bass:3,treble:-2});
+    assert.equal(shaped.speechCacheHit, true);
+    assert.notEqual(shaped.audioPcmSha256, greeting.audioPcmSha256);
+    report.shapedVoice = shaped;
+    await screenshot("04b-voice-controls");
+    await click("reset-voice");
+    const reset = await evaluate(`({voice:document.getElementById("voice").value,
+      values:["pitch","rate","bass","treble"].map(id=>document.getElementById(id).value),
+      emphasis:document.getElementById("emphasis").value,previewHidden:document.getElementById("voice-preview").hidden,
+      generatedDetails:document.getElementById("details").textContent})`);
+    assert.equal(reset.voice, report.defaultVoice);
+    assert.deepEqual(reset.values, ["0","0","0","0"]);
+    assert.equal(reset.emphasis, "none");
+    assert.equal(reset.previewHidden, true);
+    assert.match(reset.generatedDetails, /pitch 4 st, speed 2/);
+    await evaluate(`document.querySelector(".voice-options").open=false;`);
+  });
   await check("Available alternate English voices, P/B/M and vowels generate complete clips", async () => {
     const voices = await evaluate(`Array.from(document.getElementById("voice").options, option=>option.value)`);
-    const pbm = await generate("Mom, Bob packed my blue paper bag.", "sad", voices[Math.min(1, voices.length - 1)]);
-    const vowels = await generate("We see a blue moon. Oh, wow!", "surprised", voices[Math.min(2, voices.length - 1)]);
+    const alternatives = voices.filter(voice => voice !== report.defaultVoice);
+    const pbm = await generate("Mom, Bob packed my blue paper bag.", "sad", alternatives[0] || voices[0]);
+    const vowels = await generate("We see a blue moon. Oh, wow!", "surprised", alternatives[1] || alternatives[0] || voices[0]);
     assert.equal(pbm.expression, "sad");
     assert.equal(vowels.expression, "surprised");
     assert(pbm.maximumSkinChangeCm > .01 && vowels.maximumSkinChangeCm > .01);
@@ -221,6 +291,7 @@ try {
   assert(networkFailures.length === 1 && networkFailures[0].blockedReason === "inspector", JSON.stringify(networkFailures));
   report.pageExceptions = exceptions;
   report.externalPageRequests = external;
+  report.embeddedBrowserImages = embeddedImages;
   report.expectedInjectedNetworkFailures = networkFailures.length;
   report.status = "passed";
 } catch (error) {

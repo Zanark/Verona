@@ -3,6 +3,8 @@
 **Status: first text-input prototype implemented and functionally qualified.**
 The requirements below summarize the owner's November 18 description. Technology
 choices are distinguished below from unqualified perceptual accuracy.
+The subsequent vr-08 feedback adds measurable caching/performance work, editable
+Hazel as default, and the matching Claire female head with procedural hair.
 
 ## Confirmed
 
@@ -42,7 +44,7 @@ choices are distinguished below from unqualified perceptual accuracy.
 
 The immediate audience is the owner evaluating a local Windows prototype.
 Input is now plain text, output is installed-voice speech plus connected native-
-derived face geometry. Python/NumPy/ONNX Runtime run the pinned Mark model on CPU;
+derived face geometry. Python/NumPy/ONNX Runtime run the pinned Claire v2.3.1 model on CPU;
 standard-library HTTP serves an offline WebGL2/audio player on loopback.
 There is no remote-service option in this slice.
 
@@ -79,6 +81,8 @@ Mark inference and skin reconstruction on this machine. It uses synthetic
 non-speech input; its historical result is not speech/playback qualification.
 [Chapter 06](chapters/06-text-to-face-prototype.md) advances to actual speech,
 visible connected geometry and muted real-browser playback.
+[Chapter 07](chapters/07-hazel-claire-and-performance.md) records the current
+Claire identity, bounded voice editing and measured speed/quality tradeoffs.
 
 ## Text-first prototype mandate
 

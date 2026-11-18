@@ -1,0 +1,57 @@
+ID: vr-08
+Title: Improve speed, Hazel voice shaping and feminine head with hair
+GitHub issue: https://github.com/Zanark/Verona/issues/7
+
+Status: IN_PROGRESS
+Milestone: The same local prototype responds faster and presents customizable Hazel speech with a feminine mesh.
+Dependencies: vr-07
+
+Purpose:
+Implement the owner's November 18 evening feedback without cloud speech,
+system changes, a second application or disruption of a running user instance.
+
+Tasks:
+[x] Measure the unchanged Hazel pipeline and inspect safe native female assets.
+[x] Improve measured generation/request latency without fabricating animation.
+[x] Default to Hazel and expose bounded, actually working voice-shaping controls.
+[x] Use a matching feminine native identity and add lightweight procedural hair.
+[x] Verify waveform controls, native correspondence, real-browser behavior and performance.
+[ ] Update book, tracking, causal ledger and owned continuity; publish verified work.
+
+Acceptance criteria:
+Hazel is the explicit default; controls change generated speech rather than only
+labels, reset predictably, reject invalid settings and keep motion/audio aligned.
+No arbitrary SSML, command, file or remote-audio input. Feminine head and hair
+are visible in the actual renderer; identity/topology/model contracts match.
+Measure speed on a fixed permitted input, preserve audio-clocked controls,
+bounded CPU use and prior safety/error behavior. Distinguish functional waveform/
+visual checks from human listening and unmeasured anatomical-contact acceptance.
+
+Completion evidence:
+Initial unchanged Hazel greeting: 2.75 seconds/83 frames; startup3.586s,
+synthesis0.674s, motion1.903s, median network20.97ms/frame on this shared machine.
+Dynamic Mark batching executes but first measurements do not show a speed win.
+Official Claire2.3.1 model/native topology installed and hash-verified as data.
+Claire uses its own140-coefficient skin,169 outputs, strength1.0 and neutral
+cp1_neutral/frame212, not Mark coefficients on a warped female silhouette.
+Derived-topology warm startup measured0.878s vs original3.586s. RAM caches skip
+repeat inference and expression-only synthesis. Claire's bigger network is
+slower per new line than Mark; the latency gains are not a faster-model claim.
+Actual Hazel pitch/rate/emphasis/EQ waveform changes verified; pitch requests
+are engine-dependent. Thirty-one unit/HTTP checks pass; sixteen isolated real
+Edge scenarios pass in claire-browser-04, including all three installed voices,
+clear-front hair, preview, reset and caches. Final client-ready greeting6.807s
+vs exact latest repeat0.059s; server repeat0.00028s. Shared-machine warm startup
+samples1.360/1.530/1.449s; these are observations, not latency guarantees.
+Inspected actual frontal/turned screenshots. First browser run's final network
+assertion misclassified embedded native-audio data icons as external requests;
+corrected the classification, retaining the failed receipt. No new dependency
+or system-setting change; owned test browser/server/profile cleaned up.
+
+Completion log:
+2026-11-18 - Owner requests performance, Hazel default with voice editing and a
+feminine head, optionally hair, in the same prototype. Work starts from7c12a34.
+2026-11-18 - All feature paths implemented and initial qualification complete.
+Book/tracking/publication and final measured candidate remain in progress.
+2026-11-18 - Final candidate qualified; original issue7/Project item verified
+In Progress. Chapter07 explains mechanisms, failed checks and actual tradeoffs.

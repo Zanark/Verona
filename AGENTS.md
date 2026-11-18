@@ -7,7 +7,10 @@ editing. Hydrate the ignored owned .agent-context store when available.
 Read docs/product-brief.md for the received speech-to-wireframe-face idea.
 Research is authored; the owner chose free/local AMD operation. A bounded
 CPU ONNX/PCA probe, local text-to-motion generator and audio-clocked WebGL2
-browser player exist under vr-07. Do not invent its
+browser player exist under vr-07. The vr-08 feedback slice uses matching Claire
+v2.3.1 assets, default Hazel, bounded voice settings, procedural hair and
+latest-only RAM/derived-topology caches; chapter 07 is the current contract.
+Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
 
@@ -69,7 +72,9 @@ commits/pushes. Windows System.Speech supplies local TTS; no cloud speech or
 additional speech model is required. Model and native topology assets remain
 ignored/pinned. Never execute the downloaded Maya ASCII scene.
 Runtime binds only 127.0.0.1, requires a per-run API capability and keeps one
-successful clip in RAM. No transcript persistence, arbitrary file serving or
+successful clip and one latest synthesized voice sample in RAM. The geometry
+cache persists only derived model topology, never speech. No transcript
+persistence, arbitrary file serving or
 automatic asset download. Full SDK contact/smoothing and independent teeth,
 tongue and eye joints remain omitted; phonetic/human accuracy is not accepted.
 Do not launch or disturb sibling apps.

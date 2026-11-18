@@ -7,6 +7,7 @@ vr-03 | 03_PRODUCT_BRIEF.todo | DONE | Owner's idea reconciled into first useful
 vr-05 | 05_SPEECH_FACE_RESEARCH.todo | DONE | Primary-source technology research and accuracy qualification plan
 vr-06 | 06_LOCAL_CPU_FEASIBILITY.todo | DONE | Free/local AMD CPU inference feasibility
 vr-07 | 07_TEXT_FACE_PROTOTYPE.todo | DONE | Small local text-to-speaking-face prototype
+vr-08 | 08_PROTOTYPE_FEEDBACK.todo | IN_PROGRESS | Faster generation, editable Hazel voice and feminine head/hair
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

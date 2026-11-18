@@ -25,7 +25,7 @@ WINDOW_SIZE = 8320
 WINDOW_OFFSET = 4160
 
 
-def audio_window(samples: np.ndarray, frame: int) -> np.ndarray:
+def audio_window(samples: np.ndarray, frame: int, strength: float = 1.3) -> np.ndarray:
     if samples.ndim != 1 or not np.isfinite(samples).all() or frame < 0:
         raise ValueError("Expected finite mono samples and a nonnegative frame.")
     start = frame * SAMPLE_RATE // FRAME_RATE - WINDOW_OFFSET
@@ -33,20 +33,20 @@ def audio_window(samples: np.ndarray, frame: int) -> np.ndarray:
     output = np.zeros(WINDOW_SIZE, dtype=np.float32)
     left, right = max(0, start), min(len(samples), end)
     if right > left:
-        output[left - start : right - start] = samples[left:right] * 1.3
+        output[left - start : right - start] = samples[left:right] * strength
     return output.reshape(1, 1, WINDOW_SIZE)
 
 
-def conditioning(path: Path) -> np.ndarray:
+def conditioning(path: Path, shot: str = "g2a_neutral", frame: int = 33) -> np.ndarray:
     with np.load(path, allow_pickle=False) as data:
         names = data["emo_spec_names"].astype("U")
-        indices = np.flatnonzero(names == "g2a_neutral")
+        indices = np.flatnonzero(names == shot)
         if len(indices) != 1:
-            raise ValueError("Expected exactly one g2a_neutral conditioning shot.")
+            raise ValueError(f"Expected exactly one {shot} conditioning shot.")
         index = int(indices[0])
-        if int(data["emo_spec_size"][index]) <= 33:
-            raise ValueError("Conditioning shot does not contain source frame 33.")
-        offset = int(data["emo_spec_start"][index]) + 33
+        if not 0 <= frame < int(data["emo_spec_size"][index]):
+            raise ValueError("Conditioning shot does not contain the source frame.")
+        offset = int(data["emo_spec_start"][index]) + frame
         implicit = data["emo_db"][offset]
         if implicit.shape != (16,) or not np.isfinite(implicit).all():
             raise ValueError("Invalid implicit emotion vector.")
@@ -97,13 +97,13 @@ def read_audio(path: Path | None) -> tuple[np.ndarray, str]:
     return np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768, "local WAV"
 
 
-def create_cpu_session() -> ort.InferenceSession:
+def create_cpu_session(path: Path | None = None) -> ort.InferenceSession:
     options = ort.SessionOptions()
     options.intra_op_num_threads = 2
     options.inter_op_num_threads = 1
     options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
     session = ort.InferenceSession(
-        str(DESTINATION / "network.onnx"),
+        str(path if path is not None else DESTINATION / "network.onnx"),
         sess_options=options,
         providers=["CPUExecutionProvider"],
     )

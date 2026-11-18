@@ -22,6 +22,28 @@
       </div>
       <label for="voice">Installed local English voice</label>
       <select id="voice" disabled></select>
+      <p id="voice-notice" class="hint"></p>
+      <details class="voice-options">
+        <summary>Edit voice</summary>
+        <label for="pitch">Pitch request <output id="pitch-value">0 st</output></label>
+        <input id="pitch" type="range" min="-8" max="8" step="1" value="0">
+        <label for="rate">Speaking speed <output id="rate-value">0</output></label>
+        <input id="rate" type="range" min="-5" max="5" step="1" value="0">
+        <label for="bass">Warmth / bass <output id="bass-value">0 dB</output></label>
+        <input id="bass" type="range" min="-6" max="6" step="1" value="0">
+        <label for="treble">Brightness / treble <output id="treble-value">0 dB</output></label>
+        <input id="treble" type="range" min="-6" max="6" step="1" value="0">
+        <label for="emphasis">Emphasis</label>
+        <select id="emphasis"><option value="none">None</option><option value="reduced">Reduced</option>
+          <option value="moderate">Moderate</option><option value="strong">Strong</option></select>
+        <p class="hint">Pitch is a Windows voice-engine request, not a calibrated acoustic shift.
+          Changes apply to the next preview or generation, not an already generated clip.</p>
+      </details>
+      <div class="voice-actions">
+        <button id="preview" type="button" disabled>Preview voice</button>
+        <button id="reset-voice" type="button" disabled>Reset voice</button>
+      </div>
+      <audio id="voice-preview" controls preload="auto" hidden aria-label="Voice preview"></audio>
       <label for="expression">Explicit expression <small>(not inferred from text)</small></label>
       <select id="expression">
         <option value="neutral">Neutral</option><option value="happy">Happy</option>
@@ -38,7 +60,7 @@
     </section>
     <section class="viewer-panel" aria-label="Animated facial mesh">
       <div class="canvas-wrap">
-        <canvas id="face" aria-label="Connected Mark facial mesh, animated from the generated speech"></canvas>
+        <canvas id="face" aria-label="Connected Claire female facial mesh, animated from the generated speech"></canvas>
         <div class="canvas-label">AUDIO-CLOCKED &middot; 30 FPS <span id="frame">NEUTRAL</span></div>
       </div>
       <div class="transport">
@@ -51,6 +73,7 @@
       <div class="view-controls">
         <label><input id="edges" type="checkbox" checked> Edges</label>
         <label><input id="points" type="checkbox" checked> Points</label>
+        <label><input id="hair" type="checkbox" checked> Hair</label>
         <label for="yaw">Turn <input id="yaw" type="range" min="-0.8" max="0.8" step="0.01" value="0"></label>
         <label for="zoom">Zoom <input id="zoom" type="range" min="0.8" max="2.3" step="0.05" value="1"></label>
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
