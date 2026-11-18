@@ -6,7 +6,8 @@ Read this file, README.md, TODO/00_INDEX.todo and the affected chapter before
 editing. Hydrate the ignored owned .agent-context store when available.
 Read docs/product-brief.md for the received speech-to-wireframe-face idea.
 Research is authored; the owner chose free/local AMD operation. A bounded
-CPU ONNX/PCA numerical probe exists, not yet a face player. Do not invent its
+CPU ONNX/PCA numerical probe and local text-to-motion generator exist; the
+interactive player is in progress under vr-07. Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
 
@@ -59,7 +60,11 @@ requirements introduce media processing.
 
 ## Runtime and delivery
 
-No Verona face application currently exists; only a bounded CPU probe.
+No delivered interactive face application exists yet; a local generator does.
+The owner authorizes autonomous text-prototype work and regular verified
+commits/pushes. Windows System.Speech supplies local TTS; no cloud speech or
+additional speech model is required. Model and native topology assets remain
+ignored/pinned. Never execute the downloaded Maya ASCII scene.
 Do not launch or disturb sibling apps.
 Before runtime work, identify stable-use and development/test lanes, processes,
 profiles, mutable data and exclusive resources. Different ports/worktrees alone

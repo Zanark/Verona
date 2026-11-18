@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "title": "Verona Engineering Book",
-  "status": "research-and-cpu-feasibility-manuscript",
+  "status": "research-and-local-prototype-manuscript",
   "sourceRoot": "..",
   "sources": [
     "docs/README.md",
@@ -10,7 +10,8 @@
     "docs/chapters/03-face-mesh-reference.md",
     "docs/chapters/04-speech-driven-face-research.md",
     "docs/research/speech-face-sources.md",
-    "docs/chapters/05-local-cpu-feasibility.md"
+    "docs/chapters/05-local-cpu-feasibility.md",
+    "docs/chapters/06-text-to-face-prototype.md"
   ],
   "rendering": "not-configured",
   "publication": "not-authorized",

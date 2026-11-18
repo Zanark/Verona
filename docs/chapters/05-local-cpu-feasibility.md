@@ -3,6 +3,10 @@
 **Status: implemented and numerically verified CPU experiment, not a face player
 or speech-accuracy qualification.** Workstream: `vr-06`. Date: 2026-11-18 IST.
 
+This chapter preserves the numerical-feasibility milestone.
+[Chapter 06](06-text-to-face-prototype.md) advances to actual local synthesized
+speech and complete native-derived motion clips; those results are separate.
+
 ## The decision and the important distinction
 
 After the [research handoff](04-speech-driven-face-research.md), the owner chose:

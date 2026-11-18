@@ -1,6 +1,6 @@
 # Verona product brief
 
-**Status: initial idea received; research before implementation.**
+**Status: research and CPU feasibility complete; text prototype implementation authorized.**
 The requirements below summarize the owner's November 18 description. Technology
 choices and acceptance thresholds remain proposals until supported and qualified.
 
@@ -64,3 +64,19 @@ as a custom CPU path, not official SDK support. UniTalker remains an alternative
 The [CPU experiment](chapters/05-local-cpu-feasibility.md) now verifies numerical
 Mark inference and skin reconstruction on this machine. It uses synthetic
 non-speech input; no backend is visually/audio qualified or accepted as accurate.
+
+## Text-first prototype mandate
+
+The owner now requests a runnable prototype from a **given text input string**,
+to be developed autonomously while they are away. This narrows the immediate
+input to local text-to-speech; recording import and the assistant remain later
+slices. Keep components local and small, retain numbered TODOs and book chapters,
+and commit/push coherent verified milestones. Do not ask further questions.
+
+The implementation must not disturb shared applications, alter global packages
+or system security settings, or fetch an unreviewed application stack. Installed
+Windows System.Speech voices are the first qualified TTS candidate; the existing
+CPU network/assets are reused. Exact topology correspondence, complete clips,
+the visible player and speech/articulation qualification remain vr-07 work.
+If a hard blocker survives reasonable alternatives, record detailed evidence
+and the exact input or permission the owner must supply.

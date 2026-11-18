@@ -3,7 +3,8 @@
 **Status:** foundation and research manuscript, not a finished product book or
 rendered PDF. The speech-driven-face idea is recorded; proposed architecture
 and technology choices are distinguished from implemented behavior. A bounded
-numerical CPU inference tool exists, not yet a face player.
+numerical CPU inference tool and complete local text-to-motion clip generator
+exist; the interactive player is being implemented.
 
 ## Reading paths
 
@@ -17,6 +18,7 @@ and accuracy-qualification reading path.
 3. [Face mesh: read-only KardboardCode reference](chapters/03-face-mesh-reference.md)
 4. [Speech-driven face: research, architecture and qualification](chapters/04-speech-driven-face-research.md)
 5. [Local CPU feasibility: real ONNX inference, not yet lip-sync acceptance](chapters/05-local-cpu-feasibility.md)
+6. [Text to local speech, matching topology and complete face clips](chapters/06-text-to-face-prototype.md)
 
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.

@@ -43,22 +43,27 @@ def verify(path: Path, size: int, digest: str) -> None:
 def fetch(name: str, destination: Path = DESTINATION) -> Path:
     size, digest = ASSETS[name]
     target = destination / name
+    url = f"https://huggingface.co/{REPOSITORY}/resolve/{REVISION}/{name}"
+    return fetch_verified(url, target, size, digest)
+
+
+def fetch_verified(url: str, target: Path, size: int, digest: str) -> Path:
+    """Fetch a fixed manifest entry; never called with browser-supplied paths."""
     if target.exists():
         verify(target, size, digest)
         return target
 
-    destination.mkdir(parents=True, exist_ok=True)
-    url = f"https://huggingface.co/{REPOSITORY}/resolve/{REVISION}/{name}"
+    target.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     try:
-        with tempfile.NamedTemporaryFile(dir=destination, delete=False) as output:
+        with tempfile.NamedTemporaryFile(dir=target.parent, delete=False) as output:
             temporary = Path(output.name)
             received = 0
             with urllib.request.urlopen(url, timeout=60) as response:
                 while block := response.read(1024 * 1024):
                     received += len(block)
                     if received > size:
-                        raise ValueError(f"Asset exceeds pinned size: {name}")
+                        raise ValueError(f"Asset exceeds pinned size: {target.name}")
                     output.write(block)
         verify(temporary, size, digest)
         if target.exists():

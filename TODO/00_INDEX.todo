@@ -6,11 +6,13 @@ vr-02 | 02_FACE_MESH_REFERENCE.todo | DONE | Read-only face-mesh source understa
 vr-03 | 03_PRODUCT_BRIEF.todo | IN_PROGRESS | Owner's idea reconciled into first useful slice
 vr-05 | 05_SPEECH_FACE_RESEARCH.todo | DONE | Primary-source technology research and accuracy qualification plan
 vr-06 | 06_LOCAL_CPU_FEASIBILITY.todo | DONE | Free/local AMD CPU inference feasibility
+vr-07 | 07_TEXT_FACE_PROTOTYPE.todo | IN_PROGRESS | Small local text-to-speaking-face prototype
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
 Every finite workstream maps to one issue and one item on private Project 15.
 00_INDEX.todo and 04_DEVELOPMENT_LEDGER.todo are excluded from issue inventory.
 Remote mapping/policy: docs/github-tracking.md.
-Research and numerical CPU feasibility are complete. A local neural probe exists;
-the speaking-face player and real-speech accuracy qualification are not complete.
+Research and numerical CPU feasibility are complete. The owner has authorized
+autonomous local text-to-face implementation; vr-07 tracks the actual player.
+Real-speech accuracy and human acceptance are separate gates, not probe results.

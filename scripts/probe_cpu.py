@@ -97,24 +97,29 @@ def read_audio(path: Path | None) -> tuple[np.ndarray, str]:
     return np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768, "local WAV"
 
 
-def run(path: Path | None) -> dict:
-    for name, (size, digest) in ASSETS.items():
-        verify(DESTINATION / name, size, digest)
-    samples, input_kind = read_audio(path)
-    emotion = conditioning(DESTINATION / "implicit_emo_db.npz")
+def create_cpu_session() -> ort.InferenceSession:
     options = ort.SessionOptions()
     options.intra_op_num_threads = 2
     options.inter_op_num_threads = 1
     options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
-    started = time.perf_counter()
     session = ort.InferenceSession(
         str(DESTINATION / "network.onnx"),
         sess_options=options,
         providers=["CPUExecutionProvider"],
     )
-    load_seconds = time.perf_counter() - started
     if session.get_providers() != ["CPUExecutionProvider"]:
-        raise RuntimeError("Probe must use only CPUExecutionProvider.")
+        raise RuntimeError("Inference must use only CPUExecutionProvider.")
+    return session
+
+
+def run(path: Path | None) -> dict:
+    for name, (size, digest) in ASSETS.items():
+        verify(DESTINATION / name, size, digest)
+    samples, input_kind = read_audio(path)
+    emotion = conditioning(DESTINATION / "implicit_emo_db.npz")
+    started = time.perf_counter()
+    session = create_cpu_session()
+    load_seconds = time.perf_counter() - started
 
     frames = (len(samples) * FRAME_RATE + SAMPLE_RATE - 1) // SAMPLE_RATE
     predictions, timings = [], []

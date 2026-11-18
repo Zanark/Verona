@@ -73,7 +73,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-07": {
+      "source": "TODO/07_TEXT_FACE_PROTOTYPE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgNz_kw",
+      "number": 6,
+      "url": "https://github.com/Zanark/Verona/issues/6",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhJqyzQ",
+      "title": "Deliver a small free-local text-to-speaking-face prototype",
+      "managedBody": "\n<!-- verona-workstream:vr-07 -->\nWorkstream source: `TODO/07_TEXT_FACE_PROTOTYPE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-07\nTitle: Deliver a small free-local text-to-speaking-face prototype\n\nStatus: IN_PROGRESS\nMilestone: Type a sentence and play synchronized local speech and connected face geometry.\nDependencies: vr-06\n\nPurpose:\nDeliver the owner's explicitly requested overnight prototype without cloud\ninference, microphone/camera capture, global installs or interference with other\napplications. Use the already-qualified Mark CPU network and installed Windows\nspeech voices rather than another large speech model.\n\nTasks:\n[x] Inspect installed local speech voices and preserve the isolated CPU environment.\n[x] Qualify matching native topology and decode complete real-speech motion clips.\n[x] Implement bounded plain-text local speech synthesis and explicit expressions.\n[ ] Implement local-only text UI, connected face drawing and audio-clocked controls.\n[ ] Exercise actual generated speech, playback controls, failure and safety paths.\n[ ] Maintain the book, causal evidence, private continuity and issue/Project mirror.\n[ ] Commit and push coherent verified slices using the existing Zanark PAT runner.\n\nAcceptance criteria:\nThe owner's \"Hey, how are you?\" input produces actual local speech and an\nanimated connected facial mesh in a window. No amplitude-only or letter-timed\nfallback may pretend to be neural speech articulation. Playback, pause, restart\nand seeking use the audio clock. Input and resource limits fail explicitly.\nNo new CUDA/PyTorch stack, cloud TTS, private upload, system policy change,\ndevice capture or sibling process/profile modification. Model and mesh assets\nstay ignored, pinned and verified. Separate functional verification from\nunmeasured phonetic accuracy and absent human listening/visual acceptance.\n\nCompletion evidence:\nBackend implemented; interactive player remains in progress. Chapter 06 records\nthe actual greeting: David voice, 2.745s, 83 frames, 10,349-point reduced native\nmesh and 5,153,802 motion bytes. Network median20.47ms/frame; motion generation\n1.894s excluding synthesis/startup. Matching official topology and bounded\nper-index rest differences verified; Maya scene is parsed as numbers, not run.\nNineteen focused tests and pip consistency pass. Speech data has not been heard,\nrendered or human-accepted. Issue6/original Project item In Progress verified.\n\nCompletion log:\n2026-11-18 - Owner authorizes autonomous overnight implementation, regular\ncommits/pushes and no questions. Local-only/free and shared-machine safety remain\nmandatory. If genuinely blocked, persist detailed attempts and exact owner action.\n2026-11-18 - Local text/speech/native-topology/complete-motion backend succeeds.\nFixed polygon continuation parsing before qualification; all source quads are\nretained before edge-constrained reduction. Next: actual audio-clocked UI.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-17T23:14:44.079262+00:00"
+  "verifiedAt": "2026-11-18T00:24:31.556125+00:00"
 }

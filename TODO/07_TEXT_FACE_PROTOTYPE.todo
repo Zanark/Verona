@@ -1,0 +1,49 @@
+ID: vr-07
+Title: Deliver a small free-local text-to-speaking-face prototype
+GitHub issue: https://github.com/Zanark/Verona/issues/6
+
+Status: IN_PROGRESS
+Milestone: Type a sentence and play synchronized local speech and connected face geometry.
+Dependencies: vr-06
+
+Purpose:
+Deliver the owner's explicitly requested overnight prototype without cloud
+inference, microphone/camera capture, global installs or interference with other
+applications. Use the already-qualified Mark CPU network and installed Windows
+speech voices rather than another large speech model.
+
+Tasks:
+[x] Inspect installed local speech voices and preserve the isolated CPU environment.
+[x] Qualify matching native topology and decode complete real-speech motion clips.
+[x] Implement bounded plain-text local speech synthesis and explicit expressions.
+[ ] Implement local-only text UI, connected face drawing and audio-clocked controls.
+[ ] Exercise actual generated speech, playback controls, failure and safety paths.
+[ ] Maintain the book, causal evidence, private continuity and issue/Project mirror.
+[ ] Commit and push coherent verified slices using the existing Zanark PAT runner.
+
+Acceptance criteria:
+The owner's "Hey, how are you?" input produces actual local speech and an
+animated connected facial mesh in a window. No amplitude-only or letter-timed
+fallback may pretend to be neural speech articulation. Playback, pause, restart
+and seeking use the audio clock. Input and resource limits fail explicitly.
+No new CUDA/PyTorch stack, cloud TTS, private upload, system policy change,
+device capture or sibling process/profile modification. Model and mesh assets
+stay ignored, pinned and verified. Separate functional verification from
+unmeasured phonetic accuracy and absent human listening/visual acceptance.
+
+Completion evidence:
+Backend implemented; interactive player remains in progress. Chapter 06 records
+the actual greeting: David voice, 2.745s, 83 frames, 10,349-point reduced native
+mesh and 5,153,802 motion bytes. Network median20.47ms/frame; motion generation
+1.894s excluding synthesis/startup. Matching official topology and bounded
+per-index rest differences verified; Maya scene is parsed as numbers, not run.
+Nineteen focused tests and pip consistency pass. Speech data has not been heard,
+rendered or human-accepted. Issue6/original Project item In Progress verified.
+
+Completion log:
+2026-11-18 - Owner authorizes autonomous overnight implementation, regular
+commits/pushes and no questions. Local-only/free and shared-machine safety remain
+mandatory. If genuinely blocked, persist detailed attempts and exact owner action.
+2026-11-18 - Local text/speech/native-topology/complete-motion backend succeeds.
+Fixed polygon continuation parsing before qualification; all source quads are
+retained before edge-constrained reduction. Next: actual audio-clocked UI.

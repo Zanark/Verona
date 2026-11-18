@@ -1,6 +1,24 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-18 - Complete local text-to-face clip, before the graphical player
+Action: Reused installed Windows System.Speech and the pinned Mark CPU network;
+fetched one official hash-verified matching Maya-ACE Mark topology data file.
+Mechanism: Fixed PowerShell program plus JSON stdin, bounded speech/threads,
+non-executing numerical Maya parser, native-edge-constrained mesh clustering
+and complete rational-time neural skin clips. No new Python/TTS stack.
+Evidence: "Hey, how are you?" generates2.745s/83frames/10,349vertices/5.15MBmotion;
+1.894s motion work excluding synthesis/startup, median20.47ms network frame.
+Nineteen focused checks and dependency consistency pass. Chapter06 is canonical.
+Actual corrections: Maya omits the polygon type after its first chunk; parsing
+only typed chunks lost faces. Corrected and tested continuation/signed edges.
+The first new test also had an invalid grouped context-manager fixture; fixed
+before the successful full check. No failed run is counted as passing.
+Tracking: vr-07 issue6 and original item verified In Progress after ordinary
+new-membership propagation lag; saved IDs reused, never recreated.
+Next consequence: Implement visible playback and real browser checks. Skin
+postprocess, independent teeth/tongue/eyes and human accuracy remain unqualified.
+
 2026-11-18 - Initial source committed and pushed
 Action: Committed 27 reviewed source/documentation files as
 b9c3891798cb1fa59ec51fa1f4b75398e8085554 and pushed main to Zanark/Verona.
