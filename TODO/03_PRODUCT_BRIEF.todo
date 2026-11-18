@@ -2,7 +2,7 @@ ID: vr-03
 Title: Define Verona's first useful outcome
 GitHub issue: https://github.com/Zanark/Verona/issues/3
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Owner-grounded product brief and first vertical-slice acceptance.
 Dependencies: None
 
@@ -13,10 +13,10 @@ choices depend on the explicitly requested research before implementation.
 
 Tasks:
 [x] Read the owner's initial idea and reconcile docs/product-brief.md.
-[ ] Establish audience, inputs/outputs, platform, privacy and non-goals.
+[x] Establish audience, inputs/outputs, platform, privacy and non-goals.
 [x] Decide whether face mesh is needed and what behavior would justify reuse.
 [x] Compare appropriate minimal stacks using actual constraints.
-[ ] Define a first end-to-end slice, acceptance checks and dependent workstreams.
+[x] Define a first end-to-end slice, acceptance checks and dependent workstreams.
 
 Acceptance criteria:
 Brief faithfully records owner intent and clearly labels remaining proposals.
@@ -24,13 +24,12 @@ First useful behavior, failures, exclusions and verification path are concrete.
 Stack and any tracking reuse follow requirements rather than precede them.
 
 Completion evidence:
-Initial speech-driven connected-face-mesh requirements are recorded in
-docs/product-brief.md. Chapter 04 and its pinned source register compare motion
-backends, rig/time contracts, local hardware and a proposed first slice.
-Wireframe face generation is required; camera tracking is not its motion source.
-Owner selected free/local AMD compute. Chapter 05 now verifies a bounded Mark
-ONNX CPU numerical path; no completed animation backend or measured speech
-accuracy is established. Scope acceptance/face player remain unresolved.
+docs/product-brief.md defines the owner's Windows text-first evaluation slice,
+inputs/outputs, local CPU/installed English TTS/WebGL2 stack, privacy/resource
+bounds, explicit failures, acceptance checks and non-goals. Chapters 04-06
+separate research, CPU evidence and functional speaking-face qualification.
+vr-06 and vr-07 implement dependent finite slices. Closing product definition
+does not claim human acceptance, phonetic accuracy or assistant implementation.
 
 Completion log:
 2026-11-18 - Owner explicitly said the full idea will follow project preparation.
@@ -43,3 +42,7 @@ streaming/retargeting. Available compute/service/license route still needs an
 owner choice; this product-definition workstream remains IN_PROGRESS.
 2026-11-18 - Owner chose free/local AMD. vr-06 demonstrates numerical CPU
 inference/PCA, not yet a complete speaking-face slice or acceptance.
+2026-11-18 - Overnight text-first authority and actual implementation resolve
+the first-slice choices. Brief reconciled; definition complete. Perceptual
+accuracy, future recordings/streaming and languages remain explicit quality/
+future-scope questions, not a missing product-definition blocker.

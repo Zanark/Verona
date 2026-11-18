@@ -6,8 +6,8 @@ Read this file, README.md, TODO/00_INDEX.todo and the affected chapter before
 editing. Hydrate the ignored owned .agent-context store when available.
 Read docs/product-brief.md for the received speech-to-wireframe-face idea.
 Research is authored; the owner chose free/local AMD operation. A bounded
-CPU ONNX/PCA numerical probe and local text-to-motion generator exist; the
-interactive player is in progress under vr-07. Do not invent its
+CPU ONNX/PCA probe, local text-to-motion generator and audio-clocked WebGL2
+browser player exist under vr-07. Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
 
@@ -28,7 +28,10 @@ read-only prior art, not a scaffold to copy.
   No invented performance, learning, visual review or approval claims.
 - CPU dependencies are pinned in requirements-cpu.txt and isolated under
   .local/cpu-env. Use its Python with `-m unittest discover -s tests -q`.
-  The probe is not an adopted renderer, full animation backend or accuracy proof.
+  The old probe is not an accuracy proof. Real-browser qualification uses
+  `-m tests.run_browser_smoke --output .local\qualification\<new-run-name>`
+  with installed Edge and Node; no package install or user's profile is needed.
+  Keep failed receipts. Muted playback is not independent listening acceptance.
 
 ## GitHub and identity
 
@@ -60,11 +63,15 @@ requirements introduce media processing.
 
 ## Runtime and delivery
 
-No delivered interactive face application exists yet; a local generator does.
+`Verona.cmd` starts the local face app and opens its ready capability URL.
 The owner authorizes autonomous text-prototype work and regular verified
 commits/pushes. Windows System.Speech supplies local TTS; no cloud speech or
 additional speech model is required. Model and native topology assets remain
 ignored/pinned. Never execute the downloaded Maya ASCII scene.
+Runtime binds only 127.0.0.1, requires a per-run API capability and keeps one
+successful clip in RAM. No transcript persistence, arbitrary file serving or
+automatic asset download. Full SDK contact/smoothing and independent teeth,
+tongue and eye joints remain omitted; phonetic/human accuracy is not accepted.
 Do not launch or disturb sibling apps.
 Before runtime work, identify stable-use and development/test lanes, processes,
 profiles, mutable data and exclusive resources. Different ports/worktrees alone

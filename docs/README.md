@@ -3,8 +3,9 @@
 **Status:** foundation and research manuscript, not a finished product book or
 rendered PDF. The speech-driven-face idea is recorded; proposed architecture
 and technology choices are distinguished from implemented behavior. A bounded
-numerical CPU inference tool and complete local text-to-motion clip generator
-exist; the interactive player is being implemented.
+numerical CPU inference tool, complete local text-to-motion generator and
+audio-clocked browser player exist. Chapter 06 records their actual mechanisms,
+real-browser qualification and still-unaccepted articulation limits.
 
 ## Reading paths
 

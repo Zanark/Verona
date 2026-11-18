@@ -1,8 +1,8 @@
 # Verona product brief
 
-**Status: research and CPU feasibility complete; text prototype implementation authorized.**
+**Status: first text-input prototype implemented and functionally qualified.**
 The requirements below summarize the owner's November 18 description. Technology
-choices and acceptance thresholds remain proposals until supported and qualified.
+choices are distinguished below from unqualified perceptual accuracy.
 
 ## Confirmed
 
@@ -38,13 +38,25 @@ choices and acceptance thresholds remain proposals until supported and qualified
 5. What can and cannot be inferred about expressions and physical facial motion
    from audio alone? Which choices need explicit user control?
 
-## Deliberately undecided
+## First useful slice and exclusions
 
-Final language/framework, renderer, mesh topology, inference backend, offline
-versus optional remote service, target languages/accents and required latency.
-The initial example is not a comprehensive pronunciation test.
-No actual voice file has been supplied or processed. A bounded CPU inference
-environment/probe now exists under vr-06; no face player or deployment exists.
+The immediate audience is the owner evaluating a local Windows prototype.
+Input is now plain text, output is installed-voice speech plus connected native-
+derived face geometry. Python/NumPy/ONNX Runtime run the pinned Mark model on CPU;
+standard-library HTTP serves an offline WebGL2/audio player on loopback.
+There is no remote-service option in this slice.
+
+The target is installed English desktop voices, at most 280 characters and
+25 seconds of padded speech. Exact language/accent coverage, perceptual accuracy
+thresholds and streaming latency targets are still undecided. No supplied
+personal recording, microphone capture, assistant reasoning, voice cloning,
+installer, background service or deployment is included.
+
+Functional acceptance: enter a sentence, generate complete local speech/motion,
+play/pause/restart/seek on one audio timeline, change explicit expressions and
+recover visibly from errors. Reject oversized/unsupported input without silent
+truncation or stale new-text playback. Protect the shared machine and preserve
+the local-only resource/privacy contract.
 
 ## Research handoff
 
@@ -57,13 +69,16 @@ accuracy; the greeting alone is an existence demonstration.
 
 The owner selected **free and local on this AMD machine** after the research
 handoff. No paid SDK, cloud inference or private audio upload is part of the
-prototype route. Backend selection still needs actual CPU evidence.
+prototype route. The subsequent CPU experiment and text-player qualification
+provide evidence for the selected custom Mark path, not official SDK CPU support.
 
 Workstream vr-06 first investigates the public A2F Mark ONNX network/PCA assets
 as a custom CPU path, not official SDK support. UniTalker remains an alternative.
-The [CPU experiment](chapters/05-local-cpu-feasibility.md) now verifies numerical
+The [CPU experiment](chapters/05-local-cpu-feasibility.md) first verified numerical
 Mark inference and skin reconstruction on this machine. It uses synthetic
-non-speech input; no backend is visually/audio qualified or accepted as accurate.
+non-speech input; its historical result is not speech/playback qualification.
+[Chapter 06](chapters/06-text-to-face-prototype.md) advances to actual speech,
+visible connected geometry and muted real-browser playback.
 
 ## Text-first prototype mandate
 
@@ -75,8 +90,11 @@ and commit/push coherent verified milestones. Do not ask further questions.
 
 The implementation must not disturb shared applications, alter global packages
 or system security settings, or fetch an unreviewed application stack. Installed
-Windows System.Speech voices are the first qualified TTS candidate; the existing
-CPU network/assets are reused. Exact topology correspondence, complete clips,
-the visible player and speech/articulation qualification remain vr-07 work.
+Windows System.Speech and existing CPU network/assets are now implemented.
+Official matching native topology, complete learned clips, a visible player,
+all three installed voices and bounded failure/recovery paths were exercised.
+Contrasting P/B/M, F/V and vowel inputs generate clips, but that does not prove
+correct contacts. Full SDK postprocessing, independent teeth/tongue/eye motion,
+human listening and phonetic/expression acceptance remain unqualified.
 If a hard blocker survives reasonable alternatives, record detailed evidence
 and the exact input or permission the owner must supply.

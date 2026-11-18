@@ -16,8 +16,8 @@ Tasks:
 [x] Inspect installed local speech voices and preserve the isolated CPU environment.
 [x] Qualify matching native topology and decode complete real-speech motion clips.
 [x] Implement bounded plain-text local speech synthesis and explicit expressions.
-[ ] Implement local-only text UI, connected face drawing and audio-clocked controls.
-[ ] Exercise actual generated speech, playback controls, failure and safety paths.
+[x] Implement local-only text UI, connected face drawing and audio-clocked controls.
+[x] Exercise actual generated speech, playback controls, failure and safety paths.
 [ ] Maintain the book, causal evidence, private continuity and issue/Project mirror.
 [ ] Commit and push coherent verified slices using the existing Zanark PAT runner.
 
@@ -32,13 +32,19 @@ stay ignored, pinned and verified. Separate functional verification from
 unmeasured phonetic accuracy and absent human listening/visual acceptance.
 
 Completion evidence:
-Backend implemented; interactive player remains in progress. Chapter 06 records
+Backend and interactive player implemented. Chapter 06 records
 the actual greeting: David voice, 2.745s, 83 frames, 10,349-point reduced native
 mesh and 5,153,802 motion bytes. Network median20.47ms/frame; motion generation
 1.894s excluding synthesis/startup. Matching official topology and bounded
 per-index rest differences verified; Maya scene is parsed as numbers, not run.
-Nineteen focused tests and pip consistency pass. Speech data has not been heard,
-rendered or human-accepted. Issue6/original Project item In Progress verified.
+Twenty-five focused tests pass. Real Edge WebGL2 rendering, muted audio advance,
+pause/resume/restart/end/seek, all three voices, four expression inputs, P/B/M,
+F/V/vowel clips, overlong-speech rejection, injected failure/retry, empty input,
+narrow layout and reload pass twelve browser scenarios. Final private receipt:
+.local\qualification\browser-v3\browser-report.json; zero page exceptions/
+external page requests; owned browser/server stopped and profile removed.
+Screenshots inspected; speech has not been independently heard or human-accepted.
+Final source publication, private continuity and tracking closure remain.
 
 Completion log:
 2026-11-18 - Owner authorizes autonomous overnight implementation, regular
@@ -47,3 +53,9 @@ mandatory. If genuinely blocked, persist detailed attempts and exact owner actio
 2026-11-18 - Local text/speech/native-topology/complete-motion backend succeeds.
 Fixed polygon continuation parsing before qualification; all source quads are
 retained before edge-constrained reduction. Next: actual audio-clocked UI.
+2026-11-18 - Implemented bounded loopback capability API, offline WebGL2 skin
+renderer, local launch script and audio-clocked controls. Four-byte mesh index
+alignment is explicit. Browser v1 corrected untrusted programmatic test clicks;
+v2 corrected the harness's assumption about Edge's empty network errorText.
+v3 passes twelve scenarios using trusted pointer input and actual blockedReason.
+No autoplay/security bypass or additional dependency was introduced.

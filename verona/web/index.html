@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verona - local speaking face</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header><h1>VERONA <span>local speaking-face prototype</span></h1>
+    <p>Text &rarr; Windows voice &rarr; neural CPU face. No camera, microphone or cloud service.</p></header>
+  <main>
+    <section class="input-panel" aria-label="Speech input">
+      <label for="text">What should the face say?</label>
+      <textarea id="text" maxlength="280" rows="5">Hey, how are you?</textarea>
+      <div class="examples" aria-label="Example sentences">
+        <button type="button" data-example="Hey, how are you?">Greeting</button>
+        <button type="button" data-example="Mom, Bob packed my blue paper bag.">P / B / M</button>
+        <button type="button" data-example="Five very vivid flowers wave in the wind.">F / V</button>
+        <button type="button" data-example="We see a blue moon. Oh, wow!">Vowels</button>
+      </div>
+      <label for="voice">Installed local English voice</label>
+      <select id="voice" disabled></select>
+      <label for="expression">Explicit expression <small>(not inferred from text)</small></label>
+      <select id="expression">
+        <option value="neutral">Neutral</option><option value="happy">Happy</option>
+        <option value="sad">Sad</option><option value="surprised">Surprised</option>
+      </select>
+      <label for="intensity">Expression strength <output id="strength">0.35</output></label>
+      <input id="intensity" type="range" min="0" max="0.6" step="0.05" value="0.35">
+      <button id="generate" class="primary" type="button" disabled>Generate face</button>
+      <p class="hint">Up to 280 characters / 25 seconds. Generate first, then press Play.
+        Speech and motion stay in memory; no transcript history is saved.</p>
+      <p id="status" role="status" aria-live="polite">Loading the verified local face...</p>
+      <p id="error" role="alert" hidden></p>
+      <p id="details" class="hint"></p>
+    </section>
+    <section class="viewer-panel" aria-label="Animated facial mesh">
+      <div class="canvas-wrap">
+        <canvas id="face" aria-label="Connected Mark facial mesh, animated from the generated speech"></canvas>
+        <div class="canvas-label">AUDIO-CLOCKED &middot; 30 FPS <span id="frame">NEUTRAL</span></div>
+      </div>
+      <div class="transport">
+        <button id="play" type="button" disabled>Play</button>
+        <button id="restart" type="button" disabled>Restart</button>
+        <label for="seek" class="sr-only">Speech position in seconds</label>
+        <input id="seek" type="range" min="0" max="1" value="0" step="0.001" disabled>
+        <output id="time">0.00 / 0.00 s</output>
+      </div>
+      <div class="view-controls">
+        <label><input id="edges" type="checkbox" checked> Edges</label>
+        <label><input id="points" type="checkbox" checked> Points</label>
+        <label for="yaw">Turn <input id="yaw" type="range" min="-0.8" max="0.8" step="0.01" value="0"></label>
+        <label for="zoom">Zoom <input id="zoom" type="range" min="0.8" max="2.3" step="0.05" value="1"></label>
+        <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
+      </div>
+      <blockquote id="spoken">No generated speech yet.</blockquote>
+      <p class="hint">Real learned skin motion; reduced matching native topology.
+        Full SDK contact correction and independent teeth, tongue and eye-joint animation are not implemented.
+        Phonetic accuracy and human acceptance are still open.</p>
+    </section>
+  </main>
+  <audio id="audio" preload="auto"></audio>
+  <footer>Loopback only &middot; No external scripts/fonts &middot; Close this tab and stop the Verona terminal with Ctrl+C.</footer>
+</body>
+</html>

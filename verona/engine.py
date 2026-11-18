@@ -75,8 +75,11 @@ class FaceEngine:
         self.scale = float(np.max(np.ptp(neutral, axis=0)) / 2)
         self.condition = conditioning(DESTINATION / "implicit_emo_db.npz")
         self.session = create_cpu_session()
+        positions = pack_positions(self.neutral, self.center, self.scale)
+        edge_offset = (len(positions) + 3) & ~3
+        triangle_offset = edge_offset + self.edges.nbytes
         self.mesh_bytes = (
-            pack_positions(self.neutral, self.center, self.scale)
+            positions + bytes(edge_offset - len(positions))
             + self.edges.tobytes() + self.triangles.tobytes()
         )
         self.mesh_metadata = {
@@ -87,6 +90,9 @@ class FaceEngine:
             "nativeEdges": len(edges),
             "nativeTriangles": len(triangles),
             "quantization": QUANTIZATION,
+            "edgeOffset": edge_offset,
+            "triangleOffset": triangle_offset,
+            "bytes": len(self.mesh_bytes),
             "fps": FRAME_RATE,
             "modelRevision": REVISION,
             "meshRevision": fetch_face_mesh.REVISION,

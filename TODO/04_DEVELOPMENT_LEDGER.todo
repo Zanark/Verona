@@ -1,6 +1,27 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-18 - Real local speaking-face window qualified
+Action: Added Verona.cmd, bounded loopback capability API and dependency-free
+WebGL2/audio player. Reused installed voices and CPU model; no new package.
+Mechanism: Authenticated binary buffers, aligned Uint32 topology, GPU frame
+interpolation from audio.currentTime, one in-RAM clip and explicit retryable
+errors. No separate face clock, autoplay, file server or cloud inference.
+Evidence: Twenty-five focused checks; twelve actual Edge/browser-v3 scenarios
+pass, including all three voices, four expression inputs, P/B/M/F/V/vowels,
+transport, overlong-speech rejection, injected failure/retry and reload.
+Inspected actual screenshots. Zero page exceptions/external page requests;
+owned server/browser stopped and disposable test profile removed.
+Corrections: v1 harness clicks lacked trusted audio activation; used actual
+pointer events rather than bypassing autoplay. v2 final diagnostic assumed
+nonempty Edge errorText; asserted observed inspector blockedReason in v3.
+Meaning: Functional neural-skin prototype exists; muted checks are not listening
+acceptance or an anatomical-contact benchmark. Full SDK postprocessing and
+independent teeth/tongue/eye joints remain omitted. Chapter06 explains boundaries.
+Definition: Reconciled text-first product brief and closed finite vr-03 scope.
+Next consequence: Publish this coherent player slice and seal owned continuity/
+tracking; no active service is left running for the sleeping owner.
+
 2026-11-18 - Complete local text-to-face clip, before the graphical player
 Action: Reused installed Windows System.Speech and the pinned Mark CPU network;
 fetched one official hash-verified matching Maya-ACE Mark topology data file.

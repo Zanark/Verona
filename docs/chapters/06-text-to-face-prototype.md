@@ -1,8 +1,9 @@
 # 06 - From plain text to a local speaking-face clip
 
-**Status:** the offline text/audio/motion path is implemented and exercised on
-real synthesized speech. The interactive player is the next part of `vr-07`;
-visual and human articulation acceptance are not implied. Date: 2026-11-18 IST.
+**Status:** text/audio/motion generation and the interactive browser player are
+implemented and functionally exercised on real synthesized speech. Rendered
+screenshots were inspected; playback tests were muted. Human articulation/
+listening acceptance is not implied. Workstream `vr-07`, 2026-11-18 IST.
 
 ## Why this slice is deliberately small
 
@@ -79,6 +80,11 @@ Positions are centered/scaled once from the native mean and quantized to signed
 precision of half-floats around the original 150-cm vertical coordinates.
 Out-of-range or non-finite geometry fails rather than wrapping. Connectivity is
 32-bit little-endian; one frame contains `vertices * 3 * 2` position bytes.
+The mesh payload pads neutral positions to a four-byte boundary before its
+Uint32 indices. Metadata carries explicit `edgeOffset`, `triangleOffset` and
+`bytes`; currently 62,096, 261,176 and 509,504 respectively. Without padding,
+10,349 vertices produce an unaligned typed-array offset. The browser validates
+alignment/length rather than interpreting malformed buffers.
 
 ## One audio timeline and complete neural motion
 
@@ -135,17 +141,118 @@ complete time-indexed learned skin clip. It does **not** prove that the greeting
 was independently heard, the renderer works, or P/B/M and F/V contacts are correct.
 The old synthetic CPU probe remains useful as a separate narrow diagnostic.
 
-## Remaining prototype and accuracy gates
+## The interactive player: one clock, not two drifting animations
 
-The next slice is the loopback-only browser player with text input, visible
-vertices/edges, explicit errors and audio-clocked play/pause/restart/seek.
-There is no pre-existing Verona face app to restart or replace. Tests must use
-an agent-owned disposable browser profile, not the user's active browser.
+Run `.\Verona.cmd` from the prepared checkout. `verona/__main__.py::main`
+constructs the verified engine and installed voice list, binds a new local
+server, then opens its ready URL. The launcher installs/downloads nothing.
+Type a line, Generate, then Play; generation does not autoplay.
+
+`verona/web/app.js::FaceRenderer` uses native WebGL2 without a renderer package,
+CDN, build step or external font. It uploads quantized neutral/motion positions
+and original-derived edge/triangle index buffers. Triangles provide a depth
+prepass, then visible edges/points draw with depth testing. This is a reduced
+native skin, not MediaPipe tracking or a volume-driven substitute.
+
+Every draw derives its frame from `audio.currentTime * 30`, clamps to the clip
+range and interpolates its two neighboring neural frames in the vertex shader.
+The animation loop does not advance a separate face timer. Pause/resume,
+seeking and natural end therefore preserve the original audio offset. Restart
+pauses and rewinds to zero; Play restarts an ended clip. Render requests run
+during playback or in response to view/seek/resize changes, not continuous
+inference. Explicit expression changes require a newly generated clip.
+
+The browser fetches motion and WAV through the authenticated API, checks byte/
+mesh contracts and actual decoded audio duration, then enables transport.
+Generating clears prior client playback so an error cannot leave old speech
+presented as the new sentence. Empty input is rejected before that clearing
+step, preserving an otherwise usable clip. Failures are visible and retryable;
+graphics-context loss pauses speech and explicitly requires reload.
+
+## Local API, ownership and recovery
+
+`verona/server.py::LocalServer` is a bounded development server, not a production
+deployment. It binds **127.0.0.1 only**, normally an OS-selected port, with at
+most eight request threads and one nonqueued generation. Host, Origin and
+browser fetch-site guards reject other origins. API routes additionally require
+a fresh per-process random capability in `X-Verona-Token`; even session metadata
+is authenticated. There is no anonymous token/bootstrap endpoint.
+
+The launcher URL carries the capability after `#`, outside HTTP paths and
+server request logs. It is not a defense against malicious local software, and
+normal browser history may retain the URL. Do not share it. A new process has
+a new capability; opening only the bare origin is deliberately insufficient.
+
+Static routes are an exact HTML/JS/CSS allowlist, not a filesystem server.
+There is no arbitrary audio/file/command/upload/proxy endpoint. JSON generation
+requires the exact four known fields, one bounded Content-Length, no transfer
+encoding, an installed English voice and validated expression/text limits.
+Bodies exceed neither 8,192 bytes nor the stricter speech contract.
+Socket input times out after ten seconds. Busy/oversized/invalid requests fail
+explicitly. CSP disallows external resources; camera/microphone/geolocation are
+denied. Responses are no-store, same-origin and non-embeddable.
+
+The server retains one successful clip in RAM, replaced on next success;
+the browser holds its currently loaded motion and blob WAV. Browser reload
+clears the client, not the server. No transcript/automatic export/localStorage
+history is implemented; explicit CLI export is a separate persistence action.
+Temporary synthesis WAVs are removed. Stopping Python loses its cached clip.
+
+Keep the terminal open while using the app. Ctrl+C sets a cancellation event,
+stops accepting requests and joins owned request threads. Inference checks
+cancellation between frames; an already-running Windows synthesis step may
+take up to its 45-second bound. Closing only the page does not stop Python.
+No service, scheduler, firewall/policy/global-package change or device capture
+is involved. CPU limits reduce owned load, not a guarantee of zero contention
+on this shared machine.
+
+## Actual player qualification and corrected failures
+
+`tests/test_local_server.py` adds six boundary tests to the nineteen existing
+focused checks. `tests/run_browser_smoke.py` starts an owned actual model/server
+and existing Edge with a disposable profile; `tests/browser_smoke.mjs` drives
+CDP through Node's built-in WebSocket. Neither Playwright nor another package
+was installed. The user's profile/process is not driven or closed.
+
+Reproduce with installed Edge and Node:
+
+```powershell
+.\.local\cpu-env\Scripts\python.exe -m unittest discover -s tests -q
+.\.local\cpu-env\Scripts\python.exe -m tests.run_browser_smoke --output .local\qualification\my-new-run
+```
+
+Use a new receipt directory; preserve failures. Final run `browser-v3` passes
+twelve scenarios: actual neutral WebGL2 drawing; speech/WAV decode; muted
+play/pause/resume; seek; restart/end; expression replacement; alternate voices/
+P/B/M/vowels; overlong synthesis rejection; injected network failure/recovery;
+empty-input preservation; narrow layout; reload. David, Hazel and Zira all
+generated clips. Neutral/happy/sad/surprised model inputs were exercised.
+At 1.25 seconds the greeting selects frame 38 of 83. Screenshots show connected
+skin and differing mouth aperture; that observation is not a contact benchmark.
+
+The final receipt has zero page exceptions/external page requests and exactly
+one deliberate inspector-blocked generation request. Its owned browser/server
+stopped and disposable profile was removed. The greeting's motion generation
+took 4.056 seconds in this run, excluding synthesis/startup; the earlier 1.894
+seconds is a separate measurement, not promised interactive speed.
+
+Two earlier harness failures remain preserved: v1 used JavaScript `.click()`,
+which is not trusted user activation for browser audio. Tests now dispatch real
+CDP pointer input; autoplay protections were not disabled. v2 expected a useful
+network `errorText`, but Edge returned an empty string for deliberate blocking.
+The harness now records/asserts CDP's actual `blockedReason: "inspector"`.
+All v2 functional scenarios had passed; its overall report was correctly failed
+until that diagnostic was fixed and a new complete run passed.
+
+## Remaining accuracy gates
 
 The current skin path does not implement full SDK skin/contact/smoothing
 postprocessing, independent denture/tongue motion or eye-joint/gaze animation.
 The lower-jaw region moves through the skin PCA, but that is not an implemented
 independent teeth rig. Full mouth-contact accuracy, expressive quality,
-other languages/voices and human acceptance remain separate qualification.
+other languages/accents and human acceptance remain separate qualification.
+The three local voices produced valid speech/motion payloads, not an independent
+listening score. P/B/M, F/V and vowel inputs were exercised, not proven to have
+anatomically correct closure/contact at independently established phone times.
 Do not silently substitute amplitude-only animation or call these gates passed
 because numerical output changes.
