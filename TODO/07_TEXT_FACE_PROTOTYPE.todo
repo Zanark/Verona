@@ -2,7 +2,7 @@ ID: vr-07
 Title: Deliver a small free-local text-to-speaking-face prototype
 GitHub issue: https://github.com/Zanark/Verona/issues/6
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Type a sentence and play synchronized local speech and connected face geometry.
 Dependencies: vr-06
 
@@ -18,8 +18,8 @@ Tasks:
 [x] Implement bounded plain-text local speech synthesis and explicit expressions.
 [x] Implement local-only text UI, connected face drawing and audio-clocked controls.
 [x] Exercise actual generated speech, playback controls, failure and safety paths.
-[ ] Maintain the book, causal evidence, private continuity and issue/Project mirror.
-[ ] Commit and push coherent verified slices using the existing Zanark PAT runner.
+[x] Maintain the book, causal evidence, private continuity and issue/Project mirror.
+[x] Commit and push coherent verified slices using the existing Zanark PAT runner.
 
 Acceptance criteria:
 The owner's "Hey, how are you?" input produces actual local speech and an
@@ -44,7 +44,11 @@ narrow layout and reload pass twelve browser scenarios. Final private receipt:
 .local\qualification\browser-v3\browser-report.json; zero page exceptions/
 external page requests; owned browser/server stopped and profile removed.
 Screenshots inspected; speech has not been independently heard or human-accepted.
-Final source publication, private continuity and tracking closure remain.
+Player source af797df9ed83e9c88e69c0707d7e2548f48c7f4f committed/pushed and
+exact remote main verified; twenty intended source/docs/test files, no models,
+audio, private context or credential patterns. Author/committer Zanark, required
+trailers and invocation-only PAT transport. Book and owned continuity updated.
+Functional scope is complete; accuracy limitations above are not waived.
 
 Completion log:
 2026-11-18 - Owner authorizes autonomous overnight implementation, regular
@@ -59,3 +63,7 @@ alignment is explicit. Browser v1 corrected untrusted programmatic test clicks;
 v2 corrected the harness's assumption about Edge's empty network errorText.
 v3 passes twelve scenarios using trusted pointer input and actual blockedReason.
 No autoplay/security bypass or additional dependency was introduced.
+2026-11-18 - Published the verified player milestone af797df; exact remote ref
+and clean tree read back. Reconciled product definition, book and continuity.
+Closing this finite functional prototype does not close perceptual accuracy,
+future recording/streaming or full SDK articulator work.

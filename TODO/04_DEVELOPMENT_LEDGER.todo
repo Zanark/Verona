@@ -1,6 +1,22 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-18 - Interactive prototype source published and finite scope complete
+Action: Committed twenty intended source/docs/test files as
+af797df9ed83e9c88e69c0707d7e2548f48c7f4f and pushed main via the Zanark PAT
+runner's invocation-only HTTPS credential helper. Exact remote main verified.
+Evidence: Both identities are verified Zanark; required co-author/session
+trailers present. Scope/whitespace/credential-pattern review excludes .local,
+private context, models, audio, screenshots and browser profiles. Tree clean.
+Effect: Verona.cmd is runnable from the prepared checkout; README documents
+fresh setup, Generate->Play and Ctrl+C lifecycle. Product definition vr-03 and
+functional prototype vr-07 are complete, distinct from human accuracy acceptance.
+Owned STATE/MEMORY/JOURNAL are reconciled; final tracking/completion receipt
+records this publication without implying a rendered book or deployment.
+Tracking: Final exact readback verifies all six managed issue bodies/states and
+original saved Project memberships as Closed/Done, including issue6. No duplicate
+issue/item or unrelated remote write. Human articulation gates remain explicit.
+
 2026-11-18 - Real local speaking-face window qualified
 Action: Added Verona.cmd, bounded loopback capability API and dependency-free
 WebGL2/audio player. Reused installed voices and CPU model; no new package.
