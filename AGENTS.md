@@ -9,7 +9,9 @@ Research is authored; the owner chose free/local AMD operation. A bounded
 CPU ONNX/PCA probe, local text-to-motion generator and audio-clocked WebGL2
 browser player exist under vr-07. The vr-08 feedback slice uses matching Claire
 v2.3.1 assets, default Hazel, bounded voice settings, procedural hair and
-latest-only RAM/derived-topology caches; chapter 07 is the current contract.
+latest-only RAM/derived-topology caches. Chapter 08 is the current presentation
+contract: native quad contours, shaded features, static cosmetic eyes, points
+off by default and a measured local 60-fps display target over 30-fps motion.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

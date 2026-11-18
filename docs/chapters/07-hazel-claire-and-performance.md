@@ -1,5 +1,9 @@
 # 07 - Editable Hazel, matching Claire and measured performance
 
+Presentation note: [chapter 08](08-facial-definition-and-fluidity.md) supersedes
+this slice's voxel topology and payload measurements with native contour loops,
+shading and static cosmetic eyes. This chapter preserves the vr-08 baseline.
+
 Workstream `vr-08`, November 18, 2026. This extends the same local prototype,
 not a second application. [Chapter 06](06-text-to-face-prototype.md) preserves
 the original Mark baseline. Human listening, expression quality and anatomical

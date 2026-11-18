@@ -29,6 +29,10 @@ sample scene or Windows voice is bundled in this repository.
 - The browser renderer uses built-in WebGL2 and HTML audio, without a CDN or JS package.
 - The small procedural hair geometry is original Verona code; no hair model,
   texture, animation package or additional third-party asset was downloaded.
+- Static cosmetic eye ellipsoids, shader iris/pupil/brow/lip treatment and
+  lighting are original Verona code. No supplied reference image is bundled.
+  README screenshots/GIFs show the actual renderer using native-derived Claire
+  geometry and a synthetic greeting; the model/sample terms above still apply.
 
 ## NVIDIA/Maya-ACE sample license
 

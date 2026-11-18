@@ -1,6 +1,27 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - Native facial definition and display cadence qualified
+Cause: Owner could not identify the eyes/nose/mouth, supplied visual references
+and prioritized60fps fluidity over polygon count while retaining a female face.
+Action: Recover one native subdivision layer rather than voxel-warp contours;
+keep15,375originalPCAindices/30,759edges/30,746triangles. Add smooth-normal
+directional lighting, original static cosmetic eyes, brow/lip/cavity masks,
+restrained contour overlay and diagnostic points off by default.
+Evidence:33unit/HTTP checks,18realEdge scenarios. face-browser-final at1x/2x
+records mean16.691ms/p9516.8/max16.9, zeroover25ms;381actualdraws/density.
+Frontal/turned/hair-off/speaking screenshots inspected. No reference art copied.
+Tradeoff: About75% fewer vertices than full skin but more detail/payload than
+the old voxel surface;83frames7,656,750bytes, not the old37%-smaller claim.
+Actual30Hz model samples interpolate on the display/audio clock. Static eyes
+are not eye-joint animation; muted checks are not phonetic/listening acceptance.
+Effect: Chapter08 is current; book allowlist10sources. Isolated test cache and
+synthesiswork now join private RAM/server/profile ownership; no user restart.
+Publication: Preparing explicit first source prerelease and media-first README.
+Four actualPNG/twoGIF captures use only a synthetic line; rejected noisy default
+GIF dithering, resolved local.NET encoder-reference mismatch without installs.
+Source/tag/release readback remains a separate gate.
+
 2026-11-18 - Hazel/Claire feedback source published
 Action: Committed26intended source/docs/test/tracking files as
 ea85a11dccf66376daa7679a76645013197184a6 and pushed main via the verified

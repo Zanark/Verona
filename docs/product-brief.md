@@ -5,6 +5,9 @@ The requirements below summarize the owner's November 18 description. Technology
 choices are distinguished below from unqualified perceptual accuracy.
 The subsequent vr-08 feedback adds measurable caching/performance work, editable
 Hazel as default, and the matching Claire female head with procedural hair.
+The owner's November 19 visual feedback adds recognizable shaded features and
+native contours, with a 60-fps display target prioritized over polygon count.
+Static cosmetic eyes are not independent eye-joint animation.
 
 ## Confirmed
 
@@ -83,6 +86,9 @@ non-speech input; its historical result is not speech/playback qualification.
 visible connected geometry and muted real-browser playback.
 [Chapter 07](chapters/07-hazel-claire-and-performance.md) records the current
 Claire identity, bounded voice editing and measured speed/quality tradeoffs.
+[Chapter 08](chapters/08-facial-definition-and-fluidity.md) supersedes its
+presentation reduction with native quad contours, shaded features and measured
+normal/2x-density display cadence.
 
 ## Text-first prototype mandate
 

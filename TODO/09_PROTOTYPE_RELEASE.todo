@@ -1,0 +1,41 @@
+ID: vr-09
+Title: Publish the first prototype with a visual-first README
+
+Status: IN_PROGRESS
+Milestone: Reviewed actual screenshots/GIFs dominate the README and a source prerelease is published.
+Dependencies: vr-08, vr-10
+
+Purpose:
+Make the working local prototype easy to see and obtain, following the owner's
+explicit request for screenshots, GIFs, commit/push and the first release.
+
+Tasks:
+[x] Capture actual synthetic demo media without touching a user browser/runtime.
+[x] Review screenshots and GIF frames; retain provenance and third-party notices.
+[x] Replace the text-heavy README with a visual gallery and linked setup guide.
+[ ] Verify local links/media and reconcile the book, ledger and issue/Project.
+[ ] Commit/push as verified Zanark and publish/read back the exact source prerelease.
+
+Acceptance criteria:
+README is visually dominated by real screenshots and multiple animated GIFs,
+not mockups. No private URL/capability, personal speech, model/native asset,
+credential or continuity file enters publication. Demo uses a separate RAM
+state/profile and copied numeric cache, sharing only read-only source/model
+files and bounded CPU resources. No app defaults change or active runtime restart.
+Release is explicitly an early source prerelease, not an installer or accuracy
+acceptance; limitations and fresh-clone setup remain reachable.
+
+Completion evidence:
+Actual final vr-10 renderer captured in isolated Edge using a synthetic greeting
+and the visible preferred Zira settings. Four PNGs and two silent GIFs dominate
+the README; full operating/setup/limitations text preserved in linked guide.
+GIFs sample the actual generated timeline (not a60fps recording); no source
+reference image, personal speech, capability or downloaded asset is included.
+Windows decoder confirms40/24frames; decoded samples and PNGs inspected.
+Exact remote source/tag/release verification pending.
+
+Completion log:
+2026-11-19 - Owner authorizes visual README, regular commit/push and first
+prototype release. Existing releases empty; PAT login verified as Zanark.
+2026-11-19 - Owner's additional facial/60fps feedback implemented before final
+media. Early captures retained privately, replaced in the public gallery.

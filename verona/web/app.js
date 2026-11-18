@@ -31,6 +31,29 @@ async function request(path, options = {}) {
   return response;
 }
 
+function surfaceNormals(positions, triangles, offset = 0, count = positions.length / 3) {
+  const normals = new Float32Array(count * 3);
+  for (let i = 0; i < triangles.length; i += 3) {
+    const a = triangles[i] * 3, b = triangles[i + 1] * 3, c = triangles[i + 2] * 3;
+    const x = positions[offset + b] - positions[offset + a];
+    const y = positions[offset + b + 1] - positions[offset + a + 1];
+    const z = positions[offset + b + 2] - positions[offset + a + 2];
+    const u = positions[offset + c] - positions[offset + a];
+    const v = positions[offset + c + 1] - positions[offset + a + 1];
+    const w = positions[offset + c + 2] - positions[offset + a + 2];
+    const nx = y * w - z * v, ny = z * u - x * w, nz = x * v - y * u;
+    for (let j = 0; j < 3; j++) {
+      const index = triangles[i + j] * 3;
+      normals[index] += nx; normals[index + 1] += ny; normals[index + 2] += nz;
+    }
+  }
+  for (let i = 0; i < normals.length; i += 3) {
+    const length = Math.hypot(normals[i], normals[i + 1], normals[i + 2]) || 1;
+    normals[i] /= length; normals[i + 1] /= length; normals[i + 2] /= length;
+  }
+  return normals;
+}
+
 class FaceRenderer {
   constructor(canvas, meta, binary) {
     this.canvas = canvas;
@@ -42,24 +65,69 @@ class FaceRenderer {
     const vertex = `#version 300 es
       in vec3 positionA;
       in vec3 positionB;
+      in vec3 normalA;
+      in vec3 normalB;
+      in vec3 restPosition;
       uniform float blend, quantization, aspect, yaw, zoom, pointSize;
-      out float depth;
+      uniform vec3 center;
+      uniform float scale;
+      out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
-        p = vec3(cos(yaw)*p.x + sin(yaw)*p.z, p.y, -sin(yaw)*p.x + cos(yaw)*p.z);
+        mat3 rotation = mat3(cos(yaw),0.0,-sin(yaw), 0.0,1.0,0.0, sin(yaw),0.0,cos(yaw));
+        p = rotation * p;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
         gl_PointSize = pointSize;
-        depth = clamp((p.z + 1.0) * 0.5, 0.0, 1.0);
+        viewNormal = rotation * mix(normalA, normalB, blend);
+        rest = restPosition / quantization * scale + center;
       }`;
     const fragment = `#version 300 es
       precision highp float;
       uniform vec3 color;
       uniform bool points;
-      in float depth;
+      uniform int material, pass;
+      in vec3 viewNormal, rest;
       out vec4 outputColor;
       void main() {
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
-        outputColor = vec4(color * (0.50 + depth * 0.50), 1.0);
+        vec3 n = normalize(viewNormal);
+        vec3 key = normalize(vec3(-0.65, 0.8, 1.2));
+        float diffuse = max(dot(n, key), 0.0);
+        float rim = pow(1.0 - abs(n.z), 3.0);
+        float fill = max(dot(n, normalize(vec3(0.9,0.15,0.6))),0.0);
+        if (pass == 1) {
+          float facing = smoothstep(-0.05,0.55,n.z);
+          outputColor = vec4(color * (0.42 + diffuse * 0.48 + rim * 0.35), facing * 0.38);
+          return;
+        }
+        vec3 base = color;
+        if (material == 0) {
+          float x = abs(rest.x - 0.08);
+          float lipCenter = 140.15 - 0.10 * pow(x / 2.5, 2.0);
+          float lip = (1.0-smoothstep(0.70,1.0,pow(x/2.65,2.0)+pow((rest.y-lipCenter)/0.70,2.0)))
+            * smoothstep(2.6,3.2,rest.z);
+          base = mix(base,vec3(0.37,0.16,0.20),lip * 0.8);
+          float cavity = (1.0-smoothstep(0.65,1.0,pow(x/2.3,2.0)+pow((rest.y-140.1)/0.62,2.0)))
+            * (1.0-smoothstep(3.0,3.35,rest.z));
+          base = mix(base,vec3(0.025,0.018,0.024),cavity);
+          float browY = 149.18 + 0.42 * (1.0-pow((x-3.1)/1.8,2.0));
+          float brow = (1.0-smoothstep(0.12,0.23,abs(rest.y-browY)))
+            * smoothstep(1.3,1.8,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(1.6,2.5,rest.z);
+          base = mix(base,vec3(0.055,0.068,0.08),brow*0.8);
+        } else if (material == 2) {
+          vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
+          vec3 local = rest-eyeCenter;
+          float radius = length(local.xy);
+          float front = smoothstep(0.9,1.2,local.z);
+          float iris = (1.0-smoothstep(0.48,0.55,radius))*front;
+          float pupil = (1.0-smoothstep(0.20,0.25,radius))*front;
+          base = mix(base,vec3(0.10,0.28,0.29)*(0.8+0.2*sin(atan(local.y,local.x)*30.0)),iris);
+          base = mix(base,vec3(0.012,0.021,0.027),pupil);
+        }
+        float specular = pow(max(dot(n,normalize(key+vec3(0,0,1))),0.0),material==2?80.0:36.0);
+        vec3 lit = base * (0.16 + 0.70*diffuse + 0.18*fill) + vec3(0.12,0.17,0.20)*rim;
+        lit += vec3(0.64,0.77,0.83)*specular*(material==2?0.65:0.14);
+        outputColor = vec4(lit,1.0);
       }`;
     const compile = (type, source) => {
       const shader = gl.createShader(type);
@@ -80,15 +148,21 @@ class FaceRenderer {
     for (const shader of shaders) gl.deleteShader(shader);
     gl.useProgram(program);
     this.program = program;
-    this.attributes = ["positionA", "positionB"].map((name) => gl.getAttribLocation(program, name));
+    this.attributes = Object.fromEntries(
+      ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
+    );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "yaw", "zoom", "pointSize", "color", "points"]
+      ["blend", "quantization", "aspect", "yaw", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
       throw new Error("Face mesh byte count/alignment does not match its contract.");
     }
-    this.neutral = this.buffer(gl.ARRAY_BUFFER, new Int16Array(binary, 0, meta.vertices * 3));
+    this.neutralData = new Int16Array(binary, 0, meta.vertices * 3);
+    this.triangleData = new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3);
+    this.neutral = this.buffer(gl.ARRAY_BUFFER, this.neutralData);
+    this.neutralNormals = this.buffer(gl.ARRAY_BUFFER, surfaceNormals(this.neutralData,this.triangleData));
+    this.normalSlots = [0,1].map(() => ({frame:-1,buffer:gl.createBuffer()}));
     this.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.edgeOffset, meta.edges * 2));
     this.triangles = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3));
     const hair = meta.hair;
@@ -96,6 +170,16 @@ class FaceRenderer {
       positions: this.buffer(gl.ARRAY_BUFFER, new Int16Array(binary, hair.positionOffset, hair.vertices * 3)),
       edges: this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, hair.edgeOffset, hair.edges * 2)),
       triangles: this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3)),
+    };
+    const hairData = new Int16Array(binary,hair.positionOffset,hair.vertices*3);
+    this.hair.normals = this.buffer(gl.ARRAY_BUFFER,surfaceNormals(hairData,
+      new Uint32Array(binary,hair.triangleOffset,hair.triangles*3)));
+    const eyes = meta.eyes;
+    const eyeData = new Int16Array(binary,eyes.positionOffset,eyes.vertices*3);
+    this.eyes = {
+      positions:this.buffer(gl.ARRAY_BUFFER,eyeData),
+      triangles:this.buffer(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3)),
+      normals:this.buffer(gl.ARRAY_BUFFER,surfaceNormals(eyeData,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3))),
     };
     this.motion = null;
     gl.enable(gl.DEPTH_TEST);
@@ -126,6 +210,7 @@ class FaceRenderer {
     }
     this.clearClip();
     this.motion = this.buffer(this.gl.ARRAY_BUFFER, new Int16Array(binary));
+    this.motionData = new Int16Array(binary);
     this.frames = metadata.frames;
   }
 
@@ -133,6 +218,36 @@ class FaceRenderer {
     if (this.motion) this.gl.deleteBuffer(this.motion);
     this.motion = null;
     this.frames = 0;
+    this.motionData = null;
+    for (const slot of this.normalSlots) slot.frame = -1;
+  }
+
+  attribute(name, buffer, type, offset = 0) {
+    const gl=this.gl, location=this.attributes[name];
+    gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+    gl.enableVertexAttribArray(location);
+    gl.vertexAttribPointer(location,3,type,false,0,offset);
+  }
+
+  normalBuffer(frame) {
+    if (!this.motion) return this.neutralNormals;
+    let slot=this.normalSlots.find(item=>item.frame===frame);
+    if (!slot) {
+      slot=this.normalSlots[frame%2];
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER,slot.buffer);
+      this.gl.bufferData(this.gl.ARRAY_BUFFER,
+        surfaceNormals(this.motionData,this.triangleData,frame*this.meta.vertices*3,this.meta.vertices),
+        this.gl.DYNAMIC_DRAW);
+      slot.frame=frame;
+    }
+    return slot.buffer;
+  }
+
+  staticSurface(surface) {
+    const gl=this.gl;
+    for (const name of ["positionA","positionB","restPosition"]) this.attribute(name,surface.positions,gl.SHORT);
+    for (const name of ["normalA","normalB"]) this.attribute(name,surface.normals,gl.FLOAT);
+    gl.uniform1f(this.uniforms.blend,0);
   }
 
   draw(seconds) {
@@ -146,55 +261,80 @@ class FaceRenderer {
       this.canvas.height = height;
     }
     gl.viewport(0, 0, width, height);
-    gl.clearColor(0.02, 0.059, 0.09, 1);
+    gl.clearColor(0.016, 0.025, 0.038, 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.useProgram(this.program);
     const frame = this.frames ? Math.min(this.frames - 1, Math.max(0, seconds * 30)) : 0;
     const left = Math.floor(frame);
     const right = this.frames ? Math.min(this.frames - 1, left + 1) : 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.motion || this.neutral);
-    for (const [i, location] of this.attributes.entries()) {
-      gl.enableVertexAttribArray(location);
-      const offset = this.motion ? (i ? right : left) * this.meta.vertices * 6 : 0;
-      gl.vertexAttribPointer(location, 3, gl.SHORT, false, 0, offset);
-    }
+    this.attribute("positionA",this.motion||this.neutral,gl.SHORT,this.motion?left*this.meta.vertices*6:0);
+    this.attribute("positionB",this.motion||this.neutral,gl.SHORT,this.motion?right*this.meta.vertices*6:0);
+    this.attribute("restPosition",this.neutral,gl.SHORT);
+    this.attribute("normalA",this.normalBuffer(left),gl.FLOAT);
+    this.attribute("normalB",this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
     gl.uniform1f(u.blend, frame - left);
     gl.uniform1f(u.quantization, this.meta.quantization);
+    gl.uniform3fv(u.center,this.meta.center);
+    gl.uniform1f(u.scale,this.meta.scale);
     gl.uniform1f(u.aspect, width / height);
     gl.uniform1f(u.yaw, Number($("yaw").value));
     gl.uniform1f(u.zoom, Number($("zoom").value) * 0.91);
-    gl.uniform1f(u.pointSize, 1.7 * ratio);
+    gl.uniform1f(u.pointSize, 1.15 * ratio);
+    gl.uniform1i(u.material,0);
+    gl.uniform1i(u.pass,0);
     gl.uniform1i(u.points, 0);
     gl.enable(gl.POLYGON_OFFSET_FILL);
     gl.polygonOffset(1, 1);
-    gl.uniform3f(u.color, 0.025, 0.07, 0.10);
+    gl.uniform3f(u.color, 0.41, 0.46, 0.50);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.triangles);
     gl.drawElements(gl.TRIANGLES, this.meta.triangles * 3, gl.UNSIGNED_INT, 0);
     gl.disable(gl.POLYGON_OFFSET_FILL);
     if ($("edges").checked) {
-      gl.uniform3f(u.color, 0.20, 0.68, 0.66);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+      gl.depthMask(false);
+      gl.uniform1i(u.pass,1);
+      gl.uniform3f(u.color, 0.68, 0.88, 0.89);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.edges);
       gl.drawElements(gl.LINES, this.meta.edges * 2, gl.UNSIGNED_INT, 0);
     }
     if ($("points").checked) {
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+      gl.depthMask(false);
+      gl.uniform1i(u.pass,1);
       gl.uniform1i(u.points, 1);
       gl.uniform3f(u.color, 0.59, 0.98, 0.85);
       gl.drawArrays(gl.POINTS, 0, this.meta.vertices);
     }
+    gl.disable(gl.BLEND);
+    gl.depthMask(true);
+    gl.uniform1i(u.pass,0);
+    gl.uniform1i(u.points,0);
+    gl.uniform1i(u.material,2);
+    this.staticSurface(this.eyes);
+    gl.uniform3f(u.color,0.65,0.72,0.72);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.eyes.triangles);
+    gl.drawElements(gl.TRIANGLES,this.meta.eyes.triangles*3,gl.UNSIGNED_INT,0);
     if ($("hair").checked) {
-      gl.bindBuffer(gl.ARRAY_BUFFER, this.hair.positions);
-      for (const location of this.attributes) gl.vertexAttribPointer(location, 3, gl.SHORT, false, 0, 0);
+      this.staticSurface(this.hair);
       gl.uniform1i(u.points, 0);
-      gl.uniform1f(u.blend, 0);
+      gl.uniform1i(u.material,1);
       gl.enable(gl.POLYGON_OFFSET_FILL);
-      gl.uniform3f(u.color, 0.11, 0.13, 0.22);
+      gl.uniform3f(u.color, 0.055, 0.065, 0.09);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.hair.triangles);
       gl.drawElements(gl.TRIANGLES, this.meta.hair.triangles * 3, gl.UNSIGNED_INT, 0);
       gl.disable(gl.POLYGON_OFFSET_FILL);
-      gl.uniform3f(u.color, 0.56, 0.46, 0.77);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+      gl.depthMask(false);
+      gl.uniform1i(u.pass,1);
+      gl.uniform3f(u.color, 0.40, 0.49, 0.68);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.hair.edges);
       gl.drawElements(gl.LINES, this.meta.hair.edges * 2, gl.UNSIGNED_INT, 0);
+      gl.disable(gl.BLEND);
+      gl.depthMask(true);
     }
     $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
   }

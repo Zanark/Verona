@@ -15,7 +15,7 @@ from scripts.fetch_cpu_model import ROOT
 
 import numpy as np
 
-from .appearance import claire_hair
+from .appearance import claire_eyes, claire_hair
 from .mesh import claire_topology
 from .speech import Speech
 
@@ -65,8 +65,11 @@ class FaceEngine:
             self.selected, self.edges, self.triangles, maximum = claire_topology(
                 neutral, DESTINATION / "claire_geom_v2_topo1.ma",
                 ROOT / ".local" / "cache",
-                f"claire-topology-v2:{REVISION}:{MESH_REVISION}:{ASSETS}",
+                f"claire-native-control-v3:{REVISION}:{MESH_REVISION}:{ASSETS}",
             )
+            if (self.selected.shape != (15375,) or self.edges.shape != (30759, 2)
+                    or self.triangles.shape != (30746, 3)):
+                raise ValueError("Pinned Claire native control topology dimensions changed.")
             self.neutral = neutral[self.selected].copy()
             basis = data["shapes_matrix_skin"]
             if basis.shape != (140, 61520, 3):
@@ -91,6 +94,13 @@ class FaceEngine:
         self.mesh_bytes += (hair_positions
                             + bytes(hair_edge_offset - hair_position_offset - len(hair_positions))
                             + hair_edges.tobytes() + hair_triangles.tobytes())
+        eyes, eye_triangles = claire_eyes()
+        eye_positions = pack_positions(eyes, self.center, self.scale)
+        eye_position_offset = len(self.mesh_bytes)
+        eye_triangle_offset = (eye_position_offset + len(eye_positions) + 3) & ~3
+        self.mesh_bytes += (eye_positions
+                            + bytes(eye_triangle_offset - eye_position_offset - len(eye_positions))
+                            + eye_triangles.tobytes())
         self.mesh_metadata = {
             "identity": "Claire v2.3.1",
             "vertices": len(self.selected),
@@ -100,18 +110,25 @@ class FaceEngine:
             "nativeEdges": 123036,
             "nativeTriangles": 123036,
             "quantization": QUANTIZATION,
+            "center": self.center.tolist(),
+            "scale": self.scale,
             "edgeOffset": edge_offset,
             "triangleOffset": triangle_offset,
             "bytes": len(self.mesh_bytes),
             "fps": FRAME_RATE,
             "modelRevision": REVISION,
             "meshRevision": MESH_REVISION,
-            "topology": "native-edge-constrained clustering; finer mouth sampling",
+            "topology": "one inverse native quad subdivision; original animated vertex indices",
             "maxRestShapeDifferenceCm": maximum,
             "hair": {
                 "vertices": len(hair), "edges": len(hair_edges), "triangles": len(hair_triangles),
                 "positionOffset": hair_position_offset, "edgeOffset": hair_edge_offset,
                 "triangleOffset": hair_triangle_offset,
+            },
+            "eyes": {
+                "vertices": len(eyes), "triangles": len(eye_triangles),
+                "positionOffset": eye_position_offset, "triangleOffset": eye_triangle_offset,
+                "animation": "static cosmetic eyes; no independent gaze or eye-joint prediction",
             },
         }
 

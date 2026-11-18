@@ -3,6 +3,31 @@
 import numpy as np
 
 
+def claire_eyes() -> tuple[np.ndarray, np.ndarray]:
+    """Original static ellipsoids within the matching native cornea bounds."""
+    vertices, triangles = [], []
+    columns, rows = 32, 20
+    for x, y, z in ((-2.9485, 147.5517, 2.2364), (3.1021, 147.4944, 2.2830)):
+        offset = len(vertices)
+        for row in range(rows + 1):
+            latitude = np.pi * row / rows
+            for column in range(columns):
+                angle = 2 * np.pi * column / columns
+                vertices.append((x + 1.35 * np.sin(latitude) * np.sin(angle),
+                                 y + 1.32 * np.cos(latitude),
+                                 z + 1.40 * np.sin(latitude) * np.cos(angle)))
+        for row in range(rows):
+            for column in range(columns):
+                a = offset + row * columns + column
+                b = offset + row * columns + (column + 1) % columns
+                c, d = a + columns, b + columns
+                if row:
+                    triangles.append((a, c, b))
+                if row < rows - 1:
+                    triangles.append((b, c, d))
+    return np.asarray(vertices, dtype=np.float32), np.asarray(triangles, dtype="<u4")
+
+
 def claire_hair() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     strands, rows = 80, 28
     vertices = []

@@ -9,9 +9,9 @@ import wave
 import xml.etree.ElementTree as ET
 
 from verona import speech
-from verona.appearance import claire_hair
+from verona.appearance import claire_eyes, claire_hair
 from verona.engine import FaceEngine, expression_condition, pack_positions
-from verona.mesh import claire_topology, read_mesh, reduced_mesh
+from verona.mesh import claire_topology, native_control_mesh, read_mesh, reduced_mesh
 
 import numpy as np
 
@@ -27,6 +27,51 @@ createNode transform -n "unrelated";
 
 
 class MeshTests(unittest.TestCase):
+    def test_native_control_mesh_retains_original_cube_loops_and_winding(self):
+        vertices = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
+                    [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]]
+        faces = [[0, 3, 2, 1], [4, 5, 6, 7], [0, 1, 5, 4],
+                 [3, 7, 6, 2], [0, 4, 7, 3], [1, 2, 6, 5]]
+        midpoints, quads = {}, []
+        for face in faces:
+            mids = []
+            for a, b in zip(face, face[1:] + face[:1]):
+                key = tuple(sorted((a, b)))
+                if key not in midpoints:
+                    midpoints[key] = len(vertices)
+                    vertices.append(((np.array(vertices[a]) + vertices[b]) / 2).tolist())
+                mids.append(midpoints[key])
+            center = len(vertices)
+            vertices.append(np.mean(np.asarray(vertices)[face], axis=0).tolist())
+            quads.extend((face[i], mids[i], center, mids[i - 1]) for i in range(4))
+        vertices = np.asarray(vertices, dtype=np.float32)
+        edges = np.unique(np.sort(np.concatenate(
+            [np.asarray(quads)[:, [i, (i + 1) % 4]] for i in range(4)]), axis=1), axis=0)
+        triangles = np.asarray([t for a, b, c, d in quads for t in ((a, b, c), (a, c, d))])
+        selected, coarse_edges, coarse_triangles = native_control_mesh(vertices, edges, triangles)
+        self.assertEqual(len(selected), 8)
+        self.assertEqual(len(coarse_edges), 12)
+        self.assertEqual(len(coarse_triangles), 12)
+        np.testing.assert_array_equal(np.sort(selected), np.arange(8))
+        p = vertices[selected][coarse_triangles]
+        self.assertTrue(np.all(np.sum(np.cross(p[:, 1] - p[:, 0], p[:, 2] - p[:, 0])
+                                     * p.mean(axis=1), axis=1) > 0))
+        with self.assertRaisesRegex(ValueError, "paired"):
+            native_control_mesh(vertices, edges, triangles[:-1])
+
+    def test_static_eyes_are_bounded_and_have_outward_surface_winding(self):
+        vertices, triangles = claire_eyes()
+        self.assertTrue(np.isfinite(vertices).all())
+        self.assertLess(float(vertices[:, 2].max()), 3.75)
+        self.assertGreater(float(vertices[:, 1].min()), 146)
+        self.assertLess(float(vertices[:, 1].max()), 149)
+        p = vertices[triangles]
+        centers = np.where(p.mean(axis=1)[:, 0, None] < 0,
+                           [-2.9485, 147.5517, 2.2364], [3.1021, 147.4944, 2.2830])
+        outward = np.sum(np.cross(p[:, 1] - p[:, 0], p[:, 2] - p[:, 0])
+                         * (p.mean(axis=1) - centers), axis=1)
+        self.assertTrue(np.all(outward > 0))
+
     def test_hair_leaves_the_central_expression_region_uncovered(self):
         vertices, _, _ = claire_hair()
         in_front_of_face = (np.abs(vertices[:, 0]) < 5) & (vertices[:, 2] > 0)
@@ -42,7 +87,7 @@ class MeshTests(unittest.TestCase):
             cache = Path(directory)
             with (patch("verona.mesh.read_mesh", return_value=(
                     neutral, np.zeros((123036, 2)), np.zeros((123036, 3)))) as read,
-                  patch("verona.mesh.reduced_mesh", return_value=derived)):
+                  patch("verona.mesh.native_control_mesh", return_value=derived)):
                 cold = claire_topology(neutral, Path("unused.ma"), cache, "fixture-v1")
                 warm = claire_topology(neutral, Path("unused.ma"), cache, "fixture-v1")
                 self.assertEqual(read.call_count, 1)

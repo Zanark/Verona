@@ -1,0 +1,52 @@
+ID: vr-10
+Title: Make the female face readable and polished with fluid playback
+
+Status: DONE
+Milestone: Clear eyes, nose and lips in a refined connected-mesh presentation, qualified against a 60-fps render target.
+Dependencies: vr-08
+
+Purpose:
+Address the owner's report that the eyes, nose and mouth are hard to recognize.
+Use supplied images only as visual direction, not copied/published artwork.
+Performance and fluidity at 60 fps take priority; polygon reduction is authorized.
+
+Tasks:
+[x] Preserve recognizable native facial contours in a lighter presentation topology.
+[x] Add directional shading, readable eye/lip details and a polished original style.
+[x] Preserve original audio-clocked learned speech motion, controls and error handling.
+[x] Measure render frame times and qualify visual/functional behavior in isolated Edge.
+[x] Update chapter, TODOs, tracking, causal ledger and reviewed release media.
+
+Acceptance criteria:
+Actual frontal and turned browser captures clearly distinguish the eyes, nose
+and mouth; no reference likeness/artwork is copied or bundled. Render on
+requestAnimationFrame with audio-clocked interpolation, keeping model sampling
+and generation latency distinct from the 60-fps display target. Measure a
+bounded real-browser run rather than promising universal hardware performance.
+Reduce topology if necessary without merging touching lips or relabelling a
+different model identity. No external runtime, device activation, system change,
+personal recording or interruption of an existing user instance.
+
+Completion evidence:
+Native inverse subdivision retains 15,375 original skin indices, 30,759 edges
+and 30,746 triangles: about 75% fewer vertices than full skin. It preserves
+more facial detail than the old voxel surface, not a smaller payload than it.
+Directional smooth shading, original static eyes/iris/pupil and cosmetic brows/
+lips/cavity implemented; points default off. No reference artwork or new package.
+33 unit/HTTP checks and 18 real Edge scenarios pass. Final face-browser-final
+records 361 intervals per density: mean16.691ms, p9516.8ms, max16.9ms,
+zero over25ms at1x and2x;381actualdraws/density during6.3s looping playback.
+Actual frontal/turned/hair-off/speaking PNGs inspected; no page exceptions or
+nonlocal page requests. Muted, not human listening or subjective beauty acceptance.
+The 83-frame payload is7,656,750bytes; no fabricated lower-payload claim.
+
+Completion log:
+2026-11-19 - Owner supplies visual references, requests recognizable polished
+female features, authorizes autonomous implementation and prioritizes 60-fps
+fluidity over polygon count. Release captures will be refreshed afterward.
+2026-11-19 - Native loops and shading qualified at normal/2x density. Eye bounds/
+winding and inverse native topology tested; current chapter08 documents source,
+tradeoffs, actual display observations and remaining accuracy boundaries.
+2026-11-19 - Implementation, qualification, chapter/index/ledger and final
+actual release captures complete. Closing finite presentation work; source
+publication and first release proceed under vr-09, not subjective acceptance.

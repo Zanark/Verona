@@ -8,6 +8,8 @@ vr-05 | 05_SPEECH_FACE_RESEARCH.todo | DONE | Primary-source technology research
 vr-06 | 06_LOCAL_CPU_FEASIBILITY.todo | DONE | Free/local AMD CPU inference feasibility
 vr-07 | 07_TEXT_FACE_PROTOTYPE.todo | DONE | Small local text-to-speaking-face prototype
 vr-08 | 08_PROTOTYPE_FEEDBACK.todo | DONE | Cached startup/repeats, editable Hazel voice and matching Claire head/hair
+vr-09 | 09_PROTOTYPE_RELEASE.todo | IN_PROGRESS | Visual-first README and first source prerelease
+vr-10 | 10_FACE_PRESENTATION.todo | DONE | Readable shaded female face and locally qualified 60-fps rendering
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
@@ -19,4 +21,6 @@ autonomous local text-to-face implementation; vr-07's functional player is
 implemented, qualified and source-published. Launch Verona.cmd.
 vr-08's Hazel/Claire feedback is implemented, qualified and source-published.
 New-line Claire inference remains slower than Mark; chapter07 gives measurements.
+vr-10's chapter08 supersedes the old voxel surface/payload: native contour loops,
+shaded features/static eyes, display target met at1x/2x. vr-09 publication pending.
 Real-speech accuracy and human acceptance are separate gates, not probe results.

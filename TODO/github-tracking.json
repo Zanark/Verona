@@ -99,7 +99,33 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-09": {
+      "source": "TODO/09_PROTOTYPE_RELEASE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABghP6Vg",
+      "number": 8,
+      "url": "https://github.com/Zanark/Verona/issues/8",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhJ9_l8",
+      "title": "Publish the first prototype with a visual-first README",
+      "managedBody": "\n<!-- verona-workstream:vr-09 -->\nWorkstream source: `TODO/09_PROTOTYPE_RELEASE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-09\nTitle: Publish the first prototype with a visual-first README\n\nStatus: IN_PROGRESS\nMilestone: Reviewed actual screenshots/GIFs dominate the README and a source prerelease is published.\nDependencies: vr-08, vr-10\n\nPurpose:\nMake the working local prototype easy to see and obtain, following the owner's\nexplicit request for screenshots, GIFs, commit/push and the first release.\n\nTasks:\n[x] Capture actual synthetic demo media without touching a user browser/runtime.\n[x] Review screenshots and GIF frames; retain provenance and third-party notices.\n[x] Replace the text-heavy README with a visual gallery and linked setup guide.\n[ ] Verify local links/media and reconcile the book, ledger and issue/Project.\n[ ] Commit/push as verified Zanark and publish/read back the exact source prerelease.\n\nAcceptance criteria:\nREADME is visually dominated by real screenshots and multiple animated GIFs,\nnot mockups. No private URL/capability, personal speech, model/native asset,\ncredential or continuity file enters publication. Demo uses a separate RAM\nstate/profile and copied numeric cache, sharing only read-only source/model\nfiles and bounded CPU resources. No app defaults change or active runtime restart.\nRelease is explicitly an early source prerelease, not an installer or accuracy\nacceptance; limitations and fresh-clone setup remain reachable.\n\nCompletion evidence:\nActual final vr-10 renderer captured in isolated Edge using a synthetic greeting\nand the visible preferred Zira settings. Four PNGs and two silent GIFs dominate\nthe README; full operating/setup/limitations text preserved in linked guide.\nGIFs sample the actual generated timeline (not a60fps recording); no source\nreference image, personal speech, capability or downloaded asset is included.\nWindows decoder confirms40/24frames; decoded samples and PNGs inspected.\nExact remote source/tag/release verification pending.\n\nCompletion log:\n2026-11-19 - Owner authorizes visual README, regular commit/push and first\nprototype release. Existing releases empty; PAT login verified as Zanark.\n2026-11-19 - Owner's additional facial/60fps feedback implemented before final\nmedia. Early captures retained privately, replaced in the public gallery.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
+    },
+    "vr-10": {
+      "source": "TODO/10_FACE_PRESENTATION.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABghWQlA",
+      "number": 9,
+      "url": "https://github.com/Zanark/Verona/issues/9",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhJ-Ffc",
+      "title": "Make the female face readable and polished with fluid playback",
+      "managedBody": "\n<!-- verona-workstream:vr-10 -->\nWorkstream source: `TODO/10_FACE_PRESENTATION.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-10\nTitle: Make the female face readable and polished with fluid playback\n\nStatus: DONE\nMilestone: Clear eyes, nose and lips in a refined connected-mesh presentation, qualified against a 60-fps render target.\nDependencies: vr-08\n\nPurpose:\nAddress the owner's report that the eyes, nose and mouth are hard to recognize.\nUse supplied images only as visual direction, not copied/published artwork.\nPerformance and fluidity at 60 fps take priority; polygon reduction is authorized.\n\nTasks:\n[x] Preserve recognizable native facial contours in a lighter presentation topology.\n[x] Add directional shading, readable eye/lip details and a polished original style.\n[x] Preserve original audio-clocked learned speech motion, controls and error handling.\n[x] Measure render frame times and qualify visual/functional behavior in isolated Edge.\n[x] Update chapter, TODOs, tracking, causal ledger and reviewed release media.\n\nAcceptance criteria:\nActual frontal and turned browser captures clearly distinguish the eyes, nose\nand mouth; no reference likeness/artwork is copied or bundled. Render on\nrequestAnimationFrame with audio-clocked interpolation, keeping model sampling\nand generation latency distinct from the 60-fps display target. Measure a\nbounded real-browser run rather than promising universal hardware performance.\nReduce topology if necessary without merging touching lips or relabelling a\ndifferent model identity. No external runtime, device activation, system change,\npersonal recording or interruption of an existing user instance.\n\nCompletion evidence:\nNative inverse subdivision retains 15,375 original skin indices, 30,759 edges\nand 30,746 triangles: about 75% fewer vertices than full skin. It preserves\nmore facial detail than the old voxel surface, not a smaller payload than it.\nDirectional smooth shading, original static eyes/iris/pupil and cosmetic brows/\nlips/cavity implemented; points default off. No reference artwork or new package.\n33 unit/HTTP checks and 18 real Edge scenarios pass. Final face-browser-final\nrecords 361 intervals per density: mean16.691ms, p9516.8ms, max16.9ms,\nzero over25ms at1x and2x;381actualdraws/density during6.3s looping playback.\nActual frontal/turned/hair-off/speaking PNGs inspected; no page exceptions or\nnonlocal page requests. Muted, not human listening or subjective beauty acceptance.\nThe 83-frame payload is7,656,750bytes; no fabricated lower-payload claim.\n\nCompletion log:\n2026-11-19 - Owner supplies visual references, requests recognizable polished\nfemale features, authorizes autonomous implementation and prioritizes 60-fps\nfluidity over polygon count. Release captures will be refreshed afterward.\n2026-11-19 - Native loops and shading qualified at normal/2x density. Eye bounds/\nwinding and inverse native topology tested; current chapter08 documents source,\ntradeoffs, actual display observations and remaining accuracy boundaries.\n2026-11-19 - Implementation, qualification, chapter/index/ledger and final\nactual release captures complete. Closing finite presentation work; source\npublication and first release proceed under vr-09, not subjective acceptance.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-18T17:03:09.148943+00:00"
+  "verifiedAt": "2026-11-18T22:03:10.349928+00:00"
 }

@@ -9,9 +9,11 @@ import subprocess
 import tempfile
 import threading
 import time
+from unittest.mock import patch
 
 from verona.server import LocalServer, create_state
 from verona.speech import POWERSHELL
+from verona.mesh import claire_topology
 
 
 EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
@@ -27,6 +29,13 @@ def main() -> None:
     if not node or not EDGE.is_file():
         parser.error("This optional test needs the existing Node.js and Microsoft Edge.")
     args.output.mkdir(parents=True, exist_ok=False)
+    with (patch("verona.engine.claire_topology", side_effect=lambda neutral, scene, cache, fingerprint:
+                claire_topology(neutral, scene, args.output / "derived-cache", fingerprint)),
+          patch("verona.speech.ROOT", args.output.resolve())):
+        run_browser(args, node)
+
+
+def run_browser(args, node) -> None:
     state = create_state()
     server = LocalServer(0, state)
     thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": .05})

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "captureDate": "2026-11-19",
+  "sourceBase": "fe4469ad0e79b59c47abe40aa4b87bdbd69db6c8",
+  "candidate": "vr-10 native facial presentation; exact source hashes below",
+  "rendererSources": {
+    "verona/web/app.js": "fad8de7290cba4a494758958a92f544d73db67d12fcb24d9a35b776a16d210b9",
+    "verona/web/index.html": "0ec7175396d7d1dd2c84267379f32294cc6b7417303d3e352ecfed8b757a9c8b",
+    "verona/mesh.py": "e84cfb7ae7ab5719035b0ff4af5b9170b24361da13ee9ac74aa8043cd647f4d0",
+    "verona/engine.py": "a193e8e4ff7e9b52e9edb5b8bc5bdf25f1d1c584c57b874b1628c60b7a3c6b53",
+    "verona/appearance.py": "4ad1c92e5f3bc641c2a173b6cfca852b25f89547ccd3025c7c75696e355edb47"
+  },
+  "voice": "Microsoft Zira Desktop",
+  "voiceSettings": {
+    "pitch": 8,
+    "rate": -2,
+    "bass": 6,
+    "treble": -3,
+    "emphasis": "none"
+  },
+  "sentence": "Hey, how are you?",
+  "audioIncluded": false,
+  "speechTimelineSeconds": 3.295,
+  "speakingGifFrames": 40,
+  "speakingGifSeconds": 3.3,
+  "turntableFrames": 24,
+  "turntableSeconds": 1.92,
+  "gifEncoding": "Original shared median-cut 256-color palette; Windows System.Drawing; no dithering; local palettes; infinite loop",
+  "files": {
+    "overview.png": {
+      "bytes": 361317,
+      "dimensions": [
+        1280,
+        1100
+      ],
+      "sha256": "bc53c97915e850a6af7a9da26c08faaea839bb0d7495546b7f3439d3892642e0"
+    },
+    "skin-only.png": {
+      "bytes": 280372,
+      "dimensions": [
+        858,
+        650
+      ],
+      "sha256": "a3782a4a07f0d817f74a576c314d2c12b4b520f2c115b34e8b686fcde6f5215c"
+    },
+    "speaking.gif": {
+      "bytes": 3687812,
+      "dimensions": [
+        640,
+        485
+      ],
+      "sha256": "3fd87a45f4e8c4fea70ada451c0ec24d0420cf46d5c6bab4259731250a9741b1"
+    },
+    "turned.png": {
+      "bytes": 273252,
+      "dimensions": [
+        858,
+        650
+      ],
+      "sha256": "a744de8e5f14d572e89500d1d1a18b3ef9e4e2cf01ab3bd5936e0ac7fcaf6cf7"
+    },
+    "turntable.gif": {
+      "bytes": 2189504,
+      "dimensions": [
+        640,
+        485
+      ],
+      "sha256": "282c7c44f78f819288e3b9fb35bb3f9a7ab55a40813edbacab3f74c78e1950a0"
+    },
+    "voice-controls.png": {
+      "bytes": 14337,
+      "dimensions": [
+        350,
+        580
+      ],
+      "sha256": "bb375aa2b58b8764aea7bd506b55c9ec8a3e3bc61a93d85c40cc3ada5e417447"
+    }
+  }
+}

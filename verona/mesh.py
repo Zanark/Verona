@@ -1,6 +1,7 @@
 """Read fixed Maya numerical arrays without executing any scene commands."""
 
 from pathlib import Path
+from collections import deque
 import hashlib
 import re
 import tempfile
@@ -134,6 +135,101 @@ def reduced_mesh(
     return selected, compact_edges.astype("<u4"), compact_triangles[keep].astype("<u4")
 
 
+def native_control_mesh(
+    vertices: np.ndarray, edges: np.ndarray, triangles: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Undo one pinned quad subdivision topologically, retaining native vertices."""
+    if len(triangles) % 2:
+        raise ValueError("Native subdivision requires paired quad triangles.")
+    first, second = triangles[::2], triangles[1::2]
+    if not (np.array_equal(first[:, 0], second[:, 0])
+            and np.array_equal(first[:, 2], second[:, 1])):
+        raise ValueError("Native subdivision quad fans changed.")
+    quads = np.column_stack((first, second[:, 2]))
+    adjacency = [[] for _ in vertices]
+    for a, b in edges:
+        adjacency[a].append(int(b))
+        adjacency[b].append(int(a))
+    degree = np.asarray(list(map(len, adjacency)))
+    seeds = np.flatnonzero(degree != 4)
+    if not len(seeds):
+        raise ValueError("Native subdivision has no unambiguous extraordinary vertex.")
+
+    def color_graph(graph, seed):
+        colors = np.full(len(vertices), -1, dtype=np.int8)
+        colors[seed] = 0
+        pending = deque([int(seed)])
+        while pending:
+            a = pending.popleft()
+            for b in graph[a]:
+                if colors[b] < 0:
+                    colors[b] = 1 - colors[a]
+                    pending.append(b)
+                elif colors[b] == colors[a]:
+                    raise ValueError("Native subdivision graph is not bipartite.")
+        return colors
+
+    parity = color_graph(adjacency, int(seeds[0]))
+    if np.any(parity < 0) or np.any(parity[seeds] != 0):
+        raise ValueError("Native subdivision edge-point partition changed.")
+    diagonals = [[] for _ in vertices]
+    for quad in quads:
+        a, b = (quad[[0, 2]] if parity[quad[0]] == 0 else quad[[1, 3]])
+        diagonals[a].append(int(b))
+        diagonals[b].append(int(a))
+    classes = color_graph(diagonals, int(seeds[0]))
+    if np.any(classes[parity == 0] < 0):
+        raise ValueError("Native subdivision face partition is disconnected.")
+    # Face centers may have valence three or four, never the pinned five/six.
+    if np.any(degree[classes == 1] > 4):
+        classes[parity == 0] = 1 - classes[parity == 0]
+    if np.any((degree[classes == 1] < 3) | (degree[classes == 1] > 4)):
+        raise ValueError("Unsupported native subdivision face valence.")
+    selected = np.flatnonzero(classes == 0).astype(np.int32)
+    mapping = np.full(len(vertices), -1, dtype=np.int32)
+    mapping[selected] = np.arange(len(selected))
+    endpoints = {}
+    for midpoint in np.flatnonzero(parity == 1):
+        ends = [i for i in adjacency[midpoint] if classes[i] == 0]
+        if len(ends) != 2:
+            raise ValueError("Native edge point must connect two original vertices.")
+        endpoints[int(midpoint)] = ends
+    coarse_edges = np.asarray(list(endpoints.values()), dtype=np.int32)
+    face_normals = np.cross(vertices[quads[:, 1]] - vertices[quads[:, 0]],
+                            vertices[quads[:, 2]] - vertices[quads[:, 0]])
+    reference_normals = np.zeros_like(vertices)
+    for column in range(4):
+        np.add.at(reference_normals, quads[:, column], face_normals)
+    coarse_triangles = []
+    for center in np.flatnonzero(classes == 1):
+        pairs = [endpoints[i] for i in adjacency[center]]
+        around = {}
+        for a, b in pairs:
+            around.setdefault(a, []).append(b)
+            around.setdefault(b, []).append(a)
+        if len(around) != len(pairs) or any(len(n) != 2 for n in around.values()):
+            raise ValueError("Native control polygon is not a simple closed loop.")
+        loop = [min(around)]
+        previous = -1
+        while len(loop) < len(around):
+            neighbors = around[loop[-1]]
+            following = next(i for i in neighbors if i != previous)
+            if following in loop:
+                raise ValueError("Native control polygon closes prematurely.")
+            previous = loop[-1]
+            loop.append(following)
+        if loop[0] not in around[loop[-1]]:
+            raise ValueError("Native control polygon does not close.")
+        points = vertices[loop] - vertices[center]
+        normal = np.cross(points, np.roll(points, -1, axis=0)).sum(axis=0)
+        if np.dot(normal, reference_normals[center]) < 0:
+            loop.reverse()
+        coarse_triangles.extend((loop[0], loop[i], loop[i + 1])
+                                for i in range(1, len(loop) - 1))
+    return (selected, mapping[coarse_edges].astype("<u4"),
+            mapping[np.asarray(coarse_triangles)].astype("<u4"))
+
+
 def claire_topology(
     neutral: np.ndarray, scene: Path, cache: Path, fingerprint: str,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, float]:
@@ -164,7 +260,7 @@ def claire_topology(
     maximum = float(np.max(distances))
     if maximum > 1.1 or np.median(distances) > .08:
         raise ValueError("Claire per-index native rest correspondence changed.")
-    selected, edges, triangles = reduced_mesh(neutral, edges, triangles, (138.7, 141.8), 4.5)
+    selected, edges, triangles = native_control_mesh(neutral, edges, triangles)
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(dir=cache, delete=False) as stream:

@@ -8,6 +8,8 @@ audio-clocked browser player exist. Chapter 06 records their actual mechanisms,
 real-browser qualification and still-unaccepted articulation limits.
 Chapter 07 extends that baseline with editable Hazel, native Claire/hair and
 measured caching/performance mechanisms.
+Chapter 08 supersedes its presentation topology with native quad contours,
+shaded features, static cosmetic eyes and measured 60-fps display qualification.
 
 ## Reading paths
 
@@ -23,6 +25,7 @@ and accuracy-qualification reading path.
 5. [Local CPU feasibility: real ONNX inference, not yet lip-sync acceptance](chapters/05-local-cpu-feasibility.md)
 6. [Text to local speech, matching topology and complete face clips](chapters/06-text-to-face-prototype.md)
 7. [Editable Hazel, matching Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
+8. [Readable facial definition and measured display fluidity](chapters/08-facial-definition-and-fluidity.md)
 
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.

@@ -111,12 +111,14 @@ try {
       const canvas=document.getElementById("face"), gl=canvas.getContext("webgl2");
       const pixels=new Uint8Array(canvas.width*canvas.height*4);
       gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
-      let colored=0;
-      for(let i=0;i<pixels.length;i+=4) if(pixels[i+1]>60 && pixels[i+1]>pixels[i]*1.3)colored++;
-      return {error:gl.getError(),colored,width:canvas.width,height:canvas.height};
+      let colored=0, low=255, high=0;
+      for(let i=0;i<pixels.length;i+=4) if(pixels[i+1]>45 && pixels[i+2]>45){
+        colored++;low=Math.min(low,pixels[i+1]);high=Math.max(high,pixels[i+1]);}
+      return {error:gl.getError(),colored,contrast:high-low,width:canvas.width,height:canvas.height};
     })()`);
     assert.equal(result.error, 0);
     assert(result.colored > 1000, JSON.stringify(result));
+    assert(result.contrast > 40, JSON.stringify(result));
     report.renderer = result;
     await screenshot("01-neutral");
   });
@@ -124,7 +126,7 @@ try {
     const hairPixels = await evaluate(`(() => {
       const count=()=>{const c=document.getElementById("face"),g=c.getContext("webgl2");
         const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
-        let n=0;for(let i=0;i<p.length;i+=4)if(p[i+2]>70&&p[i+2]>p[i]*1.1&&p[i+2]>p[i+1]*1.3)n++;return n;};
+        let n=0;for(let i=0;i<p.length;i+=4)if(p[i+2]>25&&p[i+2]>p[i]*1.15&&p[i+2]>p[i+1]*1.15)n++;return n;};
       document.getElementById("hair").dispatchEvent(new Event("input"));const on=count();
       document.getElementById("hair").checked=false;
       document.getElementById("hair").dispatchEvent(new Event("input"));return {on,off:count()};
@@ -176,6 +178,67 @@ try {
     await click("play");
     await waitFor(`document.getElementById("audio").currentTime>${paused.time + .12}`);
     await click("play");
+  });
+  await check("Shaded native contours, static cosmetic eyes and diagnostic point/edge toggles", async () => {
+    const data = await evaluate(`(async()=>{
+      const session=await (await fetch("/api/session",{headers:{"X-Verona-Token":location.hash.slice(1)}})).json();
+      const canvas=document.getElementById("face"), gl=canvas.getContext("webgl2");
+      const pixels=()=>{const p=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,p);return p;};
+      const before=pixels();
+      for(const id of ["points","edges"]){const e=document.getElementById(id);e.checked=!e.checked;e.dispatchEvent(new Event("input"));}
+      const after=pixels();let changed=0;
+      for(let i=0;i<before.length;i+=4)if(Math.abs(before[i]-after[i])+Math.abs(before[i+1]-after[i+1])+Math.abs(before[i+2]-after[i+2])>10)changed++;
+      for(const id of ["points","edges"]){const e=document.getElementById(id);e.checked=!e.checked;e.dispatchEvent(new Event("input"));}
+      return {changed,error:gl.getError(),mesh:session.mesh};
+    })()`);
+    assert.equal(data.error,0);
+    assert(data.changed>1000);
+    assert.equal(data.mesh.vertices,15375);
+    assert.equal(data.mesh.edges,30759);
+    assert.equal(data.mesh.triangles,30746);
+    assert.match(data.mesh.eyes.animation,/static/);
+    report.presentation = data;
+  });
+  await check("Real playback render cadence meets the local 60-fps target at 1x and 2x pixel density", async () => {
+    await evaluate(`document.getElementById("audio").loop=true;document.getElementById("audio").currentTime=0;`);
+    await click("play");
+    await evaluate(`(()=>{
+      const gl=document.getElementById("face").getContext("webgl2"),original=gl.clear;
+      window.renderProbe={frames:0,restore:()=>{gl.clear=original;}};
+      gl.clear=function(...args){window.renderProbe.frames++;return original.apply(this,args);};
+    })()`);
+    report.renderCadence = [];
+    for (const density of [1,2]) {
+      await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:density,mobile:false });
+      await delay(150);
+    const timing = await evaluate(`new Promise(resolve=>{
+      const intervals=[];let previous=0,start=0;
+      const firstDraw=window.renderProbe.frames;
+      function sample(now){
+        if(!start)start=now;
+        if(previous && now-start>300)intervals.push(now-previous);
+        previous=now;
+        if(now-start<6300)requestAnimationFrame(sample);
+        else {
+          const sorted=intervals.slice().sort((a,b)=>a-b);
+          resolve({samples:sorted.length,meanMs:intervals.reduce((a,b)=>a+b,0)/intervals.length,
+            p95Ms:sorted[Math.floor(sorted.length*.95)],maxMs:sorted.at(-1),
+            over25Ms:sorted.filter(t=>t>25).length,viewport:[innerWidth,innerHeight],
+            canvas:[document.getElementById("face").width,document.getElementById("face").height],
+            submittedDraws:window.renderProbe.frames-firstDraw,
+            playing:!document.getElementById("audio").paused});
+        }
+      }requestAnimationFrame(sample);
+    })`);
+    report.renderCadence.push({...timing,density});
+    assert.equal(timing.playing,true);
+    assert(timing.samples>300,JSON.stringify(timing));
+    assert(timing.submittedDraws>=timing.samples,JSON.stringify(timing));
+    assert(timing.meanMs<17.55 && timing.p95Ms<20,JSON.stringify(timing));
+    }
+    await click("play");
+    await evaluate(`document.getElementById("audio").loop=false;window.renderProbe.restore();delete window.renderProbe;`);
+    await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:1,mobile:false });
   });
   await check("Seek selects the corresponding original-time neural frame", async () => {
     await evaluate(`document.getElementById("seek").value="1.25";document.getElementById("seek").dispatchEvent(new Event("input"));`);
