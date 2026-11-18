@@ -2,7 +2,7 @@ ID: vr-08
 Title: Improve speed, Hazel voice shaping and feminine head with hair
 GitHub issue: https://github.com/Zanark/Verona/issues/7
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: The same local prototype responds faster and presents customizable Hazel speech with a feminine mesh.
 Dependencies: vr-07
 
@@ -16,7 +16,7 @@ Tasks:
 [x] Default to Hazel and expose bounded, actually working voice-shaping controls.
 [x] Use a matching feminine native identity and add lightweight procedural hair.
 [x] Verify waveform controls, native correspondence, real-browser behavior and performance.
-[ ] Update book, tracking, causal ledger and owned continuity; publish verified work.
+[x] Update book, tracking, causal ledger and owned continuity; publish verified work.
 
 Acceptance criteria:
 Hazel is the explicit default; controls change generated speech rather than only
@@ -55,3 +55,8 @@ feminine head, optionally hair, in the same prototype. Work starts from7c12a34.
 Book/tracking/publication and final measured candidate remain in progress.
 2026-11-18 - Final candidate qualified; original issue7/Project item verified
 In Progress. Chapter07 explains mechanisms, failed checks and actual tradeoffs.
+2026-11-18 - Feature committed/pushed as
+ea85a11dccf66376daa7679a76645013197184a6; exact remote main verified. Both
+identities Zanark, required trailers, source-only scope. Book/TODO/ledger and
+owned continuity reconciled; closing this finite feedback scope, not accepting
+human listening/phonetic accuracy. Completion/tracking receipt follows.
