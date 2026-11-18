@@ -1,7 +1,7 @@
 ID: vr-09
 Title: Publish the first prototype with a visual-first README
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Reviewed actual screenshots/GIFs dominate the README and a source prerelease is published.
 Dependencies: vr-08, vr-10
 
@@ -13,8 +13,8 @@ Tasks:
 [x] Capture actual synthetic demo media without touching a user browser/runtime.
 [x] Review screenshots and GIF frames; retain provenance and third-party notices.
 [x] Replace the text-heavy README with a visual gallery and linked setup guide.
-[ ] Verify local links/media and reconcile the book, ledger and issue/Project.
-[ ] Commit/push as verified Zanark and publish/read back the exact source prerelease.
+[x] Verify local links/media and reconcile the book, ledger and issue/Project.
+[x] Commit/push as verified Zanark and publish/read back the exact source prerelease.
 
 Acceptance criteria:
 README is visually dominated by real screenshots and multiple animated GIFs,
@@ -32,10 +32,26 @@ the README; full operating/setup/limitations text preserved in linked guide.
 GIFs sample the actual generated timeline (not a60fps recording); no source
 reference image, personal speech, capability or downloaded asset is included.
 Windows decoder confirms40/24frames; decoded samples and PNGs inspected.
-Exact remote source/tag/release verification pending.
+Source2c4a13ae5e16100fbd12495cb60a755132624425 committed/pushed as Zanark,
+both identities/trailers verified; exact main readback. First source prerelease:
+https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1
+Release450614582, published/notdraft/prerelease; tag verified at exact source.
+Release body readback matches after GitHub's CRLF normalization. Six remote
+media Git blobs match local committed blobs; GitHub-rendered README has six
+images including two GIFs with alt text. No binary/model/voice assets uploaded;
+GitHub provides source archives. Seventy-five local links, ten book sources,
+all eight TODO fields and source/media hashes verified.
+All9original issues and saved Project15items read back Closed/Done, including
+vr-09/issue8 and vr-10/issue9. No duplicate issue/Project item or new automation.
 
 Completion log:
 2026-11-19 - Owner authorizes visual README, regular commit/push and first
 prototype release. Existing releases empty; PAT login verified as Zanark.
 2026-11-19 - Owner's additional facial/60fps feedback implemented before final
 media. Early captures retained privately, replaced in the public gallery.
+2026-11-19 - Reviewed31source/docs/test/media/tracking files committed/pushed;
+exact source/tag/release/renderedREADME/media readback verified. Initial body
+comparison caught GitHub's newline normalization; inspected exact existing
+release and resumed readback without recreating/reposting. All9issue bodies/
+states and original Projectitems verified Closed/Done; completion receipt
+retains the immutable source tag. No installer/book edition/deployment claim.

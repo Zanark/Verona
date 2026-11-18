@@ -12,6 +12,7 @@ Windows voices, CPU neural motion, connected native contours. No camera, microph
 
 **Generate face** then **Play**. Keep the terminal open; **Ctrl+C** stops it.
 Fresh checkout? [Setup, controls and limits](docs/prototype-guide.md).
+[First source prerelease](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1).
 
 ## The prototype
 

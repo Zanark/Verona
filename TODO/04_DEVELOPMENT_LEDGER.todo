@@ -1,6 +1,21 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - First visual prototype source prerelease published
+Action: Reviewed31intended files committed/pushed as
+2c4a13ae5e16100fbd12495cb60a755132624425 with verified Zanark author/committer,
+required trailers, PAT-only HTTPS and exact remote main readback.
+Publication: v0.1.0-prototype.1, release450614582, published prerelease/notdraft
+at that exact commit. No binary/model/native scene/voice/reference image upload.
+Evidence: Exact tag/body readback, six remote media blobs match; GitHub-rendered
+README has six images/two GIFs with alt text. Original body comparison caught
+GitHub CRLF normalization; inspected and resumed verification, no duplicate
+release or silent overwrite.75local links/10book sources/eightTODOfields/hash
+receipts validated. All9issues/original Project15items read back Closed/Done,
+including vr-09/issue8. Stable mappings retained; no duplicate cards/automation.
+Effect: Visual-first gallery, linked setup/limits, source archives and explicit
+prototype qualification are available. No installer, book edition or deployment.
+
 2026-11-19 - Native facial definition and display cadence qualified
 Cause: Owner could not identify the eyes/nose/mouth, supplied visual references
 and prioritized60fps fluidity over polygon count while retaining a female face.
