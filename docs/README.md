@@ -41,12 +41,15 @@ Chapter09's vr-28 explains reversible monochrome Claire and default-off matching
 wire/dot/grid hairstyles, per-view visibility, shared selection and bounded fits.
 Chapter09's vr-29 supersedes the hair inventory with only original waves and
 48-lock Spiral curls, adds FaceMesh-only red mechanical irises and explicit Angry
-conditioning. New GIF capture and the planned captioned/collapsible README
-are paused for the owner's in-app review; older previews are not new-eye evidence.
+conditioning. After the owner's appearance approval, its20-GIF/two-screenshot
+gallery includes current48-lock curls, captioned reader-facing red eyes,
+a separate XYZ loop, matching hair and monochrome previews. Only the huge
+centered hero sits outside the single default-closed README section.
 Chapter09's vr-30 adds a separate original procedural armored robot, sparse
 speech-clock retargeting and selected-only rigid geometry. It records no-image
-native qualification and limits, plus the requested 30% FaceMesh eye dimming;
-neither change releases the paused media gate.
+native qualification and limits, plus the requested 30% FaceMesh eye dimming.
+The later approved gallery includes its real speaking/turning loop and native
+interface screenshot; no official model, voice or new accuracy claim.
 
 ## Reading paths
 

@@ -1,6 +1,42 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-29 approved current gallery and reader-facing disclosure
+Cause: after the eye/robot review pause, owner reports everything looks good
+and explicitly requests updated screenshots, robot coverage, GIF-heavy README
+with previous collapse contract, and a push. No new release requested.
+Action: preserve runtimef4bcdca; capture20currentGIFs/967frames and two native
+interface PNGs in hidden sandboxed production Electron with separate capability/
+RAM/cache/synthesis/profile owners. No stable-use/sibling app, profile, cursor
+or device driven. Original procedural robot is actual rendered geometry, not
+supplied artwork. Both hair turntables show current options/48-lock curls.
+Huge800x920hero/321frames/26.59s edits nine actual expression-conditioned
+speech phrases with matching cyan captions in the same frames. Only this
+front-facing GIF precedes the default-closed details; all other content inside,
+including separate signedXYZ/6s, robot/8s, matching-hair/grayscale/control loops.
+Evidence: independent decode verifies every frame's alpha threshold, dimensions,
+positive exact delays and changing content. Decoded samples of all20GIFs/all
+nine hero phrases and both UI PNGs visually inspected, not every-frame review.
+GitHub Markdown API HTML/publicCSS in owned browser at1200/768/390 verifies
+default closure/onlyhero outside, seven equal/topaligned pairs, six centered
+solos, natural ratios/nooverflow; actual closed/narrow/hairpair inspected.
+Exact runtime raw hashes/Gitblobs, media/rawPNG hashes, poses/voices/delays in
+docs/media/two-styles-red-mesh-provenance.json. Runtime unchanged; owners and
+disposable profiles stopped/removed. Historical receipts/releases preserved.
+Failures retained:01/02 screenshot block nested inside group loop switched out
+of overlay, not native sizing; sizing-only probe confirms it.03 rejects dense
+dot state with excessive pixel threshold; readable65%max demonstration does
+not alter actual80%control.04 decoded review catches native capturePage's
+previous-state compositor image and faint dot previews.05 settles native UI
+with three compositor captures and selects actual0.75x/20%dot preview controls;
+other completed groups reused only with exact sourcehash/rawPNGcopy equality.
+First layout fixture used bounding-box size for closed-details visibility;
+Chromium retains layout boxes. checkVisibility verifies actual painted state,
+with separate untouched-default assertion. No production/security gate relaxed.
+Limits: sampled silentGIF/binaryalpha, no listening/phonetic/realistic-expression
+proof, new60fps guarantee, official model/voice, release or book edition.
+Tracking/source push/readback and private continuity are separate delivery gates.
+
 2026-11-20 - vr-30 verified source checkpoint published
 Source9d2ca4c4c784ab1d851be675c146dfc26620302b committed/pushed asZanark;
 bothauthor/committer andrequiredtrailers verified. RemoteMain/all20changed

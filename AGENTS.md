@@ -76,8 +76,10 @@ the same audio clock. robot.mjs builds2154triangles/33groups;66buffers/34draws
 are deleted on exit, with no frame geometry/normal rebuilding. Fixed Armored
 head framing, existing gaze/XYZ/zoom/desktop owners, no hair/skin controls,
 no official model/artwork/voice or Realistic resumption. Chapter09 records
-mechanisms and no-image native qualification; appearance/phonetic/cadence
-acceptance are separate. No capture, README redesign or user-runtime restart.
+mechanisms and no-image native qualification; phonetic/cadence acceptance
+remains separate. The owner subsequently approved the current appearance and
+authorized updated GIFs/screenshots, including the robot, and a source push.
+That media-only delivery does not authorize a release or user-runtime restart.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
@@ -128,15 +130,17 @@ and design principles identifiable as the implementation grows.
 Keep the README GIF-heavy and showcase every hairstyle. Center every GIF that
 is alone on its row; an unpaired table GIF spans both columns. Paired previews
 use equal-width centered cells and the same image width, with natural aspect ratio.
-Media work is PAUSED pending the owner's in-app eye review: do not capture
-new snaps/GIFs or publish the redesigned README before approval.
-After approval, the planned huge front-facing red-eye speech GIF comes FIRST,
-before even the title. All other README content will live inside one details
+The owner's eye-review pause was explicitly lifted after their approval.
+The current huge front-facing red-eye speech GIF comes FIRST,
+before even the title. All other README content lives inside one details
 section closed by default; the separate XYZ-turning FaceMesh GIF belongs inside
-it, not in the hero. The planned fictional horror dialogue uses explicit bounded neural expressions,
+it, not in the hero. The fictional horror dialogue uses explicit bounded neural expressions,
 including Angry channel1, and cyan phrase captions burned into the same GIF
 below the face. No inferred emotion, real-time subtitle alignment, audio-in-GIF,
 face capture or realistic-expression acceptance claim.
+The current gallery has20GIFs/two interface PNGs, both48-frame hair turntables
+and original robot media, with exact source/capture hashes and decoded alpha/
+timing evidence in docs/media/two-styles-red-mesh-provenance.json.
 
 Never include .agent-context, raw conversation, credentials, camera endpoints,
 personal calibration, recordings or private sibling material in issues,

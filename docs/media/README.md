@@ -1,24 +1,69 @@
 # Prototype media receipt
 
-## vr-29 media gate: waiting for in-app eye review
+## Current approved gallery: vr-29, including vr-30 robot
 
-The owner paused all new snaps/GIF capture and README redesign until trying the
-mechanical red eyes in the app. No new media capture/encoding pipeline has run.
-The current hero and both retained hair GIFs are unchanged; the curls preview
-still shows24 locks, while the implementation now has48. Nine rejected hair
-GIFs are removed from the current checkout, not moved to another gallery.
+After their in-app review, the owner explicitly approved the current appearance
+and requested updated screenshots/GIFs, robot coverage and a push. The old pause
+is resolved. The README now embeds **20GIFs and two interface PNGs**. Only its
+huge centered captioned hero precedes a single default-closed`details`; the
+title and everything else, including the separate XYZ loop, are inside.
 
-After approval, the planned main GIF will directly address the reader with
-explicit neural expressions and cyan phrase captions embedded below the face
-in the same frames. It will precede the title; one collapsed-by-default section
-will contain everything else, including a separate XYZ demo and matching hair
-turntables. Capture/source hashes, decoded transparency/timing and actual
-light/dark review must be recorded then, not inferred from prepared helpers.
+[`two-styles-red-mesh-provenance.json`](two-styles-red-mesh-provenance.json)
+records all22 file hashes, exact runtime source hashes/normalized Git blobs,
+original PNG hashes, poses, voice settings, expression inputs and frame delays.
+The unchanged runtime base is`f4bcdca27b54ac068d77135f6f0c0f5bb5c46236`.
+
+| Files | Current content and timing |
+|---|---|
+| `gallery-facemesh-transparent.gif` |800x920:800-square transparent face plus120px cyan caption area;321frames/26.59s; nine real explicitly conditioned dialogue clips |
+| `gallery-facemesh-xyz.gif` |640square;72frames/6s; sampled speech and signed X/Y/Z view rotations |
+| `gallery-robot-speaking.gif` |720square;96frames/8s; original blue/silver rigid armor, cyan optics and speech-driven articulation with authored turns |
+| `gallery-hair-{claire,curls}.gif` |640x664;48frames/4.8s each; matching turns, full bust/reference color/80% zoom; curls actually has48 locks |
+| `gallery-view-{claire,facemesh,facedot,uniform}.gif` |640x664;36frames/3s each; manual turns of a paused speech pose; Claire selects reference color/makeup |
+| `gallery-matching-{facemesh,facedot,uniform}.gif` |640x664;36frames/3.6s each; optional48-lock curls in matching wire/dot/grid |
+| `gallery-pattern-{facedot,uniform}.gif` |640x664;8discrete control samples/4s each; maximum demonstrated gap65%, actual control still0-80% |
+| `gallery-cursor-{eyes,head}.gif` |640x664;32samples/3.2s each; synthetic pointer states inside the owned renderer |
+| `gallery-jawline.gif`, `gallery-zoom.gif` |640x664;12samples each,6s/4s; actual neck/zoom control states |
+| `gallery-colors.gif` |640x664;24frames/4.8s; actual color/grayscale states with48-lock curls |
+| `gallery-overlay-controls.gif` |640x800;two native collapsed/expanded states/2s, binary transparency |
+| `gallery-overview.png`, `gallery-robot-overview.png` |1280x1100 actual current native interface/paused generated speech; not full-page scroll captures |
+
+FaceDot previews choose0.75x density/20% gap for legibility; app defaults remain
+1x/0%. All GIFs repeat silently; voice stays in the application, not the gallery.
+The hero's neutral/happy/angry/surprised/sad phrases are actual separate local
+generation inputs, not inferred emotions. Cyan RGB(77,232,219) captions live in
+the same frames and follow real phrase durations rounded to centiseconds;
+no separate HTML loop, word-level alignment or continuous one-take claim.
+Fictional direct-address horror dialogue adds no face-capture capability.
+
+Capture uses a hidden, sandboxed production Electron renderer with its real
+preload, muted Hazel, pin/follow disabled and separate loopback/RAM/cache/
+synthesis/profile owners. No user/sibling window, profile, cursor, camera or
+microphone was driven. Canvas reads synchronously redraw first; native UI reads
+settle the compositor with three captures, avoiding its previous-state image.
+Only owned canvas/UI pixels are exported. All owned processes stopped and
+disposable profiles were removed.
+
+The existing local encoder uses255 visible colors plus transparent index0.
+Source alpha below128 becomes transparent, higher coverage opaque; GIF cannot
+preserve partial-alpha antialiasing/glass. Full-size disposal2 frames avoid
+ghosts. All967 encoded frames were independently decoded and compared to their
+original alpha thresholds, dimensions/delays and changing content. Decoded
+samples of every GIF/all nine hero phrases were visually reviewed over light/
+dark, plus both native PNGs. This is sample review, not every-frame visual
+approval, a new cadence measurement or independent listening/phonetic acceptance.
+
+Actual GitHub GFM output/public CSS passed owned local browser checks at
+1200/768/390px: default closed, only hero outside, seven equal/top-aligned pairs,
+six centered solo GIFs, natural ratios and no overflow. Closed/narrow and
+hair-pair screenshots were inspected; this is not signed-in GitHub chrome.
+Capture/layout fixture failures and corrected native compositor lag remain
+recorded privately and in chapter09. The deliberately GIF-heavy gallery can
+load slowly. No runtime source, dependency, model, release or book edition changed.
 
 Older receipts below describe **their original versions**, not current hash or
-file-existence promises. They and immutable releases remain historical evidence;
-current main removes nine rejected payloads but has not yet replaced the hero
-or retained previews. Runtime never loads documentation GIFs.
+file-existence promises. Immutable releases remain historical; nine rejected
+hair payloads stay removed. Runtime never loads documentation GIFs.
 
 ## Historical vr-27 layout and transparent hero correction
 

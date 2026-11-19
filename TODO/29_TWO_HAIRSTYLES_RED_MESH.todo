@@ -2,8 +2,8 @@ ID: vr-29
 Title: Keep two hairstyles, double spiral locks and add mechanical red FaceMesh eyes
 GitHub issue: https://github.com/Zanark/Verona/issues/28
 
-Status: IN_PROGRESS
-Milestone: Runnable mechanical red eyes for owner review; capture/README publication paused until approval.
+Status: DONE
+Milestone: Owner-approved appearance; current20-GIF/two-screenshot gallery with captioned hero and robot.
 Dependencies: vr-22, vr-27, vr-28
 
 Purpose:
@@ -20,9 +20,11 @@ Tasks:
 [x] Qualify both styles, exact defaults/restoration, allocations and live cadence on the initial eye build.
 [x] Implement red mechanical cores/rings/spokes and qualify in-memory without new images.
 [x] Reduce only FaceMesh iris RGB30%, preserving structure, depth and other optics.
-[ ] Owner reviews mechanical red eyes in the local app.
-[ ] Capture captioned reader-facing emotional dialogue, separate XYZ loop and both hair turntables.
-[ ] Update current guide/book/gallery, issue/Project, verified source and continuity.
+[x] Owner reviews current appearance and explicitly resumes media/push.
+[x] Capture captioned reader-facing dialogue, separate XYZ, both hair turntables and vr30 robot.
+[x] Independently decode all967 frames; inspect actual samples and responsive closed/expanded layout.
+[x] Update current contributor/book/gallery contracts and completion evidence.
+[ ] Complete issue/Project reconciliation, verified source delivery and owned continuity.
 
 Acceptance criteria:
 The selector and generator expose only original Claire and Spiral curls.
@@ -46,12 +48,27 @@ happy/angry/surprised/sad neural inputs and cyan subtitles embedded below the
 face in the same GIF frames. Captions follow phrase timing without independent
 HTML timers. Emotional/phonetic realism remains separate human acceptance.
 Record exact capture/source hashes and alpha/dimension/timing checks.
-Do not begin new snaps/GIF capture or README redesign until owner review/approval.
+The initial capture pause requires explicit owner review/approval; subsequently
+received. Appearance approval is not phonetic/listening/realistic-expression proof.
 Do not rewrite Git history, releases, prior qualification receipts or evidence.
 No automatic user-runtime restart, sibling/device/profile access or new dependency.
 
 Completion evidence:
-Runtime implemented; overall workstream remains IN_PROGRESS for owner review/media.
+Runtime implemented and owner appearance approval received; approved media complete.
+Current20GIFs/two native interface PNGs pin unchanged runtimef4bcdca27b54ac068d77135f6f0c0f5bb5c46236
+in docs/media/two-styles-red-mesh-provenance.json. Final capture05 owns isolated
+hidden sandboxed native/server/cache/synthesis/profile lanes; cleanup passes.
+Source-verified completed frames from03/04 copied exactly, not recaptured/faked.
+321-frame800x920hero/26.59s: nine real expression-conditioned phrases with
+embedded cyan captions. Separate72-frameXYZ/6s,96-frame robot/8s, two48-frame
+hair turntables/4.8s, current48-lock curls, matching-format hair/grayscale/
+controls/cursor loops. Actual Claire/robot UI screenshots1280x1100.
+Independent decode checks every967frame alpha/dimensions/delay/content.
+Actual decoded samples of all20GIFs/allninehero phrases and both PNGs visually
+inspected; not every-frame visual approval or independent listening.
+GitHub-renderedGFM/publicCSS owned browser layout05 passes1200/768/390:
+onlyhero outside one default-closed details, sevenequal/topalignedpairs,
+sixcenteredsoloGIFs, naturalaspect/nooverflow; closed/narrow/hairpairs inspected.
 36CPU tests and focused hairstyle/orientation/framing/presentation checks pass.
 Browser03 passes30checks/26cadence cases on the initial soft-dot shader.
 Browser01 retains a legitimate-halo fixture mismatch; Browser02 retains a
@@ -66,10 +83,17 @@ Probe04 also executes the exact new browser iris regression. Probe03's
 hidden-window timing attempt timed out; no mechanical-shader cadence claim.
 Clean mainf7f7ef4 and no active Verona owner before changes; no stable-use or
 sibling instance driven. Qualification uses separate owned servers/profiles/
-numeric caches/synthesis, sequential shared GPU work. Existing media unchanged
-except nine retired payload deletions. No new capture, release or deployment.
+numeric caches/synthesis, sequential shared GPU work. Initial checkpoint kept media unchanged except nine retired payload deletions.
+Approved follow-up replaces current gallery only; older receipts/releases stay
+historical, retired styles remain absent. No new release or deployment.
 
 Completion log:
+2026-11-20 - Owner reports current appearance looks good, explicitly requests
+updated screenshots/GIF-heavy collapsed README including robot and a push.
+Capture05/independent967-frame decode and sample visual review pass. Correct
+capture-loop placement, native compositor lag and readable dot preview presets;
+retain failures. GitHubGFM layout05 confirms default closure/centering/ratios.
+Runtime unchanged; no user's app driven, new dependency or release.
 2026-11-20 - Follow-up dims final FaceMesh iris RGBx0.70, not alpha/geometry.
 vr30 native articulated-robot07 confirms peakred178,136corepixels each,
 three radial bands each and12/11visible upper spokes without captures.

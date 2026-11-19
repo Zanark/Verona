@@ -102,8 +102,10 @@ security relaxation was added to accommodate these fixture corrections.
 
 These are functional/environment checks, **not** subjective likeness review,
 movie-quality rendering, realistic expression, independent listening, phonetic
-accuracy, a new 60fps cadence measurement or owner acceptance. No new release,
-README redesign, book edition or media capture accompanies this mode.
+accuracy or a new60fps cadence measurement. The runtime checkpoint itself had
+no media capture. The owner later approved the current appearance and requested
+the updated gallery below, including this mode. This is prototype appearance
+approval, not listening/phonetic acceptance. No new release or book edition.
 
 ## Two retained hairstyles and mechanical red irises (vr-29)
 
@@ -148,12 +150,12 @@ The no-image vr-30 probe07 reads peak red 178 (approximately 255 * 0.70),
 spokes. The browser iris regression thresholds scale proportionally. Other
 views, including the robot's cyan optics, do not use that multiplier.
 
-**Media gate:** the owner wants to inspect the eyes in the app first. No new
-snaps/GIFs or redesigned README publication until approval. Existing media
-predates these eyes; the remaining curls preview still shows24 locks.
-The planned main README will start with a huge transparent front-facing speaking
-loop before even its title. A single closed-by-default HTML `details` will
-contain everything else, including the separate signed XYZ-turning FaceMesh
+**Media gate resolved:** the owner first paused capture to inspect the eyes,
+then explicitly approved the current appearance and requested fresh screenshots,
+GIFs, robot coverage and a push. The new gallery replaces the old24-lock preview.
+The README starts with a huge transparent front-facing speaking
+loop before even its title. A single closed-by-default HTML `details` contains
+everything else, including the separate signed XYZ-turning FaceMesh
 animation and only the two retained hairstyle turntables. Standalone GIFs remain centered;
 paired hair previews have matching dimensions/angles and natural aspect ratio.
 The outer hero directly addresses the reader; the inner loop turns left/right,
@@ -171,7 +173,7 @@ was read at blob`82d616a763a123da8d5c97f800a6cc64a0f4b674`: amazement0,
 anger1, joy6, sadness9. The focused condition test and real inference distinguish
 anger from neutral/happy without mutating the neutral vector.
 
-After approval, the planned caption compositor will add the authored phrase below the raw face canvas in
+The capture-only caption compositor adds the authored phrase below the raw face canvas in
 RGB(77,232,219), the mesh ink color, within the **same GIF frames**. Phrase
 boundaries follow actual synthesized clip durations rounded to centiseconds;
 there is no independently looping HTML subtitle or claimed word-level forced
@@ -195,6 +197,66 @@ in that isolated native probe. Probe03's hidden-window timing attempt timed out;
 it supplies no new cadence result and is retained, not counted as a pass.
 These facts are technical evidence, not the owner's visual
 acceptance, independent listening or a universal performance guarantee.
+
+### Approved gallery: capture, encoding and responsive disclosure
+
+The [current media receipt](../media/two-styles-red-mesh-provenance.json)
+pins runtime source`f4bcdca27b54ac068d77135f6f0c0f5bb5c46236`, exact raw
+source hashes and normalized Git blobs, published file hashes and original
+PNG hashes. Runtime modules are unchanged. Twenty GIFs contain967 sampled
+frames; two1280x1100 native interface screenshots show Claire and the robot.
+The800x920 hero contains321 frames/26.59s, with an800-square face canvas and
+120px caption area. Nine independently generated phrases use neutral/happy/
+angry/surprised/sad inputs; editorial cues are not measured emotional realism.
+The separate640-square XYZ loop lasts6s; the720-square robot loop lasts8s.
+Both hair turntables now have48 frames/4.8s and the same authored turn sequence.
+Three matching-format curl loops and a Claire color/grayscale loop make the
+optional features visible. The FaceDot previews select0.75x density/20% gap
+for legibility, not a change to the application's1x/0% defaults.
+
+Capture uses the real production sandbox/preload/renderer in an owned hidden
+Electron window, never shown or focused. A separate capability/RAM server,
+derived cache, synthesis workspace and disposable profile isolate mutable data;
+shared CPU/GPU work is bounded and sequential. Speech is muted, pin/follow
+disabled and pointer samples are injected only into the owned renderer.
+No user's window, browser profile, cursor or device is driven. Canvas PNGs
+require synchronous redraw immediately before reading, because WebGL's default
+drawing buffer can be discarded between asynchronous turns. UI screenshots
+use actual`webContents.capturePage()` after three compositor captures: the
+first hidden-window read can show a previous state. No production drawing-
+buffer, CSP, sandbox or app behavior is changed for capture.
+
+The existing local System.Drawing encoder chooses a shared255-visible-color
+palette per sequence and reserves index0 for transparency. Source alpha
+below128 becomes transparent; higher coverage becomes opaque. Full-size
+GIF89a frames use disposal2 and infinite looping, preventing old-frame trails.
+GIF cannot retain partial antialias coverage or the glass tab's full alpha.
+An independent decoder checked **every frame's** alpha against its original
+PNG threshold, dimensions, positive exact centisecond delays and changing
+pixels. Decoded samples of all20 sequences, all nine hero phrases and both
+native PNGs were visually inspected; this is sample review, not every-frame
+visual review or independent listening.
+
+The actual GitHub Markdown API output and public GitHub CSS were exercised
+in an owned local browser container at1200/768/390px. Only the centered hero
+is visible outside the untouched default-closed section; title and all other
+images remain inside. Expanded content has seven equal-width/top-aligned pairs,
+six centered solo GIFs, natural aspect ratios and no horizontal overflow.
+This is not signed-in GitHub chrome. Closed/expanded screenshots were reviewed.
+An initial fixture used layout-box size as a visibility proxy for descendants
+of closed`details`; Chromium can retain those boxes. `checkVisibility()`
+verifies actual visibility instead, without weakening the disclosure contract.
+
+Earlier capture failures remain private: a misplaced screenshot block switched
+out of overlay during the group loop; a sizing-only probe disproved a native
+window-size fault. Dense-dot samples invalidated an excessive opaque-pixel
+threshold; readable65%gap states replace the faint80% demonstration without
+changing the real0-80% control. Completed frames are reused only after exact
+runtime-source hash equality and exact PNG copies. Decoded visual review also
+caught compositor lag and faint dot previews, recaptured before publication.
+All owned processes stopped and disposable profiles were removed. The gallery
+is deliberately large, silent sampled media, not a real-time60fps recording,
+hair simulation, new source release, phonetic proof or a rendered book edition.
 
 ## Optional monochrome and matching-format hair (vr-28)
 

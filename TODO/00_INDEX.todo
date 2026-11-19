@@ -28,7 +28,7 @@ vr-25 | 25_PATTERN_DENSITY_SPACING.todo | DONE | Adjustable surface-dot/cell den
 vr-26 | 26_ANIMATED_GALLERY_RELEASE.todo | DONE | All 11 hairstyles/23 README GIFs; immutable prototype.3 published
 vr-27 | 27_GALLERY_ALIGNMENT.todo | DONE | Equal GIF alignment; centered transparent FaceMesh hero source-published
 vr-28 | 28_MATCHING_HAIR_MONOCHROME.todo | DONE | Monochrome Claire and optional matching hair across all views
-vr-29 | 29_TWO_HAIRSTYLES_RED_MESH.todo | IN_PROGRESS | Two styles and mechanical red eyes ready for review; GIF/README work paused
+vr-29 | 29_TWO_HAIRSTYLES_RED_MESH.todo | DONE | Owner-approved appearance;20-GIF/two-screenshot gallery, captioned hero and robot
 vr-30 | 30_ARTICULATED_ROBOT.todo | DONE | Original speech-driven armored robot qualified without captures; FaceMesh eyes dimmed30%
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
