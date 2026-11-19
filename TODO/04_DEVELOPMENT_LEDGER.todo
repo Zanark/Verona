@@ -1,6 +1,30 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-28 matching-format hair and reversible Claire grayscale
+Cause: owner wants Claire colors optional and existing hairstyles in every
+presentation, initially off outside Claire and matching the head's format.
+Action: shared style plus per-view Hair choices; final RGB grayscale preserves
+alpha/tonal lighting. Reuse actual triangle edges and surface dot/grid shader
+for hair, including invisible depth occlusion and common pattern controls.
+Mechanism: original/latest-only resources, lazy wire buffers, at most three
+combined fits, native-detail/maximum-neck stable supports and hair-aware tab
+anchors. Presentation transitions defer fitting until identity agrees; FaceMesh
+restores full hair after crop. No per-frame geometry or unlit normal work.
+Evidence:36CPU/focusedJS pass; browser04 has30checks/66hair samples/26cadence
+cases, maximum case mean16.660/p9516.800ms. Native01 has16checks and18
+matching-hair fit/alpha/headroom states. Six all-style sheets, grayscale sheet
+and selected native format captures visually reviewed; playback muted.
+Failures retained: initial fixture restored Hair DOM without its input event.
+Wire exact-hash failure traced to one RGB pixel/five channel levels varying
+even in identical repeated draws; final probe06 asserts exact fit/coverage plus
+that measured wire-only envelope, not a production workaround or broader
+performance/security relaxation. Claire color/dot/grid restoration stays exact.
+Tracking: issue27/original Project item created once; fresh inventory recovered
+initial membership lag without duplicates. Source publication still pending.
+Limits: no subjective/listening/accuracy acceptance, new release, dependency,
+model/media overwrite, persisted preferences or stable-user/sibling interruption.
+
 2026-11-19 - vr-27 correction source published and remotely verified
 Source d80c796dfeab47294528a3f6dac6f91a11a72c4b pushed asZanark; bothGitidentities
 andrequiredtrailers verified. RemoteMain/11changedblobs andactualrenderedREADME

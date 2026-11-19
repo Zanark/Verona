@@ -1,5 +1,78 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Optional monochrome and matching-format hair (vr-28)
+
+The owner wants Claire's added colors optional and the existing hairstyles
+available in every view, disabled by default outside Claire. This supersedes
+the earlier hair-free-only view restriction below, not the original geometry
+or speech identity. **Colors** starts on; **Hair (this view)** starts on for
+Claire and off for FaceMesh, FaceDot and UniformPolygons. Each view retains
+visibility independently until reload. **Hairstyle (shared)** chooses one of
+the same eleven styles for all views and is disabled while hair is off.
+
+`FaceRenderer.constructor`'s fragment shader applies `tint` to Claire's final
+lit RGB, including shaded/polygon fills, eye treatment, hair, contours and
+diagnostic points. Colors off uses luminance weights0.2126/0.7152/0.0722 and
+preserves alpha. It removes hues, not tonal makeup, lighting or geometry.
+Colors on restores the original output. Other views keep their existing cyan
+ink. These are renderer uniforms, not speech, model or transcript mutations.
+
+`FaceRenderer.drawPresentation` includes enabled hair in both the invisible
+triangle depth prepass and the visible style pass. FaceMesh lazily builds all
+unique triangle edges with `topologyEdges`, rather than reusing Claire's sparse
+hair contours. FaceDot and UniformPolygons send hair triangles through the same
+surface-coordinate dot/grid fragment shader as skin, including density/gap.
+There is no colored solid hair fill or visible connecting line in dot mode.
+Depth hides rear marks; the generated hair remains static relative to the head,
+not simulated strands or learned hair motion.
+
+`setHairVisible`, `setHairStyle` and `updateFit` combine the face and visible
+hair extents through `presentationFit`. Native face detail and maximum allowed
+neck extent define stable fitting supports, so detail/crop sliders do not
+reframe repeatedly. FaceMesh retains its front-only skin mask while optional
+full hair surrounds it; its detail slider affects only the face. Dot/grid
+Head and neck crops hair on the same jaw curve; Full bust retains long styles.
+The latest hairstyle owns at most three combined fits (front/full/head-neck),
+not a per-slider/per-frame cache. Turning hair off restores the original fit.
+Claire's existing style-specific fit stays unchanged.
+
+Presentation transitions defer refitting until the new identity/framing agrees,
+and entering FaceMesh explicitly restores full hair after a cropped view.
+Only original hair and the latest alternative remain allocated. Replaced
+alternative position/normal/triangle/contour/optional-wire buffers are deleted;
+original buffers are retained for restoration. Wire buffers are lazy and
+hidden hair has no draw passes. Unlit playback still computes no animated
+shading normals, allocates no steady-frame geometry and scans no whole mesh
+for placement: `placeOverlayTools` reuses bounded directional supports including
+enabled hair in all views.
+
+Controls use the existing explicit error surface and transactional hairstyle
+construction; failure does not silently choose another style. Reload/restart
+discards unsaved visual choices and RAM speech as before. No device activation,
+new bridge command, persistence, download, model or dependency is introduced.
+The old GIFs remain historical samples of unchanged defaults, not new-feature
+captures; releases remain immutable. Qualification and delivery receipts are
+recorded with vr-28 separately from user appearance/listening acceptance.
+
+Qualification on the current local AMD environment covers all eleven styles
+in all three additional views, front and turned (66 samples), six grayscale
+cases and26 live playback cases at1x/2x density, including curls/dense patterns
+and monochrome Claire. Maximum per-case mean/p95 was16.660/16.800ms; steady
+playback allocated no geometry and unlit views uploaded no animated normals.
+Buffer churn peaked at19 watched buffers with only six permitted cache buffers
+remaining. Native qualification adds18 front/turned curls/bun/tails combinations
+with transparent bounds and tab headroom; selected rendered sheets/captures
+were reviewed. These are local muted technical checks, not universal locked
+60-fps, independent listening, phonetic accuracy or owner appearance acceptance.
+
+The original hair-toggle fixture restored the checkbox without dispatching
+its input event; per-view state correctly exposed that stale fixture. A later
+wire byte-hash mismatch was isolated with repeated unchanged-state draws:
+one RGB pixel varied by at most five channel levels while fitting uniforms
+and coverage stayed identical. Restoration now asserts exact fitting/coverage
+and that measured one-pixel wire envelope; dot/grid and Claire color restoration
+remain byte-exact. Failed receipts remain. No production workaround was added.
+
 ## Gallery correction: layout and genuine alpha (vr-27)
 
 The owner reported a squeezed Long sleek layers preview beside Spiral curls

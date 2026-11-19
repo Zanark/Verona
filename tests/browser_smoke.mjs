@@ -196,7 +196,8 @@ try {
     })()`);
     assert(hairPixels.changed > 500, JSON.stringify(hairPixels));
     await screenshot("01b-skin-only");
-    await evaluate(`document.getElementById("hair").checked=true;document.getElementById("yaw").value=".55";
+    await evaluate(`document.getElementById("hair").checked=true;
+      document.getElementById("hair").dispatchEvent(new Event("input"));document.getElementById("yaw").value=".55";
       document.getElementById("yaw").dispatchEvent(new Event("input"));`);
     await screenshot("01c-turned-hair");
     await evaluate(`document.getElementById("yaw").value="0";document.getElementById("yaw").dispatchEvent(new Event("input"));`);
@@ -266,17 +267,17 @@ try {
       g.createBuffer=create;g.deleteBuffer=remove;
       const remaining=live.size;
       change("hairstyle","bob");change("presentation","facedot");
-      const hidden=$("hairstyle").closest("label").hidden;change("presentation","claire");
+      const hidden=$("hairstyle").closest("label").hidden,disabled=$("hairstyle").disabled;change("presentation","claire");
       const retained=$("hairstyle").value;change("hairstyle","claire");
       $("edges").checked=saved.edges;change("appearance",saved.appearance);
-      return {styles,results,created,deleted,peak,remaining,difference,hidden,retained,sameSource:a.src===source,sameTime:a.currentTime===time,images};
+      return {styles,results,created,deleted,peak,remaining,difference,hidden,disabled,retained,sameSource:a.src===source,sameTime:a.currentTime===time,images};
     })()`);
     const {images,...receipt}=data;report.hairstyles=receipt;
     for(let i=0;i<images.length;i++)await fs.writeFile(path.join(output,`hairstyles-${i?"turned":"front"}.png`),Buffer.from(images[i].split(",")[1],"base64"));
     assert(data.styles.length>=11);assert(data.results.every(r=>r.error===0));
     for(const yaw of [0,.8])assert(new Set(data.results.filter(r=>r.yaw===yaw).map(r=>r.pixelHash)).size>=11);
     assert.equal(data.remaining,0);assert(data.peak<=14,JSON.stringify(receipt));assert.equal(data.difference,0);
-    assert(data.hidden && data.retained==="bob" && data.sameSource && data.sameTime);
+    assert(!data.hidden && data.disabled && data.retained==="bob" && data.sameSource && data.sameTime);
   });
   await check("Presentation views preserve Claire, occlude dots, bound detail buffers and keep the same clip", async () => {
     await evaluate(`(() => {
@@ -352,6 +353,142 @@ try {
     assert.equal(report.meshDetail.hair,true);
     assert.equal(report.meshDetail.edges,true);
     assert.equal(report.meshDetail.framing,"full");
+  });
+  await check("Claire Colors off removes skin, eye, hair, edge and point hues and restores exact pixels", async () => {
+    report.monochrome = await evaluate(`(() => {
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2"),a=$("audio");
+      const source=a.src,time=a.currentTime,set=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event("input"));};
+      const toggle=(id,value)=>{$(id).checked=value;$(id).dispatchEvent(new Event("input"));};
+      const pixels=()=>{const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
+      const results=[],gallery=document.createElement("canvas");gallery.width=900;gallery.height=600;
+      const context=gallery.getContext("2d");let sample=0;
+      toggle("points",true);
+      for(const style of ["claire","curls","bun"])for(const material of ["polygon","shaded"]){
+        set("hairstyle",style);set("appearance",material);toggle("colors",true);const before=pixels();
+        toggle("colors",false);const gray=pixels();let tinted=0,visible=0,changed=0;
+        context.drawImage(c,sample%3*300,Math.floor(sample/3)*300,300,270);
+        context.fillStyle="white";context.font="15px sans-serif";context.fillText(style+" / "+material,sample%3*300+8,Math.floor(sample/3)*300+290);sample++;
+        for(let i=0;i<gray.length;i+=4){
+          const high=Math.max(gray[i],gray[i+1],gray[i+2]),low=Math.min(gray[i],gray[i+1],gray[i+2]);
+          if(high>20){visible++;if(high-low>7)tinted++;}
+          if(before[i]!==gray[i]||before[i+1]!==gray[i+1]||before[i+2]!==gray[i+2])changed++;
+        }
+        toggle("colors",true);const restored=pixels();let difference=0;
+        for(let i=0;i<before.length;i++)if(before[i]!==restored[i])difference++;
+        results.push({style,material,tinted,visible,changed,difference,error:g.getError()});
+      }
+      set("hairstyle","claire");set("appearance","polygon");toggle("points",false);
+      return {results,sameSource:a.src===source,sameTime:a.currentTime===time,image:gallery.toDataURL("image/png")};
+    })()`);
+    await fs.writeFile(path.join(output,"claire-monochrome.png"),Buffer.from(report.monochrome.image.split(",")[1],"base64"));
+    delete report.monochrome.image;
+    assert(report.monochrome.sameSource && report.monochrome.sameTime);
+    for(const result of report.monochrome.results){
+      assert.equal(result.error,0);assert.equal(result.tinted,0,JSON.stringify(result));
+      assert(result.visible>1000 && result.changed>1000);assert.equal(result.difference,0);
+    }
+  });
+  await check("Every hairstyle matches mesh/dot/grid passes, defaults off, fits/crops and restores without GPU growth", async () => {
+    const data=await evaluate(`(() => {
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2"),a=$("audio");
+      const source=a.src,time=a.currentTime,set=(id,value)=>{$(id).value=String(value);$(id).dispatchEvent(new Event("input"));};
+      const toggle=value=>{$("hair").checked=value;$("hair").dispatchEvent(new Event("input"));};
+      const pixels=(raw=false)=>{
+        const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+        let hash=2166136261,visible=0,nonCyan=0;
+        for(let i=0;i<p.length;i+=4){
+          hash=Math.imul(hash^p[i],16777619)>>>0;hash=Math.imul(hash^p[i+1],16777619)>>>0;
+          if(p[i+1]>40){visible++;if(p[i]>p[i+1] || p[i+2]<p[i])nonCyan++;}
+        }return {hash,visible,nonCyan,...(raw?{pixels:p}:{})};
+      };
+      const create=g.createBuffer,remove=g.deleteBuffer,draw=g.drawElements,mask=g.colorMask,allocate=g.bufferData,update=g.bufferSubData;
+      const live=new Set(),results=[],images=[],defaults=[],restorations=[],patterns=[];let peak=0,calls=[],colored=true,allocations=0,updates=0,hairOnly=false;
+      g.createBuffer=function(){const b=create.call(this);live.add(b);peak=Math.max(peak,live.size);return b;};
+      g.deleteBuffer=function(b){live.delete(b);return remove.call(this,b);};
+      g.bufferData=function(...args){allocations++;return allocate.apply(this,args);};
+      g.bufferSubData=function(...args){updates++;return update.apply(this,args);};
+      g.colorMask=function(...args){colored=args.some(Boolean);return mask.apply(this,args);};
+      g.drawElements=function(mode,count,...args){
+        const program=g.getParameter(g.CURRENT_PROGRAM),material=g.getUniform(program,g.getUniformLocation(program,"material"));
+        calls.push({mode,count,colored,material});
+        if(!hairOnly||!colored||material===1)return draw.call(this,mode,count,...args);
+      };
+      const styles=Array.from($("hairstyle").options,o=>({id:o.value,name:o.textContent}));
+      const fit=()=>{
+        const program=g.getParameter(g.CURRENT_PROGRAM);
+        return ["viewCenter","viewScale"].map(name=>{
+          const value=g.getUniform(program,g.getUniformLocation(program,name));
+          return typeof value==="number"?value:Array.from(value);
+        });
+      };
+      for(const view of ["facemesh","facedot","uniform"]){
+        set("presentation",view);defaults.push({view,on:$("hair").checked,disabled:$("hairstyle").disabled,hidden:$("hairstyle").closest("label").hidden});
+        const off=pixels(true),offFit=fit();toggle(true);
+        for(const yaw of [0,.8]){
+          const gallery=document.createElement("canvas");gallery.width=1200;gallery.height=900;const ctx=gallery.getContext("2d");
+          ctx.fillStyle="#101821";ctx.fillRect(0,0,1200,900);
+          for(let i=0;i<styles.length;i++){
+            const style=styles[i];set("hairstyle",style.id);set("yaw",yaw);calls=[];
+            $("yaw").dispatchEvent(new Event("input"));
+            const sample=pixels(),draws=calls.slice(),firstAllocations=allocations,firstUpdates=updates;
+            $("yaw").dispatchEvent(new Event("input"));
+            results.push({view,style:style.id,yaw,...sample,calls:draws,error:g.getError(),
+              steadyAllocations:allocations-firstAllocations,normalUpdates:updates-firstUpdates});
+            ctx.drawImage(c,i%4*300,Math.floor(i/4)*300,300,270);
+            ctx.fillStyle="white";ctx.font="15px sans-serif";ctx.fillText(style.name,i%4*300+8,Math.floor(i/4)*300+290);
+          }images.push({view,yaw,data:gallery.toDataURL("image/png")});
+        }
+        set("yaw",0);
+        if(view!=="facemesh"){
+          set("hairstyle","curls");hairOnly=true;
+          for(const [density,gap] of [[1,0],[1,.8],[3,.8]]){
+            set("pattern-density",density);set("pattern-gap",gap);patterns.push({view,density,gap,...pixels()});
+          }hairOnly=false;
+          set("pattern-density",1);set("pattern-gap",view==="facedot"?.6:0);
+          set("neck-depth",0);set("neck-depth",6);set("neck-depth",1.7);
+          set("framing","full");set("framing","head-neck");
+        }
+        set("presentation","claire");set("presentation",view);
+        const retained=$("hair").checked;set("hairstyle","claire");toggle(false);
+        const restored=pixels(true);let changed=0,maximumDifference=0;
+        for(let i=0;i<off.pixels.length;i++)if(off.pixels[i]!==restored.pixels[i]){
+          changed++;maximumDifference=Math.max(maximumDifference,Math.abs(off.pixels[i]-restored.pixels[i]));
+        }
+        restorations.push({view,retained,off:off.hash,restored:restored.hash,changed,maximumDifference,
+          beforeVisible:off.visible,afterVisible:restored.visible,offFit,restoredFit:fit(),width:c.width,height:c.height});
+      }
+      set("presentation","claire");set("hairstyle","claire");
+      g.createBuffer=create;g.deleteBuffer=remove;g.drawElements=draw;g.colorMask=mask;g.bufferData=allocate;g.bufferSubData=update;
+      return {defaults,results,restorations,patterns,images,peak,remaining:live.size,sameSource:a.src===source,sameTime:a.currentTime===time};
+    })()`);
+    const {images,...receipt}=data;report.matchingHair=receipt;
+    for(const image of images)await fs.writeFile(path.join(output,`matching-hair-${image.view}-${image.yaw?"turned":"front"}.png`),Buffer.from(image.data.split(",")[1],"base64"));
+    assert(data.defaults.every(d=>!d.on && d.disabled && !d.hidden));
+    assert(data.sameSource && data.sameTime);
+    for(const result of data.results){
+      assert.equal(result.error,0,JSON.stringify(result));assert(result.visible>1000);
+      assert.equal(result.nonCyan,0);assert.equal(result.steadyAllocations,0);assert.equal(result.normalUpdates,0);
+      const visible=result.calls.filter(c=>c.colored),depth=result.calls.filter(c=>!c.colored);
+      assert.equal(visible.length,3);assert.equal(depth.length,3);assert.equal(visible.at(-1).material,1);
+      assert(visible.every(c=>c.mode===(result.view==="facemesh"?1:4)));
+      assert(depth.every(c=>c.mode===4));
+      if(result.view==="facemesh")assert(visible.at(-1).count>=depth.at(-1).count);
+    }
+    for(const view of ["facemesh","facedot","uniform"])for(const yaw of [0,.8]){
+      assert.equal(new Set(data.results.filter(r=>r.view===view&&r.yaw===yaw).map(r=>r.hash)).size,11);
+    }
+    for(const result of data.restorations){
+      assert(result.retained);assert.deepEqual(result.offFit,result.restoredFit);
+      assert.equal(result.beforeVisible,result.afterVisible);
+      // Repeated identical-state wire draws locally vary by one RGB pixel, at most five channel levels.
+      assert(result.changed<=(result.view==="facemesh"?3:0) && result.maximumDifference<=5,JSON.stringify(result));
+    }
+    for(const view of ["facedot","uniform"]){
+      const samples=data.patterns.filter(p=>p.view===view);
+      assert(samples[0].visible>samples[1].visible,JSON.stringify(samples));
+      assert.notEqual(samples[1].hash,samples[2].hash);
+    }
+    assert(data.peak<=20 && data.remaining<=6,JSON.stringify({peak:data.peak,remaining:data.remaining}));
   });
   await check("Dot/cell density increases isolated patterns; gaps reduce coverage without geometry or speech allocation", async () => {
     report.patterns = await evaluate(`(() => {
@@ -615,15 +752,26 @@ try {
       gl.bufferSubData=function(...args){window.renderProbe.updates++;return update.apply(this,args);};
     })()`);
     report.renderCadence = [];
-    for (const {density,edges,view,framing,preset="claire"} of [
+    for (const {density,edges,view,framing,preset="claire",hair=true,style="claire",colors=true} of [
       {density:1,edges:true,view:"polygon"},{density:2,edges:true,view:"polygon"},
       {density:1,edges:false,view:"shaded"},{density:2,edges:false,view:"shaded"},
       {density:1,edges:true,view:"shaded"},{density:2,edges:true,view:"shaded"},
     ].flatMap(mode=>["full","head-neck"].map(framing=>({...mode,framing}))).concat(
       ["facemesh","facedot","uniform"].flatMap(preset=>[1,2].map(density=>({
-        preset,density,edges:false,view:"polygon",framing:preset==="facemesh"?"front":"head-neck"}))))) {
+        preset,density,edges:false,hair:false,view:"polygon",framing:preset==="facemesh"?"front":"head-neck"}))),
+      ["facemesh","facedot","uniform"].flatMap(preset=>[1,2].map(density=>({
+        preset,density,edges:false,hair:true,style:"curls",view:"polygon",framing:preset==="facemesh"?"front":"head-neck"}))),
+      ["polygon","shaded"].map(view=>({view,density:2,edges:true,colors:false,framing:"head-neck"})))) {
       await evaluate(`document.getElementById("presentation").value=${JSON.stringify(preset)};
         document.getElementById("presentation").dispatchEvent(new Event("input"));
+        document.getElementById("hair").checked=${hair};document.getElementById("hair").dispatchEvent(new Event("input"));
+        document.getElementById("hairstyle").value=${JSON.stringify(style)};
+        document.getElementById("hairstyle").dispatchEvent(new Event("input"));
+        document.getElementById("colors").checked=${colors};
+        ${preset==="facedot"||preset==="uniform"?`document.getElementById("pattern-density").value="${hair?3:1}";
+          document.getElementById("pattern-density").dispatchEvent(new Event("input"));
+          document.getElementById("pattern-gap").value="${hair?.8:preset==="facedot"?.6:0}";
+          document.getElementById("pattern-gap").dispatchEvent(new Event("input"));`:""}
         document.getElementById("framing").value=${JSON.stringify(framing)};
         ${preset==="facemesh"?"":'document.getElementById("framing").dispatchEvent(new Event("input"));'}
         document.getElementById("appearance").value=${JSON.stringify(view)};
@@ -652,7 +800,7 @@ try {
         }
       }requestAnimationFrame(sample);
     })`);
-    report.renderCadence.push({...timing,density,edges,view,framing,preset});
+    report.renderCadence.push({...timing,density,edges,view,framing,preset,hair,style,colors});
     }
     for (const timing of report.renderCadence) {
     assert.equal(timing.playing,true);
@@ -668,8 +816,14 @@ try {
     }
     await click("play");
     await evaluate(`document.getElementById("audio").loop=false;window.renderProbe.restore();delete window.renderProbe;
+      for(const id of ["facemesh","facedot","uniform"]){
+        document.getElementById("presentation").value=id;document.getElementById("presentation").dispatchEvent(new Event("input"));
+        document.getElementById("hair").checked=false;document.getElementById("hair").dispatchEvent(new Event("input"));
+      }
       document.getElementById("presentation").value="claire";
       document.getElementById("presentation").dispatchEvent(new Event("input"));
+      document.getElementById("colors").checked=true;
+      document.getElementById("hairstyle").value="claire";document.getElementById("hairstyle").dispatchEvent(new Event("input"));
       document.getElementById("framing").value="full";
       document.getElementById("framing").dispatchEvent(new Event("input"));
       document.getElementById("appearance").value="polygon";
@@ -796,9 +950,13 @@ try {
     assert.equal(await evaluate(`document.getElementById("framing").value`), "full");
     assert.equal(await evaluate(`document.getElementById("presentation").value`), "claire");
     assert.equal(await evaluate(`document.getElementById("hairstyle").value`), "claire");
+    assert.equal(await evaluate(`document.getElementById("colors").checked`), true);
+    assert.equal(await evaluate(`document.getElementById("hair").checked`), true);
     assert.equal(await evaluate(`document.getElementById("cursor-mode").value`), "eyes");
     assert.equal(await evaluate(`document.getElementById("zoom").value`), "1");
     await evaluate(`document.getElementById("presentation").value="facedot";document.getElementById("presentation").dispatchEvent(new Event("input"));`);
+    assert.equal(await evaluate(`document.getElementById("hair").checked`), false);
+    assert.equal(await evaluate(`document.getElementById("hairstyle").disabled`), true);
     assert.deepEqual(await evaluate(`["pattern-density","pattern-gap"].map(id=>document.getElementById(id).value)`),["1","0.6"]);
     await evaluate(`document.getElementById("presentation").value="claire";document.getElementById("presentation").dispatchEvent(new Event("input"));`);
   });

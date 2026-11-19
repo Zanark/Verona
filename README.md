@@ -27,7 +27,9 @@ prototype, not a bundled installer. Desktop setup is explicit:
 ## Every hairstyle in motion
 
 **Original Claire waves plus ten alternatives. Every available option is below.**
-Choose **View -> Claire**, enable **Hair**, then pick **Hairstyle**.
+Choose any **View**, enable **Hair (this view)**, then pick **Hairstyle (shared)**.
+Hair starts on in Claire and off in other views; each view remembers its choice
+until reload. Hair follows that view's polygons, triangle edges, dots or grid.
 These previews select **Reference color + makeup**, **Full bust** and **80% zoom**
 to reveal tails, long layers and updos. The app still starts with the original
 waves and cool **Transparent polygons**.
@@ -80,12 +82,12 @@ Change **View** without restarting or regenerating the current clip.
   <tr><th width="50%" align="center">Claire</th><th width="50%" align="center">FaceMesh</th></tr>
   <tr>
     <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-claire.gif" alt="Claire cool polygon presentation turning over the same paused speech pose" width="360"><br>Original head, optional hair, cool contours or reference color/makeup.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facemesh.gif" alt="FaceMesh front-only triangular facial mask turning over the same paused speech pose" width="360"><br>Front face only: no ears, neck or hair. <b>Mesh detail 1-5</b>, native detail at 5.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facemesh.gif" alt="FaceMesh front-only triangular facial mask turning over the same paused speech pose" width="360"><br>Front face only: no ears or neck. Hair off here; optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</td>
   </tr>
   <tr><th width="50%" align="center">FaceDot</th><th width="50%" align="center">UniformPolygons</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facedot.gif" alt="FaceDot visible-surface dots turning with ears and jaw" width="360"><br>Dots on the visible face, ears, eyes and neck; no visible connecting lines or hair.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-uniform.gif" alt="UniformPolygons rectangular surface grid turning with the face" width="360"><br>Rectangular surface-grid outlines, including ears, eyes and neck; no hair.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facedot.gif" alt="FaceDot visible-surface dots turning with ears and jaw" width="360"><br>Dots on face, ears, eyes and neck; no connecting lines. Optional dotted hair, off here.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-uniform.gif" alt="UniformPolygons rectangular surface grid turning with the face" width="360"><br>Rectangular surface-grid outlines on face, ears, eyes and neck. Optional grid hair, off here.</td>
   </tr>
 </table>
 
@@ -159,6 +161,8 @@ buttons use the same control. High zoom intentionally can crop the model.
 Preview, adjust pitch/speed/bass/treble/emphasis, generate. **Hazel** remains the
 reset default. Choose an explicit expression; it is not guessed from the words.
 Claire's **Edges**, **Points** and **Hair** remain independent.
+Disable **Colors** in Claire for grayscale skin, eyes, makeup and hair in either
+material. Re-enable it to restore colors; neither option changes your speech.
 
 ![Current Verona browser interface with generated synthetic greeting and original Claire waves](docs/media/gallery-overview.png)
 

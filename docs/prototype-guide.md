@@ -131,7 +131,7 @@ adjustable sampling instead of drawing one dot per original mesh vertex.
 Extremely small/dense marks can soften or merge at limited screen resolution;
 zoom and display resolution affect what can actually be distinguished.
 
-Dot/grid views omit hair and start at Head and neck; each retains its own framing,
+Dot/grid views start with hair off and at Head and neck; each retains its own framing,
 with Full bust available. All new views auto-fit their selected extent and use
 unlit ink, avoiding unused animated shading normals. Their depth surface still
 uses triangles; dots do not make geometry/inference free.
@@ -155,6 +155,10 @@ the optional olive/rosewood/hazel-green study guided by the supplied sheet,
 not an exact or photorealistic reconstruction.
 Edges/hair are on and points off initially; all remain independent. Switching
 Claire material changes immediately, not the clip, voice or playback position.
+**Colors** starts enabled in Claire. Disable it for neutral grayscale skin,
+eyes, cosmetics, edges/points and hair in either material; enable to restore
+their hues. Lighting and tonal cosmetic detail remain, not a bare unstyled face.
+The option is hidden outside Claire, where matching cyan ink remains unchanged.
 **Hairstyle** selects original **Claire waves** or ten locally generated
 alternatives: **Tapered pixie**, **Rounded bob**, **Asymmetric angled bob**,
 **Long sleek layers**, **Spiral curls**, **High ponytail**, **Twin tails**,
@@ -163,9 +167,24 @@ These are different static geometries, not color presets or hair physics.
 Rotate to inspect rear tails; Full bust reveals long styles, while Head and neck
 intentionally clips every style along the same jaw curve. Some styles reserve
 more fitting room; Zoom remains available. The Hair checkbox works independently.
-Other presentations hide hair controls and retain Claire's selection on return.
+Hair starts enabled in Claire and disabled in FaceMesh, FaceDot and
+UniformPolygons. Enable **Hair (this view)** in any view, then choose
+**Hairstyle (shared)**. Visibility is remembered separately for each view;
+one selected style is shared across them. The style selector is disabled while
+hair is off. Switching away does not silently enable hair in another view.
+Claire retains its shaded/polygon hair; FaceMesh uses real triangle edges,
+FaceDot surface dots only, UniformPolygons rectangular grid outlines only.
+Dot/grid density and gap apply to hair too. Invisible depth surfaces occlude
+rear marks, not a colored solid hair layer behind the pattern.
+FaceMesh's face mask still omits ears/neck; optional full hair can extend around
+it. Mesh detail changes facial detail only, not the selected hair topology.
+Other views use the same jaw-following hair crop with Head and neck; choose Full
+bust to retain long hair. Their hair-enabled fit includes the hairstyle extent;
+turning hair off restores their original fit. Crop-slider/detail changes keep
+that fit stable. High zoom/large rotations can still crop the model.
 Selection builds only the latest alternative, deletes its replaced GPU buffers
-and never regenerates/seeks speech. Reload returns to original waves. Invalid
+and never regenerates/seeks speech. Reload resets original waves, Claire colors
+and default per-view hair visibility; no preferences are persisted. Invalid
 geometry surfaces an error and preserves the previous choice, not a silent fallback.
 The original hair has actual layered S-wave geometry. These are not
 animated eye joints, teeth or a claim of photorealism. Color rendering caps

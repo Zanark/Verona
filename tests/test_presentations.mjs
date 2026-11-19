@@ -42,6 +42,11 @@ assert.deepEqual([...topologyEdges(new Uint32Array([0,1,2, 0,2,3]))], [0,1,1,2,2
 const fit = presentationFit(positions, native.vertices, 1);
 assert(Math.abs(fit.center[1] - 146) < 1e-6);
 assert(Math.abs(fit.scale - .09) < 1e-6);
+const extended = presentationFit([-1,-1,0, 1,1,0], [0,1], 1, [-2,3,0, 2,5,0, 0,-50,0], [0,1]);
+assert.deepEqual(extended.center, [0,2,0]);
+assert.equal(extended.scale, .3);
+const fullHair = presentationFit([-1,-1,0, 1,1,0], [0,1], 1, [-2,3,0, 2,5,0, 0,-50,0]);
+assert(fullHair.scale < extended.scale);
 assert.throws(() => frontFaceTopology(positions, edges, triangles, meta, 0), /malformed/);
 assert.throws(() => frontFaceTopology(positions, edges, [...triangles,0,1,999999], meta, 5), /bounds/);
 assert.throws(() => frontFaceTopology(positions, edges, [frontCount,frontCount+1,frontCount+2], meta, 5), /entire front/);

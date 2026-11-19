@@ -1,0 +1,66 @@
+ID: vr-28
+Title: Optional monochrome Claire and matching-format hair in every view
+GitHub issue: https://github.com/Zanark/Verona/issues/27
+
+Status: IN_PROGRESS
+Milestone: Preserve Claire while offering color-free rendering and opt-in hair across presentations.
+Dependencies: vr-20, vr-21, vr-22, vr-23, vr-24, vr-25
+
+Purpose:
+Let the owner disable Claire's added colors and use any existing hairstyle
+with FaceMesh, FaceDot and UniformPolygons, rendered like the selected head.
+
+Tasks:
+[x] Add a reversible Claire Colors option covering skin, cosmetics, eyes and hair.
+[x] Expose shared hairstyle selection and remember hair visibility per view.
+[x] Default other views to hair off; match wire/dot/grid geometry and occlusion.
+[x] Fit optional hair, preserve curved crop and support the native floating tab.
+[x] Verify real pixels, restoration, audio ownership, bounded work and defaults.
+[ ] Update book/guide/README/tracking and publish verified source as Zanark.
+
+Acceptance criteria:
+Claire's existing appearance/hair defaults stay unchanged. Colors off produces
+neutral grayscale head/eyes/hair in either Claire material without replacing
+motion, regenerating or seeking speech. Re-enabling restores original pixels.
+All eleven hairstyle options work in every implemented view; one shared style,
+independent per-view Hair choices, default off for the three additional views.
+FaceMesh hair uses triangle edges, FaceDot only surface dots, UniformPolygons
+only rectangular grid outlines. Invisible depth surfaces occlude rear marks.
+Hair/face rotate together and share dot/grid density/gap and applicable crop.
+Hair-enabled fitting includes its actual extent without per-frame scans or
+unbounded geometry/style caches. Returning to hair-off restores original fit.
+Reload resets unsaved settings. Preserve native sandbox/capability boundaries,
+one audio/renderer owner and no device/profile/sibling-app access.
+
+Completion evidence:
+Implemented and locally qualified; source publication pending.
+Starting main0e26f284c6c3bf622856e470c32801ee2998c200.
+No active Verona process and clean worktree before editing. Stable-use lane
+not launched/driven; qualification owns server/profile/cache/synthesis.
+Shared CPU/GPU used sequentially; no package/model download needed.
+Existing36 CPU tests, orientation/framing/hairstyle/presentation JS checks pass.
+Browser matching-hair-colors-04:30 checks,66 hair/view/angle samples and26
+live playback cases. Largest case mean16.660ms/p9516.800ms; all steady cases
+allocate no geometry and unlit cases upload no animated normals.
+Six grayscale cases have zero tinted visible pixels and exact color restoration.
+Original/latest style churn peaks at19 watched buffers, retains only6 permitted
+cache buffers (five latest crop plus original optional wire).
+Native matching-hair-native-01:16 checks;18 curls/bun/tails front/turned
+format combinations retain alpha, bounded fit and floating-tab headroom.
+Visually reviewed six all-style front/turned format sheets, grayscale sheet,
+and selected native format captures; not every frame or owner acceptance.
+Restore probe06 verifies final fit/coverage checks. Probe05 establishes the same
+one-RGB-pixel/five-channel-level wire variation in unchanged repeated frames;
+fit uniforms/coverage remain exact. Dot/grid/color restoration stays exact.
+Keep failed colors01 (old fixture missed Hair input), colors03 (over-strict
+wire byte equality), and private probe anchor/diagnostic receipts. No runtime
+workaround/security/performance gate reduction or fabricated accuracy claim.
+All owned browser/native servers/processes/profiles stopped/removed.
+No new release, dependency/model/media change or stable-user interruption.
+
+Completion log:
+2026-11-19 - Owner asks to disable Claire colors and optionally add matching
+hairstyles to mesh/dotted/other views, disabled there by default.
+2026-11-19 - Implemented matching depth/style passes, per-view visibility,
+shared style, grayscale and bounded resource/fit/support handling. Qualified
+real Edge/Electron; documented failed fixture/raster assumptions honestly.

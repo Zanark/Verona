@@ -45,7 +45,7 @@ stable Dot/grid fitting and Full bust restoration; no motion/inference change.
 vr-22 preserves original Claire hair and adds ten selected-only procedural
 alternatives in hairstyles.mjs; no per-frame generation or unbounded style cache.
 Keep original plus latest alternative/crop buffers, shared jaw clipping and
-hair-free views. vr-23 adds exclusive iris/head cursor modes, bounded smoothed
+default hair-free views (vr-28 adds opt-in matching hair). vr-23 adds exclusive iris/head cursor modes, bounded smoothed
 head rotation around the eye midpoint, exactly centered head-mode irises and
 manual XYZ offsets. Use the existing cursor IPC and one RAF; no cursor warping,
 joint/physical-gaze claim or speech change. Reload restores original/eyes mode.
@@ -56,6 +56,11 @@ overlay reserves10% fit room; head mode reserves20% and uses consistent cursor
 projection. vr-25 adds per-view density0.5-3/gap0-80% uniforms: FaceDot now uses
 surface-sampled circular marks, not one point/native vertex. Do not inflate
 neural topology or call the grid a quad rig. Reload resets unsaved controls.
+vr-28 keeps Claire colors/hair on by default and adds reversible grayscale plus
+per-view Hair choices, default off elsewhere. One shared hairstyle uses each
+view's triangles/wire/dots/grid and depth occlusion, with combined bounded fits.
+Keep original plus latest alternative resources, lazy triangle-edge buffers,
+no animated-normal work in unlit views and no per-frame geometry/fit rebuild.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

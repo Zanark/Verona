@@ -96,13 +96,16 @@ class FaceRenderer {
     const fragment = `#version 300 es
       precision highp float;
       uniform vec3 color;
-      uniform bool points, polygonView;
+      uniform bool points, polygonView, monochrome;
       uniform float neckDepth;
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
       float square(float value) { return value*value; }
+      vec3 tint(vec3 value) {
+        return monochrome ? vec3(dot(value, vec3(0.2126, 0.7152, 0.0722))) : value;
+      }
       void main() {
         if (neckDepth >= 0.0 && rest.y < ${JAW_CROP.chin}
           + ${JAW_CROP.curve} * rest.x * rest.x
@@ -146,8 +149,8 @@ class FaceRenderer {
         if (pass == 1) {
           float facing = smoothstep(-0.05,0.55,n.z);
           outputColor = polygonView
-            ? vec4(color*(0.42+diffuse*0.48+rim*0.35),facing*0.38)
-            : vec4(color*(0.65+diffuse*0.35),facing*(material==1?0.12:0.105));
+            ? vec4(tint(color*(0.42+diffuse*0.48+rim*0.35)),facing*0.38)
+            : vec4(tint(color*(0.65+diffuse*0.35)),facing*(material==1?0.12:0.105));
           return;
         }
         vec3 base = color;
@@ -234,12 +237,12 @@ class FaceRenderer {
         if (polygonView) {
           vec3 lit=base*(0.16+0.70*diffuse+0.18*fill)+vec3(0.12,0.17,0.20)*rim;
           lit+=vec3(0.64,0.77,0.83)*specular*(material==2?0.65:0.14);
-          outputColor=vec4(lit,1.0);
+          outputColor=vec4(tint(lit),1.0);
           return;
         }
         vec3 lit = base * (0.23 + 0.62*diffuse + 0.18*fill) + vec3(0.065,0.040,0.027)*rim;
         lit += vec3(0.88,0.73,0.57)*specular*polish;
-        outputColor = vec4(pow(max(lit,vec3(0.0)),vec3(1.0/2.2)),1.0);
+        outputColor = vec4(tint(pow(max(lit,vec3(0.0)),vec3(1.0/2.2))),1.0);
       }`;
     const compile = (type, source) => {
       const shader = gl.createShader(type);
@@ -264,7 +267,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "neckDepth", "presentationStyle", "viewCenter", "viewScale"]
+      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -306,10 +309,13 @@ class FaceRenderer {
       positions:this.buffer(gl.ARRAY_BUFFER,eyeData),
       triangles:this.buffer(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3)),
       normals:this.buffer(gl.ARRAY_BUFFER,surfaceNormals(eyeData,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3))),
+      triangleCount: eyes.triangles,
     };
     this.eyeTriangles = new Uint32Array(binary, eyes.triangleOffset, eyes.triangles * 3);
     this.presentationId = "claire";
     this.view = presentation("claire");
+    this.hairVisible = Object.fromEntries(Object.keys(PRESENTATIONS).map(id => [id, id === "claire"]));
+    this.hairFits = {};
     this.framings = Object.fromEntries(Object.entries(PRESENTATIONS).map(([id, view]) => [id, view.framing]));
     this.neckDepths = Object.fromEntries(Object.keys(PRESENTATIONS).map(id => [id, JAW_CROP.defaultNeck]));
     this.detail = 5;
@@ -342,7 +348,7 @@ class FaceRenderer {
     return buffer;
   }
 
-  setFraming(value, depth = this.neckDepths[this.presentationId]) {
+  setFraming(value, depth = this.neckDepths[this.presentationId], refit = true) {
     if (value !== "full" && value !== "head-neck") throw new Error("Choose a supported face framing.");
     const headOnly = value === "head-neck";
     if (headOnly && this.neck?.depth !== depth) {
@@ -354,7 +360,7 @@ class FaceRenderer {
     this.skin = headOnly ? this.neck.skin : this.fullSkin;
     this.activeHair = headOnly ? this.neck.hair : this.hair;
     for (const slot of this.normalSlots) slot.frame = -1;
-    this.updateFit();
+    if (refit) this.updateFit();
   }
 
   createNeck(depth, positions, edges, triangles, surface) {
@@ -380,7 +386,6 @@ class FaceRenderer {
 
   setHairStyle(id) {
     hairstyle(id);
-    if (this.view.style !== 0) throw new Error("Hairstyles are available in Claire.");
     if (id === this.hairStyle) return;
     const data = id === "claire" ? this.originalHair : createHairstyle(id, this.meta);
     const surface = id === "claire" ? data.surface : {
@@ -398,14 +403,22 @@ class FaceRenderer {
     }
     this.deleteNeck();
     if (this.hair !== this.originalHair.surface) {
-      for (const name of ["positions", "normals", "triangles", "edges"]) this.gl.deleteBuffer(this.hair[name]);
+      for (const name of ["positions", "normals", "triangles", "edges", "meshEdges"]) {
+        if (this.hair[name]) this.gl.deleteBuffer(this.hair[name]);
+      }
     }
     this.hair = surface; this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
     this.hairStyle = id; this.neck = nextNeck;
+    this.hairFits = {};
     this.activeHair = this.headOnly ? nextNeck.hair : surface;
     if (this.headOnly) this.skin = nextNeck.skin;
     for (const slot of this.normalSlots) slot.frame = -1;
     this.geometryKey = null;
+    this.updateFit();
+  }
+
+  setHairVisible(visible) {
+    this.hairVisible[this.presentationId] = visible;
     this.updateFit();
   }
 
@@ -417,18 +430,29 @@ class FaceRenderer {
 
   updateFit() {
     if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: hairstyle(this.hairStyle).fit };
-    else if (this.view.style === 1) this.fit = this.frontFit;
     else {
-      this.allVertices ||= Uint32Array.from({ length: this.meta.vertices }, (_, i) => i);
-      if (this.headOnly) {
+      let vertices, key;
+      if (this.view.style === 1) {
+        this.fit = this.frontFit; vertices = this.frontFitVertices; key = "front";
+      } else if (this.headOnly) {
         if (!this.neckFit) {
           const maximum = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, JAW_CROP.maximumNeck);
+          this.neckFitVertices = maximum.vertices;
           this.neckFit = presentationFit(this.neutralData, maximum.vertices, this.meta.quantization);
         }
-        this.fit = this.neckFit;
+        this.fit = this.neckFit; vertices = this.neckFitVertices; key = "head-neck";
       } else {
+        this.allVertices ||= Uint32Array.from({ length: this.meta.vertices }, (_, i) => i);
         this.fullSkin.fit ||= presentationFit(this.neutralData, this.allVertices, this.meta.quantization);
-        this.fit = this.fullSkin.fit;
+        this.fit = this.fullSkin.fit; vertices = this.allVertices; key = "full";
+      }
+      if (this.hairVisible[this.presentationId]) {
+        if (!this.hairFits[key]) {
+          const hairVertices = this.headOnly
+            ? trimJawTopology(this.hairData, this.hairEdges, this.hairTriangles, this.meta, JAW_CROP.maximumNeck).vertices : null;
+          this.hairFits[key] = presentationFit(this.neutralData, vertices, this.meta.quantization, this.hairData, hairVertices);
+        }
+        this.fit = this.hairFits[key];
       }
     }
   }
@@ -450,6 +474,7 @@ class FaceRenderer {
     if (this.front) for (const name of ["triangles", "edges", "points"]) gl.deleteBuffer(this.front[name]);
     this.front = next;
     this.frontFit = fit;
+    this.frontFitVertices ||= native.vertices;
     this.detail = detail;
     if (this.view.style === 1) { this.skin = next; this.updateFit(); }
   }
@@ -460,7 +485,8 @@ class FaceRenderer {
       this.setDetail(this.detail);
       this.skin = this.front;
       this.headOnly = false;
-    } else this.setFraming(this.framings[id], this.neckDepths[id]);
+      this.activeHair = this.hair;
+    } else this.setFraming(this.framings[id], this.neckDepths[id], false);
     this.presentationId = id;
     this.view = view;
     this.updateFit();
@@ -468,7 +494,20 @@ class FaceRenderer {
   }
 
   drawPresentation(ratio) {
-    const gl = this.gl, u = this.uniforms, skin = this.skin, style = this.view.style;
+    const gl = this.gl, u = this.uniforms, skin = this.skin, hair = this.activeHair, style = this.view.style;
+    const showHair = this.hairVisible[this.presentationId];
+    if (style === 1) {
+      if (!this.eyes.edges) {
+        const edges = topologyEdges(this.eyeTriangles);
+        this.eyes.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, edges);
+        this.eyes.edgeCount = edges.length / 2;
+      }
+      if (showHair && !hair.meshEdges) {
+        const edges = topologyEdges(this.hairTriangles);
+        hair.meshEdges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, edges);
+        hair.meshEdgeCount = edges.length / 2;
+      }
+    }
     gl.uniform1i(u.points, 0);
     gl.uniform1i(u.pass, 2);
     gl.uniform1i(u.material, 0);
@@ -480,6 +519,11 @@ class FaceRenderer {
     this.staticSurface(this.eyes);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.eyes.triangles);
     gl.drawElements(gl.TRIANGLES, this.meta.eyes.triangles * 3, gl.UNSIGNED_INT, 0);
+    if (showHair) {
+      this.staticSurface(hair);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, hair.triangles);
+      gl.drawElements(gl.TRIANGLES, hair.triangleCount * 3, gl.UNSIGNED_INT, 0);
+    }
     gl.disable(gl.POLYGON_OFFSET_FILL);
     gl.colorMask(true, true, true, true);
     gl.depthMask(false);
@@ -489,18 +533,13 @@ class FaceRenderer {
     gl.uniform1i(u.points, 0);
     gl.uniform1f(u.pointSize, 1.9 * ratio);
     gl.uniform3f(u.color, 0.30, 0.91, 0.86);
-    const surface = (skinSurface) => {
+    const surface = (geometry) => {
       if (style === 1) {
-        if (!skinSurface && !this.eyes.edges) {
-          const edges = topologyEdges(this.eyeTriangles);
-          this.eyes.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, edges);
-          this.eyes.edgeCount = edges.length / 2;
-        }
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skinSurface ? skin.edges : this.eyes.edges);
-        gl.drawElements(gl.LINES, (skinSurface ? skin.edgeCount : this.eyes.edgeCount) * 2, gl.UNSIGNED_INT, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geometry.meshEdges || geometry.edges);
+        gl.drawElements(gl.LINES, (geometry.meshEdgeCount || geometry.edgeCount) * 2, gl.UNSIGNED_INT, 0);
       } else {
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skinSurface ? skin.triangles : this.eyes.triangles);
-        gl.drawElements(gl.TRIANGLES, (skinSurface ? skin.triangleCount : this.meta.eyes.triangles) * 3, gl.UNSIGNED_INT, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geometry.triangles);
+        gl.drawElements(gl.TRIANGLES, geometry.triangleCount * 3, gl.UNSIGNED_INT, 0);
       }
     };
     for (const name of ["positionA", "positionB"]) {
@@ -511,10 +550,15 @@ class FaceRenderer {
     for (const name of ["normalA", "normalB"]) this.attribute(name, this.neutralNormals, gl.FLOAT);
     gl.uniform1f(u.blend, this.frameBlend);
     gl.uniform1i(u.material, 0);
-    surface(true);
+    surface(skin);
     this.staticSurface(this.eyes);
     gl.uniform1i(u.material, 2);
-    surface(false);
+    surface(this.eyes);
+    if (showHair) {
+      this.staticSurface(hair);
+      gl.uniform1i(u.material, 1);
+      surface(hair);
+    }
     gl.disable(gl.BLEND);
     gl.depthMask(true);
     gl.uniform1i(u.points, 0);
@@ -570,7 +614,7 @@ class FaceRenderer {
 
   placeOverlayTools(pose, fitScale, zoom, rect) {
     if (!desktop || !document.documentElement.classList.contains("overlay")) return;
-    const showHair = this.view.style === 0 && $("hair").checked;
+    const showHair = this.hairVisible[this.presentationId];
     const key = [this.skin, showHair ? this.hairData : null];
     if (!this.overlayBoundsKey || key.some((value, i) => value !== this.overlayBoundsKey[i])) {
       const supports = [];
@@ -642,6 +686,7 @@ class FaceRenderer {
     const skin = this.skin, hair = this.activeHair;
     gl.uniform1f(u.neckDepth, this.headOnly ? this.neck.depth : -1);
     gl.uniform1i(u.polygonView,polygonView);
+    gl.uniform1i(u.monochrome, this.view.style === 0 && !$("colors").checked);
     gl.uniform1i(u.presentationStyle, this.view.style);
     gl.uniform3fv(u.viewCenter, this.fit.center);
     const headMode = $("cursor-mode").value === "head", following = $("follow-eyes").checked && cursor;
@@ -683,7 +728,8 @@ class FaceRenderer {
       this.drawPresentation(ratio);
       const description = `${this.view.name}: ${skin.triangleCount.toLocaleString()} skin depth triangles; `
         + (this.view.style === 1 ? `${skin.edgeCount.toLocaleString()} triangle edges, detail ${this.detail}/5. Front face only.`
-          : this.view.style === 2 ? "Surface-sampled dots only; hair off." : "Surface-space rectangular grid; hair off.")
+          : this.view.style === 2 ? "Surface-sampled dots only." : "Surface-space rectangular grid.")
+        + (this.hairVisible[this.presentationId] ? ` Matching hair: ${hair.triangleCount.toLocaleString()} depth triangles.` : " Hair off.")
         + " Same Claire speech motion; no animated-normal updates.";
       if ($("geometry-details").textContent !== description) $("geometry-details").textContent = description;
       this.geometryKey = null;
@@ -948,7 +994,7 @@ $("seek").addEventListener("input", () => {
 });
 $("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
-for (const id of ["appearance", "edges", "points", "hair", "yaw", "tilt", "roll", "zoom"]) {
+for (const id of ["appearance", "colors", "edges", "points", "yaw", "tilt", "roll", "zoom"]) {
   $(id).addEventListener("input", () => { updateAngles(); syncZoom(); draw(); });
 }
 function syncZoom() {
@@ -1005,6 +1051,8 @@ function syncPresentationControls() {
   $("neck-depth-value").value = `${renderer.neckDepths[renderer.presentationId].toFixed(1)} cm`;
   $("presentation").value = renderer.presentationId;
   $("hairstyle").value = renderer.hairStyle;
+  $("hair").checked = renderer.hairVisible[renderer.presentationId];
+  $("hairstyle").disabled = !$("hair").checked;
   const pattern = renderer.patterns[renderer.presentationId];
   for (const id of ["pattern-density-control", "pattern-gap-control"]) $(id).hidden = !pattern;
   if (pattern) {
@@ -1033,6 +1081,10 @@ $("neck-depth").addEventListener("input", () => {
 });
 $("hairstyle").addEventListener("input", () => {
   try { renderer.setHairStyle($("hairstyle").value); syncPresentationControls(); draw(); }
+  catch (error) { syncPresentationControls(); failure(error); }
+});
+$("hair").addEventListener("input", () => {
+  try { renderer.setHairVisible($("hair").checked); syncPresentationControls(); draw(); }
   catch (error) { syncPresentationControls(); failure(error); }
 });
 $("cursor-mode").addEventListener("input", () => {
@@ -1138,7 +1190,7 @@ try {
     const option = document.createElement("option");
     option.value = id; option.textContent = style.name; $("hairstyle").append(option);
   }
-  $("hairstyle").disabled = false;
+  $("hair").disabled = false;
   for (const [id, view] of Object.entries(PRESENTATIONS)) {
     const option = document.createElement("option");
     option.value = id; option.textContent = view.name;

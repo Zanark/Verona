@@ -117,12 +117,17 @@ export function frontFaceTopology(positions, edges, triangles, meta, detail) {
     vertices: new Uint32Array([...new Set(kept)].sort((a, b) => a - b)) };
 }
 
-export function presentationFit(positions, vertices, quantization) {
+export function presentationFit(positions, vertices, quantization, extraPositions = null, extraVertices = null) {
   const low = [Infinity, Infinity, Infinity], high = [-Infinity, -Infinity, -Infinity];
-  for (const index of vertices) for (let j = 0; j < 3; j++) {
-    const value = positions[index * 3 + j] / quantization;
-    low[j] = Math.min(low[j], value); high[j] = Math.max(high[j], value);
-  }
+  const include = (data, indices) => {
+    const count = indices ? indices.length : data.length / 3;
+    for (let n = 0; n < count; n++) for (let j = 0; j < 3; j++) {
+      const value = data[(indices ? indices[n] : n) * 3 + j] / quantization;
+      low[j] = Math.min(low[j], value); high[j] = Math.max(high[j], value);
+    }
+  };
+  include(positions, vertices);
+  if (extraPositions) include(extraPositions, extraVertices);
   const extent = Math.max(...high.map((value, i) => value - low[i]));
   if (!Number.isFinite(extent) || extent <= 0) throw new Error("Cannot fit an empty presentation.");
   return { center: high.map((value, i) => (value + low[i]) / 2), scale: 1.8 / extent };

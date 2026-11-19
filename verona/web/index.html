@@ -100,6 +100,7 @@
           <option value="polygon" selected>Transparent polygons</option>
           <option value="shaded">Reference color + makeup</option>
         </select></label>
+        <label data-claire-control><input id="colors" type="checkbox" checked> Colors (skin, eyes and hair)</label>
         <label for="framing">Framing <select id="framing" disabled>
           <option value="full" selected>Full bust</option>
           <option value="head-neck">Head and neck</option>
@@ -116,8 +117,8 @@
             title="Live preview: 0 follows the jawline; drag right to show more neck."></label>
         <label data-claire-control><input id="edges" type="checkbox" checked> Edges</label>
         <label data-claire-control><input id="points" type="checkbox"> Points</label>
-        <label data-claire-control><input id="hair" type="checkbox" checked> Hair</label>
-        <label for="hairstyle" data-claire-control>Hairstyle <select id="hairstyle" disabled></select></label>
+        <label><input id="hair" type="checkbox" checked disabled> Hair (this view)</label>
+        <label for="hairstyle">Hairstyle (shared) <select id="hairstyle" disabled></select></label>
         <label for="tilt">X <input id="tilt" aria-label="X rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="tilt-angle">0 deg</output></label>
         <label for="yaw">Y <input id="yaw" aria-label="Y rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="yaw-angle">0 deg</output></label>
         <label for="roll">Z <input id="roll" aria-label="Z rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="roll-angle">0 deg</output></label>
@@ -131,7 +132,9 @@
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
       <p id="geometry-details" class="hint" aria-live="polite"></p>
-      <p class="hint">Claire offers original waves plus ten procedural hairstyles. Full bust reveals long tails/layers;
+      <p class="hint">Every view offers original waves plus ten procedural hairstyles. Hair starts off outside Claire;
+        enable Hair for this view, then choose a shared hairstyle. Hair matches the head's polygons, wire, dots or grid.
+        Full bust reveals long tails/layers;
         Head and neck trims hair to the same jaw curve. Updos reserve a little framing space.
         Eyes mode moves only irises; Head mode keeps them centered and turns the whole head.
         Follow cursor enables either mode; manual XYZ remains an offset. Tracking is bounded, not calibrated 3D gaze.</p>
@@ -142,11 +145,12 @@
       <p class="hint">Claire preserves the current look and motion. FaceMesh is a front-face wire mask with
         five detail levels (5 retains native face detail). FaceDot shows depth-occluded surface dots;
         UniformPolygons adds a surface-anchored rectangular grid. Both include ears, eyes and neck,
-        without hair. These are presentations of the same animated skin, not new speech models.
+        with optional matching-format hair. These are presentations of the same animated skin, not new speech models.
         Realistic remains planned, not implemented.
         Verona rest-surface styling; real Claire skin motion and connected native topology.
         Transparent-looking polygons by default; choose Reference color + makeup for olive skin,
         hazel-green eyes and rosewood cosmetics. Reference-guided styling, not an exact reconstruction.
+        Disable Colors for grayscale skin, eyes, cosmetics and hair in either Claire material.
         Color rendering is capped at 1.5x pixel density (polygons: 2x) to favor smooth playback.
         Edges, Points and Hair remain independently toggleable.
         Cursor gaze moves the procedural irises, not learned eye joints.

@@ -37,6 +37,8 @@ Chapter09's vr-26 gallery receipt links every hairstyle's actual animated
 preview, separates speech/view/control samples and preserves earlier releases.
 Its vr-27 correction explains equal responsive GIF alignment, centered solo
 previews and actual native alpha capture for the transparent FaceMesh hero.
+Chapter09's vr-28 explains reversible monochrome Claire and default-off matching
+wire/dot/grid hairstyles, per-view visibility, shared selection and bounded fits.
 
 ## Reading paths
 

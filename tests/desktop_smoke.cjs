@@ -217,6 +217,40 @@ async function run(window) {
     document.getElementById("presentation").dispatchEvent(new Event("input"));`);
   assert.equal(await evaluate(`document.getElementById("framing").value`),"head-neck");
   report.checks.push("All three new views have real native overlay alpha, preserve the clip and restore Claire framing.");
+  report.matchingHair=[];
+  for(const view of ["facemesh","facedot","uniform"]){
+    for(const style of ["curls","bun","twins"])for(const yaw of [0,.8]){
+      const result=await evaluate(`(() => {
+        const $=id=>document.getElementById(id),set=(id,value)=>{$(id).value=String(value);$(id).dispatchEvent(new Event("input"));};
+        set("presentation","${view}");$("hair").checked=true;$("hair").dispatchEvent(new Event("input"));
+        set("hairstyle","${style}");set("yaw",${yaw});
+        const c=$("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
+        g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+        let minX=c.width,minY=c.height,maxX=0,maxY=0,clear=0;
+        for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
+          if(p[(y*c.width+x)*4+3]>16){minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);}
+          else clear++;
+        }
+        const tab=$("overlay-toggle").getBoundingClientRect();
+        return {minX,minY,maxX,maxY,width:c.width,height:c.height,clear,tabBottom:tab.bottom,
+          headTop:(c.height-1-maxY)*c.clientHeight/c.height,error:g.getError(),source:$("audio").src,time:$("audio").currentTime};
+      })()`);
+      assert.equal(result.error,0);assert.equal(result.source,before.source);
+      assert(result.clear>10000 && result.minX<result.maxX && result.minY<result.maxY);
+      assert(result.minX>3 && result.minY>3 && result.maxX<result.width-4 && result.maxY<result.height-4,JSON.stringify({view,style,yaw,...result}));
+      assert(result.tabBottom<=result.headTop+2,JSON.stringify({view,style,yaw,...result}));
+      report.matchingHair.push({view,style,yaw,...result});
+      if(style==="curls" && yaw===.8)await fs.writeFile(path.join(output,`matching-hair-${view}.png`),(await window.webContents.capturePage()).toPNG());
+    }
+    await evaluate(`document.getElementById("hair").checked=false;document.getElementById("hair").dispatchEvent(new Event("input"));`);
+  }
+  await evaluate(`document.getElementById("presentation").value="claire";document.getElementById("presentation").dispatchEvent(new Event("input"));
+    document.getElementById("hairstyle").value="claire";document.getElementById("hairstyle").dispatchEvent(new Event("input"));
+    document.getElementById("colors").checked=false;document.getElementById("colors").dispatchEvent(new Event("input"));`);
+  await fs.writeFile(path.join(output,"claire-monochrome.png"),(await window.webContents.capturePage()).toPNG());
+  await evaluate(`document.getElementById("colors").checked=true;document.getElementById("colors").dispatchEvent(new Event("input"));
+    document.getElementById("yaw").value="0";document.getElementById("yaw").dispatchEvent(new Event("input"));`);
+  report.checks.push("Matching hair retains transparent native bounds and floating-tab headroom in all formats for curls/bun/tails, front and turned.");
   for (const id of ["tilt", "yaw", "roll"]) {
     for (const value of [-Math.PI, Math.PI / 2, Math.PI]) {
       const state = await evaluate(`(() => {const e=document.getElementById("${id}");e.value="${value}";
