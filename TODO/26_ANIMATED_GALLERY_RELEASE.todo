@@ -2,7 +2,7 @@ ID: vr-26
 Title: Complete hairstyle GIF gallery and updated prototype release
 GitHub issue: https://github.com/Zanark/Verona/issues/25
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: GIF-first README showcasing every supported hairstyle and current controls.
 Dependencies: vr-22, vr-23, vr-24, vr-25
 
@@ -15,7 +15,7 @@ Tasks:
 [x] Capture all eleven hairstyles and representative speech, views and controls.
 [x] Independently decode and visually inspect GIFs; retain exact source/media provenance.
 [x] Update README, media guide, book, ledger and issue/Project tracking.
-[ ] Commit/push the verified gallery and publish/read back prototype.3.
+[x] Commit/push the verified gallery and publish/read back prototype.3.
 
 Acceptance criteria:
 Every HAIRSTYLES option appears by its exact displayed name with a visible GIF
@@ -29,7 +29,7 @@ Keep earlier immutable release tags/bodies and media unchanged. No installer,
 deployment, Realistic implementation, accuracy or subjective acceptance claim.
 
 Completion evidence:
-Gallery implemented and reviewed; source/release publication pending.
+Gallery implemented, reviewed and source-published; aesthetic/phonetic acceptance open.
 Runtime baseline f1aea4d24b2a0c40eef08ce1240ad6f1ecd3348e unchanged.
 No active Verona runtime found before capture; shared CPU/GPU remain exclusive
 qualification resources. Existing pinned Python/Edge and local encoder only.
@@ -43,11 +43,20 @@ other22sequences captured inisolatedEdge, allownedprocesses/profilescleaned.
 Approx39.7MB media;15sourcehashes/24mediahashes in gallery-provenance.json.
 Actual built-in layout recorded: inline override blocked byexistingstyleCSP.
 Rawsource guard hitCRLF/LF; normalizedequality and exactcapturebytehashes separate.
-Issue25/originalsavedProjectitemverified InProgress; initialmembership propagation
+Issue25/originalsavedProjectitem tracked this slice; initialmembership propagation
 miss recovered byfreshinventory/reusing savedIDs, notcreating duplicates.
+Source0ba9669a8c558c0e4944916e5608022c7e5f95d5 committed/pushedasverifiedZanark
+withbothidentitiesandrequiredtrailers. Immutablev0.1.0-prototype.3 published
+2026-11-19T16:05:49Z, release451583769. Exacttag/source/body/prereleaseverified.
+GitHub-renderedREADME24images/23GIFs/all11namedhairstylesreadbackverified.
+24remotemedia/15runtimesource/provenanceblobs match;23historicalmediablobs
+andbothpreviousreleaseids/bodies/tags unchanged. Nobinaryassets/modelbundle.
+66relativelinks/25eightfieldacyclicworkstreams/24earliermappingrecordsverified.
 
 Completion log:
 2026-11-19 - Owner requests a GIF-heavy README showing every hairstyle and an
 updated release. Authorized a new source prerelease, not a deployment/model bundle.
 2026-11-19 - Actual runtime capture and local encoding complete; all decoded
 review sheets inspected, complete GIF-first README and prototype.3 notes ready.
+2026-11-19 - Published and read back immutable prototype.3 with exact source,
+complete rendered hairstyle gallery and unchanged earlier releases. Close vr-26.

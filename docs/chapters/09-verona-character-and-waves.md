@@ -25,6 +25,13 @@ changes accompany the gallery. Exact source/media hashes, original failure
 receipts, disposable-owner cleanup and publication identity remain separate
 from appearance approval. See [prototype.3 notes](../releases/v0.1.0-prototype.3.md).
 
+Gallery source `0ba9669a8c558c0e4944916e5608022c7e5f95d5` is published as
+immutable `v0.1.0-prototype.3` (release `451583769`, 2026-11-19T16:05:49Z).
+Readback verifies the exact tag/body, GitHub-rendered 24-image/23-GIF README,
+all eleven named hairstyles, 24 media blobs and 15 unchanged runtime sources.
+Twenty-three historical media blobs and both earlier release bodies/tags/IDs
+remain unchanged. This source prerelease includes no installer/model assets.
+
 ## Direction and scope
 
 The owner asked for an independently designed, more attractive adult character

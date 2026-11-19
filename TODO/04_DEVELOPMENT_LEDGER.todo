@@ -1,6 +1,19 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-26 source gallery and immutable prototype.3 published
+Outcome: source0ba9669a8c558c0e4944916e5608022c7e5f95d5 pushedasverifiedZanark
+andpublishedat2026-11-19T16:05:49Z asv0.1.0-prototype.3/release451583769.
+Bothauthor/committerandrequiredtrailersverified; exactremoteMain/tag/body
+andprereleaseflagsreadback. ActualGitHub-renderedREADMEhas24images/23GIFs,
+every11exacthairnameandindividualGIF. Remote24mediablobs/15runtimeblobs/
+provenancematch;23oldmediablobsandbotholdreleaseIDs/bodies/tagsunchanged.
+Local66relativelinks/25eightfieldacyclicstreams/24earliermappingrecordsverified.
+No runtime/dependency/model/installer/deployment change. Sourceprereleasehas
+noaddedbinaryassets; GitHubsourcearchiveincludesreviewedgallery.
+Finitevr26/issue25 completion and originalProjectitem are reconciled after
+actualpublication, notprematurelyclaimedinthefrozenrelease-sourcecommit.
+
 2026-11-19 - vr-26 complete animated gallery prepared for prototype.3
 Cause: owner explicitly requests an updated release and GIF-heavy README
 showcasing every hairstyle. Runtime f1aea4d remains unchanged.
