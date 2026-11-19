@@ -10,7 +10,7 @@ vr-07 | 07_TEXT_FACE_PROTOTYPE.todo | DONE | Small local text-to-speaking-face p
 vr-08 | 08_PROTOTYPE_FEEDBACK.todo | DONE | Cached startup/repeats, editable Hazel voice and matching Claire head/hair
 vr-09 | 09_PROTOTYPE_RELEASE.todo | DONE | Visual-first README and verified v0.1.0-prototype.1 source prerelease
 vr-10 | 10_FACE_PRESENTATION.todo | DONE | Readable shaded female face and locally qualified 60-fps rendering
-vr-11 | 11_VERONA_CHARACTER.todo | IN_PROGRESS | Original sculpted adult character and side-parted wavy hair
+vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and side-parted wavy hair
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
@@ -28,5 +28,5 @@ v0.1.0-prototype.1 is published, exact tag/source/rendered media verified.
 vr-11's chapter09 is the current presentation contract: bounded original rest
 styling, warm cosmetics and layered waves, shaded default with optional native
 edges/points. Implementation/gallery/four-mode cadence are qualified; source
-publication and final issue/Project closure remain in progress.
+milestone9f90f64 is pushed. Saved tracking mappings record issue/Project readback.
 Real-speech accuracy and human acceptance are separate gates, not probe results.

@@ -2,7 +2,7 @@ ID: vr-11
 Title: Design Verona's original sculpted face and wavy hairstyle
 GitHub issue: https://github.com/Zanark/Verona/issues/10
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: An original adult office-glam presentation with actual wavy geometry preserves speech and locally qualified display fluidity.
 Dependencies: vr-10
 
@@ -17,7 +17,7 @@ Tasks:
 [x] Refine warm skin, eye/lip/brow cosmetics and restrained connected contours.
 [x] Inspect actual neutral, speaking, hair-off and turned renders; exercise regression/cadence checks.
 [x] Update current gallery, canonical chapter, contracts, ledger and issue/Project.
-[ ] Commit/push the coherent verified milestone as Zanark; preserve the first release.
+[x] Commit/push the coherent verified milestone as Zanark; preserve the first release.
 
 Acceptance criteria:
 The change visibly affects facial shape and hairstyle, not just a label/color.
@@ -59,4 +59,7 @@ Visual review caught stepped forehead clamp; continuous angular hairline and
 curvature regression replace it. Signed shader squares avoid negative-base
 GLSLpow. Earlier receipts retained; all owned test servers/browsers/profiles
 stopped. Initial Project membership lag resolved using saved item, no duplicate.
-Source commit/push pending the final publication review.
+Source milestone9f90f644e889079fcf126f54e1f37204f492eed0 committed/pushed as
+Zanark; author/committer, required trailers and exact remote main verified.
+All27staged paths reviewed; no private/model/speech/profile/credential artifacts.
+The first prerelease tag remains2c4a13a; no new release or deployment.
