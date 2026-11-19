@@ -1,6 +1,17 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-29 approved gallery source delivered
+Sourcef1ee50280397b2080309342cc669b295a834f6ba committed/pushed asZanark,
+bothauthor/committer/requiredtrailers verified. Exact remoteMain/all32changed
+Gitblobs read back, including every current GIF/PNG and provenance. All29
+managedissue/Projectpairs verified; issue28/originalitemDone and28othermapping
+records preserved.29eightfieldacyclicstreams/84relative links; cleanworktree.
+All3releaseIDs and exacthistoricaltagtargets unchanged; runtimef4bcdca remains.
+Initialdeliveryfixture expected localtagrefs absent from this clone; preserved
+failure, then compared remote tags to historical TODO09/15/26sourceSHAs.
+Corrected complete verification passes. No new release/deployment/book edition.
+
 2026-11-20 - vr-29 approved current gallery and reader-facing disclosure
 Cause: after the eye/robot review pause, owner reports everything looks good
 and explicitly requests updated screenshots, robot coverage, GIF-heavy README
