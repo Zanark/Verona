@@ -56,6 +56,8 @@ The **View** selector adds presentations without regenerating or restarting spee
 | **UniformPolygons** | Surface-anchored rectangular grid, including ears/eyes/neck; no hair |
 
 Dot/grid views start at Head and neck; Full bust remains available.
+**Head and neck → Visible neck** previews a jaw-following cut live:
+**0** for jawline-only, up to **6cm** for more neck (default1.7cm).
 Claire retains its own framing and toggles. New unlit views skip animated-normal
 updates; lower FaceMesh detail reduces submitted geometry, not inference time.
 Grid cells follow the curved/deforming face, not perfectly flat rectangles.

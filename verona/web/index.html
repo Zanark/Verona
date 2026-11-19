@@ -99,6 +99,9 @@
         </select></label>
         <label id="mesh-detail-control" for="mesh-detail" hidden>Mesh detail <output id="mesh-detail-value">5 / 5</output>
           <input id="mesh-detail" type="range" min="1" max="5" step="1" value="5"></label>
+        <label id="neck-depth-control" for="neck-depth" hidden>Visible neck <output id="neck-depth-value">1.7 cm</output>
+          <input id="neck-depth" type="range" min="0" max="6" step="0.1" value="1.7"
+            title="Live preview: 0 follows the jawline; drag right to show more neck."></label>
         <label data-claire-control><input id="edges" type="checkbox" checked> Edges</label>
         <label data-claire-control><input id="points" type="checkbox"> Points</label>
         <label data-claire-control><input id="hair" type="checkbox" checked> Hair</label>
@@ -111,6 +114,9 @@
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
       <p id="geometry-details" class="hint" aria-live="polite"></p>
+      <p class="hint">Head and neck follows the jaw instead of a horizontal plane.
+        Drag Visible neck to preview the cut live: 0 is jawline-only, 6 shows more neck.
+        Skin and hair share the curved cut. Full bust restores the complete original geometry.</p>
       <blockquote id="spoken">No generated speech yet.</blockquote>
       <p class="hint">Claire preserves the current look and motion. FaceMesh is a front-face wire mask with
         five detail levels (5 retains native face detail). FaceDot shows depth-occluded surface dots;

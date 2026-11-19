@@ -1,6 +1,38 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-21 curved jaw framing and visual neck adjustment
+Cause: owner rejects the horizontal neck/hair chop and draws a jaw-following
+boundary, asking to choose visibility visually. Replace the Head and neck
+plane with a shared rest-space jaw/rear curve and live 0-6cm neck slider.
+Conservative primitive bounds retain curved interiors even when all corners
+clip; fragment discard handles the exact skin/hair/edge/point boundary.
+Latest five crop buffers replace/delete; no full-motion/model changes.
+Full bust, per-view choices and one audio/renderer remain.
+Browser01 failed one below-curve pixel; cause unknown, receipt retained.
+Added diagnostics without loosening the assertion; Browser02 passed.
+Native01 passed automation, but its actual8cm image exposed the original
+lower-neck/base seam. Limit this prototype control to6cm, keeping Full bust;
+this is an intentional visual bound, not fabricated new anatomy.
+Await browser module import before snapshots, avoiding an asynchronous layout/
+readback gap without claiming it caused the earlier pixel failure.
+Final Browser03 passes25checks/18modes: default25178skin/11353hairtriangles,
+12669normalvertices, 77283removedpixels/0above/0below/0fullroundtripdifference.
+At0/3/6cm skin23439/25692/26517, hair10165/12275/14345; three changes create/
+delete15buffers, sameclip/time/per-viewrestore. Input/build/draw submission
+7.2-12.6ms is not end-to-endGPU latency.
+Native02 passes13checks; actual0/1.7/6cm colored PNGs inspected, all curved,
+no exposed lower-base seam. Coloredpixels104183/110715/137868; defaultbottom
+rows248/168/245 at30/50/70%width. Claire1801intervals/1831draws480x600:
+mean16.659/p9516.8/max17.3/zero>25. Newviews181intervals each/p9516.8/
+max<=17.2/zero>25/0normalupdates.36Python/HTTP + focusedJS pass.
+Qualified on shared hardware; muted, not listening/owner contour acceptance.
+Ownedtestservers/browser/native stopped/profilesremoved; retained all receipts.
+No new dependency, asset, speech model, device, release or deployment.
+Issue20/original Project15 item Closed/Done, all20managed bodies/states/items/
+statuses read back; prior19 no-op. Saved creation IDs recovered membership lag
+without duplicate creation. Git publication remains a separate verified step.
+
 2026-11-19 - vr-20 preserved Claire and selectable presentation views
 Cause: owner likes current lip/expressive motion, names it Claire and requests
 three additional views, extensible over time, with performance prioritized.

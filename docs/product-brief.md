@@ -44,6 +44,10 @@ ears/eyes/neck) and UniformPolygons (rectangular surface grid) now, with a
 reusable view-selection boundary. These are presentations of the same animated
 Claire skin. The future GLB identity is named Realistic and remains parked.
 Positive feedback on current motion does not establish perfect phonetic accuracy.
+The owner subsequently rejects the horizontal head/neck cutoff, draws a
+jaw-following boundary and asks to decide visibility visually. vr-21 adds a
+curved Head and neck cut with live neck-depth adjustment, not a new identity
+or permission to resume Realistic.
 
 ## Confirmed
 

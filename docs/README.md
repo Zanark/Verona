@@ -26,6 +26,8 @@ do not implement a replacement model, importer or facial rig.
 The vr-20 extension preserves Claire and adds FaceMesh, FaceDot and
 UniformPolygons over the same motion, with detail/occlusion/performance contracts
 in chapter09. The future GLB identity is called Realistic and remains deferred.
+Chapter10's vr-21 extension replaces the flat neck cut with a jaw-following
+curve and live Visible neck control, retaining actual reduced geometry.
 
 ## Reading paths
 

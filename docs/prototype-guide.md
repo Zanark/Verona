@@ -108,6 +108,12 @@ uses triangles; dots do not make geometry/inference free.
 Select the view/detail in Controls before popping out the same transparent
 desktop window. Reload/restart restores Claire, Full bust and native detail.
 Reset orientation does not reset presentation/detail/framing.
+With **Head and neck**, **Visible neck** previews a curved jaw-following cut
+live. Set0 for jawline-only or drag towards6cm for more neck; default1.7cm.
+Skin and hair share the curve, so there is no straight horizontal neck/hair
+chop. Each view remembers its own value until reload. Dot/grid keep a stable
+fit while adjusting; use Zoom if desired. Full bust restores the entire original
+extent and hides the neck slider. FaceMesh keeps its front-only mask.
 **Realistic** names the parked future GLB identity; there is no selectable fake
 implementation, automatic rig repair or asset import in this update.
 

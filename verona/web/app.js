@@ -1,5 +1,5 @@
 import { rotationMatrix, cursorGaze } from "/orientation.mjs";
-import { NECK_CUTOFF_Y, trimTopology } from "/framing.mjs";
+import { JAW_CROP, trimJawTopology } from "/framing.mjs";
 import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presentationFit } from "/presentations.mjs";
 
 const $ = (id) => document.getElementById(id);
@@ -96,14 +96,17 @@ class FaceRenderer {
       precision highp float;
       uniform vec3 color;
       uniform bool points, polygonView;
-      uniform float cutoffY;
+      uniform float neckDepth;
       uniform vec2 gaze;
       uniform int material, pass, presentationStyle;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
       float square(float value) { return value*value; }
       void main() {
-        if (rest.y < cutoffY) discard;
+        if (neckDepth >= 0.0 && rest.y < ${JAW_CROP.chin}
+          + ${JAW_CROP.curve} * rest.x * rest.x
+          + ${JAW_CROP.rearRise.toFixed(1)} * clamp((${JAW_CROP.rearStart.toFixed(1)} - rest.z)
+            / ${JAW_CROP.rearSpan.toFixed(1)}, 0.0, 1.0) - neckDepth) discard;
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
@@ -249,7 +252,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "gaze", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "cutoffY", "presentationStyle", "viewCenter", "viewScale"]
+      ["blend", "quantization", "aspect", "rotation", "gaze", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "neckDepth", "presentationStyle", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -294,6 +297,7 @@ class FaceRenderer {
     this.presentationId = "claire";
     this.view = presentation("claire");
     this.framings = Object.fromEntries(Object.entries(PRESENTATIONS).map(([id, view]) => [id, view.framing]));
+    this.neckDepths = Object.fromEntries(Object.keys(PRESENTATIONS).map(id => [id, JAW_CROP.defaultNeck]));
     this.detail = 5;
     this.fit = { center: [0, 0, 0], scale: 1 };
     this.motion = null;
@@ -322,24 +326,30 @@ class FaceRenderer {
     return buffer;
   }
 
-  setFraming(value) {
+  setFraming(value, depth = this.neckDepths[this.presentationId]) {
     if (value !== "full" && value !== "head-neck") throw new Error("Choose a supported face framing.");
     const headOnly = value === "head-neck";
-    if (headOnly && !this.neck) {
-      // Classification uses packed rest Y; the fragment boundary uses original model centimetres.
-      const cutoff = (NECK_CUTOFF_Y - this.meta.center[1]) / this.meta.scale * this.meta.quantization;
-      const skin = trimTopology(this.neutralData, this.skinEdges, this.triangleData, cutoff);
-      const hair = trimTopology(this.hairData, this.hairEdges, this.hairTriangles, cutoff);
+    if (headOnly && this.neck?.depth !== depth) {
+      const skin = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, depth);
+      const hair = trimJawTopology(this.hairData, this.hairEdges, this.hairTriangles, this.meta, depth);
       const upload = (surface) => ({
         triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, surface.triangles),
         edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, surface.edges),
         triangleCount: surface.triangles.length / 3, edgeCount: surface.edges.length / 2,
       });
-      this.neck = {
+      const next = {
+        depth,
         skin: { ...upload(skin), triangleData: skin.triangles, vertices: skin.vertices,
           points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) },
         hair: { ...this.hair, ...upload(hair) },
       };
+      if (this.neck) {
+        for (const surface of [this.neck.skin, this.neck.hair]) {
+          for (const name of ["triangles", "edges"]) this.gl.deleteBuffer(surface[name]);
+        }
+        this.gl.deleteBuffer(this.neck.skin.points);
+      }
+      this.neck = next;
     }
     this.headOnly = headOnly;
     this.skin = headOnly ? this.neck.skin : this.fullSkin;
@@ -348,13 +358,27 @@ class FaceRenderer {
     this.updateFit();
   }
 
+  setNeckDepth(depth) {
+    if (!this.headOnly || this.view.style === 1) throw new Error("Choose Head and neck to adjust the jawline crop.");
+    this.setFraming("head-neck", depth);
+    this.neckDepths[this.presentationId] = depth;
+  }
+
   updateFit() {
     if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: 1 };
     else if (this.view.style === 1) this.fit = this.frontFit;
     else {
       this.allVertices ||= Uint32Array.from({ length: this.meta.vertices }, (_, i) => i);
-      this.skin.fit ||= presentationFit(this.neutralData, this.skin.vertices || this.allVertices, this.meta.quantization);
-      this.fit = this.skin.fit;
+      if (this.headOnly) {
+        if (!this.neckFit) {
+          const maximum = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, JAW_CROP.maximumNeck);
+          this.neckFit = presentationFit(this.neutralData, maximum.vertices, this.meta.quantization);
+        }
+        this.fit = this.neckFit;
+      } else {
+        this.fullSkin.fit ||= presentationFit(this.neutralData, this.allVertices, this.meta.quantization);
+        this.fit = this.fullSkin.fit;
+      }
     }
   }
 
@@ -385,7 +409,7 @@ class FaceRenderer {
       this.setDetail(this.detail);
       this.skin = this.front;
       this.headOnly = false;
-    } else this.setFraming(this.framings[id]);
+    } else this.setFraming(this.framings[id], this.neckDepths[id]);
     this.presentationId = id;
     this.view = view;
     this.updateFit();
@@ -527,7 +551,7 @@ class FaceRenderer {
     this.attribute("normalB",this.view.style ? this.neutralNormals : this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
     const skin = this.skin, hair = this.activeHair;
-    gl.uniform1f(u.cutoffY, this.headOnly ? NECK_CUTOFF_Y : -1e20);
+    gl.uniform1f(u.neckDepth, this.headOnly ? this.neck.depth : -1);
     gl.uniform1i(u.polygonView,polygonView);
     gl.uniform1i(u.presentationStyle, this.view.style);
     gl.uniform3fv(u.viewCenter, this.fit.center);
@@ -624,13 +648,14 @@ class FaceRenderer {
       gl.depthMask(true);
     }
     $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
-    const geometryKey = `${this.headOnly}:${$("hair").checked}`;
+    const geometryKey = `${this.headOnly}:${this.neck?.depth}:${$("hair").checked}`;
     if (geometryKey !== this.geometryKey) {
       this.geometryKey = geometryKey;
       $("geometry-details").textContent = `${this.headOnly ? "Head and neck" : "Full bust"}: `
         + `${skin.triangleCount.toLocaleString()} skin triangles`
         + ($("hair").checked ? ` + ${hair.triangleCount.toLocaleString()} hair triangles` : "")
-        + ". Framing changes rendering only, not speech generation.";
+        + (this.headOnly ? `; jaw-following cut, ${this.neck.depth.toFixed(1)} cm neck.` : ".")
+        + " Framing changes rendering only, not speech generation.";
     }
   }
 }
@@ -829,6 +854,7 @@ $("framing").addEventListener("input", () => {
     if (renderer.view.style === 1) throw new Error("FaceMesh uses front-face framing only.");
     renderer.setFraming($("framing").value);
     renderer.framings[renderer.presentationId] = $("framing").value;
+    syncPresentationControls();
     draw();
   }
   catch (error) {
@@ -844,6 +870,9 @@ function syncPresentationControls() {
   $("mesh-detail-value").value = `${renderer.detail} / 5`;
   $("framing").value = mesh ? "front" : renderer.framings[renderer.presentationId];
   $("framing").disabled = mesh;
+  $("neck-depth-control").hidden = !renderer.headOnly || mesh;
+  $("neck-depth").value = String(renderer.neckDepths[renderer.presentationId]);
+  $("neck-depth-value").value = `${renderer.neckDepths[renderer.presentationId].toFixed(1)} cm`;
   $("presentation").value = renderer.presentationId;
 }
 $("presentation").addEventListener("input", () => {
@@ -852,6 +881,10 @@ $("presentation").addEventListener("input", () => {
 });
 $("mesh-detail").addEventListener("input", () => {
   try { renderer.setDetail(Number($("mesh-detail").value)); syncPresentationControls(); draw(); }
+  catch (error) { syncPresentationControls(); failure(error); }
+});
+$("neck-depth").addEventListener("input", () => {
+  try { renderer.setNeckDepth(Number($("neck-depth").value)); syncPresentationControls(); draw(); }
   catch (error) { syncPresentationControls(); failure(error); }
 });
 function updateAngles() {

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { trimTopology } from "../verona/web/framing.mjs";
+import { trimTopology, trimJawTopology, jawCutHeight, JAW_CROP } from "../verona/web/framing.mjs";
 
 const positions = new Int16Array([0,2,0, 1,2,0, 0,0,0, 1,0,0, 0,-2,0, 1,-2,0]);
 const edges = new Uint32Array([0,1, 0,2, 2,3, 4,5]);
@@ -21,3 +21,23 @@ assert.deepEqual(boundary.triangles, crop.triangles);
 assert.throws(() => trimTopology(positions, edges, triangles, 3), /entire face/);
 assert.throws(() => trimTopology(positions, edges, triangles, NaN), /malformed/);
 console.log("Framing removes hidden primitives, retains crossing/boundary topology and original vertex IDs without mutating full geometry.");
+
+const jawPositions = [-2,135.8,0, 2,135.8,0, 0,135.8,-8,
+  -2,120,0, 2,120,0, 0,120,-8, 0,132,0, 1,132,0, 0,132,1];
+const jawTriangles = [0,1,2, 3,4,5, 6,7,8], jawEdges = [0,1, 3,4, 6,7];
+const meta = { center: [0,0,0], scale: 1, quantization: 1 };
+const originalJaw = jawPositions.slice();
+const jawOnly = trimJawTopology(jawPositions, jawEdges, jawTriangles, meta, 0);
+assert([0,1,2].every(i => jawPositions[i*3+1] < jawCutHeight(jawPositions[i*3],jawPositions[i*3+2],0)));
+assert.deepEqual([...jawOnly.triangles], [0,1,2], "A curved triangle interior can survive all three clipped corners.");
+assert.deepEqual([...jawOnly.edges], [0,1], "A curved edge interior can survive both clipped endpoints.");
+const longer = trimJawTopology(jawPositions, jawEdges, jawTriangles, meta, JAW_CROP.maximumNeck);
+assert.deepEqual([...longer.triangles], [0,1,2, 6,7,8]);
+assert.deepEqual(jawPositions, originalJaw);
+assert(jawCutHeight(6,0,0)>jawCutHeight(0,0,0)+3);
+assert(jawCutHeight(0,-8,0)>jawCutHeight(0,0,0));
+assert.equal(jawCutHeight(0,0,JAW_CROP.defaultNeck),134);
+for (const value of [-1,6.1,NaN]) assert.throws(() => trimJawTopology(jawPositions,jawEdges,jawTriangles,meta,value),/malformed/);
+assert.throws(() => trimJawTopology(jawPositions,[],[0,1,999],meta,0),/bounds/);
+assert.throws(() => trimJawTopology(jawPositions,[],[3,4,5],meta,0),/entire/);
+console.log("Jawline rises at the sides/rear, neck depth is bounded, curved interiors survive and hidden work is removed.");

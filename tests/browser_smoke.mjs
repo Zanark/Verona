@@ -129,14 +129,16 @@ try {
     const data = await evaluate(`(async () => {
       const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
       const meta=(await (await fetch("/api/session",{headers:{"X-Verona-Token":location.hash.slice(1)}})).json()).mesh;
+      const {jawCutHeight}=await import("/framing.mjs");
       const pixels=()=>{const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
       const draw=g.drawElements;let calls=[];
       g.drawElements=function(mode,count,...args){calls.push({mode,count});return draw.call(this,mode,count,...args);};
       const change=value=>{$("framing").value=value;$("framing").dispatchEvent(new Event("input"));};
       change("full");const before=pixels(),full=calls;calls=[];
       change("head-neck");const after=pixels(),cropped=calls;calls=[];
-      const cutRow=c.height/2+(134-meta.center[1])/meta.scale*Number($("zoom").value)*.91*c.height/2;
-      let removed=0,aboveChanged=0,aboveMaxChannelDelta=0,belowColored=0;const aboveExamples=[];
+      const projected=Number($("zoom").value)*.91*c.height/2/meta.scale;
+      const cutRow=c.height/2+(149-meta.center[1])*projected;
+      let removed=0,aboveChanged=0,aboveMaxChannelDelta=0,belowColored=0;const aboveExamples=[],belowExamples=[];
       for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
         const i=(y*c.width+x)*4;
         const changed=before[i]!==after[i]||before[i+1]!==after[i+1]||before[i+2]!==after[i+2];
@@ -146,20 +148,24 @@ try {
           aboveMaxChannelDelta=Math.max(aboveMaxChannelDelta,...[0,1,2].map(channel=>Math.abs(before[i+channel]-after[i+channel])));
           if(aboveExamples.length<8)aboveExamples.push({x,y,before:Array.from(before.slice(i,i+4)),after:Array.from(after.slice(i,i+4))});
         }
-        if(y<cutRow-2 && (after[i]!==4||after[i+1]!==6||after[i+2]!==10))belowColored++;
+        const worldX=(x+.5-c.width/2)/projected+meta.center[0];
+        const minimum=c.height/2+(jawCutHeight(worldX,0,1.7)-meta.center[1])*projected;
+        if(y<minimum-2 && (after[i]!==4||after[i+1]!==6||after[i+2]!==10)){
+          belowColored++;if(belowExamples.length<8)belowExamples.push({x,y,minimum,worldX,color:Array.from(after.slice(i,i+4))});
+        }
       }
       change("full");const restored=pixels();let roundTrip=0;
       for(let i=0;i<before.length;i++)if(before[i]!==restored[i])roundTrip++;
       g.drawElements=draw;
       change("head-neck");
-      return {removed,aboveChanged,aboveMaxChannelDelta,aboveExamples,belowColored,roundTrip,full,cropped,cutRow,error:g.getError(),
+      return {removed,aboveChanged,aboveMaxChannelDelta,aboveExamples,belowColored,belowExamples,roundTrip,full,cropped,cutRow,error:g.getError(),
         description:$("geometry-details").textContent};
     })()`);
     report.framing=data;
     assert.equal(data.error,0);
     assert(data.removed>1000,JSON.stringify(data));
     assert(data.aboveChanged<=8 && data.aboveMaxChannelDelta<=2,JSON.stringify(data));
-    assert.equal(data.belowColored,0);
+    assert.equal(data.belowColored,0,JSON.stringify(data));
     assert.equal(data.roundTrip,0);
     const count=(calls,mode)=>calls.filter(c=>c.mode===mode).reduce((sum,c)=>sum+c.count,0);
     assert(count(data.cropped,4)<count(data.full,4));
@@ -198,6 +204,38 @@ try {
   });
   const greeting = await generate("Hey, how are you?");
   report.greeting = greeting;
+  await check("Live jawline depth changes real geometry without changing speech, leaking buffers or resetting per-view choices",async()=>{
+    report.jawDepth=await evaluate(`(() => {
+      const $=id=>document.getElementById(id),g=$("face").getContext("webgl2"),c=$("face"),a=$("audio");
+      const source=a.src,time=a.currentTime,create=g.createBuffer,remove=g.deleteBuffer;let created=0,deleted=0;
+      $("framing").value="head-neck";$("framing").dispatchEvent(new Event("input"));
+      g.createBuffer=function(){created++;return create.call(this);};g.deleteBuffer=function(b){deleted++;return remove.call(this,b);};
+      const levels=[];
+      for(const depth of [0,3,6]){
+        const start=performance.now();$("neck-depth").value=String(depth);$("neck-depth").dispatchEvent(new Event("input"));
+        const buildAndDrawMs=performance.now()-start,p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+        let visible=0;for(let i=0;i<p.length;i+=4)if(p[i]!==4||p[i+1]!==6||p[i+2]!==10)visible++;
+        levels.push({depth,visible,buildAndDrawMs,description:$("geometry-details").textContent,error:g.getError()});
+      }
+      g.createBuffer=create;g.deleteBuffer=remove;
+      $("presentation").value="facedot";$("presentation").dispatchEvent(new Event("input"));
+      const dotDefault=$("neck-depth").value;$("neck-depth").value="3";$("neck-depth").dispatchEvent(new Event("input"));
+      $("presentation").value="claire";$("presentation").dispatchEvent(new Event("input"));const restored=$("neck-depth").value;
+      const sameSource=a.src===source,sameTime=a.currentTime===time;
+      $("neck-depth").value="1.7";$("neck-depth").dispatchEvent(new Event("input"));
+      $("presentation").value="facedot";$("presentation").dispatchEvent(new Event("input"));
+      const dotRestored=$("neck-depth").value;$("neck-depth").value="1.7";$("neck-depth").dispatchEvent(new Event("input"));
+      $("presentation").value="claire";$("presentation").dispatchEvent(new Event("input"));
+      $("framing").value="full";$("framing").dispatchEvent(new Event("input"));
+      return {levels,created,deleted,dotDefault,restored,dotRestored,sameSource,sameTime,hidden:$("neck-depth-control").hidden};
+    })()`);
+    const r=report.jawDepth;
+    assert(r.levels.every(x=>x.error===0));
+    assert(r.levels[0].visible<r.levels[1].visible && r.levels[1].visible<r.levels[2].visible,JSON.stringify(r));
+    assert.equal(r.created,15);assert.equal(r.deleted,15);
+    assert.equal(r.dotDefault,"1.7");assert.equal(r.restored,"6");assert.equal(r.dotRestored,"3");
+    assert(r.sameSource && r.sameTime && r.hidden);
+  });
   await check("Presentation views preserve Claire, occlude dots, bound detail buffers and keep the same clip", async () => {
     await evaluate(`(() => {
       const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");

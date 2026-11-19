@@ -20,6 +20,7 @@ vr-17 | 17_ANIMATION_READY_AVATAR.todo | NOT_STARTED | DEFERRED: suitable face t
 vr-18 | 18_CUSTOM_AVATAR_INTEGRATION.todo | NOT_STARTED | DEFERRED: opt-in avatar adapter and local speech retargeting
 vr-19 | 19_CUSTOM_AVATAR_QUALIFICATION.todo | NOT_STARTED | DEFERRED: measured performance, owner review and candidate handoff
 vr-20 | 20_PRESENTATION_VIEWS.todo | DONE | Preserve Claire; add FaceMesh, FaceDot and UniformPolygons
+vr-21 | 21_JAWLINE_FRAMING.todo | DONE | Jaw-following head cutoff and live visible-neck control
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

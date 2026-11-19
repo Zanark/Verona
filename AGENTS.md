@@ -38,6 +38,10 @@ not quad retopology). These share motion/audio/gaze/XYZ; unlit views skip
 animated normals and retain bounded latest-detail buffers. Preserve Claire's
 material/toggles/framing on return. Realistic names the parked supplied GLB,
 not an implemented selector; vr-16..19 require explicit resumption.
+vr-21 replaces Head and neck's flat plane with a shared rest-space jaw/rear
+curve and per-view Visible neck0-6cm (default1.7). Keep conservative curved-
+primitive retention, exact shader clipping, latest-five crop buffer deletion,
+stable Dot/grid fitting and Full bust restoration; no motion/inference change.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

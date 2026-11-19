@@ -114,6 +114,29 @@ async function run(window) {
   assert.equal(lowerNeck.error,0);
   report.lowerNeck=lowerNeck;
   report.checks.push("Both materials, native contours, hair and diagnostic points leave zero alpha below the neck.");
+  report.jawDepths=[];
+  await evaluate(`document.getElementById("appearance").value="shaded";
+    document.getElementById("edges").checked=false;document.getElementById("edges").dispatchEvent(new Event("input"));`);
+  for(const depth of [0,1.7,6]){
+    const data=await evaluate(`(() => {
+      const $=id=>document.getElementById(id);$("neck-depth").value="${depth}";$("neck-depth").dispatchEvent(new Event("input"));
+      const c=$("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+      const bottom=x=>{for(let y=0;y<c.height;y++)if(p[(y*c.width+x)*4+3])return y;return null;};
+      let colored=0;for(let i=3;i<p.length;i+=4)if(p[i])colored++;
+      return {depth:${depth},colored,bottom:[bottom(Math.round(c.width*.3)),bottom(Math.round(c.width*.5)),bottom(Math.round(c.width*.7))],
+        error:g.getError(),source:$("audio").src,description:$("geometry-details").textContent};
+    })()`);
+    assert.equal(data.error,0);assert.equal(data.source,before.source);
+    if(depth===1.7)assert(data.bottom[0]>data.bottom[1]+10 && data.bottom[2]>data.bottom[1]+10,JSON.stringify(data));
+    report.jawDepths.push(data);
+    await pause(150);
+    await fs.writeFile(path.join(output,`jaw-neck-${depth}.png`),(await window.webContents.capturePage()).toPNG());
+  }
+  assert(report.jawDepths[0].colored<report.jawDepths[2].colored);
+  await evaluate(`document.getElementById("neck-depth").value="1.7";document.getElementById("neck-depth").dispatchEvent(new Event("input"));
+    document.getElementById("appearance").value="polygon";document.getElementById("edges").checked=true;
+    document.getElementById("edges").dispatchEvent(new Event("input"));`);
+  report.checks.push("Live native neck endpoints retain the clip; default skin/hair bottom rises at both jaw sides instead of a horizontal chop.");
   report.presentationViews = [];
   for (const id of ["facemesh", "facedot", "uniform"]) {
     const data = await evaluate(`(() => {

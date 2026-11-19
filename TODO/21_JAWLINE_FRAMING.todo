@@ -1,0 +1,67 @@
+ID: vr-21
+Title: Jaw-following head cutoff and live visible-neck control
+GitHub issue: https://github.com/Zanark/Verona/issues/20
+
+Status: DONE
+Milestone: Visually adjustable curved head/neck boundary without a horizontal chop.
+Dependencies: vr-14, vr-20
+
+Purpose:
+Owner rejects the straight neck/hair cutoff and draws a jaw-following contour.
+Replace Head and neck's flat plane with a reversible model-space curve and a
+live visible-neck slider. Preserve Claire, other views, motion and Full bust.
+
+Tasks:
+[x] 21.1 Add shared bounded jaw-profile parameters and conservative reduced
+    topology, retaining primitives whose interiors can cross a curved boundary.
+[x] 21.2 Clip all skin/hair/edge/point/depth passes consistently before XYZ,
+    retain original motion IDs and bound the latest adjustable topology cache.
+[x] 21.3 Provide live Visible neck 0-6 cm, per-view choices and stable framing;
+    no audio regeneration/seek, FaceMesh keeps its separate front-only extent.
+[x] 21.4 Verify curve, endpoints, malformed input, buffer replacement, pixels,
+    transparent overlay, rotation, playback and appropriate local performance.
+[x] 21.5 Prepare verified source with guide/book/index/ledger and issue/Project
+    tracking; keep Realistic parked and existing release tags unchanged.
+
+Acceptance criteria:
+Head and neck has a visibly curved jaw-following lower edge, not a straight
+horizontal plane. Slider preview lets the owner choose jaw-only or more neck.
+Full bust round-trips exactly. Hidden primitives and normal work are reduced.
+No interior-crossing curved primitive is discarded solely on corner signs.
+Choices restore per view; repeated adjustments retain only the latest five
+crop index buffers, no per-frame rebuild or speech/model/storage change.
+No device activation, asset download, sibling interaction or new release.
+
+Completion evidence:
+Implemented and environment-qualified, not owner visually accepted.
+Clean baseline b4b85b3, no Verona runtime found before edits. Owned browser/
+native lanes use private profiles/cache/synthesis and read-only assets;
+CPU/GPU/compositor remain shared. All owned processes stopped/profiles removed.
+Focused curved-interior/bounds tests and 36 Python/HTTP checks pass.
+Final jawline-framing-browser-03 passes 25 scenarios/18 playback modes:
+default 25178 skin/11353 hair triangles, 12669 animated-normal vertices;
+0/3/6cm submit 23439/25692/26517 skin and 10165/12275/14345 hair triangles.
+Three changes create/delete 15 buffers, keep the same clip/time and restore
+per-view values. Handler/build/draw submission 7.2-12.6ms, not GPU latency.
+Full neutral roundtrip 0 differences; 77283 removed pixels, 0 upper changes
+and 0 colored pixels below the conservative curved boundary.
+Final jawline-framing-native-02 passes 13 checks. Actual 0/1.7/6cm PNGs
+inspected: curved skin/hair edge at all three, no exposed lower-base seam.
+Native colored pixels 104183/110715/137868; default bottom rows 248/168/245
+at 30/50/70% width prove both sides rise. Same audio, XYZ/gaze/overlay retained.
+Claire 1801 intervals/1831 draws at 480x600: mean16.659ms/p9516.8/max17.3,
+zero>25ms. New views 181 intervals each/p9516.8/max<=17.2/0normalupdates.
+Private receipts remain under .local/qualification; no raw output published.
+No user visual/phonetic acceptance inferred from technical qualification.
+
+Completion log:
+2026-11-19 - Owner supplies drawn jawline reference and requests visual control
+over how much of the head/neck remains visible.
+2026-11-19 - Browser01 failed one below-curve pixel; retained, cause unknown.
+Diagnostics added without weakening the assertion; Browser02 passed unchanged.
+Native01 passed automation, but visual inspection exposed the existing asset's
+lower-base seam at8cm. Bound the prototype slider to6cm, not new anatomy.
+Move the browser's awaited module import before pixel snapshots to avoid a
+layout/readback gap; this does not establish the earlier pixel failure's cause.
+Final Browser03/Native02 pass; three actual final native PNGs inspected.
+Git source publication is verified separately from managed tracking projections.
