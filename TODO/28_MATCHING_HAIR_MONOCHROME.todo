@@ -2,7 +2,7 @@ ID: vr-28
 Title: Optional monochrome Claire and matching-format hair in every view
 GitHub issue: https://github.com/Zanark/Verona/issues/27
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Preserve Claire while offering color-free rendering and opt-in hair across presentations.
 Dependencies: vr-20, vr-21, vr-22, vr-23, vr-24, vr-25
 
@@ -16,7 +16,7 @@ Tasks:
 [x] Default other views to hair off; match wire/dot/grid geometry and occlusion.
 [x] Fit optional hair, preserve curved crop and support the native floating tab.
 [x] Verify real pixels, restoration, audio ownership, bounded work and defaults.
-[ ] Update book/guide/README/tracking and publish verified source as Zanark.
+[x] Update book/guide/README/tracking and publish verified source as Zanark.
 
 Acceptance criteria:
 Claire's existing appearance/hair defaults stay unchanged. Colors off produces
@@ -33,7 +33,11 @@ Reload resets unsaved settings. Preserve native sandbox/capability boundaries,
 one audio/renderer owner and no device/profile/sibling-app access.
 
 Completion evidence:
-Implemented and locally qualified; source publication pending.
+Implemented, locally qualified and source-published as verified Zanark.
+Source1553ea9cd2cbcf94777b55a0571dacae72d8fcce pushed/read back with all15
+changed Git blobs and both identities/trailers verified. Three existing release
+IDs/tags remain and no new release was created. Final issue/Project completion
+is a separate verified mapping receipt, not inferred from a local commit.
 Starting main0e26f284c6c3bf622856e470c32801ee2998c200.
 No active Verona process and clean worktree before editing. Stable-use lane
 not launched/driven; qualification owns server/profile/cache/synthesis.
@@ -64,3 +68,6 @@ hairstyles to mesh/dotted/other views, disabled there by default.
 2026-11-19 - Implemented matching depth/style passes, per-view visibility,
 shared style, grayscale and bounded resource/fit/support handling. Qualified
 real Edge/Electron; documented failed fixture/raster assumptions honestly.
+2026-11-19 - Pushed/read back exact source1553ea9 and preserved51 historical
+media blobs,23GIFs/11hairstyles/three centered solos and26 earlier mapping rows.
+27complete eight-field acyclic streams/73relative links checked.

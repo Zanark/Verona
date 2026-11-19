@@ -72,6 +72,11 @@ one RGB pixel varied by at most five channel levels while fitting uniforms
 and coverage stayed identical. Restoration now asserts exact fitting/coverage
 and that measured one-pixel wire envelope; dot/grid and Claire color restoration
 remain byte-exact. Failed receipts remain. No production workaround was added.
+Source `1553ea9cd2cbcf94777b55a0571dacae72d8fcce` is pushed and remotely
+verified with all15 changed blobs and Zanark author/committer/trailers.
+All51 earlier media blobs and all three existing release identities remain;
+there is no new release or deployment. Issue27/original Project item carries
+the finite workstream's completion separately from this source publication.
 
 ## Gallery correction: layout and genuine alpha (vr-27)
 
