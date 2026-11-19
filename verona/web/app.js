@@ -84,7 +84,7 @@ class FaceRenderer {
     const fragment = `#version 300 es
       precision highp float;
       uniform vec3 color;
-      uniform bool points;
+      uniform bool points, polygonView;
       uniform int material, pass;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
@@ -92,13 +92,15 @@ class FaceRenderer {
       void main() {
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
         vec3 n = normalize(viewNormal);
-        vec3 key = normalize(vec3(-0.55, 0.65, 1.5));
-        float diffuse = clamp((dot(n, key)+0.22)/1.22,0.0,1.0);
+        vec3 key = normalize(polygonView?vec3(-0.65,0.8,1.2):vec3(-0.55,0.65,1.5));
+        float diffuse = polygonView?max(dot(n,key),0.0):clamp((dot(n,key)+0.22)/1.22,0.0,1.0);
         float rim = pow(1.0 - abs(n.z), 3.0);
         float fill = max(dot(n, normalize(vec3(0.9,0.15,0.6))),0.0);
         if (pass == 1) {
           float facing = smoothstep(-0.05,0.55,n.z);
-          outputColor = vec4(color * (0.65 + diffuse * 0.35), facing * (material==1?0.12:0.105));
+          outputColor = polygonView
+            ? vec4(color*(0.42+diffuse*0.48+rim*0.35),facing*0.38)
+            : vec4(color*(0.65+diffuse*0.35),facing*(material==1?0.12:0.105));
           return;
         }
         vec3 base = color;
@@ -108,6 +110,16 @@ class FaceRenderer {
           float lipCenter = 140.15 - 0.10 * square(x / 2.5);
           float lip = (1.0-smoothstep(0.70,1.0,square(x/2.65)+square((rest.y-lipCenter)/0.70)))
             * smoothstep(2.6,3.2,rest.z);
+          if (polygonView) {
+            base=mix(base,vec3(0.37,0.16,0.20),lip*0.8);
+            float cavity=(1.0-smoothstep(0.65,1.0,square(x/2.3)+square((rest.y-140.1)/0.62)))
+              *(1.0-smoothstep(3.0,3.35,rest.z));
+            base=mix(base,vec3(0.025,0.018,0.024),cavity);
+            float browY=149.18+0.42*(1.0-square((x-3.1)/1.8));
+            float brow=(1.0-smoothstep(0.12,0.23,abs(rest.y-browY)))
+              *smoothstep(1.3,1.8,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(1.6,2.5,rest.z);
+            base=mix(base,vec3(0.055,0.068,0.08),brow*0.8);
+          } else {
           base = mix(base,vec3(0.29,0.038,0.058),lip * 0.94);
           polish += lip*0.25;
           float blush = exp(-square((x-3.9)/1.7)-square((rest.y-144.4)/1.6))
@@ -130,7 +142,8 @@ class FaceRenderer {
             *smoothstep(1.4,1.9,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(2.0,2.8,rest.z);
           base=mix(base,vec3(0.20,0.077,0.052),shadow*0.24);
           base=mix(base,vec3(0.018,0.006,0.007),liner*0.86);
-        } else if (material == 1) {
+          }
+        } else if (material == 1 && !polygonView) {
           float ribbon=0.5+0.5*sin(rest.y*1.65+rest.x*0.28+rest.z*0.42);
           float fiber=pow(0.5+0.5*cos(atan(rest.x+1.5,rest.z+5.7)*150.0+rest.y*0.18),8.0);
           base*=0.73+0.17*ribbon+0.24*fiber;
@@ -142,18 +155,26 @@ class FaceRenderer {
         } else if (material == 2) {
           vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
           vec3 local = rest-eyeCenter;
-          float radius = length(local.xy-vec2(0.0,0.08));
+          float radius = length(local.xy-(polygonView?vec2(0.0):vec2(0.0,0.08)));
           float front = smoothstep(0.9,1.2,local.z);
-          float iris = (1.0-smoothstep(0.53,0.59,radius))*front;
+          float iris = (1.0-smoothstep(polygonView?0.48:0.53,polygonView?0.55:0.59,radius))*front;
           float pupil = (1.0-smoothstep(0.20,0.25,radius))*front;
           vec3 hazel=mix(vec3(0.025,0.019,0.008),vec3(0.21,0.14,0.035),
             1.0-smoothstep(0.28,0.56,radius));
           hazel*=0.85+0.15*sin(atan(local.y,local.x)*62.0);
-          base = mix(base,hazel,iris);
-          base = mix(base,vec3(0.003,0.002,0.002),pupil);
+          vec3 irisColor=polygonView
+            ?vec3(0.10,0.28,0.29)*(0.8+0.2*sin(atan(local.y,local.x)*30.0)):hazel;
+          base = mix(base,irisColor,iris);
+          base = mix(base,polygonView?vec3(0.012,0.021,0.027):vec3(0.003,0.002,0.002),pupil);
           polish=0.7;
         }
         float specular = pow(max(dot(n,normalize(key+vec3(0,0,1))),0.0),material==2?80.0:36.0);
+        if (polygonView) {
+          vec3 lit=base*(0.16+0.70*diffuse+0.18*fill)+vec3(0.12,0.17,0.20)*rim;
+          lit+=vec3(0.64,0.77,0.83)*specular*(material==2?0.65:0.14);
+          outputColor=vec4(lit,1.0);
+          return;
+        }
         vec3 lit = base * (0.23 + 0.62*diffuse + 0.18*fill) + vec3(0.065,0.040,0.027)*rim;
         lit += vec3(0.88,0.73,0.57)*specular*polish;
         outputColor = vec4(pow(max(lit,vec3(0.0)),vec3(1.0/2.2)),1.0);
@@ -181,7 +202,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "yaw", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass"]
+      ["blend", "quantization", "aspect", "yaw", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -302,6 +323,8 @@ class FaceRenderer {
     this.attribute("normalA",this.normalBuffer(left),gl.FLOAT);
     this.attribute("normalB",this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
+    const polygonView = $("appearance").value === "polygon";
+    gl.uniform1i(u.polygonView,polygonView);
     gl.uniform1f(u.blend, frame - left);
     gl.uniform1f(u.quantization, this.meta.quantization);
     gl.uniform3fv(u.center,this.meta.center);
@@ -315,7 +338,7 @@ class FaceRenderer {
     gl.uniform1i(u.points, 0);
     gl.enable(gl.POLYGON_OFFSET_FILL);
     gl.polygonOffset(1, 1);
-    gl.uniform3f(u.color, 0.49, 0.275, 0.195);
+    gl.uniform3f(u.color,...(polygonView?[0.41,0.46,0.50]:[0.49,0.275,0.195]));
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.triangles);
     gl.drawElements(gl.TRIANGLES, this.meta.triangles * 3, gl.UNSIGNED_INT, 0);
     gl.disable(gl.POLYGON_OFFSET_FILL);
@@ -324,7 +347,7 @@ class FaceRenderer {
       gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
       gl.depthMask(false);
       gl.uniform1i(u.pass,1);
-      gl.uniform3f(u.color, 0.35, 0.18, 0.13);
+      gl.uniform3f(u.color,...(polygonView?[0.68,0.88,0.89]:[0.35,0.18,0.13]));
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.edges);
       gl.drawElements(gl.LINES, this.meta.edges * 2, gl.UNSIGNED_INT, 0);
     }
@@ -343,7 +366,7 @@ class FaceRenderer {
     gl.uniform1i(u.points,0);
     gl.uniform1i(u.material,2);
     this.staticSurface(this.eyes);
-    gl.uniform3f(u.color,0.72,0.68,0.58);
+    gl.uniform3f(u.color,...(polygonView?[0.65,0.72,0.72]:[0.72,0.68,0.58]));
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.eyes.triangles);
     gl.drawElements(gl.TRIANGLES,this.meta.eyes.triangles*3,gl.UNSIGNED_INT,0);
     if ($("hair").checked) {
@@ -351,7 +374,7 @@ class FaceRenderer {
       gl.uniform1i(u.points, 0);
       gl.uniform1i(u.material,1);
       gl.enable(gl.POLYGON_OFFSET_FILL);
-      gl.uniform3f(u.color, 0.052, 0.016, 0.008);
+      gl.uniform3f(u.color,...(polygonView?[0.055,0.065,0.09]:[0.052,0.016,0.008]));
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.hair.triangles);
       gl.drawElements(gl.TRIANGLES, this.meta.hair.triangles * 3, gl.UNSIGNED_INT, 0);
       gl.disable(gl.POLYGON_OFFSET_FILL);
@@ -359,7 +382,7 @@ class FaceRenderer {
       gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
       gl.depthMask(false);
       gl.uniform1i(u.pass,1);
-      gl.uniform3f(u.color, 0.31, 0.13, 0.048);
+      gl.uniform3f(u.color,...(polygonView?[0.40,0.49,0.68]:[0.31,0.13,0.048]));
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.hair.edges);
       gl.drawElements(gl.LINES, this.meta.hair.edges * 2, gl.UNSIGNED_INT, 0);
       gl.disable(gl.BLEND);
@@ -551,7 +574,7 @@ $("seek").addEventListener("input", () => {
 });
 $("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
-for (const id of ["edges", "points", "hair", "yaw", "zoom"]) $(id).addEventListener("input", draw);
+for (const id of ["appearance", "edges", "points", "hair", "yaw", "zoom"]) $(id).addEventListener("input", draw);
 for (const button of document.querySelectorAll("[data-example]")) {
   button.addEventListener("click", () => {
     if (!busy) { $("text").value = button.dataset.example; clearPreview(); $("text").focus(); }

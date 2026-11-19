@@ -22,9 +22,11 @@ def verona_rest_shape(vertices: np.ndarray) -> np.ndarray:
     jaw = np.exp(-((y - 138.0) / 4.1) ** 2)
     bridge = np.exp(-(x / 1.65) ** 4 - ((y - 144.1) / 2.8) ** 4)
     chin = np.exp(-(x / 2.8) ** 2 - ((y - 135.9) / 1.6) ** 2)
-    result[:, 0] += weight * (-.085 * x * jaw - .12 * x * bridge)
-    result[:, 1] += weight * (.16 * cheek + .10 * chin)
-    result[:, 2] += weight * (.36 * cheek + .16 * chin + .10 * bridge)
+    tip = np.exp(-(x / 1.8) ** 2 - ((y - 142.6) / 1.1) ** 2)
+    hollow = np.exp(-((np.abs(x) - 4.8) / 1.8) ** 2 - ((y - 141.8) / 1.5) ** 2)
+    result[:, 0] += weight * (-.17 * x * jaw - .20 * x * bridge + .025 * x * cheek)
+    result[:, 1] += weight * (.34 * cheek + .65 * chin)
+    result[:, 2] += weight * (.48 * cheek + .12 * chin + .10 * bridge - .28 * tip - .18 * hollow)
     return result
 
 

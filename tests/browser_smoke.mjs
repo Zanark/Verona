@@ -114,11 +114,14 @@ try {
       let colored=0, low=255, high=0;
       for(let i=0;i<pixels.length;i+=4) if(pixels[i+1]>45 && pixels[i+2]>45){
         colored++;low=Math.min(low,pixels[i+1]);high=Math.max(high,pixels[i+1]);}
-      return {error:gl.getError(),colored,contrast:high-low,width:canvas.width,height:canvas.height};
+      return {error:gl.getError(),colored,contrast:high-low,width:canvas.width,height:canvas.height,
+        view:document.getElementById("appearance").value,edges:document.getElementById("edges").checked};
     })()`);
     assert.equal(result.error, 0);
     assert(result.colored > 1000, JSON.stringify(result));
     assert(result.contrast > 40, JSON.stringify(result));
+    assert.equal(result.view,"polygon");
+    assert.equal(result.edges,true);
     report.renderer = result;
     await screenshot("01-neutral");
   });
@@ -201,7 +204,31 @@ try {
     assert.match(data.mesh.eyes.animation,/static/);
     report.presentation = data;
   });
-  await check("Shaded and native-edge playback meet the local 60-fps target at 1x and 2x density", async () => {
+  await check("Polygon and shaded views switch visibly without replacing or seeking the prepared clip", async () => {
+    const data=await evaluate(`(()=>{
+      const canvas=document.getElementById("face"),gl=canvas.getContext("webgl2"),audio=document.getElementById("audio");
+      const state=()=>({source:audio.currentSrc,time:audio.currentTime,frame:document.getElementById("frame").textContent,
+        voice:document.getElementById("voice").value,hair:document.getElementById("hair").checked});
+      const pixels=()=>{const p=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,p);return p;};
+      document.getElementById("appearance").dispatchEvent(new Event("input"));
+      const before=state(),polygon=pixels(),view=document.getElementById("appearance");
+      view.value="shaded";view.dispatchEvent(new Event("input"));const shaded=pixels(),middle=state();
+      view.value="polygon";view.dispatchEvent(new Event("input"));const restored=pixels(),after=state();
+      let changed=0,roundTrip=0;
+      for(let i=0;i<polygon.length;i+=4){
+        if(Math.abs(polygon[i]-shaded[i])+Math.abs(polygon[i+1]-shaded[i+1])+Math.abs(polygon[i+2]-shaded[i+2])>15)changed++;
+        if(polygon[i]!==restored[i]||polygon[i+1]!==restored[i+1]||polygon[i+2]!==restored[i+2])roundTrip++;
+      }return {before,middle,after,changed,roundTrip,error:gl.getError()};
+    })()`);
+    assert(data.changed>2000,JSON.stringify(data));
+    assert.equal(data.roundTrip,0);
+    assert.equal(data.error,0);
+    assert.deepEqual(data.middle,data.before);
+    assert.deepEqual(data.after,data.before);
+    report.viewSwitch=data;
+    await screenshot("02b-restored-polygons");
+  });
+  await check("Polygon, shaded and shaded-edge playback meet the local 60-fps target at 1x and 2x density", async () => {
     await evaluate(`document.getElementById("audio").loop=true;document.getElementById("audio").currentTime=0;`);
     await click("play");
     await evaluate(`(()=>{
@@ -210,10 +237,13 @@ try {
       gl.clear=function(...args){window.renderProbe.frames++;return original.apply(this,args);};
     })()`);
     report.renderCadence = [];
-    for (const {density,edges} of [
-      {density:1,edges:false},{density:2,edges:false},{density:1,edges:true},{density:2,edges:true},
+    for (const {density,edges,view} of [
+      {density:1,edges:true,view:"polygon"},{density:2,edges:true,view:"polygon"},
+      {density:1,edges:false,view:"shaded"},{density:2,edges:false,view:"shaded"},
+      {density:1,edges:true,view:"shaded"},{density:2,edges:true,view:"shaded"},
     ]) {
-      await evaluate(`document.getElementById("edges").checked=${edges};document.getElementById("edges").dispatchEvent(new Event("input"));`);
+      await evaluate(`document.getElementById("appearance").value=${JSON.stringify(view)};
+        document.getElementById("edges").checked=${edges};document.getElementById("edges").dispatchEvent(new Event("input"));`);
       await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:density,mobile:false });
       await delay(150);
     const timing = await evaluate(`new Promise(resolve=>{
@@ -235,7 +265,7 @@ try {
         }
       }requestAnimationFrame(sample);
     })`);
-    report.renderCadence.push({...timing,density,edges});
+    report.renderCadence.push({...timing,density,edges,view});
     assert.equal(timing.playing,true);
     assert(timing.samples>300,JSON.stringify(timing));
     assert(timing.submittedDraws>=timing.samples,JSON.stringify(timing));
@@ -243,7 +273,8 @@ try {
     }
     await click("play");
     await evaluate(`document.getElementById("audio").loop=false;window.renderProbe.restore();delete window.renderProbe;
-      document.getElementById("edges").checked=false;document.getElementById("edges").dispatchEvent(new Event("input"));`);
+      document.getElementById("appearance").value="polygon";
+      document.getElementById("edges").checked=true;document.getElementById("edges").dispatchEvent(new Event("input"));`);
     await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:1,mobile:false });
   });
   await check("Seek selects the corresponding original-time neural frame", async () => {
@@ -350,10 +381,14 @@ try {
     await screenshot("06-mobile");
   });
   await check("Reload clears media and preserves only the capability URL", async () => {
+    await evaluate(`document.getElementById("appearance").value="shaded";document.getElementById("edges").checked=false;
+      document.getElementById("appearance").dispatchEvent(new Event("input"));`);
     await cdp("Page.reload");
     await waitFor(`document.getElementById("generate") && !document.getElementById("generate").disabled`);
     assert.equal(await evaluate(`document.getElementById("play").disabled`), true);
     assert.equal(await evaluate(`document.getElementById("frame").textContent`), "NEUTRAL");
+    assert.equal(await evaluate(`document.getElementById("appearance").value`), "polygon");
+    assert.equal(await evaluate(`document.getElementById("edges").checked`), true);
   });
   assert.deepEqual(exceptions, []);
   assert.deepEqual(external, []);

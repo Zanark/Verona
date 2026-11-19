@@ -49,8 +49,11 @@ unqualified. This is a working neural-skin prototype, not SDK parity.
 
 **Presentation:** warm smooth shading, sculpted cheek/jaw/bridge contours,
 cosmetic brows/liner/rose lips and static hazel eyes define the character.
-Edges/points are off by default; both remain toggleable and expose the native
-mesh. Hair is on by default, with actual layered S-wave geometry. These are not
+**Transparent polygons** is the default View, restoring the earlier cool
+frosted surface and visible native contours. **Warm shaded face** is optional.
+Edges/hair are on and points off initially; all remain independent. Switching
+View changes materials immediately, not the clip, voice or playback position.
+Hair has actual layered S-wave geometry. These are not
 animated eye joints, teeth or a claim of photorealism.
 
 **Performance:** warm startup avoids native-scene parsing; repeating the latest
@@ -58,10 +61,11 @@ request skips speech/inference. The current native-loop surface uses 15,375
 vertices, about 75% fewer than the full skin. It preserves more facial detail
 than the earlier voxel reduction, so its motion payload is larger, not 37%
 smaller. Prepared playback interpolates 30-fps learned motion on the browser's
-display clock. The local 60-fps target passed at normal/2x density; that is not
-a universal hardware guarantee or 60-fps neural generation.
+display clock. Normal/2x-density tests pass the bounded mean/p95 display budget;
+latest runs also contain occasional 49-50-ms intervals. This is not a locked
+60-fps or universal hardware guarantee, nor 60-fps neural generation.
 [Chapter 09](chapters/09-verona-character-and-waves.md) records the current
-styling, geometry and four-mode measurements. New-line inference remains
+styling, geometry and six-mode measurements. New-line inference remains
 precomputed. Restart the server to load a changed backend style; reload alone
 does not rebuild an already-running engine. Speech/clip RAM is discarded on stop.
 

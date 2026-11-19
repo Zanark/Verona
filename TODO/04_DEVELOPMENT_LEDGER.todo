@@ -1,6 +1,27 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - Polygon-first correction and stronger structural revision
+Cause: Owner rejects vr11's structure and unintended solid default, then
+supplies the earlier cool polygon screenshot and explicitly wants it DEFAULT.
+Action: Restore that rendering path behind a View selector; warm shaded view
+remains optional, Edges/Hair on/Points off. Stronger lower-face taper, lifted
+chin/cheeks and refined nose/sub-cheek plane, not only different cosmetics.
+Evidence:35unit/HTTP checks,19realEdge scenarios, both views/edges at1x/2x.
+Default/reload verified, visibly different modes and exact pixel roundtrip
+without changing clip/time/frame/voice/hair. Actual pinned rest maxoffset.7884cm,
+zero reversed/collapsed previously nondegenerate triangles. Gallery5PNG/2GIF.
+Tradeoff: Final mean16.660-17.086ms/p9516.8;24intervals>25ms across6cases,
+max50.1ms. Existing bounded mean/p95 budget passes, not locked60fps or GPU/
+physicaldisplay qualification. Cause of outliers not established; keep receipts.
+Failure: First harness read a cleared/presented WebGL backbuffer; redraw before
+readback fixes false pixel-roundtrip failure without relaxing equality.
+Ownership: User closed PID42660 before live source edits; unused clean detached
+candidate removed. Private cache/RAM/work/profile, bounded sharedCPU/GPU,
+all owned test processes stopped. No new download/dependency/device/sibling edit.
+Effect: Chapter09 corrected, explicit distinction between implementation and
+owner beauty acceptance. vr12/issue11/originalProject item; publication pending.
+
 2026-11-19 - Original Verona character and layered waves qualified
 Cause: Owner asks for a more attractive independently designed adult character,
 an office-glam direction and genuinely wavy hair; previous60fps priority remains.

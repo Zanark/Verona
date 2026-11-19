@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "captureDate": "2026-11-19",
-  "sourceBase": "2f02a90be0c1fefbd0faaef1335624628e6752d5",
-  "candidate": "vr-11 original Verona rest styling and layered waves; exact source hashes below",
+  "sourceBase": "bca3c2d8fd8567dba23fca4680966f08ec2585fa",
+  "candidate": "vr-12 restored cool polygon default, optional warm shaded view and revised proportions",
   "rendererSources": {
-    "verona/web/app.js": "29de05bce43e01cb6962663481d5d879104958ac40285b834a532c5471c17f6e",
-    "verona/web/index.html": "80110ac8001cab15969ace7b2bbf2603f76eeb5f33f7ca197c437b768397c011",
+    "verona/web/app.js": "a8eb337a70191132c98f1ae6fe8a29d2a7c204f2f83956f8a60e0ded9dd9cf3f",
+    "verona/web/index.html": "1db6a6a1ddc5474e18c0d4020fc563e7a87efe101b8a943b80683b2641722633",
     "verona/mesh.py": "e84cfb7ae7ab5719035b0ff4af5b9170b24361da13ee9ac74aa8043cd647f4d0",
     "verona/engine.py": "98f66c20d4dd255ae56d46570adabd204aa08863a59ff08c084f4684422162c9",
-    "verona/appearance.py": "b016462d90a3a133e038eb6cf24286aea50251aa95affeb6ba32a5b69fc53aa2"
+    "verona/appearance.py": "01ad6d2ed98ea9f1654691e0818122bcf760c8715c6f9b2b27c83c15cf4bf4e3"
   },
   "voice": "Microsoft Zira Desktop",
   "voiceSettings": {
@@ -28,44 +28,12 @@
   "gifEncoding": "Original shared median-cut 256-color palette; Windows System.Drawing; no dithering; local palettes; infinite loop",
   "files": {
     "overview.png": {
-      "bytes": 253057,
+      "bytes": 379029,
       "dimensions": [
         1280,
         1100
       ],
-      "sha256": "1ca20e6e73e3f63ca541cabab7ce0dcac64673a547c13fea47c9d98d58e42689"
-    },
-    "skin-only.png": {
-      "bytes": 221629,
-      "dimensions": [
-        858,
-        650
-      ],
-      "sha256": "45fd9aea6aaf2f9ab7988b880724f4a0e8a99d6edf77c00b44caf3dabda20b6f"
-    },
-    "speaking.gif": {
-      "bytes": 2587259,
-      "dimensions": [
-        640,
-        485
-      ],
-      "sha256": "36661edcb844d8f8b5ee330a66b96f77a5679e270923b84a5efc75a21ac8f948"
-    },
-    "turned.png": {
-      "bytes": 206225,
-      "dimensions": [
-        858,
-        650
-      ],
-      "sha256": "6e5ce712712305e3701e71d1447da8820f04c1eeb08037f624c9866d4484f3e7"
-    },
-    "turntable.gif": {
-      "bytes": 1723845,
-      "dimensions": [
-        640,
-        485
-      ],
-      "sha256": "e4263a5adad9d5f90fdfd95d6efaf2fe8f9502835e13e6d6201f7785b95b3ec0"
+      "sha256": "cb3ba3de0ec5f681efd6eed85bb6aa3b2a06c17096983d2043c253acff1e66ac"
     },
     "voice-controls.png": {
       "bytes": 14410,
@@ -74,7 +42,47 @@
         590
       ],
       "sha256": "a7dafb8b1e714d9085e82453d61b268e2c913a16874bc7de590b8ff07caff123"
+    },
+    "turned.png": {
+      "bytes": 295796,
+      "dimensions": [
+        843,
+        650
+      ],
+      "sha256": "6b7ef998012d7ab3f5586cda590044063a0108c4fad2cf62d7c9216d8e0f3e59"
+    },
+    "skin-only.png": {
+      "bytes": 275747,
+      "dimensions": [
+        843,
+        650
+      ],
+      "sha256": "8d07e070ab1df0b886e94c24001786b45ae679ed3f1340863038dfe22dbab4a6"
+    },
+    "shaded.png": {
+      "bytes": 206525,
+      "dimensions": [
+        843,
+        650
+      ],
+      "sha256": "e47aea53e761cec36bdf1c6803ae60c5f73bc3be298cdba47ab745c9fb87d5f1"
+    },
+    "speaking.gif": {
+      "bytes": 4147350,
+      "dimensions": [
+        640,
+        493
+      ],
+      "sha256": "7588169ab3d7b4db2fcc2cd25d0208ac303475fad1cb9e5870b93c90b20b1094"
+    },
+    "turntable.gif": {
+      "bytes": 2400273,
+      "dimensions": [
+        640,
+        493
+      ],
+      "sha256": "a6dcdbc205679f48d1d2c180931b24c51b6e32b9705a6255cd0933a37703d555"
     }
   },
-  "presentation": "Warm shaded view by default; optional native mesh edges/points; static wavy hair"
+  "presentation": "Transparent-looking cool native polygons with edges by default; optional warm shaded view; independent hair/points/edges"
 }

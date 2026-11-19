@@ -71,7 +71,11 @@
         <output id="time">0.00 / 0.00 s</output>
       </div>
       <div class="view-controls">
-        <label><input id="edges" type="checkbox"> Edges</label>
+        <label for="appearance">View <select id="appearance">
+          <option value="polygon" selected>Transparent polygons</option>
+          <option value="shaded">Warm shaded face</option>
+        </select></label>
+        <label><input id="edges" type="checkbox" checked> Edges</label>
         <label><input id="points" type="checkbox"> Points</label>
         <label><input id="hair" type="checkbox" checked> Hair</label>
         <label for="yaw">Turn <input id="yaw" type="range" min="-0.8" max="0.8" step="0.01" value="0"></label>
@@ -80,7 +84,8 @@
       </div>
       <blockquote id="spoken">No generated speech yet.</blockquote>
       <p class="hint">Verona rest-surface styling; real Claire skin motion and connected native topology.
-        Shaded view by default; Edges and Points reveal the underlying mesh.
+        Transparent-looking polygons by default; choose Warm shaded face for the solid beauty view.
+        Edges, Points and Hair remain independently toggleable.
         Full SDK contact correction and independent teeth, tongue and eye-joint animation are not implemented.
         Phonetic accuracy and human acceptance are still open.</p>
     </section>

@@ -12,6 +12,9 @@ Later November 19 feedback requests an independently designed attractive adult
 office-glam character and genuinely wavy hair, without new reference images.
 Chapter 09 adds bounded rest-surface styling, warm shaded materials and layered
 waves over the same learned Claire motion; attractiveness remains subjective.
+The owner rejected that first sculpt and the solid default: restore their
+referenced cool, transparent-looking polygon view as DEFAULT, keep shading an
+option, and revise actual facial structure rather than only cosmetics.
 
 ## Confirmed
 

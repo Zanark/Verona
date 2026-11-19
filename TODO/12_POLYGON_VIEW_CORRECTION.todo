@@ -1,0 +1,57 @@
+ID: vr-12
+Title: Restore polygon-first viewing and revise Verona's facial proportions
+GitHub issue: https://github.com/Zanark/Verona/issues/11
+
+Status: IN_PROGRESS
+Milestone: The owner's referenced cool polygon view is the default, shaded viewing remains optional, and actual facial proportions are substantially revised.
+Dependencies: vr-11
+
+Purpose:
+Correct the unwanted presentation change: the owner liked the earlier
+transparent-looking native polygon view and explicitly wants it as default.
+They also reject vr-11's facial structure; cosmetics alone are not a redesign.
+
+Tasks:
+[x] Restore the referenced cool polygon materials and visible contours by default.
+[x] Keep the warm shaded view selectable without regenerating speech or geometry.
+[x] Rework lower-face, cheek, nose and chin proportions; preserve protected features.
+[x] Inspect actual views and qualify switching, speech and normal/2x cadence.
+[x] Update gallery, chapter09, contracts, causal ledger and issue/Project.
+[ ] Commit/push the verified source and tracking receipt as Zanark.
+
+Acceptance criteria:
+New loads and reloads show the referenced cool, frosted polygon treatment.
+The warm shaded view is an explicit option, not a replacement for polygon art.
+View switching retains clip identity, position and voice; hair/points/edges
+remain independent. Native topology and learned motion basis stay unchanged.
+Actual structural changes are described honestly, not declared beautiful.
+No new download/dependency/device use or user-instance interruption.
+Preserve bounded real-browser cadence qualification and explicit failure paths.
+
+Completion evidence:
+Implemented/technically qualified, not subjective acceptance. Baseline bca3c2d.
+35unit/HTTP checks/19realEdge scenarios pass inpolygon-correction-03. Both
+views differ visibly and return to exact original pixels without replacing/
+seeking the prepared clip; fresh/reloaded default explicitly verified.
+Six polygon/shaded/shadededges x1x/2x cases:mean16.660-17.086ms,p9516.8,
+max50.1ms,24intervals>25ms total. Existing bounded mean/p95 budget passes;
+not locked60fps/GPUtimer/scanout/universalhardware. Outlier cause unestablished.
+Actual pinned-rest maxoffset.7884cm, zero reversed/collapsed previously
+nondegenerate triangles; protected central lips/eyearea/back, unchangedPCA.
+FivePNG/twoGIF actualgallery refreshed;7media/5sourcehashes. Independent
+decoder40/24frames and decodedfirst/middle/last samples viewed. Muted, not
+listening/phonetic or beauty acceptance. No new dependency/download.
+Owner closed their instance after PID42660 was observed;
+fresh process verification found no Verona Python/Node. An unused clean detached
+candidate was removed; tests will use private RAM/cache/work/profile and read-only
+pinned assets. No user process/profile is driven or restarted.
+
+Completion log:
+2026-11-19 - Owner says the changed structure is still ugly, supplies the earlier
+cool shaded/native-edge screenshot and explicitly restores it as default.
+The reference looks translucent; it is not evidence of literal X-ray blending.
+Keep that visual treatment, optional shaded view and genuinely wavy hairstyle.
+2026-11-19 - First correction harness read a presented/cleared WebGL backbuffer;
+redraw before synchronous readback fixes false pixel-roundtrip failure without
+relaxing exact equality. Failed and subsequent receipts retained.
+All owned test processes/profiles stopped; source publication pending review.

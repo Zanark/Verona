@@ -31,10 +31,12 @@ class MeshTests(unittest.TestCase):
         rest = np.array([[6, 138, 2], [4, 144, 3], [0, 140.15, 4], [2, 140, 3],
                          [3, 147.5, 3], [-3, 147.5, 3], [5, 144, -8]], dtype=np.float32)
         styled = verona_rest_shape(rest)
-        self.assertLess(float(styled[0, 0]), float(rest[0, 0]) - .3)
+        self.assertLess(float(styled[0, 0]), float(rest[0, 0]) - .8)
         self.assertGreater(float(styled[1, 2]), float(rest[1, 2]) + .25)
         np.testing.assert_array_equal(styled[2:], rest[2:])
-        self.assertLess(float(np.max(np.linalg.norm(styled - rest, axis=1))), .7)
+        self.assertLess(float(np.max(np.linalg.norm(styled - rest, axis=1))), 1.3)
+        chin = np.array([[0, 135.9, 3]], dtype=np.float32)
+        self.assertGreater(float(verona_rest_shape(chin)[0, 1]), float(chin[0, 1]) + .5)
 
     def test_wavy_locks_have_alternating_silhouette_and_bounded_connected_geometry(self):
         vertices, edges, triangles = claire_hair()

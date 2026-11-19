@@ -10,8 +10,9 @@ Chapter 07 extends that baseline with editable Hazel, native Claire/hair and
 measured caching/performance mechanisms.
 Chapter 08 supersedes its presentation topology with native quad contours,
 shaded features, static cosmetic eyes and measured 60-fps display qualification.
-Chapter 09 adds Verona's original rest styling, warm shaded default and layered
-wavy hair, retaining the underlying Claire motion and measured display target.
+Chapter 09 adds Verona's original rest styling and layered wavy hair, then
+records the owner's correction restoring the cool polygon default with an
+optional warm shaded view. Claire motion and measured display boundaries remain.
 
 ## Reading paths
 

@@ -14,9 +14,26 @@ presentation over the existing Claire speech system, not a newly trained person,
 photorealistic scan, new speech model or copied likeness.
 
 Chapter 08 remains the native-connectivity and rendering foundation. This
-chapter supersedes its unmodified-rest identity, bob, cold materials and
-edges-on default. The first source prerelease remains frozen at its earlier
-appearance; the main-branch gallery shows this newer design.
+chapter adds rest styling, waves and optional warm materials. The correction
+below restores its cool polygon presentation as default. The first source
+prerelease remains frozen; the main-branch gallery shows current development.
+
+### Owner correction: preserve the polygon art direction
+
+The owner rejected the first structure as unattractive and clarified that the
+earlier cool, transparent-looking polygon presentation must remain the default.
+Their screenshot refers to chapter 08's shaded blue surface and bright native
+contours, not a literal see-through/X-ray material. Replacing that look with a
+solid warm default was an unwanted change, not an accepted interpretation.
+
+The correction restores those cool materials, lighting, eye treatment and
+contour strength in **Transparent polygons**, selected on every fresh load and
+reload. **Warm shaded face** remains an explicit alternative. The revised
+structure narrows the lower face more strongly, lifts/shortens the chin, raises
+cheek volume and refines the nose tip/sub-cheek plane. Actual pinned-rest
+qualification measures a maximum 0.7884-cm offset and no reversed or collapsed
+previously nondegenerate triangles. This is a geometric check, not a claim that
+the owner now finds the face attractive.
 
 ## Change the rest shape, not every animated frame
 
@@ -84,11 +101,13 @@ Signed cosmetic distances are squared by multiplication: GLSL `pow` on a
 negative base is undefined even with an exponent of two. Other highlights
 use nonnegative inputs. This avoids driver-dependent cosmetic masks.
 
-The default is now **shaded**, with **Edges** and **Points** off. Both diagnostic
-toggles remain; enabling Edges reveals the same connected native contours with
-a restrained warm overlay. Hair is on by default. This is an intentional
-presentation change, not removal of the mesh or silent persistence of settings.
-Reload resets view defaults; existing voice defaults remain Hazel.
+`FaceRenderer.draw` sets the uniform `polygonView` from the View selector.
+The polygon path restores chapter 08's cool shading and bright, blended native
+contours; the optional warm path retains the styling described above. Neither
+path changes geometry, regenerates speech, seeks audio or replaces a clip.
+The default is **Transparent polygons**, **Edges/Hair on**, **Points off**.
+All three toggles remain independent. Reload restores these view defaults;
+existing voice/reset defaults remain Hazel. View settings are not persisted.
 
 ## Measured cost and qualification
 
@@ -97,31 +116,45 @@ clip remains 7,656,750 motion bytes. The complete mesh grows from chapter 08's
 827,084 to **1,032,460 bytes**, including the more detailed static hair and eyes.
 No new package, model, voice asset or runtime download was introduced.
 
-Final isolated `verona-character-final-03`, 1280 x 980 CSS viewport:
+Final correction `polygon-correction-03`, 1280 x 980 CSS viewport:
 
-| View | Density | Mean interval | p95 | Maximum | Actual draw submissions |
-|---|---:|---:|---:|---:|---:|
-| Shaded | 1x | 16.659 ms | 16.8 ms | 17.0 ms | 382 |
-| Shaded | 2x | 16.659 ms | 16.8 ms | 16.9 ms | 382 |
-| Native edges | 1x | 16.659 ms | 16.8 ms | 17.2 ms | 382 |
-| Native edges | 2x | 16.659 ms | 16.8 ms | 16.9 ms | 383 |
+| View | Density | Mean interval | p95 | Maximum | Intervals >25 ms | Actual draws |
+|---|---:|---:|---:|---:|---:|---:|
+| Default polygons | 1x | 16.660 ms | 16.8 ms | 16.9 ms | 0 | 382 |
+| Default polygons | 2x | 17.086 ms | 16.8 ms | 50.0 ms | 7 | 373 |
+| Warm shaded | 1x | 16.941 ms | 16.8 ms | 48.6 ms | 5 | 373 |
+| Warm shaded | 2x | 17.037 ms | 16.8 ms | 50.0 ms | 6 | 375 |
+| Warm shaded + edges | 1x | 16.846 ms | 16.8 ms | 49.9 ms | 3 | 377 |
+| Warm shaded + edges | 2x | 16.846 ms | 16.8 ms | 50.1 ms | 3 | 378 |
 
-Each case has 361 sampled intervals after warmup and zero above 25 ms. The 1x/2x
+Cases have 352-361 sampled intervals after warmup. The 1x/2x
 canvases are 841 x 635 / 1682 x 1270. This qualifies local headless-Edge RAF
 cadence and actual draw submission, **not GPU timing, physical display scanout
-or a universal 60-fps guarantee**. The unchanged model generates 30-fps motion;
+or a universal 60-fps guarantee**. All cases pass the existing bounded
+mean <17.55-ms / p95 <20-ms checks, but this is not locked 60 fps: occasional
+49-50-ms intervals remain. An earlier correction run had one 50-ms interval;
+its receipt is retained rather than selecting only a clean run. Their cause
+was not established. The unchanged model generates 30-fps motion;
 audio-clocked interpolation supplies intermediate display positions.
 
-Thirty-five unit/HTTP checks and 18 real-browser scenarios pass. Added cases
+Thirty-five unit/HTTP checks and 19 real-browser scenarios pass. Added cases
 cover bounded rest styling/protected features, generated clips retaining the
 styled rest plus known PCA deltas, genuine alternating hair silhouette and
 continuous hairline. Actual neutral/speaking/turned/hair-off renders were
 inspected; no page exceptions or nonlocal page requests occurred. Playback was
 muted, not an independent listening/phonetic or attractiveness acceptance.
+The mode-switch regression checks visible pixel differences, exact restored
+pixels and unchanged clip URL, time, frame, voice and hair selection. Reload is
+tested after deliberately selecting warm shading and disabling edges. The first
+correction harness read an already-presented WebGL backbuffer; its false round-
+trip failure was fixed by drawing before synchronous pixel readback, not by
+weakening the equality check. The failed receipt is retained.
 
 ## Ownership, failure and delivery
 
-No Verona Python/Node runtime was observed before editing. The candidate uses
+The owner briefly ran Verona while feedback arrived, then explicitly closed it.
+Before runtime edits, a fresh process check found no Verona Python/Node runtime.
+An unused clean detached candidate worktree was removed. Qualification uses
 the existing owned test helper's private RAM, capability, ephemeral loopback
 port, numeric cache, synthesis directory and disposable Edge profile. Model
 inputs are read-only; bounded CPU/GPU work still shares the machine. Only owned

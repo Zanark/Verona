@@ -12,8 +12,10 @@ v2.3.1 assets, default Hazel, bounded voice settings, procedural hair and
 latest-only RAM/derived-topology caches. Chapter 09 is the current presentation
 contract: original Verona rest styling over unchanged Claire PCA motion,
 native quad contours, warm cosmetics, static eyes and layered wavy hair.
-Edges/points default off, hair on; the local 60-fps display target is qualified
-in shaded/native-edge modes at1x/2x over30-fps motion. Styling is not a new
+The owner's referenced cool transparent-looking polygon view is the default:
+Edges/hair on, points off. Warm shaded view remains selectable. The local
+60-fps display target is qualified in both views at1x/2x over30-fps motion,
+with recorded frame-time outliers, not a universal guarantee. Styling is not a new
 trained identity, photorealism or subjective/phonetic acceptance.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
