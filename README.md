@@ -2,7 +2,9 @@
 
 **Type a sentence. Hear a local voice. Watch her speak.**
 
-![Verona speaking the locally generated greeting with original Claire waves](docs/media/gallery-speaking.gif)
+<p align="center">
+  <img src="docs/media/gallery-facemesh-transparent.gif" alt="FaceMesh speaking the locally generated greeting on a transparent background" width="480">
+</p>
 
 Windows voices, CPU neural motion and an animated 3D face. **No camera,
 microphone or cloud runtime.** This gallery shows the actual prototype, not
@@ -30,19 +32,41 @@ These previews select **Reference color + makeup**, **Full bust** and **80% zoom
 to reveal tails, long layers and updos. The app still starts with the original
 waves and cool **Transparent polygons**.
 
-| Claire waves (original) | Tapered pixie |
-|---|---|
-| ![Claire waves original hairstyle rotating from front to both sides](docs/media/gallery-hair-claire.gif) | ![Tapered pixie hairstyle rotating from front to both sides](docs/media/gallery-hair-pixie.gif) |
-| **Rounded bob** | **Asymmetric angled bob** |
-| ![Rounded bob hairstyle rotating from front to both sides](docs/media/gallery-hair-bob.gif) | ![Asymmetric angled bob hairstyle rotating from front to both sides](docs/media/gallery-hair-angled.gif) |
-| **Long sleek layers** | **Spiral curls** |
-| ![Long sleek layers hairstyle rotating to show the full length](docs/media/gallery-hair-straight.gif) | ![Spiral curls hairstyle rotating to show the curl geometry](docs/media/gallery-hair-curls.gif) |
-| **High ponytail** | **Twin tails** |
-| ![High ponytail hairstyle rotating to reveal the rear tail](docs/media/gallery-hair-ponytail.gif) | ![Twin tails hairstyle rotating to reveal both side tails](docs/media/gallery-hair-twins.gif) |
-| **Coiled top bun** | **Double space buns** |
-| ![Coiled top bun hairstyle rotating with the complete bun visible](docs/media/gallery-hair-bun.gif) | ![Double space buns hairstyle rotating to show the paired buns](docs/media/gallery-hair-double.gif) |
-| **Braided crown** | **One speech system, eleven looks** |
-| ![Braided crown hairstyle rotating to show the woven crown](docs/media/gallery-hair-braid.gif) | Hair changes do not regenerate speech. These are procedural geometric styles, not strand simulation. **Head and neck** trims long hair to the same jaw-following boundary; use **Full bust** to retain its length. |
+<table width="100%">
+  <tr><th width="50%" align="center">Claire waves (original)</th><th width="50%" align="center">Tapered pixie</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-claire.gif" alt="Claire waves original hairstyle rotating from front to both sides" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-pixie.gif" alt="Tapered pixie hairstyle rotating from front to both sides" width="360"></td>
+  </tr>
+  <tr><th width="50%" align="center">Rounded bob</th><th width="50%" align="center">Asymmetric angled bob</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-bob.gif" alt="Rounded bob hairstyle rotating from front to both sides" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-angled.gif" alt="Asymmetric angled bob hairstyle rotating from front to both sides" width="360"></td>
+  </tr>
+  <tr><th width="50%" align="center">Long sleek layers</th><th width="50%" align="center">Spiral curls</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-straight.gif" alt="Long sleek layers hairstyle rotating to show the full length" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-curls.gif" alt="Spiral curls hairstyle rotating to show the curl geometry" width="360"></td>
+  </tr>
+  <tr><th width="50%" align="center">High ponytail</th><th width="50%" align="center">Twin tails</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-ponytail.gif" alt="High ponytail hairstyle rotating to reveal the rear tail" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-twins.gif" alt="Twin tails hairstyle rotating to reveal both side tails" width="360"></td>
+  </tr>
+  <tr><th width="50%" align="center">Coiled top bun</th><th width="50%" align="center">Double space buns</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-bun.gif" alt="Coiled top bun hairstyle rotating with the complete bun visible" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-double.gif" alt="Double space buns hairstyle rotating to show the paired buns" width="360"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" valign="top"><b>Braided crown</b><br><img src="docs/media/gallery-hair-braid.gif" alt="Braided crown hairstyle rotating to show the woven crown" width="360"></td>
+  </tr>
+</table>
+
+**One speech system, eleven looks.** Hair changes do not regenerate speech.
+These are procedural geometric styles, not strand simulation. **Head and neck**
+trims long hair to the same jaw-following boundary; use **Full bust** to retain
+its length. Longer styles keep their intentional fit margin.
 
 These are manual view turntables at 10 sampled frames/second, not hair physics
 or head motion inferred from speech. Only the selected alternative is built;
@@ -52,13 +76,18 @@ switching back restores the original Claire geometry.
 
 Change **View** without restarting or regenerating the current clip.
 
-| Claire | FaceMesh |
-|---|---|
-| ![Claire cool polygon presentation turning over the same paused speech pose](docs/media/gallery-view-claire.gif) | ![FaceMesh front-only triangular facial mask turning over the same paused speech pose](docs/media/gallery-view-facemesh.gif) |
-| Original head, optional hair, cool contours or reference color/makeup. | Front face only: no ears, neck or hair. **Mesh detail 1-5**, native detail at 5. |
-| **FaceDot** | **UniformPolygons** |
-| ![FaceDot visible-surface dots turning with ears and jaw](docs/media/gallery-view-facedot.gif) | ![UniformPolygons rectangular surface grid turning with the face](docs/media/gallery-view-uniform.gif) |
-| Dots on the visible face, ears, eyes and neck; no visible connecting lines or hair. | Rectangular surface-grid outlines, including ears, eyes and neck; no hair. |
+<table width="100%">
+  <tr><th width="50%" align="center">Claire</th><th width="50%" align="center">FaceMesh</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-claire.gif" alt="Claire cool polygon presentation turning over the same paused speech pose" width="360"><br>Original head, optional hair, cool contours or reference color/makeup.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facemesh.gif" alt="FaceMesh front-only triangular facial mask turning over the same paused speech pose" width="360"><br>Front face only: no ears, neck or hair. <b>Mesh detail 1-5</b>, native detail at 5.</td>
+  </tr>
+  <tr><th width="50%" align="center">FaceDot</th><th width="50%" align="center">UniformPolygons</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facedot.gif" alt="FaceDot visible-surface dots turning with ears and jaw" width="360"><br>Dots on the visible face, ears, eyes and neck; no visible connecting lines or hair.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-uniform.gif" alt="UniformPolygons rectangular surface grid turning with the face" width="360"><br>Rectangular surface-grid outlines, including ears, eyes and neck; no hair.</td>
+  </tr>
+</table>
 
 These previews manually turn a paused generated pose. All four views share the
 same underlying Claire motion and audio clock. Grid cells follow the curved
@@ -67,9 +96,13 @@ identity, remains parked and is not an implemented view.
 
 ### More dots. More cells. More space.
 
-| FaceDot density and gap | UniformPolygons density and gap |
-|---|---|
-| ![FaceDot stepping through sparse and dense dots and increasing cell gaps](docs/media/gallery-pattern-facedot.gif) | ![UniformPolygons stepping through sparse and dense grids and increasing cell gaps](docs/media/gallery-pattern-uniform.gif) |
+<table width="100%">
+  <tr><th width="50%" align="center">FaceDot density and gap</th><th width="50%" align="center">UniformPolygons density and gap</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-pattern-facedot.gif" alt="FaceDot stepping through sparse and dense dots and increasing cell gaps" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-pattern-uniform.gif" alt="UniformPolygons stepping through sparse and dense grids and increasing cell gaps" width="360"></td>
+  </tr>
+</table>
 
 **Pattern density: 0.5x-3x. Cell gap: 0-80%.** Density changes the spacing and
 number of surface samples; gap separates their visible marks. Each view retains
@@ -80,9 +113,13 @@ not new neural vertices, exact dot counts or performance measurements.
 
 Enable **Follow cursor**, then select **Cursor mode**.
 
-| Eyes follow cursor | Head follows cursor (eyes centered) |
-|---|---|
-| ![Irises following synthetic pointer positions while the head stays oriented](docs/media/gallery-cursor-eyes.gif) | ![Whole head aiming at synthetic pointer positions while the irises remain centered](docs/media/gallery-cursor-head.gif) |
+<table width="100%">
+  <tr><th width="50%" align="center">Eyes follow cursor</th><th width="50%" align="center">Head follows cursor (eyes centered)</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-cursor-eyes.gif" alt="Irises following synthetic pointer positions while the head stays oriented" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-cursor-head.gif" alt="Whole head aiming at synthetic pointer positions while the irises remain centered" width="360"></td>
+  </tr>
+</table>
 
 X/Y/Z remain manual orientation offsets. Tracking is bounded procedural aiming,
 not calibrated 3D gaze or learned eye joints. These captures use synthetic pointer
@@ -90,7 +127,9 @@ positions inside the owned browser; they do not move the system cursor.
 
 ## A floating head, not a floating control panel
 
-![Actual native overlay alternating between its tiny collapsed glass tab and expanded controls](docs/media/gallery-overlay-controls.gif)
+<p align="center">
+  <img src="docs/media/gallery-overlay-controls.gif" alt="Actual native overlay alternating between its tiny collapsed glass tab and expanded controls" width="400">
+</p>
 
 The native overlay starts with a **tiny translucent glass ... tab centered
 above the head**. Click to expand; **Escape** or clicking outside collapses it.
@@ -102,9 +141,13 @@ The GIF alternates two actual Electron captures, with transparency flattened to
 black for the image. It is not a recording of desktop dragging or OS acrylic blur;
 the glass effect styles Verona's own web content.
 
-| Decide how much neck is visible | Zoom in and out |
-|---|---|
-| ![Visible neck control stepping through jawline-only and longer curved neck crops](docs/media/gallery-jawline.gif) | ![Shared zoom control stepping between smaller and larger face sizes](docs/media/gallery-zoom.gif) |
+<table width="100%">
+  <tr><th width="50%" align="center">Decide how much neck is visible</th><th width="50%" align="center">Zoom in and out</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-jawline.gif" alt="Visible neck control stepping through jawline-only and longer curved neck crops" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-zoom.gif" alt="Shared zoom control stepping between smaller and larger face sizes" width="360"></td>
+  </tr>
+</table>
 
 **Framing -> Head and neck -> Visible neck** previews a curved jaw-following cut:
 **0-6 cm**, default **1.7 cm**. Full bust restores the complete original geometry.

@@ -35,6 +35,8 @@ Chapter10's vr-24 adds a collapsed glass tab, direct floating zoom and retained
 native placement. Chapter09's vr-25 adds GPU surface-dot/cell density and gaps.
 Chapter09's vr-26 gallery receipt links every hairstyle's actual animated
 preview, separates speech/view/control samples and preserves earlier releases.
+Its vr-27 correction explains equal responsive GIF alignment, centered solo
+previews and actual native alpha capture for the transparent FaceMesh hero.
 
 ## Reading paths
 

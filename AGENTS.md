@@ -103,6 +103,9 @@ book/manifest.json explicitly orders the book source allowlist. Follow
 book/README.md before implementing a render pipeline or producing an edition.
 Explain mechanisms and tradeoffs, not just file inventories. Keep algorithms
 and design principles identifiable as the implementation grows.
+Keep the README GIF-heavy and showcase every hairstyle. Center every GIF that
+is alone on its row; an unpaired table GIF spans both columns. Paired previews
+use equal-width centered cells and the same image width, with natural aspect ratio.
 
 Never include .agent-context, raw conversation, credentials, camera endpoints,
 personal calibration, recordings or private sibling material in issues,

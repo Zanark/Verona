@@ -1,5 +1,37 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Gallery correction: layout and genuine alpha (vr-27)
+
+The owner reported a squeezed Long sleek layers preview beside Spiral curls
+and requested a centered transparent FaceMesh opening animation. README now
+uses equal-width centered cells, identical image widths and natural aspect
+ratios. Titles have their own shared rows: at390px, a wrapped longer title
+otherwise shifted its image down despite top-aligned cells. The unpaired
+Braided crown spans both columns; every standalone GIF is centered.
+Existing hair GIFs keep their common yaw sequence and style-specific fit
+margins. Equal preview boxes do not promise identical head size or synchronized
+independently downloaded GIFs.
+
+Transparency must originate at the renderer, not from removing black pixels.
+`FaceRenderer.constructor` in `verona/web/app.js` requests WebGL alpha only
+when the real desktop bridge exists. `FaceRenderer.draw` clears alpha to0 in
+overlay mode. A hidden owned Electron host therefore captures real transparent
+FaceMesh canvas frames after synchronous redraws at synthetic Hazel greeting
+timestamps, without a production code/bridge/security change or visible window.
+The local GIF encoder reserves transparent index0, thresholds alpha at128 and
+uses full-frame disposal2. The format loses partial antialias coverage: it is
+binary transparency, not a fully alpha-blended video.
+
+Every one of33 decoded frames matches the original PNG alpha threshold at
+every pixel, with correct delays/dimensions,25 distinct frames and no trails.
+Four samples were visually inspected on both black and white. Actual GitHub
+GFM output with public GitHub CSS in an isolated representative container
+qualified equal top-aligned pairs/centered solos at1200/768/390px with preserved
+aspect ratios and no overflow; selected rendered screenshots were inspected.
+This is not signed-in GitHub chrome, listening or accuracy acceptance.
+[The media receipt](../media/README.md) records limits, failures and provenance.
+Existing media, prototype.3 and runtime/model/dependencies are unchanged.
+
 ## Current visual delivery: all hairstyles (vr-26)
 
 The [main gallery](../../README.md#every-hairstyle-in-motion) now shows every

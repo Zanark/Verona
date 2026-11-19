@@ -26,6 +26,7 @@ vr-23 | 23_CURSOR_MODES.todo | DONE | Eyes-only or centered-eye rigid head curso
 vr-24 | 24_OVERLAY_PLACEMENT_ZOOM.todo | DONE | Direct floating-head drag/zoom and retained placement
 vr-25 | 25_PATTERN_DENSITY_SPACING.todo | DONE | Adjustable surface-dot/cell density and gaps
 vr-26 | 26_ANIMATED_GALLERY_RELEASE.todo | DONE | All 11 hairstyles/23 README GIFs; immutable prototype.3 published
+vr-27 | 27_GALLERY_ALIGNMENT.todo | IN_PROGRESS | Equal GIF preview alignment and centered transparent FaceMesh hero
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

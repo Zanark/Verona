@@ -1,6 +1,26 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-27 transparent FaceMesh and consistent README preview alignment
+Cause: owner sees squeezed long-layersGIF beside curls; wants transparent
+FaceMeshhero and EVERY soloGIF centered. Oldautotable/longlastcell causeunequal
+columns; styles' intentional fitmargin isseparate and remainsunchanged.
+Action: equalpairedcells/360pxnaturalaspect, moveparagraphoutside, centerhero/
+nativebar and spanunpairedbraidacrosstwocolumns. Narrow390px checkfound titlewrap
+shift: separate sharedheadingrows, notfixedheights orweakenedlayoutassertions.
+ActualGitHubGFM/publicCSS measuredinownedlocal980pxcontainer at1200/768/390:
+10equalwidth/topalignedpairs,3centeredsolos,23GIFs/11hairstyles/nooverflow.
+Effect: nativealphaFaceMeshhero640square/33frames/2.75s; sourcealphathreshold128,
+255visiblecolors+transparentindex0/fullframedisposal2, notblackkeyremoval.
+Every decodedpixelalphamatchesPNG/noghosts,25distinctframes/exacttiming.
+Reviewfourdecodedwhite/black samples, wideproblemrow andnarrowhero, notallframes
+orownerapproval/listening/performance. Hiddenrealnativeowner nevervisible;
+ownedserver/profile/cache/synthesis/followoff/pinoff/muted; cleanupverified.
+FirstexactHTMLtagguardmisseddirattribute; retainthatandnarrowfailure receipts.
+Issue26/originalProjectitemcreatedonce, initialmembershiplagrecoveredbysavedIDs.
+Oldmedia/provenance/runtime/model/dependencies/releasesunchanged; no newrelease.
+Next: verifycontracts/links/stageddiff, commit/pushasZanarkandverifyremoteMain.
+
 2026-11-19 - vr-26 source gallery and immutable prototype.3 published
 Outcome: source0ba9669a8c558c0e4944916e5608022c7e5f95d5 pushedasverifiedZanark
 andpublishedat2026-11-19T16:05:49Z asv0.1.0-prototype.3/release451583769.

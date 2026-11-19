@@ -1,8 +1,57 @@
 # Prototype media receipt
 
-## Current vr-26 GIF-first gallery
+## Current vr-27 layout and transparent hero correction
 
-The current README embeds **23 GIFs and one interface PNG**, all showing the
+The README remains **23 GIFs and one interface PNG**, now opening with
+[`gallery-facemesh-transparent.gif`](gallery-facemesh-transparent.gif):
+the actual front-only FaceMesh speaking synthetic "Hey, how are you?" with
+Hazel defaults. It is 640x640, 33 audio-timeline samples over 2.75 seconds.
+[`facemesh-hero-provenance.json`](facemesh-hero-provenance.json) records exact
+source/media/frame hashes and capture/encoding boundaries.
+
+The browser renderer requests an opaque WebGL context. This capture instead
+uses the real alpha-enabled native renderer in a disposable, never-shown
+Electron window, with native follow disabled, pin off and speech muted. The
+capture-only owner suppresses `window.show`; it does not change production
+code, preload, sandbox, speech, model or dependencies. Raw canvas PNGs follow
+synchronous redraws at audio-clock positions, without toolbar or page labels.
+The isolated capability server, numeric cache, synthesis workspace and profile
+are agent-owned; all owners stopped and the profile was removed.
+
+The installed local encoder reserves palette index0 for transparency and up to
+255 visible colors. Source alpha below128 becomes transparent; higher coverage
+becomes opaque. GIF has **binary**, not smooth partial transparency. Full-size
+frames use disposal2/transparent background to prevent trails; no black/color
+keying or matte removal. Independent Windows decoding checked every frame's
+alpha against its original PNG threshold, all dimensions/delays and changing
+pixels: 33 frames, 25 distinct decoded frames, no mismatched/ghost pixels.
+Four decoded samples were visually reviewed over white and black; this is not
+every-frame visual approval, independent listening or phonetic acceptance.
+
+Every standalone README GIF is centered, including Braided crown spanning both
+columns. Paired previews use equal-width cells and identical360px image widths
+with natural aspect ratios. Separate shared heading rows prevent wrapped long
+titles from pushing one preview down on narrow screens. The old long final-cell
+paragraph no longer squeezes the left column. Existing hair media retain their
+exact common turn sequence, timing, complete silhouette and style-specific fit
+margins; independent GIF downloads are not synchronized playback.
+
+GitHub-rendered HTML with current public GitHub CSS was measured in an owned
+local representative container at viewport widths1200/768/390: ten equal-width,
+top-aligned pairs, three centered solo GIFs, correct aspect ratios and no page
+overflow. Wide problem-row and narrow hero screenshots were visually inspected.
+This fixture is not a screenshot of GitHub's signed-in chrome. A first exact-tag
+assertion missed GitHub's additional `dir` attribute; the next narrow layout
+exposed genuine title-wrap misalignment, corrected by shared heading rows.
+Retain both failed receipts privately. No security gate was weakened.
+
+The older opaque `gallery-speaking.gif`, every other existing media byte and
+the prototype.3 release snapshot remain unchanged. No new release is published
+by this README correction.
+
+## Historical vr-26 GIF-first gallery
+
+The prototype.3 README embeds **23 GIFs and one interface PNG**, all showing the
 actual prototype at runtime source `f1aea4d24b2a0c40eef08ce1240ad6f1ecd3348e`.
 `gallery-provenance.json` lists all 24 media hashes, 15 captured runtime-source
 hashes, exact frame delays/dimensions and each sequence's meaning. Source hashes

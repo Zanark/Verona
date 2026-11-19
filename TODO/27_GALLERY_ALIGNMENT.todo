@@ -1,0 +1,55 @@
+ID: vr-27
+Title: Consistent gallery layout and transparent centered FaceMesh hero
+GitHub issue: https://github.com/Zanark/Verona/issues/26
+
+Status: IN_PROGRESS
+Milestone: Evenly aligned GIF previews and a genuinely transparent speaking mesh.
+Dependencies: vr-26
+
+Purpose:
+Correct the owner's observed uneven left/right hairstyle GIF sizing. Center
+every standalone README GIF, including unpaired table entries, and replace the
+opening colored-face animation with the actual speaking FaceMesh on transparency.
+
+Tasks:
+[x] Give paired GIF cells equal widths, explicit preview sizing and centered alignment.
+[x] Center every solo GIF, including the hero, native controls and final hairstyle.
+[x] Capture actual alpha-enabled FaceMesh speech and encode real GIF transparency.
+[x] Verify decoded alpha/motion, rendered layout, links and all eleven hair options.
+[ ] Update documentation/tracking and commit/push the verified correction as Zanark.
+
+Acceptance criteria:
+The reported left/right row is visibly balanced in a GitHub-rendered layout;
+all hair GIFs keep their existing angles/timings and complete silhouettes.
+Standalone GIFs are horizontally centered rather than left aligned. Preserve
+the GIF-heavy README and all hairstyle options. Hero has no baked background,
+toolbar or caption: true transparent indexed GIF, not black keyed from a picture.
+No runtime/model/dependency/security change, user-profile/device access or
+unrelated app capture. Use isolated owned resources and synthetic speech only.
+Keep old media and all immutable releases/tags unchanged; this is a README
+correction, not authorization to rewrite prototype.3 or publish a new release.
+
+Completion evidence:
+Implemented/qualified; publication pending. Runtime source remains f1aea4d;
+starting main062e8df. Issue26/original saved Projectitem InProgress verified.
+Observed README auto-layout uses unconstrained images and a long final-cell
+paragraph, permitting unequal table columns. Long styles also retain their
+intentional fit margin. No active Verona runtime found before capture.
+New640x640transparentGIF:33frames/2.75s/25distinct decodedframes; everypixel
+alpha matches sourcePNG threshold128, exactdelay/dimensions, zero ghostpixels.
+Four decoded samples reviewed onwhite/black; nosubjective/listening acceptance.
+ActualGitHubGFMHTML/publicCSS in ownedlocalcontainer qualifies10equal-width/
+top-alignedpairs/3centeredsolos at1200/768/390px, naturalaspect/nooverflow.
+Wideproblemrow/narrowheroscreenshots reviewed; notsigned-inGitHubchrome.
+HiddenrealElectron/ownedserver/cache/synthesis/profile, followoff/pinoff/muted,
+sameproductionsandbox/preload/renderer. Allownersstopped/profiledeleted.
+Existing23GIFs/provenance/hairangles/timing/release/runtimebytespreserved.
+FirstHTMLguard missed added dirattribute; nextnarrowtest caughtwrappedtitle
+misalignment. Preservefailures, use sharedheadingrows/naturalimageaspect.
+InitialProjectmembershipreadlag recoveredfromsavedIDs/freshinventory.
+
+Completion log:
+2026-11-19 - Owner reports squeezed left preview and requests corrected alignment,
+a transparent FaceMesh opening GIF and centering of every standalone GIF.
+2026-11-19 - Actual transparent hero and responsive layout qualified; update
+media receipt/book/contributor rule. No runtime changes or release rewrite.
