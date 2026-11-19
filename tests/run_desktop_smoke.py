@@ -60,7 +60,7 @@ def run(args) -> None:
                 if result:
                     raise RuntimeError(f"Native desktop qualification failed ({result}); keep its receipt.")
                 report = json.loads((args.output / "desktop-report.json").read_text())
-                if report.get("error") or len(report.get("checks", [])) < 8:
+                if report.get("error") or len(report.get("checks", [])) < 10:
                     raise RuntimeError("Native qualification did not produce its full expected receipt.")
     finally:
         state.stop.set()

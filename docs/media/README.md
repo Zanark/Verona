@@ -57,3 +57,13 @@ not another application's contents or a simulated transparency checkerboard.
 The synthetic greeting uses the Hazel default with unchanged default settings.
 `desktop-provenance.json` separately records exact desktop source/image hashes.
 These are screenshots, not a playback recording or independent listening test.
+
+## Optional head and neck
+
+`head-neck-overlay.png` shows vr-14's actual native shoulder-free framing over
+the same owned green fixture, not a postprocessed cutout or another app.
+The synthetic greeting uses Hazel and unchanged default voice settings.
+`head-neck-provenance.json` identifies the exact captured runtime source,
+native draw counts and final qualification. The original vr-12 and vr-13
+captures/receipts above remain unchanged historical snapshots. Full bust is
+still the default; this image demonstrates the separately selected option.

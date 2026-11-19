@@ -125,6 +125,54 @@ try {
     report.renderer = result;
     await screenshot("01-neutral");
   });
+  await check("Head/neck framing removes submitted geometry below the throat and restores the exact full neutral view", async () => {
+    const data = await evaluate(`(async () => {
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+      const meta=(await (await fetch("/api/session",{headers:{"X-Verona-Token":location.hash.slice(1)}})).json()).mesh;
+      const pixels=()=>{const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
+      const draw=g.drawElements;let calls=[];
+      g.drawElements=function(mode,count,...args){calls.push({mode,count});return draw.call(this,mode,count,...args);};
+      const change=value=>{$("framing").value=value;$("framing").dispatchEvent(new Event("input"));};
+      change("full");const before=pixels(),full=calls;calls=[];
+      change("head-neck");const after=pixels(),cropped=calls;calls=[];
+      const cutRow=c.height/2+(134-meta.center[1])/meta.scale*Number($("zoom").value)*.91*c.height/2;
+      let removed=0,aboveChanged=0,belowColored=0;
+      for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
+        const i=(y*c.width+x)*4;
+        const changed=before[i]!==after[i]||before[i+1]!==after[i+1]||before[i+2]!==after[i+2];
+        if(changed)removed++;
+        if(y>cutRow+2 && changed)aboveChanged++;
+        if(y<cutRow-2 && (after[i]!==4||after[i+1]!==6||after[i+2]!==10))belowColored++;
+      }
+      change("full");const restored=pixels();let roundTrip=0;
+      for(let i=0;i<before.length;i++)if(before[i]!==restored[i])roundTrip++;
+      g.drawElements=draw;
+      change("head-neck");
+      return {removed,aboveChanged,belowColored,roundTrip,full,cropped,cutRow,error:g.getError(),
+        description:$("geometry-details").textContent};
+    })()`);
+    assert.equal(data.error,0);
+    assert(data.removed>1000,JSON.stringify(data));
+    assert.equal(data.aboveChanged,0);
+    assert.equal(data.belowColored,0);
+    assert.equal(data.roundTrip,0);
+    const count=(calls,mode)=>calls.filter(c=>c.mode===mode).reduce((sum,c)=>sum+c.count,0);
+    assert(count(data.cropped,4)<count(data.full,4));
+    assert(count(data.cropped,1)<count(data.full,1));
+    assert(data.cropped[0].count<data.full[0].count);
+    assert(data.cropped.at(-2).count<data.full.at(-2).count);
+    report.framing=data;
+    await screenshot("01d-head-neck");
+    const points=await evaluate(`(() => {
+      const $=id=>document.getElementById(id),g=$("face").getContext("webgl2"),draw=g.drawElements;
+      let count=0;g.drawElements=function(mode,n,...args){if(mode===g.POINTS)count=n;return draw.call(this,mode,n,...args);};
+      $("points").checked=true;$("points").dispatchEvent(new Event("input"));
+      g.drawElements=draw;$("points").checked=false;
+      $("framing").value="full";$("framing").dispatchEvent(new Event("input"));return count;
+    })()`);
+    assert(points>0 && points<15375,points);
+    report.framing.indexedPoints=points;
+  });
   await check("Original procedural hair toggles independently and the female native head turns", async () => {
     const hairPixels = await evaluate(`(() => {
       const pixels=()=>{const c=document.getElementById("face"),g=c.getContext("webgl2");
@@ -147,6 +195,34 @@ try {
   const greeting = await generate("Hey, how are you?");
   report.greeting = greeting;
   report.firstClientReadySeconds = await evaluate(`Number(document.getElementById("details").dataset.readySeconds)`);
+  await check("Framing during playback preserves speech and excludes hidden animated normals", async () => {
+    const source=await evaluate(`document.getElementById("audio").src`);
+    await evaluate(`document.getElementById("audio").muted=true;document.getElementById("audio").play();`);
+    await waitFor(`document.getElementById("audio").currentTime>.15`);
+    const data=await evaluate(`(() => {
+      const $=id=>document.getElementById(id),g=$("face").getContext("webgl2");
+      const update=g.bufferSubData;let normals=0;
+      g.bufferSubData=function(target,offset,values,...args){
+        if(values instanceof Float32Array){for(let i=0;i<values.length;i+=3)
+          if(Math.hypot(values[i],values[i+1],values[i+2])>.5)normals++;}
+        return update.call(this,target,offset,values,...args);};
+      const before=$("audio").currentTime;
+      $("framing").value="head-neck";$("framing").dispatchEvent(new Event("input"));
+      g.bufferSubData=update;
+      return {before,after:$("audio").currentTime,paused:$("audio").paused,
+        source:$("audio").src,normalVerticesPerFrame:normals/2,error:g.getError()};
+    })()`);
+    assert.equal(data.source,source);
+    assert.equal(data.paused,false);
+    assert(data.after>=data.before);
+    assert(data.normalVerticesPerFrame>1000 && data.normalVerticesPerFrame<15375,JSON.stringify(data));
+    assert.equal(data.error,0);
+    await waitFor(`document.getElementById("audio").currentTime>${data.before+.15}`);
+    await evaluate(`document.getElementById("audio").pause();
+      document.getElementById("framing").value="full";
+      document.getElementById("framing").dispatchEvent(new Event("input"));`);
+    report.animatedFraming=data;
+  });
   await check("Full XYZ orientation and procedural cursor gaze change rendered pixels without replacing speech", async () => {
     const before = await evaluate(`document.getElementById("audio").src`);
     await evaluate(`window.gazePixels=()=>{
@@ -269,12 +345,14 @@ try {
       gl.bufferSubData=function(...args){window.renderProbe.updates++;return update.apply(this,args);};
     })()`);
     report.renderCadence = [];
-    for (const {density,edges,view} of [
+    for (const {density,edges,view,framing} of [
       {density:1,edges:true,view:"polygon"},{density:2,edges:true,view:"polygon"},
       {density:1,edges:false,view:"shaded"},{density:2,edges:false,view:"shaded"},
       {density:1,edges:true,view:"shaded"},{density:2,edges:true,view:"shaded"},
-    ]) {
-      await evaluate(`document.getElementById("appearance").value=${JSON.stringify(view)};
+    ].flatMap(mode=>["full","head-neck"].map(framing=>({...mode,framing})))) {
+      await evaluate(`document.getElementById("framing").value=${JSON.stringify(framing)};
+        document.getElementById("framing").dispatchEvent(new Event("input"));
+        document.getElementById("appearance").value=${JSON.stringify(view)};
         document.getElementById("edges").checked=${edges};document.getElementById("edges").dispatchEvent(new Event("input"));`);
       await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:density,mobile:false });
       await delay(150);
@@ -299,7 +377,9 @@ try {
         }
       }requestAnimationFrame(sample);
     })`);
-    report.renderCadence.push({...timing,density,edges,view});
+    report.renderCadence.push({...timing,density,edges,view,framing});
+    }
+    for (const timing of report.renderCadence) {
     assert.equal(timing.playing,true);
     assert.equal(timing.normalBufferAllocations,0);
     assert(timing.normalBufferUpdates>100);
@@ -309,6 +389,8 @@ try {
     }
     await click("play");
     await evaluate(`document.getElementById("audio").loop=false;window.renderProbe.restore();delete window.renderProbe;
+      document.getElementById("framing").value="full";
+      document.getElementById("framing").dispatchEvent(new Event("input"));
       document.getElementById("appearance").value="polygon";
       document.getElementById("edges").checked=true;document.getElementById("edges").dispatchEvent(new Event("input"));`);
     await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:1,mobile:false });
@@ -418,6 +500,8 @@ try {
   });
   await check("Reload clears media and preserves only the capability URL", async () => {
     await evaluate(`document.getElementById("appearance").value="shaded";document.getElementById("edges").checked=false;
+      document.getElementById("framing").value="head-neck";
+      document.getElementById("framing").dispatchEvent(new Event("input"));
       document.getElementById("appearance").dispatchEvent(new Event("input"));`);
     await cdp("Page.reload");
     await waitFor(`document.getElementById("generate") && !document.getElementById("generate").disabled`);
@@ -425,6 +509,7 @@ try {
     assert.equal(await evaluate(`document.getElementById("frame").textContent`), "NEUTRAL");
     assert.equal(await evaluate(`document.getElementById("appearance").value`), "polygon");
     assert.equal(await evaluate(`document.getElementById("edges").checked`), true);
+    assert.equal(await evaluate(`document.getElementById("framing").value`), "full");
   });
   assert.deepEqual(exceptions, []);
   assert.deepEqual(external, []);

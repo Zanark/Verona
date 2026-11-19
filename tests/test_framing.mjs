@@ -1,0 +1,23 @@
+import assert from "node:assert/strict";
+import { trimTopology } from "../verona/web/framing.mjs";
+
+const positions = new Int16Array([0,2,0, 1,2,0, 0,0,0, 1,0,0, 0,-2,0, 1,-2,0]);
+const edges = new Uint32Array([0,1, 0,2, 2,3, 4,5]);
+const triangles = new Uint32Array([0,1,2, 1,3,2, 2,3,4, 3,5,4]);
+const copy = { positions: positions.slice(), edges: edges.slice(), triangles: triangles.slice() };
+const crop = trimTopology(positions, edges, triangles, 1);
+assert.deepEqual([...crop.triangles], [0,1,2, 1,3,2]);
+assert.deepEqual([...crop.edges], [0,1, 0,2]);
+assert.deepEqual([...crop.vertices], [0,1,2,3]);
+assert.deepEqual(positions, copy.positions);
+assert.deepEqual(edges, copy.edges);
+assert.deepEqual(triangles, copy.triangles);
+const full = trimTopology(positions, edges, triangles, -3);
+assert.deepEqual(full.edges, edges);
+assert.deepEqual(full.triangles, triangles);
+assert.deepEqual([...full.vertices], [0,1,2,3,4,5]);
+const boundary = trimTopology(positions, edges, triangles, 2);
+assert.deepEqual(boundary.triangles, crop.triangles);
+assert.throws(() => trimTopology(positions, edges, triangles, 3), /entire face/);
+assert.throws(() => trimTopology(positions, edges, triangles, NaN), /malformed/);
+console.log("Framing removes hidden primitives, retains crossing/boundary topology and original vertex IDs without mutating full geometry.");

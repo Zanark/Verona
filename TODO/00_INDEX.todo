@@ -13,6 +13,7 @@ vr-10 | 10_FACE_PRESENTATION.todo | DONE | Readable shaded female face and local
 vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and side-parted wavy hair
 vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon default, optional shading and revised proportions
 vr-13 | 13_DESKTOP_OVERLAY.todo | DONE | Transparent desktop pop-out, cursor gaze and XYZ orientation
+vr-14 | 14_HEAD_NECK_FRAMING.todo | IN_PROGRESS | Optional shoulder-free neck crop and reduced geometry/normal work
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

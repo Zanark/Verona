@@ -19,6 +19,11 @@ The subsequent desktop request adds a genuinely transparent head overlay over
 other apps, cursor-following eyes and arbitrary X/Y/Z orientation. Chapter 10
 uses an optional local Electron shell around the same renderer/audio session;
 this is not camera tracking, an assistant or learned eye-joint animation.
+The owner then requested an optional head plus lower-neck extent, without
+shoulders, retaining the ability to show more body later. Chapter 10's framing
+extension retains Full bust by default and removes wholly hidden skin/hair
+primitives and normal work; it does not speed up neural speech generation or
+introduce a full-body asset.
 
 ## Confirmed
 

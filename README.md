@@ -26,6 +26,11 @@ Fresh checkout? [Setup, controls and limits](docs/prototype-guide.md).
 Always-on-top is optional. Transparent areas may intercept clicks.
 Desktop setup: `.\Setup-VeronaDesktop.cmd` once; already prepared in this checkout.
 
+**Framing: Head and neck** hides shoulders below the throat and renders fewer
+polygons. **Full bust** remains the default; switch back without interrupting speech.
+
+![Optional head and lower-neck view in the real transparent native overlay](docs/media/head-neck-overlay.png)
+
 ## The prototype
 
 Transparent polygons by default. Revised facial contours and layered waves.

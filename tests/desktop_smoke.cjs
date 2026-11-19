@@ -58,6 +58,19 @@ async function run(window) {
     text:document.getElementById("text").value,voice:document.getElementById("voice").value})`);
   await evaluate(`document.getElementById("audio").play()`);
   await pause(200);
+  report.framing = await evaluate(`(() => {
+    const $=id=>document.getElementById(id),a=$("audio"),before=a.currentTime;
+    const g=$("face").getContext("webgl2"),draw=g.drawElements;let calls=[];
+    g.drawElements=function(mode,count,...args){calls.push({mode,count});return draw.call(this,mode,count,...args);};
+    $("framing").dispatchEvent(new Event("input"));const full=calls;calls=[];
+    $("framing").value="head-neck";$("framing").dispatchEvent(new Event("input"));
+    g.drawElements=draw;
+    return {full,cropped:calls,before,after:a.currentTime,paused:a.paused,error:g.getError()};
+  })()`);
+  assert(report.framing.cropped[0].count < report.framing.full[0].count);
+  assert(report.framing.cropped.at(-2).count < report.framing.full.at(-2).count);
+  assert(!report.framing.paused && report.framing.after >= report.framing.before && report.framing.error === 0);
+  report.checks.push("Head/neck framing reduces actual skin/hair submissions without pausing or seeking speech.");
   report.overlayCommand = await evaluate(`window.veronaDesktop.command("overlay")`);
   report.beforePinWait = { visible: window.isVisible(), pinned: window.isAlwaysOnTop() };
   await wait(`document.documentElement.classList.contains("overlay")`);
@@ -84,6 +97,23 @@ async function run(window) {
   })()`);
   assert(alpha.clear > 10000 && alpha.solid > 1000 && alpha.error === 0, JSON.stringify(alpha));
   report.alpha = alpha;
+  const lowerNeck = await evaluate(`(async () => {
+    const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+    const meta=(await (await fetch("/api/session",{headers:{"X-Verona-Token":location.hash.slice(1)}})).json()).mesh;
+    const row=c.height/2+(134-meta.center[1])/meta.scale*.91*c.height/2;
+    let leaked=0;
+    for(const view of ["polygon","shaded"]){
+      $("appearance").value=view;$("points").checked=true;$("points").dispatchEvent(new Event("input"));
+      const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+      for(let y=0;y<row-2;y++)for(let x=0;x<c.width;x++)if(p[(y*c.width+x)*4+3])leaked++;
+    }
+    $("appearance").value="polygon";$("points").checked=false;$("points").dispatchEvent(new Event("input"));
+    return {leaked,row,error:g.getError()};
+  })()`);
+  assert.equal(lowerNeck.leaked,0,JSON.stringify(lowerNeck));
+  assert.equal(lowerNeck.error,0);
+  report.lowerNeck=lowerNeck;
+  report.checks.push("Both materials, native contours, hair and diagnostic points leave zero alpha below the neck.");
   for (const id of ["tilt", "yaw", "roll"]) {
     for (const value of [-Math.PI, Math.PI / 2, Math.PI]) {
       const state = await evaluate(`(() => {const e=document.getElementById("${id}");e.value="${value}";
@@ -94,6 +124,12 @@ async function run(window) {
     await evaluate(`document.getElementById("${id}").value="0";document.getElementById("${id}").dispatchEvent(new Event("input"));`);
   }
   report.checks.push("All XYZ axes reach +/-180 degrees and 90 degrees without GL errors.");
+  await evaluate(`for(const [id,value] of Object.entries({tilt:".22",yaw:".55",roll:"-.12"})){
+    document.getElementById(id).value=value;document.getElementById(id).dispatchEvent(new Event("input"));}`);
+  await pause(150);
+  const turned = await window.webContents.capturePage();
+  await fs.writeFile(path.join(output, "head-neck-turned.png"), turned.toPNG());
+  await evaluate(`document.getElementById("reset-view").click();`);
   await evaluate(`document.getElementById("follow-eyes").checked=true;
     document.getElementById("follow-eyes").dispatchEvent(new Event("input"));`);
   await pause(500);
@@ -145,6 +181,12 @@ async function run(window) {
   const restored = await evaluate(`({source:document.getElementById("audio").src,
     text:document.getElementById("text").value,voice:document.getElementById("voice").value})`);
   assert.deepEqual(restored, before);
+  assert.equal(await evaluate(`document.getElementById("framing").value`),"head-neck");
+  await evaluate(`document.getElementById("framing").value="full";
+    document.getElementById("framing").dispatchEvent(new Event("input"));`);
+  assert.match(await evaluate(`document.getElementById("geometry-details").textContent`),/30,746 skin/);
+  await evaluate(`document.getElementById("framing").value="head-neck";
+    document.getElementById("framing").dispatchEvent(new Event("input"));`);
   const image = await window.webContents.capturePage();
   await fs.writeFile(path.join(output, "desktop-controls.png"), image.toPNG());
   report.checks.push("Returning to controls preserves text/voice/clip and clears always-on-top.");

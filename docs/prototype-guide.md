@@ -30,6 +30,15 @@ clicks: this version does not provide click-through or manual window resizing.
 Pinning uses a qualified above-taskbar Windows level; disable it for normal stacking.
 See [desktop mechanisms and limits](chapters/10-desktop-overlay-and-gaze.md).
 
+**Framing: Head and neck** cuts off the shoulders below the throat in desktop,
+overlay and browser. **Full bust** restores the original extent and remains the
+default. Choose framing in Controls before popping out. Switching is immediate
+and preserves speech, voice, gaze, orientation, zoom and material; Reset
+orientation leaves it alone, while reload/restart restores Full bust.
+It submits fewer skin/hair polygons and calculates fewer animated normals.
+Speech-generation cost and full motion storage are unchanged. This is an open
+presentation cut, not a newly modeled closed neck or full-body asset.
+
 The previous browser version remains available, without the desktop dependency:
 
 ```powershell

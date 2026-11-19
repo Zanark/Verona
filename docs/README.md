@@ -15,6 +15,8 @@ records the owner's correction restoring the cool polygon default with an
 optional warm shaded view. Claire motion and measured display boundaries remain.
 Chapter 10 adds the local desktop shell, genuinely transparent pop-out, bounded
 cursor gaze and independent XYZ orientation without duplicating speech.
+Its vr-14 extension adds optional shoulder-free head/neck framing, retained
+full-bust extent and actual polygon/animated-normal work reduction.
 
 ## Reading paths
 
@@ -32,7 +34,7 @@ and accuracy-qualification reading path.
 7. [Editable Hazel, matching Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
 8. [Readable facial definition and measured display fluidity](chapters/08-facial-definition-and-fluidity.md)
 9. [Verona's character styling and genuine wavy geometry](chapters/09-verona-character-and-waves.md)
-10. [Transparent desktop, cursor gaze and full orientation](chapters/10-desktop-overlay-and-gaze.md)
+10. [Transparent desktop, cursor gaze, full orientation and optional head/neck framing](chapters/10-desktop-overlay-and-gaze.md)
 
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.

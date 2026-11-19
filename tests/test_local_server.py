@@ -87,6 +87,10 @@ class LocalServerTests(unittest.TestCase):
         self.assertEqual(headers["Cross-Origin-Resource-Policy"], "same-origin")
         self.assertIn("microphone=()", headers["Permissions-Policy"])
         self.assertNotIn("Access-Control-Allow-Origin", headers)
+        status, headers, body = self.request("GET", "/framing.mjs")
+        self.assertEqual(status, 200)
+        self.assertIn("javascript", headers["Content-Type"])
+        self.assertIn(b"export function trimTopology", body)
 
     def test_oversized_bad_fields_voice_and_nonfinite_expression_fail(self):
         status, _, _ = self.request("POST", "/api/generate", "x" * 8193)

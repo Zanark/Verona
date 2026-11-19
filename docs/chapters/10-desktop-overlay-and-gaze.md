@@ -102,6 +102,64 @@ in every orientation. Euler controls can have gimbal-lock redundancy near a
 orientations. **Reset orientation** zeros all axes and restores Zoom 1 without
 changing the voice, material, clip or playback time.
 
+## Optional lower-neck framing (vr-14)
+
+**Framing: Head and neck** hides the shoulders through a plane at the lower
+neck, below the throat. **Full bust** remains the initial/default option and
+restores the original extent. This is independent of transparent polygons versus
+warm shading, edges, points, hair, gaze, orientation and zoom. It works in both
+the browser and native overlay. Choose it in Controls before popping out; it
+survives the pop-out/Controls switch without replacing, seeking or pausing audio.
+Reload/restart restores Full bust, just like the other unsaved view controls.
+Reset orientation does not change framing.
+
+`FaceRenderer.setFraming` uses `trimTopology` in `verona/web/framing.mjs`.
+The fixed prototype boundary, `NECK_CUTOFF_Y`, is model-space Y = 134 cm, not a
+screen rectangle or a clipping camera. The renderer converts it to the packed
+neutral-coordinate system for classification. Whole skin/hair triangles and
+edges with no vertices above the plane are excluded from new index buffers.
+Crossing primitives remain, with the fragment shader discarding only their
+below-plane portion. This combination avoids a jagged vertex-row boundary
+without submitting all the hidden shoulders. The same rest-space boundary
+applies to skin, hair, contour lines and diagnostic points before any XYZ
+rotation, so turning the head does not reveal the shoulders again.
+
+Original vertex IDs, full positions and motion remain intact. The optional
+point index buffer and the normal-calculation vertex list include the retained
+surface's boundary vertices; below-plane points are discarded too. A new
+normal frame accumulates only retained triangles and normalizes only the
+retained vertex list. Neutral/static hair normals remain the original normals.
+Changing framing invalidates the two normal-frame slots so an already-cached
+full normal frame cannot leak into reduced animation, or vice versa.
+
+The actual native draw submissions change as follows:
+
+| Work | Full bust | Head and neck |
+|---|---:|---:|
+| Skin triangles | 30,746 | 26,285 |
+| Hair triangles | 17,840 | 17,232 |
+| Skin contour edges | 30,759 | 26,259 |
+| Hair contour edges | 2,332 | 2,256 |
+| Skin vertices considered for animated normals | 15,375 | 13,195 |
+
+Eyes remain 2,432 triangles. With hair enabled this removes 5,069 triangles
+overall (about 9.9%) and about 14.2% of the animated-normal vertex iterations.
+This is a work-count reduction, **not an inferred percentage speedup**.
+The reduced index buffers are built once on first use and reused. Full-size
+position/motion buffers, normal scratch clearing/upload and the CPU neural
+model are deliberately unchanged: no second clip, remapping copy or inference
+request is introduced. Retaining full geometry plus small derived index buffers
+uses additional bounded memory rather than claiming a total-memory reduction.
+
+This is a reversible presentation crop, not destructive body deletion or a new
+closed anatomical model. Looking underneath can reveal an open neck boundary;
+no cap or shoulder replacement is synthesized. The original full extent remains
+available for later framing work. It does not invent a full-body asset or a
+future extent slider. Any malformed/empty framing result surfaces through the
+existing error banner and leaves the last valid choice; no empty-success render.
+Graphics loss/restart, ownership, local-only speech and native trust boundaries
+are unchanged.
+
 ## Local trust, ownership and recovery
 
 The shell admits only its exact loopback origin and same-origin blob audio.
@@ -214,6 +272,41 @@ level rather than guessing that page mode or a delay establishes native state.
 The actual pin checkbox is tested both off and on. These failed receipts and
 the probe remain; earlier successful default-level runs do not erase them.
 
+## Framing qualification
+
+vr-14's final native receipt is `head-neck-native-03/desktop-report.json`.
+Ten actual checks pass, including zero alpha below the neck in both materials
+with points/contours/hair, smaller actual `drawElements` submissions,
+uninterrupted audio through framing/pop-out, retained framing on return and
+restored full geometry. A rotated native capture was visually inspected after
+allowing compositor presentation; the first immediate capture showed an older
+axis-test frame, so the harness now waits 150 ms before this capture.
+The final 30-second sample has 1,801 intervals, mean 16.659 ms, p95 16.8 ms,
+maximum 17.0 ms, no intervals over 25 ms and 1,832 draw submissions.
+The preceding native-02 sample passed the same budget but had 15 intervals
+over 25 ms and a 50.2-ms maximum. It is retained, not erased by the cleaner run.
+The [new overlay capture](../media/head-neck-overlay.png) has its own
+[provenance](../media/head-neck-provenance.json); prior media remains historical.
+
+`head-neck-browser-02` passes 22 scenarios and all 12 combinations of framing,
+material/edges and 1x/2x density. Six full-view means range from 16.659 to
+16.660 ms, p95 at most 16.8 ms, maximum 17.5 ms. The six head/neck cases have
+the same rounded mean/p95 range and maximum 17.3 ms. No interval exceeds
+25 ms in that bounded run. Each mode performs 185-187 real normal updates and
+zero new GPU normal-storage allocations. The first browser run passed framing
+behavior but failed a cropped 1x polygon case at mean 18.114 ms, p95 16.9 ms
+and maximum 101.8 ms. Its cause is not established; CPU utilization of 52%
+observed afterward is not a causal explanation.
+
+The browser verifies an exact pixel round trip to full neutral geometry,
+43,592 changed crop pixels, no changes above the boundary and no colored
+pixels below it; actual dynamic uploads contain 13,195 nonzero normal vertices.
+Focused topology tests cover hidden/crossing/exact-boundary primitives,
+preserved original IDs/arrays and explicit invalid/empty results. All 35
+Python unit/HTTP checks pass, including the new exact static-module route.
+These are functional/target-environment results on shared hardware, not
+proof of physical scanout, a percentage speedup, listening or human acceptance.
+
 ## Primary implementation references
 
 - `verona/desktop.py`: `main`, `stop_desktop`.
@@ -221,6 +314,8 @@ the probe remain; earlier successful default-level runs do not erase them.
 - `desktop/preload.cjs`: isolated, allowlisted renderer/native interface.
 - `verona/web/app.js`: `FaceRenderer`, `draw`, one RAF loop and desktop mode events.
 - `verona/web/orientation.mjs`: `rotationMatrix`, `cursorGaze`.
+- `verona/web/framing.mjs`: `trimTopology`, `NECK_CUTOFF_Y`;
+  `FaceRenderer.setFraming`, `surfaceNormals` in `app.js`.
 - `tests/run_desktop_smoke.py`, `tests/desktop_smoke.cjs`,
   `tests/capture_desktop.ps1`, `tests/test_orientation.mjs`,
   `tests/test_desktop_host.cjs` and browser smoke.

@@ -91,6 +91,10 @@
           <option value="polygon" selected>Transparent polygons</option>
           <option value="shaded">Warm shaded face</option>
         </select></label>
+        <label for="framing">Framing <select id="framing" disabled>
+          <option value="full" selected>Full bust</option>
+          <option value="head-neck">Head and neck</option>
+        </select></label>
         <label><input id="edges" type="checkbox" checked> Edges</label>
         <label><input id="points" type="checkbox"> Points</label>
         <label><input id="hair" type="checkbox" checked> Hair</label>
@@ -102,6 +106,7 @@
         <label for="zoom">Zoom <input id="zoom" type="range" min="0.8" max="2.3" step="0.05" value="1"></label>
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
+      <p id="geometry-details" class="hint" aria-live="polite"></p>
       <blockquote id="spoken">No generated speech yet.</blockquote>
       <p class="hint">Verona rest-surface styling; real Claire skin motion and connected native topology.
         Transparent-looking polygons by default; choose Warm shaded face for the solid beauty view.

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "capture": "vr-14 Head and neck framing in actual native Electron overlay",
+  "sourceBase": "40ba7a199a2a0d31609b0aa5b234a1a7d782e959",
+  "captureReceipt": "head-neck-native-03",
+  "sentence": "Hey, how are you?",
+  "voice": "Microsoft Hazel Desktop (en-GB)",
+  "voiceSettings": {
+    "pitch": 0,
+    "rate": 0,
+    "bass": 0,
+    "treble": 0,
+    "emphasis": "none"
+  },
+  "appearance": "Head and neck; Transparent polygons; Edges and Hair on; Points off",
+  "audio": "Muted qualification, not independent listening acceptance",
+  "overlayBackground": "Owned solid RGB(37,103,71) fixture; actual Windows composition; no other apps captured",
+  "captureReview": "Published overlay PNG visually inspected; private rotated native capture also inspected after compositor presentation",
+  "boundary": {
+    "leaked": 0,
+    "row": 162.2982791724581,
+    "error": 0
+  },
+  "drawSubmissions": {
+    "full": [
+      {
+        "mode": 4,
+        "count": 92238
+      },
+      {
+        "mode": 1,
+        "count": 61518
+      },
+      {
+        "mode": 4,
+        "count": 7296
+      },
+      {
+        "mode": 4,
+        "count": 53520
+      },
+      {
+        "mode": 1,
+        "count": 4664
+      }
+    ],
+    "cropped": [
+      {
+        "mode": 4,
+        "count": 78855
+      },
+      {
+        "mode": 1,
+        "count": 52518
+      },
+      {
+        "mode": 4,
+        "count": 7296
+      },
+      {
+        "mode": 4,
+        "count": 51696
+      },
+      {
+        "mode": 1,
+        "count": 4512
+      }
+    ],
+    "before": 0.156551,
+    "after": 0.156551,
+    "paused": false,
+    "error": 0
+  },
+  "cadence": {
+    "samples": 1801,
+    "meanMs": 16.659300388672957,
+    "p95Ms": 16.80000000000291,
+    "maxMs": 17,
+    "over25Ms": 0,
+    "submittedDraws": 1832,
+    "canvas": [
+      480,
+      600
+    ]
+  },
+  "files": [
+    {
+      "file": "head-neck-overlay.png",
+      "sha256": "8128194963413ec6121820f14d5961149a6d2b6ced100724cac7d5c9e7c92dc0",
+      "bytes": 223691,
+      "width": 480,
+      "height": 600
+    }
+  ],
+  "sourceSha256": {
+    "desktop/main.cjs": "4d8d144320285d8afa086e7d1686bacfa8e7734e6b4fb82bbd4b6e2b8eb9c252",
+    "desktop/preload.cjs": "e96374e203f348382cef47eb639ab0a1107a1df2ee01e0afc9b4aeeebea9aa11",
+    "desktop/package.json": "3615dae2a3597d5f8b95d8537ce7e70123b180d0d1d49fceccdd6258702701f1",
+    "desktop/package-lock.json": "ba8beadfafa8941bd41fdf113cfd9212a81136ff7d2ba9c212543504a4dfeb80",
+    "verona/desktop.py": "5ed778063db34d8bb4f98d5f6b52dc45c5ef5c5323c0c2db2ce48089979516a1",
+    "verona/server.py": "a97ea124b0d8744a40ad606f2bc37f1ed8f30a21ec9a4ddab0becf10ee8951b5",
+    "verona/web/app.js": "e8c59616d219da11e72aa2b375d032477a9927f493e93afa93f8bb1021023af7",
+    "verona/web/index.html": "b40c760f824ee174b1fc67d18979c09beb66e3d574edf25dfc969ba9cdd77488",
+    "verona/web/style.css": "24c423ae5a7ddb1b705091a4e44f6517b26cc76da9be4efa4333b4dee928d385",
+    "verona/web/orientation.mjs": "37ddb1f25415c7c7355c2460cbfe490b9d691574ec0c6813d39225da2c06dd9b",
+    "verona/web/framing.mjs": "e9001ddbd8186578467dfd2042f0b0b193bae6b501537ba43c9472a554f3a59c"
+  },
+  "historicalMedia": "Existing vr-12 and vr-13 images/GIFs and both provenance files are unchanged historical captures.",
+  "limits": "Fewer submitted primitives and normal iterations, not a measured percentage speedup, reduced inference cost or universal 60fps guarantee.",
+  "postCaptureSourceChanges": {
+    "verona/web/framing.mjs": {
+      "sha256": "6a84c555c23833a68f57f1758f884f11be03e732f58921438a433e3a3178c414",
+      "change": "Removed one trailing blank line after capture; the captured bytes are exactly the final bytes plus CRLF. No executable token changed."
+    }
+  }
+}

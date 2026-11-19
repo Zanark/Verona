@@ -70,7 +70,7 @@ def run_browser(args, node) -> None:
                     result = subprocess.run(
                         [node, str(Path(__file__).with_name("browser_smoke.mjs").resolve()),
                          server.origin, state.token, str(port), str(args.output.resolve())],
-                        timeout=180, env=environment, check=False,
+                        timeout=240, env=environment, check=False,
                     )
                 finally:
                     try:

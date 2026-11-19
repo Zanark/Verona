@@ -1,0 +1,56 @@
+ID: vr-14
+Title: Optional head and lower-neck framing with reduced rendering work
+
+Status: IN_PROGRESS
+Milestone: Hide shoulders below the throat without replacing the existing full view.
+Dependencies: vr-13
+
+Purpose:
+Offer reversible head/neck-only framing in browser and desktop, including the
+transparent overlay. Remove hidden primitives from draw submissions and reduce
+animated-normal work, rather than only masking a full rendered bust.
+
+Tasks:
+[x] Add Full bust / Head and neck framing, preserving current full default.
+[x] Cull wholly hidden skin/hair triangles, edges and points; clip boundary cleanly.
+[x] Reduce normal calculations while retaining original motion/index correspondence.
+[x] Verify real browser/native framing, orientation, playback continuity and cadence.
+[ ] Update chapter, guide, ledger, tracking and owned continuity; commit/push.
+
+Acceptance criteria:
+Head and neck shows no shoulders, including when rotated; full view restores
+the previous rendering without regenerating/rewinding speech or changing voice,
+material, hair or gaze settings. Actual submitted primitives and normal work
+decrease. No universal frame-rate or inference-speed improvement is inferred.
+No new dependency/model/download, device activation or disturbance of other apps.
+Future larger body extents remain possible without destroying the full geometry.
+
+Completion evidence:
+Implemented and environment-qualified; source publication/closure next.
+Clean worktree and no active Verona Python/Electron found before edits.
+Development tests use owned disposable profiles, synthesis workspace and cache;
+models are read-only. CPU/GPU/compositor are shared, not reserved or isolated.
+35unit/HTTP checks and focused framing/orientation tests pass. Browser02 passes
+22scenarios/all12framing/material/density cases. Full means16.659-16.660ms,
+p95atmost16.8/max17.5; reduced same mean/p95range/max17.3,zero>25ms.
+Eachmode185-187normalupdates/zeroGPUstorageallocations. Native03 passes10checks,
+30sec1801intervals mean16.659ms/p9516.8/max17/zero>25,1832draws480x600.
+Zero alpha below neck in both materials with hair/contours/points. Original
+full neutral restores exactly; unchanged pixels above cut. Actual skin
+triangles30746->26285, hair17840->17232, animatednormalvertices15375->13195.
+One reviewed native overlay published with separate exact-source provenance;
+rotated native capture inspected privately. Older media snapshots untouched.
+Framing never replaces/pauses/seeks the audio, alters vertex IDs or loses full
+geometry. Neural generation/normalupload/fullmotionstorage unchanged.
+First browser01cropped cadence failed mean18.114ms/max101.8/p9516.9; native02
+passed budget with15intervals>25/max50.2. Retained; causes not established.
+Clean final samples do not imply locked60fps or a percentage speedup.
+Native02immediate rotated capture showed stale compositor frame;150ms wait
+before capture produces actual rotated view03. No runtime workaround needed.
+
+Completion log:
+2026-11-19 - Owner requests optional framing through the lower neck below the
+throat, preserving future body expansion and using hidden geometry to save work.
+2026-11-19 - Head/neck geometry and normal work reduction verified in browser02/
+native03. Chapters/guide/media and managed issue13/Project15 updated; verified
+source commit/push and completion reconciliation follow.

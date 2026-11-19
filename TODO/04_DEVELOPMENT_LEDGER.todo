@@ -1,6 +1,44 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - Optional shoulder-free neck framing and reduced geometry work
+Cause: Owner wants only the head and some neck below the throat as an option,
+retaining later larger body extents and saving work on hidden polygons.
+Action: Full bust stays default. A separate Head and neck choice selects
+rest-space lower-neck culling for skin/hair/contours/points, not a screen mask.
+Wholly hidden primitives never enter draw index buffers; fragment clipping
+finishes crossing primitives cleanly. The same boundary rotates with the head.
+Original vertex IDs/positions/motion/audio persist; returning Full restores
+the old extent. Animated normals use retained triangles/vertices with cache
+invalidation on transitions; two reusable GPU slots remain.
+Tradeoff: Extra bounded derived index buffers, no full motion/normal-upload/
+inference reduction. Open boundary, not a new closed anatomical model.
+Ownership: No active Verona before edits; disposable test profiles, synthesis
+workspace/cache and owned green fixture, read-only models, shared CPU/GPU.
+Evidence:35unit/HTTP checks and focused framing/math regressions pass.
+First native run passes10checks, zero alpha below the neck in both materials/
+points/hair, actual draw reductions and speech continuity.30seconds/1801samples,
+mean16.659ms/p9516.8/max18.2/zero>25,1831draws480x600.
+Skin30746to26285triangles; hair17840to17232; normals15375to13195vertices.
+First browser probe passes behavior/neutral exact roundtrip but cropped1x
+polygon cadence fails mean18.114ms/max101.8/p9516.9. Cause not established;
+CPU52% observed afterward is not a diagnosis. Failed receipt retained. Later
+probe collects all12material/density/framing cases before applying unchanged
+budgets, rather than losing later coverage on the first failure.
+Tracking: vr14 issue13 and original Project itemPVTI_lAHOAe2wCs4BsFbFzhKIkmk.
+Initial Project inventory lagged creation; saved identities reused, next full
+readback verified membership/In Progress. No duplicate creation.
+Final qualification: Browser02 passes22scenarios/12modes. Full means16.659-
+16.660ms/p95atmost16.8/max17.5; cropped same mean/p95range/max17.3,zero>25ms.
+Eachmode185-187normalupdates/zeroGPUstorageallocations. Native03 tenchecks,
+1801intervals mean16.659/p9516.8/max17/zero>25/1832draws480x600. Native02
+passed with15spikes>25/max50.2; cleaner03doesnoterase them. Immediate rotated
+capture02showed an older compositor frame;150ms presentation wait fixes actual
+capture03, not renderer logic. Reviewed overlay/rotated images and separate
+public screenshotprovenance retain old media truth. Fullneutralroundtrip0diff/
+43592croppixelschanged/noabovechanges;zeroalpha belowcut in bothnativeviews.
+No inference/payload/normalupload reduction, universal60fps or speedup claim.
+
 2026-11-19 - Local transparent desktop, cursor gaze and full orientation
 Cause: Owner requests desktop use over other applications, cursor-following eyes
 and rotation on every X/Y/Z axis, retaining the existing prototype.

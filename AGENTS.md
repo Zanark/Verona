@@ -21,6 +21,10 @@ Chapter 10 adds the optional Electron desktop shell, native transparent overlay,
 procedural cursor-following irises and full XYZ orientation. Keep one renderer/
 audio owner while switching modes. Desktop setup is explicit; never download at
 launch, disable renderer sandboxing, capture other apps or use a user's profile.
+Framing offers optional Head and neck; Full bust remains the default. Keep the
+original full geometry/motion and actual reduced indices/normal work; a screen
+mask alone is not the requested optimization. Chapter 10 explains the rest-space
+cut, open boundary and unchanged inference/storage costs.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
