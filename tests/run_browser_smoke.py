@@ -77,11 +77,13 @@ def run_browser(args, node) -> None:
                         browser.wait(timeout=10)
                     except subprocess.TimeoutExpired:
                         # The exact Popen PID belongs to this unique test profile.
-                        subprocess.run(
+                        stopped = subprocess.run(
                             [str(POWERSHELL), "-NoProfile", "-NonInteractive", "-Command",
                              f"Stop-Process -Id {browser.pid} -ErrorAction Stop"],
-                            timeout=10, check=True, env=environment,
+                            timeout=10, check=False, env=environment,
                         )
+                        if stopped.returncode and browser.poll() is None:
+                            raise RuntimeError("Could not stop the exact owned Edge process.")
                         browser.wait(timeout=10)
     finally:
         state.stop.set()

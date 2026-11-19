@@ -8,6 +8,16 @@
   <script type="module" src="/app.js"></script>
 </head>
 <body>
+  <div id="desktop-bar" hidden><span>VERONA DESKTOP</span><div>
+    <button data-desktop="minimize" type="button" aria-label="Minimize">_</button>
+    <button data-desktop="close" type="button" aria-label="Close Verona">Close</button>
+  </div></div>
+  <div id="overlay-toolbar" class="overlay-tools">
+    <span class="drag-handle" title="Drag to move the head window">Move</span>
+    <button data-desktop="controls" type="button">Controls</button>
+    <button data-desktop="close" type="button" aria-label="Close Verona">Close</button>
+  </div>
+  <p id="overlay-error" role="alert" hidden></p>
   <header><h1>VERONA <span>local speaking-face prototype</span></h1>
     <p>Text &rarr; Windows voice &rarr; neural CPU face. No camera, microphone or cloud service.</p></header>
   <main>
@@ -59,6 +69,12 @@
       <p id="details" class="hint"></p>
     </section>
     <section class="viewer-panel" aria-label="Animated facial mesh">
+      <div id="desktop-actions" hidden>
+        <button data-desktop="overlay" type="button">Pop out transparent head</button>
+        <label><input id="pin-overlay" type="checkbox" checked> Overlay always on top</label>
+        <p class="hint">Hover the overlay's top-left corner for Move, Controls and Close.
+          Controls returns here without losing your speech. Transparent areas may intercept clicks.</p>
+      </div>
       <div class="canvas-wrap">
         <canvas id="face" aria-label="Verona's sculpted face and wavy hair, animated with Claire speech motion"></canvas>
         <div class="canvas-label">AUDIO-CLOCKED &middot; 30 FPS MOTION / 60 FPS DISPLAY TARGET <span id="frame">NEUTRAL</span></div>
@@ -78,7 +94,11 @@
         <label><input id="edges" type="checkbox" checked> Edges</label>
         <label><input id="points" type="checkbox"> Points</label>
         <label><input id="hair" type="checkbox" checked> Hair</label>
-        <label for="yaw">Turn <input id="yaw" type="range" min="-0.8" max="0.8" step="0.01" value="0"></label>
+        <label for="tilt">X <input id="tilt" aria-label="X rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="tilt-angle">0 deg</output></label>
+        <label for="yaw">Y <input id="yaw" aria-label="Y rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="yaw-angle">0 deg</output></label>
+        <label for="roll">Z <input id="roll" aria-label="Z rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="roll-angle">0 deg</output></label>
+        <button id="reset-view" type="button">Reset orientation</button>
+        <label><input id="follow-eyes" type="checkbox"> Eyes follow cursor</label>
         <label for="zoom">Zoom <input id="zoom" type="range" min="0.8" max="2.3" step="0.05" value="1"></label>
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
@@ -86,6 +106,7 @@
       <p class="hint">Verona rest-surface styling; real Claire skin motion and connected native topology.
         Transparent-looking polygons by default; choose Warm shaded face for the solid beauty view.
         Edges, Points and Hair remain independently toggleable.
+        Cursor gaze moves the procedural irises, not learned eye joints.
         Full SDK contact correction and independent teeth, tongue and eye-joint animation are not implemented.
         Phonetic accuracy and human acceptance are still open.</p>
     </section>

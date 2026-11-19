@@ -147,6 +147,34 @@ try {
   const greeting = await generate("Hey, how are you?");
   report.greeting = greeting;
   report.firstClientReadySeconds = await evaluate(`Number(document.getElementById("details").dataset.readySeconds)`);
+  await check("Full XYZ orientation and procedural cursor gaze change rendered pixels without replacing speech", async () => {
+    const before = await evaluate(`document.getElementById("audio").src`);
+    await evaluate(`window.gazePixels=()=>{
+      document.getElementById("yaw").dispatchEvent(new Event("input"));
+      const c=document.getElementById("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
+      g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
+      window.neutralEyes=window.gazePixels();
+      document.getElementById("follow-eyes").checked=true;
+      window.dispatchEvent(new MouseEvent("mousemove",{clientX:innerWidth,clientY:0}));`);
+    await delay(1100);
+    const gaze = await evaluate(`(() => {const p=window.gazePixels();let changed=0;
+      for(let i=0;i<p.length;i+=4) if(Math.abs(p[i]-window.neutralEyes[i])
+        +Math.abs(p[i+1]-window.neutralEyes[i+1])+Math.abs(p[i+2]-window.neutralEyes[i+2])>15)changed++;
+      return {changed,gaze:document.getElementById("face").dataset.gaze.split(",").map(Number)};})()`);
+    assert(gaze.changed > 30,JSON.stringify(gaze));
+    assert(gaze.gaze[0] > 0 && gaze.gaze[1] > 0);
+    for (const id of ["tilt","yaw","roll"]) {
+      await evaluate(`document.getElementById("${id}").value="3.141593";
+        document.getElementById("${id}").dispatchEvent(new Event("input"));`);
+      assert.equal(await evaluate(`document.getElementById("face").getContext("webgl2").getError()`),0);
+    }
+    await evaluate(`document.getElementById("follow-eyes").checked=false;
+      document.getElementById("follow-eyes").dispatchEvent(new Event("input"));
+      document.getElementById("reset-view").click();delete window.neutralEyes;delete window.gazePixels;`);
+    await delay(1100);
+    assert.equal(await evaluate(`document.getElementById("audio").src`),before);
+    report.cursorGaze=gaze;
+  });
   await check("Actual text synthesis, complete motion and browser WAV decode", async () => {
     const data = await evaluate(`({duration:document.getElementById("audio").duration,
       source:document.getElementById("audio").currentSrc.startsWith("blob:"),
@@ -233,8 +261,12 @@ try {
     await click("play");
     await evaluate(`(()=>{
       const gl=document.getElementById("face").getContext("webgl2"),original=gl.clear;
-      window.renderProbe={frames:0,restore:()=>{gl.clear=original;}};
+      const allocate=gl.bufferData,update=gl.bufferSubData;
+      window.renderProbe={frames:0,allocations:0,updates:0,restore:()=>{
+        gl.clear=original;gl.bufferData=allocate;gl.bufferSubData=update;}};
       gl.clear=function(...args){window.renderProbe.frames++;return original.apply(this,args);};
+      gl.bufferData=function(...args){window.renderProbe.allocations++;return allocate.apply(this,args);};
+      gl.bufferSubData=function(...args){window.renderProbe.updates++;return update.apply(this,args);};
     })()`);
     report.renderCadence = [];
     for (const {density,edges,view} of [
@@ -248,7 +280,7 @@ try {
       await delay(150);
     const timing = await evaluate(`new Promise(resolve=>{
       const intervals=[];let previous=0,start=0;
-      const firstDraw=window.renderProbe.frames;
+      const firstDraw=window.renderProbe.frames,firstUpdates=window.renderProbe.updates;
       function sample(now){
         if(!start)start=now;
         if(previous && now-start>300)intervals.push(now-previous);
@@ -261,12 +293,16 @@ try {
             over25Ms:sorted.filter(t=>t>25).length,viewport:[innerWidth,innerHeight],
             canvas:[document.getElementById("face").width,document.getElementById("face").height],
             submittedDraws:window.renderProbe.frames-firstDraw,
+            normalBufferAllocations:window.renderProbe.allocations,
+            normalBufferUpdates:window.renderProbe.updates-firstUpdates,
             playing:!document.getElementById("audio").paused});
         }
       }requestAnimationFrame(sample);
     })`);
     report.renderCadence.push({...timing,density,edges,view});
     assert.equal(timing.playing,true);
+    assert.equal(timing.normalBufferAllocations,0);
+    assert(timing.normalBufferUpdates>100);
     assert(timing.samples>300,JSON.stringify(timing));
     assert(timing.submittedDraws>=timing.samples,JSON.stringify(timing));
     assert(timing.meanMs<17.55 && timing.p95Ms<20,JSON.stringify(timing));

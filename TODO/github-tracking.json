@@ -151,7 +151,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-13": {
+      "source": "TODO/13_DESKTOP_OVERLAY.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgrHlYA",
+      "number": 12,
+      "url": "https://github.com/Zanark/Verona/issues/12",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKH4Gk",
+      "title": "Local desktop shell, transparent head overlay, cursor gaze and XYZ orientation",
+      "managedBody": "\n<!-- verona-workstream:vr-13 -->\nWorkstream source: `TODO/13_DESKTOP_OVERLAY.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-13\nTitle: Local desktop shell, transparent head overlay, cursor gaze and XYZ orientation\n\nStatus: IN_PROGRESS\nMilestone: Run Verona as a local desktop app and pop the same speaking head over other applications.\nDependencies: vr-12\n\nPurpose:\nProvide a genuinely transparent desktop background, rather than only a\ntransparent-looking face material. Preserve one clip, audio clock and renderer.\n\nTasks:\n[x] Add a pinned, isolated desktop runtime and explicit setup/launch commands.\n[x] Implement transparent always-on-top pop-out and return-to-controls without reloading.\n[x] Add cursor-following eyes and independent full-range XYZ rotation/reset.\n[ ] Exercise actual native windows, alpha composition, speech continuity and recovery.\n[ ] Update book, guide, ownership/failure evidence, issue/Project and continuity.\n[ ] Review, commit and push coherent verified milestones as Zanark.\n\nAcceptance criteria:\nThe overlay visibly composites over a synthetic desktop window. Controls return\nwithout losing input, voice, clip or playback position. Cursor gaze works outside\nthe app without recording mouse input. All three axes span a full revolution.\nExisting local-only browser mode remains operational; no device activation,\nglobal installation, startup service or disturbance of other applications.\n\nCompletion evidence:\nPending implementation and real desktop qualification. Framework choice will\nreuse existing WebGL/audio with a pinned official Electron desktop compositor;\nlarger than WebView2, but avoids unproven layered-HWND transparency and duplicate\nrenderers/audio ownership. Windows desktop toolchains and existing runtime\nprocesses inspected: no active Verona instance before edits.\n\nCompletion log:\n2026-11-19 - Owner requests a desktop version, transparent pop-out over other\napps, cursor-following eyes and independent X/Y/Z head orientation.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-19T10:06:10.970226+00:00"
+  "verifiedAt": "2026-11-19T10:37:59.681366+00:00"
 }

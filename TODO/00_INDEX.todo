@@ -12,6 +12,7 @@ vr-09 | 09_PROTOTYPE_RELEASE.todo | DONE | Visual-first README and verified v0.1
 vr-10 | 10_FACE_PRESENTATION.todo | DONE | Readable shaded female face and locally qualified 60-fps rendering
 vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and side-parted wavy hair
 vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon default, optional shading and revised proportions
+vr-13 | 13_DESKTOP_OVERLAY.todo | IN_PROGRESS | Transparent desktop pop-out, cursor gaze and XYZ orientation
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

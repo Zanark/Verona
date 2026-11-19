@@ -1,6 +1,61 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - Local transparent desktop, cursor gaze and full orientation
+Cause: Owner requests desktop use over other applications, cursor-following eyes
+and rotation on every X/Y/Z axis, retaining the existing prototype.
+Action: Optional pinned Electron compositor around the same WebContents/audio/
+WebGL buffers. Switch one native window between controls and transparent,
+initially always-on-top overlay; no second renderer, copied clip or audio clock.
+Native logical-coordinate cursor sampling, bounded inverse-rotated iris masks,
+75-ms smoothing and one coalesced RAF. Rz*Ry*Rx, independent +/-180-degree axes.
+Ownership: No active Verona before edits. Private loopback/capability/RAM/model
+engine, disposable desktop profile and test cache/workspace; models read-only.
+No other app driven or captured, system cursor never warped. Exact-PID native
+WM_CLOSE, timeout termination and parent-liveness recovery, no installed service.
+Trust: Renderer sandbox/context isolation, no Node bridge, only typed commands
+from the expected main frame/origin; network/permissions/downloads denied.
+Tradeoff: Optional pinned desktop runtime is388058477installed bytes, not a
+tiny WebView2 executable. Explicit setup only, no automatic download/global
+install/TLS bypass. Existing verified HTTPS feed supplies stable45.3.1 rather
+than unavailable45.4.1from current docs. Browser needs no desktop dependency.
+Failure: GUI stdin EOF closed first candidate before any artifacts; native
+qualification now requires named report and real images, not merely exit0.
+Retained a seven/eight-case assertion mismatch; actual native cadence case
+added. One later2x browser case failed mean17.688ms/max83.4ms, p9516.9;
+cause not established. Keep receipt; browser-only mode restores opaque context,
+unneeded there, while desktop alone enables composited alpha. Final evidence
+and source publication are recorded in vr13; no locked/universal60fps claim.
+Further evidence: Browser03also failed later1x shaded-edge mean21.179ms/
+p9549.6/max117.6. SharedCPU70%observed afterward, not a causal diagnosis.
+Removed recurring CPU normal-array/new GPU-storage allocation by reusing one
+scratch array and two dynamic normal slots with bufferSubData. Regression
+counts actual storage allocations/updates during playback; native final
+qualification extends its visible cadence window from6to30seconds.
+Browser cleanup now tolerates its owned PID already exiting during exact-PID
+termination rather than turning that race into a false cleanup failure.
+Tracking: vr13/issue12/originalProject item PVTI_lAHOAe2wCs4BsFbFzhKH4Gk.
+Inventory membership initially lagged direct-ID truth; reused saved card,
+then verified normal inventory. No duplicate issue/card.
+Final qualification:35unit/HTTP checks, focusedXYZ/gaze math, actual production
+entry visible/responsive/nativeclose0/profileobservedremoved. Native10eight
+checks/30seconds/1801intervals mean16.659/p9516.8/max17.8/zero>25/1831draws.
+Browser05twenty checks/six modes means16.659-17.184/p95atmost16.9/max66.7/
+nine>25ms; budget passes but residual spikes remain. Per-mode185-187normal
+updates, zero storage allocations. Previousclean04doesnotreplace final05.
+Two reviewed nativePNG/10sourcehashes separately recorded; oldvr12media/
+provenance preserved.89relativefilelinks/12bookinputs/12finiteeightfieldTODOs.
+Final review caught native fatal errors showing/logging recovery but exiting
+through normal app.quit. They now app.exit(1), so Python/launcher receive failure.
+Focused VM fixtures cover missing/invalid endpoint and compositor initialization
+failure, preserving real Electron for the separate native normal-flow checks.
+Native07-09caught persistentpin failure;5secondwait did not fix it. Nativeevent
+trace and owned transparent/opaque fixture probes compared Electron getter to
+realWS_EX_TOPMOSTbit: default/floatingfalse, pop-up-menutrue. Explicit documented
+pop-up-menulevel now used (aboveWindowsTaskbar), testednativepincheckboxoff/on;
+not a privileged band/global setting. Failedreceipts retained. CPU/GPU/
+compositor are shared, not isolated/reserved.
+
 2026-11-19 - Polygon-first correction and stronger structural revision
 Cause: Owner rejects vr11's structure and unintended solid default, then
 supplies the earlier cool polygon screenshot and explicitly wants it DEFAULT.

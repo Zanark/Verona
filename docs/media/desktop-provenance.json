@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "capture": "vr-13 native Electron desktop candidate; source hashes identify exact captured implementation",
+  "sourceBase": "d57a4138250ecbc8010aa6e01500f2c5321db0d8",
+  "sentence": "Hey, how are you?",
+  "voice": "Microsoft Hazel Desktop (en-GB)",
+  "voiceSettings": {
+    "pitch": 0,
+    "rate": 0,
+    "bass": 0,
+    "treble": 0,
+    "emphasis": "none"
+  },
+  "appearance": "Transparent polygons; Edges and Hair on; Points off",
+  "audio": "Muted qualification, not independent listening acceptance",
+  "overlayBackground": "Owned solid RGB(37,103,71) fixture; actual Windows native composition; no other apps captured",
+  "captureReview": "Both actual final PNGs visually inspected",
+  "cadence": {
+    "samples": 1801,
+    "meanMs": 16.659355913381454,
+    "p95Ms": 16.80000000000291,
+    "maxMs": 17.799999999999272,
+    "over25Ms": 0,
+    "submittedDraws": 1831,
+    "canvas": [
+      480,
+      600
+    ]
+  },
+  "files": [
+    {
+      "file": "desktop-controls.png",
+      "sha256": "5875d366b76ffcc9ce8f6cb76a13b0fe34acd91bc55a00607138898840b28b73",
+      "bytes": 355874,
+      "width": 1280,
+      "height": 980
+    },
+    {
+      "file": "desktop-overlay.png",
+      "sha256": "3c862c6dd0b48eefac07647b4a6b3275ffa9bb40064b8ea252a7bb419df80ae4",
+      "bytes": 288073,
+      "width": 480,
+      "height": 600
+    }
+  ],
+  "sourceSha256": {
+    "desktop/main.cjs": "4d8d144320285d8afa086e7d1686bacfa8e7734e6b4fb82bbd4b6e2b8eb9c252",
+    "desktop/preload.cjs": "e96374e203f348382cef47eb639ab0a1107a1df2ee01e0afc9b4aeeebea9aa11",
+    "desktop/package.json": "3615dae2a3597d5f8b95d8537ce7e70123b180d0d1d49fceccdd6258702701f1",
+    "desktop/package-lock.json": "ba8beadfafa8941bd41fdf113cfd9212a81136ff7d2ba9c212543504a4dfeb80",
+    "verona/desktop.py": "5ed778063db34d8bb4f98d5f6b52dc45c5ef5c5323c0c2db2ce48089979516a1",
+    "verona/server.py": "69c979880b7856a85669e09155aed6a43d6873d516827960e36653cda014fe64",
+    "verona/web/app.js": "5df1d5571ade1401b0120cd5507c7fdae93369a78ffbd0d48d6628585d668d64",
+    "verona/web/index.html": "2ca935a93d40cf550f02c23e5e4ab3f442713bcc19a801115e3e714fb52ba560",
+    "verona/web/style.css": "24c423ae5a7ddb1b705091a4e44f6517b26cc76da9be4efa4333b4dee928d385",
+    "verona/web/orientation.mjs": "37ddb1f25415c7c7355c2460cbfe490b9d691574ec0c6813d39225da2c06dd9b"
+  },
+  "historicalMedia": "Other PNG/GIF files retain the separate vr-12 provenance.json; not recaptured from this candidate.",
+  "captureReceipt": "desktop-overlay-10",
+  "topmostLevel": "Explicit pop-up-menu; documented above Windows taskbar; pin off and return-to-controls restore normal stacking"
+}

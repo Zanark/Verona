@@ -1,0 +1,10 @@
+{
+  "name": "verona-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local transparent desktop shell for Verona's existing speaking face",
+  "main": "main.cjs",
+  "devDependencies": {
+    "electron": "45.3.1"
+  }
+}

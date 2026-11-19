@@ -1,4 +1,8 @@
+import { rotationMatrix, cursorGaze } from "/orientation.mjs";
+
 const $ = (id) => document.getElementById(id);
+const desktop = window.veronaDesktop;
+let cursor = null;
 const audio = $("audio");
 const controls = ["play", "restart", "seek"];
 const settingNames = ["pitch", "rate", "bass", "treble"];
@@ -11,6 +15,8 @@ let renderer, clip, audioUrl, previewUrl, defaultVoice, raf = 0, busy = false;
 function failure(error) {
   $("error").textContent = error instanceof Error ? error.message : String(error);
   $("error").hidden = false;
+  $("overlay-error").textContent = $("error").textContent;
+  $("overlay-error").hidden = false;
 }
 
 async function request(path, options = {}) {
@@ -31,8 +37,9 @@ async function request(path, options = {}) {
   return response;
 }
 
-function surfaceNormals(positions, triangles, offset = 0, count = positions.length / 3) {
-  const normals = new Float32Array(count * 3);
+function surfaceNormals(positions, triangles, offset = 0, count = positions.length / 3,
+  normals = new Float32Array(count * 3)) {
+  normals.fill(0);
   for (let i = 0; i < triangles.length; i += 3) {
     const a = triangles[i] * 3, b = triangles[i + 1] * 3, c = triangles[i + 2] * 3;
     const x = positions[offset + b] - positions[offset + a];
@@ -59,7 +66,7 @@ class FaceRenderer {
     this.canvas = canvas;
     this.meta = meta;
     this.frames = 0;
-    const gl = canvas.getContext("webgl2", { antialias: true, alpha: false });
+    const gl = canvas.getContext("webgl2", { antialias: true, alpha: Boolean(desktop), premultipliedAlpha: false });
     if (!gl) throw new Error("WebGL2 is unavailable. Use a current Edge or Chrome with graphics enabled.");
     this.gl = gl;
     const vertex = `#version 300 es
@@ -68,13 +75,13 @@ class FaceRenderer {
       in vec3 normalA;
       in vec3 normalB;
       in vec3 restPosition;
-      uniform float blend, quantization, aspect, yaw, zoom, pointSize;
+      uniform float blend, quantization, aspect, zoom, pointSize;
+      uniform mat3 rotation;
       uniform vec3 center;
       uniform float scale;
       out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
-        mat3 rotation = mat3(cos(yaw),0.0,-sin(yaw), 0.0,1.0,0.0, sin(yaw),0.0,cos(yaw));
         p = rotation * p;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
         gl_PointSize = pointSize;
@@ -85,6 +92,7 @@ class FaceRenderer {
       precision highp float;
       uniform vec3 color;
       uniform bool points, polygonView;
+      uniform vec2 gaze;
       uniform int material, pass;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
@@ -155,6 +163,7 @@ class FaceRenderer {
         } else if (material == 2) {
           vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
           vec3 local = rest-eyeCenter;
+          local.xy -= gaze;
           float radius = length(local.xy-(polygonView?vec2(0.0):vec2(0.0,0.08)));
           float front = smoothstep(0.9,1.2,local.z);
           float iris = (1.0-smoothstep(polygonView?0.48:0.53,polygonView?0.55:0.59,radius))*front;
@@ -202,7 +211,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "yaw", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView"]
+      ["blend", "quantization", "aspect", "rotation", "gaze", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -212,7 +221,10 @@ class FaceRenderer {
     this.triangleData = new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3);
     this.neutral = this.buffer(gl.ARRAY_BUFFER, this.neutralData);
     this.neutralNormals = this.buffer(gl.ARRAY_BUFFER, surfaceNormals(this.neutralData,this.triangleData));
-    this.normalSlots = [0,1].map(() => ({frame:-1,buffer:gl.createBuffer()}));
+    this.normalScratch = new Float32Array(meta.vertices * 3);
+    this.normalSlots = [0,1].map(() => ({
+      frame:-1, buffer:this.buffer(gl.ARRAY_BUFFER,this.normalScratch,gl.DYNAMIC_DRAW),
+    }));
     this.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.edgeOffset, meta.edges * 2));
     this.triangles = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3));
     const hair = meta.hair;
@@ -232,6 +244,8 @@ class FaceRenderer {
       normals:this.buffer(gl.ARRAY_BUFFER,surfaceNormals(eyeData,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3))),
     };
     this.motion = null;
+    this.gaze = [0, 0];
+    this.lastDraw = performance.now();
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
     canvas.addEventListener("webglcontextlost", (event) => {
@@ -245,10 +259,10 @@ class FaceRenderer {
     });
   }
 
-  buffer(target, data) {
+  buffer(target, data, usage = this.gl.STATIC_DRAW) {
     const buffer = this.gl.createBuffer();
     this.gl.bindBuffer(target, buffer);
-    this.gl.bufferData(target, data, this.gl.STATIC_DRAW);
+    this.gl.bufferData(target, data, usage);
     return buffer;
   }
 
@@ -285,9 +299,9 @@ class FaceRenderer {
     if (!slot) {
       slot=this.normalSlots[frame%2];
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER,slot.buffer);
-      this.gl.bufferData(this.gl.ARRAY_BUFFER,
-        surfaceNormals(this.motionData,this.triangleData,frame*this.meta.vertices*3,this.meta.vertices),
-        this.gl.DYNAMIC_DRAW);
+      this.gl.bufferSubData(this.gl.ARRAY_BUFFER,0,
+        surfaceNormals(this.motionData,this.triangleData,frame*this.meta.vertices*3,
+          this.meta.vertices,this.normalScratch));
       slot.frame=frame;
     }
     return slot.buffer;
@@ -302,7 +316,7 @@ class FaceRenderer {
 
   draw(seconds) {
     const gl = this.gl;
-    if (gl.isContextLost()) return;
+    if (gl.isContextLost()) { this.gazeMoving = false; return; }
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
     const width = Math.max(1, Math.round(this.canvas.clientWidth * ratio));
     const height = Math.max(1, Math.round(this.canvas.clientHeight * ratio));
@@ -311,7 +325,8 @@ class FaceRenderer {
       this.canvas.height = height;
     }
     gl.viewport(0, 0, width, height);
-    gl.clearColor(0.016, 0.025, 0.038, 1);
+    if (document.documentElement.classList.contains("overlay")) gl.clearColor(0, 0, 0, 0);
+    else gl.clearColor(0.016, 0.025, 0.038, 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.useProgram(this.program);
     const frame = this.frames ? Math.min(this.frames - 1, Math.max(0, seconds * 30)) : 0;
@@ -330,7 +345,18 @@ class FaceRenderer {
     gl.uniform3fv(u.center,this.meta.center);
     gl.uniform1f(u.scale,this.meta.scale);
     gl.uniform1f(u.aspect, width / height);
-    gl.uniform1f(u.yaw, Number($("yaw").value));
+    const rotation = rotationMatrix(Number($("tilt").value), Number($("yaw").value), Number($("roll").value));
+    gl.uniformMatrix3fv(u.rotation, false, rotation);
+    const target = $("follow-eyes").checked && cursor
+      ? cursorGaze(cursor.x, cursor.y, this.canvas.getBoundingClientRect(), rotation,
+        Number($("zoom").value), this.meta.center, this.meta.scale) : [0, 0];
+    const now = performance.now(), smoothing = 1 - Math.exp(-Math.min(.1, (now - this.lastDraw) / 1000) / .075);
+    this.lastDraw = now;
+    this.gaze = this.gaze.map((value, i) => Math.abs(target[i] - value) < .0001
+      ? target[i] : value + (target[i] - value) * smoothing);
+    this.gazeMoving = this.gaze.some((value, i) => Math.abs(target[i] - value) >= .0001);
+    gl.uniform2fv(u.gaze, this.gaze);
+    this.canvas.dataset.gaze = this.gaze.join(",");
     gl.uniform1f(u.zoom, Number($("zoom").value) * 0.91);
     gl.uniform1f(u.pointSize, 1.15 * ratio);
     gl.uniform1i(u.material,0);
@@ -344,7 +370,7 @@ class FaceRenderer {
     gl.disable(gl.POLYGON_OFFSET_FILL);
     if ($("edges").checked) {
       gl.enable(gl.BLEND);
-      gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+      gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
       gl.depthMask(false);
       gl.uniform1i(u.pass,1);
       gl.uniform3f(u.color,...(polygonView?[0.68,0.88,0.89]:[0.35,0.18,0.13]));
@@ -353,7 +379,7 @@ class FaceRenderer {
     }
     if ($("points").checked) {
       gl.enable(gl.BLEND);
-      gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+      gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
       gl.depthMask(false);
       gl.uniform1i(u.pass,1);
       gl.uniform1i(u.points, 1);
@@ -379,7 +405,7 @@ class FaceRenderer {
       gl.drawElements(gl.TRIANGLES, this.meta.hair.triangles * 3, gl.UNSIGNED_INT, 0);
       gl.disable(gl.POLYGON_OFFSET_FILL);
       gl.enable(gl.BLEND);
-      gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+      gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
       gl.depthMask(false);
       gl.uniform1i(u.pass,1);
       gl.uniform3f(u.color,...(polygonView?[0.40,0.49,0.68]:[0.31,0.13,0.048]));
@@ -397,11 +423,12 @@ function draw() {
   const duration = clip ? clip.duration : 0;
   $("time").textContent = `${audio.currentTime.toFixed(2)} / ${duration.toFixed(2)} s`;
   $("seek").value = String(audio.currentTime);
+  if ((!audio.paused && !audio.ended || renderer?.gazeMoving) && !raf) raf = requestAnimationFrame(animate);
 }
 
 function animate() {
+  raf = 0;
   draw();
-  if (!audio.paused && !audio.ended) raf = requestAnimationFrame(animate);
 }
 
 function clearClip() {
@@ -445,6 +472,7 @@ function refreshSettings() {
 async function previewVoice() {
   if (busy) return;
   $("error").hidden = true;
+  $("overlay-error").hidden = true;
   const text = $("text").value.trim();
   if (!text || text.length > 280) { failure(new Error("Enter 1-280 characters of plain text.")); return; }
   busy = true;
@@ -474,6 +502,7 @@ async function previewVoice() {
 async function generate() {
   if (busy) return;
   $("error").hidden = true;
+  $("overlay-error").hidden = true;
   const text = $("text").value.trim();
   if (!text || text.length > 280) {
     failure(new Error("Enter 1-280 characters of plain text."));
@@ -557,6 +586,7 @@ for (const id of ["text", "voice", "emphasis"]) $(id).addEventListener("input", 
 preview.addEventListener("play", () => audio.pause());
 $("play").addEventListener("click", async () => {
   $("error").hidden = true;
+  $("overlay-error").hidden = true;
   if (!clip) return;
   preview.pause();
   if (!audio.paused) { audio.pause(); return; }
@@ -574,7 +604,55 @@ $("seek").addEventListener("input", () => {
 });
 $("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
-for (const id of ["appearance", "edges", "points", "hair", "yaw", "zoom"]) $(id).addEventListener("input", draw);
+for (const id of ["appearance", "edges", "points", "hair", "yaw", "tilt", "roll", "zoom"]) {
+  $(id).addEventListener("input", () => { updateAngles(); draw(); });
+}
+function updateAngles() {
+  for (const id of ["tilt", "yaw", "roll"]) $(`${id}-angle`).value = `${Math.round(Number($(id).value) * 180 / Math.PI)} deg`;
+}
+$("reset-view").addEventListener("click", () => {
+  for (const id of ["tilt", "yaw", "roll"]) $(id).value = "0";
+  $("zoom").value = "1";
+  updateAngles();
+  draw();
+});
+$("follow-eyes").addEventListener("input", async () => {
+  try { if (desktop) await desktop.command("follow", $("follow-eyes").checked); }
+  catch (error) { failure(error); }
+  draw();
+});
+window.addEventListener("mousemove", (event) => {
+  if (!$("follow-eyes").checked || desktop) return;
+  cursor = { x: event.clientX, y: event.clientY };
+  if (!raf) raf = requestAnimationFrame(animate);
+});
+document.documentElement.addEventListener("mouseleave", () => {
+  if (!desktop) { cursor = null; draw(); }
+});
+if (desktop) {
+  document.documentElement.classList.add("desktop");
+  $("desktop-bar").hidden = false;
+  $("desktop-actions").hidden = false;
+  $("follow-eyes").checked = true;
+  desktop.onCursor((position) => {
+    cursor = position;
+    if (!raf) raf = requestAnimationFrame(animate);
+  });
+  desktop.onMode(({ overlay }) => {
+    document.documentElement.classList.toggle("overlay", overlay);
+    draw();
+  });
+  for (const button of document.querySelectorAll("[data-desktop]")) {
+    button.addEventListener("click", async () => {
+      try { await desktop.command(button.dataset.desktop); }
+      catch (error) { failure(error); }
+    });
+  }
+  $("pin-overlay").addEventListener("input", async () => {
+    try { await desktop.command("pin", $("pin-overlay").checked); }
+    catch (error) { failure(error); }
+  });
+}
 for (const button of document.querySelectorAll("[data-example]")) {
   button.addEventListener("click", () => {
     if (!busy) { $("text").value = button.dataset.example; clearPreview(); $("text").focus(); }
@@ -583,11 +661,13 @@ for (const button of document.querySelectorAll("[data-example]")) {
 audio.volume = preview.volume = Number($("volume").value);
 audio.addEventListener("play", () => {
   cancelAnimationFrame(raf);
+  raf = 0;
   $("play").textContent = "Pause";
   animate();
 });
 audio.addEventListener("pause", () => {
   cancelAnimationFrame(raf);
+  raf = 0;
   $("play").textContent = "Play";
   draw();
 });

@@ -15,6 +15,10 @@ waves over the same learned Claire motion; attractiveness remains subjective.
 The owner rejected that first sculpt and the solid default: restore their
 referenced cool, transparent-looking polygon view as DEFAULT, keep shading an
 option, and revise actual facial structure rather than only cosmetics.
+The subsequent desktop request adds a genuinely transparent head overlay over
+other apps, cursor-following eyes and arbitrary X/Y/Z orientation. Chapter 10
+uses an optional local Electron shell around the same renderer/audio session;
+this is not camera tracking, an assistant or learned eye-joint animation.
 
 ## Confirmed
 

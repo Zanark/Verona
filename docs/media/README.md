@@ -22,8 +22,9 @@ speech timeline is sampled at 12 fps and rounded to GIF centiseconds. They are
 not 60-fps playback recordings, live inference demonstrations or independent
 listening/phonetic acceptance. The turntable changes view yaw, not head motion
 predicted from speech. See the [display measurements](../chapters/09-verona-character-and-waves.md).
-The gallery reflects current main development; the first source prerelease's
-older appearance remains preserved at its immutable tag.
+These seven files and `provenance.json` preserve the vr-12 capture snapshot.
+They are not recaptured desktop evidence; source hashes refer to that snapshot.
+The first source prerelease's older appearance remains at its immutable tag.
 The default restores the owner's referenced translucent-looking polygon
 treatment; it is a shaded surface with blended contours, not an X-ray renderer.
 
@@ -47,3 +48,12 @@ earlier captures are retained privately. The neighboring provenance file records
 published file hashes and exact renderer source hashes, not private session data.
 [Third-party terms](../../THIRD_PARTY.md) cover the underlying native geometry;
 the supplied reference images and voice binaries are not distributed.
+
+## Desktop captures
+
+`desktop-controls.png` and `desktop-overlay.png` show the real native desktop
+host. The latter is Windows composition over an owned solid green fixture,
+not another application's contents or a simulated transparency checkerboard.
+The synthetic greeting uses the Hazel default with unchanged default settings.
+`desktop-provenance.json` separately records exact desktop source/image hashes.
+These are screenshots, not a playback recording or independent listening test.

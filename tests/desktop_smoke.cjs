@@ -1,0 +1,152 @@
+const { app, BrowserWindow, screen } = require("electron");
+const assert = require("node:assert/strict");
+const fs = require("node:fs/promises");
+const path = require("node:path");
+const { execFileSync } = require("node:child_process");
+const output = process.argv.find((arg) => arg.startsWith("--qualification-output=")).split("=").slice(1).join("=");
+const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const report = { checks: [], audio: "Muted native playback; not independent listening acceptance." };
+let fixture;
+app.once("browser-window-created", (_event, window) => {
+  report.nativeEvents = [];
+  for (const name of ["show", "hide", "always-on-top-changed"]) {
+    window.on(name, () => report.nativeEvents.push({ event: name,
+      visible: window.isVisible(), pinned: window.isAlwaysOnTop() }));
+  }
+  window.webContents.once("did-finish-load", () => run(window).catch(async (error) => {
+    report.error = error.stack;
+    await fs.writeFile(path.join(output, "desktop-report.json"), JSON.stringify(report, null, 2));
+    console.error(error.stack);
+    app.exit(1);
+  }));
+});
+require("../desktop/main.cjs");
+
+async function run(window) {
+  const evaluate = (code) => window.webContents.executeJavaScript(code, true);
+  async function wait(code, limit = 60000) {
+    const until = Date.now() + limit;
+    while (Date.now() < until) {
+      if (await evaluate(code)) return;
+      await pause(50);
+    }
+    throw new Error("Desktop condition timed out: " + code);
+  }
+  async function waitNative(condition, description) {
+    const until = Date.now() + 5000;
+    while (Date.now() < until) {
+      if (condition()) return;
+      await pause(25);
+    }
+    throw new Error("Native desktop state timed out: " + description);
+  }
+  await wait(`document.getElementById("generate") && !document.getElementById("generate").disabled`);
+  assert.equal(window.webContents.getLastWebPreferences().sandbox, true);
+  assert.equal(window.webContents.getLastWebPreferences().nodeIntegration, false);
+  assert.equal(await evaluate(`typeof require`), "undefined");
+  assert(await evaluate(`document.documentElement.classList.contains("desktop")`));
+  report.checks.push("Real sandboxed Electron desktop with isolated preload and ready WebGL2.");
+  assert(await evaluate(`window.veronaDesktop.command("arbitrary-file").then(()=>false,()=>true)`));
+  report.checks.push("Unrecognized native bridge command rejected.");
+  await evaluate(`document.getElementById("follow-eyes").checked=false;
+    document.getElementById("follow-eyes").dispatchEvent(new Event("input"));
+    document.getElementById("audio").muted=true; document.getElementById("generate").click();`);
+  await wait(`!document.getElementById("play").disabled || !document.getElementById("error").hidden`);
+  assert(await evaluate(`document.getElementById("error").hidden`),
+    await evaluate(`document.getElementById("error").textContent`));
+  const before = await evaluate(`({source:document.getElementById("audio").src,
+    text:document.getElementById("text").value,voice:document.getElementById("voice").value})`);
+  await evaluate(`document.getElementById("audio").play()`);
+  await pause(200);
+  report.overlayCommand = await evaluate(`window.veronaDesktop.command("overlay")`);
+  report.beforePinWait = { visible: window.isVisible(), pinned: window.isAlwaysOnTop() };
+  await wait(`document.documentElement.classList.contains("overlay")`);
+  await waitNative(() => window.isAlwaysOnTop(), "overlay always-on-top");
+  for (const pinned of [false, true]) {
+    await evaluate(`document.getElementById("pin-overlay").checked=${pinned};
+      document.getElementById("pin-overlay").dispatchEvent(new Event("input"));`);
+    await waitNative(() => window.isAlwaysOnTop() === pinned, "overlay pin checkbox");
+  }
+  await pause(200);
+  const after = await evaluate(`({source:document.getElementById("audio").src,
+    time:document.getElementById("audio").currentTime,paused:document.getElementById("audio").paused})`);
+  assert.equal(after.source, before.source);
+  assert(after.time > .25 && !after.paused);
+  report.checks.push("Pop-out preserves the same live audio/clip/renderer, advances its audio clock and toggles native pin state.");
+  await evaluate(`document.getElementById("audio").pause(); document.getElementById("audio").currentTime=0;
+    document.getElementById("yaw").dispatchEvent(new Event("input"));`);
+  const alpha = await evaluate(`(() => {
+    document.getElementById("yaw").dispatchEvent(new Event("input"));
+    const c=document.getElementById("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
+    g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+    let clear=0,solid=0; for(let i=3;i<p.length;i+=4){if(p[i]===0)clear++;if(p[i]===255)solid++;}
+    return {clear,solid,error:g.getError(),width:c.width,height:c.height};
+  })()`);
+  assert(alpha.clear > 10000 && alpha.solid > 1000 && alpha.error === 0, JSON.stringify(alpha));
+  report.alpha = alpha;
+  for (const id of ["tilt", "yaw", "roll"]) {
+    for (const value of [-Math.PI, Math.PI / 2, Math.PI]) {
+      const state = await evaluate(`(() => {const e=document.getElementById("${id}");e.value="${value}";
+        e.dispatchEvent(new Event("input"));const c=document.getElementById("face");
+        return {value:Number(e.value),error:c.getContext("webgl2").getError()};})()`);
+      assert(Math.abs(state.value - value) < .002 && state.error === 0);
+    }
+    await evaluate(`document.getElementById("${id}").value="0";document.getElementById("${id}").dispatchEvent(new Event("input"));`);
+  }
+  report.checks.push("All XYZ axes reach +/-180 degrees and 90 degrees without GL errors.");
+  await evaluate(`document.getElementById("follow-eyes").checked=true;
+    document.getElementById("follow-eyes").dispatchEvent(new Event("input"));`);
+  await pause(500);
+  const cursor = screen.getCursorScreenPoint(), bounds = window.getContentBounds();
+  report.cursor = { outside: cursor.x < bounds.x || cursor.x > bounds.x + bounds.width
+    || cursor.y < bounds.y || cursor.y > bounds.y + bounds.height,
+    gaze: await evaluate(`document.getElementById("face").dataset.gaze.split(",").map(Number)`) };
+  assert(report.cursor.outside, "Qualification needs cursor outside owned overlay; no cursor warping is permitted.");
+  assert(report.cursor.gaze.some((v) => Math.abs(v) > .01));
+  report.checks.push("Global cursor outside the overlay drives bounded procedural gaze without moving the system cursor.");
+  report.cadence = await evaluate(`new Promise(async resolve => {
+    const a=document.getElementById("audio"),g=document.getElementById("face").getContext("webgl2");
+    const original=g.clear;let draws=0;g.clear=function(...args){draws++;return original.apply(this,args);};
+    a.loop=true;await a.play();const intervals=[];let first=0,last=0;
+    function sample(now){
+      if(!first)first=now;
+      if(last && now-first>300)intervals.push(now-last);last=now;
+      if(now-first<30300)requestAnimationFrame(sample);
+      else {a.pause();a.loop=false;g.clear=original;
+        const sorted=intervals.slice().sort((x,y)=>x-y);
+        resolve({samples:sorted.length,meanMs:intervals.reduce((x,y)=>x+y,0)/intervals.length,
+          p95Ms:sorted[Math.floor(sorted.length*.95)],maxMs:sorted.at(-1),
+          over25Ms:sorted.filter(x=>x>25).length,submittedDraws:draws,
+          canvas:[g.canvas.width,g.canvas.height]});}
+    }requestAnimationFrame(sample);
+  })`);
+  assert(report.cadence.samples > 1500 && report.cadence.submittedDraws >= report.cadence.samples);
+  assert(report.cadence.meanMs < 17.55 && report.cadence.p95Ms < 20, JSON.stringify(report.cadence));
+  report.checks.push("Visible native overlay submits real audio-clocked draws within the bounded mean/p95 display budget.");
+  const b = window.getBounds();
+  fixture = new BrowserWindow({ ...b, frame: false, show: false, alwaysOnTop: true,
+    webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true } });
+  await fixture.loadURL("data:text/html,<html style='background:rgb(37,103,71)'><body></body></html>");
+  fixture.setAlwaysOnTop(true, "pop-up-menu");
+  fixture.showInactive();
+  window.moveTop();
+  await pause(700);
+  const powershell = path.join(process.env.SystemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
+  const physical = screen.dipToScreenRect(window, b);
+  execFileSync(powershell, ["-NoProfile", "-NonInteractive", "-File", path.join(__dirname, "capture_desktop.ps1"),
+    "-Left", String(physical.x), "-Top", String(physical.y), "-Width", String(physical.width), "-Height", String(physical.height),
+    "-Output", path.join(output, "desktop-overlay.png")], { timeout: 15000 });
+  report.checks.push("Native desktop composition over an owned solid-color fixture captured; no other apps captured.");
+  fixture.destroy();
+  fixture = null;
+  await evaluate(`window.veronaDesktop.command("controls")`);
+  await wait(`!document.documentElement.classList.contains("overlay")`);
+  await waitNative(() => !window.isAlwaysOnTop(), "controls no longer always-on-top");
+  const restored = await evaluate(`({source:document.getElementById("audio").src,
+    text:document.getElementById("text").value,voice:document.getElementById("voice").value})`);
+  assert.deepEqual(restored, before);
+  const image = await window.webContents.capturePage();
+  await fs.writeFile(path.join(output, "desktop-controls.png"), image.toPNG());
+  report.checks.push("Returning to controls preserves text/voice/clip and clears always-on-top.");
+  await fs.writeFile(path.join(output, "desktop-report.json"), JSON.stringify(report, null, 2));
+}

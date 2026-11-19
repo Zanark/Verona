@@ -3,7 +3,7 @@
 Verona's runtime does not download assets. The explicit setup commands fetch
 pinned public files over certificate-verified HTTPS and verify their exact
 size and SHA-256. A digest establishes identity, not a universal safety guarantee.
-These data and installed environments stay under ignored `.local`; no model,
+Model data and Python environments stay under ignored `.local`; no model,
 sample scene or Windows voice is bundled in this repository.
 
 - NVIDIA Audio2Face-3D-v2.3.1-Claire (current app) and v2.3-Mark (historical
@@ -27,6 +27,14 @@ sample scene or Windows voice is bundled in this repository.
   owned SSML for bounded local prosody. User SSML, voice cloning and cloud speech
   are not supported.
 - The browser renderer uses built-in WebGL2 and HTML audio, without a CDN or JS package.
+- The optional desktop shell pins Electron 45.3.1 (MIT) and its transitive setup
+  dependencies in `desktop/package-lock.json`. The ignored local distribution
+  includes Electron's `LICENSE` and `LICENSES.chromium.html`; retain those if a
+  separate binary distribution is ever authorized. This source project does not
+  bundle Electron, Chromium, Node.js or their third-party binaries.
+  Explicit setup uses the existing verified HTTPS npm feed/registry and the
+  official Electron installer's pinned checksums. No certificate bypass.
+  <https://github.com/electron/electron/blob/v45.3.1/LICENSE>
 - Rest-surface styling and procedural layered wavy hair are original Verona
   code applied to native-derived Claire geometry; the underlying model/sample
   licenses still apply. No hair model,

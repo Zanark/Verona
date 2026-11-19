@@ -17,6 +17,9 @@ Chapter 08 remains the native-connectivity and rendering foundation. This
 chapter adds rest styling, waves and optional warm materials. The correction
 below restores its cool polygon presentation as default. The first source
 prerelease remains frozen; the main-branch gallery shows current development.
+Chapter 10 subsequently adds a desktop compositor, full XYZ orientation and
+procedural cursor-following irises; the eye geometry and learned speech basis
+described here remain unchanged.
 
 ### Owner correction: preserve the polygon art direction
 

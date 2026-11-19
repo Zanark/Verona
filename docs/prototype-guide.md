@@ -11,6 +11,28 @@ voiced personal assistant remain future work.
 This checkout is already prepared:
 
 ```powershell
+.\VeronaDesktop.cmd
+```
+
+In the desktop app, generate and play a sentence, then click **Pop out transparent
+head**. The same head becomes a transparent, initially always-on-top window;
+speech continues without reloading. Hover its top-left corner for **Move**,
+**Controls** or **Close**. Controls restores the full interface. Close exits
+the desktop app and its Python server. Keep its terminal open; Ctrl+C also stops
+the owned desktop. No startup service is installed.
+
+**Eyes follow cursor** starts enabled on desktop and follows outside the window
+without recording input. Disable the checkbox for neutral gaze. X/Y/Z sliders
+each cover -180 to +180 degrees; **Reset orientation** zeros them and resets
+Zoom, not speech. Adjust orientation/zoom in Controls before popping out.
+**Overlay always on top** can be disabled. Transparent regions may intercept
+clicks: this version does not provide click-through or manual window resizing.
+Pinning uses a qualified above-taskbar Windows level; disable it for normal stacking.
+See [desktop mechanisms and limits](chapters/10-desktop-overlay-and-gaze.md).
+
+The previous browser version remains available, without the desktop dependency:
+
+```powershell
 .\Verona.cmd
 ```
 
@@ -26,7 +48,9 @@ face motion. Generate face applies those settings to both speech and animation.
 Pitch is a Windows-engine request, not a calibrated acoustic semitone shift.
 Neutral/happy/sad/surprised are separate explicit expression inputs.
 Play/Pause and the timeline follow the actual audio clock; Restart rewinds and
-pauses. Turn, zoom, volume and point/edge toggles are available.
+pauses. XYZ orientation, zoom, volume and point/edge toggles are available.
+Browser cursor following is opt-in and limited to its page; native desktop
+transparency/always-on-top are desktop-only.
 
 Press **Ctrl+C in the terminal** to stop. No service is installed. Closing only
 the browser does not stop Python. Reopening requires the full local URL printed
@@ -62,10 +86,13 @@ vertices, about 75% fewer than the full skin. It preserves more facial detail
 than the earlier voxel reduction, so its motion payload is larger, not 37%
 smaller. Prepared playback interpolates 30-fps learned motion on the browser's
 display clock. Normal/2x-density tests pass the bounded mean/p95 display budget;
-latest runs also contain occasional 49-50-ms intervals. This is not a locked
+historical runs also contain occasional 49-50-ms intervals. The desktop's final
+30-second sample measured mean 16.659 ms, p95 16.8 ms and maximum 17.8 ms.
+This is not a locked
 60-fps or universal hardware guarantee, nor 60-fps neural generation.
 [Chapter 09](chapters/09-verona-character-and-waves.md) records the current
-styling, geometry and six-mode measurements. New-line inference remains
+styling/geometry; [chapter 10](chapters/10-desktop-overlay-and-gaze.md) records
+desktop qualification and retained browser failures. New-line inference remains
 precomputed. Restart the server to load a changed backend style; reload alone
 does not rebuild an already-running engine. Speech/clip RAM is discarded on stop.
 
@@ -87,6 +114,23 @@ Pinned Claire model/topology files total about 337 MB, plus isolated dependencie
 No extra TTS model, CUDA, PyTorch or npm install is needed. Startup verifies
 assets and prepares geometry; explicit setup errors appear in the terminal.
 
+For the optional desktop shell, use existing Node.js >=22.12/npm and explicitly
+install its pinned Electron runtime once:
+
+```powershell
+.\Setup-VeronaDesktop.cmd
+.\VeronaDesktop.cmd
+```
+
+Setup uses the configured certificate-verified npm registry/feed, a lockfile,
+and Electron's official installer with its supplied artifact checksums.
+Dependency install scripts are disabled; only that reviewed installer is run.
+This is a larger optional Chromium desktop runtime, not another speech model.
+It lives under ignored `desktop\node_modules`; setup caches use ignored `.local`.
+No TLS bypass, global package installation or automatic runtime download.
+Later launches are local/offline. A fresh checkout needs both the Python/model
+setup above and desktop setup; missing prerequisites fail explicitly.
+
 ## Engineering and research
 
 - [Engineering book and reading paths](README.md)
@@ -98,6 +142,7 @@ assets and prepares geometry; explicit setup errors appear in the terminal.
 - [Hazel voice editing, Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
 - [Facial definition and measured display fluidity](chapters/08-facial-definition-and-fluidity.md)
 - [Verona character styling and wavy hair](chapters/09-verona-character-and-waves.md)
+- [Transparent desktop, cursor gaze and XYZ orientation](chapters/10-desktop-overlay-and-gaze.md)
 - [Workstream index](../TODO/00_INDEX.todo)
 - [Contributor contract](../AGENTS.md)
 - [Private project board](https://github.com/users/Zanark/projects/15)

@@ -10,13 +10,17 @@ CPU ONNX/PCA probe, local text-to-motion generator and audio-clocked WebGL2
 browser player exist under vr-07. The vr-08 feedback slice uses matching Claire
 v2.3.1 assets, default Hazel, bounded voice settings, procedural hair and
 latest-only RAM/derived-topology caches. Chapter 09 is the current presentation
-contract: original Verona rest styling over unchanged Claire PCA motion,
+contract for styling: original Verona rest styling over unchanged Claire PCA motion,
 native quad contours, warm cosmetics, static eyes and layered wavy hair.
 The owner's referenced cool transparent-looking polygon view is the default:
 Edges/hair on, points off. Warm shaded view remains selectable. The local
 60-fps display target is qualified in both views at1x/2x over30-fps motion,
 with recorded frame-time outliers, not a universal guarantee. Styling is not a new
 trained identity, photorealism or subjective/phonetic acceptance.
+Chapter 10 adds the optional Electron desktop shell, native transparent overlay,
+procedural cursor-following irises and full XYZ orientation. Keep one renderer/
+audio owner while switching modes. Desktop setup is explicit; never download at
+launch, disable renderer sandboxing, capture other apps or use a user's profile.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
@@ -74,6 +78,8 @@ requirements introduce media processing.
 ## Runtime and delivery
 
 `Verona.cmd` starts the local face app and opens its ready capability URL.
+`VeronaDesktop.cmd` owns the native desktop and local server; closing the window
+stops both. `Setup-VeronaDesktop.cmd` explicitly installs pinned Electron locally.
 The owner authorizes autonomous text-prototype work and regular verified
 commits/pushes. Windows System.Speech supplies local TTS; no cloud speech or
 additional speech model is required. Model and native topology assets remain
