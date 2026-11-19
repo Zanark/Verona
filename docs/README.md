@@ -39,6 +39,10 @@ Its vr-27 correction explains equal responsive GIF alignment, centered solo
 previews and actual native alpha capture for the transparent FaceMesh hero.
 Chapter09's vr-28 explains reversible monochrome Claire and default-off matching
 wire/dot/grid hairstyles, per-view visibility, shared selection and bounded fits.
+Chapter09's vr-29 supersedes the hair inventory with only original waves and
+48-lock Spiral curls, adds FaceMesh-only red mechanical irises and explicit Angry
+conditioning. New GIF capture and the planned captioned/collapsible README
+are paused for the owner's in-app review; older previews are not new-eye evidence.
 
 ## Reading paths
 

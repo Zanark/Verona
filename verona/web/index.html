@@ -66,6 +66,7 @@
       <select id="expression">
         <option value="neutral">Neutral</option><option value="happy">Happy</option>
         <option value="sad">Sad</option><option value="surprised">Surprised</option>
+        <option value="angry">Angry</option>
       </select>
       <label for="intensity">Expression strength <output id="strength">0.35</output></label>
       <input id="intensity" type="range" min="0" max="0.6" step="0.05" value="0.35">
@@ -132,10 +133,10 @@
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
       <p id="geometry-details" class="hint" aria-live="polite"></p>
-      <p class="hint">Every view offers original waves plus ten procedural hairstyles. Hair starts off outside Claire;
+      <p class="hint">Every view offers Claire waves (original) and Spiral curls with 48 locks. Hair starts off outside Claire;
         enable Hair for this view, then choose a shared hairstyle. Hair matches the head's polygons, wire, dots or grid.
-        Full bust reveals long tails/layers;
-        Head and neck trims hair to the same jaw curve. Updos reserve a little framing space.
+        Full bust reveals the complete hair;
+        Head and neck trims hair to the same jaw curve.
         Eyes mode moves only irises; Head mode keeps them centered and turns the whole head.
         Follow cursor enables either mode; manual XYZ remains an offset. Tracking is bounded, not calibrated 3D gaze.</p>
       <p class="hint">Head and neck follows the jaw instead of a horizontal plane.
@@ -143,7 +144,8 @@
         Skin and hair share the curved cut. Full bust restores the complete original geometry.</p>
       <blockquote id="spoken">No generated speech yet.</blockquote>
       <p class="hint">Claire preserves the current look and motion. FaceMesh is a front-face wire mask with
-        five detail levels (5 retains native face detail). FaceDot shows depth-occluded surface dots;
+        five detail levels (5 retains native face detail) and red mechanical irises with bright cores,
+        concentric rings and radial spokes. FaceDot shows depth-occluded surface dots;
         UniformPolygons adds a surface-anchored rectangular grid. Both include ears, eyes and neck,
         with optional matching-format hair. These are presentations of the same animated skin, not new speech models.
         Realistic remains planned, not implemented.

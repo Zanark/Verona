@@ -114,6 +114,30 @@ class FaceRenderer {
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
+          if (presentationStyle == 1 && material == 2 && pass == 3) {
+            vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
+            vec3 local = rest - eyeCenter;
+            vec2 iris = local.xy - gaze;
+            float radius = length(iris);
+            float aa = clamp(fwidth(radius) * 0.65, 0.002, 0.04);
+            float ringDistance = min(abs(radius - 0.22), min(abs(radius - 0.39), abs(radius - 0.56)));
+            float rings = 1.0 - smoothstep(0.012, 0.012 + aa, ringDistance);
+            float angle = atan(iris.y, iris.x + 0.000001);
+            float sectors = angle * (24.0 / 6.2831853);
+            float spokeDistance = abs(fract(sectors + 0.5) - 0.5);
+            float spokeAA = clamp(fwidth(sectors) * 0.65, 0.01, 0.24);
+            float spokes = (1.0 - smoothstep(0.10, 0.10 + spokeAA, spokeDistance))
+              * smoothstep(0.24, 0.28, radius) * (1.0 - smoothstep(0.50, 0.54, radius));
+            float core = 1.0 - smoothstep(0.105, 0.145, radius);
+            float halo = 0.22 * exp(-square(radius / 0.62));
+            float glow = max(halo, max(rings * 0.95, spokes * 0.80));
+            float alpha = max(1.0 - smoothstep(0.58, 0.65, radius), halo)
+              * smoothstep(0.9, 1.2, local.z);
+            if (alpha < 0.01) discard;
+            vec3 emission = mix(vec3(0.035,0.001,0.003), vec3(1.0,0.015,0.025), glow);
+            outputColor = vec4(mix(emission, vec3(1.0,0.38,0.28), core), alpha);
+            return;
+          }
           float alpha = 0.92;
           if (presentationStyle >= 2) {
             vec2 grid = vec2(atan(rest.x, rest.z + 4.0) * 12.0, rest.y * 2.7) * patternSettings.x;
@@ -554,6 +578,12 @@ class FaceRenderer {
     this.staticSurface(this.eyes);
     gl.uniform1i(u.material, 2);
     surface(this.eyes);
+    if (style === 1) {
+      gl.uniform1i(u.pass, 3);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.eyes.triangles);
+      gl.drawElements(gl.TRIANGLES, this.eyes.triangleCount * 3, gl.UNSIGNED_INT, 0);
+      gl.uniform1i(u.pass, 1);
+    }
     if (showHair) {
       this.staticSurface(hair);
       gl.uniform1i(u.material, 1);

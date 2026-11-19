@@ -1,0 +1,84 @@
+ID: vr-29
+Title: Keep two hairstyles, double spiral locks and add mechanical red FaceMesh eyes
+GitHub issue: https://github.com/Zanark/Verona/issues/28
+
+Status: IN_PROGRESS
+Milestone: Runnable mechanical red eyes for owner review; capture/README publication paused until approval.
+Dependencies: vr-22, vr-27, vr-28
+
+Purpose:
+Keep only Claire waves (original) and Spiral curls, with twice as many curl
+locks. Remove rejected options, generation branches and their gallery files.
+Add glowing red pupils only to FaceMesh and recapture its transparent hero.
+
+Tasks:
+[x] Inspect renderer/resources, current gallery and isolated qualification owners.
+[x] Remove nine registry entries and all obsolete geometry generators.
+[x] Increase spiral locks from24 to48, preserving per-lock sampling/width.
+[x] Add an eye-surface red core/soft halo in FaceMesh without bloom buffers.
+[x] Verify official anger channel1, add bounded explicit Angry input and regression.
+[x] Qualify both styles, exact defaults/restoration, allocations and live cadence on the initial eye build.
+[x] Implement red mechanical cores/rings/spokes and qualify in-memory without new images.
+[ ] Owner reviews mechanical red eyes in the local app.
+[ ] Capture captioned reader-facing emotional dialogue, separate XYZ loop and both hair turntables.
+[ ] Update current guide/book/gallery, issue/Project, verified source and continuity.
+
+Acceptance criteria:
+The selector and generator expose only original Claire and Spiral curls.
+Retired IDs fail explicitly before geometry allocation; no disabled/hidden
+implementations, prebuilt geometry, resource caches or retired hair GIF files.
+Spiral curls contain48 separate swept locks, not merely more samples per lock.
+Original waves/motion/material/defaults and opt-in per-view hair stay intact.
+Steady playback does not build geometry; caches remain bounded and replaced
+buffers are deleted. More selected curls necessarily cost more geometry.
+FaceMesh alone has bright red pupils with a smooth local glow, following gaze
+and XYZ and occluded by depth; no solid colored facial surface or global bloom.
+Mechanical optical design has a bright core, three concentric rings,24 radial
+spokes and dark gaps. Keep red, explicitly selected by the owner over blue/cyan.
+Other views and Claire Colors retain their intended behavior.
+README starts with only a huge centered transparent FaceMesh speaking directly
+to the reader, before even its title. All other content is inside one details
+section closed by default, including the separate signed XYZ-turning GIF.
+Keep the gallery GIF-heavy and showcase only the two available hairstyles.
+The main loop includes the owner's fictional horror introduction, real explicit
+happy/angry/surprised/sad neural inputs and cyan subtitles embedded below the
+face in the same GIF frames. Captions follow phrase timing without independent
+HTML timers. Emotional/phonetic realism remains separate human acceptance.
+Record exact capture/source hashes and alpha/dimension/timing checks.
+Do not begin new snaps/GIF capture or README redesign until owner review/approval.
+Do not rewrite Git history, releases, prior qualification receipts or evidence.
+No automatic user-runtime restart, sibling/device/profile access or new dependency.
+
+Completion evidence:
+Runtime implemented; overall workstream remains IN_PROGRESS for owner review/media.
+36CPU tests and focused hairstyle/orientation/framing/presentation checks pass.
+Browser03 passes30checks/26cadence cases on the initial soft-dot shader.
+Browser01 retains a legitimate-halo fixture mismatch; Browser02 retains a
+17.585ms mean narrowly over the unchanged17.55ms gate; Browser03 passes it.
+Native01 passes16checks, including original/doubled curls and all presentations.
+Mechanical-red-eyes04 native in-memory probe detects three radial ring bands
+in each iris and12/11 visible upper spokes, zero rear red/other-view red/GL
+errors, zero added buffers over30turns; sandbox/hidden/profile cleanup verified.
+Probe01's full-circle average wrongly included eyelid-occluded outer-ring pixels;
+probe02 measures exposed horizontal wedges/upper arc. No post-pause images.
+Probe04 also executes the exact new browser iris regression. Probe03's
+hidden-window timing attempt timed out; no mechanical-shader cadence claim.
+Clean mainf7f7ef4 and no active Verona owner before changes; no stable-use or
+sibling instance driven. Qualification uses separate owned servers/profiles/
+numeric caches/synthesis, sequential shared GPU work. Existing media unchanged
+except nine retired payload deletions. No new capture, release or deployment.
+
+Completion log:
+2026-11-20 - Owner retains original waves/curls only, rejects nine other styles
+and requests double curl strands. Also requests glowing red FaceMesh pupils
+and a larger README hero looking in all directions with XYZ rotation.
+2026-11-20 - Owner refines layout: huge front-facing speaking loop comes first,
+everything else collapsed by default; XYZ movement is a separate inner GIF.
+2026-11-20 - Owner requests a creepy direct-address introduction with changing
+expressions and mesh-colored synchronized subtitles. Anger index1 verified
+against NVIDIA SDK test_core_parse_helper.cpp blob82d616a763a123da8d5c97f800a6cc64a0f4b674;
+retain existing0-0.6 bounds and no inferred-emotion claim.
+2026-11-20 - Owner pauses new snaps/GIFs and README production for in-app
+red-eye review. Then supplies mechanical optical references and explicitly
+selects red over blue/cyan. Implement analytic cores/rings/spokes; retain the
+media gate and do not claim visual acceptance or generate media before approval.

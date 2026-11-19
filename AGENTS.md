@@ -42,8 +42,11 @@ vr-21 replaces Head and neck's flat plane with a shared rest-space jaw/rear
 curve and per-view Visible neck0-6cm (default1.7). Keep conservative curved-
 primitive retention, exact shader clipping, latest-five crop buffer deletion,
 stable Dot/grid fitting and Full bust restoration; no motion/inference change.
-vr-22 preserves original Claire hair and adds ten selected-only procedural
-alternatives in hairstyles.mjs; no per-frame generation or unbounded style cache.
+vr-29 supersedes vr-22's style inventory: ONLY Claire waves (original) and
+Spiral curls remain in hairstyles.mjs; curls have48 locks instead of24.
+Retired implementations/media are removed, not hidden or cached. Never restore
+them from historical docs/receipts without an explicit request.
+No per-frame generation or unbounded style cache.
 Keep original plus latest alternative/crop buffers, shared jaw clipping and
 default hair-free views (vr-28 adds opt-in matching hair). vr-23 adds exclusive iris/head cursor modes, bounded smoothed
 head rotation around the eye midpoint, exactly centered head-mode irises and
@@ -61,6 +64,10 @@ per-view Hair choices, default off elsewhere. One shared hairstyle uses each
 view's triangles/wire/dots/grid and depth occlusion, with combined bounded fits.
 Keep original plus latest alternative resources, lazy triangle-edge buffers,
 no animated-normal work in unlit views and no per-frame geometry/fit rebuild.
+FaceMesh alone adds red mechanical irises: bright cores, three concentric rings,
+24 radial spokes, dark gaps and soft eye-surface halos. Keep existing gaze/XYZ
+and depth occlusion, using existing eyes and one extra draw, not bloom targets
+or new geometry. The owner selected red, not the references' blue.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
@@ -111,6 +118,15 @@ and design principles identifiable as the implementation grows.
 Keep the README GIF-heavy and showcase every hairstyle. Center every GIF that
 is alone on its row; an unpaired table GIF spans both columns. Paired previews
 use equal-width centered cells and the same image width, with natural aspect ratio.
+Media work is PAUSED pending the owner's in-app eye review: do not capture
+new snaps/GIFs or publish the redesigned README before approval.
+After approval, the planned huge front-facing red-eye speech GIF comes FIRST,
+before even the title. All other README content will live inside one details
+section closed by default; the separate XYZ-turning FaceMesh GIF belongs inside
+it, not in the hero. The planned fictional horror dialogue uses explicit bounded neural expressions,
+including Angry channel1, and cyan phrase captions burned into the same GIF
+below the face. No inferred emotion, real-time subtitle alignment, audio-in-GIF,
+face capture or realistic-expression acceptance claim.
 
 Never include .agent-context, raw conversation, credentials, camera endpoints,
 personal calibration, recordings or private sibling material in issues,

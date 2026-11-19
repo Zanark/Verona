@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from .engine import FaceEngine
+from .engine import EXPRESSIONS, FaceEngine
 from .speech import VoiceSettings, installed_voices, preferred_voice, synthesize
 
 
@@ -13,7 +13,7 @@ def main() -> None:
     parser.add_argument("--text", required=True)
     parser.add_argument("--output", type=Path, required=True, help="New directory; never overwritten.")
     parser.add_argument("--voice", help="Exact installed English desktop voice.")
-    parser.add_argument("--expression", choices=("neutral", "happy", "sad", "surprised"), default="neutral")
+    parser.add_argument("--expression", choices=tuple(EXPRESSIONS), default="neutral")
     parser.add_argument("--pitch", type=int, default=0, help="Pitch request in semitones, -8 to 8.")
     parser.add_argument("--rate", type=int, default=0, help="Windows speaking-rate steps, -5 to 5.")
     parser.add_argument("--bass", type=int, default=0, help="Bass shelf dB, -6 to 6.")

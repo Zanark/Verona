@@ -3,16 +3,16 @@
 **Type a sentence. Hear a local voice. Watch her speak.**
 
 <p align="center">
-  <img src="docs/media/gallery-facemesh-transparent.gif" alt="FaceMesh speaking the locally generated greeting on a transparent background" width="480">
+  <img src="docs/media/gallery-facemesh-transparent.gif" alt="Earlier FaceMesh greeting preview, before the mechanical red-eye update" width="480">
 </p>
 
 Windows voices, CPU neural motion and an animated 3D face. **No camera,
 microphone or cloud runtime.** This gallery shows the actual prototype, not
 reference artwork or a photorealistic reconstruction.
 
-[**Get prototype 3**](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.3)
+[**Frozen prototype 3**](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.3)
 &middot; [Setup and controls](docs/prototype-guide.md)
-&middot; [All 11 hairstyles](#every-hairstyle-in-motion)
+&middot; [Both hairstyles](#every-hairstyle-in-motion)
 &middot; [Engineering book](docs/README.md)
 
 ```powershell
@@ -24,51 +24,37 @@ Fresh checkout? Follow [setup](docs/prototype-guide.md) first; this is a source
 prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
 
+**Try the new red eyes:** launch Verona, then choose **View -> FaceMesh**.
+Its mechanical irises have bright red cores, concentric rings, radial spokes and
+a soft halo. Increase **Zoom** to inspect them. New GIF capture and the planned
+captioned/collapsible README are paused for the owner's in-app review.
+The existing previews predate the eye update; the frozen release does too.
+
 ## Every hairstyle in motion
 
-**Original Claire waves plus ten alternatives. Every available option is below.**
+**Only Claire waves (original) and Spiral curls. Both available options are below.**
 Choose any **View**, enable **Hair (this view)**, then pick **Hairstyle (shared)**.
 Hair starts on in Claire and off in other views; each view remembers its choice
 until reload. Hair follows that view's polygons, triangle edges, dots or grid.
 These previews select **Reference color + makeup**, **Full bust** and **80% zoom**
-to reveal tails, long layers and updos. The app still starts with the original
+to reveal the complete hair. The app still starts with the original
 waves and cool **Transparent polygons**.
 
 <table width="100%">
-  <tr><th width="50%" align="center">Claire waves (original)</th><th width="50%" align="center">Tapered pixie</th></tr>
+  <tr><th width="50%" align="center">Claire waves (original)</th><th width="50%" align="center">Spiral curls</th></tr>
   <tr>
     <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-claire.gif" alt="Claire waves original hairstyle rotating from front to both sides" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-pixie.gif" alt="Tapered pixie hairstyle rotating from front to both sides" width="360"></td>
-  </tr>
-  <tr><th width="50%" align="center">Rounded bob</th><th width="50%" align="center">Asymmetric angled bob</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-bob.gif" alt="Rounded bob hairstyle rotating from front to both sides" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-angled.gif" alt="Asymmetric angled bob hairstyle rotating from front to both sides" width="360"></td>
-  </tr>
-  <tr><th width="50%" align="center">Long sleek layers</th><th width="50%" align="center">Spiral curls</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-straight.gif" alt="Long sleek layers hairstyle rotating to show the full length" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-curls.gif" alt="Spiral curls hairstyle rotating to show the curl geometry" width="360"></td>
-  </tr>
-  <tr><th width="50%" align="center">High ponytail</th><th width="50%" align="center">Twin tails</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-ponytail.gif" alt="High ponytail hairstyle rotating to reveal the rear tail" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-twins.gif" alt="Twin tails hairstyle rotating to reveal both side tails" width="360"></td>
-  </tr>
-  <tr><th width="50%" align="center">Coiled top bun</th><th width="50%" align="center">Double space buns</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-bun.gif" alt="Coiled top bun hairstyle rotating with the complete bun visible" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-double.gif" alt="Double space buns hairstyle rotating to show the paired buns" width="360"></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center" valign="top"><b>Braided crown</b><br><img src="docs/media/gallery-hair-braid.gif" alt="Braided crown hairstyle rotating to show the woven crown" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-curls.gif" alt="Earlier Spiral curls preview, before the increase from 24 to 48 locks" width="360"></td>
   </tr>
 </table>
 
-**One speech system, eleven looks.** Hair changes do not regenerate speech.
+**One speech system, two hairstyles.** Spiral curls now have **48 locks instead
+of 24**, keeping the same per-lock detail. The other nine styles and their
+gallery GIFs have been removed, not hidden. Hair changes do not regenerate speech.
+The curl GIF still shows the earlier24-lock version pending visual review.
 These are procedural geometric styles, not strand simulation. **Head and neck**
 trims long hair to the same jaw-following boundary; use **Full bust** to retain
-its length. Longer styles keep their intentional fit margin.
+its length.
 
 These are manual view turntables at 10 sampled frames/second, not hair physics
 or head motion inferred from speech. Only the selected alternative is built;
@@ -82,7 +68,7 @@ Change **View** without restarting or regenerating the current clip.
   <tr><th width="50%" align="center">Claire</th><th width="50%" align="center">FaceMesh</th></tr>
   <tr>
     <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-claire.gif" alt="Claire cool polygon presentation turning over the same paused speech pose" width="360"><br>Original head, optional hair, cool contours or reference color/makeup.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facemesh.gif" alt="FaceMesh front-only triangular facial mask turning over the same paused speech pose" width="360"><br>Front face only: no ears or neck. Hair off here; optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facemesh.gif" alt="Earlier FaceMesh front-only triangular facial mask capture, before red pupils" width="360"><br>Front face only: no ears or neck. Earlier capture; try the mechanical red eyes in the app. Optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</td>
   </tr>
   <tr><th width="50%" align="center">FaceDot</th><th width="50%" align="center">UniformPolygons</th></tr>
   <tr>
@@ -178,7 +164,7 @@ the audio clock, with a **60-fps display target**, not live generation or a univ
 performance guarantee. Color rendering caps pixel density at 1.5x; polygons at 2x.
 Historical frame-time outliers remain documented.
 
-**All 23 GIFs are silent sampled previews**, not 60-fps recordings or an audio demo.
+**All GIFs are silent sampled previews**, not 60-fps recordings or an audio demo.
 Hairstyle turntables show view rotation; control GIFs may show discrete states.
 [Media provenance and timings](docs/media/README.md) identify their exact sources.
 No private transcripts, reference sheets, model assets or voice recordings are

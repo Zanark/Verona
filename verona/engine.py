@@ -21,13 +21,13 @@ from .speech import Speech
 
 
 QUANTIZATION = 8192
-EXPRESSIONS = {"neutral": None, "happy": 6, "sad": 9, "surprised": 0}
+EXPRESSIONS = {"neutral": None, "happy": 6, "sad": 9, "surprised": 0, "angry": 1}
 BATCH_SIZE = 4
 
 
 def expression_condition(neutral: np.ndarray, name: object, intensity: object) -> np.ndarray:
     if not isinstance(name, str) or name not in EXPRESSIONS:
-        raise ValueError("Choose neutral, happy, sad or surprised.")
+        raise ValueError("Choose neutral, happy, sad, surprised or angry.")
     if (isinstance(intensity, bool) or not isinstance(intensity, (int, float))
             or not np.isfinite(intensity) or not 0 <= intensity <= 0.6):
         raise ValueError("Expression strength must be between 0 and 0.6.")

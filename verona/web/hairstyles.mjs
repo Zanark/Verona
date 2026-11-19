@@ -1,15 +1,6 @@
 export const HAIRSTYLES = Object.freeze({
   claire: Object.freeze({ name: "Claire waves (original)", fit: 1 }),
-  pixie: Object.freeze({ name: "Tapered pixie", fit: 1 }),
-  bob: Object.freeze({ name: "Rounded bob", fit: 1 }),
-  angled: Object.freeze({ name: "Asymmetric angled bob", fit: 1 }),
-  straight: Object.freeze({ name: "Long sleek layers", fit: .82 }),
   curls: Object.freeze({ name: "Spiral curls", fit: 1 }),
-  ponytail: Object.freeze({ name: "High ponytail", fit: .80 }),
-  twins: Object.freeze({ name: "Twin tails", fit: .94 }),
-  bun: Object.freeze({ name: "Coiled top bun", fit: .86 }),
-  double: Object.freeze({ name: "Double space buns", fit: .90 }),
-  braid: Object.freeze({ name: "Braided crown", fit: .96 }),
 });
 
 export function hairstyle(id) {
@@ -41,7 +32,8 @@ export function createHairstyle(id, meta) {
       if (column % contourEvery === 0) edges.push(a, c);
     }
   };
-  const tube = (path, radius, sections = 32, sides = 8) => {
+  const tube = (path, radius) => {
+    const sections = 40, sides = 8;
     const offset = positions.length / 3;
     let previousNormal;
     for (let row = 0; row < sections; row++) {
@@ -63,70 +55,26 @@ export function createHairstyle(id, meta) {
     }
     connect(offset, sections, sides, 4, true);
   };
-  const ellipsoid = (center, radii, twist = 0) => {
-    const offset = positions.length / 3, rows = 18, columns = 32;
-    for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
-      const theta = .015 + (Math.PI - .03) * row / (rows - 1), a = 2 * Math.PI * col / columns + twist * Math.cos(theta);
-      const ripple = 1 + .07 * Math.cos(a * 9 + theta * 5);
-      vertex(center[0] + radii[0] * Math.sin(theta) * Math.sin(a) * ripple,
-        center[1] + radii[1] * Math.cos(theta), center[2] + radii[2] * Math.sin(theta) * Math.cos(a) * ripple);
-    }
-    connect(offset, rows, columns, 4);
-  };
   const columns = 64, rows = 16;
   for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
     const t = row / (rows - 1), a = 2 * Math.PI * col / columns, front = smooth(0, 1, Math.max(0, Math.cos(a)));
-    const limit = 1.63 - .58 * front + (id === "pixie" ? .26 : .10) * Math.sin(a) * front;
+    const limit = 1.63 - .58 * front + .10 * Math.sin(a) * front;
     const theta = (.012 + .988 * t) * limit;
     vertex(9.5 * Math.sin(theta) * Math.sin(a) - .5 * (1 - t) ** 2,
       148.2 + 11 * Math.cos(theta), -5.7 + 11.6 * Math.sin(theta) * Math.cos(a));
   }
   connect(0, rows, columns);
-  if (["pixie", "bob", "angled", "straight", "curls"].includes(id)) {
-    const count = id === "pixie" ? 16 : 24;
-    for (let lock = 0; lock < count; lock++) {
-      const a = .88 + (2 * Math.PI - 1.76) * lock / (count - 1);
-      const length = id === "pixie" ? 3.2 : id === "bob" ? 11 : id === "angled" ? 10 + 5 * Math.sin(a) : id === "straight" ? 24 : 18;
-      const curly = id === "curls";
-      tube(t => {
-        const theta = .72 + .83 * smooth(0, .35, t), fall = smooth(.25, 1, t);
-        const phase = t * Math.PI * 9 + lock * .8, curl = curly ? 1.05 * smooth(.2, .4, t) : 0;
-        const radius = 9.65 * Math.sin(theta) + (id === "bob" ? .7 * Math.sin(t * Math.PI) - .5 * fall : .3 * fall);
-        return [radius * Math.sin(a) + curl * Math.cos(phase),
-          148.2 + 11 * Math.cos(theta) - length * fall,
-          -5.7 + 11.8 * Math.sin(theta) * Math.cos(a) + curl * Math.sin(phase)];
-      }, t => (id === "pixie" ? .7 : curly ? .55 : .85) * (.35 + .65 * smooth(0, .15, t)) * (1 - .6 * smooth(.85, 1, t)), curly ? 40 : 28);
-    }
-  }
-  if (id === "ponytail" || id === "twins") {
-    for (const sign of id === "twins" ? [-1, 1] : [0]) {
-      const x = sign * 8.5, y = sign ? 151 : 156.8, z = sign ? -8 : -13.5;
-      ellipsoid([x, y, z], [1.8, 1.8, 1.8]);
-      for (let strand = 0; strand < 7; strand++) {
-        const a = strand * 2 * Math.PI / 7;
-        tube(t => [x + sign * (2.8 * Math.sin(t * Math.PI / 2)) + (1 - .6*t) * Math.sin(a) * 1.3 + .5*Math.sin(t*7+a),
-          y + 2.5 * Math.sin(t * Math.PI) - 20 * t,
-          z - (sign ? 3.5 : 10) * Math.sin(t * Math.PI / 2) + (1 - .6*t) * Math.cos(a) * 1.3],
-        t => .75 * (1 - .75 * smooth(.6, 1, t)));
-      }
-    }
-  }
-  if (id === "bun" || id === "double") {
-    for (const sign of id === "double" ? [-1, 1] : [0]) {
-      const center = [sign * 6.7, sign ? 157.7 : 159.8, -6.5];
-      ellipsoid(center, sign ? [3.1, 3, 3.1] : [3.5, 3, 3.4], 1.6);
-      tube(t => {
-        const a = 2 * Math.PI * t * 3;
-        return [center[0] + 3.2 * Math.sin(a), center[1] - 2 + 4*t, center[2] + 3.2 * Math.cos(a)];
-      }, .45, 80);
-    }
-  }
-  if (id === "braid") {
-    for (let strand = 0; strand < 3; strand++) tube(t => {
-      const a = 2 * Math.PI * t, weave = a * 16 + strand * 2 * Math.PI / 3;
-      return [(8.8 + .5 * Math.cos(weave)) * Math.sin(a),
-        154.9 + 1.1 * Math.cos(a) + .5 * Math.sin(weave), -5.7 + (9.5 + .5 * Math.cos(weave)) * Math.cos(a)];
-    }, .5, 160);
+  const count = 48;
+  for (let lock = 0; lock < count; lock++) {
+    const a = .88 + (2 * Math.PI - 1.76) * lock / (count - 1);
+    tube(t => {
+      const theta = .72 + .83 * smooth(0, .35, t), fall = smooth(.25, 1, t);
+      const phase = t * Math.PI * 9 + lock * .8, curl = 1.05 * smooth(.2, .4, t);
+      const radius = 9.65 * Math.sin(theta) + .3 * fall;
+      return [radius * Math.sin(a) + curl * Math.cos(phase),
+        148.2 + 11 * Math.cos(theta) - 18 * fall,
+        -5.7 + 11.8 * Math.sin(theta) * Math.cos(a) + curl * Math.sin(phase)];
+    }, t => .55 * (.35 + .65 * smooth(0, .15, t)) * (1 - .6 * smooth(.85, 1, t)));
   }
   const packed = Int16Array.from(positions, (value, i) => {
     const n = Math.round((value - meta.center[i % 3]) / meta.scale * meta.quantization);

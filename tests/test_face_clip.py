@@ -270,6 +270,10 @@ class ClipTests(unittest.TestCase):
         self.assertAlmostEqual(float(result[0, 0, 22]), .35, places=6)
         self.assertEqual(np.count_nonzero(result), 1)
         self.assertEqual(np.count_nonzero(neutral), 0)
+        angry = expression_condition(neutral, "angry", .6)
+        self.assertAlmostEqual(float(angry[0, 0, 17]), .6, places=6)
+        self.assertEqual(np.count_nonzero(angry), 1)
+        self.assertEqual(np.count_nonzero(neutral), 0)
         for intensity in (True, "0.3", float("nan"), -.1, .61):
             with self.assertRaises(ValueError):
                 expression_condition(neutral, "happy", intensity)

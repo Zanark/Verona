@@ -71,7 +71,9 @@ Open **Edit voice** for pitch, speed, warmth/bass, brightness/treble and emphasi
 voice-only sample: press its audio Play control to hear it without generating
 face motion. Generate face applies those settings to both speech and animation.
 Pitch is a Windows-engine request, not a calibrated acoustic semitone shift.
-Neutral/happy/sad/surprised are separate explicit expression inputs.
+Neutral/happy/sad/surprised/angry are separate explicit expression inputs,
+not inferred from text. Angry uses the model's anger channel at the same
+bounded0-0.6 strength as the other expressions.
 Play/Pause and the timeline follow the actual audio clock; Restart rewinds and
 pauses. XYZ orientation, zoom, volume and point/edge toggles are available.
 Browser cursor following is opt-in and limited to its page; native desktop
@@ -110,7 +112,10 @@ the same: switching views does not generate, reload, seek or replace audio.
   connected edges outside protected lip/lid/nose regions. The displayed counts
   are real submitted triangles/edges, not percentages or a promise of speedup.
   Framing is fixed to Front face only. The open mask rotates in 3D; it does not
-  grow a back/ears when turned.
+  grow a back/ears when turned. Its red mechanical irises have bright cores,
+  three concentric rings, radial spokes, dark gaps and a soft local halo.
+  They follow gaze/XYZ and remain depth-occluded; other views keep their own eyes.
+  Increase **Zoom** to inspect the fine iris details. No extra eye toggle is needed.
 - **FaceDot:** surface-sampled circular dots only, including ears/eyes/neck. An
   invisible depth surface hides rear marks; filled polygons/lines are not visible.
 - **UniformPolygons:** a rectangular surface-coordinate grid over animated skin,
@@ -159,12 +164,13 @@ Claire material changes immediately, not the clip, voice or playback position.
 eyes, cosmetics, edges/points and hair in either material; enable to restore
 their hues. Lighting and tonal cosmetic detail remain, not a bare unstyled face.
 The option is hidden outside Claire, where matching cyan ink remains unchanged.
-**Hairstyle** selects original **Claire waves** or ten locally generated
-alternatives: **Tapered pixie**, **Rounded bob**, **Asymmetric angled bob**,
-**Long sleek layers**, **Spiral curls**, **High ponytail**, **Twin tails**,
-**Coiled top bun**, **Double space buns** and **Braided crown**.
+**Hairstyle** selects only **Claire waves (original)** or **Spiral curls**.
+Curls have48 independently swept locks, twice the previous24, with unchanged
+per-lock detail. The other nine styles and their generators/gallery files are
+removed, not hidden or preloaded. Historical Git/release/evidence snapshots
+are not runtime resources and are not rewritten.
 These are different static geometries, not color presets or hair physics.
-Rotate to inspect rear tails; Full bust reveals long styles, while Head and neck
+Rotate to inspect the curls; Full bust reveals their length, while Head and neck
 intentionally clips every style along the same jaw curve. Some styles reserve
 more fitting room; Zoom remains available. The Hair checkbox works independently.
 Hair starts enabled in Claire and disabled in FaceMesh, FaceDot and

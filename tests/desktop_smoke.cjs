@@ -194,12 +194,16 @@ async function run(window) {
       $("presentation").dispatchEvent(new Event("input"));
       const c=$("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
       g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
-      let clear=0,colored=0;for(let i=3;i<p.length;i+=4){if(p[i]===0)clear++;else colored++;}
-      return {id:$("presentation").value,clear,colored,error:g.getError(),
+      let clear=0,colored=0,red=0;for(let i=3;i<p.length;i+=4){
+        if(p[i]===0)clear++;else colored++;
+        if(p[i-3]>80&&p[i-3]>p[i-2]*2&&p[i-3]>p[i-1]*2)red++;
+      }
+      return {id:$("presentation").value,clear,colored,red,error:g.getError(),
         source:$("audio").src,time:$("audio").currentTime,description:$("geometry-details").textContent};
     })()`);
     assert.equal(data.error,0,JSON.stringify(data));
     assert(data.clear>10000 && data.colored>1000,JSON.stringify(data));
+    if(id==="facemesh")assert(data.red>20,JSON.stringify(data));else assert.equal(data.red,0);
     assert.equal(data.source,before.source);
     await pause(150);
     await fs.writeFile(path.join(output, `view-${id}.png`), (await window.webContents.capturePage()).toPNG());
@@ -219,7 +223,7 @@ async function run(window) {
   report.checks.push("All three new views have real native overlay alpha, preserve the clip and restore Claire framing.");
   report.matchingHair=[];
   for(const view of ["facemesh","facedot","uniform"]){
-    for(const style of ["curls","bun","twins"])for(const yaw of [0,.8]){
+    for(const style of ["claire","curls"])for(const yaw of [0,.8]){
       const result=await evaluate(`(() => {
         const $=id=>document.getElementById(id),set=(id,value)=>{$(id).value=String(value);$(id).dispatchEvent(new Event("input"));};
         set("presentation","${view}");$("hair").checked=true;$("hair").dispatchEvent(new Event("input"));
@@ -250,7 +254,7 @@ async function run(window) {
   await fs.writeFile(path.join(output,"claire-monochrome.png"),(await window.webContents.capturePage()).toPNG());
   await evaluate(`document.getElementById("colors").checked=true;document.getElementById("colors").dispatchEvent(new Event("input"));
     document.getElementById("yaw").value="0";document.getElementById("yaw").dispatchEvent(new Event("input"));`);
-  report.checks.push("Matching hair retains transparent native bounds and floating-tab headroom in all formats for curls/bun/tails, front and turned.");
+  report.checks.push("Matching hair retains transparent native bounds and floating-tab headroom in all formats for original waves and doubled curls, front and turned.");
   for (const id of ["tilt", "yaw", "roll"]) {
     for (const value of [-Math.PI, Math.PI / 2, Math.PI]) {
       const state = await evaluate(`(() => {const e=document.getElementById("${id}");e.value="${value}";
@@ -296,7 +300,7 @@ async function run(window) {
   assert(Math.abs(report.headTracking.angles[0])<=.45 && Math.abs(report.headTracking.angles[1])<=.65);
   assert.equal(report.headTracking.source,before.source);
   await fs.writeFile(path.join(output,"cursor-head.png"),(await window.webContents.capturePage()).toPNG());
-  for(const id of ["curls","bun","twins"]){
+  for(const id of ["claire","curls"]){
     await evaluate(`document.getElementById("hairstyle").value="${id}";document.getElementById("hairstyle").dispatchEvent(new Event("input"));`);
     await pause(200);assert.equal(await evaluate(`document.getElementById("face").getContext("webgl2").getError()`),0);
     const bounds=await evaluate(`(() => {document.getElementById("zoom").dispatchEvent(new Event("input"));
@@ -318,7 +322,7 @@ async function run(window) {
   await evaluate(`document.getElementById("hairstyle").value="curls";document.getElementById("hairstyle").dispatchEvent(new Event("input"));
     document.getElementById("follow-eyes").checked=true;document.getElementById("follow-eyes").dispatchEvent(new Event("input"));`);
   await pause(500);
-  report.checks.push("Native head-follow keeps centered irises, preserves speech, settles when disabled and renders curls/bun/twin tails.");
+  report.checks.push("Native head-follow keeps centered irises, preserves speech, settles when disabled and renders original waves/doubled curls.");
   report.cadence = await evaluate(`new Promise(async resolve => {
     const a=document.getElementById("audio"),g=document.getElementById("face").getContext("webgl2");
     const original=g.clear;let draws=0;g.clear=function(...args){draws++;return original.apply(this,args);};

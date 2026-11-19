@@ -1,6 +1,26 @@
 # Prototype media receipt
 
-## Current vr-27 layout and transparent hero correction
+## vr-29 media gate: waiting for in-app eye review
+
+The owner paused all new snaps/GIF capture and README redesign until trying the
+mechanical red eyes in the app. No new media capture/encoding pipeline has run.
+The current hero and both retained hair GIFs are unchanged; the curls preview
+still shows24 locks, while the implementation now has48. Nine rejected hair
+GIFs are removed from the current checkout, not moved to another gallery.
+
+After approval, the planned main GIF will directly address the reader with
+explicit neural expressions and cyan phrase captions embedded below the face
+in the same frames. It will precede the title; one collapsed-by-default section
+will contain everything else, including a separate XYZ demo and matching hair
+turntables. Capture/source hashes, decoded transparency/timing and actual
+light/dark review must be recorded then, not inferred from prepared helpers.
+
+Older receipts below describe **their original versions**, not current hash or
+file-existence promises. They and immutable releases remain historical evidence;
+current main removes nine rejected payloads but has not yet replaced the hero
+or retained previews. Runtime never loads documentation GIFs.
+
+## Historical vr-27 layout and transparent hero correction
 
 The README remains **23 GIFs and one interface PNG**, now opening with
 [`gallery-facemesh-transparent.gif`](gallery-facemesh-transparent.gif):

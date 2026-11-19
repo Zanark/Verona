@@ -237,7 +237,7 @@ try {
     assert.equal(r.dotDefault,"1.7");assert.equal(r.restored,"6");assert.equal(r.dotRestored,"3");
     assert(r.sameSource && r.sameTime && r.hidden);
   });
-  await check("Eleven real hairstyles render distinct pixels, crop safely and restore original hair without retained GPU growth", async () => {
+  await check("Only original waves and doubled spiral curls render, crop and restore without retained GPU growth", async () => {
     const data=await evaluate(`(() => {
       const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2"),a=$("audio");
       const change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event("input"));};
@@ -250,8 +250,8 @@ try {
       g.deleteBuffer=function(b){live.delete(b);deleted++;return remove.call(this,b);};
       const styles=Array.from($("hairstyle").options,o=>({id:o.value,name:o.textContent})),results=[],images=[];
       for(const yaw of [0,.8]){
-        const gallery=document.createElement("canvas");gallery.width=1200;gallery.height=900;const ctx=gallery.getContext("2d");
-        ctx.fillStyle="#101821";ctx.fillRect(0,0,1200,900);
+        const gallery=document.createElement("canvas");gallery.width=600;gallery.height=300;const ctx=gallery.getContext("2d");
+        ctx.fillStyle="#101821";ctx.fillRect(0,0,600,300);
         for(let i=0;i<styles.length;i++){
           const style=styles[i];change("hairstyle",style.id);change("yaw",String(yaw));
           const p=pixels();let hash=2166136261;for(let j=0;j<p.length;j++)hash=Math.imul(hash^p[j],16777619)>>>0;
@@ -266,7 +266,7 @@ try {
       for(let i=0;i<baseline.length;i++)if(baseline[i]!==restored[i])difference++;
       g.createBuffer=create;g.deleteBuffer=remove;
       const remaining=live.size;
-      change("hairstyle","bob");change("presentation","facedot");
+      change("hairstyle","curls");change("presentation","facedot");
       const hidden=$("hairstyle").closest("label").hidden,disabled=$("hairstyle").disabled;change("presentation","claire");
       const retained=$("hairstyle").value;change("hairstyle","claire");
       $("edges").checked=saved.edges;change("appearance",saved.appearance);
@@ -274,10 +274,10 @@ try {
     })()`);
     const {images,...receipt}=data;report.hairstyles=receipt;
     for(let i=0;i<images.length;i++)await fs.writeFile(path.join(output,`hairstyles-${i?"turned":"front"}.png`),Buffer.from(images[i].split(",")[1],"base64"));
-    assert(data.styles.length>=11);assert(data.results.every(r=>r.error===0));
-    for(const yaw of [0,.8])assert(new Set(data.results.filter(r=>r.yaw===yaw).map(r=>r.pixelHash)).size>=11);
+    assert.deepEqual(data.styles.map(s=>s.id),["claire","curls"]);assert(data.results.every(r=>r.error===0));
+    for(const yaw of [0,.8])assert.equal(new Set(data.results.filter(r=>r.yaw===yaw).map(r=>r.pixelHash)).size,2);
     assert.equal(data.remaining,0);assert(data.peak<=14,JSON.stringify(receipt));assert.equal(data.difference,0);
-    assert(!data.hidden && data.disabled && data.retained==="bob" && data.sameSource && data.sameTime);
+    assert(!data.hidden && data.disabled && data.retained==="curls" && data.sameSource && data.sameTime);
   });
   await check("Presentation views preserve Claire, occlude dots, bound detail buffers and keep the same clip", async () => {
     await evaluate(`(() => {
@@ -292,14 +292,24 @@ try {
         const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
         const draw=g.drawElements,arrays=g.drawArrays,mask=g.colorMask;let colored=true;const calls=[];
         g.colorMask=function(...args){colored=args.some(Boolean);return mask.apply(this,args);};
-        g.drawElements=function(mode,count,...args){calls.push({mode,count,colored});return draw.call(this,mode,count,...args);};
+        g.drawElements=function(mode,count,...args){
+          const program=g.getParameter(g.CURRENT_PROGRAM);
+          calls.push({mode,count,colored,material:g.getUniform(program,g.getUniformLocation(program,"material")),
+            pass:g.getUniform(program,g.getUniformLocation(program,"pass"))});
+          return draw.call(this,mode,count,...args);
+        };
         g.drawArrays=function(mode,first,count){calls.push({mode,count,colored});return arrays.call(this,mode,first,count);};
         $("presentation").value=${JSON.stringify(id)};$("presentation").dispatchEvent(new Event("input"));
         g.drawElements=draw;g.drawArrays=arrays;g.colorMask=mask;
         const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
-        let visible=0,background=0;
-        for(let i=0;i<p.length;i+=4){if(p[i+1]>45 && p[i+2]>45)visible++;if(p[i]===4&&p[i+1]===6&&p[i+2]===10)background++;}
-        return {id:$("presentation").value,calls,visible,background,total:c.width*c.height,error:g.getError(),
+        let visible=0,background=0,leftRed=0,rightRed=0;
+        for(let i=0;i<p.length;i+=4){
+          if(p[i+1]>45 && p[i+2]>45)visible++;if(p[i]===4&&p[i+1]===6&&p[i+2]===10)background++;
+          if(p[i]>80 && p[i]>p[i+1]*2 && p[i]>p[i+2]*2){
+            if((i/4)%c.width<c.width/2)leftRed++;else rightRed++;
+          }
+        }
+        return {id:$("presentation").value,calls,visible,background,leftRed,rightRed,total:c.width*c.height,error:g.getError(),
           source:$("audio").src,time:$("audio").currentTime,description:$("geometry-details").textContent,
           framing:$("framing").value,framingDisabled:$("framing").disabled,
           materialHidden:$("appearance").closest("label").hidden};
@@ -312,19 +322,73 @@ try {
       assert(data.materialHidden);
       if (id==="facemesh") {
         assert(data.framingDisabled && data.framing==="front");
-        assert(data.calls.filter(c=>c.colored).every(c=>c.mode===1));
+        assert(data.calls.filter(c=>c.colored).every(c=>c.mode===1 || (c.mode===4 && c.material===2 && c.pass===3)));
+        assert.equal(data.calls.filter(c=>c.colored&&c.pass===3).length,1);
+        assert(data.leftRed>20 && data.rightRed>20,JSON.stringify(data));
         assert(data.calls[0].count<30746*3);
       } else if (id==="facedot") {
         assert.equal(data.framing,"head-neck");
         assert(data.calls.filter(c=>c.colored).every(c=>c.mode===4));
         assert(data.calls.some(c=>!c.colored && c.mode===4));
       }
+      if(id!=="facemesh")assert.equal(data.leftRed+data.rightRed,0);
       report.presentations.push(data);
       await screenshot(`02-view-${id}`);
       for (const axis of ["yaw","tilt","roll"]) {
         await evaluate(`document.getElementById("${axis}").value=".7";document.getElementById("${axis}").dispatchEvent(new Event("input"));`);
         assert.equal(await evaluate(`document.getElementById("face").getContext("webgl2").getError()`),0);
         await evaluate(`document.getElementById("${axis}").value="0";document.getElementById("${axis}").dispatchEvent(new Event("input"));`);
+      }
+      if(id==="facemesh"){
+        data.mechanicalEyes=await evaluate(`(() => {
+          const $=id=>document.getElementById(id),zoom=$("zoom").value;
+          $("zoom").value="2";$("zoom").dispatchEvent(new Event("input"));
+          const c=$("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4),eyes=[];
+          g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+          const metric=(x,y)=>{const i=(Math.round(y)*c.width+Math.round(x))*4;return p[i]-Math.max(p[i+1],p[i+2]);};
+          for(let side=0;side<2;side++){
+            let sx=0,sy=0,count=0;
+            for(let y=0;y<c.height;y++)for(let x=Math.ceil(side*c.width/2);x<(side+1)*c.width/2;x++){
+              const i=(y*c.width+x)*4;
+              if(p[i]>220&&p[i+1]>40&&p[i+1]<140&&p[i+2]<130){sx+=x;sy+=y;count++;}
+            }
+            if(!count)throw new Error("Missing bright mechanical iris core");
+            const x=sx/count,y=sy/count,coreRadius=Math.sqrt(count/Math.PI),bands=[];
+            for(let radius=Math.ceil(coreRadius*1.35);radius<coreRadius*6;radius++){
+              let sum=0;
+              for(let s=0;s<64;s++){
+                const angle=(s%32/31-.5)*.36+(s<32?0:Math.PI);
+                sum+=metric(x+radius*Math.cos(angle),y+radius*Math.sin(angle));
+              }
+              if(sum/64>145){
+                if(!bands.length||radius>bands.at(-1).at(-1)+1)bands.push([]);
+                bands.at(-1).push(radius);
+              }
+            }
+            let spokes=0;
+            if(bands.length===3){
+              const radius=(bands[1].at(-1)+bands[2][0])/2,high=[];
+              for(let a=0;a<144;a++)high.push(metric(x+radius*Math.cos(a*Math.PI/144),y+radius*Math.sin(a*Math.PI/144))>110);
+              for(let a=1;a<high.length;a++)if(high[a]&&!high[a-1])spokes++;
+            }
+            eyes.push({corePixels:count,ringBands:bands,visibleUpperSpokes:spokes});
+          }
+          $("zoom").value=zoom;$("zoom").dispatchEvent(new Event("input"));return eyes;
+        })()`);
+        for(const eye of data.mechanicalEyes){
+          assert(eye.corePixels>10,JSON.stringify(eye));
+          assert.equal(eye.ringBands.length,3,JSON.stringify(eye));
+          assert(eye.visibleUpperSpokes>=10&&eye.visibleUpperSpokes<=14,JSON.stringify(eye));
+        }
+        const rearRed=await evaluate(`(() => {
+          const $=id=>document.getElementById(id);$("yaw").value="3.14";$("yaw").dispatchEvent(new Event("input"));
+          const c=$("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
+          g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);let red=0;
+          for(let i=0;i<p.length;i+=4)if(p[i]>80&&p[i]>p[i+1]*2&&p[i]>p[i+2]*2)red++;
+          $("yaw").value="0";$("yaw").dispatchEvent(new Event("input"));return red;
+        })()`);
+        assert.equal(rearRed,0,"Pupil emission must not shine through the back of the eyes");
+        data.rearRed=rearRed;
       }
     }
     report.meshDetail = await evaluate(`(() => {
@@ -360,14 +424,14 @@ try {
       const source=a.src,time=a.currentTime,set=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event("input"));};
       const toggle=(id,value)=>{$(id).checked=value;$(id).dispatchEvent(new Event("input"));};
       const pixels=()=>{const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
-      const results=[],gallery=document.createElement("canvas");gallery.width=900;gallery.height=600;
+      const results=[],gallery=document.createElement("canvas");gallery.width=600;gallery.height=600;
       const context=gallery.getContext("2d");let sample=0;
       toggle("points",true);
-      for(const style of ["claire","curls","bun"])for(const material of ["polygon","shaded"]){
+      for(const style of ["claire","curls"])for(const material of ["polygon","shaded"]){
         set("hairstyle",style);set("appearance",material);toggle("colors",true);const before=pixels();
         toggle("colors",false);const gray=pixels();let tinted=0,visible=0,changed=0;
-        context.drawImage(c,sample%3*300,Math.floor(sample/3)*300,300,270);
-        context.fillStyle="white";context.font="15px sans-serif";context.fillText(style+" / "+material,sample%3*300+8,Math.floor(sample/3)*300+290);sample++;
+        context.drawImage(c,sample%2*300,Math.floor(sample/2)*300,300,270);
+        context.fillStyle="white";context.font="15px sans-serif";context.fillText(style+" / "+material,sample%2*300+8,Math.floor(sample/2)*300+290);sample++;
         for(let i=0;i<gray.length;i+=4){
           const high=Math.max(gray[i],gray[i+1],gray[i+2]),low=Math.min(gray[i],gray[i+1],gray[i+2]);
           if(high>20){visible++;if(high-low>7)tinted++;}
@@ -395,11 +459,13 @@ try {
       const toggle=value=>{$("hair").checked=value;$("hair").dispatchEvent(new Event("input"));};
       const pixels=(raw=false)=>{
         const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
-        let hash=2166136261,visible=0,nonCyan=0;
+        let hash=2166136261,visible=0,nonCyan=0,red=0;
         for(let i=0;i<p.length;i+=4){
           hash=Math.imul(hash^p[i],16777619)>>>0;hash=Math.imul(hash^p[i+1],16777619)>>>0;
-          if(p[i+1]>40){visible++;if(p[i]>p[i+1] || p[i+2]<p[i])nonCyan++;}
-        }return {hash,visible,nonCyan,...(raw?{pixels:p}:{})};
+          const pupil=p[i]>p[i+1] && p[i]>p[i+2];
+          if(pupil&&p[i]>80)red++;
+          if(p[i+1]>40){visible++;if((p[i]>p[i+1] || p[i+2]<p[i])&&!pupil)nonCyan++;}
+        }return {hash,visible,nonCyan,red,...(raw?{pixels:p}:{})};
       };
       const create=g.createBuffer,remove=g.deleteBuffer,draw=g.drawElements,mask=g.colorMask,allocate=g.bufferData,update=g.bufferSubData;
       const live=new Set(),results=[],images=[],defaults=[],restorations=[],patterns=[];let peak=0,calls=[],colored=true,allocations=0,updates=0,hairOnly=false;
@@ -410,7 +476,7 @@ try {
       g.colorMask=function(...args){colored=args.some(Boolean);return mask.apply(this,args);};
       g.drawElements=function(mode,count,...args){
         const program=g.getParameter(g.CURRENT_PROGRAM),material=g.getUniform(program,g.getUniformLocation(program,"material"));
-        calls.push({mode,count,colored,material});
+        calls.push({mode,count,colored,material,pass:g.getUniform(program,g.getUniformLocation(program,"pass"))});
         if(!hairOnly||!colored||material===1)return draw.call(this,mode,count,...args);
       };
       const styles=Array.from($("hairstyle").options,o=>({id:o.value,name:o.textContent}));
@@ -425,8 +491,8 @@ try {
         set("presentation",view);defaults.push({view,on:$("hair").checked,disabled:$("hairstyle").disabled,hidden:$("hairstyle").closest("label").hidden});
         const off=pixels(true),offFit=fit();toggle(true);
         for(const yaw of [0,.8]){
-          const gallery=document.createElement("canvas");gallery.width=1200;gallery.height=900;const ctx=gallery.getContext("2d");
-          ctx.fillStyle="#101821";ctx.fillRect(0,0,1200,900);
+          const gallery=document.createElement("canvas");gallery.width=600;gallery.height=300;const ctx=gallery.getContext("2d");
+          ctx.fillStyle="#101821";ctx.fillRect(0,0,600,300);
           for(let i=0;i<styles.length;i++){
             const style=styles[i];set("hairstyle",style.id);set("yaw",yaw);calls=[];
             $("yaw").dispatchEvent(new Event("input"));
@@ -467,15 +533,18 @@ try {
     assert(data.sameSource && data.sameTime);
     for(const result of data.results){
       assert.equal(result.error,0,JSON.stringify(result));assert(result.visible>1000);
-      assert.equal(result.nonCyan,0);assert.equal(result.steadyAllocations,0);assert.equal(result.normalUpdates,0);
+      if(result.view==="facemesh")assert(result.nonCyan<result.red,JSON.stringify(result));
+      else assert.equal(result.nonCyan,0);
+      assert.equal(result.steadyAllocations,0);assert.equal(result.normalUpdates,0);
       const visible=result.calls.filter(c=>c.colored),depth=result.calls.filter(c=>!c.colored);
-      assert.equal(visible.length,3);assert.equal(depth.length,3);assert.equal(visible.at(-1).material,1);
-      assert(visible.every(c=>c.mode===(result.view==="facemesh"?1:4)));
+      assert.equal(visible.length,result.view==="facemesh"?4:3);assert.equal(depth.length,3);assert.equal(visible.at(-1).material,1);
+      assert(visible.every(c=>c.mode===(result.view==="facemesh"&&c.pass!==3?1:4)));
+      if(result.view==="facemesh")assert(result.red>20,JSON.stringify(result));else assert.equal(result.red,0);
       assert(depth.every(c=>c.mode===4));
       if(result.view==="facemesh")assert(visible.at(-1).count>=depth.at(-1).count);
     }
     for(const view of ["facemesh","facedot","uniform"])for(const yaw of [0,.8]){
-      assert.equal(new Set(data.results.filter(r=>r.view===view&&r.yaw===yaw).map(r=>r.hash)).size,11);
+      assert.equal(new Set(data.results.filter(r=>r.view===view&&r.yaw===yaw).map(r=>r.hash)).size,2);
     }
     for(const result of data.restorations){
       assert(result.retained);assert.deepEqual(result.offFit,result.restoredFit);
@@ -860,6 +929,15 @@ try {
     assert.equal(happy.audioPcmSha256, greeting.audioPcmSha256);
     await evaluate(`document.getElementById("seek").value=".9";document.getElementById("seek").dispatchEvent(new Event("input"));`);
     await screenshot("04-happy");
+    const angry=await generate("Hey, how are you?","angry");
+    report.angry=angry;
+    assert.equal(angry.expression,"angry");
+    assert.equal(angry.speechCacheHit,true);
+    assert.equal(angry.audioPcmSha256,happy.audioPcmSha256);
+    assert.notEqual(angry.motionSha256,happy.motionSha256);
+    assert.notEqual(angry.motionSha256,greeting.motionSha256);
+    await evaluate(`document.getElementById("seek").value=".9";document.getElementById("seek").dispatchEvent(new Event("input"));`);
+    await screenshot("04a-angry");
   });
   await check("Voice preview skips motion, edited voice drives generation and reset restores Hazel defaults", async () => {
     await evaluate(`document.querySelector(".voice-options").open=true;
@@ -934,7 +1012,7 @@ try {
     await screenshot("06-mobile");
   });
   await check("Reload clears media and preserves only the capability URL", async () => {
-    await evaluate(`for(const [id,value] of Object.entries({hairstyle:"bob","cursor-mode":"head",presentation:"facedot",
+    await evaluate(`for(const [id,value] of Object.entries({hairstyle:"curls","cursor-mode":"head",presentation:"facedot",
       "pattern-density":"2","pattern-gap":".8",zoom:"1.5"})){
       document.getElementById(id).value=value;document.getElementById(id).dispatchEvent(new Event("input"));}`);
     await evaluate(`document.getElementById("appearance").value="shaded";document.getElementById("edges").checked=false;

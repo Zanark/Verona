@@ -1,5 +1,88 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Two retained hairstyles and mechanical red irises (vr-29)
+
+The owner rejects nine alternatives and retains only **Claire waves (original)**
+and **Spiral curls**. This supersedes the inventories in the historical sections
+below. `HAIRSTYLES` and `createHairstyle` in `verona/web/hairstyles.mjs` contain
+only those identities; the original still comes from the verified native hair.
+Removed styles have no registry entries, geometry branches, helper ellipsoids,
+prebuilt meshes or gallery GIF files in the current checkout. Retired IDs fail
+before generation. Historical Git/release/evidence snapshots are not live
+runtime caches and are not rewritten.
+
+Curls increase from24 to48 separately swept locks, not more vertices along the
+same24 locks. Each retains40 longitudinal sections/eight sides and the existing
+radius/taper. The64x16 scalp plus48 tubes yields16,384 vertices/31,872 triangles.
+The focused topology test counts49 connected components: one scalp and48
+320-vertex locks, checks packed nondegeneracy/protected facial clearance and
+determinism. Selected curls necessarily have more geometry; deleting unrelated
+styles does not make this requested increase free. Original/latest-only GPU
+ownership, crop cleanup, lazy wire edges and no steady-frame generation remain.
+
+`FaceRenderer.drawPresentation` adds one FaceMesh-only eye-triangle draw through
+fragment pass3 in `verona/web/app.js`. After the first soft-dot version, the
+owner requests a mechanical optical design inspired by the supplied film
+references, explicitly keeping red rather than their blue/cyan. A bright warm-red
+core, three concentric emissive rings and24 radial spokes sit over dark iris
+gaps, with an exponentially decaying local halo. These are original analytic
+shader marks, not extracted reference artwork or added robot-head geometry.
+Radial signed distances and angular sectors use screen derivatives to soften
+subpixel boundaries. They use existing eye positions, gaze and rest coordinates.
+The front-of-eye gate and existing skin/eye/hair depth prepass occlude the glow.
+This is an emissive eye-surface treatment, not scene-light emission or a
+fullscreen bloom pipeline: no texture targets, new geometry, normal updates
+or per-frame allocations. Skin/hair stay in their wire style; Claire/dot/grid
+retain their eyes. Turning or cursor aiming uses the same XYZ/gaze transforms.
+
+**Media gate:** the owner wants to inspect the eyes in the app first. No new
+snaps/GIFs or redesigned README publication until approval. Existing media
+predates these eyes; the remaining curls preview still shows24 locks.
+The planned main README will start with a huge transparent front-facing speaking
+loop before even its title. A single closed-by-default HTML `details` will
+contain everything else, including the separate signed XYZ-turning FaceMesh
+animation and only the two retained hairstyle turntables. Standalone GIFs remain centered;
+paired hair previews have matching dimensions/angles and natural aspect ratio.
+The outer hero directly addresses the reader; the inner loop turns left/right,
+up/down, rolls both ways and combines axes. These are authored view rotations,
+not head movements inferred from speech.
+
+The owner's fictional horror dialogue expands with surprise/sadness and returns
+to a smile. Each phrase is generated through the real local UI/model with an
+explicit bounded expression, not an emotion inferred from words or a caption
+that pretends the face changed. `verona.engine.EXPRESSIONS` adds **angry** at
+channel1; `expression_condition` keeps the existing0-0.6 bound and copied neutral
+conditioning. The HTML selector and `verona.generate` CLI expose the same option.
+The official [SDK ordering test](https://github.com/NVIDIA/Audio2Face-3D-SDK/blob/main/audio2face-sdk/tests/test_core_parse_helper.cpp)
+was read at blob`82d616a763a123da8d5c97f800a6cc64a0f4b674`: amazement0,
+anger1, joy6, sadness9. The focused condition test and real inference distinguish
+anger from neutral/happy without mutating the neutral vector.
+
+After approval, the planned caption compositor will add the authored phrase below the raw face canvas in
+RGB(77,232,219), the mesh ink color, within the **same GIF frames**. Phrase
+boundaries follow actual synthesized clip durations rounded to centiseconds;
+there is no independently looping HTML subtitle or claimed word-level forced
+alignment. Successive explicit-expression clips are an edited presentation,
+not continuous one-take speech. No raw speech/motion is published. GIFs are
+silent, binary-alpha samples, not listening, realistic-expression, likeness or
+phonetic acceptance. The joke does not add face capture or identity theft.
+
+The earlier soft-dot build passed30 browser checks/26 cadence cases and16 native
+checks. Browser02 narrowly missed the unchanged mean cadence gate in one case;
+Browser03 passed, without relaxing it. These are not measurements of the later
+mechanical fragment code. Its separate hidden, sandboxed native in-memory probe
+(`mechanical-red-eyes-04`) finds three bright radial bands in both irises,
+12/11 visible upper-half spokes, zero rear-facing red pixels, no red in other
+views, no new buffers during30 turns and no GL errors. Native eyelids correctly
+hide part of the outer ring; an initial full-circle averaging probe incorrectly
+expected that occluded portion to remain bright. The corrected probe measures
+visible horizontal wedges and the upper arc. No images were captured by these
+post-pause probes. The exact added browser ring/spoke regression also executes
+in that isolated native probe. Probe03's hidden-window timing attempt timed out;
+it supplies no new cadence result and is retained, not counted as a pass.
+These facts are technical evidence, not the owner's visual
+acceptance, independent listening or a universal performance guarantee.
+
 ## Optional monochrome and matching-format hair (vr-28)
 
 The owner wants Claire's added colors optional and the existing hairstyles
@@ -114,7 +197,7 @@ read back with all23 GIFs/eleven styles, three centered solo GIFs and the new
 transparent hero. All48 previous media/receipt blobs and three immutable
 release tags/IDs/bodies/assets remain unchanged; no new release was created.
 
-## Current visual delivery: all hairstyles (vr-26)
+## Historical visual delivery: all then-available hairstyles (vr-26)
 
 The [main gallery](../../README.md#every-hairstyle-in-motion) now shows every
 entry in `HAIRSTYLES` from `verona/web/hairstyles.mjs`: original Claire plus all
