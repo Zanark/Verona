@@ -1,5 +1,110 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Original articulated armored robot (vr-30)
+
+**View -> Optimus-inspired robot** selects an independently authored blue/silver
+helmet, tall side fins, layered cheek armor, mechanical cyan optics and segmented
+mouth/jaw. The owner selected procedural armor over finding a rigged asset.
+This is a distinct original stylized presentation, not a metallic Claire filter,
+an official/movie model, extracted reference artwork, a character voice or a
+resumption of the parked Realistic importer. Claire remains the initial view.
+
+### Geometry, articulation and the shared clock
+
+`createRobot` in `verona/web/robot.mjs` builds closed beveled plate prisms,
+helmet bands and side rings. It validates metadata, source triangles and
+coordinate range, normalizes plate winding, then groups 2,154 rigid triangles into
+33 material/part groups. Their flat normals are computed once. Authored
+centimetre coordinates use the existing model's center/scale/Int16 contract;
+this avoids adding an asset loader, download, dependency or second projection.
+The model has no skin, hairstyle, logo, imported texture or hidden alternative.
+
+`bindRobot` selects seven nearby neutral Claire vertices for upper/lower lip,
+mouth corners, brows and chin, rejecting a missing landmark within 4cm.
+`sampleRobot` interpolates those vertices using the **same left/right frame
+indices and blend** as the existing `audio.currentTime * 30` motion path.
+Rest-relative differences become bounded jaw angle, lip opening, corner
+spread/lift and two brow offsets. Mechanical gains deliberately amplify small
+skin displacement: the initial real greeting's maximum jaw angle was only
+about 0.03rad; the revised bounded mapping reaches about 0.093rad for that line.
+The hard jaw limit is 0.38rad, lip opening 0.65cm, corner travel at most 0.45cm
+and brow travel -0.55..0.8cm. These are authored retargeting choices, not
+anatomical calibration, phoneme recognition or accuracy measurements.
+
+`FaceRenderer.drawRobot` in `verona/web/app.js` sends six scalars to the shared
+vertex shader. Lower plates rotate around a fixed jaw hinge; six upper/lower
+mouth segments translate separately, and brow plates lift/tilt. Their normals
+rotate with the rigid pieces. There is no per-frame mesh rebuilding, CPU normal
+recomputation, volume detector, random mouth loop or independent timer.
+Without a clip the pose is neutral. With a clip, Restart returns its first
+learned frame, which need not equal geometric neutral; pause/seek and expression
+motion remain properties of the existing speech session.
+
+The metallic fragment branch uses flat face normals and bounded highlights,
+not the human unlit contour style. Cyan cores/rings/spokes reuse the analytic
+eye marks and depth/gaze path. They do not inherit FaceMesh's red color or its
+new intensity reduction. This is emissive surface color, not scene lighting.
+
+### Ownership, switching and failure boundaries
+
+`FaceRenderer.createRobot` lazily constructs/binds/uploads only on entry:
+two GPU buffers per group, **66 buffers and 34 draws** including the optic
+overlay. `deleteRobot` deletes those buffers and drops the model on exit.
+Existing human geometry and the current speech buffer remain owned by the
+same renderer for reversible switching; keeping that unchanged speech buffer
+is intentional, not a robot leak. Repeated turns and seeks allocate no buffers.
+
+`updateFit` uses robot bounds, and `placeOverlayTools` reuses the bounded
+support cache rather than scanning/rebuilding geometry each frame. Robot
+framing is fixed to Armored head. Skin crop/detail/pattern/material/hair controls
+are hidden or disabled; returning to a human view restores its own settings.
+Both cursor modes, manual XYZ, zoom, collapsed glass tab, Controls/pop-out and
+the current clip/clock use their existing owners. Density is capped at 1.5x.
+Large manual rotations or zoom can still deliberately clip the head.
+
+Construction/binding errors propagate to the existing visible status rather
+than an empty successful view; partially uploaded robot buffers are cleaned up.
+The existing context-loss handler pauses audio and requires reload, with no
+invented recovery. Reload/restart restores Claire and unsaved controls. A view
+switch neither cancels nor starts speech generation; its existing busy/error/
+latest-success contracts still apply. `/robot.mjs` is one exact static-server
+allowlist addition, not arbitrary file serving. Capability, loopback, RAM-only
+speech and no automatic camera/microphone boundaries are unchanged.
+
+### Evidence and limits
+
+`tests/test_robot.mjs` checks deterministic nondegenerate packed topology,
+unit normals, bounded fitting/retargeting, interpolation, saturation, neutral
+reset and malformed input. `tests/run_robot_smoke.py` and
+`tests/robot_smoke.cjs` run the real installed production Electron host with an
+owned loopback server, isolated derived/synthesis data and disposable profile.
+The window remains hidden and sandboxed; numeric pixels stay in memory.
+No screenshot/GIF/capture API or user session is used.
+
+The final local `articulated-robot-07/report.json` receipt records 25 real
+generated-speech seek samples with 19 distinct poses and rendered pixel hashes,
+actual Play/Pause progress, Restart, exact same-pose Claire pixel restoration,
+both cursor modes and 30 XYZ samples without new buffers/GL errors. A native
+Controls/pop-out round-trip preserves the paused source/time, transparent
+boundary and collapsed tab. All four previous views still render and preserve
+the source/time. Repeated exits delete every robot buffer; only one unchanged
+speech buffer remains. Owned server/desktop/profile cleanup passes.
+
+Earlier attempts remain retained: probe01 hid a startup error behind readiness;
+02 exposed an actual cross-stage integer-uniform precision mismatch, fixed with
+explicit fragment `highp int`. Probe03's leak assertion incorrectly counted
+the retained speech buffer. Probe04 checked neutral iris structure after
+speech had moved the eyelids. Probe05 read a discarded WebGL drawing buffer
+across asynchronous turns; the test now redraws synchronously before reading.
+Probe06 passed before stronger articulation and added playback/overlay checks;
+07 qualifies the final runtime. No production drawing-buffer preservation or
+security relaxation was added to accommodate these fixture corrections.
+
+These are functional/environment checks, **not** subjective likeness review,
+movie-quality rendering, realistic expression, independent listening, phonetic
+accuracy, a new 60fps cadence measurement or owner acceptance. No new release,
+README redesign, book edition or media capture accompanies this mode.
+
 ## Two retained hairstyles and mechanical red irises (vr-29)
 
 The owner rejects nine alternatives and retains only **Claire waves (original)**
@@ -34,6 +139,14 @@ This is an emissive eye-surface treatment, not scene-light emission or a
 fullscreen bloom pipeline: no texture targets, new geometry, normal updates
 or per-frame allocations. Skin/hair stay in their wire style; Claire/dot/grid
 retain their eyes. Turning or cursor aiming uses the same XYZ/gaze transforms.
+
+The owner's subsequent request reduces only FaceMesh iris RGB to **70%** of
+its former value. Alpha, shape, depth, gaze and dark gaps remain unchanged;
+this is an RGB intensity multiplier, not calibrated photometric luminance.
+The no-image vr-30 probe07 reads peak red 178 (approximately 255 * 0.70),
+136 bright core pixels per eye, all three radial bands and 12/11 visible upper
+spokes. The browser iris regression thresholds scale proportionally. Other
+views, including the robot's cyan optics, do not use that multiplier.
 
 **Media gate:** the owner wants to inspect the eyes in the app first. No new
 snaps/GIFs or redesigned README publication until approval. Existing media

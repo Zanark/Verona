@@ -350,7 +350,7 @@ try {
             let sx=0,sy=0,count=0;
             for(let y=0;y<c.height;y++)for(let x=Math.ceil(side*c.width/2);x<(side+1)*c.width/2;x++){
               const i=(y*c.width+x)*4;
-              if(p[i]>220&&p[i+1]>40&&p[i+1]<140&&p[i+2]<130){sx+=x;sy+=y;count++;}
+              if(p[i]>154&&p[i+1]>28&&p[i+1]<98&&p[i+2]<91){sx+=x;sy+=y;count++;}
             }
             if(!count)throw new Error("Missing bright mechanical iris core");
             const x=sx/count,y=sy/count,coreRadius=Math.sqrt(count/Math.PI),bands=[];
@@ -360,7 +360,7 @@ try {
                 const angle=(s%32/31-.5)*.36+(s<32?0:Math.PI);
                 sum+=metric(x+radius*Math.cos(angle),y+radius*Math.sin(angle));
               }
-              if(sum/64>145){
+              if(sum/64>101.5){
                 if(!bands.length||radius>bands.at(-1).at(-1)+1)bands.push([]);
                 bands.at(-1).push(radius);
               }
@@ -368,7 +368,7 @@ try {
             let spokes=0;
             if(bands.length===3){
               const radius=(bands[1].at(-1)+bands[2][0])/2,high=[];
-              for(let a=0;a<144;a++)high.push(metric(x+radius*Math.cos(a*Math.PI/144),y+radius*Math.sin(a*Math.PI/144))>110);
+              for(let a=0;a<144;a++)high.push(metric(x+radius*Math.cos(a*Math.PI/144),y+radius*Math.sin(a*Math.PI/144))>77);
               for(let a=1;a<high.length;a++)if(high[a]&&!high[a-1])spokes++;
             }
             eyes.push({corePixels:count,ringBands:bands,visibleUpperSpokes:spokes});

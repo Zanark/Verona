@@ -61,6 +61,16 @@ Neither changes neural lip/expression motion or resumes Realistic.
 
 ## Confirmed
 
+The owner's November20 request adds an **Optimus-inspired robot** presentation.
+They selected original procedural armor instead of sourcing a rigged asset:
+blue/silver helmet/fins, cyan optics and articulated mouth/jaw/brows over the
+existing speech clock. vr-30 implements that bounded stylized interpretation,
+not an official movie asset, new voice, metallic Claire filter or Realistic
+roadmap resumption. Functional native checks do not establish likeness or
+phonetic/human acceptance. FaceMesh red eyes separately become 30% dimmer.
+The earlier owner in-app eye-review gate still blocks new captures and README
+redesign. Neither implementation nor functional checks imply appearance approval.
+
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.
 - Input is initially one prerecorded spoken line, for example "Hey, how are you?"

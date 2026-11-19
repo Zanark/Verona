@@ -68,6 +68,16 @@ FaceMesh alone adds red mechanical irises: bright cores, three concentric rings,
 24 radial spokes, dark gaps and soft eye-surface halos. Keep existing gaze/XYZ
 and depth occlusion, using existing eyes and one extra draw, not bloom targets
 or new geometry. The owner selected red, not the references' blue.
+Its final RGB intensity is now multiplied by0.70 at the owner's request;
+alpha/structure/occlusion are unchanged, not calibrated luminance.
+vr-30 adds View->Optimus-inspired robot: original selected-only blue/silver
+rigid armor, cyan optics and seven-landmark Claire-to-plate motion transfer on
+the same audio clock. robot.mjs builds2154triangles/33groups;66buffers/34draws
+are deleted on exit, with no frame geometry/normal rebuilding. Fixed Armored
+head framing, existing gaze/XYZ/zoom/desktop owners, no hair/skin controls,
+no official model/artwork/voice or Realistic resumption. Chapter09 records
+mechanisms and no-image native qualification; appearance/phonetic/cadence
+acceptance are separate. No capture, README redesign or user-runtime restart.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

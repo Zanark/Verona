@@ -1,0 +1,68 @@
+ID: vr-30
+Title: Original articulated armored robot presentation
+GitHub issue: https://github.com/Zanark/Verona/issues/29
+
+Status: DONE
+Milestone: Runnable opt-in procedural robot head over existing local speech.
+Dependencies: vr-20, vr-23, vr-24
+
+Purpose:
+Owner requests an Optimus-inspired mode and selects original procedural armor
+over sourcing a rigged asset. Build a distinct blue/silver robot, not a metallic
+Claire filter, copied movie model, imported reference artwork or new voice.
+The vr-29 runtime is sufficient; its paused media work is not a prerequisite.
+
+Tasks:
+[x] Read renderer contracts, references and owner-selected procedural approach.
+[x] Check active owners: no Verona Python/Electron instance at inspection.
+[x] Build bounded original helmet, fins, cheek plates, cyan optics and articulated mouth.
+[x] Retarget sparse Claire motion landmarks on the same interpolated audio clock.
+[x] Integrate reversible view switching, fitting, gaze, XYZ and desktop controls.
+[x] Verify topology, articulation, restoration, resource lifetime and actual renderer.
+[x] Prepare chapter, guide, ledger and tracking; retain separate source-delivery gates.
+
+Acceptance criteria:
+New opt-in view leaves Claire default and every previous mode unchanged.
+Robot uses original independently authored rigid armor geometry, no human skin
+or hairstyle, downloads, copied artwork, logos, imported assets or dependencies.
+Jaw/lip/brow plates respond to generated motion, not audio volume or a timer.
+Pause/seek/restart/mode switches retain the same speech and clock; neutral resets.
+Both cursor modes, manual XYZ, zoom and transparent overlay work with robot fit.
+Human-only controls are unavailable in robot mode and restored on return.
+Geometry/resources are selected-only and bounded; no per-frame mesh rebuilding,
+normal recomputation or new buffers. Leaving the view deletes its GPU resources.
+Errors remain visible; context loss pauses audio and requires reload.
+Synthetic/unit and isolated in-memory native checks do not capture screenshots.
+Existing FaceMesh optics remain red; robot optics are cyan as proposed/selected.
+No README redesign, new media, release, parked Realistic resumption or user-app restart.
+Visual likeness, realistic expressions and human/phonetic acceptance are not implied.
+
+Completion evidence:
+Implemented and technically/environment-qualified; appearance/human acceptance
+is separate. Clean source baseline29883e6f21f2afed7afce6598f4c2ef134527996.
+Focused robot/presentation/orientation/framing/hair checks and36CPU tests pass.
+Robot has2154triangles/33groups/66buffers/34draws, neutral without speech.
+Native articulated-robot07 passes25real speech seeks/19distinct poses/rendered
+hashes, actual Play/Pause/Restart, exact same-pose Claire restoration, both
+cursor modes,30XYZsamples, native Controls/overlay and all previous views.
+No new turn/seek buffers or animated-normal uploads; every robot buffer deleted,
+only one unchanged speech buffer retained. GLerrors0, overlay boundary transparent.
+FaceMesh peakred178 with three rings/12-11upper spokes afterRGBx0.70.
+No active user runtime found initially. Owned hidden/sandboxed production host,
+loopback server, disposable profile, derived cache and synthesis directory only;
+all stopped/removed. No screenshots/GIFs, app restart, release or deployment.
+Probe01..05failures and06prior pass retained; chapter09 explains actual GLSL
+precision fix and fixture corrections. Probe07 hashes final runtime source.
+No new live-cadence, listening, likeness or phonetic accuracy acceptance.
+
+Completion log:
+2026-11-20 - Owner supplies four armored-face references and chooses procedural
+original armor, speech-driven jaw/mouth plates, gaze and XYZ over an asset search.
+Keep the earlier owner eye-review/no-capture gate intact.
+2026-11-20 - Owner additionally requests FaceMesh red eyes 30% less bright;
+multiply only that view's final iris RGB by0.70, retaining alpha/shape/occlusion.
+2026-11-20 - Implement original armored geometry/sparse audio-clock rig and
+selected-only resources. Actual first greeting's small jaw motion motivates
+bounded mechanical amplification; unit saturation and native07 verify it.
+Native07 also verifies actual playback/native mode round-trip without captures.
+Technical prototype complete; vr29 owner eye review/README media remain paused.

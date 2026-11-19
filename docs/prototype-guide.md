@@ -116,11 +116,21 @@ the same: switching views does not generate, reload, seek or replace audio.
   three concentric rings, radial spokes, dark gaps and a soft local halo.
   They follow gaze/XYZ and remain depth-occluded; other views keep their own eyes.
   Increase **Zoom** to inspect the fine iris details. No extra eye toggle is needed.
+  Their final RGB intensity is now 30% lower, preserving rings/spokes and alpha.
 - **FaceDot:** surface-sampled circular dots only, including ears/eyes/neck. An
   invisible depth surface hides rear marks; filled polygons/lines are not visible.
 - **UniformPolygons:** a rectangular surface-coordinate grid over animated skin,
   including ears/eyes/neck, not a flat screen overlay. Cells curve/stretch over
   anatomy and expressions. This is a grid presentation, not a new quad mesh.
+- **Optimus-inspired robot:** an original stylized blue/silver armored head with
+  cyan mechanical eyes, tall fins and speech-driven rigid mouth/jaw/brow plates.
+  Select it before or after generating a sentence, then use **Play** normally;
+  no extra model, voice or download is required. Cursor eyes/head tracking,
+  XYZ, zoom and transparent pop-out still work. Framing is fixed to Armored head;
+  human skin/material/hair/crop/pattern controls are unavailable and restore
+  when returning to their views. This is a procedural interpretation, not a
+  movie model or calibrated phoneme-accurate robot rig. It uses the same speech,
+  expression motion and playback clock, not a separate mouth-loop timer.
 
 In FaceDot and UniformPolygons, **Pattern density** scales both surface axes
 from 0.5x to 3x: higher means more dots/cells in the same area, roughly proportional
@@ -137,7 +147,7 @@ Extremely small/dense marks can soften or merge at limited screen resolution;
 zoom and display resolution affect what can actually be distinguished.
 
 Dot/grid views start with hair off and at Head and neck; each retains its own framing,
-with Full bust available. All new views auto-fit their selected extent and use
+with Full bust available. These three human alternatives auto-fit their selected extent and use
 unlit ink, avoiding unused animated shading normals. Their depth surface still
 uses triangles; dots do not make geometry/inference free.
 Select the view/detail in Controls before popping out the same transparent
@@ -163,7 +173,8 @@ Claire material changes immediately, not the clip, voice or playback position.
 **Colors** starts enabled in Claire. Disable it for neutral grayscale skin,
 eyes, cosmetics, edges/points and hair in either material; enable to restore
 their hues. Lighting and tonal cosmetic detail remain, not a bare unstyled face.
-The option is hidden outside Claire, where matching cyan ink remains unchanged.
+The option is hidden outside Claire; human alternatives retain cyan ink, while
+the robot retains its blue/silver armor and cyan optics.
 **Hairstyle** selects only **Claire waves (original)** or **Spiral curls**.
 Curls have48 independently swept locks, twice the previous24, with unchanged
 per-lock detail. The other nine styles and their generators/gallery files are

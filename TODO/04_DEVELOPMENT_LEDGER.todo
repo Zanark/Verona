@@ -1,6 +1,39 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-30 articulated armored presentation and dimmed FaceMesh optics
+Cause: owner supplies armored-head references, selects original procedural
+armor over asset sourcing, requests30%dimmer red eyes, then asks no questions.
+Protect prior in-app review/media gate; no user app restart or new images.
+Action: author closed beveled helmet/fins/cheeks/rings and rigid jaw/mouth/brows
+in robot.mjs, separate blue/silver presentation/cyan optics,2154triangles/
+33groups/66buffers/34draws. Sparse seven-landmark retargeting shares existing
+audio frame interpolation. Bounded mechanical gains amplify the first real
+greeting's initially ~0.03rad maximum jaw motion to~0.093rad; not anatomical
+calibration. Vertex shader moves/rotates pieces/normals, no frame mesh rebuild.
+Lazy selected-only buffers are deleted on exit. Keep same speech/RAF/gaze/XYZ/
+zoom/native owner, robot fit/supports and fixed Armored head controls; restore
+human preferences. Exact static module allowlist addition, no dependencies.
+FaceMesh-only irisRGBx0.70 preserves alpha/depth/rings/spokes; cyan unaffected.
+Evidence: focusedJS and36CPU pass. Hidden sandboxed production-native07 passes
+25actual generated-speech seeks/19distinct poses and pixel hashes, Play/Pause/
+Restart, exact same-pose Claire restoration, both cursor modes,30XYZsamples,
+Controls/pop-out with transparent boundary/collapsed tab, all4previous views.
+No seek/turn buffers or animated-normal uploads; allrobotbuffers deleted with
+only1unchanged speech buffer retained; GLerrors0. Neutral redpeak178,136cores/
+eye,3bands each,12/11upper spokes. Allownedprocesses/profiles cleaned.
+Failures retained:01readiness hid startup cause;02actual shader linker found
+cross-stage integer precision mismatch, fixed fragment highpint.03fixture
+counted retained speechbuffer as robotleak;04neutral iris test ran after speech
+deformed lids;05readPixels crossed an async discarded-buffer boundary. Correct
+fixture ownership/order/synchronous redraw, not production preserveDrawingBuffer.
+06passed before stronger motion/additional native transport checks;07finalpass.
+Limits: original stylized interpretation, not movie model/voice, visual or
+phonetic/listening acceptance, new60fps guarantee, Realistic integration or
+media approval. README/gallery/releases unchanged; no book edition/deployment.
+Delivery gates: issue29/Project15 technicalDone, issue28 remainsInProgress;
+verified source commit/push and owned continuity are separate final steps.
+
 2026-11-20 - vr-29 mechanical red-eye review checkpoint; media paused
 Cause: retain only original waves/curls, double curl locks and add red eyes.
 Owner then requests mechanical optical rings/spokes inspired by their supplied

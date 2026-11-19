@@ -43,6 +43,10 @@ Chapter09's vr-29 supersedes the hair inventory with only original waves and
 48-lock Spiral curls, adds FaceMesh-only red mechanical irises and explicit Angry
 conditioning. New GIF capture and the planned captioned/collapsible README
 are paused for the owner's in-app review; older previews are not new-eye evidence.
+Chapter09's vr-30 adds a separate original procedural armored robot, sparse
+speech-clock retargeting and selected-only rigid geometry. It records no-image
+native qualification and limits, plus the requested 30% FaceMesh eye dimming;
+neither change releases the paused media gate.
 
 ## Reading paths
 
