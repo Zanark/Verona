@@ -13,7 +13,7 @@ vr-10 | 10_FACE_PRESENTATION.todo | DONE | Readable shaded female face and local
 vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and side-parted wavy hair
 vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon default, optional shading and revised proportions
 vr-13 | 13_DESKTOP_OVERLAY.todo | DONE | Transparent desktop pop-out, cursor gaze and XYZ orientation
-vr-14 | 14_HEAD_NECK_FRAMING.todo | IN_PROGRESS | Optional shoulder-free neck crop and reduced geometry/normal work
+vr-14 | 14_HEAD_NECK_FRAMING.todo | DONE | Optional shoulder-free neck crop and reduced geometry/normal work
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
@@ -37,4 +37,8 @@ Source milestonee2f10b5 is pushed; saved mappings record issue/Project readback.
 vr-13's chapter10 adds the optional native transparent desktop, procedural gaze
 and full XYZ; sourcef05747c is pushed. Native pinning uses qualified explicit
 above-taskbar level. Browser residual frame-time spikes remain documented.
+vr-14 extends chapter10 with reversible Head and neck framing, Full bust still
+default. Hidden skin/hair triangles/edges and animated-normal work are reduced;
+full motion/storage/inference remain. Sourcee4e503e is pushed. Browser22cases/
+12modes and native10checks pass; earlier cadence spikes remain in the ledger.
 Real-speech accuracy and human acceptance are separate gates, not probe results.

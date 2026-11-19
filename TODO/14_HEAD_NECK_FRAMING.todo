@@ -1,7 +1,7 @@
 ID: vr-14
 Title: Optional head and lower-neck framing with reduced rendering work
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Hide shoulders below the throat without replacing the existing full view.
 Dependencies: vr-13
 
@@ -15,7 +15,7 @@ Tasks:
 [x] Cull wholly hidden skin/hair triangles, edges and points; clip boundary cleanly.
 [x] Reduce normal calculations while retaining original motion/index correspondence.
 [x] Verify real browser/native framing, orientation, playback continuity and cadence.
-[ ] Update chapter, guide, ledger, tracking and owned continuity; commit/push.
+[x] Update chapter, guide, ledger, tracking and owned continuity; commit/push.
 
 Acceptance criteria:
 Head and neck shows no shoulders, including when rotated; full view restores
@@ -26,7 +26,8 @@ No new dependency/model/download, device activation or disturbance of other apps
 Future larger body extents remain possible without destroying the full geometry.
 
 Completion evidence:
-Implemented and environment-qualified; source publication/closure next.
+Implemented, environment-qualified and source-published; tracking closure
+is recorded with this completion receipt.
 Clean worktree and no active Verona Python/Electron found before edits.
 Development tests use owned disposable profiles, synthesis workspace and cache;
 models are read-only. CPU/GPU/compositor are shared, not reserved or isolated.
@@ -54,3 +55,7 @@ throat, preserving future body expansion and using hidden geometry to save work.
 2026-11-19 - Head/neck geometry and normal work reduction verified in browser02/
 native03. Chapters/guide/media and managed issue13/Project15 updated; verified
 source commit/push and completion reconciliation follow.
+2026-11-19 - Feature e4e503ed5106e2b1646c3b50eb316d3a478a7298 committed/
+pushed as verified Zanark. Both identities/trailers/exact remote main checked;
+first prerelease remains2c4a13a. Issue13/originalProject15item closure is
+reconciled with this receipt. No new release, installer or deployment.
