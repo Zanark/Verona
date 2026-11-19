@@ -13,9 +13,17 @@
     <button data-desktop="close" type="button" aria-label="Close Verona">Close</button>
   </div></div>
   <div id="overlay-toolbar" class="overlay-tools">
-    <span class="drag-handle" title="Drag to move the head window">Move</span>
+    <button id="overlay-toggle" type="button" aria-label="Expand floating controls"
+      aria-controls="overlay-options" aria-expanded="false" title="Show floating controls">...</button>
+    <div id="overlay-options" hidden>
+    <span class="drag-handle" title="Hold and drag to move this window anywhere on your desktop">Drag to move</span>
+    <button data-zoom="out" type="button" aria-label="Zoom out">-</button>
+    <output id="overlay-zoom" aria-label="Model zoom">100%</output>
+    <button data-zoom="in" type="button" aria-label="Zoom in">+</button>
+    <button data-zoom="reset" type="button" title="Reset model zoom">Fit</button>
     <button data-desktop="controls" type="button">Controls</button>
     <button data-desktop="close" type="button" aria-label="Close Verona">Close</button>
+    </div>
   </div>
   <p id="overlay-error" role="alert" hidden></p>
   <header><h1>VERONA <span>local speaking-face prototype</span></h1>
@@ -99,21 +107,34 @@
         </select></label>
         <label id="mesh-detail-control" for="mesh-detail" hidden>Mesh detail <output id="mesh-detail-value">5 / 5</output>
           <input id="mesh-detail" type="range" min="1" max="5" step="1" value="5"></label>
+        <label id="pattern-density-control" for="pattern-density" hidden>Pattern density <output id="pattern-density-value">1.0x</output>
+          <input id="pattern-density" type="range" min="0.5" max="3" step="0.1" value="1"></label>
+        <label id="pattern-gap-control" for="pattern-gap" hidden>Cell gap <output id="pattern-gap-value">0%</output>
+          <input id="pattern-gap" type="range" min="0" max="0.8" step="0.05" value="0"></label>
         <label id="neck-depth-control" for="neck-depth" hidden>Visible neck <output id="neck-depth-value">1.7 cm</output>
           <input id="neck-depth" type="range" min="0" max="6" step="0.1" value="1.7"
             title="Live preview: 0 follows the jawline; drag right to show more neck."></label>
         <label data-claire-control><input id="edges" type="checkbox" checked> Edges</label>
         <label data-claire-control><input id="points" type="checkbox"> Points</label>
         <label data-claire-control><input id="hair" type="checkbox" checked> Hair</label>
+        <label for="hairstyle" data-claire-control>Hairstyle <select id="hairstyle" disabled></select></label>
         <label for="tilt">X <input id="tilt" aria-label="X rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="tilt-angle">0 deg</output></label>
         <label for="yaw">Y <input id="yaw" aria-label="Y rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="yaw-angle">0 deg</output></label>
         <label for="roll">Z <input id="roll" aria-label="Z rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="roll-angle">0 deg</output></label>
         <button id="reset-view" type="button">Reset orientation</button>
-        <label><input id="follow-eyes" type="checkbox"> Eyes follow cursor</label>
-        <label for="zoom">Zoom <input id="zoom" type="range" min="0.8" max="2.3" step="0.05" value="1"></label>
+        <label><input id="follow-eyes" type="checkbox"> Follow cursor</label>
+        <label for="cursor-mode">Cursor mode <select id="cursor-mode">
+          <option value="eyes" selected>Eyes follow cursor</option>
+          <option value="head">Head follows cursor (eyes centered)</option>
+        </select></label>
+        <label for="zoom">Zoom <input id="zoom" type="range" min="0.35" max="2.3" step="0.05" value="1"></label>
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
       <p id="geometry-details" class="hint" aria-live="polite"></p>
+      <p class="hint">Claire offers original waves plus ten procedural hairstyles. Full bust reveals long tails/layers;
+        Head and neck trims hair to the same jaw curve. Updos reserve a little framing space.
+        Eyes mode moves only irises; Head mode keeps them centered and turns the whole head.
+        Follow cursor enables either mode; manual XYZ remains an offset. Tracking is bounded, not calibrated 3D gaze.</p>
       <p class="hint">Head and neck follows the jaw instead of a horizontal plane.
         Drag Visible neck to preview the cut live: 0 is jawline-only, 6 shows more neck.
         Skin and hair share the curved cut. Full bust restores the complete original geometry.</p>

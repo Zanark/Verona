@@ -28,6 +28,11 @@ UniformPolygons over the same motion, with detail/occlusion/performance contract
 in chapter09. The future GLB identity is called Realistic and remains deferred.
 Chapter10's vr-21 extension replaces the flat neck cut with a jaw-following
 curve and live Visible neck control, retaining actual reduced geometry.
+Chapter09's vr-22 adds ten selected-only procedural hairstyles while preserving
+original waves. Chapter10's vr-23 explains exclusive iris/head cursor modes,
+manual offsets, eye-midpoint pivot and exact settling without another RAF.
+Chapter10's vr-24 adds a collapsed glass tab, direct floating zoom and retained
+native placement. Chapter09's vr-25 adds GPU surface-dot/cell density and gaps.
 
 ## Reading paths
 

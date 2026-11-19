@@ -1,6 +1,55 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-22 through vr-25 hair, cursor, floating controls and patterns
+Cause: owner wants ten hair choices, exclusive eye/head tracking, desktop
+placement/zoom, dot/polygon count/spacing and finally a tiny centered collapsed
+translucent glass options tab above the head. Preserve liked Claire speech.
+Original waves remain default; ten bounded procedural alternatives build only
+on selection. Original plus latest alternative/crop buffers, not a style cache.
+Geometry test caught oversized curls; reduced44->40sections to16896triangles.
+Actual front/turned images exposed long-hair clipping and rear ponytail
+intersection; corrected fit/sweep, not a hash-only visual acceptance claim.
+Head mode centers iris masks, composes manual offsets around eye midpoint and
+shares existing cursor IPC/RAF. Browser caught settling stopping before exact
+snap; post-step snap fixes head/eyes. Native images exposed crown clipping:
+fixed20% head-mode room. No calibrated3D gaze or independent joint claim.
+Density/gap uniforms render circular surface samples or inset grid outlines
+without changing mesh/model. This intentionally supersedes fixed-native-vertex
+FaceDot; grid is still not quad topology. Per-view values restore/reload resets.
+Direct35-230% zoom shares existing range; native drag region unchanged.
+Overlay placement retained in RAM across Controls/pop-out, monitor-clamped.
+Latest owner feedback collapses options by default to34x20glass tab. Actual
+images exposed box-corner anchor excess gap and crown overlap; cache up to98
+directional support points per resource change, project only those per draw,
+reserve10% native headroom. CSSglass is not OS desktop acrylic.
+Final browser hair-controls-browser-05 passes28checks/18workloads:
+means16.6587-16.6598ms/maxp9516.9/max17.7/none>25. Hair22distinctfront/turned
+images, exact originalpixelrestore0; livebufferpeak14/final0.
+Density.5->1.5 increases isolatedcomponents799->4976dots/616->3797grid.
+Gap0->80% reducescoveredpixels53588->4310/55003->8859,0newbuffers/sameaudio.
+Final native hair-controls-native-06 passes15checks: collapsed/ARIA/expand/
+Escape/outside, real zoom coverage/clamps, fixture-owned position roundtrip,
+true alpha composition. Drag region verified, not a physical pointer-drag test.
+Trackedcurls/bun/twins actualimages inspected, tabclearance14.8/15.4/15px.
+Thirtysecondcurls/head:1801intervals/1831draws, mean16.659/p9516.8/max17.3/
+none>25. Dot/grid atmaximum3x/80%gap each181intervals/max16.9/0normalupdates.
+36Python/HTTP and focused JS geometry/pose/crop/host checks pass.
+Retain failures: Browser01 DOMrangesanitization expectation, Browser02 real
+settlingbug; Browser03nine>25ms/max49.9 historicaloutliers. Native02initialzoom
+readpresentedbackbuffer; synchronousredrawfix. Native03guardedfixturecapture
+fails/no screenshot saved; explicitfixturebounds/readback and RGBdiagnostic.
+Native05 refusesactualpointerinsideownedwindow; fixture nowmovesits own window
+away once, neverwarpusercursor. Native04technicalpassactualimagesdroveanchor
+refinement; Native06 is finaldesktopcandidate. No assertion weakened.
+Only fixture/disposableprofile/serverdata, sharedCPU/GPU/compositor, mutednot
+independentlistening/beauty/phoneticapproval. Allownedprocesses/profilescleaned.
+No new dependency/model/device, Realistic integration, release or deployment.
+Book/guide/contracts and fourfiniteTODOs updated; issue/Project verification
+reads back all24 pairs, issues21-24 Closed/Done, prior20 records unchanged.
+New issue23/24 backlinks verified locally. Authorized source publication is a
+separate step, not inferred from tests or remote tracking writes.
+
 2026-11-19 - vr-21 curved jaw framing and visual neck adjustment
 Cause: owner rejects the horizontal neck/hair chop and draws a jaw-following
 boundary, asking to choose visibility visually. Replace the Head and neck

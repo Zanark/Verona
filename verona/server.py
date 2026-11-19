@@ -24,6 +24,7 @@ STATIC = {
     "/orientation.mjs": ("orientation.mjs", "text/javascript; charset=utf-8"),
     "/framing.mjs": ("framing.mjs", "text/javascript; charset=utf-8"),
     "/presentations.mjs": ("presentations.mjs", "text/javascript; charset=utf-8"),
+    "/hairstyles.mjs": ("hairstyles.mjs", "text/javascript; charset=utf-8"),
 }
 MAX_BODY = 8192
 CSP = (

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { rotationMatrix, cursorGaze } from "../verona/web/orientation.mjs";
+import { rotationMatrix, cursorGaze, cursorHeadAngles, trackedHeadPose } from "../verona/web/orientation.mjs";
 
 const rotate = (m, p) => [0, 1, 2].map((row) =>
   m[row] * p[0] + m[row + 3] * p[1] + m[row + 6] * p[2]);
@@ -19,3 +19,14 @@ assert(gaze(600, 350, [0, 0, Math.PI])[0] < 0);
 assert(gaze(1e9, -1e9).every(Number.isFinite));
 assert(Math.abs(gaze(1e9, -1e9)[0]) <= .42 && Math.abs(gaze(1e9, -1e9)[1]) <= .24);
 console.log("XYZ composition, distance preservation, cursor direction, rotation compensation and gaze bounds pass.");
+const head = (x,y) => cursorHeadAngles(x,y,rect,rotationMatrix(0,0,0),1,center,15);
+assert(head(600,350)[1]>0 && head(0,350)[1]<0);
+assert(head(300,-100)[0]<0 && head(300,900)[0]>0);
+assert(head(1e9,-1e9).every(Number.isFinite));
+assert(Math.abs(head(1e9,-1e9)[0])<=.45 && Math.abs(head(1e9,-1e9)[1])<=.65);
+const offsetCenter=[0,141,-4], eye=[.08/15,(147.52-141)/15,(2.26+4)/15];
+const pose=trackedHeadPose([-.3,.5],m,offsetCenter,15);
+close(rotate(m,eye),rotate(pose.rotation,eye).map((v,i)=>v+pose.offset[i]));
+close(rotate(pose.rotation,[0,0,1]),rotate(rotationMatrix(-.3,.5,0),rotate(m,[0,0,1])));
+assert.equal(trackedHeadPose([0,0],m,center,15).rotation,m);
+console.log("Head cursor signs/bounds, manual XYZ composition and fixed eye-midpoint pivot pass.");

@@ -33,7 +33,7 @@ is capped at1.5x, polygons2x. No exact likeness/photorealism/perfect-expression
 acceptance. Preserve separate new media/provenance and the original release tag.
 vr-20 names the preserved default Claire. The presentation registry additionally
 supports FaceMesh (front triangular mask, protected detail1-5/native5), FaceDot
-(depth-occluded points) and UniformPolygons (surface-space rectangular grid,
+(depth-occluded surface-sampled dots) and UniformPolygons (surface-space rectangular grid,
 not quad retopology). These share motion/audio/gaze/XYZ; unlit views skip
 animated normals and retain bounded latest-detail buffers. Preserve Claire's
 material/toggles/framing on return. Realistic names the parked supplied GLB,
@@ -42,6 +42,20 @@ vr-21 replaces Head and neck's flat plane with a shared rest-space jaw/rear
 curve and per-view Visible neck0-6cm (default1.7). Keep conservative curved-
 primitive retention, exact shader clipping, latest-five crop buffer deletion,
 stable Dot/grid fitting and Full bust restoration; no motion/inference change.
+vr-22 preserves original Claire hair and adds ten selected-only procedural
+alternatives in hairstyles.mjs; no per-frame generation or unbounded style cache.
+Keep original plus latest alternative/crop buffers, shared jaw clipping and
+hair-free views. vr-23 adds exclusive iris/head cursor modes, bounded smoothed
+head rotation around the eye midpoint, exactly centered head-mode irises and
+manual XYZ offsets. Use the existing cursor IPC and one RAF; no cursor warping,
+joint/physical-gaze claim or speech change. Reload restores original/eyes mode.
+vr-24 defaults to a tiny centered collapsed glass tab, direct bounded zoom and
+RAM-only overlay placement. Cache at most98 support points on resource changes,
+not per-frame full-mesh scans. CSS glass is not OS desktop acrylic. Native
+overlay reserves10% fit room; head mode reserves20% and uses consistent cursor
+projection. vr-25 adds per-view density0.5-3/gap0-80% uniforms: FaceDot now uses
+surface-sampled circular marks, not one point/native vertex. Do not inflate
+neural topology or call the grid a quad rig. Reload resets unsaved controls.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

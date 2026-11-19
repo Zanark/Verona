@@ -59,8 +59,13 @@ html.overlay, .overlay body { background: transparent; padding: 0; margin: 0; ma
 .overlay .viewer-panel > :not(.canvas-wrap), .overlay .canvas-label { display: none !important; }
 .overlay main { display: block; }
 .overlay .canvas-wrap { height: 100vh; min-height: 0; border: 0; border-radius: 0; background: transparent; }
-.overlay .overlay-tools { display: flex; position: fixed; top: 8px; left: 8px; gap: 6px; align-items: center; z-index: 4; opacity: 0; padding: 8px; background: #08121bea; border-radius: 8px; }
-.overlay .overlay-tools:hover, .overlay .overlay-tools:focus-within { opacity: 1; }
+.overlay .overlay-tools { display: block; position: fixed; top: var(--head-tools-top, 8px); left: var(--head-tools-left, 50%); transform: translateX(-50%); z-index: 4; }
+#overlay-toggle, #overlay-options { background: linear-gradient(135deg, #c4e6f02e, #7397a31c); border: 1px solid #d6f5ff55; box-shadow: inset 0 1px #ffffff24, 0 3px 12px #00000030; backdrop-filter: blur(14px) saturate(1.35); }
+#overlay-toggle { display: block; width: 34px; height: 20px; margin: auto; padding: 0; border-radius: 10px; font-size: 15px; line-height: 12px; color: #e4f5ff; }
+#overlay-toggle:hover:enabled { background: #badbea42; }
+#overlay-options { display: flex; flex-wrap: wrap; width: max-content; max-width: calc(100vw - 16px); gap: 6px; align-items: center; padding: 8px; margin-top: 6px; border-radius: 10px; }
+.overlay-tools:has(#overlay-options:not([hidden])) { left: 50%; }
+#overlay-options button { background: #19333a73; }
 .drag-handle { cursor: move; -webkit-app-region: drag; padding: 5px 12px; }
 .overlay #overlay-error { display: block; position: fixed; bottom: 10px; left: 10px; right: 10px; padding: 10px; background: #301a18; color: #ffb6a5; z-index: 5; }
 @media (max-width: 760px) {

@@ -43,11 +43,21 @@ performance and retaining its liked lip movement/expressions. Add FaceMesh
 ears/eyes/neck) and UniformPolygons (rectangular surface grid) now, with a
 reusable view-selection boundary. These are presentations of the same animated
 Claire skin. The future GLB identity is named Realistic and remains parked.
+
+The owner also requests direct floating-head movement/zoom, adjustable dot/grid
+count and spacing, and a tiny centered collapsed translucent glass options tab
+above the head. Pattern density/gaps alter GPU surface sampling, not neural mesh
+resolution. Glass is web-content styling, not an OS-desktop blur promise.
 Positive feedback on current motion does not establish perfect phonetic accuracy.
 The owner subsequently rejects the horizontal head/neck cutoff, draws a
 jaw-following boundary and asks to decide visibility visually. vr-21 adds a
 curved Head and neck cut with live neck-depth adjustment, not a new identity
 or permission to resume Realistic.
+The next request adds at least ten unique hair choices and two exclusive cursor
+modes: move the eyes toward the cursor, or keep the irises centered and turn the
+whole head. vr-22 preserves original waves plus ten procedural alternatives;
+vr-23 reuses the same cursor sampling and renderer with bounded rigid head aiming.
+Neither changes neural lip/expression motion or resumes Realistic.
 
 ## Confirmed
 

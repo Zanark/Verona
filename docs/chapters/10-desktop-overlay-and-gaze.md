@@ -87,6 +87,131 @@ second drawing loop on top of audio playback. At rest, drawing stops once gaze
 settles; there is no always-running 60-fps neural inference. Disabling following
 returns the gaze to neutral. Large/outside-window coordinates are bounded.
 
+## Exclusive eyes-only and head-follow tracking (vr-23)
+
+**Follow cursor** enables the selected **Cursor mode**. Eyes mode remains the
+fresh-load default and shifts only bounded iris masks. Head mode sets those
+masks to exactly `[0,0]` and applies bounded rigid pitch/yaw to the complete
+rendered model, including skin, hair, eyes, points and surface-grid presentations.
+This is not a new neck joint, physical eye rig or audio-predicted head motion.
+
+`cursorHeadAngles` in `orientation.mjs` projects the manual-pose eye midpoint
+through the same orthographic zoom/fitting transform as rendering. Cursor
+displacement defines a virtual target at normalized depth2; atan2 gives pitch
+and yaw, bounded to +/-0.45 and +/-0.65 radians (about26/37 degrees).
+`trackedHeadPose` composes `Rfollow * Rmanual`; the X/Y/Z sliders remain offsets
+rather than being overwritten by cursor updates. An offset equal to the manual
+eye position minus the combined eye position makes that point stationary under
+head rotation, avoiding an orbit around the bust center. The vertex shader adds
+this rigid offset after rotation; normals use the same combined rotation.
+At zero tracking angles the exact manual matrix is reused.
+
+This is bounded procedural screen-space aiming at a virtual target, not a
+calibrated 3D cursor direction, vergence or perfect eye alignment under arbitrary
+manual rotations. Extreme manual offsets can intentionally look away. Desktop
+sampling/IPC and browser page pointer boundaries remain unchanged; no cursor
+warp, hook, coordinate history or input-device permission is added.
+
+The same75-ms exponential response settles head angles. Its remaining error
+is snapped to the exact target *after* each step when below0.0001 radians.
+Browser qualification caught the earlier ordering leaving a0.0000935-radian
+residual: scheduling stopped as soon as the post-step error crossed the bound,
+before a subsequent frame could snap it. Applying the snap after the step fixes
+the cause for both head and iris settling, without weakening the exact-neutral
+assertion. `gazeMoving` includes both quantities, maintaining one coalesced RAF.
+
+Switching modes clears the old tracking offsets before drawing. Disable/lost
+browser pointer settles to the manual head pose/neutral irises; no audio is
+paused, regenerated or sought. Reload restores eyes mode, original hair and
+initial following defaults (desktop on/browser off). Reset orientation changes
+manual XYZ/zoom only, not the selected tracking mode. Existing graphics-loss
+and error recovery remain explicit.
+
+Native images exposed crown/updo clipping under tracked turns despite the
+initial automated checks passing. Head mode now uses a fixed0.8 fitting margin
+for both shader projection and cursor/pivot math, independent of changing
+tracking angles (no automatic zoom breathing). It applies even with Follow
+cursor off; selecting eyes mode restores original fitting exactly. Manual
+rotations and deliberate high zoom can still clip by design.
+
+## Floating controls, placement and glass tab (vr-24)
+
+The owner requests direct placement/zoom, then asks to collapse the options by
+default into a very small translucent frosted-glass tab centered above the head.
+`index.html` separates the34x20-pixel `overlay-toggle` from hidden
+`overlay-options`. Clicking opens the existing native drag region, zoom-/+,
+Fit, Controls and Close; Escape closes and restores toggle focus, and pointer
+input outside closes without stealing focus. Every pop-out starts collapsed;
+no hover-only discovery, persistent preferences or second native window.
+`aria-expanded`, `aria-controls`, labels and focus outlines expose its state.
+
+`FaceRenderer.placeOverlayTools` caches neutral skin/selected-hair support points
+only when their resources change. Ninety-eight fixed directions select extreme
+vertices, deduplicated to at most98 points; only those points are projected per
+draw with the same fit, manual/tracked rotation, pivot offset and zoom as the
+head. Sixteen pixels of support-sampling clearance separate the tab from the
+estimated silhouette, with horizontal centering over its projected extent.
+Viewport clamps keep it reachable after extreme rotations/zoom. This is bounded
+rest-surface support sampling, not pixel readback or exact animated silhouette
+segmentation. Expanded controls center within the window
+and wrap instead of escaping narrow viewports. No geometry scan occurs each
+speech frame; the bounded support projection shares the existing draw loop.
+The native overlay reserves an additional fixed10% fitting margin so a default
+crown at the old top edge leaves room for the tab; browser fitting is unchanged.
+Explicit high zoom/manual rotation can consume this clearance.
+
+CSS translucent gradients, a fine highlight, shadow and
+`backdrop-filter: blur(14px) saturate(1.35)` provide the glass treatment.
+**This is web-content glass, not OS acrylic:** CSS can blur content in Verona's
+own layer, not promise blurring unrelated desktop windows through Electron's
+transparent background. Genuine background transparency remains unchanged.
+
+Floating zoom buttons reuse the existing range/input event:35-230%,0.1 steps,
+Fit1. Controls displays the identical value; Reset orientation also restores1.
+Only view projection changes, never window size, prepared audio/time or motion.
+Bounds disable the appropriate button. Restart/reload restores1.
+Large zoom can intentionally exceed the canvas.
+
+`desktop/main.cjs` retains `overlayBounds` in RAM when returning to Controls,
+restoring the last moved placement on the next pop-out. It selects the saved
+rectangle's available display and clamps the fixed480x600-or-smaller window
+inside that work area; monitor removal cannot restore unreachable coordinates.
+Restart forgets placement. The existing `-webkit-app-region: drag` moves the
+native window; interactive buttons remain `no-drag`. No position/file IPC,
+system cursor warping, global hook, speech persistence or profile change.
+
+### vr-23/24 qualification
+
+`hair-controls-browser-05` verifies both tracking directions/bounds, exact
+centered irises, preserved manual values/audio, mode/disable/pointer-loss
+settling and fresh-load defaults. Twenty-eight browser scenarios and18cadence
+workloads pass. The final overlay-only support-anchor/headroom refinement is
+separately qualified in `hair-controls-native-06`, which passes15checks.
+The34x20 tab starts collapsed, exposes correct ARIA state, expands, collapses
+on Escape/outside input and uses the actual blur style. Inspected default and
+expanded captures establish appearance, not merely a computed-style claim.
+Tracked curls/bun/twins leave14.8/15.4/15pixels between tab and rendered crown.
+Earlier box-corner anchoring left excessive space and default Claire had no
+tab clearance; actual images drove sampled support and10% native headroom.
+
+Native fixture-owned placement moves from1420,20 to1340,60 and survives Controls/
+pop-out; the native drag region is verified, **not an automated physical drag**.
+Direct zoom changes actual alpha coverage, shares Controls state, clamps to
+35/230%, disables endpoint buttons and resets100%, without changing source/time.
+Thirty seconds of curls/head-follow submit1831draws over1801sampled intervals:
+mean16.659ms,p9516.8,max17.3,none>25ms. Maximum3x dot/grid sampling also passes
+the native budget with no animated normals. These remain bounded shared-machine
+RAF/submission measurements, not GPU/scanout or subjective acceptance.
+
+Retained Native02's initial zoom snapshot read an already-presented backbuffer;
+synchronous redraw before readback fixes that harness error. Native03's
+guarded fixture capture failed; it saved no screenshot. Exact fixture-bound
+placement/readback and richer RGB diagnostics were added without relaxing the
+corner safety check. Native05 correctly refused external-cursor qualification
+when the real pointer was inside the owned window. The fixture now moves its
+own window away once, rather than warping the owner's cursor. Final Native06
+passes the unchanged capture/cursor gates. No sibling app/profile or device use.
+
 ## Full orientation and the coordinate contract
 
 X tilt, Y turn and Z roll each span -180 to +180 degrees. The controls retain
@@ -415,7 +540,8 @@ proof of physical scanout, a percentage speedup, listening or human acceptance.
 - `desktop/main.cjs`: `start`, native commands, cursor and parent-liveness timers.
 - `desktop/preload.cjs`: isolated, allowlisted renderer/native interface.
 - `verona/web/app.js`: `FaceRenderer`, `draw`, one RAF loop and desktop mode events.
-- `verona/web/orientation.mjs`: `rotationMatrix`, `cursorGaze`.
+- `verona/web/orientation.mjs`: `rotationMatrix`, `cursorGaze`,
+  `cursorHeadAngles`, `trackedHeadPose`.
 - `verona/web/framing.mjs`: `JAW_CROP`, `jawCutHeight`, `trimJawTopology`
   (historical `trimTopology`, `NECK_CUTOFF_Y` retained);
   `FaceRenderer.setFraming`, `surfaceNormals` in `app.js`.

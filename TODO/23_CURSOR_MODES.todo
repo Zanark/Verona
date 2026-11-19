@@ -1,0 +1,38 @@
+ID: vr-23
+Title: Cursor-following irises or rigid head with centered eyes
+
+Status: DONE
+Milestone: Two exclusive tracking modes over one speech/renderer owner.
+Dependencies: vr-13, vr-20, vr-21
+GitHub issue: https://github.com/Zanark/Verona/issues/22
+
+Purpose:
+Owner requests existing eyes-only cursor following and a second mode with
+stationary irises while the entire head turns toward the cursor.
+
+Tasks:
+[x] 23.1 Add bounded head aiming and eye-midpoint-preserving rigid pose math.
+[x] 23.2 Expose two modes plus existing tracking on/off, retain manual XYZ.
+[x] 23.3 Reuse desktop cursor IPC/browser pointer and one settling RAF loop.
+[x] 23.4 Verify signs, centered irises, pivot, audio, modes/disable and overlay.
+[x] 23.5 Update book/guide/ledger, issue/Project and verified source milestone.
+
+Acceptance criteria:
+Eyes-only preserves manual head orientation; head-follow centers irises exactly.
+Head yaw/pitch are bounded and smoothed; no cumulative drift or cursor capture/
+warping/history. Manual XYZ stays an offset. Disable/loss returns neutral;
+reload restores original defaults. No speech regeneration/seek or second loop.
+
+Completion evidence:
+hair-controls-browser-05: both signs/bounds, exact centered irises, preserved
+manual XYZ/audio, pointer loss/mode/disable neutral and reload defaults pass.
+hair-controls-native-06: actual external-cursor head tracking, inspected head/
+hair images, no crown clipping at default tracked settings;1801intervals,
+p9516.8/max17.3ms. Shared renderer/RAF and existing native sampling reused.
+Procedural screen-space aiming is not measured 3D gaze, joints or perfect aim
+under arbitrary manual rotations. Technical qualification is not owner approval.
+
+Completion log:
+2026-11-19 - Owner requests both eyes-only and head-follow tracking modes.
+2026-11-19 - Fixed post-step neutral snap and reserved fixed tracked fit margin;
+qualified browser/native without moving the system cursor.

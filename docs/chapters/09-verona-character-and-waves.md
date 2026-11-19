@@ -297,6 +297,121 @@ source. Owned test processes stop and their profiles are removed.
 Playback was muted, not an independent listening or owner visual acceptance.
 No new dependency, model, Realistic integration, release or deployment.
 
+### Adjustable dot/cell density and gaps (vr-25)
+
+The owner next asks to change both the number and spacing of dots/polygons.
+`FaceRenderer.patterns` keeps one `[density, gap]` pair for FaceDot and another
+for UniformPolygons, initialized to `[1, .6]` and `[1, 0]`. The Controls sliders
+select density0.5-3 and gap0-0.8. Switching views restores their separate values;
+reload resets them. Claire/FaceMesh hide these controls and keep their original
+mechanisms; FaceMesh still exposes protected triangle detail.
+
+The fragment shader uses the rest-space coordinates
+`grid = [atan(x,z+4)*12, y*2.7] * density`. Thus increasing density scales both
+axes, approximately squaring count per surface area before occlusion/sampling.
+Reducing density increases center-to-center spacing. Gap independently shrinks
+the visible marks within the same cells: FaceDot uses circular distance from
+each cell center with radius `(1-gap)*.36`; the grid insets each rectangular
+outline by `gap/2`. Screen derivatives antialias boundaries. Zero grid gap
+preserves the original continuous grid calculation.
+
+**This supersedes vr-20's fixed one-native-vertex/one-dot draw in FaceDot.**
+Color now comes from patterned triangles with everything outside dots/outlines
+discarded, not visible filled polygons. The existing depth-only skin/eye passes
+still prevent rear-surface marks leaking through. Pattern coordinates deform
+with their source surface instead of sliding across a screen overlay. No new
+mesh buffers, point array, denser neural model, quad retopology or extra speech
+generation is needed. Changing two uniforms does not increase triangle count;
+fragment work and appearance can still depend on zoom, resolution and sampling.
+The cylindrical parameterization stretches at anatomy/poles and has a seam;
+it is not a mathematically uniform geodesic remeshing. Subpixel marks can soften
+or merge. Gap is a fraction of a cell, not a physical-distance guarantee.
+
+### Preserved waves and ten selectable hairstyles (vr-22)
+
+The owner asks for at least ten unique options without replacing the Claire
+motion they like. `HAIRSTYLES`, `hairstyle` and `createHairstyle` in
+`verona/web/hairstyles.mjs` separate display/fit metadata, validation and geometry.
+The original Claire waves remain the default and come from the unchanged,
+verified backend mesh. Alternatives are built in the browser only on selection:
+no new asset, speech model, download or per-frame hair construction.
+
+| Alternative | Vertices | Triangles |
+|---|---:|---:|
+| Tapered pixie | 4,608 | 8,832 |
+| Rounded bob | 6,400 | 12,288 |
+| Asymmetric angled bob | 6,400 | 12,288 |
+| Long sleek layers | 6,400 | 12,288 |
+| Spiral curls | 8,704 | 16,896 |
+| High ponytail | 3,392 | 6,480 |
+| Twin tails | 5,760 | 11,040 |
+| Coiled top bun | 2,240 | 4,272 |
+| Double space buns | 3,456 | 6,624 |
+| Braided crown | 4,864 | 9,552 |
+
+A shared continuous ellipsoid cap uses 64 columns and 16 rows. Swept tubes
+follow crown-to-tip paths; length/asymmetry/taper produce the short/long cuts.
+Curls displace centers helically in X/Z, not just shader stripes. Tails sweep
+behind/alongside the head; rippled ellipsoids and coiled sweeps construct buns,
+and three interwoven closed paths form the crown braid. Parallel-transport-like
+normal projection keeps tube cross-sections continuous rather than flipping
+at a reference-axis threshold. Tube winding is outward. Positions are packed
+into the existing coordinate/quantization contract; invalid IDs, coordinates,
+stationary sweeps and Int16 overflow fail explicitly.
+
+`FaceRenderer.setHairStyle` retains the original four hair GPU buffers plus
+only the selected alternative's four buffers (positions, normals, triangles,
+contours). It validates/builds the replacement jaw crop before replacing the
+active references; a crop-validation failure deletes the candidate hair buffers
+and rethrows through the normal error banner, retaining the previous selection.
+Old alternative buffers and the latest five crop indices are deleted. Returning
+to original waves reuses their exact original geometry, not an approximation.
+The registry is a bounded explicit list, not an arbitrary importer or accumulated
+per-style GPU cache.
+
+All styles use existing materials, contour toggle and shared rest-space jaw
+clipping. Full bust exposes their longer extent; a chosen jaw crop intentionally
+removes lower hair too. `updateFit` reserves style-specific room for long hair
+and updos; original Claire's fit stays exactly one. Zoom and manual XYZ remain.
+Hair-free presentations hide the selector/toggle but retain the chosen style.
+Reload resets to original waves; context loss still requires explicit reload.
+No async hair request can revive a stale selection; speech/audio ownership is
+untouched. Static procedural masses are not realistic strands, collision
+simulation, scanned hairstyles or new rigging.
+
+The first geometry test caught curls exceeding the original 17,840-triangle
+budget. Reducing longitudinal sections from44 to40 preserves helical geometry
+at16,896 triangles. Actual first front/turned galleries also exposed long-hair
+clipping and a ponytail passing through the rear scalp. Explicit fit margins
+and a farther-rear tail sweep corrected those defects; geometry hashes alone
+would not have found them. Human style/beauty approval remains separate.
+
+#### vr-22/25 qualification
+
+The final browser receipt `hair-controls-browser-05` passes28scenarios and
+18playback workloads: means16.6587-16.6598ms, maxp9516.9ms, maxinterval17.7ms,
+none>25ms. All11 styles produce distinct front and0.8-radian turned images;
+actual galleries were inspected. Original pixels restore exactly. Instrumented
+style/crop switching peaks at14 new live GPU buffers and ends at0;515created/
+520deleted includes deletion of five pre-instrumentation crop buffers.
+
+Thresholded real-pixel connected components increase799->4976 for FaceDot and
+616->3797 for separated grid cells at0.5x->1.5x density. These are isolated image
+components, not exact global anatomical dot counts. Gap0->80% reduces covered
+pixels53588->4310 and55003->8859 respectively. Input changes allocate zero new
+mesh buffers and preserve paused audio source/time and separate view settings.
+Reload resets original hair/eyes mode/zoom and default dot sampling.
+
+`hair-controls-native-06` passes15checks and actually renders maximum3x density/
+80% gap at480x600: each pattern workload has181intervals, means16.659ms,
+max16.9ms and zero animated-normal updates. Curls/head-follow's30-second sample
+has1801intervals/1831draws, mean16.659ms,p9516.8,max17.3,none>25ms.
+Actual native views/hair images were inspected. Focused geometry/pose/crop and
+36Python/HTTP checks pass. Earlier Browser03's nine>25ms/max49.9ms intervals
+remain historical evidence; a clean final sample is not a universal60fps claim.
+All owned processes/profiles close; shared-machine RAF/submission and muted
+playback remain distinct from GPU timing, independent listening or owner approval.
+
 ### Deferred custom-avatar direction (vr-16 through vr-19)
 
 The owner explicitly rejected the vr-15 likeness, then supplied a static GLB

@@ -1,0 +1,39 @@
+ID: vr-24
+Title: Discoverable floating-head placement and direct zoom controls
+
+Status: DONE
+Milestone: Move and scale the overlay without returning to the main controls.
+Dependencies: vr-13, vr-23
+GitHub issue: https://github.com/Zanark/Verona/issues/23
+
+Purpose:
+Owner asks to move the floating head around the desktop and zoom the model.
+
+Tasks:
+[x] 24.1 Expose a clear native drag handle and direct bounded zoom/reset.
+[x] 24.2 Retain moved overlay placement in RAM across Controls/pop-out.
+[x] 24.3 Qualify actual native placement, zoom, audio and accessible controls.
+[x] 24.4 Update guide/book/ledger and sole issue/Project tracking pair.
+[x] 24.5 Default to a tiny centered collapsed glass tab above projected head.
+
+Acceptance criteria:
+Drag region moves the native window; direct zoom changes the same model only.
+Bounds/zoom survive mode switching, reset/restart semantics are explicit.
+No new filesystem bridge, profile, global cursor warp or speech regeneration.
+
+Completion evidence:
+hair-controls-native-06:15checks. Tab34x20 starts collapsed, ARIA state,
+expand/Escape/outside collapse and blur style pass. Actual default/expanded/
+tracked captures inspected. Native placement roundtrips after fixture-owned
+window movement; OS drag-region verified, not a physical pointer-drag test.
+Zoom0.35/1/1.2/2.3 changes actual covered pixels, clamps/disables/resets and
+preserves source/time. RAM-only native placement survives Controls/pop-out.
+Final curls/bun/twins tab clearance14.8/15.4/15px; no clipped crown.
+Browser05 regression28checks/18modes; native overlay-only support-fit refinement
+qualified in Native06. All owned processes/profiles stopped/removed.
+
+Completion log:
+2026-11-19 - Owner requests floating placement and model zoom.
+2026-11-19 - Owner requests tiny centered collapsed glass. Added sampled-support
+anchor and overlay headroom after actual images exposed overlap/excessive gap.
+Kept failed receipts; no OS acrylic promise or new native bridge.

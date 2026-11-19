@@ -10,7 +10,7 @@ app.commandLine.appendSwitch("disable-component-update");
 app.commandLine.appendSwitch("disable-sync");
 app.commandLine.appendSwitch("host-resolver-rules", "MAP * ~NOTFOUND, EXCLUDE 127.0.0.1");
 
-let window, timer, parentWatch, overlay = false, pinned = true, follow = true, controlBounds;
+let window, timer, parentWatch, overlay = false, pinned = true, follow = true, controlBounds, overlayBounds;
 const endpoint = process.env.VERONA_LOCAL_URL;
 delete process.env.VERONA_LOCAL_URL;
 start({ url: endpoint }).catch(fatal);
@@ -69,10 +69,12 @@ async function start(config) {
       if (next !== overlay) {
         if (next) {
           controlBounds = window.getBounds();
-          const bounds = screen.getDisplayMatching(controlBounds).workArea;
+          const bounds = screen.getDisplayMatching(overlayBounds || controlBounds).workArea;
           const width = Math.min(480, bounds.width - 40), height = Math.min(600, bounds.height - 40);
-          window.setBounds({ x: bounds.x + bounds.width - width - 20, y: bounds.y + 20, width, height });
-        } else window.setBounds(controlBounds);
+          const x = overlayBounds?.x ?? bounds.x + bounds.width - width - 20, y = overlayBounds?.y ?? bounds.y + 20;
+          window.setBounds({ x: Math.max(bounds.x, Math.min(x, bounds.x + bounds.width - width)),
+            y: Math.max(bounds.y, Math.min(y, bounds.y + bounds.height - height)), width, height });
+        } else { overlayBounds = window.getBounds(); window.setBounds(controlBounds); }
         overlay = next;
         window.setAlwaysOnTop(overlay && pinned, "pop-up-menu");
         window.webContents.send("verona:mode", { overlay });

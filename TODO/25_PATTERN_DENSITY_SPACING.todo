@@ -1,0 +1,38 @@
+ID: vr-25
+Title: Adjustable FaceDot and UniformPolygons density and gaps
+
+Status: DONE
+Milestone: More or fewer surface dots/cells with independent visible gaps.
+Dependencies: vr-20
+GitHub issue: https://github.com/Zanark/Verona/issues/24
+
+Purpose:
+Owner requests control over the number and spacing of dots and polygons.
+Use bounded surface-pattern uniforms instead of increasing neural topology.
+
+Tasks:
+[x] 25.1 Add per-view density and gap controls with honest sampling semantics.
+[x] 25.2 Draw adjustable circular dots and separated rectangular cell outlines.
+[x] 25.3 Qualify actual pixels, preserved motion, defaults and bounded cadence.
+[x] 25.4 Update guide/book/ledger and sole issue/Project tracking pair.
+
+Acceptance criteria:
+Increasing density visibly adds dots/cells; gap changes spacing independently.
+Original Claire and FaceMesh remain unchanged; FaceMesh retains mesh detail.
+Dots/grid move with the face, remain occluded and do not create a solid surface.
+No extra mesh/model/storage allocation per frame or unbounded geometry.
+
+Completion evidence:
+hair-controls-browser-05: sparse/dense isolated colored components799->4976
+for dots and616->3797for grid. Gap0->80% reduces covered pixels53588->4310
+and55003->8859. Zero new buffers on controls, same audio/time, per-view restore,
+reload defaults pass. Native06 qualifies density3/gap80% at480x600:
+both means16.659ms, max16.9ms,0normalupdates; actual native view images reviewed.
+New surface-sampled dots supersede fixed native-vertex points in FaceDot.
+Density changes count per surface area; gaps are fractions of a pattern cell,
+not independent anatomical distance or new quad retopology.
+
+Completion log:
+2026-11-19 - Owner requests dot/polygon number and spacing options.
+2026-11-19 - Added bounded per-view density/gaps without increasing neural or
+geometric topology; qualified pixels, playback and maximum native density.

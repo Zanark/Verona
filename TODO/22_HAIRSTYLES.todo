@@ -1,0 +1,38 @@
+ID: vr-22
+Title: Preserved Claire waves and ten selectable procedural hairstyles
+
+Status: DONE
+Milestone: Eleven actual geometry choices without replacing Claire motion.
+Dependencies: vr-20, vr-21
+GitHub issue: https://github.com/Zanark/Verona/issues/21
+
+Purpose:
+Owner requests at least ten unique hair options, performance first. Preserve
+original waves; generate only the selected alternative locally without assets.
+
+Tasks:
+[x] 22.1 Build bounded deterministic caps, swept locks, curls, tails, buns/braid.
+[x] 22.2 Expose a Claire-only selector; retain original/default and hair toggle.
+[x] 22.3 Replace/delete only selected GPU hair/crop buffers; preserve speech.
+[x] 22.4 Test actual distinct geometry/pixels, crop/restore, errors and cadence.
+[x] 22.5 Update book/guide/ledger, issue/Project and verified source milestone.
+
+Acceptance criteria:
+Original plus ten genuinely distinct geometric hairstyles, not color presets.
+No per-frame construction, extra model/download, speech reload or unbounded cache.
+Jaw crop applies to all hair; Full bust reveals longer styles. Hair-free
+presentations retain Claire's choice. Errors surface; original restores exactly.
+
+Completion evidence:
+Baseline2bf9dba; no Verona runtime before edits. Focused geometry/pose/crop and
+36Python checks pass. hair-controls-browser-05:28checks/18modes,22distinct
+front/turned style images, exact original pixel restoration, peak14 new live
+GPU buffers/final0; original plus selected only. Final native06:15checks,
+curls/head-follow1801intervals, p9516.8/max17.3ms/zero>25ms.
+Actual front/turned galleries and native curls/bun/twins inspected. Synthetic
+fixtures/disposable profiles only; shared CPU/GPU, muted not human acceptance.
+
+Completion log:
+2026-11-19 - Owner requests at least ten unique hairstyle options.
+2026-11-19 - Implemented original-plus-ten; reduced curls after budget failure,
+corrected long-hair fit/rear ponytail from actual images; qualified final slice.

@@ -10,7 +10,7 @@ try {
     foreach ($point in @(@(4,4),@(($Width-5),4),@(4,($Height-5)),@(($Width-5),($Height-5)))) {
         $color = $bitmap.GetPixel($point[0], $point[1])
         if ($color.R -ne 37 -or $color.G -ne 103 -or $color.B -ne 71) {
-            throw 'Native transparent corner did not reveal the owned background fixture; screenshot not saved.'
+            throw "Native transparent corner $($point[0]),$($point[1]) was RGB $($color.R),$($color.G),$($color.B), not the owned background fixture; screenshot not saved."
         }
     }
     $bitmap.Save($Output, [System.Drawing.Imaging.ImageFormat]::Png)

@@ -236,6 +236,48 @@ try {
     assert.equal(r.dotDefault,"1.7");assert.equal(r.restored,"6");assert.equal(r.dotRestored,"3");
     assert(r.sameSource && r.sameTime && r.hidden);
   });
+  await check("Eleven real hairstyles render distinct pixels, crop safely and restore original hair without retained GPU growth", async () => {
+    const data=await evaluate(`(() => {
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2"),a=$("audio");
+      const change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event("input"));};
+      const saved={appearance:$("appearance").value,edges:$("edges").checked};
+      change("framing","full");$("edges").checked=false;change("appearance","shaded");
+      const pixels=()=>{const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
+      const baseline=pixels(),source=a.src,time=a.currentTime,create=g.createBuffer,remove=g.deleteBuffer,live=new Set();
+      let created=0,deleted=0,peak=0;
+      g.createBuffer=function(){const b=create.call(this);live.add(b);created++;peak=Math.max(peak,live.size);return b;};
+      g.deleteBuffer=function(b){live.delete(b);deleted++;return remove.call(this,b);};
+      const styles=Array.from($("hairstyle").options,o=>({id:o.value,name:o.textContent})),results=[],images=[];
+      for(const yaw of [0,.8]){
+        const gallery=document.createElement("canvas");gallery.width=1200;gallery.height=900;const ctx=gallery.getContext("2d");
+        ctx.fillStyle="#101821";ctx.fillRect(0,0,1200,900);
+        for(let i=0;i<styles.length;i++){
+          const style=styles[i];change("hairstyle",style.id);change("yaw",String(yaw));
+          const p=pixels();let hash=2166136261;for(let j=0;j<p.length;j++)hash=Math.imul(hash^p[j],16777619)>>>0;
+          ctx.drawImage(c,i%4*300,Math.floor(i/4)*300,300,270);
+          ctx.fillStyle="white";ctx.font="15px sans-serif";ctx.fillText(style.name,i%4*300+8,Math.floor(i/4)*300+290);
+          change("framing","head-neck");change("neck-depth","0");change("neck-depth","6");
+          results.push({id:style.id,yaw,pixelHash:hash,error:g.getError()});change("neck-depth","1.7");change("framing","full");
+        }
+        images.push(gallery.toDataURL("image/png"));
+      }
+      change("hairstyle","claire");change("yaw","0");const restored=pixels();let difference=0;
+      for(let i=0;i<baseline.length;i++)if(baseline[i]!==restored[i])difference++;
+      g.createBuffer=create;g.deleteBuffer=remove;
+      const remaining=live.size;
+      change("hairstyle","bob");change("presentation","facedot");
+      const hidden=$("hairstyle").closest("label").hidden;change("presentation","claire");
+      const retained=$("hairstyle").value;change("hairstyle","claire");
+      $("edges").checked=saved.edges;change("appearance",saved.appearance);
+      return {styles,results,created,deleted,peak,remaining,difference,hidden,retained,sameSource:a.src===source,sameTime:a.currentTime===time,images};
+    })()`);
+    const {images,...receipt}=data;report.hairstyles=receipt;
+    for(let i=0;i<images.length;i++)await fs.writeFile(path.join(output,`hairstyles-${i?"turned":"front"}.png`),Buffer.from(images[i].split(",")[1],"base64"));
+    assert(data.styles.length>=11);assert(data.results.every(r=>r.error===0));
+    for(const yaw of [0,.8])assert(new Set(data.results.filter(r=>r.yaw===yaw).map(r=>r.pixelHash)).size>=11);
+    assert.equal(data.remaining,0);assert(data.peak<=14,JSON.stringify(receipt));assert.equal(data.difference,0);
+    assert(data.hidden && data.retained==="bob" && data.sameSource && data.sameTime);
+  });
   await check("Presentation views preserve Claire, occlude dots, bound detail buffers and keep the same clip", async () => {
     await evaluate(`(() => {
       const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
@@ -273,7 +315,7 @@ try {
         assert(data.calls[0].count<30746*3);
       } else if (id==="facedot") {
         assert.equal(data.framing,"head-neck");
-        assert(data.calls.filter(c=>c.colored).every(c=>c.mode===0));
+        assert(data.calls.filter(c=>c.colored).every(c=>c.mode===4));
         assert(data.calls.some(c=>!c.colored && c.mode===4));
       }
       report.presentations.push(data);
@@ -310,6 +352,48 @@ try {
     assert.equal(report.meshDetail.hair,true);
     assert.equal(report.meshDetail.edges,true);
     assert.equal(report.meshDetail.framing,"full");
+  });
+  await check("Dot/cell density increases isolated patterns; gaps reduce coverage without geometry or speech allocation", async () => {
+    report.patterns = await evaluate(`(() => {
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2"),source=$("audio").src,time=$("audio").currentTime;
+      const set=(id,value)=>{$(id).value=String(value);$(id).dispatchEvent(new Event("input"));};
+      const create=g.createBuffer;let allocations=0;g.createBuffer=function(){allocations++;return create.call(this);};
+      const read=()=>{
+        const p=new Uint8Array(c.width*c.height*4),mask=new Uint8Array(c.width*c.height),queue=new Int32Array(mask.length);
+        g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);let colored=0,components=0;
+        for(let i=0;i<mask.length;i++)if(p[i*4+1]>40 && p[i*4+1]>p[i*4]*1.3){mask[i]=1;colored++;}
+        for(let i=0;i<mask.length;i++)if(mask[i]){
+          components++;let start=0,end=1;queue[0]=i;mask[i]=0;
+          while(start<end){const n=queue[start++],x=n%c.width;
+            for(const q of [x?n-1:-1,x+1<c.width?n+1:-1,n-c.width,n+c.width])
+              if(q>=0&&q<mask.length&&mask[q]){mask[q]=0;queue[end++]=q;}}
+        }
+        return {colored,components,error:g.getError()};
+      };
+      const results=[];
+      for(const view of ["facedot","uniform"]){
+        set("presentation",view);const baselineAllocations=allocations;
+        set("pattern-gap",.6);set("pattern-density",.5);const sparse=read();
+        set("pattern-density",1.5);const dense=read();
+        set("pattern-density",1);set("pattern-gap",0);const close=read();
+        set("pattern-gap",.8);const spaced=read();
+        results.push({view,sparse,dense,close,spaced,allocations:allocations-baselineAllocations});
+      }
+      set("presentation","facedot");const retained=[$("pattern-density").value,$("pattern-gap").value];
+      set("pattern-density",1);set("pattern-gap",.6);
+      set("presentation","uniform");set("pattern-density",1);set("pattern-gap",0);
+      set("presentation","claire");g.createBuffer=create;
+      return {results,retained,sourceUnchanged:$("audio").src===source,timeUnchanged:$("audio").currentTime===time,
+        hidden:$("pattern-density-control").hidden && $("pattern-gap-control").hidden};
+    })()`);
+    for (const data of report.patterns.results) {
+      assert(data.dense.components>data.sparse.components*1.5,JSON.stringify(data));
+      assert(data.spaced.colored<data.close.colored,JSON.stringify(data));
+      assert.equal(data.allocations,0);
+      for(const key of ["sparse","dense","close","spaced"])assert.equal(data[key].error,0);
+    }
+    assert.deepEqual(report.patterns.retained,["1","0.8"]);
+    assert(report.patterns.sourceUnchanged && report.patterns.timeUnchanged && report.patterns.hidden);
   });
   report.firstClientReadySeconds = await evaluate(`Number(document.getElementById("details").dataset.readySeconds)`);
   await check("Framing during playback preserves speech and excludes hidden animated normals", async () => {
@@ -367,6 +451,36 @@ try {
     await delay(1100);
     assert.equal(await evaluate(`document.getElementById("audio").src`),before);
     report.cursorGaze=gaze;
+  });
+  await check("Head tracking keeps irises centered, turns in both directions, preserves manual XYZ and settles when disabled", async () => {
+    const before=await evaluate(`({source:document.getElementById("audio").src,time:document.getElementById("audio").currentTime})`);
+    const manual=await evaluate(`(() => {const $=id=>document.getElementById(id);
+      $("cursor-mode").value="head";$("cursor-mode").dispatchEvent(new Event("input"));
+      $("tilt").value=".12";$("yaw").value=".2";$("roll").value="-.1";
+      $("follow-eyes").checked=true;$("follow-eyes").dispatchEvent(new Event("input"));
+      window.dispatchEvent(new MouseEvent("mousemove",{clientX:innerWidth+200,clientY:-200}));
+      return ["tilt","yaw","roll"].map(id=>Number($(id).value));})()`);
+    await delay(1100);
+    const read=`(() => {const $=id=>document.getElementById(id);return {head:$("face").dataset.headAngles.split(",").map(Number),
+      gaze:$("face").dataset.gaze.split(",").map(Number),manual:["tilt","yaw","roll"].map(id=>Number($(id).value)),
+      source:$("audio").src,time:$("audio").currentTime,error:$("face").getContext("webgl2").getError()};})()`;
+    const right=await evaluate(read);assert(right.head[0]<0 && right.head[1]>0);
+    assert.deepEqual(right.gaze,[0,0]);assert.deepEqual(right.manual,manual);assert.equal(right.error,0);
+    await evaluate(`window.dispatchEvent(new MouseEvent("mousemove",{clientX:-500,clientY:innerHeight+500}));`);
+    await delay(1100);const left=await evaluate(read);assert(left.head[0]>0 && left.head[1]<0);assert.deepEqual(left.gaze,[0,0]);
+    await evaluate(`document.documentElement.dispatchEvent(new MouseEvent("mouseleave"));`);
+    await delay(1100);const lost=await evaluate(read);assert.deepEqual(lost.head,[0,0]);
+    await evaluate(`document.getElementById("cursor-mode").value="eyes";document.getElementById("cursor-mode").dispatchEvent(new Event("input"));
+      window.dispatchEvent(new MouseEvent("mousemove",{clientX:innerWidth+200,clientY:-200}));`);
+    await delay(1100);const eyes=await evaluate(read);assert.deepEqual(eyes.head,[0,0]);assert(eyes.gaze.some(v=>Math.abs(v)>.01));
+    await evaluate(`document.getElementById("cursor-mode").value="head";document.getElementById("cursor-mode").dispatchEvent(new Event("input"));`);
+    await delay(900);
+    await evaluate(`document.getElementById("follow-eyes").checked=false;document.getElementById("follow-eyes").dispatchEvent(new Event("input"));`);
+    await delay(1100);const off=await evaluate(read);assert.deepEqual(off.head,[0,0]);assert.deepEqual(off.gaze,[0,0]);
+    assert.equal(off.source,before.source);assert.equal(off.time,before.time);
+    report.headTracking={right,left,lost,eyes,off};
+    await evaluate(`document.getElementById("cursor-mode").value="eyes";document.getElementById("cursor-mode").dispatchEvent(new Event("input"));
+      document.getElementById("reset-view").click();`);
   });
   await check("Actual text synthesis, complete motion and browser WAV decode", async () => {
     const data = await evaluate(`({duration:document.getElementById("audio").duration,
@@ -666,6 +780,9 @@ try {
     await screenshot("06-mobile");
   });
   await check("Reload clears media and preserves only the capability URL", async () => {
+    await evaluate(`for(const [id,value] of Object.entries({hairstyle:"bob","cursor-mode":"head",presentation:"facedot",
+      "pattern-density":"2","pattern-gap":".8",zoom:"1.5"})){
+      document.getElementById(id).value=value;document.getElementById(id).dispatchEvent(new Event("input"));}`);
     await evaluate(`document.getElementById("appearance").value="shaded";document.getElementById("edges").checked=false;
       document.getElementById("framing").value="head-neck";
       document.getElementById("framing").dispatchEvent(new Event("input"));
@@ -678,6 +795,12 @@ try {
     assert.equal(await evaluate(`document.getElementById("edges").checked`), true);
     assert.equal(await evaluate(`document.getElementById("framing").value`), "full");
     assert.equal(await evaluate(`document.getElementById("presentation").value`), "claire");
+    assert.equal(await evaluate(`document.getElementById("hairstyle").value`), "claire");
+    assert.equal(await evaluate(`document.getElementById("cursor-mode").value`), "eyes");
+    assert.equal(await evaluate(`document.getElementById("zoom").value`), "1");
+    await evaluate(`document.getElementById("presentation").value="facedot";document.getElementById("presentation").dispatchEvent(new Event("input"));`);
+    assert.deepEqual(await evaluate(`["pattern-density","pattern-gap"].map(id=>document.getElementById(id).value)`),["1","0.6"]);
+    await evaluate(`document.getElementById("presentation").value="claire";document.getElementById("presentation").dispatchEvent(new Event("input"));`);
   });
   assert.deepEqual(exceptions, []);
   assert.deepEqual(external, []);

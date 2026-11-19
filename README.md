@@ -11,12 +11,17 @@ Windows voices, CPU neural motion, connected native contours. No camera, microph
 ```
 
 **Generate face**, **Play**, then **Pop out transparent head**.
-Hover its top-left corner for **Move**, **Controls** or **Close**.
-Eyes follow your cursor; X/Y/Z sliders rotate the head freely.
+Click the tiny glass **...** tab above the head for **Drag to move** and
+**- / + / Fit** zoom controls. It starts collapsed; Escape collapses it again.
+**Cursor mode** chooses moving eyes or a turning head with centered eyes.
+**Follow cursor** enables either mode; X/Y/Z remain manual orientation offsets.
 The browser version remains `.\Verona.cmd`.
 **View → Claire** preserves the current head and speech motion.
 Choose **Claire material → Reference color + makeup** for olive skin, hazel-green eyes,
 rosewood lips and espresso waves. **Transparent polygons** remains the default.
+**Hairstyle** offers the original Claire waves plus ten geometric alternatives:
+pixie, bob, asymmetric bob, sleek layers, curls, ponytail, twin tails, top bun,
+space buns and braided crown. Use Full bust for long styles; hair remains optional.
 Fresh checkout? [Setup and controls](docs/prototype-guide.md).
 [Current source prerelease](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.2).
 
@@ -54,6 +59,11 @@ The **View** selector adds presentations without regenerating or restarting spee
 | **FaceMesh** | Front face only: triangular wireframe, no ears/neck/hair; **Mesh detail 1-5**, default 5 |
 | **FaceDot** | Visible-surface dots, including ears/eyes/neck; no visible polygons, lines or hair |
 | **UniformPolygons** | Surface-anchored rectangular grid, including ears/eyes/neck; no hair |
+
+FaceDot and UniformPolygons expose **Pattern density** (0.5x-3x) and **Cell gap**
+(0-80%). Density changes the number of dots/cells; gap separates their visible
+marks without changing the speech mesh. Each view remembers its own settings
+until reload. These are surface patterns, not extra model vertices or quad faces.
 
 Dot/grid views start at Head and neck; Full bust remains available.
 **Head and neck → Visible neck** previews a jaw-following cut live:

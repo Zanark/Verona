@@ -268,7 +268,59 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-22": {
+      "source": "TODO/22_HAIRSTYLES.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgv0n3Q",
+      "number": 21,
+      "url": "https://github.com/Zanark/Verona/issues/21",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKMd5A",
+      "title": "Preserved Claire waves and ten selectable procedural hairstyles",
+      "managedBody": "\n<!-- verona-workstream:vr-22 -->\nWorkstream source: `TODO/22_HAIRSTYLES.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-22\nTitle: Preserved Claire waves and ten selectable procedural hairstyles\n\nStatus: DONE\nMilestone: Eleven actual geometry choices without replacing Claire motion.\nDependencies: vr-20, vr-21\n\nPurpose:\nOwner requests at least ten unique hair options, performance first. Preserve\noriginal waves; generate only the selected alternative locally without assets.\n\nTasks:\n[x] 22.1 Build bounded deterministic caps, swept locks, curls, tails, buns/braid.\n[x] 22.2 Expose a Claire-only selector; retain original/default and hair toggle.\n[x] 22.3 Replace/delete only selected GPU hair/crop buffers; preserve speech.\n[x] 22.4 Test actual distinct geometry/pixels, crop/restore, errors and cadence.\n[x] 22.5 Update book/guide/ledger, issue/Project and verified source milestone.\n\nAcceptance criteria:\nOriginal plus ten genuinely distinct geometric hairstyles, not color presets.\nNo per-frame construction, extra model/download, speech reload or unbounded cache.\nJaw crop applies to all hair; Full bust reveals longer styles. Hair-free\npresentations retain Claire's choice. Errors surface; original restores exactly.\n\nCompletion evidence:\nBaseline2bf9dba; no Verona runtime before edits. Focused geometry/pose/crop and\n36Python checks pass. hair-controls-browser-05:28checks/18modes,22distinct\nfront/turned style images, exact original pixel restoration, peak14 new live\nGPU buffers/final0; original plus selected only. Final native06:15checks,\ncurls/head-follow1801intervals, p9516.8/max17.3ms/zero>25ms.\nActual front/turned galleries and native curls/bun/twins inspected. Synthetic\nfixtures/disposable profiles only; shared CPU/GPU, muted not human acceptance.\n\nCompletion log:\n2026-11-19 - Owner requests at least ten unique hairstyle options.\n2026-11-19 - Implemented original-plus-ten; reduced curls after budget failure,\ncorrected long-hair fit/rear ponytail from actual images; qualified final slice.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
+    },
+    "vr-23": {
+      "source": "TODO/23_CURSOR_MODES.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgv0srA",
+      "number": 22,
+      "url": "https://github.com/Zanark/Verona/issues/22",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKMd88",
+      "title": "Cursor-following irises or rigid head with centered eyes",
+      "managedBody": "\n<!-- verona-workstream:vr-23 -->\nWorkstream source: `TODO/23_CURSOR_MODES.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-23\nTitle: Cursor-following irises or rigid head with centered eyes\n\nStatus: DONE\nMilestone: Two exclusive tracking modes over one speech/renderer owner.\nDependencies: vr-13, vr-20, vr-21\n\nPurpose:\nOwner requests existing eyes-only cursor following and a second mode with\nstationary irises while the entire head turns toward the cursor.\n\nTasks:\n[x] 23.1 Add bounded head aiming and eye-midpoint-preserving rigid pose math.\n[x] 23.2 Expose two modes plus existing tracking on/off, retain manual XYZ.\n[x] 23.3 Reuse desktop cursor IPC/browser pointer and one settling RAF loop.\n[x] 23.4 Verify signs, centered irises, pivot, audio, modes/disable and overlay.\n[x] 23.5 Update book/guide/ledger, issue/Project and verified source milestone.\n\nAcceptance criteria:\nEyes-only preserves manual head orientation; head-follow centers irises exactly.\nHead yaw/pitch are bounded and smoothed; no cumulative drift or cursor capture/\nwarping/history. Manual XYZ stays an offset. Disable/loss returns neutral;\nreload restores original defaults. No speech regeneration/seek or second loop.\n\nCompletion evidence:\nhair-controls-browser-05: both signs/bounds, exact centered irises, preserved\nmanual XYZ/audio, pointer loss/mode/disable neutral and reload defaults pass.\nhair-controls-native-06: actual external-cursor head tracking, inspected head/\nhair images, no crown clipping at default tracked settings;1801intervals,\np9516.8/max17.3ms. Shared renderer/RAF and existing native sampling reused.\nProcedural screen-space aiming is not measured 3D gaze, joints or perfect aim\nunder arbitrary manual rotations. Technical qualification is not owner approval.\n\nCompletion log:\n2026-11-19 - Owner requests both eyes-only and head-follow tracking modes.\n2026-11-19 - Fixed post-step neutral snap and reserved fixed tracked fit margin;\nqualified browser/native without moving the system cursor.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
+    },
+    "vr-24": {
+      "source": "TODO/24_OVERLAY_PLACEMENT_ZOOM.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgwfgtA",
+      "number": 23,
+      "url": "https://github.com/Zanark/Verona/issues/23",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKNI6I",
+      "title": "Discoverable floating-head placement and direct zoom controls",
+      "managedBody": "\n<!-- verona-workstream:vr-24 -->\nWorkstream source: `TODO/24_OVERLAY_PLACEMENT_ZOOM.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-24\nTitle: Discoverable floating-head placement and direct zoom controls\n\nStatus: DONE\nMilestone: Move and scale the overlay without returning to the main controls.\nDependencies: vr-13, vr-23\n\nPurpose:\nOwner asks to move the floating head around the desktop and zoom the model.\n\nTasks:\n[x] 24.1 Expose a clear native drag handle and direct bounded zoom/reset.\n[x] 24.2 Retain moved overlay placement in RAM across Controls/pop-out.\n[x] 24.3 Qualify actual native placement, zoom, audio and accessible controls.\n[x] 24.4 Update guide/book/ledger and sole issue/Project tracking pair.\n[x] 24.5 Default to a tiny centered collapsed glass tab above projected head.\n\nAcceptance criteria:\nDrag region moves the native window; direct zoom changes the same model only.\nBounds/zoom survive mode switching, reset/restart semantics are explicit.\nNo new filesystem bridge, profile, global cursor warp or speech regeneration.\n\nCompletion evidence:\nhair-controls-native-06:15checks. Tab34x20 starts collapsed, ARIA state,\nexpand/Escape/outside collapse and blur style pass. Actual default/expanded/\ntracked captures inspected. Native placement roundtrips after fixture-owned\nwindow movement; OS drag-region verified, not a physical pointer-drag test.\nZoom0.35/1/1.2/2.3 changes actual covered pixels, clamps/disables/resets and\npreserves source/time. RAM-only native placement survives Controls/pop-out.\nFinal curls/bun/twins tab clearance14.8/15.4/15px; no clipped crown.\nBrowser05 regression28checks/18modes; native overlay-only support-fit refinement\nqualified in Native06. All owned processes/profiles stopped/removed.\n\nCompletion log:\n2026-11-19 - Owner requests floating placement and model zoom.\n2026-11-19 - Owner requests tiny centered collapsed glass. Added sampled-support\nanchor and overlay headroom after actual images exposed overlap/excessive gap.\nKept failed receipts; no OS acrylic promise or new native bridge.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
+    },
+    "vr-25": {
+      "source": "TODO/25_PATTERN_DENSITY_SPACING.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgwfoLQ",
+      "number": 24,
+      "url": "https://github.com/Zanark/Verona/issues/24",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKNJBY",
+      "title": "Adjustable FaceDot and UniformPolygons density and gaps",
+      "managedBody": "\n<!-- verona-workstream:vr-25 -->\nWorkstream source: `TODO/25_PATTERN_DENSITY_SPACING.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-25\nTitle: Adjustable FaceDot and UniformPolygons density and gaps\n\nStatus: DONE\nMilestone: More or fewer surface dots/cells with independent visible gaps.\nDependencies: vr-20\n\nPurpose:\nOwner requests control over the number and spacing of dots and polygons.\nUse bounded surface-pattern uniforms instead of increasing neural topology.\n\nTasks:\n[x] 25.1 Add per-view density and gap controls with honest sampling semantics.\n[x] 25.2 Draw adjustable circular dots and separated rectangular cell outlines.\n[x] 25.3 Qualify actual pixels, preserved motion, defaults and bounded cadence.\n[x] 25.4 Update guide/book/ledger and sole issue/Project tracking pair.\n\nAcceptance criteria:\nIncreasing density visibly adds dots/cells; gap changes spacing independently.\nOriginal Claire and FaceMesh remain unchanged; FaceMesh retains mesh detail.\nDots/grid move with the face, remain occluded and do not create a solid surface.\nNo extra mesh/model/storage allocation per frame or unbounded geometry.\n\nCompletion evidence:\nhair-controls-browser-05: sparse/dense isolated colored components799->4976\nfor dots and616->3797for grid. Gap0->80% reduces covered pixels53588->4310\nand55003->8859. Zero new buffers on controls, same audio/time, per-view restore,\nreload defaults pass. Native06 qualifies density3/gap80% at480x600:\nboth means16.659ms, max16.9ms,0normalupdates; actual native view images reviewed.\nNew surface-sampled dots supersede fixed native-vertex points in FaceDot.\nDensity changes count per surface area; gaps are fractions of a pattern cell,\nnot independent anatomical distance or new quad retopology.\n\nCompletion log:\n2026-11-19 - Owner requests dot/polygon number and spacing options.\n2026-11-19 - Added bounded per-view density/gaps without increasing neural or\ngeometric topology; qualified pixels, playback and maximum native density.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-19T14:52:54.061130+00:00"
+  "verifiedAt": "2026-11-19T15:42:55.402490+00:00"
 }

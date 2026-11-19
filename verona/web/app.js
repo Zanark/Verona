@@ -1,6 +1,7 @@
-import { rotationMatrix, cursorGaze } from "/orientation.mjs";
+import { rotationMatrix, cursorGaze, cursorHeadAngles, trackedHeadPose } from "/orientation.mjs";
 import { JAW_CROP, trimJawTopology } from "/framing.mjs";
 import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presentationFit } from "/presentations.mjs";
+import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -82,11 +83,11 @@ class FaceRenderer {
       uniform mat3 rotation;
       uniform vec3 center;
       uniform float scale, viewScale;
-      uniform vec3 viewCenter;
+      uniform vec3 viewCenter, rotationOffset;
       out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
-        p = rotation * ((p - viewCenter) * viewScale);
+        p = rotation * ((p - viewCenter) * viewScale) + rotationOffset;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
         gl_PointSize = pointSize;
         viewNormal = rotation * mix(normalA, normalB, blend);
@@ -97,7 +98,7 @@ class FaceRenderer {
       uniform vec3 color;
       uniform bool points, polygonView;
       uniform float neckDepth;
-      uniform vec2 gaze;
+      uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
@@ -111,10 +112,21 @@ class FaceRenderer {
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
           float alpha = 0.92;
-          if (presentationStyle == 3) {
-            vec2 grid = vec2(atan(rest.x, rest.z + 4.0) * 12.0, rest.y * 2.7);
+          if (presentationStyle >= 2) {
+            vec2 grid = vec2(atan(rest.x, rest.z + 4.0) * 12.0, rest.y * 2.7) * patternSettings.x;
             vec2 distanceToLine = abs(fract(grid - 0.5) - 0.5) / max(fwidth(grid), vec2(0.0001));
-            alpha *= 1.0 - smoothstep(0.35, 1.1, min(distanceToLine.x, distanceToLine.y));
+            if (presentationStyle == 2) {
+              float radius = (1.0 - patternSettings.y) * 0.36;
+              float edge = length(fract(grid) - 0.5) - radius;
+              float aa = max(fwidth(edge), 0.0001);
+              alpha *= 1.0 - smoothstep(-aa * 0.5, aa * 0.5, edge);
+            } else if (patternSettings.y > 0.0) {
+              vec2 cell = abs(fract(grid) - 0.5), border = vec2(0.5 - patternSettings.y * 0.5);
+              vec2 distanceToBorder = abs(cell - border) / max(fwidth(grid), vec2(0.0001));
+              float inside = 1.0 - smoothstep(-0.5, 0.5, max((cell.x-border.x)/max(fwidth(grid.x),0.0001),
+                (cell.y-border.y)/max(fwidth(grid.y),0.0001)));
+              alpha *= inside * (1.0 - smoothstep(0.35,1.1,min(distanceToBorder.x,distanceToBorder.y)));
+            } else alpha *= 1.0 - smoothstep(0.35, 1.1, min(distanceToLine.x, distanceToLine.y));
             if (alpha < 0.01) discard;
           }
           vec3 ink = color;
@@ -252,7 +264,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "gaze", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "neckDepth", "presentationStyle", "viewCenter", "viewScale"]
+      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "neckDepth", "presentationStyle", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -286,6 +298,8 @@ class FaceRenderer {
     this.hairTriangles = new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3);
     this.hair.normals = this.buffer(gl.ARRAY_BUFFER,surfaceNormals(hairData,
       new Uint32Array(binary,hair.triangleOffset,hair.triangles*3)));
+    this.originalHair = { surface: this.hair, positions: this.hairData, edges: this.hairEdges, triangles: this.hairTriangles };
+    this.hairStyle = "claire";
     const eyes = meta.eyes;
     const eyeData = new Int16Array(binary,eyes.positionOffset,eyes.vertices*3);
     this.eyes = {
@@ -305,6 +319,8 @@ class FaceRenderer {
     this.skin = this.fullSkin;
     this.activeHair = this.hair;
     this.gaze = [0, 0];
+    this.headAngles = [0, 0];
+    this.patterns = { facedot: [1, .6], uniform: [1, 0] };
     this.lastDraw = performance.now();
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
@@ -330,31 +346,66 @@ class FaceRenderer {
     if (value !== "full" && value !== "head-neck") throw new Error("Choose a supported face framing.");
     const headOnly = value === "head-neck";
     if (headOnly && this.neck?.depth !== depth) {
-      const skin = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, depth);
-      const hair = trimJawTopology(this.hairData, this.hairEdges, this.hairTriangles, this.meta, depth);
-      const upload = (surface) => ({
-        triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, surface.triangles),
-        edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, surface.edges),
-        triangleCount: surface.triangles.length / 3, edgeCount: surface.edges.length / 2,
-      });
-      const next = {
-        depth,
-        skin: { ...upload(skin), triangleData: skin.triangles, vertices: skin.vertices,
-          points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) },
-        hair: { ...this.hair, ...upload(hair) },
-      };
-      if (this.neck) {
-        for (const surface of [this.neck.skin, this.neck.hair]) {
-          for (const name of ["triangles", "edges"]) this.gl.deleteBuffer(surface[name]);
-        }
-        this.gl.deleteBuffer(this.neck.skin.points);
-      }
+      const next = this.createNeck(depth, this.hairData, this.hairEdges, this.hairTriangles, this.hair);
+      this.deleteNeck();
       this.neck = next;
     }
     this.headOnly = headOnly;
     this.skin = headOnly ? this.neck.skin : this.fullSkin;
     this.activeHair = headOnly ? this.neck.hair : this.hair;
     for (const slot of this.normalSlots) slot.frame = -1;
+    this.updateFit();
+  }
+
+  createNeck(depth, positions, edges, triangles, surface) {
+    const skin = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, depth);
+    const hair = trimJawTopology(positions, edges, triangles, this.meta, depth);
+    const upload = data => ({
+      triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.triangles),
+      edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.edges),
+      triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
+    });
+    return { depth, skin: { ...upload(skin), triangleData: skin.triangles, vertices: skin.vertices,
+      points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) }, hair: { ...surface, ...upload(hair), vertices: hair.vertices } };
+  }
+
+  deleteNeck() {
+    if (!this.neck) return;
+    for (const surface of [this.neck.skin, this.neck.hair]) {
+      for (const name of ["triangles", "edges"]) this.gl.deleteBuffer(surface[name]);
+    }
+    this.gl.deleteBuffer(this.neck.skin.points);
+    this.neck = null;
+  }
+
+  setHairStyle(id) {
+    hairstyle(id);
+    if (this.view.style !== 0) throw new Error("Hairstyles are available in Claire.");
+    if (id === this.hairStyle) return;
+    const data = id === "claire" ? this.originalHair : createHairstyle(id, this.meta);
+    const surface = id === "claire" ? data.surface : {
+      positions: this.buffer(this.gl.ARRAY_BUFFER, data.positions),
+      normals: this.buffer(this.gl.ARRAY_BUFFER, surfaceNormals(data.positions, data.triangles)),
+      triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.triangles),
+      edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.edges),
+      triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
+    };
+    let nextNeck;
+    try { nextNeck = this.headOnly ? this.createNeck(this.neck.depth, data.positions, data.edges, data.triangles, surface) : null; }
+    catch (error) {
+      if (id !== "claire") for (const name of ["positions", "normals", "triangles", "edges"]) this.gl.deleteBuffer(surface[name]);
+      throw error;
+    }
+    this.deleteNeck();
+    if (this.hair !== this.originalHair.surface) {
+      for (const name of ["positions", "normals", "triangles", "edges"]) this.gl.deleteBuffer(this.hair[name]);
+    }
+    this.hair = surface; this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
+    this.hairStyle = id; this.neck = nextNeck;
+    this.activeHair = this.headOnly ? nextNeck.hair : surface;
+    if (this.headOnly) this.skin = nextNeck.skin;
+    for (const slot of this.normalSlots) slot.frame = -1;
+    this.geometryKey = null;
     this.updateFit();
   }
 
@@ -365,7 +416,7 @@ class FaceRenderer {
   }
 
   updateFit() {
-    if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: 1 };
+    if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: hairstyle(this.hairStyle).fit };
     else if (this.view.style === 1) this.fit = this.frontFit;
     else {
       this.allVertices ||= Uint32Array.from({ length: this.meta.vertices }, (_, i) => i);
@@ -435,18 +486,11 @@ class FaceRenderer {
     gl.enable(gl.BLEND);
     gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     gl.uniform1i(u.pass, 1);
-    gl.uniform1i(u.points, style === 2);
+    gl.uniform1i(u.points, 0);
     gl.uniform1f(u.pointSize, 1.9 * ratio);
     gl.uniform3f(u.color, 0.30, 0.91, 0.86);
     const surface = (skinSurface) => {
-      if (style === 2) {
-        if (skinSurface) {
-          if (skin.points) {
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skin.points);
-            gl.drawElements(gl.POINTS, skin.vertices.length, gl.UNSIGNED_INT, 0);
-          } else gl.drawArrays(gl.POINTS, 0, this.meta.vertices);
-        } else gl.drawArrays(gl.POINTS, 0, this.meta.eyes.vertices);
-      } else if (style === 1) {
+      if (style === 1) {
         if (!skinSurface && !this.eyes.edges) {
           const edges = topologyEdges(this.eyeTriangles);
           this.eyes.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, edges);
@@ -524,6 +568,51 @@ class FaceRenderer {
     gl.uniform1f(this.uniforms.blend,0);
   }
 
+  placeOverlayTools(pose, fitScale, zoom, rect) {
+    if (!desktop || !document.documentElement.classList.contains("overlay")) return;
+    const showHair = this.view.style === 0 && $("hair").checked;
+    const key = [this.skin, showHair ? this.hairData : null];
+    if (!this.overlayBoundsKey || key.some((value, i) => value !== this.overlayBoundsKey[i])) {
+      const supports = [];
+      for (let x = -2; x <= 2; x++) for (let y = -2; y <= 2; y++) for (let z = -2; z <= 2; z++) {
+        if (Math.max(Math.abs(x), Math.abs(y), Math.abs(z)) === 2) supports.push({ direction: [x,y,z], dot: -Infinity });
+      }
+      const include = (data, vertices) => {
+        const count = vertices?.length ?? data.length / 3;
+        for (let n = 0; n < count; n++) {
+          const index = (vertices ? vertices[n] : n)*3;
+          const x = data[index], y = data[index+1], z = data[index+2];
+          for (const support of supports) {
+            const d = support.direction, dot = d[0]*x + d[1]*y + d[2]*z;
+            if (dot > support.dot) { support.dot = dot; support.index = index; support.data = data; }
+          }
+        }
+      };
+      include(this.neutralData, this.skin.vertices);
+      if (showHair) include(this.hairData, this.activeHair.vertices);
+      const unique = new Map();
+      for (const support of supports) {
+        const point = [0,1,2].map(axis => support.data[support.index+axis] / this.meta.quantization);
+        unique.set(point.join(","), point);
+      }
+      this.overlayAnchorPoints = [...unique.values()]; this.overlayBoundsKey = key;
+    }
+    let top = Infinity, left = Infinity, right = -Infinity;
+    for (const point of this.overlayAnchorPoints) {
+      const p = this.fit.center.map((value, axis) => (point[axis] - value)*fitScale);
+      const x = pose.rotation[0]*p[0] + pose.rotation[3]*p[1] + pose.rotation[6]*p[2] + pose.offset[0];
+      const y = pose.rotation[1]*p[0] + pose.rotation[4]*p[1] + pose.rotation[7]*p[2] + pose.offset[1];
+      const screenX = rect.width/2 + x*zoom*.91*rect.height/2;
+      left = Math.min(left, screenX); right = Math.max(right, screenX);
+      top = Math.min(top, rect.height/2 - y*zoom*.91*rect.height/2);
+    }
+    const toolbar = $("overlay-toolbar");
+    const topValue = `${Math.max(8, Math.min(rect.height-36, top-36)).toFixed(1)}px`;
+    const leftValue = `${Math.max(25, Math.min(rect.width-25, (left+right)/2)).toFixed(1)}px`;
+    if (toolbar.style.getPropertyValue("--head-tools-top") !== topValue) toolbar.style.setProperty("--head-tools-top", topValue);
+    if (toolbar.style.getPropertyValue("--head-tools-left") !== leftValue) toolbar.style.setProperty("--head-tools-left", leftValue);
+  }
+
   draw(seconds) {
     const gl = this.gl;
     if (gl.isContextLost()) { this.gazeMoving = false; return; }
@@ -555,25 +644,38 @@ class FaceRenderer {
     gl.uniform1i(u.polygonView,polygonView);
     gl.uniform1i(u.presentationStyle, this.view.style);
     gl.uniform3fv(u.viewCenter, this.fit.center);
-    gl.uniform1f(u.viewScale, this.fit.scale);
+    const headMode = $("cursor-mode").value === "head", following = $("follow-eyes").checked && cursor;
+    const overlayMode = document.documentElement.classList.contains("overlay");
+    const fitScale = this.fit.scale * (headMode ? .8 : 1) * (overlayMode ? .9 : 1);
+    gl.uniform1f(u.viewScale, fitScale);
     gl.uniform1f(u.blend, frame - left);
     gl.uniform1f(u.quantization, this.meta.quantization);
     gl.uniform3fv(u.center,this.meta.center);
     gl.uniform1f(u.scale,this.meta.scale);
     gl.uniform1f(u.aspect, width / height);
-    const rotation = rotationMatrix(Number($("tilt").value), Number($("yaw").value), Number($("roll").value));
-    gl.uniformMatrix3fv(u.rotation, false, rotation);
-    const target = $("follow-eyes").checked && cursor
-      ? cursorGaze(cursor.x, cursor.y, this.canvas.getBoundingClientRect(), rotation,
-        Number($("zoom").value), this.meta.center.map((value, i) => value + this.fit.center[i] * this.meta.scale),
-        this.meta.scale / this.fit.scale) : [0, 0];
+    const manual = rotationMatrix(Number($("tilt").value), Number($("yaw").value), Number($("roll").value));
+    const center = this.meta.center.map((value, i) => value + this.fit.center[i] * this.meta.scale), scale = this.meta.scale / fitScale;
+    gl.uniform2fv(u.patternSettings, this.patterns[this.presentationId] || [1, 0]);
+    const rect = this.canvas.getBoundingClientRect(), zoom = Number($("zoom").value);
+    const headTarget = following && headMode ? cursorHeadAngles(cursor.x, cursor.y, rect, manual, zoom, center, scale) : [0, 0];
+    const target = following && !headMode ? cursorGaze(cursor.x, cursor.y, rect, manual, zoom, center, scale) : [0, 0];
     const now = performance.now(), smoothing = 1 - Math.exp(-Math.min(.1, (now - this.lastDraw) / 1000) / .075);
     this.lastDraw = now;
-    this.gaze = this.gaze.map((value, i) => Math.abs(target[i] - value) < .0001
-      ? target[i] : value + (target[i] - value) * smoothing);
-    this.gazeMoving = this.gaze.some((value, i) => Math.abs(target[i] - value) >= .0001);
+    const settle = (values, desired) => values.map((value, i) => {
+      const next = value + (desired[i] - value) * smoothing;
+      return Math.abs(desired[i] - next) < .0001 ? desired[i] : next;
+    });
+    this.headAngles = settle(this.headAngles, headTarget);
+    this.gaze = headMode ? [0, 0] : settle(this.gaze, target);
+    this.gazeMoving = this.gaze.some((value, i) => Math.abs(target[i] - value) >= .0001)
+      || this.headAngles.some((value, i) => Math.abs(headTarget[i] - value) >= .0001);
+    const pose = trackedHeadPose(this.headAngles, manual, center, scale);
+    this.placeOverlayTools(pose, fitScale, zoom, rect);
+    gl.uniformMatrix3fv(u.rotation, false, pose.rotation);
+    gl.uniform3fv(u.rotationOffset, pose.offset);
     gl.uniform2fv(u.gaze, this.gaze);
     this.canvas.dataset.gaze = this.gaze.join(",");
+    this.canvas.dataset.headAngles = this.headAngles.join(",");
     gl.uniform1f(u.zoom, Number($("zoom").value) * 0.91);
     gl.uniform1f(u.pointSize, 1.15 * ratio);
     $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
@@ -581,7 +683,7 @@ class FaceRenderer {
       this.drawPresentation(ratio);
       const description = `${this.view.name}: ${skin.triangleCount.toLocaleString()} skin depth triangles; `
         + (this.view.style === 1 ? `${skin.edgeCount.toLocaleString()} triangle edges, detail ${this.detail}/5. Front face only.`
-          : this.view.style === 2 ? "Visible surface dots only; hair off." : "Surface-space rectangular grid; hair off.")
+          : this.view.style === 2 ? "Surface-sampled dots only; hair off." : "Surface-space rectangular grid; hair off.")
         + " Same Claire speech motion; no animated-normal updates.";
       if ($("geometry-details").textContent !== description) $("geometry-details").textContent = description;
       this.geometryKey = null;
@@ -847,8 +949,36 @@ $("seek").addEventListener("input", () => {
 $("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
 for (const id of ["appearance", "edges", "points", "hair", "yaw", "tilt", "roll", "zoom"]) {
-  $(id).addEventListener("input", () => { updateAngles(); draw(); });
+  $(id).addEventListener("input", () => { updateAngles(); syncZoom(); draw(); });
 }
+function syncZoom() {
+  const zoom = $("zoom"), value = Number(zoom.value);
+  $("overlay-zoom").value = `${Math.round(value * 100)}%`;
+  document.querySelector('[data-zoom="out"]').disabled = value <= Number(zoom.min);
+  document.querySelector('[data-zoom="in"]').disabled = value >= Number(zoom.max);
+}
+for (const button of document.querySelectorAll("[data-zoom]")) button.addEventListener("click", () => {
+  const zoom = $("zoom"), delta = button.dataset.zoom === "in" ? .1 : -.1;
+  zoom.value = String(button.dataset.zoom === "reset" ? 1 : Math.max(Number(zoom.min), Math.min(Number(zoom.max), Number(zoom.value) + delta)));
+  zoom.dispatchEvent(new Event("input"));
+});
+function collapseOverlayTools() {
+  $("overlay-options").hidden = true;
+  $("overlay-toggle").setAttribute("aria-expanded", "false");
+  $("overlay-toggle").setAttribute("aria-label", "Expand floating controls");
+}
+$("overlay-toggle").addEventListener("click", () => {
+  const expanded = $("overlay-options").hidden;
+  $("overlay-options").hidden = !expanded;
+  $("overlay-toggle").setAttribute("aria-expanded", String(expanded));
+  $("overlay-toggle").setAttribute("aria-label", `${expanded ? "Collapse" : "Expand"} floating controls`);
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !$("overlay-options").hidden) { collapseOverlayTools(); $("overlay-toggle").focus(); }
+});
+document.addEventListener("pointerdown", (event) => {
+  if (!$("overlay-toolbar").contains(event.target)) collapseOverlayTools();
+});
 $("framing").addEventListener("input", () => {
   try {
     if (renderer.view.style === 1) throw new Error("FaceMesh uses front-face framing only.");
@@ -874,7 +1004,21 @@ function syncPresentationControls() {
   $("neck-depth").value = String(renderer.neckDepths[renderer.presentationId]);
   $("neck-depth-value").value = `${renderer.neckDepths[renderer.presentationId].toFixed(1)} cm`;
   $("presentation").value = renderer.presentationId;
+  $("hairstyle").value = renderer.hairStyle;
+  const pattern = renderer.patterns[renderer.presentationId];
+  for (const id of ["pattern-density-control", "pattern-gap-control"]) $(id).hidden = !pattern;
+  if (pattern) {
+    $("pattern-density").value = String(pattern[0]); $("pattern-gap").value = String(pattern[1]);
+    $("pattern-density-value").value = `${pattern[0].toFixed(1)}x`;
+    $("pattern-gap-value").value = `${Math.round(pattern[1]*100)}%`;
+  }
 }
+for (const id of ["pattern-density", "pattern-gap"]) $(id).addEventListener("input", () => {
+  const pattern = renderer?.patterns[renderer.presentationId];
+  if (!pattern) { failure(new Error("Pattern controls are available in FaceDot and UniformPolygons.")); return; }
+  pattern[id === "pattern-density" ? 0 : 1] = Number($(id).value);
+  syncPresentationControls(); draw();
+});
 $("presentation").addEventListener("input", () => {
   try { renderer.setPresentation($("presentation").value); syncPresentationControls(); draw(); }
   catch (error) { syncPresentationControls(); failure(error); }
@@ -887,12 +1031,21 @@ $("neck-depth").addEventListener("input", () => {
   try { renderer.setNeckDepth(Number($("neck-depth").value)); syncPresentationControls(); draw(); }
   catch (error) { syncPresentationControls(); failure(error); }
 });
+$("hairstyle").addEventListener("input", () => {
+  try { renderer.setHairStyle($("hairstyle").value); syncPresentationControls(); draw(); }
+  catch (error) { syncPresentationControls(); failure(error); }
+});
+$("cursor-mode").addEventListener("input", () => {
+  if (renderer) { renderer.gaze = [0, 0]; renderer.headAngles = [0, 0]; }
+  draw();
+});
 function updateAngles() {
   for (const id of ["tilt", "yaw", "roll"]) $(`${id}-angle`).value = `${Math.round(Number($(id).value) * 180 / Math.PI)} deg`;
 }
 $("reset-view").addEventListener("click", () => {
   for (const id of ["tilt", "yaw", "roll"]) $(id).value = "0";
   $("zoom").value = "1";
+  syncZoom();
   updateAngles();
   draw();
 });
@@ -920,6 +1073,7 @@ if (desktop) {
   });
   desktop.onMode(({ overlay }) => {
     document.documentElement.classList.toggle("overlay", overlay);
+    collapseOverlayTools();
     draw();
   });
   for (const button of document.querySelectorAll("[data-desktop]")) {
@@ -980,6 +1134,11 @@ try {
     ? "Default: Hazel, installed locally." : `Hazel is not installed. Using ${defaultVoice}; choose another installed voice if preferred.`;
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary);
+  for (const [id, style] of Object.entries(HAIRSTYLES)) {
+    const option = document.createElement("option");
+    option.value = id; option.textContent = style.name; $("hairstyle").append(option);
+  }
+  $("hairstyle").disabled = false;
   for (const [id, view] of Object.entries(PRESENTATIONS)) {
     const option = document.createElement("option");
     option.value = id; option.textContent = view.name;

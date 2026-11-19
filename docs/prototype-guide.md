@@ -16,15 +16,31 @@ This checkout is already prepared:
 
 In the desktop app, generate and play a sentence, then click **Pop out transparent
 head**. The same head becomes a transparent, initially always-on-top window;
-speech continues without reloading. Hover its top-left corner for **Move**,
-**Controls** or **Close**. Controls restores the full interface. Close exits
+speech continues without reloading. A tiny collapsed glass **...** tab sits
+centered above the head. Click it to reveal **Drag to move** for native placement
+and **- / + / Fit** for zoom out, zoom in or reset model zoom.
+Escape or clicking elsewhere collapses it; every pop-out starts collapsed.
+The translucent glass styling blurs Verona content, not other desktop apps.
+The overlay reserves a little framing room above the crown for this tab.
+**Controls** restores the full interface. Close exits
 the desktop app and its Python server. Keep its terminal open; Ctrl+C also stops
 the owned desktop. No startup service is installed.
 
-**Eyes follow cursor** starts enabled on desktop and follows outside the window
-without recording input. Disable the checkbox for neutral gaze. X/Y/Z sliders
+**Follow cursor** starts enabled on desktop and follows outside the window
+without recording input. **Cursor mode** chooses **Eyes follow cursor** (default)
+or **Head follows cursor (eyes centered)**. The latter turns the entire model
+around its eye midpoint while iris masks stay centered. Head aiming is smoothed
+and bounded, not calibrated physical gaze; manual X/Y/Z remain offsets.
+Disable following to settle back to the manual pose/neutral irises. In the
+browser, leaving the page also settles tracking. Mode changes clear old tracking
+offsets; reload restores eyes mode and unsaved controls. X/Y/Z sliders
 each cover -180 to +180 degrees; **Reset orientation** zeros them and resets
-Zoom, not speech. Adjust orientation/zoom in Controls before popping out.
+Zoom, not speech. Zoom covers 35-230%; the floating buttons and Controls share
+the same value. Large zoom/manual rotations can intentionally clip the model.
+Head mode reserves a fixed 20% framing margin for tracked turns, even while
+tracking is disabled; returning to eyes mode restores original fitting.
+Moved overlay placement survives Controls/pop-out in RAM, clamped to an
+available monitor's work area on return. Restart restores initial placement.
 **Overlay always on top** can be disabled. Transparent regions may intercept
 clicks: this version does not provide click-through or manual window resizing.
 Pinning uses a qualified above-taskbar Windows level; disable it for normal stacking.
@@ -95,11 +111,25 @@ the same: switching views does not generate, reload, seek or replace audio.
   are real submitted triangles/edges, not percentages or a promise of speedup.
   Framing is fixed to Front face only. The open mask rotates in 3D; it does not
   grow a back/ears when turned.
-- **FaceDot:** surface dots only, including ears/eyes/neck. An invisible depth
-  surface hides points behind the visible skin; no polygons or lines are colored.
+- **FaceDot:** surface-sampled circular dots only, including ears/eyes/neck. An
+  invisible depth surface hides rear marks; filled polygons/lines are not visible.
 - **UniformPolygons:** a rectangular surface-coordinate grid over animated skin,
   including ears/eyes/neck, not a flat screen overlay. Cells curve/stretch over
   anatomy and expressions. This is a grid presentation, not a new quad mesh.
+
+In FaceDot and UniformPolygons, **Pattern density** scales both surface axes
+from 0.5x to 3x: higher means more dots/cells in the same area, roughly proportional
+to the square of the multiplier before occlusion/pixel sampling. **Cell gap**
+from 0-80% increases empty space around each dot or rectangular cell outline
+without changing their centers. Density also changes center-to-center spacing;
+gap is a fraction of each cell, not a measurement in physical centimetres.
+Each view remembers its own pair until reload (dots: 1x/60%, grid: 1x/0%).
+Reset orientation does not reset them. The shader attaches these patterns to
+the deforming surface: no neural topology change, additional speech generation,
+new GPU mesh buffers or per-frame CPU point construction. FaceDot now uses this
+adjustable sampling instead of drawing one dot per original mesh vertex.
+Extremely small/dense marks can soften or merge at limited screen resolution;
+zoom and display resolution affect what can actually be distinguished.
 
 Dot/grid views omit hair and start at Head and neck; each retains its own framing,
 with Full bust available. All new views auto-fit their selected extent and use
@@ -125,7 +155,19 @@ the optional olive/rosewood/hazel-green study guided by the supplied sheet,
 not an exact or photorealistic reconstruction.
 Edges/hair are on and points off initially; all remain independent. Switching
 Claire material changes immediately, not the clip, voice or playback position.
-Hair has actual layered S-wave geometry. These are not
+**Hairstyle** selects original **Claire waves** or ten locally generated
+alternatives: **Tapered pixie**, **Rounded bob**, **Asymmetric angled bob**,
+**Long sleek layers**, **Spiral curls**, **High ponytail**, **Twin tails**,
+**Coiled top bun**, **Double space buns** and **Braided crown**.
+These are different static geometries, not color presets or hair physics.
+Rotate to inspect rear tails; Full bust reveals long styles, while Head and neck
+intentionally clips every style along the same jaw curve. Some styles reserve
+more fitting room; Zoom remains available. The Hair checkbox works independently.
+Other presentations hide hair controls and retain Claire's selection on return.
+Selection builds only the latest alternative, deletes its replaced GPU buffers
+and never regenerates/seeks speech. Reload returns to original waves. Invalid
+geometry surfaces an error and preserves the previous choice, not a silent fallback.
+The original hair has actual layered S-wave geometry. These are not
 animated eye joints, teeth or a claim of photorealism. Color rendering caps
 device pixel density at1.5x; polygon rendering retains a2x cap. This explicitly
 trades high-DPI color resolution for a smaller rendering workload.

@@ -21,6 +21,10 @@ vr-18 | 18_CUSTOM_AVATAR_INTEGRATION.todo | NOT_STARTED | DEFERRED: opt-in avata
 vr-19 | 19_CUSTOM_AVATAR_QUALIFICATION.todo | NOT_STARTED | DEFERRED: measured performance, owner review and candidate handoff
 vr-20 | 20_PRESENTATION_VIEWS.todo | DONE | Preserve Claire; add FaceMesh, FaceDot and UniformPolygons
 vr-21 | 21_JAWLINE_FRAMING.todo | DONE | Jaw-following head cutoff and live visible-neck control
+vr-22 | 22_HAIRSTYLES.todo | DONE | Preserve Claire waves and add ten procedural hair choices
+vr-23 | 23_CURSOR_MODES.todo | DONE | Eyes-only or centered-eye rigid head cursor tracking
+vr-24 | 24_OVERLAY_PLACEMENT_ZOOM.todo | DONE | Direct floating-head drag/zoom and retained placement
+vr-25 | 25_PATTERN_DENSITY_SPACING.todo | DONE | Adjustable surface-dot/cell density and gaps
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
