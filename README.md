@@ -2,7 +2,7 @@
 
 **Type a sentence. Hear a local voice. Watch her speak.**
 
-![Verona's restored transparent-looking polygon face articulating a local greeting](docs/media/speaking.gif)
+![Actual reference-color 3D study playing a sampled local greeting](docs/media/reference-speaking.gif)
 
 Windows voices, CPU neural motion, connected native contours. No camera, microphone or cloud runtime.
 
@@ -14,49 +14,49 @@ Windows voices, CPU neural motion, connected native contours. No camera, microph
 Hover its top-left corner for **Move**, **Controls** or **Close**.
 Eyes follow your cursor; X/Y/Z sliders rotate the head freely.
 The browser version remains `.\Verona.cmd`.
-Fresh checkout? [Setup, controls and limits](docs/prototype-guide.md).
-[First source prerelease - earlier appearance](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1).
+Choose **View → Reference color + makeup** for olive skin, hazel-green eyes,
+rosewood lips and espresso waves. **Transparent polygons** remains the default.
+Fresh checkout? [Setup and controls](docs/prototype-guide.md).
+[Current source prerelease](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.2).
+
+## Color study
+
+| Neutral geometry | Three-quarter geometry |
+|---|---|
+| ![Actual neutral color study, not the supplied reference image](docs/media/reference-neutral.png) | ![Actual turned 3D color study with thicker layered waves](docs/media/reference-turned.png) |
+
+![Turntable of the actual colored 3D head, using view rotation rather than predicted head motion](docs/media/reference-turntable.gif)
+
+![Actual text-to-speech interface with the current color study](docs/media/reference-overview.png)
+
+**A stylized reference-guided study—not a photorealistic reconstruction or an
+accepted likeness.** The underlying speech model remains Claire.
 
 ## Desktop and transparent overlay
 
-![Actual local Verona desktop controls](docs/media/desktop-controls.png)
+![Actual colored native overlay composited over an owned green fixture](docs/media/reference-overlay.png)
 
-![Actual transparent native head composited over an owned green test window](docs/media/desktop-overlay.png)
+![Actual desktop controls with the retained polygon presentation](docs/media/reference-desktop-controls.png)
 
-Always-on-top is optional. Transparent areas may intercept clicks.
-Desktop setup: `.\Setup-VeronaDesktop.cmd` once; already prepared in this checkout.
+**Framing → Head and neck** hides shoulders and submits fewer polygons.
+**Full bust** stays available/default. Cursor-following eyes and X/Y/Z rotation
+work in both views. Always-on-top is optional; transparent areas may intercept clicks.
+Desktop setup: `.\Setup-VeronaDesktop.cmd` once.
 
-**Framing: Head and neck** hides shoulders below the throat and renders fewer
-polygons. **Full bust** remains the default; switch back without interrupting speech.
+## Keep the polygon effect
 
-![Optional head and lower-neck view in the real transparent native overlay](docs/media/head-neck-overlay.png)
-
-## The prototype
-
-Transparent polygons by default. Revised facial contours and layered waves.
-
-![Actual Verona interface with the female mesh and editable Zira voice](docs/media/overview.png)
-
-## Form and detail
-
-![Turntable of the actual polygon facial mesh with original procedural hair](docs/media/turntable.gif)
-
-| Three-quarter view | Native facial contours, hair off |
+| Transparent polygons | Same native skin, hair off |
 |---|---|
-| ![Defined eyes, nose and lips in three-quarter view](docs/media/turned.png) | ![The same learned facial skin without hair](docs/media/skin-only.png) |
-
-![Optional warm shaded view of the same revised face and wavy hair](docs/media/shaded.png)
+| ![Current cool polygon head and waves](docs/media/reference-polygons.png) | ![Current native facial contours without hair](docs/media/reference-skin-only.png) |
 
 ## Shape the voice
 
-<img src="docs/media/voice-controls.png" alt="Zira selected with pitch request +8 st, speed -2, bass +6 dB and treble -3 dB" width="350">
-
-Preview, adjust, generate. Hazel remains the reset default.
-**View** switches between **Transparent polygons** (default) and **Warm shaded face**.
-**Edges**, **Points** and **Hair** remain independent.
+Preview, adjust pitch/speed/bass/treble/emphasis, generate. Hazel remains the
+reset default. **Edges**, **Points** and **Hair** remain independent.
 
 **Early prototype:** procedural cursor gaze, not learned eye joints; articulation accuracy is not accepted.
 Playback targets **60-fps display** over 30-fps neural motion, not live generation.
-Local measurements include occasional frame-time spikes. GIFs are silent previews.
+Color view caps high-DPI rendering at 1.5x; polygons at 2x.
+Historical frame-time spikes remain documented. GIFs are silent sampled previews.
 
-[Engineering book](docs/README.md) · [Desktop mechanisms and limits](docs/chapters/10-desktop-overlay-and-gaze.md) · [Media provenance](docs/media/README.md) · [Third-party terms](THIRD_PARTY.md)
+[Engineering book](docs/README.md) · [Media provenance](docs/media/README.md) · [Third-party terms](THIRD_PARTY.md) · [Original immutable prototype](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1)

@@ -14,6 +14,7 @@ vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and 
 vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon default, optional shading and revised proportions
 vr-13 | 13_DESKTOP_OVERLAY.todo | DONE | Transparent desktop pop-out, cursor gaze and XYZ orientation
 vr-14 | 14_HEAD_NECK_FRAMING.todo | DONE | Optional shoulder-free neck crop and reduced geometry/normal work
+vr-15 | 15_REFERENCE_APPEARANCE.todo | IN_PROGRESS | Reference-guided face/materials and current prototype gallery/release
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

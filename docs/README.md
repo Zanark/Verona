@@ -17,6 +17,9 @@ Chapter 10 adds the local desktop shell, genuinely transparent pop-out, bounded
 cursor gaze and independent XYZ orientation without duplicating speech.
 Its vr-14 extension adds optional shoulder-free head/neck framing, retained
 full-bust extent and actual polygon/animated-normal work reduction.
+Chapter 09's vr-15 extension records the supplied-reference color study,
+bounded eyelid/rest changes, procedural cosmetics and intentional color pixel
+density cap. It is not a photorealistic reconstruction or likeness acceptance.
 
 ## Reading paths
 

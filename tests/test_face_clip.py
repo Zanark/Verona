@@ -27,16 +27,27 @@ createNode transform -n "unrelated";
 
 
 class MeshTests(unittest.TestCase):
-    def test_rest_sculpt_changes_contour_but_preserves_lips_eyes_and_back(self):
+    def test_rest_sculpt_changes_contour_but_preserves_lips_eye_centers_and_back(self):
         rest = np.array([[6, 138, 2], [4, 144, 3], [0, 140.15, 4], [2, 140, 3],
-                         [3, 147.5, 3], [-3, 147.5, 3], [5, 144, -8]], dtype=np.float32)
+                         [3, 147.55, 3], [-3, 147.55, 3], [5, 144, -8]], dtype=np.float32)
         styled = verona_rest_shape(rest)
-        self.assertLess(float(styled[0, 0]), float(rest[0, 0]) - .8)
+        self.assertLess(float(styled[0, 0]), float(rest[0, 0]) - .5)
+        self.assertGreater(float(styled[0, 0] / rest[0, 0]), .86)
         self.assertGreater(float(styled[1, 2]), float(rest[1, 2]) + .25)
         np.testing.assert_array_equal(styled[2:], rest[2:])
         self.assertLess(float(np.max(np.linalg.norm(styled - rest, axis=1))), 1.3)
         chin = np.array([[0, 135.9, 3]], dtype=np.float32)
-        self.assertGreater(float(verona_rest_shape(chin)[0, 1]), float(chin[0, 1]) + .5)
+        self.assertGreater(float(verona_rest_shape(chin)[0, 1]), float(chin[0, 1]) + .3)
+
+    def test_reference_lids_open_locally_without_translating_the_eye_center(self):
+        rest = np.array([[3.02, 147.95, 3.3], [3.02, 147.15, 3.3],
+                         [3.02, 147.55, 3.3], [3.02, 147.95, 1.0]], dtype=np.float32)
+        delta = verona_rest_shape(rest) - rest
+        self.assertGreater(float(delta[0, 1]), .15)
+        self.assertLess(float(delta[1, 1]), -.15)
+        self.assertAlmostEqual(float(delta[0, 1]), -float(delta[1, 1]), places=3)
+        np.testing.assert_array_equal(delta[:, [0, 2]], 0)
+        np.testing.assert_array_equal(delta[2:], 0)
 
     def test_wavy_locks_have_alternating_silhouette_and_bounded_connected_geometry(self):
         vertices, edges, triangles = claire_hair()

@@ -114,6 +114,86 @@ existing voice/reset defaults remain Hazel. View settings are not persisted.
 
 ## Measured cost and qualification
 
+### Superseding reference-guided color study (vr-15)
+
+The owner subsequently supplied a multi-panel character sheet and requested
+skin/eye color, makeup and a current visual gallery/release. This supersedes
+the earlier absence of a reference, not the identity of the trained model.
+The sheet supplies an appearance direction: softer oval lower face, balanced
+cheeks/nose, dark side-parted waves, olive warmth, hazel-green irises and
+rosewood/bronze cosmetics. It is not measured anatomy, a UV atlas or a rig.
+Some labeled left/right panels repeat the same side; several articulation
+panels do not establish the contact suggested by their labels. They must not
+be treated as phonetic calibration or perfect-expression targets.
+
+`verona_rest_shape` reduces the earlier jaw taper, cheek projection and chin
+lift, and retains more bridge/tip volume. Central lips, eye centers and the
+back remain protected. A separate smoothly bounded vertical eyelid offset
+opens the rest aperture above/below each unchanged eye center; it does not
+enlarge or translate the eyeballs. Its tanh core tapers with local eye-distance
+and front-depth weights. The learned basis, source IDs and per-frame deltas
+remain unchanged. A changed rest aperture is not correct blink/contact
+retargeting, and no new animation controls are inferred from the sheet.
+
+`claire_hair` keeps its existing topology/count but changes the continuous
+front hairline asymmetry, broadens the locks and thickens their cross-sections.
+The shader reduces bright fiber/specular bands and scalp-part contrast.
+These remain procedural broad hair masses, not realistic individual strands,
+physics, a scanned hairstyle or an exact recreation of the reference.
+
+`FaceRenderer`'s optional **Reference color + makeup** replaces the old label
+**Warm shaded face**, preserving its `shaded` value and the polygon default.
+It adds green outer irises/amber centers, limbal darkening, lid shadow and a
+small procedural catchlight. Rosewood lips, bronze shadow, an espresso wing,
+more defined tapered brows and low-amplitude skin variation use rest-space
+masks, not a pasted portrait. Fine variation fades with fragment derivatives
+to limit aliasing; it is not photographic skin texture or physically measured
+material data. Materials/framing/orientation still use one geometry/audio owner.
+The supplied sheet is not copied into source, served by HTTP or redistributed.
+
+Two initial high-DPI cases missed the unchanged timing budget: browser02's
+full color+edges mean 18.677 ms / p95 33.3 / max 83.2, and browser04's full color
+without edges mean 17.585 ms / p95 16.8 / max 66.6. Causes are not established.
+The runtime now caps color rendering at 1.5x pixel density; polygons retain 2x.
+At the test viewport this intentionally trades 1682x1270 for 1262x953 color pixels; no
+polygon-count, neural-generation or physical-display speedup is inferred.
+
+Final browser05 passes 23 scenarios/all 12 view/framing/density combinations.
+Means are 16.659-16.660 ms, p95 at most 16.8, max 17.5, zero intervals >25 ms;
+every mode performs 185-187 normal updates without GPU normal-storage allocations.
+Requested 2x density is **not native 2x color resolution** after the cap.
+Actual pixels include 210 green-iris and 1,743 rose-lip samples. The pinned rest
+has maximum 0.533324-cm offset and zero reversed/collapsed previously
+nondegenerate triangles. Thirty-six unit/HTTP checks and framing/XYZ math pass.
+These checks do not prove likeness, beauty or correct expressions.
+
+Browser01/03's crop comparison failed on one upper-face pixel. The diagnosed
+03 difference was red 85->87, with green/blue unchanged; cause is not established.
+The test now records all diagnostics and allows at most 8 changed upper pixels,
+each at most 2/255 per RGB channel. Zero below-cut color and exact full-view
+roundtrip remain strict. Final05 has zero upper differences and zero roundtrip
+differences. Earlier failed receipts are retained, not replaced by the clean run.
+
+Native01 passes 10 checks, including zero alpha below the neck in both materials,
+real composition, gaze, orientation and lifecycle. Its 30-second/1,801-interval
+sample has mean 16.659 ms / p95 16.8 / max 17.3 / zero >25 ms, 1,831 draws at 480x600.
+Actual neutral/turned/color/polygon/hair-off/UI/overlay images were reviewed.
+The new GIFs were independently decoded as 40/24 frames and representative
+speech/turn samples reviewed. This remains a stylized 3D color study: not a
+photorealistic reconstruction, accepted likeness, perfect-expression system,
+independent listening test or universal 60fps guarantee.
+
+No active Verona runtime existed before edits. Qualification retained isolated
+owned profiles/cache/synthesis and fixture-only capture over shared hardware;
+all owned processes/profiles were stopped/removed. No package/model download,
+device activation, user/sibling app interaction or global setting change.
+Restart the engine to load changed rest geometry; reload alone changes frontend
+materials but not a running backend's rest surface. Stop discards speech RAM.
+Existing context-loss, capability, cancellation, stale-clip and error recovery
+contracts remain; there is no new empty-success fallback.
+
+### Historical vr-12 qualification
+
 The skin remains 15,375 vertices / 30,759 edges / 30,746 triangles. An 83-frame
 clip remains 7,656,750 motion bytes. The complete mesh grows from chapter 08's
 827,084 to **1,032,460 bytes**, including the more detailed static hair and eyes.

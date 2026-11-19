@@ -173,6 +173,16 @@ async function run(window) {
     "-Left", String(physical.x), "-Top", String(physical.y), "-Width", String(physical.width), "-Height", String(physical.height),
     "-Output", path.join(output, "desktop-overlay.png")], { timeout: 15000 });
   report.checks.push("Native desktop composition over an owned solid-color fixture captured; no other apps captured.");
+  await evaluate(`document.getElementById("appearance").value="shaded";
+    document.getElementById("edges").checked=false;
+    document.getElementById("appearance").dispatchEvent(new Event("input"));`);
+  await pause(150);
+  execFileSync(powershell, ["-NoProfile", "-NonInteractive", "-File", path.join(__dirname, "capture_desktop.ps1"),
+    "-Left", String(physical.x), "-Top", String(physical.y), "-Width", String(physical.width), "-Height", String(physical.height),
+    "-Output", path.join(output, "reference-color-overlay.png")], { timeout: 15000 });
+  await evaluate(`document.getElementById("appearance").value="polygon";
+    document.getElementById("edges").checked=true;
+    document.getElementById("appearance").dispatchEvent(new Event("input"));`);
   fixture.destroy();
   fixture = null;
   await evaluate(`window.veronaDesktop.command("controls")`);

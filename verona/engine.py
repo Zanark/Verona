@@ -103,7 +103,7 @@ class FaceEngine:
                             + eye_triangles.tobytes())
         self.mesh_metadata = {
             "identity": "Claire v2.3.1",
-            "appearance": "Verona: original rest sculpt, warm cosmetics and side-parted waves",
+            "appearance": "Verona: reference-guided rest sculpt, olive/rosewood cosmetics and espresso waves",
             "deformation": "unchanged Claire PCA deltas added to styled rest; not a new trained identity",
             "vertices": len(self.selected),
             "edges": len(self.edges),
@@ -182,7 +182,7 @@ class FaceEngine:
             "voice": speech.voice,
             "voiceSettings": asdict(speech.settings),
             "identity": "Claire v2.3.1",
-            "appearance": "Verona: original rest sculpt over unchanged Claire motion basis",
+            "appearance": "Verona: reference-guided appearance study over unchanged Claire motion basis",
             "inferenceBatchSize": BATCH_SIZE,
             "expression": expression,
             "expressionStrength": intensity,

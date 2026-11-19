@@ -1,5 +1,29 @@
 # Prototype media receipt
 
+## Current vr-15 color study
+
+The README now uses `reference-*.png` and two `reference-*.gif` captures.
+`reference-provenance.json` records 13 exact runtime-source hashes, all 9 media
+hashes, browser/native receipts, actual pixel sizes and capture voice settings.
+These show the real procedural 3D head, **not the supplied character sheet**.
+The sheet is not redistributed. The result is a stylized appearance study,
+not a photorealistic reconstruction or accepted likeness/expressions.
+
+The neutral image is actual rest geometry; the turned image/turntable change
+view orientation. Browser speech captures use synthetic "Hey, how are you?",
+Zira/pitch request+8st/rate-2/bass+6dB/treble-3dB/emphasisnone. Native captures
+use Hazel/default settings. The native overlay is actual composition over the
+owned RGB(37,103,71) fixture; no other app is captured.
+
+New GIFs have 40/24 frames, 640x493, 3.30s/1.92s. They use the existing local
+shared-palette quantizer and were independently decoded; representative
+speech/turn samples and all public PNGs were visually inspected. They are
+silent 12-fps timeline/view samples, not 60fps recordings or listening acceptance.
+The browser/native owners stopped and removed their disposable profiles.
+Prior snapshots below remain unchanged, with their original provenance.
+
+## Historical vr-12 presentation
+
 These are actual Edge/WebGL2 captures of Verona's `vr-12` presentation, not
 mockups or copies of the owner's reference images. The synthetic sentence is
 "Hey, how are you?" using Microsoft Zira Desktop, pitch request +8 st, rate -2,

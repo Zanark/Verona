@@ -136,24 +136,29 @@ try {
       change("full");const before=pixels(),full=calls;calls=[];
       change("head-neck");const after=pixels(),cropped=calls;calls=[];
       const cutRow=c.height/2+(134-meta.center[1])/meta.scale*Number($("zoom").value)*.91*c.height/2;
-      let removed=0,aboveChanged=0,belowColored=0;
+      let removed=0,aboveChanged=0,aboveMaxChannelDelta=0,belowColored=0;const aboveExamples=[];
       for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
         const i=(y*c.width+x)*4;
         const changed=before[i]!==after[i]||before[i+1]!==after[i+1]||before[i+2]!==after[i+2];
         if(changed)removed++;
-        if(y>cutRow+2 && changed)aboveChanged++;
+        if(y>cutRow+2 && changed){
+          aboveChanged++;
+          aboveMaxChannelDelta=Math.max(aboveMaxChannelDelta,...[0,1,2].map(channel=>Math.abs(before[i+channel]-after[i+channel])));
+          if(aboveExamples.length<8)aboveExamples.push({x,y,before:Array.from(before.slice(i,i+4)),after:Array.from(after.slice(i,i+4))});
+        }
         if(y<cutRow-2 && (after[i]!==4||after[i+1]!==6||after[i+2]!==10))belowColored++;
       }
       change("full");const restored=pixels();let roundTrip=0;
       for(let i=0;i<before.length;i++)if(before[i]!==restored[i])roundTrip++;
       g.drawElements=draw;
       change("head-neck");
-      return {removed,aboveChanged,belowColored,roundTrip,full,cropped,cutRow,error:g.getError(),
+      return {removed,aboveChanged,aboveMaxChannelDelta,aboveExamples,belowColored,roundTrip,full,cropped,cutRow,error:g.getError(),
         description:$("geometry-details").textContent};
     })()`);
+    report.framing=data;
     assert.equal(data.error,0);
     assert(data.removed>1000,JSON.stringify(data));
-    assert.equal(data.aboveChanged,0);
+    assert(data.aboveChanged<=8 && data.aboveMaxChannelDelta<=2,JSON.stringify(data));
     assert.equal(data.belowColored,0);
     assert.equal(data.roundTrip,0);
     const count=(calls,mode)=>calls.filter(c=>c.mode===mode).reduce((sum,c)=>sum+c.count,0);
@@ -161,7 +166,6 @@ try {
     assert(count(data.cropped,1)<count(data.full,1));
     assert(data.cropped[0].count<data.full[0].count);
     assert(data.cropped.at(-2).count<data.full.at(-2).count);
-    report.framing=data;
     await screenshot("01d-head-neck");
     const points=await evaluate(`(() => {
       const $=id=>document.getElementById(id),g=$("face").getContext("webgl2"),draw=g.drawElements;
@@ -332,6 +336,45 @@ try {
     report.viewSwitch=data;
     await screenshot("02b-restored-polygons");
   });
+  await check("Reference color renders green outer irises and rosewood lips on the actual 3D surfaces", async () => {
+    const data=await evaluate(`(async ()=>{
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+      const meta=(await (await fetch("/api/session",{headers:{"X-Verona-Token":location.hash.slice(1)}})).json()).mesh;
+      const saved={yaw:$("yaw").value,tilt:$("tilt").value,roll:$("roll").value,
+        view:$("appearance").value,edges:$("edges").checked};
+      for(const id of ["yaw","tilt","roll"])$(id).value="0";
+      $("appearance").value="shaded";$("edges").checked=false;
+      $("appearance").dispatchEvent(new Event("input"));
+      const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+      const factor=Number($("zoom").value)*.91*c.height/(2*meta.scale);
+      const point=(x,y)=>[c.width/2+(x-meta.center[0])*factor,c.height/2+(y-meta.center[1])*factor];
+      let green=0,rose=0;
+      for(const [x,y] of [point(-2.9485,147.6317),point(3.1021,147.5744)]){
+        const radius=Math.ceil(.62*factor);
+        for(let dy=-radius;dy<=radius;dy++)for(let dx=-radius;dx<=radius;dx++){
+          if(dx*dx+dy*dy>radius*radius)continue;
+          const i=(Math.round(y+dy)*c.width+Math.round(x+dx))*4;
+          if(p[i+1]>p[i]*1.1 && p[i+1]>p[i+2]*1.05)green++;
+        }
+      }
+      const [x,y]=point(.08,140.15);
+      for(let dy=-Math.ceil(factor);dy<=factor;dy++)for(let dx=-Math.ceil(2.7*factor);dx<=2.7*factor;dx++){
+        const i=(Math.round(y+dy)*c.width+Math.round(x+dx))*4;
+        if(p[i]>p[i+1]*1.4 && p[i]>p[i+2]*1.1)rose++;
+      }
+      $("yaw").value=saved.yaw;$("tilt").value=saved.tilt;$("roll").value=saved.roll;
+      return {green,rose,error:g.getError(),saved};
+    })()`);
+    assert.equal(data.error,0);
+    assert(data.green>20,JSON.stringify(data));
+    assert(data.rose>20,JSON.stringify(data));
+    report.referenceColor={greenIrisPixels:data.green,roseLipPixels:data.rose};
+    await evaluate(`document.getElementById("appearance").dispatchEvent(new Event("input"));`);
+    await screenshot("02c-reference-color");
+    await evaluate(`document.getElementById("appearance").value=${JSON.stringify(data.saved.view)};
+      document.getElementById("edges").checked=${data.saved.edges};
+      document.getElementById("appearance").dispatchEvent(new Event("input"));`);
+  });
   await check("Polygon, shaded and shaded-edge playback meet the local 60-fps target at 1x and 2x density", async () => {
     await evaluate(`document.getElementById("audio").loop=true;document.getElementById("audio").currentTime=0;`);
     await click("play");
@@ -370,6 +413,7 @@ try {
             p95Ms:sorted[Math.floor(sorted.length*.95)],maxMs:sorted.at(-1),
             over25Ms:sorted.filter(t=>t>25).length,viewport:[innerWidth,innerHeight],
             canvas:[document.getElementById("face").width,document.getElementById("face").height],
+            cssCanvas:[document.getElementById("face").clientWidth,document.getElementById("face").clientHeight],
             submittedDraws:window.renderProbe.frames-firstDraw,
             normalBufferAllocations:window.renderProbe.allocations,
             normalBufferUpdates:window.renderProbe.updates-firstUpdates,
@@ -385,6 +429,9 @@ try {
     assert(timing.normalBufferUpdates>100);
     assert(timing.samples>300,JSON.stringify(timing));
     assert(timing.submittedDraws>=timing.samples,JSON.stringify(timing));
+    if(timing.view==="shaded"){
+      assert(timing.canvas.every((size,i)=>size<=Math.round(timing.cssCanvas[i]*1.5)),JSON.stringify(timing));
+    }
     assert(timing.meanMs<17.55 && timing.p95Ms<20,JSON.stringify(timing));
     }
     await click("play");

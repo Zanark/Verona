@@ -24,9 +24,13 @@ def verona_rest_shape(vertices: np.ndarray) -> np.ndarray:
     chin = np.exp(-(x / 2.8) ** 2 - ((y - 135.9) / 1.6) ** 2)
     tip = np.exp(-(x / 1.8) ** 2 - ((y - 142.6) / 1.1) ** 2)
     hollow = np.exp(-((np.abs(x) - 4.8) / 1.8) ** 2 - ((y - 141.8) / 1.5) ** 2)
-    result[:, 0] += weight * (-.17 * x * jaw - .20 * x * bridge + .025 * x * cheek)
-    result[:, 1] += weight * (.34 * cheek + .65 * chin)
-    result[:, 2] += weight * (.48 * cheek + .12 * chin + .10 * bridge - .28 * tip - .18 * hollow)
+    result[:, 0] += weight * (-.115 * x * jaw - .12 * x * bridge + .025 * x * cheek)
+    result[:, 1] += weight * (.26 * cheek + .45 * chin)
+    result[:, 2] += weight * (.34 * cheek + .10 * chin + .16 * bridge - .08 * tip - .08 * hollow)
+    eye_y = y - 147.55
+    lid = (np.exp(-((np.abs(x) - 3.02) / 1.7) ** 6 - (eye_y / 1.1) ** 4)
+           * _smoothstep(2.4, 3.0, z))
+    result[:, 1] += .22 * np.tanh(eye_y / .25) * lid
     return result
 
 
@@ -63,7 +67,7 @@ def claire_hair() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         for column in range(columns):
             angle = 2 * np.pi * column / columns
             front = float(_smoothstep(0, 1, max(0, np.cos(angle))))
-            limit = 1.63 - .66 * front + .06 * np.sin(angle) * front
+            limit = 1.63 - .58 * front + .18 * np.sin(angle) * front
             theta = t * limit
             x = 9.5 * np.sin(theta) * np.sin(angle) - .8 * (1 - t) ** 2
             y = 148.2 + 11.0 * np.cos(theta)
@@ -95,9 +99,9 @@ def claire_hair() -> tuple[np.ndarray, np.ndarray, np.ndarray]:
             center += tangent * wave + radial * (
                 .18 + .65 * fall + .35 * np.sin(3.8 * np.pi * t + .8 * angle) * fall)
             center[0] -= .8 * (1 - t) ** 3
-            width = (1.07 + .12 * np.sin(lock * 1.7)) * (
-                .16 + .84 * _smoothstep(0, .19, t)) * (1 - .72 * _smoothstep(.85, 1, t))
-            depth = .34 * (.30 + .70 * np.sin(np.pi * t))
+            width = (1.18 + .12 * np.sin(lock * 1.7)) * (
+                .16 + .84 * _smoothstep(0, .19, t)) * (1 - .62 * _smoothstep(.85, 1, t))
+            depth = .50 * (.30 + .70 * np.sin(np.pi * t))
             for side in range(sides):
                 turn = 2 * np.pi * side / sides
                 vertices.append(center + tangent * (width * np.cos(turn))

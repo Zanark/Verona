@@ -177,7 +177,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-15": {
+      "source": "TODO/15_REFERENCE_APPEARANCE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgsXiHw",
+      "number": 14,
+      "url": "https://github.com/Zanark/Verona/issues/14",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKJI4c",
+      "title": "Reference-guided face, cosmetics and current prototype gallery",
+      "managedBody": "\n<!-- verona-workstream:vr-15 -->\nWorkstream source: `TODO/15_REFERENCE_APPEARANCE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-15\nTitle: Reference-guided face, cosmetics and current prototype gallery\n\nStatus: IN_PROGRESS\nMilestone: A locally qualified appearance study guided by the supplied Verona sheet.\nDependencies: vr-14\n\nPurpose:\nUse the owner's supplied visual direction for a softer oval jaw, balanced\ncheeks/nose, warm olive skin, hazel-green eyes, rosewood cosmetics and dark waves.\nRetain the transparent polygon default, optional color view, speech system,\nnative overlay, cursor gaze, orientation and reduced head/neck framing.\n\nTasks:\n[x] Adjust bounded rest shape, procedural materials and hair without new assets.\n[x] Qualify topology, playback, both views, framing and display cadence locally.\n[x] Review actual renders and produce new real-runtime PNG/GIF gallery evidence.\n[ ] Update book/guide/TODOs, issue/Project, owned continuity and source publication.\n[ ] Publish a new immutable source prerelease without moving prototype.1.\n\nAcceptance criteria:\nChanges affect actual 3D geometry/materials, not a photograph pasted over the\nviewer. Learned motion IDs/basis and runtime privacy/lifecycle stay unchanged.\nNo claim of photorealistic reconstruction, exact likeness, correct expressions\nor human approval. The supplied sheet has duplicated side views and unreliable\narticulation labels; do not train/calibrate animation against those poses.\nREADME media must show this runtime, with exact source/image provenance.\nNo automatic download, device activation, global change or sibling disturbance.\n\nCompletion evidence:\nImplemented and environment-qualified; source/release publication pending.\nClean tree and no active Verona Python/Electron process verified\nbefore runtime edits. Use isolated owned profiles/cache/synthesis and synthetic\nspeech; CPU/GPU/compositor are shared resources. Reference image stays outside\nthe public source/media; no photograph is served or embedded in the renderer.\n36 unit/HTTP checks and focused framing/XYZ checks pass. Browser05 passes23\nscenarios/12 modes, mean16.659-16.660ms/p95<=16.8/max17.5/zero>25;185-187\nnormal updates per mode/zero GPU normal-storage allocations. Color caps1.5x,\npolygons2x; requested2x color canvas1262x953, not1682x1270. Native01 passes10\nchecks/1801 intervals/30sec mean16.659/p9516.8/max17.3/zero>25/1831draws.\nPinned rest maximum0.533324cm offset, zero reversed/collapsed triangles.\nActual iris/lip color and zero-alpha lower-neck tested. All9 public media\nreviewed with separate13-source provenance; GIFs independently decoded40/24.\nBrowser01/03 one upper pixel failed equality (03 red85->87); explicit bound\nnow<=8 pixels/<=2 RGB levels; full restoration/zero belowcut stay strict.\nFinal05 has0 upper/full differences. Browser02/04 failed mean/p95 cases\nretained, causesunknown; no universal60fps/likeness/accuracy acceptance.\n\nCompletion log:\n2026-11-19 - Owner supplies a character sheet after rejecting the previous\nface; asks for coloring/makeup, actual screenshots/GIFs and prototype release.\nThe sheet guides appearance only; accuracy and aesthetic acceptance remain open.\n2026-11-19 - Qualified source, actual PNG/GIF gallery and separate provenance\nprepared. Existing first-release tag/media unchanged. Issue14/originalProject\nitem tracks this slice; publication and verified closure follow.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-19T11:35:15.932016+00:00"
+  "verifiedAt": "2026-11-19T12:15:04.345294+00:00"
 }

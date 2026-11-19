@@ -1,0 +1,562 @@
+{
+  "schemaVersion": 1,
+  "sourceBase": "3ab6066936a9e18e782d12981784bc2782f1c5c8",
+  "capture": "vr-15 actual 3D reference-guided color study, not a reconstruction or acceptance claim",
+  "reference": "Owner-supplied character sheet used visually; not redistributed, served or pasted onto geometry",
+  "browserCapture": {
+    "sourceBase": "3ab6066936a9e18e782d12981784bc2782f1c5c8",
+    "candidate": "working-tree vr-15 reference-guided color study; not likeness acceptance",
+    "voice": "Microsoft Zira Desktop",
+    "settings": {
+      "pitch": 8,
+      "rate": -2,
+      "bass": 6,
+      "treble": -3,
+      "emphasis": "none"
+    },
+    "emphasisDisclosure": "None is the unchanged application default; the owner's screenshot did not show emphasis.",
+    "sentence": "Hey, how are you?",
+    "duration": 3.295,
+    "speechFrames": 40,
+    "speechDelaysCentiseconds": [
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      8,
+      9,
+      8,
+      5
+    ],
+    "turnFrames": 24,
+    "turnDelayCentiseconds": 8,
+    "errors": [],
+    "externalRequests": [],
+    "capture": "Actual Edge WebGL2 renderer, timeline sampled at 12 fps; silent GIFs, not realtime inference or listening acceptance.",
+    "appearance": "Reference color + makeup; Head and neck; hair on/edges off, except explicitly named polygon/skin-only screenshots."
+  },
+  "nativeCapture": "Actual Windows overlay over the owned RGB(37,103,71) fixture; Hazel/default voice settings",
+  "qualification": {
+    "browserChecks": 23,
+    "renderCadence": [
+      {
+        "samples": 361,
+        "meanMs": 16.659556786703607,
+        "p95Ms": 16.80000000000109,
+        "maxMs": 17.200000000000728,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          841,
+          635
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 1,
+        "edges": true,
+        "view": "polygon",
+        "framing": "full"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659002770083095,
+        "p95Ms": 16.799999999999272,
+        "maxMs": 16.900000000001455,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          841,
+          635
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 1,
+        "edges": true,
+        "view": "polygon",
+        "framing": "head-neck"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659556786703597,
+        "p95Ms": 16.799999999999272,
+        "maxMs": 16.900000000001455,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          1682,
+          1270
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 2,
+        "edges": true,
+        "view": "polygon",
+        "framing": "full"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659002770083095,
+        "p95Ms": 16.799999999999272,
+        "maxMs": 16.900000000001455,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          1682,
+          1270
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 383,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 185,
+        "playing": true,
+        "density": 2,
+        "edges": true,
+        "view": "polygon",
+        "framing": "head-neck"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659833795013842,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 17.200000000004366,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          841,
+          635
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 1,
+        "edges": false,
+        "view": "shaded",
+        "framing": "full"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.65927977839335,
+        "p95Ms": 16.799999999995634,
+        "maxMs": 17.5,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          841,
+          635
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 186,
+        "playing": true,
+        "density": 1,
+        "edges": false,
+        "view": "shaded",
+        "framing": "head-neck"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659556786703597,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 16.900000000001455,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          1262,
+          953
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 383,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 185,
+        "playing": true,
+        "density": 2,
+        "edges": false,
+        "view": "shaded",
+        "framing": "full"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.65927977839335,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 17,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          1262,
+          953
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 2,
+        "edges": false,
+        "view": "shaded",
+        "framing": "head-neck"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659833795013842,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 17.30000000000291,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          841,
+          635
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 1,
+        "edges": true,
+        "view": "shaded",
+        "framing": "full"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.65872576177286,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 16.90000000000873,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          841,
+          635
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 383,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 1,
+        "edges": true,
+        "view": "shaded",
+        "framing": "head-neck"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659556786703575,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 17,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          1262,
+          953
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 2,
+        "edges": true,
+        "view": "shaded",
+        "framing": "full"
+      },
+      {
+        "samples": 361,
+        "meanMs": 16.659556786703618,
+        "p95Ms": 16.80000000000291,
+        "maxMs": 17.10000000000582,
+        "over25Ms": 0,
+        "viewport": [
+          1280,
+          980
+        ],
+        "canvas": [
+          1262,
+          953
+        ],
+        "cssCanvas": [
+          841,
+          635
+        ],
+        "submittedDraws": 382,
+        "normalBufferAllocations": 0,
+        "normalBufferUpdates": 187,
+        "playing": true,
+        "density": 2,
+        "edges": true,
+        "view": "shaded",
+        "framing": "head-neck"
+      }
+    ],
+    "referenceColor": {
+      "greenIrisPixels": 210,
+      "roseLipPixels": 1743
+    },
+    "framing": {
+      "removed": 44300,
+      "aboveChanged": 0,
+      "aboveMaxChannelDelta": 0,
+      "aboveExamples": [],
+      "belowColored": 0,
+      "roundTrip": 0,
+      "full": [
+        {
+          "mode": 4,
+          "count": 92238
+        },
+        {
+          "mode": 1,
+          "count": 61518
+        },
+        {
+          "mode": 4,
+          "count": 7296
+        },
+        {
+          "mode": 4,
+          "count": 53520
+        },
+        {
+          "mode": 1,
+          "count": 4664
+        }
+      ],
+      "cropped": [
+        {
+          "mode": 4,
+          "count": 78855
+        },
+        {
+          "mode": 1,
+          "count": 52518
+        },
+        {
+          "mode": 4,
+          "count": 7296
+        },
+        {
+          "mode": 4,
+          "count": 51696
+        },
+        {
+          "mode": 1,
+          "count": 4512
+        }
+      ],
+      "cutRow": 171.7656787908515,
+      "error": 0,
+      "description": "Head and neck: 26,285 skin triangles + 17,232 hair triangles. Framing changes rendering only, not speech generation.",
+      "indexedPoints": 13195
+    },
+    "restShape": {
+      "maximumOffsetCm": 0.5333235225614325,
+      "reversedTriangles": 0,
+      "collapsedTriangles": 0,
+      "referenceAccuracy": "Numerical geometry only, not likeness or expression acceptance."
+    },
+    "nativeChecks": 10,
+    "nativeCadence": {
+      "samples": 1801,
+      "meanMs": 16.659355913381457,
+      "p95Ms": 16.80000000000291,
+      "maxMs": 17.30000000000291,
+      "over25Ms": 0,
+      "submittedDraws": 1831,
+      "canvas": [
+        480,
+        600
+      ]
+    },
+    "nativeLowerNeck": {
+      "leaked": 0,
+      "row": 162.2982791724581,
+      "error": 0
+    }
+  },
+  "files": {
+    "reference-neutral.png": {
+      "sha256": "51b51077b676f157d7ee62d812108e3b68549a861fb9ae34c8ee63cdabba0c87",
+      "bytes": 135348,
+      "width": 843,
+      "height": 650
+    },
+    "reference-overview.png": {
+      "sha256": "a9c62612cffe6f66b65a160c47a0bc8648902d7c4fa99d4ac63fcc7a47b84cb1",
+      "bytes": 219149,
+      "width": 1280,
+      "height": 1100
+    },
+    "reference-turned.png": {
+      "sha256": "1a0dd3798ae009ca28db4b85d8c6486b818824af96792bcfd54d97a770ffec67",
+      "bytes": 152657,
+      "width": 843,
+      "height": 650
+    },
+    "reference-polygons.png": {
+      "sha256": "ff26fd22551b91818a8434f9349b5e902d6139f416a0bf953b228f33efd0ba38",
+      "bytes": 229420,
+      "width": 843,
+      "height": 650
+    },
+    "reference-skin-only.png": {
+      "sha256": "ae1d03b9e80e8e879267f13c50203b48315bbffd061d165bde1d4d059e65b756",
+      "bytes": 215123,
+      "width": 843,
+      "height": 650
+    },
+    "reference-overlay.png": {
+      "sha256": "871b3771e5957b40168131587fac66aead0bea6aac4336465d32a406d23d0298",
+      "bytes": 142948,
+      "width": 480,
+      "height": 600
+    },
+    "reference-desktop-controls.png": {
+      "sha256": "a6392dc928de3a6cc518bb51f32b018ce596a6f6862383e4f38ad6a44c3a6137",
+      "bytes": 286036,
+      "width": 1280,
+      "height": 980
+    },
+    "reference-speaking.gif": {
+      "sha256": "2e896e72563af5589a0612d02d342e6b9d4209d5c8ded68fb25ade9f0792ec35",
+      "bytes": 2115414,
+      "width": 640,
+      "height": 493
+    },
+    "reference-turntable.gif": {
+      "sha256": "d341e56891e80a64251be6996cecc493b3cfff4045ec6cea050e8262c3d81f02",
+      "bytes": 1360570,
+      "width": 640,
+      "height": 493
+    }
+  },
+  "sourceSha256": {
+    "desktop/main.cjs": "4d8d144320285d8afa086e7d1686bacfa8e7734e6b4fb82bbd4b6e2b8eb9c252",
+    "desktop/preload.cjs": "e96374e203f348382cef47eb639ab0a1107a1df2ee01e0afc9b4aeeebea9aa11",
+    "desktop/package.json": "3615dae2a3597d5f8b95d8537ce7e70123b180d0d1d49fceccdd6258702701f1",
+    "desktop/package-lock.json": "ba8beadfafa8941bd41fdf113cfd9212a81136ff7d2ba9c212543504a4dfeb80",
+    "verona/desktop.py": "5ed778063db34d8bb4f98d5f6b52dc45c5ef5c5323c0c2db2ce48089979516a1",
+    "verona/server.py": "a97ea124b0d8744a40ad606f2bc37f1ed8f30a21ec9a4ddab0becf10ee8951b5",
+    "verona/engine.py": "e1ef77f21f0b6c05d4839a87572f060e3259d39a32cf6917f774ea4d8d2066fe",
+    "verona/appearance.py": "03eb4a37825c04467a6770100156530bf8423fccbacd3e8ed4311a254a5b35e4",
+    "verona/web/app.js": "5bbc7295643dcc25b7f1aa4600625509f9a221782252f5287b57e2d0427fdaf0",
+    "verona/web/index.html": "dda88335d0cc60ac66f7e7c4f35709bff1dfc4ef425458fce16fc7972560c81f",
+    "verona/web/style.css": "24c423ae5a7ddb1b705091a4e44f6517b26cc76da9be4efa4333b4dee928d385",
+    "verona/web/orientation.mjs": "37ddb1f25415c7c7355c2460cbfe490b9d691574ec0c6813d39225da2c06dd9b",
+    "verona/web/framing.mjs": "6a84c555c23833a68f57f1758f884f11be03e732f58921438a433e3a3178c414"
+  },
+  "history": "Prior vr-12/13/14 captures and provenance remain unchanged; failed local receipts retained.",
+  "limits": "Stylized procedural 3D study; no exact likeness, photorealism, correct expressions, listening acceptance or universal 60fps claim.",
+  "visualReview": {
+    "png": "All seven published PNGs inspected, including actual native composition.",
+    "gif": "Independent Windows decoder verified40/24frames; representative speech0/13/26/39 and turn0/6/18/23 inspected.",
+    "acceptance": "Technical/visual inspection only; not owner aesthetic, likeness, listening or expression acceptance."
+  }
+}

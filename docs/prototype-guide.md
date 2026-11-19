@@ -49,7 +49,7 @@ Keep its terminal open. In the browser, type a sentence, click **Generate face**
 then **Play**. Try the greeting, P/B/M, F/V and vowel example buttons.
 Hazel is the default when installed; David and Zira remain selectable. The head
 uses **Verona's original rest styling over Claire motion**, with optional
-side-parted chestnut waves. The trained model remains Claire, not a new identity.
+side-parted espresso waves. The trained model remains Claire, not a new identity.
 Open **Edit voice** for pitch, speed, warmth/bass, brightness/treble and emphasis;
 **Reset voice** restores Hazel/default settings. **Preview voice** prepares a
 voice-only sample: press its audio Play control to hear it without generating
@@ -83,11 +83,15 @@ unqualified. This is a working neural-skin prototype, not SDK parity.
 **Presentation:** warm smooth shading, sculpted cheek/jaw/bridge contours,
 cosmetic brows/liner/rose lips and static hazel eyes define the character.
 **Transparent polygons** is the default View, restoring the earlier cool
-frosted surface and visible native contours. **Warm shaded face** is optional.
+frosted surface and visible native contours. **Reference color + makeup** is
+the optional olive/rosewood/hazel-green study guided by the supplied sheet,
+not an exact or photorealistic reconstruction.
 Edges/hair are on and points off initially; all remain independent. Switching
 View changes materials immediately, not the clip, voice or playback position.
 Hair has actual layered S-wave geometry. These are not
-animated eye joints, teeth or a claim of photorealism.
+animated eye joints, teeth or a claim of photorealism. Color rendering caps
+device pixel density at1.5x; polygon rendering retains a2x cap. This explicitly
+trades high-DPI color resolution for a smaller rendering workload.
 
 **Performance:** warm startup avoids native-scene parsing; repeating the latest
 request skips speech/inference. The current native-loop surface uses 15,375

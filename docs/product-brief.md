@@ -24,6 +24,13 @@ shoulders, retaining the ability to show more body later. Chapter 10's framing
 extension retains Full bust by default and removes wholly hidden skin/hair
 primitives and normal work; it does not speed up neural speech generation or
 introduce a full-body asset.
+The owner subsequently supplied a character reference sheet and requested
+color/makeup plus current screenshots/GIFs and source release. Chapter09's
+vr-15 study uses that visual direction for rest geometry, eyelid aperture,
+olive/rosewood materials, hazel-green eyes and espresso waves. The sheet's
+duplicated side views and unreliable articulation labels are not anatomical
+or phonetic ground truth. Exact likeness/photorealism/expressions remain
+unaccepted; the trained identity/basis remain Claire. Cool polygons stay default.
 
 ## Confirmed
 

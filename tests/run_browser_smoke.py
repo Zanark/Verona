@@ -14,6 +14,9 @@ from unittest.mock import patch
 from verona.server import LocalServer, create_state
 from verona.speech import POWERSHELL
 from verona.mesh import claire_topology
+from scripts.fetch_claire_model import DESTINATION
+
+import numpy as np
 
 
 EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
@@ -37,6 +40,23 @@ def main() -> None:
 
 def run_browser(args, node) -> None:
     state = create_state()
+    with np.load(DESTINATION / "model_data.npz", allow_pickle=False) as data:
+        original = data["shapes_mean_skin"][state.engine.selected].astype(np.float64)
+    styled = state.engine.neutral.astype(np.float64)
+    def normals(vertices):
+        points = vertices[state.engine.triangles]
+        return np.cross(points[:, 1] - points[:, 0], points[:, 2] - points[:, 0])
+    before, after = normals(original), normals(styled)
+    valid = np.linalg.norm(before, axis=1) > 1e-8
+    shape = {
+        "maximumOffsetCm": float(np.linalg.norm(styled - original, axis=1).max()),
+        "reversedTriangles": int(np.count_nonzero(np.sum(before[valid] * after[valid], axis=1) <= 0)),
+        "collapsedTriangles": int(np.count_nonzero(np.linalg.norm(after[valid], axis=1) <= 1e-8)),
+        "referenceAccuracy": "Numerical geometry only, not likeness or expression acceptance.",
+    }
+    (args.output / "rest-shape.json").write_text(json.dumps(shape, indent=2) + "\n", encoding="utf-8")
+    if shape["maximumOffsetCm"] >= 1.3 or shape["reversedTriangles"] or shape["collapsedTriangles"]:
+        raise RuntimeError(f"Rest styling failed bounded topology qualification: {shape}")
     server = LocalServer(0, state)
     thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": .05})
     thread.start()

@@ -25,6 +25,12 @@ Framing offers optional Head and neck; Full bust remains the default. Keep the
 original full geometry/motion and actual reduced indices/normal work; a screen
 mask alone is not the requested optimization. Chapter 10 explains the rest-space
 cut, open boundary and unchanged inference/storage costs.
+The vr-15 reference sheet guides appearance only, not a calibrated rig or
+phonetic ground truth. Chapter09 records a softer rest sculpt, bounded eyelid
+aperture, olive/rosewood cosmetics and espresso waves. Reference color + makeup
+replaces the old warm-view label, not the polygon default. Color pixel density
+is capped at1.5x, polygons2x. No exact likeness/photorealism/perfect-expression
+acceptance. Preserve separate new media/provenance and the original release tag.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
