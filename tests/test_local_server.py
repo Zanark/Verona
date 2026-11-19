@@ -91,6 +91,10 @@ class LocalServerTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn("javascript", headers["Content-Type"])
         self.assertIn(b"export function trimTopology", body)
+        status, headers, body = self.request("GET", "/presentations.mjs")
+        self.assertEqual(status, 200)
+        self.assertIn("javascript", headers["Content-Type"])
+        self.assertIn(b"export const PRESENTATIONS", body)
 
     def test_oversized_bad_fields_voice_and_nonfinite_expression_fail(self):
         status, _, _ = self.request("POST", "/api/generate", "x" * 8193)

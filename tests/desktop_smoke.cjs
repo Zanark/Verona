@@ -114,6 +114,36 @@ async function run(window) {
   assert.equal(lowerNeck.error,0);
   report.lowerNeck=lowerNeck;
   report.checks.push("Both materials, native contours, hair and diagnostic points leave zero alpha below the neck.");
+  report.presentationViews = [];
+  for (const id of ["facemesh", "facedot", "uniform"]) {
+    const data = await evaluate(`(() => {
+      const $=id=>document.getElementById(id);$("presentation").value=${JSON.stringify(id)};
+      $("presentation").dispatchEvent(new Event("input"));
+      const c=$("face"),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
+      g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+      let clear=0,colored=0;for(let i=3;i<p.length;i+=4){if(p[i]===0)clear++;else colored++;}
+      return {id:$("presentation").value,clear,colored,error:g.getError(),
+        source:$("audio").src,time:$("audio").currentTime,description:$("geometry-details").textContent};
+    })()`);
+    assert.equal(data.error,0,JSON.stringify(data));
+    assert(data.clear>10000 && data.colored>1000,JSON.stringify(data));
+    assert.equal(data.source,before.source);
+    await pause(150);
+    await fs.writeFile(path.join(output, `view-${id}.png`), (await window.webContents.capturePage()).toPNG());
+    if (id === "facemesh") {
+      await evaluate(`document.getElementById("mesh-detail").value="1";
+        document.getElementById("mesh-detail").dispatchEvent(new Event("input"));`);
+      await pause(150);
+      await fs.writeFile(path.join(output, "view-facemesh-detail1.png"), (await window.webContents.capturePage()).toPNG());
+      await evaluate(`document.getElementById("mesh-detail").value="5";
+        document.getElementById("mesh-detail").dispatchEvent(new Event("input"));`);
+    }
+    report.presentationViews.push(data);
+  }
+  await evaluate(`document.getElementById("presentation").value="claire";
+    document.getElementById("presentation").dispatchEvent(new Event("input"));`);
+  assert.equal(await evaluate(`document.getElementById("framing").value`),"head-neck");
+  report.checks.push("All three new views have real native overlay alpha, preserve the clip and restore Claire framing.");
   for (const id of ["tilt", "yaw", "roll"]) {
     for (const value of [-Math.PI, Math.PI / 2, Math.PI]) {
       const state = await evaluate(`(() => {const e=document.getElementById("${id}");e.value="${value}";
@@ -159,6 +189,41 @@ async function run(window) {
   assert(report.cadence.samples > 1500 && report.cadence.submittedDraws >= report.cadence.samples);
   assert(report.cadence.meanMs < 17.55 && report.cadence.p95Ms < 20, JSON.stringify(report.cadence));
   report.checks.push("Visible native overlay submits real audio-clocked draws within the bounded mean/p95 display budget.");
+  report.presentationCadence = [];
+  for (const id of ["facemesh", "facedot", "uniform"]) {
+    const data = await evaluate(`new Promise(async resolve => {
+      const $=id=>document.getElementById(id);$("presentation").value=${JSON.stringify(id)};
+      $("presentation").dispatchEvent(new Event("input"));
+      if($("presentation").value==="facemesh"){$("mesh-detail").value="1";$("mesh-detail").dispatchEvent(new Event("input"));}
+      const a=$("audio"),g=$("face").getContext("webgl2"),original=g.clear,update=g.bufferSubData;
+      let draws=0,updates=0;g.clear=function(...args){draws++;return original.apply(this,args);};
+      g.bufferSubData=function(...args){updates++;return update.apply(this,args);};
+      a.loop=true;await a.play();const intervals=[];let first=0,last=0;
+      function sample(now){
+        if(!first)first=now;if(last&&now-first>300)intervals.push(now-last);last=now;
+        if(now-first<3300)requestAnimationFrame(sample);
+        else {a.pause();a.loop=false;g.clear=original;g.bufferSubData=update;
+          const sorted=intervals.slice().sort((x,y)=>x-y);
+          resolve({id:$("presentation").value,samples:sorted.length,
+            meanMs:intervals.reduce((x,y)=>x+y,0)/intervals.length,
+            p95Ms:sorted[Math.floor(sorted.length*.95)],maxMs:sorted.at(-1),
+            over25Ms:sorted.filter(x=>x>25).length,submittedDraws:draws,
+            normalUpdates:updates,error:g.getError(),source:a.src,
+            canvas:[g.canvas.width,g.canvas.height]});}
+      }requestAnimationFrame(sample);
+    })`);
+    assert(data.samples>150 && data.submittedDraws>=data.samples,JSON.stringify(data));
+    assert(data.meanMs<17.55 && data.p95Ms<20,JSON.stringify(data));
+    assert.equal(data.normalUpdates,0);
+    assert.equal(data.error,0);
+    assert.equal(data.source,before.source);
+    report.presentationCadence.push(data);
+  }
+  await evaluate(`document.getElementById("mesh-detail").value="5";
+    document.getElementById("mesh-detail").dispatchEvent(new Event("input"));
+    document.getElementById("presentation").value="claire";
+    document.getElementById("presentation").dispatchEvent(new Event("input"));`);
+  report.checks.push("Native low-detail FaceMesh, FaceDot and UniformPolygons animate within budget with zero normal updates.");
   const b = window.getBounds();
   fixture = new BrowserWindow({ ...b, frame: false, show: false, alwaysOnTop: true,
     webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true } });

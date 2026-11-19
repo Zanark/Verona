@@ -198,6 +198,105 @@ Exact tag/source/body, nine remote media blobs, thirteen runtime blobs and
 the GitHub-rendered nine-image/two-GIF README were read back. There is no
 installer/model bundle, and the original prototype.1 remains unchanged.
 
+### Preserved Claire and extensible presentations (vr-20)
+
+The owner likes the present lip motion/expressions and names the existing view
+**Claire**. Preserve that implementation and prioritize performance while adding
+**FaceMesh**, **FaceDot** and **UniformPolygons**. These change presentation,
+not the trained identity, PCA coefficients, expression conditioning or audio
+timeline. The parked GLB direction is named **Realistic**; it is not resumed.
+This feedback is not a claim of perfect articulation or approved reference likeness.
+
+`PRESENTATIONS` and `presentation` in `verona/web/presentations.mjs` form a small
+explicit registry: display name, rendering style and initial framing.
+`FaceRenderer.setPresentation` reuses the loaded mesh, motion buffer and audio
+owner. It restores per-view framing; Claire's separate material and hair/point/
+edge choices remain untouched. Unrecognized views fail explicitly rather than
+silently substituting Claire. The narrow static-route allowlist in
+`verona.server.STATIC` serves the new local module; no generic importer is added.
+
+**FaceMesh** uses `frontFaceTopology`: a measured Claire-specific rest-space
+mask (Y135.7-157cm, Z at least-0.7cm, absolute X at most7.5cm) retains triangles
+whose vertices all lie on the front facial region. This is not a generic asset
+segmentation model. Ears, neck, hair and back disappear; the open facial patch
+remains an open patch when rotated. Triangle edges are deduplicated explicitly.
+Native level5 retains original front indices. Lower levels use bounded spatial
+cells but contract only *connected native edges*, never merely nearby points
+on unrelated sheets. Lip, lid and nose regions are protected. Contractions
+must pass shared-neighbor/incident-face checks and preserve incident rest-triangle
+winding; a synthetic fold regression rejects a tempting but invalid contraction.
+These rest checks are not a proof of contact correctness in every moving frame.
+Representatives remain original animated vertex IDs; full speech storage/inference is unchanged.
+Lower levels can alter detail outside protected regions, not create new phonetic
+accuracy. Actual counts are shown instead of calling a detail step a polygon
+percentage. Only the latest front index buffers are retained; replacing detail
+deletes the previous three GPU buffers. No topology is rebuilt per animation frame.
+
+**FaceDot** renders only circular points. `FaceRenderer.drawPresentation` first
+draws animated skin and static eyes with color writes disabled, filling depth
+without coloring polygons or making the background opaque. The point pass then
+uses depth testing to hide rear/occluded points. Skin includes the ears, eyes and
+selected neck/bust extent; procedural hair is intentionally absent. It is not
+an X-ray cloud or a free reduction of all background geometric work.
+
+**UniformPolygons** draws an antialiased grid from cylindrical rest-surface
+coordinates in the fragment shader. Coordinates interpolate over the same
+deformed triangles, so rows/columns move with the face under speech and XYZ
+rotation instead of remaining a screen overlay. Cells are approximately
+rectangular surface-grid cells, not perfect planar rectangles or a newly
+retopologized quadrilateral rig. The hidden depth pass still uses triangles.
+Eye pattern contrast retains bounded procedural gaze, not independent eye joints.
+
+New unlit styles use existing neutral normal buffers as unused attributes and
+do not call animated `normalBuffer`; interpolation remains audio-clocked.
+`presentationFit` computes rest bounds only when selecting an extent and caches
+them; FaceMesh keeps the same fit across density changes. Cursor projection
+receives the fitted center/scale. Claire uses identity fitting to preserve its
+previous framing/pixels. Dot/grid initially choose Head and neck and can expand
+to Full bust; FaceMesh fixes its framing. New ink views retain a2x pixel cap;
+Claire's optional color remains1.5x.
+
+Switching preserves playback, seeking, expression and desktop ownership, including
+pop-out/Controls. Reload resets unsaved view choices and clip state; server stop
+still clears RAM speech. Context loss pauses audio and requires explicit reload,
+as before. No asset/tool install, new model, microphone/camera, speech history,
+external resource request or automatic Realistic activation is introduced.
+Qualification and human visual approval remain separate; measurements are
+recorded after actual browser/native runs, not inferred from this design.
+
+#### vr-20 qualification
+
+The guarded implementation passes36Python/HTTP checks plus focused JS geometry,
+rotation and framing checks. Browser02 passes24scenarios/18playback workloads,
+including allthree newviews at1x/2x density. All workload means are16.659ms,
+maximum p9516.9ms, maximum interval18ms and zero intervals>25ms.
+New unlit workloads perform zero animated-normal updates; all18 perform zero
+per-sample GPU storage allocations. These are RAF/submission measurements,
+not isolated GPU timings or a universal scanout guarantee.
+
+Actual FaceMesh detail1..5 skin depth triangles:
+**11,158 /12,190 /13,456 /14,600 /15,123**. Five detail changes create15 and
+delete15GPU buffers. Returning to Claire produces **zero pixel differences**
+and restores its material, hair, edges and Full bust framing with the same clip.
+Colored draw-call inspection confirms only points for FaceDot and only lines
+for FaceMesh; their triangle passes write depth without color.
+
+Native01 passes12checks. At480x600, Claire's30-second sample has1801intervals,
+mean16.659ms, p9516.8ms, max17ms. Each new view has181sampled intervals,
+mean16.660ms, p9516.8ms, max at most17.2ms, no interval>25ms and no normal
+updates; the FaceMesh case uses detail1. Actual transparent native images of
+allthree and lowest-detail FaceMesh were inspected. Native pop-out/Controls,
+clip continuity, framing restoration, gaze and XYZ remain qualified.
+
+An intermediate numerical audit found more triangles opposed to average native
+vertex normals at low detail. That diagnostic alone does not establish inverted
+source winding; nevertheless it exposed a contraction risk. Incident
+rest-winding and shared-neighbor guards plus the fold fixture now reject that
+unsafe move. Browser01 is retained; Browser02/native receipts qualify the guarded
+source. Owned test processes stop and their profiles are removed.
+Playback was muted, not an independent listening or owner visual acceptance.
+No new dependency, model, Realistic integration, release or deployment.
+
 ### Deferred custom-avatar direction (vr-16 through vr-19)
 
 The owner explicitly rejected the vr-15 likeness, then supplied a static GLB

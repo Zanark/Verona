@@ -198,6 +198,81 @@ try {
   });
   const greeting = await generate("Hey, how are you?");
   report.greeting = greeting;
+  await check("Presentation views preserve Claire, occlude dots, bound detail buffers and keep the same clip", async () => {
+    await evaluate(`(() => {
+      const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+      window.presentationBaseline={pixels:new Uint8Array(c.width*c.height*4),source:$("audio").src,time:$("audio").currentTime};
+      $("yaw").dispatchEvent(new Event("input"));
+      g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,window.presentationBaseline.pixels);
+    })()`);
+    report.presentations = [];
+    for (const id of ["facemesh","facedot","uniform"]) {
+      const data = await evaluate(`(() => {
+        const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+        const draw=g.drawElements,arrays=g.drawArrays,mask=g.colorMask;let colored=true;const calls=[];
+        g.colorMask=function(...args){colored=args.some(Boolean);return mask.apply(this,args);};
+        g.drawElements=function(mode,count,...args){calls.push({mode,count,colored});return draw.call(this,mode,count,...args);};
+        g.drawArrays=function(mode,first,count){calls.push({mode,count,colored});return arrays.call(this,mode,first,count);};
+        $("presentation").value=${JSON.stringify(id)};$("presentation").dispatchEvent(new Event("input"));
+        g.drawElements=draw;g.drawArrays=arrays;g.colorMask=mask;
+        const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+        let visible=0,background=0;
+        for(let i=0;i<p.length;i+=4){if(p[i+1]>45 && p[i+2]>45)visible++;if(p[i]===4&&p[i+1]===6&&p[i+2]===10)background++;}
+        return {id:$("presentation").value,calls,visible,background,total:c.width*c.height,error:g.getError(),
+          source:$("audio").src,time:$("audio").currentTime,description:$("geometry-details").textContent,
+          framing:$("framing").value,framingDisabled:$("framing").disabled,
+          materialHidden:$("appearance").closest("label").hidden};
+      })()`);
+      assert.equal(data.error,0,JSON.stringify(data));
+      assert(data.visible>1000,JSON.stringify(data));
+      assert(data.background>data.total*.35,JSON.stringify(data));
+      assert.equal(data.source,await evaluate(`window.presentationBaseline.source`));
+      assert.equal(data.time,await evaluate(`window.presentationBaseline.time`));
+      assert(data.materialHidden);
+      if (id==="facemesh") {
+        assert(data.framingDisabled && data.framing==="front");
+        assert(data.calls.filter(c=>c.colored).every(c=>c.mode===1));
+        assert(data.calls[0].count<30746*3);
+      } else if (id==="facedot") {
+        assert.equal(data.framing,"head-neck");
+        assert(data.calls.filter(c=>c.colored).every(c=>c.mode===0));
+        assert(data.calls.some(c=>!c.colored && c.mode===4));
+      }
+      report.presentations.push(data);
+      await screenshot(`02-view-${id}`);
+      for (const axis of ["yaw","tilt","roll"]) {
+        await evaluate(`document.getElementById("${axis}").value=".7";document.getElementById("${axis}").dispatchEvent(new Event("input"));`);
+        assert.equal(await evaluate(`document.getElementById("face").getContext("webgl2").getError()`),0);
+        await evaluate(`document.getElementById("${axis}").value="0";document.getElementById("${axis}").dispatchEvent(new Event("input"));`);
+      }
+    }
+    report.meshDetail = await evaluate(`(() => {
+      const $=id=>document.getElementById(id),g=$("face").getContext("webgl2");
+      $("presentation").value="facemesh";$("presentation").dispatchEvent(new Event("input"));
+      const draw=g.drawElements,create=g.createBuffer,remove=g.deleteBuffer;let triangles=0,created=0,deleted=0;
+      g.drawElements=function(mode,n,...args){if(mode===g.TRIANGLES && !triangles)triangles=n/3;return draw.call(this,mode,n,...args);};
+      g.createBuffer=function(){created++;return create.call(this);};g.deleteBuffer=function(b){deleted++;return remove.call(this,b);};
+      const levels=[];
+      for(let detail=1;detail<=5;detail++){triangles=0;$("mesh-detail").value=String(detail);$("mesh-detail").dispatchEvent(new Event("input"));
+        levels.push({detail,triangles,error:g.getError()});}
+      g.drawElements=draw;g.createBuffer=create;g.deleteBuffer=remove;
+      $("presentation").value="claire";$("presentation").dispatchEvent(new Event("input"));
+      const c=$("face"),p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+      let restoredDifference=0;for(let i=0;i<p.length;i++)if(p[i]!==window.presentationBaseline.pixels[i])restoredDifference++;
+      delete window.presentationBaseline;
+      return {levels,created,deleted,restoredDifference,claire:$("presentation").value,
+        material:$("appearance").value,hair:$("hair").checked,edges:$("edges").checked,framing:$("framing").value};
+    })()`);
+    assert(report.meshDetail.levels[0].triangles<report.meshDetail.levels[4].triangles);
+    assert(report.meshDetail.levels.every(d=>d.error===0));
+    assert.equal(report.meshDetail.created,report.meshDetail.deleted);
+    assert.equal(report.meshDetail.restoredDifference,0);
+    assert.equal(report.meshDetail.claire,"claire");
+    assert.equal(report.meshDetail.material,"polygon");
+    assert.equal(report.meshDetail.hair,true);
+    assert.equal(report.meshDetail.edges,true);
+    assert.equal(report.meshDetail.framing,"full");
+  });
   report.firstClientReadySeconds = await evaluate(`Number(document.getElementById("details").dataset.readySeconds)`);
   await check("Framing during playback preserves speech and excludes hidden animated normals", async () => {
     const source=await evaluate(`document.getElementById("audio").src`);
@@ -388,20 +463,24 @@ try {
       gl.bufferSubData=function(...args){window.renderProbe.updates++;return update.apply(this,args);};
     })()`);
     report.renderCadence = [];
-    for (const {density,edges,view,framing} of [
+    for (const {density,edges,view,framing,preset="claire"} of [
       {density:1,edges:true,view:"polygon"},{density:2,edges:true,view:"polygon"},
       {density:1,edges:false,view:"shaded"},{density:2,edges:false,view:"shaded"},
       {density:1,edges:true,view:"shaded"},{density:2,edges:true,view:"shaded"},
-    ].flatMap(mode=>["full","head-neck"].map(framing=>({...mode,framing})))) {
-      await evaluate(`document.getElementById("framing").value=${JSON.stringify(framing)};
-        document.getElementById("framing").dispatchEvent(new Event("input"));
+    ].flatMap(mode=>["full","head-neck"].map(framing=>({...mode,framing}))).concat(
+      ["facemesh","facedot","uniform"].flatMap(preset=>[1,2].map(density=>({
+        preset,density,edges:false,view:"polygon",framing:preset==="facemesh"?"front":"head-neck"}))))) {
+      await evaluate(`document.getElementById("presentation").value=${JSON.stringify(preset)};
+        document.getElementById("presentation").dispatchEvent(new Event("input"));
+        document.getElementById("framing").value=${JSON.stringify(framing)};
+        ${preset==="facemesh"?"":'document.getElementById("framing").dispatchEvent(new Event("input"));'}
         document.getElementById("appearance").value=${JSON.stringify(view)};
         document.getElementById("edges").checked=${edges};document.getElementById("edges").dispatchEvent(new Event("input"));`);
       await cdp("Emulation.setDeviceMetricsOverride", { width:1280,height:980,deviceScaleFactor:density,mobile:false });
       await delay(150);
     const timing = await evaluate(`new Promise(resolve=>{
       const intervals=[];let previous=0,start=0;
-      const firstDraw=window.renderProbe.frames,firstUpdates=window.renderProbe.updates;
+      const firstDraw=window.renderProbe.frames,firstUpdates=window.renderProbe.updates,firstAllocations=window.renderProbe.allocations;
       function sample(now){
         if(!start)start=now;
         if(previous && now-start>300)intervals.push(now-previous);
@@ -415,18 +494,19 @@ try {
             canvas:[document.getElementById("face").width,document.getElementById("face").height],
             cssCanvas:[document.getElementById("face").clientWidth,document.getElementById("face").clientHeight],
             submittedDraws:window.renderProbe.frames-firstDraw,
-            normalBufferAllocations:window.renderProbe.allocations,
+            normalBufferAllocations:window.renderProbe.allocations-firstAllocations,
             normalBufferUpdates:window.renderProbe.updates-firstUpdates,
             playing:!document.getElementById("audio").paused});
         }
       }requestAnimationFrame(sample);
     })`);
-    report.renderCadence.push({...timing,density,edges,view,framing});
+    report.renderCadence.push({...timing,density,edges,view,framing,preset});
     }
     for (const timing of report.renderCadence) {
     assert.equal(timing.playing,true);
     assert.equal(timing.normalBufferAllocations,0);
-    assert(timing.normalBufferUpdates>100);
+    if(timing.preset==="claire")assert(timing.normalBufferUpdates>100);
+    else assert.equal(timing.normalBufferUpdates,0);
     assert(timing.samples>300,JSON.stringify(timing));
     assert(timing.submittedDraws>=timing.samples,JSON.stringify(timing));
     if(timing.view==="shaded"){
@@ -436,6 +516,8 @@ try {
     }
     await click("play");
     await evaluate(`document.getElementById("audio").loop=false;window.renderProbe.restore();delete window.renderProbe;
+      document.getElementById("presentation").value="claire";
+      document.getElementById("presentation").dispatchEvent(new Event("input"));
       document.getElementById("framing").value="full";
       document.getElementById("framing").dispatchEvent(new Event("input"));
       document.getElementById("appearance").value="polygon";
@@ -557,6 +639,7 @@ try {
     assert.equal(await evaluate(`document.getElementById("appearance").value`), "polygon");
     assert.equal(await evaluate(`document.getElementById("edges").checked`), true);
     assert.equal(await evaluate(`document.getElementById("framing").value`), "full");
+    assert.equal(await evaluate(`document.getElementById("presentation").value`), "claire");
   });
   assert.deepEqual(exceptions, []);
   assert.deepEqual(external, []);

@@ -1,5 +1,6 @@
 import { rotationMatrix, cursorGaze } from "/orientation.mjs";
 import { NECK_CUTOFF_Y, trimTopology } from "/framing.mjs";
+import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presentationFit } from "/presentations.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -80,11 +81,12 @@ class FaceRenderer {
       uniform float blend, quantization, aspect, zoom, pointSize;
       uniform mat3 rotation;
       uniform vec3 center;
-      uniform float scale;
+      uniform float scale, viewScale;
+      uniform vec3 viewCenter;
       out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
-        p = rotation * p;
+        p = rotation * ((p - viewCenter) * viewScale);
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
         gl_PointSize = pointSize;
         viewNormal = rotation * mix(normalA, normalB, blend);
@@ -96,13 +98,31 @@ class FaceRenderer {
       uniform bool points, polygonView;
       uniform float cutoffY;
       uniform vec2 gaze;
-      uniform int material, pass;
+      uniform int material, pass, presentationStyle;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
       float square(float value) { return value*value; }
       void main() {
         if (rest.y < cutoffY) discard;
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
+        if (presentationStyle > 0) {
+          if (pass == 2) { outputColor = vec4(0.0); return; }
+          float alpha = 0.92;
+          if (presentationStyle == 3) {
+            vec2 grid = vec2(atan(rest.x, rest.z + 4.0) * 12.0, rest.y * 2.7);
+            vec2 distanceToLine = abs(fract(grid - 0.5) - 0.5) / max(fwidth(grid), vec2(0.0001));
+            alpha *= 1.0 - smoothstep(0.35, 1.1, min(distanceToLine.x, distanceToLine.y));
+            if (alpha < 0.01) discard;
+          }
+          vec3 ink = color;
+          if (material == 2) {
+            vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
+            float radius = length((rest - eyeCenter).xy - gaze);
+            ink *= 0.45 + 0.55 * smoothstep(0.18, 0.35, radius);
+          }
+          outputColor = vec4(ink, alpha);
+          return;
+        }
         vec3 n = normalize(viewNormal);
         vec3 key = normalize(polygonView?vec3(-0.65,0.8,1.2):vec3(-0.55,0.65,1.5));
         float diffuse = polygonView?max(dot(n,key),0.0):clamp((dot(n,key)+0.22)/1.22,0.0,1.0);
@@ -229,7 +249,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "gaze", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "cutoffY"]
+      ["blend", "quantization", "aspect", "rotation", "gaze", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "cutoffY", "presentationStyle", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -270,6 +290,12 @@ class FaceRenderer {
       triangles:this.buffer(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3)),
       normals:this.buffer(gl.ARRAY_BUFFER,surfaceNormals(eyeData,new Uint32Array(binary,eyes.triangleOffset,eyes.triangles*3))),
     };
+    this.eyeTriangles = new Uint32Array(binary, eyes.triangleOffset, eyes.triangles * 3);
+    this.presentationId = "claire";
+    this.view = presentation("claire");
+    this.framings = Object.fromEntries(Object.entries(PRESENTATIONS).map(([id, view]) => [id, view.framing]));
+    this.detail = 5;
+    this.fit = { center: [0, 0, 0], scale: 1 };
     this.motion = null;
     this.headOnly = false;
     this.skin = this.fullSkin;
@@ -299,7 +325,6 @@ class FaceRenderer {
   setFraming(value) {
     if (value !== "full" && value !== "head-neck") throw new Error("Choose a supported face framing.");
     const headOnly = value === "head-neck";
-    if (headOnly === this.headOnly) return;
     if (headOnly && !this.neck) {
       // Classification uses packed rest Y; the fragment boundary uses original model centimetres.
       const cutoff = (NECK_CUTOFF_Y - this.meta.center[1]) / this.meta.scale * this.meta.quantization;
@@ -320,6 +345,111 @@ class FaceRenderer {
     this.skin = headOnly ? this.neck.skin : this.fullSkin;
     this.activeHair = headOnly ? this.neck.hair : this.hair;
     for (const slot of this.normalSlots) slot.frame = -1;
+    this.updateFit();
+  }
+
+  updateFit() {
+    if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: 1 };
+    else if (this.view.style === 1) this.fit = this.frontFit;
+    else {
+      this.allVertices ||= Uint32Array.from({ length: this.meta.vertices }, (_, i) => i);
+      this.skin.fit ||= presentationFit(this.neutralData, this.skin.vertices || this.allVertices, this.meta.quantization);
+      this.fit = this.skin.fit;
+    }
+  }
+
+  setDetail(detail) {
+    if (detail === this.detail && this.front) return;
+    const topology = frontFaceTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, detail);
+    const native = this.frontFit ? null : detail === 5 ? topology
+      : frontFaceTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, 5);
+    const fit = this.frontFit || presentationFit(this.neutralData, native.vertices, this.meta.quantization);
+    const gl = this.gl;
+    const next = {
+      triangles: this.buffer(gl.ELEMENT_ARRAY_BUFFER, topology.triangles),
+      edges: this.buffer(gl.ELEMENT_ARRAY_BUFFER, topology.edges),
+      points: this.buffer(gl.ELEMENT_ARRAY_BUFFER, topology.vertices),
+      triangleData: topology.triangles, vertices: topology.vertices,
+      triangleCount: topology.triangles.length / 3, edgeCount: topology.edges.length / 2,
+    };
+    if (this.front) for (const name of ["triangles", "edges", "points"]) gl.deleteBuffer(this.front[name]);
+    this.front = next;
+    this.frontFit = fit;
+    this.detail = detail;
+    if (this.view.style === 1) { this.skin = next; this.updateFit(); }
+  }
+
+  setPresentation(id) {
+    const view = presentation(id);
+    if (view.style === 1) {
+      this.setDetail(this.detail);
+      this.skin = this.front;
+      this.headOnly = false;
+    } else this.setFraming(this.framings[id]);
+    this.presentationId = id;
+    this.view = view;
+    this.updateFit();
+    for (const slot of this.normalSlots) slot.frame = -1;
+  }
+
+  drawPresentation(ratio) {
+    const gl = this.gl, u = this.uniforms, skin = this.skin, style = this.view.style;
+    gl.uniform1i(u.points, 0);
+    gl.uniform1i(u.pass, 2);
+    gl.uniform1i(u.material, 0);
+    gl.colorMask(false, false, false, false);
+    gl.enable(gl.POLYGON_OFFSET_FILL);
+    gl.polygonOffset(1, 1);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skin.triangles);
+    gl.drawElements(gl.TRIANGLES, skin.triangleCount * 3, gl.UNSIGNED_INT, 0);
+    this.staticSurface(this.eyes);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.eyes.triangles);
+    gl.drawElements(gl.TRIANGLES, this.meta.eyes.triangles * 3, gl.UNSIGNED_INT, 0);
+    gl.disable(gl.POLYGON_OFFSET_FILL);
+    gl.colorMask(true, true, true, true);
+    gl.depthMask(false);
+    gl.enable(gl.BLEND);
+    gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.uniform1i(u.pass, 1);
+    gl.uniform1i(u.points, style === 2);
+    gl.uniform1f(u.pointSize, 1.9 * ratio);
+    gl.uniform3f(u.color, 0.30, 0.91, 0.86);
+    const surface = (skinSurface) => {
+      if (style === 2) {
+        if (skinSurface) {
+          if (skin.points) {
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skin.points);
+            gl.drawElements(gl.POINTS, skin.vertices.length, gl.UNSIGNED_INT, 0);
+          } else gl.drawArrays(gl.POINTS, 0, this.meta.vertices);
+        } else gl.drawArrays(gl.POINTS, 0, this.meta.eyes.vertices);
+      } else if (style === 1) {
+        if (!skinSurface && !this.eyes.edges) {
+          const edges = topologyEdges(this.eyeTriangles);
+          this.eyes.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, edges);
+          this.eyes.edgeCount = edges.length / 2;
+        }
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skinSurface ? skin.edges : this.eyes.edges);
+        gl.drawElements(gl.LINES, (skinSurface ? skin.edgeCount : this.eyes.edgeCount) * 2, gl.UNSIGNED_INT, 0);
+      } else {
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skinSurface ? skin.triangles : this.eyes.triangles);
+        gl.drawElements(gl.TRIANGLES, (skinSurface ? skin.triangleCount : this.meta.eyes.triangles) * 3, gl.UNSIGNED_INT, 0);
+      }
+    };
+    for (const name of ["positionA", "positionB"]) {
+      this.attribute(name, this.motion || this.neutral, gl.SHORT,
+        this.motion ? (name === "positionA" ? this.leftFrame : this.rightFrame) * this.meta.vertices * 6 : 0);
+    }
+    this.attribute("restPosition", this.neutral, gl.SHORT);
+    for (const name of ["normalA", "normalB"]) this.attribute(name, this.neutralNormals, gl.FLOAT);
+    gl.uniform1f(u.blend, this.frameBlend);
+    gl.uniform1i(u.material, 0);
+    surface(true);
+    this.staticSurface(this.eyes);
+    gl.uniform1i(u.material, 2);
+    surface(false);
+    gl.disable(gl.BLEND);
+    gl.depthMask(true);
+    gl.uniform1i(u.points, 0);
   }
 
   setClip(binary, metadata) {
@@ -373,7 +503,7 @@ class FaceRenderer {
   draw(seconds) {
     const gl = this.gl;
     if (gl.isContextLost()) { this.gazeMoving = false; return; }
-    const polygonView = $("appearance").value === "polygon";
+    const polygonView = this.view.style > 0 || $("appearance").value === "polygon";
     const ratio = Math.min(window.devicePixelRatio || 1, polygonView ? 2 : 1.5);
     const width = Math.max(1, Math.round(this.canvas.clientWidth * ratio));
     const height = Math.max(1, Math.round(this.canvas.clientHeight * ratio));
@@ -389,15 +519,19 @@ class FaceRenderer {
     const frame = this.frames ? Math.min(this.frames - 1, Math.max(0, seconds * 30)) : 0;
     const left = Math.floor(frame);
     const right = this.frames ? Math.min(this.frames - 1, left + 1) : 0;
+    this.leftFrame = left; this.rightFrame = right; this.frameBlend = frame - left;
     this.attribute("positionA",this.motion||this.neutral,gl.SHORT,this.motion?left*this.meta.vertices*6:0);
     this.attribute("positionB",this.motion||this.neutral,gl.SHORT,this.motion?right*this.meta.vertices*6:0);
     this.attribute("restPosition",this.neutral,gl.SHORT);
-    this.attribute("normalA",this.normalBuffer(left),gl.FLOAT);
-    this.attribute("normalB",this.normalBuffer(right),gl.FLOAT);
+    this.attribute("normalA",this.view.style ? this.neutralNormals : this.normalBuffer(left),gl.FLOAT);
+    this.attribute("normalB",this.view.style ? this.neutralNormals : this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
     const skin = this.skin, hair = this.activeHair;
     gl.uniform1f(u.cutoffY, this.headOnly ? NECK_CUTOFF_Y : -1e20);
     gl.uniform1i(u.polygonView,polygonView);
+    gl.uniform1i(u.presentationStyle, this.view.style);
+    gl.uniform3fv(u.viewCenter, this.fit.center);
+    gl.uniform1f(u.viewScale, this.fit.scale);
     gl.uniform1f(u.blend, frame - left);
     gl.uniform1f(u.quantization, this.meta.quantization);
     gl.uniform3fv(u.center,this.meta.center);
@@ -407,7 +541,8 @@ class FaceRenderer {
     gl.uniformMatrix3fv(u.rotation, false, rotation);
     const target = $("follow-eyes").checked && cursor
       ? cursorGaze(cursor.x, cursor.y, this.canvas.getBoundingClientRect(), rotation,
-        Number($("zoom").value), this.meta.center, this.meta.scale) : [0, 0];
+        Number($("zoom").value), this.meta.center.map((value, i) => value + this.fit.center[i] * this.meta.scale),
+        this.meta.scale / this.fit.scale) : [0, 0];
     const now = performance.now(), smoothing = 1 - Math.exp(-Math.min(.1, (now - this.lastDraw) / 1000) / .075);
     this.lastDraw = now;
     this.gaze = this.gaze.map((value, i) => Math.abs(target[i] - value) < .0001
@@ -417,6 +552,19 @@ class FaceRenderer {
     this.canvas.dataset.gaze = this.gaze.join(",");
     gl.uniform1f(u.zoom, Number($("zoom").value) * 0.91);
     gl.uniform1f(u.pointSize, 1.15 * ratio);
+    $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
+    if (this.view.style) {
+      this.drawPresentation(ratio);
+      const description = `${this.view.name}: ${skin.triangleCount.toLocaleString()} skin depth triangles; `
+        + (this.view.style === 1 ? `${skin.edgeCount.toLocaleString()} triangle edges, detail ${this.detail}/5. Front face only.`
+          : this.view.style === 2 ? "Visible surface dots only; hair off." : "Surface-space rectangular grid; hair off.")
+        + " Same Claire speech motion; no animated-normal updates.";
+      if ($("geometry-details").textContent !== description) $("geometry-details").textContent = description;
+      this.geometryKey = null;
+      this.canvas.dataset.presentation = this.presentationId;
+      return;
+    }
+    this.canvas.dataset.presentation = "claire";
     gl.uniform1i(u.material,0);
     gl.uniform1i(u.pass,0);
     gl.uniform1i(u.points, 0);
@@ -677,11 +825,34 @@ for (const id of ["appearance", "edges", "points", "hair", "yaw", "tilt", "roll"
   $(id).addEventListener("input", () => { updateAngles(); draw(); });
 }
 $("framing").addEventListener("input", () => {
-  try { renderer.setFraming($("framing").value); draw(); }
+  try {
+    if (renderer.view.style === 1) throw new Error("FaceMesh uses front-face framing only.");
+    renderer.setFraming($("framing").value);
+    renderer.framings[renderer.presentationId] = $("framing").value;
+    draw();
+  }
   catch (error) {
-    $("framing").value = renderer.headOnly ? "head-neck" : "full";
+    syncPresentationControls();
     failure(error);
   }
+});
+function syncPresentationControls() {
+  const claire = renderer.view.style === 0, mesh = renderer.view.style === 1;
+  for (const label of document.querySelectorAll("[data-claire-control]")) label.hidden = !claire;
+  $("mesh-detail-control").hidden = !mesh;
+  $("mesh-detail").value = String(renderer.detail);
+  $("mesh-detail-value").value = `${renderer.detail} / 5`;
+  $("framing").value = mesh ? "front" : renderer.framings[renderer.presentationId];
+  $("framing").disabled = mesh;
+  $("presentation").value = renderer.presentationId;
+}
+$("presentation").addEventListener("input", () => {
+  try { renderer.setPresentation($("presentation").value); syncPresentationControls(); draw(); }
+  catch (error) { syncPresentationControls(); failure(error); }
+});
+$("mesh-detail").addEventListener("input", () => {
+  try { renderer.setDetail(Number($("mesh-detail").value)); syncPresentationControls(); draw(); }
+  catch (error) { syncPresentationControls(); failure(error); }
 });
 function updateAngles() {
   for (const id of ["tilt", "yaw", "roll"]) $(`${id}-angle`).value = `${Math.round(Number($(id).value) * 180 / Math.PI)} deg`;
@@ -776,7 +947,13 @@ try {
     ? "Default: Hazel, installed locally." : `Hazel is not installed. Using ${defaultVoice}; choose another installed voice if preferred.`;
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary);
-  $("framing").disabled = false;
+  for (const [id, view] of Object.entries(PRESENTATIONS)) {
+    const option = document.createElement("option");
+    option.value = id; option.textContent = view.name;
+    $("presentation").append(option);
+  }
+  $("presentation").disabled = false;
+  syncPresentationControls();
   new ResizeObserver(draw).observe($("face"));
   $("voice").disabled = false;
   $("generate").disabled = false;

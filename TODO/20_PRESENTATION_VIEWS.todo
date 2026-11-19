@@ -1,0 +1,80 @@
+ID: vr-20
+Title: Preserve Claire and add extensible performance-first presentation views
+GitHub issue: https://github.com/Zanark/Verona/issues/19
+
+Status: DONE
+Milestone: Claire, FaceMesh, FaceDot and UniformPolygons share one speaking face.
+Dependencies: vr-13, vr-14, vr-15
+
+Purpose:
+The owner likes the present Claire lip motion/expressions and wants it preserved,
+with performance prioritized. Add three selectable presentations now, without
+changing the learned model. The future supplied GLB is named Realistic but
+vr-16..19 remain parked; naming it does not resume asset adaptation.
+
+Tasks:
+[x] 20.1 Preserve Claire as the fresh-load default, including its material,
+    hair/edge/point settings, full-bust option and unchanged speech pipeline.
+[x] 20.2 Add a small explicit presentation registry and reversible selection.
+    No audio replacement, regeneration, seeking or extra rendering loop.
+[x] 20.3 Implement FaceMesh as a front-face-only triangular wire mask, without
+    ears, neck or hair. Add bounded detail levels, native detail by default,
+    actual reduced index work and protected lip/eye/nose regions.
+    Reject incompatible adjacency and incident rest-triangle winding changes.
+[x] 20.4 Implement FaceDot as visible surface dots, including ears/eyes/neck.
+    Use a hidden depth surface for occlusion, never a visible filled skin/line
+    pass; suppress hair without altering Claire's saved choices.
+[x] 20.5 Implement UniformPolygons as a surface-anchored rectangular grid.
+    Disclose curved/deformed cells and the underlying triangle depth surface;
+    do not claim new quad retopology or perfectly rectangular curved anatomy.
+[x] 20.6 Preserve gaze, XYZ, framing where applicable, one desktop overlay,
+    RAM-only speech, capability routing and explicit graphics/setup failures.
+    Bound topology/cache resources and skip unused shaded-normal updates.
+[x] 20.7 Add focused geometry/switching tests; qualify actual browser/native
+    pixels, motion, density, alpha, reset/restart and comparable performance.
+    Keep failures, actual raster density and human-acceptance limits.
+[x] 20.8 Update guide/README/book/index/ledger and issue/Project evidence;
+    publish only the coherent verified source milestone, not a new release.
+
+Acceptance criteria:
+Claire round-trips exactly with its prior choices and stays the initial view.
+All three named views display actual animated Claire geometry, not image
+overlays or an unrelated model. FaceMesh removes non-face geometry and reduces
+submitted primitives at lower detail without welding opposite lips/eyelids.
+FaceDot shows no colored polygons/lines and occludes hidden points. Uniform
+grid follows the surface under speech/rotation instead of a screen-space grid.
+Changing view/detail preserves the current audio source/time and expression.
+View resources stay bounded; unlit modes do not compute unused animated normals.
+Existing local/privacy/lifecycle behavior remains, with no automatic install,
+asset download, Realistic integration, device activation or sibling interaction.
+Performance is measured, not inferred solely from polygon counts.
+
+Completion evidence:
+36Python/HTTP tests and JSgeometry/rotation/framing checks pass, including the
+synthetic fold regression and exact new-module allowlist. Browser02 passes24
+checks/18playback workloads; exact Claire pixel restoration, same clip,
+dots-only color submissions, actualdetail11158/12190/13456/14600/15123 and
+15created/15deleted topology buffers verified. Means16.659ms, p95<=16.9ms,
+max18ms/zero>25; zero per-sampleGPUstorageallocations; newviews0normalupdates.
+Native01 passes12checks: actualtransparentalpha/allthreeviews, head/neckchoice,
+XYZ/gaze/oneaudio/controlspopout; Claire1801intervals mean16.659/p9516.8/max17ms.
+Each newview181intervals (FaceMeshdetail1), mean16.660/p9516.8/max<=17.2ms,
+zero>25 and0normalupdates. Actual3PNG+lowestdetailPNG inspected.
+Private receipts: .local/qualification/presentation-views-browser-02 and
+.local/qualification/presentation-views-native-01; earlierBrowser01 retained.
+Separate numerical inspection flagged extra opposed-to-average normals at low
+detail (not itself proof of inversion). Added incident rest-winding/shared-
+neighbor guards; final guarded source qualifies above. No owner visual,
+independent listening, photorealistic or perfect-expression acceptance.
+Stable-use baseline is source4ef93d1. No Verona runtime was found before edits.
+Development uses owned isolated browser/native profiles, ephemeral loopback
+servers and private synthesis/derived-cache outputs; assets are read-only.
+CPU/GPU/compositor are shared, so cadence is environment-qualified only.
+
+Completion log:
+2026-11-19 - Owner names preserved Claire and future parked Realistic; requests
+FaceMesh, FaceDot and UniformPolygons now using supplied visual examples.
+2026-11-19 - Implemented/qualified allthree over unchanged Claire motion,
+protecteddetail/no-foldguard and bounded resources; docs/book/index/ledger
+updated. Issue19/originalProjectitem are the sole tracking pair for vr-20.
+All owned qualifier processes stopped/profiles removed. No release/deployment.

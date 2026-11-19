@@ -19,6 +19,7 @@ vr-16 | 16_CUSTOM_AVATAR_FEASIBILITY.todo | NOT_STARTED | DEFERRED: rights, iden
 vr-17 | 17_ANIMATION_READY_AVATAR.todo | NOT_STARTED | DEFERRED: suitable face topology, materials and facial controls
 vr-18 | 18_CUSTOM_AVATAR_INTEGRATION.todo | NOT_STARTED | DEFERRED: opt-in avatar adapter and local speech retargeting
 vr-19 | 19_CUSTOM_AVATAR_QUALIFICATION.todo | NOT_STARTED | DEFERRED: measured performance, owner review and candidate handoff
+vr-20 | 20_PRESENTATION_VIEWS.todo | DONE | Preserve Claire; add FaceMesh, FaceDot and UniformPolygons
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
@@ -33,6 +34,14 @@ Dependency chain: vr-16 -> vr-17 -> vr-18 -> vr-19; vr-18 also needs completed
 vr-14. A vr-16 no-go blocks downstream work even if its investigation is done.
 No model adaptation, tool install, asset upload or new release is authorized
 by recording this roadmap. Existing app, assets and defaults remain unchanged.
+The owner's subsequent vr-20 request adds three presentations over preserved
+Claire motion now. It does NOT resume vr-16..19. The parked GLB direction is
+named Realistic; no replacement model/rig/importer is implemented by vr-20.
+vr-20 is implemented/environment-qualified: Browser02 passes24cases/18modes,
+Native01 passes12checks including allnewviews/lowdetailmotion. Same audio,
+exactClaire restoration, bounded buffers and zero unlitnormalupdates verified.
+Mesh detail1..5 submits11158/12190/13456/14600/15123skintriangles.
+Issue19/Project15 tracks this slice; no new release or human-accuracy approval.
 Research and numerical CPU feasibility are complete. The owner has authorized
 autonomous local text-to-face implementation; vr-07's functional player is
 implemented, qualified and source-published. Launch Verona.cmd.

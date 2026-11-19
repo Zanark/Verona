@@ -80,14 +80,45 @@ contrasting speech inputs have been exercised in Edge; testing was muted.
 Correct lip contacts, expressive quality and human listening acceptance remain
 unqualified. This is a working neural-skin prototype, not SDK parity.
 
-**Presentation:** warm smooth shading, sculpted cheek/jaw/bridge contours,
+## Select a presentation
+
+**View → Claire** is the preserved initial view. Its separate **Claire material**
+selector retains Transparent polygons (default) and Reference color + makeup.
+Claire's edge/point/hair choices and framing survive a round-trip to another view.
+The current clip, explicit expression, voice, playback clock and XYZ/zoom remain
+the same: switching views does not generate, reload, seek or replace audio.
+
+- **FaceMesh:** only the front facial skin and eyes, no ears, neck or hair.
+  Triangle edges are visible, without a colored filled surface. **Mesh detail**
+  ranges from 1 to 5; 5 preserves native front-face detail. Lower levels contract
+  connected edges outside protected lip/lid/nose regions. The displayed counts
+  are real submitted triangles/edges, not percentages or a promise of speedup.
+  Framing is fixed to Front face only. The open mask rotates in 3D; it does not
+  grow a back/ears when turned.
+- **FaceDot:** surface dots only, including ears/eyes/neck. An invisible depth
+  surface hides points behind the visible skin; no polygons or lines are colored.
+- **UniformPolygons:** a rectangular surface-coordinate grid over animated skin,
+  including ears/eyes/neck, not a flat screen overlay. Cells curve/stretch over
+  anatomy and expressions. This is a grid presentation, not a new quad mesh.
+
+Dot/grid views omit hair and start at Head and neck; each retains its own framing,
+with Full bust available. All new views auto-fit their selected extent and use
+unlit ink, avoiding unused animated shading normals. Their depth surface still
+uses triangles; dots do not make geometry/inference free.
+Select the view/detail in Controls before popping out the same transparent
+desktop window. Reload/restart restores Claire, Full bust and native detail.
+Reset orientation does not reset presentation/detail/framing.
+**Realistic** names the parked future GLB identity; there is no selectable fake
+implementation, automatic rig repair or asset import in this update.
+
+**Claire presentation:** warm smooth shading, sculpted cheek/jaw/bridge contours,
 cosmetic brows/liner/rose lips and static hazel eyes define the character.
-**Transparent polygons** is the default View, restoring the earlier cool
+**Transparent polygons** is the default Claire material, restoring the earlier cool
 frosted surface and visible native contours. **Reference color + makeup** is
 the optional olive/rosewood/hazel-green study guided by the supplied sheet,
 not an exact or photorealistic reconstruction.
 Edges/hair are on and points off initially; all remain independent. Switching
-View changes materials immediately, not the clip, voice or playback position.
+Claire material changes immediately, not the clip, voice or playback position.
 Hair has actual layered S-wave geometry. These are not
 animated eye joints, teeth or a claim of photorealism. Color rendering caps
 device pixel density at1.5x; polygon rendering retains a2x cap. This explicitly

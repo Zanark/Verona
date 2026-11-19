@@ -36,7 +36,14 @@ as a possible future identity source. The model direction is now PARKED, not
 abandoned. Deferred vr-16 through vr-19 cover feasibility/rights/identity,
 animation-ready asset work, opt-in import/retargeting and separate performance/
 human acceptance. No custom-avatar importer or working replacement rig exists.
-The current request authorizes planning/issue tracking, not implementation.
+That request authorized planning/issue tracking, not implementation.
+The owner next asks to preserve the present model/view as Claire, prioritizing
+performance and retaining its liked lip movement/expressions. Add FaceMesh
+(front face only, adjustable triangle detail), FaceDot (visible dots including
+ears/eyes/neck) and UniformPolygons (rectangular surface grid) now, with a
+reusable view-selection boundary. These are presentations of the same animated
+Claire skin. The future GLB identity is named Realistic and remains parked.
+Positive feedback on current motion does not establish perfect phonetic accuracy.
 
 ## Confirmed
 

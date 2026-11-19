@@ -23,6 +23,9 @@ density cap. It is not a photorealistic reconstruction or likeness acceptance.
 The owner rejected that study's likeness. Chapter09 now also records the
 explicitly deferred custom-avatar roadmap (vr-16 through vr-19); those plans
 do not implement a replacement model, importer or facial rig.
+The vr-20 extension preserves Claire and adds FaceMesh, FaceDot and
+UniformPolygons over the same motion, with detail/occlusion/performance contracts
+in chapter09. The future GLB identity is called Realistic and remains deferred.
 
 ## Reading paths
 

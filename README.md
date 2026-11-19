@@ -14,7 +14,8 @@ Windows voices, CPU neural motion, connected native contours. No camera, microph
 Hover its top-left corner for **Move**, **Controls** or **Close**.
 Eyes follow your cursor; X/Y/Z sliders rotate the head freely.
 The browser version remains `.\Verona.cmd`.
-Choose **View → Reference color + makeup** for olive skin, hazel-green eyes,
+**View → Claire** preserves the current head and speech motion.
+Choose **Claire material → Reference color + makeup** for olive skin, hazel-green eyes,
 rosewood lips and espresso waves. **Transparent polygons** remains the default.
 Fresh checkout? [Setup and controls](docs/prototype-guide.md).
 [Current source prerelease](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.2).
@@ -45,6 +46,21 @@ Desktop setup: `.\Setup-VeronaDesktop.cmd` once.
 
 ## Keep the polygon effect
 
+The **View** selector adds presentations without regenerating or restarting speech:
+
+| View | Presentation |
+|---|---|
+| **Claire** | Original face/hair, transparent polygons or optional makeup |
+| **FaceMesh** | Front face only: triangular wireframe, no ears/neck/hair; **Mesh detail 1-5**, default 5 |
+| **FaceDot** | Visible-surface dots, including ears/eyes/neck; no visible polygons, lines or hair |
+| **UniformPolygons** | Surface-anchored rectangular grid, including ears/eyes/neck; no hair |
+
+Dot/grid views start at Head and neck; Full bust remains available.
+Claire retains its own framing and toggles. New unlit views skip animated-normal
+updates; lower FaceMesh detail reduces submitted geometry, not inference time.
+Grid cells follow the curved/deforming face, not perfectly flat rectangles.
+**Realistic**, the future supplied-GLB identity, remains parked.
+
 | Transparent polygons | Same native skin, hair off |
 |---|---|
 | ![Current cool polygon head and waves](docs/media/reference-polygons.png) | ![Current native facial contours without hair](docs/media/reference-skin-only.png) |
@@ -52,7 +68,7 @@ Desktop setup: `.\Setup-VeronaDesktop.cmd` once.
 ## Shape the voice
 
 Preview, adjust pitch/speed/bass/treble/emphasis, generate. Hazel remains the
-reset default. **Edges**, **Points** and **Hair** remain independent.
+reset default. Claire's **Edges**, **Points** and **Hair** remain independent.
 
 **Early prototype:** procedural cursor gaze, not learned eye joints; articulation accuracy is not accepted.
 Playback targets **60-fps display** over 30-fps neural motion, not live generation.

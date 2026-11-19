@@ -1,6 +1,33 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-20 preserved Claire and selectable presentation views
+Cause: owner likes current lip/expressive motion, names it Claire and requests
+three additional views, extensible over time, with performance prioritized.
+Decision: same learned motion/audio owner; small explicit presentation registry.
+FaceMesh filters front rest topology and offers bounded connected-edge detail
+levels with lip/lid/nose protection. FaceDot colors only depth-tested points.
+UniformPolygons is a surface-anchored rectangular grid, not a new quad rig.
+New unlit styles skip unused animated normals. Claire defaults/choices retained;
+future GLB direction named Realistic, vr-16..19 remain parked.
+Focused geometry/rotation/framing and36Python/HTTP checks pass.
+Browser01 passes24checks/18modes, including exact Claire restoration.
+Low-detail numerical audit flags extra normals opposed to native averages,
+not itself inversion proof; added incident rest-winding/shared-neighbor guards
+and a synthetic fold regression. Final guarded Browser02 passes24checks/18modes:
+skintriangles11158/12190/13456/14600/15123 atdetail1..5,15GPUbufferscreated/
+15deleted,0Clairepixelroundtripdifference; means16.659/p95<=16.9/max18ms,
+zero>25,0per-sampleGPUallocations, allnewstyles0normalupdates.
+Native01 passes12checks, actualalpha/oneaudio/XYZ/gaze/restore. Claire30sec:
+1801intervals/1831draws, mean16.659/p9516.8/max17ms. Three newviews each181
+intervals/202-203draws at480x600, mean16.660/p9516.8/max<=17.2/zero>25,
+0normalupdates; FaceMeshtested atdetail1. Actualnew3PNG+lowestdetailinspected.
+Qualification is local, muted and not owner visual/phonetic acceptance.
+New issue19/originalProjectitem: membership-lag
+recovery reused saved IDs, not duplicate creation. Prior18 unchanged. No new
+dependency, asset, speech model, device, release or deployment.
+Ownedtestservers/nativebrowserprocesses stopped, disposableprofiles removed.
+
 2026-11-19 - Deferred custom-avatar roadmap, not model implementation
 Cause: after inspecting a supplied static GLB, the owner parks the model for
 later but requests detailed TODOs and corresponding repository/Project issues.

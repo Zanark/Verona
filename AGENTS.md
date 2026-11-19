@@ -31,6 +31,13 @@ aperture, olive/rosewood cosmetics and espresso waves. Reference color + makeup
 replaces the old warm-view label, not the polygon default. Color pixel density
 is capped at1.5x, polygons2x. No exact likeness/photorealism/perfect-expression
 acceptance. Preserve separate new media/provenance and the original release tag.
+vr-20 names the preserved default Claire. The presentation registry additionally
+supports FaceMesh (front triangular mask, protected detail1-5/native5), FaceDot
+(depth-occluded points) and UniformPolygons (surface-space rectangular grid,
+not quad retopology). These share motion/audio/gaze/XYZ; unlit views skip
+animated normals and retain bounded latest-detail buffers. Preserve Claire's
+material/toggles/framing on return. Realistic names the parked supplied GLB,
+not an implemented selector; vr-16..19 require explicit resumption.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
