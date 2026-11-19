@@ -1,5 +1,30 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Current visual delivery: all hairstyles (vr-26)
+
+The [main gallery](../../README.md#every-hairstyle-in-motion) now shows every
+entry in `HAIRSTYLES` from `verona/web/hairstyles.mjs`: original Claire plus all
+ten generated alternatives. Eleven individual 32-frame turntable GIFs expose
+front and both profile silhouettes. Full bust/80% zoom retains long hair and
+updos; the first full-bust/100% capture clipped the bun and is not published.
+This is a capture framing choice, not a runtime/model/fit change.
+
+Twenty-three GIFs also cover the actual speech timeline, four presentations,
+pattern controls, two cursor modes, jaw crop, zoom and native collapsed/expanded
+controls. [Media provenance](../media/README.md) distinguishes manual view
+rotation, sampled speech and discrete control states. Cursor demonstrations
+dispatch synthetic pointer positions only in the owned browser; native controls
+reuse same-source final qualification captures and flatten transparency to
+black. Neither sequence proves physical pointer dragging or OS acrylic blur.
+
+All 561 frames were independently decoded for exact count/timing/dimensions
+and changing pixels; representative decoded samples of every sequence were
+visually reviewed. That is not every-frame visual review, listening, likeness
+or phonetic acceptance. No runtime source, speech model, dependency or asset
+changes accompany the gallery. Exact source/media hashes, original failure
+receipts, disposable-owner cleanup and publication identity remain separate
+from appearance approval. See [prototype.3 notes](../releases/v0.1.0-prototype.3.md).
+
 ## Direction and scope
 
 The owner asked for an independently designed, more attractive adult character

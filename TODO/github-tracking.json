@@ -320,7 +320,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-26": {
+      "source": "TODO/26_ANIMATED_GALLERY_RELEASE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgwuBtw",
+      "number": 25,
+      "url": "https://github.com/Zanark/Verona/issues/25",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKNXz4",
+      "title": "Complete hairstyle GIF gallery and updated prototype release",
+      "managedBody": "\n<!-- verona-workstream:vr-26 -->\nWorkstream source: `TODO/26_ANIMATED_GALLERY_RELEASE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-26\nTitle: Complete hairstyle GIF gallery and updated prototype release\n\nStatus: IN_PROGRESS\nMilestone: GIF-first README showcasing every supported hairstyle and current controls.\nDependencies: vr-22, vr-23, vr-24, vr-25\n\nPurpose:\nShow the actual current prototype, especially original Claire waves and all ten\nalternative hairstyles, through clearly labeled animated previews and an updated\nimmutable source prerelease. Preserve previous releases and historical media.\n\nTasks:\n[x] Capture all eleven hairstyles and representative speech, views and controls.\n[x] Independently decode and visually inspect GIFs; retain exact source/media provenance.\n[x] Update README, media guide, book, ledger and issue/Project tracking.\n[ ] Commit/push the verified gallery and publish/read back prototype.3.\n\nAcceptance criteria:\nEvery HAIRSTYLES option appears by its exact displayed name with a visible GIF\nin the README, without needing a separate gallery page or collapsed section.\nAnimations come from the actual local renderer and synthetic greeting; distinguish\nsampled speech, manual turntables and discrete control-state sequences. No camera,\nmicrophone, private reference, capability URL, model asset or unrelated app capture.\nUse owned isolated browser/cache/synthesis resources; preserve any active runtime.\nVerify encoded frames/timing, README image links, exact source/tag and remote media.\nKeep earlier immutable release tags/bodies and media unchanged. No installer,\ndeployment, Realistic implementation, accuracy or subjective acceptance claim.\n\nCompletion evidence:\nGallery implemented and reviewed; source/release publication pending.\nRuntime baseline f1aea4d24b2a0c40eef08ce1240ad6f1ecd3348e unchanged.\nNo active Verona runtime found before capture; shared CPU/GPU remain exclusive\nqualification resources. Existing pinned Python/Edge and local encoder only.\nFirst capture's full-bust bun reaches the top edge; retained privately and\nexcluded from publication. Recapture all hair at explicit 80% zoom, not a model edit.\nFinal gallery contains23GIFs/1PNG, all11exact named hairstyle options inREADME.\n561frames independently decoded, dimensions/timings/nonconstantpixels match.\nRepresentative decoded samples of everyGIF visually inspected, not everyframe\nor human/likeness/phonetic acceptance. Same-runtime native2state captures reused;\nother22sequences captured inisolatedEdge, allownedprocesses/profilescleaned.\nApprox39.7MB media;15sourcehashes/24mediahashes in gallery-provenance.json.\nActual built-in layout recorded: inline override blocked byexistingstyleCSP.\nRawsource guard hitCRLF/LF; normalizedequality and exactcapturebytehashes separate.\nIssue25/originalsavedProjectitemverified InProgress; initialmembership propagation\nmiss recovered byfreshinventory/reusing savedIDs, notcreating duplicates.\n\nCompletion log:\n2026-11-19 - Owner requests a GIF-heavy README showing every hairstyle and an\nupdated release. Authorized a new source prerelease, not a deployment/model bundle.\n2026-11-19 - Actual runtime capture and local encoding complete; all decoded\nreview sheets inspected, complete GIF-first README and prototype.3 notes ready.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-19T15:42:55.402490+00:00"
+  "verifiedAt": "2026-11-19T16:03:45.639927+00:00"
 }

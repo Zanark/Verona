@@ -1,8 +1,63 @@
 # Prototype media receipt
 
-## Current vr-15 color study
+## Current vr-26 GIF-first gallery
 
-The README now uses `reference-*.png` and two `reference-*.gif` captures.
+The current README embeds **23 GIFs and one interface PNG**, all showing the
+actual prototype at runtime source `f1aea4d24b2a0c40eef08ce1240ad6f1ecd3348e`.
+`gallery-provenance.json` lists all 24 media hashes, 15 captured runtime-source
+hashes, exact frame delays/dimensions and each sequence's meaning. Source hashes
+identify working-tree bytes; normalized equality against the source commit
+accounts explicitly for Windows CRLF/LF. No runtime source changed for capture.
+
+| Files | Meaning |
+|---|---|
+| `gallery-hair-{claire,pixie,bob,angled,straight,curls,ponytail,twins,bun,double,braid}.gif` | Every actual selector option, 32 frames/3.20s each, manual yaw from front to both profiles; full bust, color/makeup, 80% zoom |
+| `gallery-speaking.gif` | Hazel defaults saying synthetic "Hey, how are you?"; 33 timeline samples/2.75s |
+| `gallery-view-{claire,facemesh,facedot,uniform}.gif` | Four presentations of the same paused speech pose; 24 manual-yaw frames/2.88s each |
+| `gallery-pattern-{facedot,uniform}.gif` | Eight discrete density/gap states/4.40s each; not an exact sample count |
+| `gallery-cursor-{eyes,head}.gif` | 24 sampled responses/2.88s each to synthetic pointer positions in the owned browser; system cursor unchanged |
+| `gallery-jawline.gif` | Six discrete neck-depth states/3.30s |
+| `gallery-zoom.gif` | Eight discrete browser zoom states/3.20s; native buttons share this control; high zoom can clip |
+| `gallery-overlay-controls.gif` | Two actual Electron states/2.60s, collapsed/expanded tab; transparent pixels flattened to black, not desktop dragging/OS-blur footage |
+| `gallery-overview.png` | Actual current browser interface with generated synthetic greeting |
+
+Browser GIFs are 640x664 after proportional resampling; the native-control GIF
+is 640x800. All repeat silently. Hair uses 10 sampled frames/second, speech
+12, view/cursor sequences approximately 8.33; discrete-state animations use
+longer holds. The onscreen 30/60fps label describes the **app**, not GIF timing.
+These are not real-time performance recordings, listening/phonetic acceptance,
+hair physics, photorealistic strands or approved likeness.
+
+All 561 encoded frames across 23 GIFs were independently decoded with Windows
+System.Drawing; frame counts, timings, dimensions and nonconstant pixels matched.
+Decoded front/left/right samples of every hairstyle and representative samples
+of every feature GIF were visually inspected. This is sample review, not a
+claim that every frame was visually examined or the owner approved the result.
+The existing local shared-palette quantizer uses 256 colors, no downloaded
+encoder. The gallery's media total is approximately 39.7 MB: deliberately
+GIF-heavy, with possible loading delay on slow connections.
+
+Capture used the existing isolated Edge owner, disposable profile, separate
+capability/RAM server, numeric cache and synthesis workspace, then stopped and
+removed all owned processes/profiles. No active Verona runtime existed before
+capture. Shared CPU/GPU/compositor resources were used sequentially, not driven
+through another application. Native states reuse the final qualified
+`hair-controls-native-06` captures of the same exact runtime; no native relaunch.
+No device activation, supplied reference image, private speech, address bar,
+capability, model asset or unrelated application's pixels are published.
+
+The first capture clipped the bun at full-bust 100% zoom; it is retained privately
+and excluded. Final all-style captures explicitly use 80% zoom. An attempted
+inline layout override was blocked by the application's existing style CSP:
+the public receipt records the effective built-in layout and measured PNG
+dimensions, not the unfulfilled request. A raw-source equality guard initially
+hit Windows CRLF/LF; normalized source equality and exact captured-byte hashes
+are recorded separately. No capture gate or runtime security policy was weakened.
+All older media and receipts below remain unchanged historical snapshots.
+
+## Historical vr-15 color study
+
+The prototype.2 README used `reference-*.png` and two `reference-*.gif` captures.
 `reference-provenance.json` records 13 exact runtime-source hashes, all 9 media
 hashes, browser/native receipts, actual pixel sizes and capture voice settings.
 These show the real procedural 3D head, **not the supplied character sheet**.

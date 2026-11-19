@@ -1,0 +1,53 @@
+ID: vr-26
+Title: Complete hairstyle GIF gallery and updated prototype release
+GitHub issue: https://github.com/Zanark/Verona/issues/25
+
+Status: IN_PROGRESS
+Milestone: GIF-first README showcasing every supported hairstyle and current controls.
+Dependencies: vr-22, vr-23, vr-24, vr-25
+
+Purpose:
+Show the actual current prototype, especially original Claire waves and all ten
+alternative hairstyles, through clearly labeled animated previews and an updated
+immutable source prerelease. Preserve previous releases and historical media.
+
+Tasks:
+[x] Capture all eleven hairstyles and representative speech, views and controls.
+[x] Independently decode and visually inspect GIFs; retain exact source/media provenance.
+[x] Update README, media guide, book, ledger and issue/Project tracking.
+[ ] Commit/push the verified gallery and publish/read back prototype.3.
+
+Acceptance criteria:
+Every HAIRSTYLES option appears by its exact displayed name with a visible GIF
+in the README, without needing a separate gallery page or collapsed section.
+Animations come from the actual local renderer and synthetic greeting; distinguish
+sampled speech, manual turntables and discrete control-state sequences. No camera,
+microphone, private reference, capability URL, model asset or unrelated app capture.
+Use owned isolated browser/cache/synthesis resources; preserve any active runtime.
+Verify encoded frames/timing, README image links, exact source/tag and remote media.
+Keep earlier immutable release tags/bodies and media unchanged. No installer,
+deployment, Realistic implementation, accuracy or subjective acceptance claim.
+
+Completion evidence:
+Gallery implemented and reviewed; source/release publication pending.
+Runtime baseline f1aea4d24b2a0c40eef08ce1240ad6f1ecd3348e unchanged.
+No active Verona runtime found before capture; shared CPU/GPU remain exclusive
+qualification resources. Existing pinned Python/Edge and local encoder only.
+First capture's full-bust bun reaches the top edge; retained privately and
+excluded from publication. Recapture all hair at explicit 80% zoom, not a model edit.
+Final gallery contains23GIFs/1PNG, all11exact named hairstyle options inREADME.
+561frames independently decoded, dimensions/timings/nonconstantpixels match.
+Representative decoded samples of everyGIF visually inspected, not everyframe
+or human/likeness/phonetic acceptance. Same-runtime native2state captures reused;
+other22sequences captured inisolatedEdge, allownedprocesses/profilescleaned.
+Approx39.7MB media;15sourcehashes/24mediahashes in gallery-provenance.json.
+Actual built-in layout recorded: inline override blocked byexistingstyleCSP.
+Rawsource guard hitCRLF/LF; normalizedequality and exactcapturebytehashes separate.
+Issue25/originalsavedProjectitemverified InProgress; initialmembership propagation
+miss recovered byfreshinventory/reusing savedIDs, notcreating duplicates.
+
+Completion log:
+2026-11-19 - Owner requests a GIF-heavy README showing every hairstyle and an
+updated release. Authorized a new source prerelease, not a deployment/model bundle.
+2026-11-19 - Actual runtime capture and local encoding complete; all decoded
+review sheets inspected, complete GIF-first README and prototype.3 notes ready.

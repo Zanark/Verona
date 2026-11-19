@@ -2,89 +2,141 @@
 
 **Type a sentence. Hear a local voice. Watch her speak.**
 
-![Actual reference-color 3D study playing a sampled local greeting](docs/media/reference-speaking.gif)
+![Verona speaking the locally generated greeting with original Claire waves](docs/media/gallery-speaking.gif)
 
-Windows voices, CPU neural motion, connected native contours. No camera, microphone or cloud runtime.
+Windows voices, CPU neural motion and an animated 3D face. **No camera,
+microphone or cloud runtime.** This gallery shows the actual prototype, not
+reference artwork or a photorealistic reconstruction.
+
+[**Get prototype 3**](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.3)
+&middot; [Setup and controls](docs/prototype-guide.md)
+&middot; [All 11 hairstyles](#every-hairstyle-in-motion)
+&middot; [Engineering book](docs/README.md)
 
 ```powershell
 .\VeronaDesktop.cmd
 ```
 
 **Generate face**, **Play**, then **Pop out transparent head**.
-Click the tiny glass **...** tab above the head for **Drag to move** and
-**- / + / Fit** zoom controls. It starts collapsed; Escape collapses it again.
-**Cursor mode** chooses moving eyes or a turning head with centered eyes.
-**Follow cursor** enables either mode; X/Y/Z remain manual orientation offsets.
-The browser version remains `.\Verona.cmd`.
-**View → Claire** preserves the current head and speech motion.
-Choose **Claire material → Reference color + makeup** for olive skin, hazel-green eyes,
-rosewood lips and espresso waves. **Transparent polygons** remains the default.
-**Hairstyle** offers the original Claire waves plus ten geometric alternatives:
-pixie, bob, asymmetric bob, sleek layers, curls, ponytail, twin tails, top bun,
-space buns and braided crown. Use Full bust for long styles; hair remains optional.
-Fresh checkout? [Setup and controls](docs/prototype-guide.md).
-[Current source prerelease](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.2).
+Fresh checkout? Follow [setup](docs/prototype-guide.md) first; this is a source
+prototype, not a bundled installer. Desktop setup is explicit:
+`.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
 
-## Color study
+## Every hairstyle in motion
 
-| Neutral geometry | Three-quarter geometry |
+**Original Claire waves plus ten alternatives. Every available option is below.**
+Choose **View -> Claire**, enable **Hair**, then pick **Hairstyle**.
+These previews select **Reference color + makeup**, **Full bust** and **80% zoom**
+to reveal tails, long layers and updos. The app still starts with the original
+waves and cool **Transparent polygons**.
+
+| Claire waves (original) | Tapered pixie |
 |---|---|
-| ![Actual neutral color study, not the supplied reference image](docs/media/reference-neutral.png) | ![Actual turned 3D color study with thicker layered waves](docs/media/reference-turned.png) |
+| ![Claire waves original hairstyle rotating from front to both sides](docs/media/gallery-hair-claire.gif) | ![Tapered pixie hairstyle rotating from front to both sides](docs/media/gallery-hair-pixie.gif) |
+| **Rounded bob** | **Asymmetric angled bob** |
+| ![Rounded bob hairstyle rotating from front to both sides](docs/media/gallery-hair-bob.gif) | ![Asymmetric angled bob hairstyle rotating from front to both sides](docs/media/gallery-hair-angled.gif) |
+| **Long sleek layers** | **Spiral curls** |
+| ![Long sleek layers hairstyle rotating to show the full length](docs/media/gallery-hair-straight.gif) | ![Spiral curls hairstyle rotating to show the curl geometry](docs/media/gallery-hair-curls.gif) |
+| **High ponytail** | **Twin tails** |
+| ![High ponytail hairstyle rotating to reveal the rear tail](docs/media/gallery-hair-ponytail.gif) | ![Twin tails hairstyle rotating to reveal both side tails](docs/media/gallery-hair-twins.gif) |
+| **Coiled top bun** | **Double space buns** |
+| ![Coiled top bun hairstyle rotating with the complete bun visible](docs/media/gallery-hair-bun.gif) | ![Double space buns hairstyle rotating to show the paired buns](docs/media/gallery-hair-double.gif) |
+| **Braided crown** | **One speech system, eleven looks** |
+| ![Braided crown hairstyle rotating to show the woven crown](docs/media/gallery-hair-braid.gif) | Hair changes do not regenerate speech. These are procedural geometric styles, not strand simulation. **Head and neck** trims long hair to the same jaw-following boundary; use **Full bust** to retain its length. |
 
-![Turntable of the actual colored 3D head, using view rotation rather than predicted head motion](docs/media/reference-turntable.gif)
+These are manual view turntables at 10 sampled frames/second, not hair physics
+or head motion inferred from speech. Only the selected alternative is built;
+switching back restores the original Claire geometry.
 
-![Actual text-to-speech interface with the current color study](docs/media/reference-overview.png)
+## Four ways to see the same face
 
-**A stylized reference-guided study—not a photorealistic reconstruction or an
-accepted likeness.** The underlying speech model remains Claire.
+Change **View** without restarting or regenerating the current clip.
 
-## Desktop and transparent overlay
-
-![Actual colored native overlay composited over an owned green fixture](docs/media/reference-overlay.png)
-
-![Actual desktop controls with the retained polygon presentation](docs/media/reference-desktop-controls.png)
-
-**Framing → Head and neck** hides shoulders and submits fewer polygons.
-**Full bust** stays available/default. Cursor-following eyes and X/Y/Z rotation
-work in both views. Always-on-top is optional; transparent areas may intercept clicks.
-Desktop setup: `.\Setup-VeronaDesktop.cmd` once.
-
-## Keep the polygon effect
-
-The **View** selector adds presentations without regenerating or restarting speech:
-
-| View | Presentation |
+| Claire | FaceMesh |
 |---|---|
-| **Claire** | Original face/hair, transparent polygons or optional makeup |
-| **FaceMesh** | Front face only: triangular wireframe, no ears/neck/hair; **Mesh detail 1-5**, default 5 |
-| **FaceDot** | Visible-surface dots, including ears/eyes/neck; no visible polygons, lines or hair |
-| **UniformPolygons** | Surface-anchored rectangular grid, including ears/eyes/neck; no hair |
+| ![Claire cool polygon presentation turning over the same paused speech pose](docs/media/gallery-view-claire.gif) | ![FaceMesh front-only triangular facial mask turning over the same paused speech pose](docs/media/gallery-view-facemesh.gif) |
+| Original head, optional hair, cool contours or reference color/makeup. | Front face only: no ears, neck or hair. **Mesh detail 1-5**, native detail at 5. |
+| **FaceDot** | **UniformPolygons** |
+| ![FaceDot visible-surface dots turning with ears and jaw](docs/media/gallery-view-facedot.gif) | ![UniformPolygons rectangular surface grid turning with the face](docs/media/gallery-view-uniform.gif) |
+| Dots on the visible face, ears, eyes and neck; no visible connecting lines or hair. | Rectangular surface-grid outlines, including ears, eyes and neck; no hair. |
 
-FaceDot and UniformPolygons expose **Pattern density** (0.5x-3x) and **Cell gap**
-(0-80%). Density changes the number of dots/cells; gap separates their visible
-marks without changing the speech mesh. Each view remembers its own settings
-until reload. These are surface patterns, not extra model vertices or quad faces.
+These previews manually turn a paused generated pose. All four views share the
+same underlying Claire motion and audio clock. Grid cells follow the curved
+face: this is **not quad retopology**. **Realistic**, the future supplied-GLB
+identity, remains parked and is not an implemented view.
 
-Dot/grid views start at Head and neck; Full bust remains available.
-**Head and neck → Visible neck** previews a jaw-following cut live:
-**0** for jawline-only, up to **6cm** for more neck (default1.7cm).
-Claire retains its own framing and toggles. New unlit views skip animated-normal
-updates; lower FaceMesh detail reduces submitted geometry, not inference time.
-Grid cells follow the curved/deforming face, not perfectly flat rectangles.
-**Realistic**, the future supplied-GLB identity, remains parked.
+### More dots. More cells. More space.
 
-| Transparent polygons | Same native skin, hair off |
+| FaceDot density and gap | UniformPolygons density and gap |
 |---|---|
-| ![Current cool polygon head and waves](docs/media/reference-polygons.png) | ![Current native facial contours without hair](docs/media/reference-skin-only.png) |
+| ![FaceDot stepping through sparse and dense dots and increasing cell gaps](docs/media/gallery-pattern-facedot.gif) | ![UniformPolygons stepping through sparse and dense grids and increasing cell gaps](docs/media/gallery-pattern-uniform.gif) |
+
+**Pattern density: 0.5x-3x. Cell gap: 0-80%.** Density changes the spacing and
+number of surface samples; gap separates their visible marks. Each view retains
+its own values until reload. These GIFs step through actual control states,
+not new neural vertices, exact dot counts or performance measurements.
+
+## Eyes follow, or the whole head follows
+
+Enable **Follow cursor**, then select **Cursor mode**.
+
+| Eyes follow cursor | Head follows cursor (eyes centered) |
+|---|---|
+| ![Irises following synthetic pointer positions while the head stays oriented](docs/media/gallery-cursor-eyes.gif) | ![Whole head aiming at synthetic pointer positions while the irises remain centered](docs/media/gallery-cursor-head.gif) |
+
+X/Y/Z remain manual orientation offsets. Tracking is bounded procedural aiming,
+not calibrated 3D gaze or learned eye joints. These captures use synthetic pointer
+positions inside the owned browser; they do not move the system cursor.
+
+## A floating head, not a floating control panel
+
+![Actual native overlay alternating between its tiny collapsed glass tab and expanded controls](docs/media/gallery-overlay-controls.gif)
+
+The native overlay starts with a **tiny translucent glass ... tab centered
+above the head**. Click to expand; **Escape** or clicking outside collapses it.
+Expand for **Drag to move**, **- / + / Fit**, **Controls** and **Close**.
+The native window remembers its placement across Controls/pop-out for this run;
+restart resets it. Always-on-top is optional, and transparent areas may intercept clicks.
+
+The GIF alternates two actual Electron captures, with transparency flattened to
+black for the image. It is not a recording of desktop dragging or OS acrylic blur;
+the glass effect styles Verona's own web content.
+
+| Decide how much neck is visible | Zoom in and out |
+|---|---|
+| ![Visible neck control stepping through jawline-only and longer curved neck crops](docs/media/gallery-jawline.gif) | ![Shared zoom control stepping between smaller and larger face sizes](docs/media/gallery-zoom.gif) |
+
+**Framing -> Head and neck -> Visible neck** previews a curved jaw-following cut:
+**0-6 cm**, default **1.7 cm**. Full bust restores the complete original geometry.
+**Zoom: 35-230%; Fit: 100%.** The GIF samples browser zoom states; the native
+buttons use the same control. High zoom intentionally can crop the model.
 
 ## Shape the voice
 
-Preview, adjust pitch/speed/bass/treble/emphasis, generate. Hazel remains the
-reset default. Claire's **Edges**, **Points** and **Hair** remain independent.
+Preview, adjust pitch/speed/bass/treble/emphasis, generate. **Hazel** remains the
+reset default. Choose an explicit expression; it is not guessed from the words.
+Claire's **Edges**, **Points** and **Hair** remain independent.
 
-**Early prototype:** procedural cursor gaze, not learned eye joints; articulation accuracy is not accepted.
-Playback targets **60-fps display** over 30-fps neural motion, not live generation.
-Color view caps high-DPI rendering at 1.5x; polygons at 2x.
-Historical frame-time spikes remain documented. GIFs are silent sampled previews.
+![Current Verona browser interface with generated synthetic greeting and original Claire waves](docs/media/gallery-overview.png)
 
-[Engineering book](docs/README.md) · [Media provenance](docs/media/README.md) · [Third-party terms](THIRD_PARTY.md) · [Original immutable prototype](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1)
+## Prototype boundaries
+
+The trained speech identity remains **Claire v2.3.1**. Reference color/makeup is a
+stylized study, **not an accepted likeness, photorealism or perfect expressions**.
+Teeth/tongue/eye joints and full SDK contact correction remain omitted.
+Phonetic accuracy and independent listening acceptance are still open.
+
+Speech is generated ahead of playback: **30-fps neural motion** interpolated on
+the audio clock, with a **60-fps display target**, not live generation or a universal
+performance guarantee. Color rendering caps pixel density at 1.5x; polygons at 2x.
+Historical frame-time outliers remain documented.
+
+**All 23 GIFs are silent sampled previews**, not 60-fps recordings or an audio demo.
+Hairstyle turntables show view rotation; control GIFs may show discrete states.
+[Media provenance and timings](docs/media/README.md) identify their exact sources.
+No private transcripts, reference sheets, model assets or voice recordings are
+included in the gallery.
+
+[Engineering book](docs/README.md) &middot; [Third-party terms](THIRD_PARTY.md)
+&middot; [Immutable prototype 1](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1)
+&middot; [Immutable prototype 2](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.2)

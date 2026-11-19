@@ -1,6 +1,29 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-26 complete animated gallery prepared for prototype.3
+Cause: owner explicitly requests an updated release and GIF-heavy README
+showcasing every hairstyle. Runtime f1aea4d remains unchanged.
+Action: capture all11HAIRSTYLES entries, speech,4views,2patterns,2cursormodes,
+jawline/zoom in isolatedEdge; reuse final same-source nativecollapsed/expanded
+captures. Encode23GIFs/1PNG with existing local shared-palette quantizer.
+Effect: each exact hairselectorname has its own visible README turntable;
+561frames independently decoded for exacttiming/dimensions/changingpixels.
+Representative decoded samples fromeverysequence visuallyinspected, not
+everyframe or ownerapproval. GIFs sample speech/manualyaw/discretestates,
+not60fps/liveinference/performance/listening/physicaldrag/OSblurproof.
+First100%full-bust galleryclippedbun: retainprivately/use80%allhair instead.
+InlineportraitlayoutblockedbyexistingstyleCSP; receiptcorrectlyrecordsactual
+built-inlayout/measuredPNGdimensions, notrequestedstyle. Rawsourceequality
+initiallyhitCRLF/LF: normalizeonlylineendingsforequality,retainexactsourcehashes.
+Trackingcreationmembershipreadlag recoveredwithfreshinventory/savedIDs;
+issue25/originalProjectitem InProgress. No duplicatecard orothermappingchange.
+Privacy: syntheticHazel/defaultgreetingonly, noaddressbar/privateinput/model/
+referenceimage/device/userprofile/siblingcapture. Allownedprocesses/profiles
+stopped/removed; sharedhardware usedsequentially. Approx39.7MBpublicmedia.
+Next: verifyREADME/source/media,commit/pushasZanark,publishprototype.3 exacttag
+andreadbackrenderedgallery. Prior releases/media remainimmutable.
+
 2026-11-19 - vr-22 through vr-25 hair, cursor, floating controls and patterns
 Cause: owner wants ten hair choices, exclusive eye/head tracking, desktop
 placement/zoom, dot/polygon count/spacing and finally a tiny centered collapsed
