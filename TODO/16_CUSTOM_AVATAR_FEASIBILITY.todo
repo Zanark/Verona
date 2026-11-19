@@ -1,0 +1,59 @@
+ID: vr-16
+Title: Deferred custom avatar feasibility and identity gate
+GitHub issue: https://github.com/Zanark/Verona/issues/15
+
+Status: NOT_STARTED
+Milestone: An evidence-backed go/no-go decision for a custom animated identity.
+Dependencies: None
+
+Purpose:
+The owner parked the supplied static model for later, while retaining the
+intention to implement it in future. This is a DEFERRED plan, not permission
+to begin modeling, install tools, upload assets or replace the current avatar.
+Resume only when the owner explicitly reopens this direction. Resolve rights,
+desired likeness and a viable deformation route before expensive asset work.
+
+Tasks:
+[ ] 16.1 On resumption, re-identify the exact candidate by private hash/receipt;
+    preserve the original and use an ignored, versioned working copy.
+[ ] 16.2 Verify modification, runtime use and redistribution rights separately
+    for geometry, textures, tooling and motion assets; record unresolved terms.
+[ ] 16.3 Inventory local AMD/CPU-compatible modeling and rigging tools. Propose
+    pinned additions before any install/download; no paid/cloud assumption.
+[ ] 16.4 Establish stable-use versus development lanes, source/profile/cache/
+    output ownership and shared CPU/GPU limits before experiments.
+[ ] 16.5 Review neutral front, both profiles and three-quarter views with the
+    owner. Record desired facial proportions, hair, eye/lip placement and
+    explicit identity approval/rejections; images are not calibrated anatomy.
+[ ] 16.6 Inspect mouth/eye interiors, facial edge flow, self-intersections,
+    thin hair surfaces, symmetry and separability beyond edge-manifold checks.
+    Record coordinates, transforms and intended scale without guessing units.
+[ ] 16.7 Compare bounded local deformation/retopology and speech-retarget routes.
+    Claire displacement vectors must not be assigned to arbitrary vertices.
+[ ] 16.8 Run a disposable jaw/lip/lid deformation feasibility slice, or retain
+    a specific failure receipt. Check rest recovery, lip closure, eyelid
+    coverage and hair/skin separation without claiming natural articulation.
+[ ] 16.9 Record the selected route, asset contract, risks, fallback and go/no-go.
+    Define candidate acceptance views and comparable performance conditions.
+
+Acceptance criteria:
+The owner has explicitly resumed work. Rights and identity decisions are
+recorded, not inferred from file possession or a passing test. Feasibility
+concludes with an honest go or no-go and evidence; a completed investigation
+is not an animation-ready avatar. vr-17 requires a positive go decision and
+resolved prerequisites; a no-go leaves downstream work blocked, not successful.
+No automatic device activation, external upload, global install or publication.
+Current Claire defaults and stable-use runtime remain untouched.
+
+Completion evidence:
+Planning only; implementation NOT STARTED and deliberately deferred.
+Existing read-only candidate inspection found 239092 vertices/479436 triangles
+in one connected mesh, without rig, morphs, UVs, textures or materials. Six
+actual static views were inspected locally. Numerical edge/area checks do not
+prove facial topology, usable interiors, likeness, riggability or 60fps.
+That inspection is baseline evidence, not completion of the tasks above.
+Private asset paths, receipts and previews are excluded from issue/book output.
+
+Completion log:
+2026-11-19 - Owner parks model implementation and asks for detailed future TODOs,
+repository issues and Project updates. Planned only; no model/runtime changes.

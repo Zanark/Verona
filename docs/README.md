@@ -20,6 +20,9 @@ full-bust extent and actual polygon/animated-normal work reduction.
 Chapter 09's vr-15 extension records the supplied-reference color study,
 bounded eyelid/rest changes, procedural cosmetics and intentional color pixel
 density cap. It is not a photorealistic reconstruction or likeness acceptance.
+The owner rejected that study's likeness. Chapter09 now also records the
+explicitly deferred custom-avatar roadmap (vr-16 through vr-19); those plans
+do not implement a replacement model, importer or facial rig.
 
 ## Reading paths
 

@@ -198,6 +198,42 @@ Exact tag/source/body, nine remote media blobs, thirteen runtime blobs and
 the GitHub-rendered nine-image/two-GIF README were read back. There is no
 installer/model bundle, and the original prototype.1 remains unchanged.
 
+### Deferred custom-avatar direction (vr-16 through vr-19)
+
+The owner explicitly rejected the vr-15 likeness, then supplied a static GLB
+as a possible future shape source. That inspection found 239,092 vertices and
+479,436 triangles in one connected surface, without a skeleton, facial morphs,
+UVs, materials or textures. Actual six-view inspection establishes a sculpt,
+not an animation-ready identity. Edge-manifold checks do not establish facial
+edge flow, usable mouth/eye interiors, correct articulation or display cadence.
+The asset, source paths and private inspection images are not redistributed.
+
+The owner has **parked implementation for later** and requested detailed
+planning/tracking only. Four workstreams retain that boundary:
+
+1. [vr-16: feasibility and identity gate](../../TODO/16_CUSTOM_AVATAR_FEASIBILITY.todo):
+   establish rights, approved neutral likeness and a tested deformation route.
+   A documented no-go ends an investigation, not the downstream prerequisite.
+2. [vr-17: animation-ready asset](../../TODO/17_ANIMATION_READY_AVATAR.todo):
+   preserve reviewed shape while preparing suitable topology, eyes/mouth,
+   materials and documented facial controls with an independently checked export.
+3. [vr-18: import and speech retargeting](../../TODO/18_CUSTOM_AVATAR_INTEGRATION.todo):
+   implement an opt-in adapter and an actual motion mapping. Claire's PCA
+   displacements refer to its own vertex IDs; assigning them to unrelated
+   vertices cannot be presented as a valid replacement rig.
+4. [vr-19: qualification and handoff](../../TODO/19_CUSTOM_AVATAR_QUALIFICATION.todo):
+   measure comparable display workloads and record owner likeness, listening
+   and articulation gates separately. A release/default switch needs later
+   authorization and rights clearance; passing automation is not human approval.
+
+Dependencies are vr-16 -> vr-17 -> vr-18 -> vr-19, with completed vr-14 framing
+also required for vr-18. All four are **NOT_STARTED / deferred**, mapped to
+Open/Todo on the existing Project. Explicit owner resumption is required before
+implementation; a negative feasibility decision blocks downstream asset work.
+Keep the current Claire runtime, polygon default, local privacy boundaries and
+immutable prototype tags unchanged. Nothing here promises automatic likeness
+reconstruction, an installed modeling stack or universally accurate expressions.
+
 ### Historical vr-12 qualification
 
 The skin remains 15,375 vertices / 30,759 edges / 30,746 triangles. An 83-frame

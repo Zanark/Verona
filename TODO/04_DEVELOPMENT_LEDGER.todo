@@ -1,6 +1,25 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - Deferred custom-avatar roadmap, not model implementation
+Cause: after inspecting a supplied static GLB, the owner parks the model for
+later but requests detailed TODOs and corresponding repository/Project issues.
+Decision: four bounded future workstreams, vr-16 through vr-19: feasibility/
+rights/identity go-no-go, animation-ready asset, opt-in import/retargeting and
+performance/human qualification. Explicit dependencies and owner-resumption
+gates prevent a planning update from starting implementation automatically.
+Evidence boundary: candidate has 239092vertices/479436triangles and no rig,
+morphs, UVs, textures or materials; static views/numerical checks are not
+animation, likeness or 60fps acceptance. Asset paths/previews stay private.
+Existing vr-15 is technically complete but the owner rejected its likeness;
+do not reinterpret its test/release history as visual approval.
+Action: detailed eight-field plans, index, product brief and chapter09 updated.
+Created vr-16=#15, vr-17=#16, vr-18=#17, vr-19=#18 as Open/Todo on existing
+Project15, with local backlinks and saved original item identities. Last
+membership readback initially lagged; retry reused saved IDs, created nothing
+and verified all18 bodies/states/items/statuses. Prior14 identities preserved.
+No new model/runtime/dependency/media/release.
+
 2026-11-19 - vr-15 supplied-reference appearance study
 Cause: owner rejected the previous face, requested color/makeup/media/release,
 then supplied a character sheet. Duplicate side views/articulation labels are

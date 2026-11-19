@@ -1,0 +1,62 @@
+ID: vr-18
+Title: Deferred custom avatar import and speech retargeting
+GitHub issue: https://github.com/Zanark/Verona/issues/17
+
+Status: NOT_STARTED
+Milestone: An opt-in custom avatar driven by the existing local speech timeline.
+Dependencies: vr-17, vr-14
+
+Purpose:
+DEFERRED until the owner resumes and an approved animation-ready asset exists.
+Add a bounded custom-avatar path without silently replacing Claire or changing
+the local speech/privacy contract. An asset importer and speech retargeting
+are new engineering, not existing drop-in capabilities.
+
+Tasks:
+[ ] 18.1 Define a versioned avatar adapter contract: coordinate transforms,
+    geometry/material buffers, facial control names/ranges and payload limits.
+    Confirm how it fits FaceEngine and FaceRenderer without pretending the
+    pinned Claire vertex IDs/PCA basis apply to a different mesh.
+[ ] 18.2 Add explicit local setup/selection for the approved pinned asset.
+    Validate hashes, size/count limits, indices, finite values, controls and
+    required material data. Reject unsupported extensions and arbitrary
+    external resources; no automatic download or generic file-serving route.
+[ ] 18.3 Implement and document the chosen speech-to-target-control mapping,
+    calibration, interpolation and expression composition from vr-16/17.
+    Preserve audio-clock ownership; do not substitute amplitude-only jaw
+    movement or rename an unverified mouth pose as a correct phoneme.
+[ ] 18.4 Implement the required local geometry/material/morph or skinning path.
+    Keep polygon presentation available/default and color optional; name any
+    intentional rendering differences rather than silently changing the UX.
+[ ] 18.5 Adapt cursor gaze and XYZ orientation to actual target eye centers
+    and controls. Verify eyelid coverage, all axes and neutral restoration.
+[ ] 18.6 Support Full bust and Head and neck with actual geometry/normal-work
+    reduction where applicable, not only a screen mask. Preserve rotation-safe
+    boundaries, hair/points/contours and the chosen open/closed-cut contract.
+[ ] 18.7 Define explicit avatar-switch lifecycle: ownership of current clip,
+    cancel/clear behavior, stale response invalidation, GPU/audio disposal,
+    cache keys and RAM bounds. Do not silently reuse incompatible motion.
+[ ] 18.8 Preserve one renderer/audio owner through desktop Controls/overlay.
+    Retain loopback capability, sandboxed narrow IPC, device/network denial,
+    latest-only RAM speech and derived-geometry-only persistence.
+[ ] 18.9 Add focused adapter/retarget/lifecycle regressions and malformed-asset
+    fixtures. Exercise unsupported controls, missing files, cancellation,
+    rapid switching, restart and graphics-context loss with explicit errors.
+
+Acceptance criteria:
+An opt-in custom identity uses real target deformation in sync with existing
+audio and supported expression controls; metadata identifies the actual asset
+and mapping. Claire remains available with its current defaults and behavior.
+No silent fallback to a different model, stale clip or empty-success animation.
+All ownership/error/restart/cancellation paths are specified and exercised.
+Unit/browser/native evidence distinguishes implementation from human likeness,
+listening and phonetic acceptance. No automatic upload, device or cloud path.
+
+Completion evidence:
+Planning only; adapter, importer, material path and retargeting NOT STARTED.
+Current FaceEngine remains pinned to Claire; FaceRenderer remains the existing
+presentation. Existing vr-14 framing is a prerequisite, not custom-asset proof.
+
+Completion log:
+2026-11-19 - Deferred integration scope and regression boundaries recorded.
+Depends on the new asset and existing framing; no runtime change performed.

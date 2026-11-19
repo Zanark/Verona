@@ -15,12 +15,24 @@ vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon defa
 vr-13 | 13_DESKTOP_OVERLAY.todo | DONE | Transparent desktop pop-out, cursor gaze and XYZ orientation
 vr-14 | 14_HEAD_NECK_FRAMING.todo | DONE | Optional shoulder-free neck crop and reduced geometry/normal work
 vr-15 | 15_REFERENCE_APPEARANCE.todo | DONE | Reference-guided face/materials and verified prototype.2 gallery/source release
+vr-16 | 16_CUSTOM_AVATAR_FEASIBILITY.todo | NOT_STARTED | DEFERRED: rights, identity and go/no-go deformation feasibility
+vr-17 | 17_ANIMATION_READY_AVATAR.todo | NOT_STARTED | DEFERRED: suitable face topology, materials and facial controls
+vr-18 | 18_CUSTOM_AVATAR_INTEGRATION.todo | NOT_STARTED | DEFERRED: opt-in avatar adapter and local speech retargeting
+vr-19 | 19_CUSTOM_AVATAR_QUALIFICATION.todo | NOT_STARTED | DEFERRED: measured performance, owner review and candidate handoff
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
 Every finite workstream maps to one issue and one item on private Project 15.
 00_INDEX.todo and 04_DEVELOPMENT_LEDGER.todo are excluded from issue inventory.
 Remote mapping/policy: docs/github-tracking.md.
+vr-16 through vr-19 are explicitly PARKED by the owner. NOT_STARTED maps to
+open/Todo, not active implementation. Resume only on an explicit owner request.
+Tracking: vr-16=#15, vr-17=#16, vr-18=#17, vr-19=#18; issue backlinks in each
+workstream and saved original Project item identities in github-tracking.json.
+Dependency chain: vr-16 -> vr-17 -> vr-18 -> vr-19; vr-18 also needs completed
+vr-14. A vr-16 no-go blocks downstream work even if its investigation is done.
+No model adaptation, tool install, asset upload or new release is authorized
+by recording this roadmap. Existing app, assets and defaults remain unchanged.
 Research and numerical CPU feasibility are complete. The owner has authorized
 autonomous local text-to-face implementation; vr-07's functional player is
 implemented, qualified and source-published. Launch Verona.cmd.

@@ -1,0 +1,65 @@
+ID: vr-19
+Title: Deferred custom avatar performance and acceptance qualification
+GitHub issue: https://github.com/Zanark/Verona/issues/18
+
+Status: NOT_STARTED
+Milestone: A reproducible candidate handoff with explicit visual and speech gates.
+Dependencies: vr-18
+
+Purpose:
+DEFERRED until an owner-resumed custom-avatar implementation exists. Establish
+whether it preserves the intended beauty, articulation and fluid local display.
+Do not treat a rendered GLB, lower polygon count or passing automation as owner
+approval. Publishing a new asset/release is a separate future authorization.
+
+Tasks:
+[ ] 19.1 Re-identify source/asset/adapter versions and define stable-use versus
+    test profiles, mutable data, caches and exclusive resources. Use synthetic
+    lines and owned desktop fixtures; never drive/capture unrelated apps.
+[ ] 19.2 Run focused unit and real-browser regressions for both identities,
+    materials, framing modes, gaze, all XYZ axes and speech playback/seek/
+    pause/restart. Include missing/corrupt assets, rapid switch, cancellation,
+    stale results, audio failures, context loss and clean process/profile exit.
+[ ] 19.3 Measure browser/native frame-time distributions at stated CSS sizes,
+    actual raster resolutions/densities, hair/edge settings and both extents.
+    Record draw/normal/morph work, allocations and memory behavior where
+    measured. Use existing comparable budgets or justify changes explicitly;
+    retain failed runs and do not infer speedup from triangle counts alone.
+[ ] 19.4 Optimize demonstrated bottlenecks while preserving reviewed identity:
+    localized facial updates, cached topology, bounded GPU storage, LODs or
+    material density tradeoffs as justified. Recheck affected behavior and
+    show the actual fidelity/resolution tradeoff after each meaningful change.
+[ ] 19.5 Review neutral front/profiles/three-quarter, hair, eye coverage,
+    lips, makeup and overlay alpha with the owner. Record approval/rejection;
+    technical geometry checks are not a beauty or likeness score.
+[ ] 19.6 Independently review audible output and visible P/B/M closure,
+    F/V contact, vowel contrasts, silence, coarticulation and expressions.
+    Separate synchronization from phonetic/human accuracy; document failures,
+    unsupported anatomy/languages and any explicit owner scope concessions.
+[ ] 19.7 Produce actual runtime PNG/GIF evidence with source/asset provenance,
+    correct sampling/density disclosures and no reference-photo substitution.
+    Keep private source art, recordings and restricted assets out of output.
+[ ] 19.8 Update book, guide, TODOs, causal ledger and issue/Project evidence.
+    Record remaining gates and recovery instructions, not a generic success.
+[ ] 19.9 Hand off an opt-in candidate and reversible return to Claire. Only
+    after separate owner authorization and rights clearance prepare any new
+    asset distribution, default switch or immutable source release; never move
+    prototype.1/2 or imply this plan authorizes publication/deployment.
+
+Acceptance criteria:
+Reproducible evidence identifies actual versions, display workloads and failed
+runs. Current Claire controls/privacy/lifecycle remain intact. Performance,
+visual likeness, audible listening and articulation are separate recorded gates.
+The final handoff explicitly states pass/fail/unreviewed for each; unresolved
+required gates keep readiness blocked, not falsely accepted. No universal60fps,
+perfect-expression or unearned human-approval claim. No automatic release,
+default replacement, asset upload, service activation or deployment.
+
+Completion evidence:
+Planning only; no custom-avatar browser/native, performance or human acceptance
+qualification has been performed. Earlier Claire tests and the static GLB audit
+are not substitute evidence for this future candidate.
+
+Completion log:
+2026-11-19 - Future qualification/handoff work recorded as explicitly deferred.
+No runtime, media gallery, release or deployed default changed.

@@ -1,0 +1,62 @@
+ID: vr-17
+Title: Deferred animation-ready custom avatar asset
+GitHub issue: https://github.com/Zanark/Verona/issues/16
+
+Status: NOT_STARTED
+Milestone: A reviewed neutral identity with a tested, editable facial asset.
+Dependencies: vr-16
+
+Purpose:
+DEFERRED until explicit owner resumption and vr-16's positive feasibility gate.
+Use the approved sculpt as a shape source, not a promise that an arbitrary
+static GLB can be automatically repaired into a faithful animated character.
+Produce an asset suitable for actual facial deformation and local rendering.
+
+Tasks:
+[ ] 17.1 Freeze the approved identity reference and working-source version;
+    retain the original sculpt and before/after comparison views.
+[ ] 17.2 Build or qualify animation-suitable face topology and separate the
+    skin, hair and controllable eyes where needed. Preserve the approved
+    silhouette while measuring the cost of simplification; do not decimate
+    mouth/eyelid contacts blindly to reach an arbitrary triangle number.
+[ ] 17.3 Correct supported proportions and eye/lip placement against the
+    approved views. Re-review meaningful changes before texturing or rigging.
+[ ] 17.4 Build usable eyelids, eyeballs, lip boundaries and mouth interior.
+    Add teeth/tongue only if the selected articulation route requires them;
+    explicitly document omissions and what cannot be animated correctly.
+[ ] 17.5 Create a consistent UV/material route for skin, lips, brows, eyes and
+    hair. Author or lawfully obtain required textures; document color space,
+    opacity, normal/tangent conventions and actual shader requirements.
+[ ] 17.6 Create documented facial morphs or a facial rig with named controls,
+    ranges and neutral values for jaw, lip closure/pucker/spread and eyelids,
+    plus only the supported expression controls. Do not equate names with
+    anatomically or phonetically valid behavior.
+[ ] 17.7 Validate isolated and combined extremes: bilabial closure, jaw-open
+    with lip shapes, blink/gaze coverage, expression combinations, finite
+    geometry, unwanted motion and return to the exact neutral state.
+[ ] 17.8 Define full-bust and head/lower-neck geometry groups or derived LODs.
+    Specify how crop boundaries, hair and polygon contours retain intended
+    behavior across all orientations, without adding a full-body scope.
+[ ] 17.9 Export an editable source and pinned GLB package with control manifest,
+    coordinate/scale/material contract and hashes. Verify exported data
+    independently rather than trusting a screenshot or filename extension.
+
+Acceptance criteria:
+vr-16 has a positive go and rights/identity prerequisites are resolved.
+The neutral likeness has an explicit owner review outcome; no silent identity
+drift during optimization. Geometry, eyes, mouth and controls are actually
+editable and functional, not a static sculpt with invented rig metadata.
+Exporter/import inspection agrees on transforms, morph names/ranges, materials,
+required images and reset behavior. Missing/external/unsupported assets fail
+explicitly. Realism and expression accuracy remain separately qualified.
+No rights-restricted asset or private reference is published automatically.
+
+Completion evidence:
+Planning only; asset preparation, rigging and exports have NOT STARTED.
+The inspected candidate is a dense connected static sculpt, not this milestone.
+No approved retopology, facial controls, textures, editable source or replacement
+runtime model exists from this plan.
+
+Completion log:
+2026-11-19 - Recorded the deferred asset work after the owner's parking decision.
+Depends on vr-16; no modeling, tooling install or asset redistribution performed.

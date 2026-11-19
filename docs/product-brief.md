@@ -31,6 +31,12 @@ olive/rosewood materials, hazel-green eyes and espresso waves. The sheet's
 duplicated side views and unreliable articulation labels are not anatomical
 or phonetic ground truth. Exact likeness/photorealism/expressions remain
 unaccepted; the trained identity/basis remain Claire. Cool polygons stay default.
+The owner then explicitly rejected vr-15's likeness and supplied a static GLB
+as a possible future identity source. The model direction is now PARKED, not
+abandoned. Deferred vr-16 through vr-19 cover feasibility/rights/identity,
+animation-ready asset work, opt-in import/retargeting and separate performance/
+human acceptance. No custom-avatar importer or working replacement rig exists.
+The current request authorizes planning/issue tracking, not implementation.
 
 ## Confirmed
 
