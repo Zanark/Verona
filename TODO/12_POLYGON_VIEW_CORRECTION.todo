@@ -2,7 +2,7 @@ ID: vr-12
 Title: Restore polygon-first viewing and revise Verona's facial proportions
 GitHub issue: https://github.com/Zanark/Verona/issues/11
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: The owner's referenced cool polygon view is the default, shaded viewing remains optional, and actual facial proportions are substantially revised.
 Dependencies: vr-11
 
@@ -17,7 +17,7 @@ Tasks:
 [x] Rework lower-face, cheek, nose and chin proportions; preserve protected features.
 [x] Inspect actual views and qualify switching, speech and normal/2x cadence.
 [x] Update gallery, chapter09, contracts, causal ledger and issue/Project.
-[ ] Commit/push the verified source and tracking receipt as Zanark.
+[x] Commit/push the verified source as Zanark; preserve the first release.
 
 Acceptance criteria:
 New loads and reloads show the referenced cool, frosted polygon treatment.
@@ -54,4 +54,8 @@ Keep that visual treatment, optional shaded view and genuinely wavy hairstyle.
 2026-11-19 - First correction harness read a presented/cleared WebGL backbuffer;
 redraw before synchronous readback fixes false pixel-roundtrip failure without
 relaxing exact equality. Failed and subsequent receipts retained.
-All owned test processes/profiles stopped; source publication pending review.
+All owned test processes/profiles stopped. Source milestone
+e2f10b5c111930d6230d05276e4b15ecee5edcd4 committed/pushed asZanark;
+bothidentities, requiredtrailers and exactremotemain verified.
+23intended paths reviewed, no private/model/speech/profile/credential artifacts.
+The first prerelease tag remains2c4a13a; no newrelease/installer/deployment.

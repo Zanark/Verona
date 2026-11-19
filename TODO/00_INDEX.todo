@@ -11,7 +11,7 @@ vr-08 | 08_PROTOTYPE_FEEDBACK.todo | DONE | Cached startup/repeats, editable Haz
 vr-09 | 09_PROTOTYPE_RELEASE.todo | DONE | Visual-first README and verified v0.1.0-prototype.1 source prerelease
 vr-10 | 10_FACE_PRESENTATION.todo | DONE | Readable shaded female face and locally qualified 60-fps rendering
 vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and side-parted wavy hair
-vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | IN_PROGRESS | Restore referenced polygon default, optional shading and revised proportions
+vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon default, optional shading and revised proportions
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
@@ -31,5 +31,5 @@ styling, warm cosmetics and layered waves. Source milestone9f90f64 is pushed.
 The owner's vr12 correction restores cool transparent-looking polygons as
 default, keeps warm shading optional and further revises structure. Current
 six-mode cadence includes recorded frame-time outliers, not locked60fps.
-Source publication/tracking closure for this correction remain in progress.
+Source milestonee2f10b5 is pushed; saved mappings record issue/Project readback.
 Real-speech accuracy and human acceptance are separate gates, not probe results.
