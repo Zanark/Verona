@@ -31,6 +31,10 @@ aspect ratios and no overflow; selected rendered screenshots were inspected.
 This is not signed-in GitHub chrome, listening or accuracy acceptance.
 [The media receipt](../media/README.md) records limits, failures and provenance.
 Existing media, prototype.3 and runtime/model/dependencies are unchanged.
+Correction source `d80c796dfeab47294528a3f6dac6f91a11a72c4b` is pushed and
+read back with all23 GIFs/eleven styles, three centered solo GIFs and the new
+transparent hero. All48 previous media/receipt blobs and three immutable
+release tags/IDs/bodies/assets remain unchanged; no new release was created.
 
 ## Current visual delivery: all hairstyles (vr-26)
 

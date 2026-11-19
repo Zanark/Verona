@@ -2,7 +2,7 @@ ID: vr-27
 Title: Consistent gallery layout and transparent centered FaceMesh hero
 GitHub issue: https://github.com/Zanark/Verona/issues/26
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Evenly aligned GIF previews and a genuinely transparent speaking mesh.
 Dependencies: vr-26
 
@@ -16,7 +16,7 @@ Tasks:
 [x] Center every solo GIF, including the hero, native controls and final hairstyle.
 [x] Capture actual alpha-enabled FaceMesh speech and encode real GIF transparency.
 [x] Verify decoded alpha/motion, rendered layout, links and all eleven hair options.
-[ ] Update documentation/tracking and commit/push the verified correction as Zanark.
+[x] Update documentation/tracking and commit/push the verified correction as Zanark.
 
 Acceptance criteria:
 The reported left/right row is visibly balanced in a GitHub-rendered layout;
@@ -30,8 +30,8 @@ Keep old media and all immutable releases/tags unchanged; this is a README
 correction, not authorization to rewrite prototype.3 or publish a new release.
 
 Completion evidence:
-Implemented/qualified; publication pending. Runtime source remains f1aea4d;
-starting main062e8df. Issue26/original saved Projectitem InProgress verified.
+Implemented/qualified/source-published; aesthetic/phonetic acceptance not claimed.
+Runtime source remains f1aea4d; starting main062e8df.
 Observed README auto-layout uses unconstrained images and a long final-cell
 paragraph, permitting unequal table columns. Long styles also retain their
 intentional fit margin. No active Verona runtime found before capture.
@@ -47,9 +47,17 @@ Existing23GIFs/provenance/hairangles/timing/release/runtimebytespreserved.
 FirstHTMLguard missed added dirattribute; nextnarrowtest caughtwrappedtitle
 misalignment. Preservefailures, use sharedheadingrows/naturalimageaspect.
 InitialProjectmembershipreadlag recoveredfromsavedIDs/freshinventory.
+Source d80c796dfeab47294528a3f6dac6f91a11a72c4b committed/pushed asverifiedZanark
+withbothidentities/trailers. RemoteMain/11changedblobs/renderedREADME readback:
+23GIFs/all11hairnames/newtransparentfirstGIF/3centeredsolos.48earliermedia/
+receiptblobs unchanged;3immutabletags/releasesIDs/bodies/assets unchanged.
+Local58relativefilelinks/26eightfieldacyclicstreams/25earliermappingrecords
+verified. Completion status/issue26/Project receipt follow source publication.
 
 Completion log:
 2026-11-19 - Owner reports squeezed left preview and requests corrected alignment,
 a transparent FaceMesh opening GIF and centering of every standalone GIF.
 2026-11-19 - Actual transparent hero and responsive layout qualified; update
 media receipt/book/contributor rule. No runtime changes or release rewrite.
+2026-11-19 - Source correction pushed and remotely verified; close vr-27 and
+its original issue/Project item. Preserve prototype.3 and all historical media.
