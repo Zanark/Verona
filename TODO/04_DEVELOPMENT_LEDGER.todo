@@ -55,6 +55,13 @@ realWS_EX_TOPMOSTbit: default/floatingfalse, pop-up-menutrue. Explicit documente
 pop-up-menulevel now used (aboveWindowsTaskbar), testednativepincheckboxoff/on;
 not a privileged band/global setting. Failedreceipts retained. CPU/GPU/
 compositor are shared, not isolated/reserved.
+Publication:36reviewed paths sourcef05747c51126cea057a5043f58046cc5c7f4db7f
+committed/pushed as Zanark; author/committer/trailers/exactremote main verified.
+Immutable firstrelease tag remains2c4a13a. No new release/installer/deployment.
+vr13completion/issue12/Project15reconciliation follows as a separate receipt.
+Readback: all12managed issue bodies/states and original Project15memberships/
+statuses verified Closed/Done, including issue12/PVTI_lAHOAe2wCs4BsFbFzhKH4Gk.
+Eleven other mappings were no-ops; no duplicate cards or new automation.
 
 2026-11-19 - Polygon-first correction and stronger structural revision
 Cause: Owner rejects vr11's structure and unintended solid default, then

@@ -2,7 +2,7 @@ ID: vr-13
 Title: Local desktop shell, transparent head overlay, cursor gaze and XYZ orientation
 GitHub issue: https://github.com/Zanark/Verona/issues/12
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Run Verona as a local desktop app and pop the same speaking head over other applications.
 Dependencies: vr-12
 
@@ -15,8 +15,8 @@ Tasks:
 [x] Implement transparent always-on-top pop-out and return-to-controls without reloading.
 [x] Add cursor-following eyes and independent full-range XYZ rotation/reset.
 [x] Exercise actual native windows, alpha composition, speech continuity and recovery.
-[ ] Update book, guide, ownership/failure evidence, issue/Project and continuity.
-[ ] Review, commit and push coherent verified milestones as Zanark.
+[x] Update book, guide, ownership/failure evidence, issue/Project and continuity.
+[x] Review, commit and push coherent verified milestones as Zanark.
 
 Acceptance criteria:
 The overlay visibly composites over a synthetic desktop window. Controls return
@@ -26,7 +26,7 @@ Existing local-only browser mode remains operational; no device activation,
 global installation, startup service or disturbance of other applications.
 
 Completion evidence:
-Implemented and environment-qualified, not yet source-published. Framework choice
+Implemented, environment-qualified and source-published. Framework choice
 reuses existing WebGL/audio with a pinned official Electron desktop compositor;
 larger than WebView2, but avoids unproven layered-HWND transparency and duplicate
 renderers/audio ownership. Windows desktop toolchains and existing runtime
@@ -58,3 +58,7 @@ apps, cursor-following eyes and independent X/Y/Z head orientation.
 2026-11-19 - Implemented and qualified native10, productionlauncher01, browser05,
 focused math and35unit/HTTP checks. Reviewed2nativePNGs/10sourcehashes;
 chapter10/guide/book/media updated. Source publication and tracking closure next.
+2026-11-19 - Source f05747c51126cea057a5043f58046cc5c7f4db7f committed/pushed
+as verified Zanark. Both identities/trailers/exact remote main verified.
+First source prerelease remains2c4a13a; no new release or deployment.
+Issue12/original Project15item reconciliation accompanies this completion receipt.
