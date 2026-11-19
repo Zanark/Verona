@@ -192,6 +192,12 @@ materials but not a running backend's rest surface. Stop discards speech RAM.
 Existing context-loss, capability, cancellation, stale-clip and error recovery
 contracts remain; there is no new empty-success fallback.
 
+Source milestone `f097d8c0b60ff55d6622ed0f28c875ac9aafc103` is published as
+immutable source prerelease `v0.1.0-prototype.2` (release `451303877`).
+Exact tag/source/body, nine remote media blobs, thirteen runtime blobs and
+the GitHub-rendered nine-image/two-GIF README were read back. There is no
+installer/model bundle, and the original prototype.1 remains unchanged.
+
 ### Historical vr-12 qualification
 
 The skin remains 15,375 vertices / 30,759 edges / 30,746 triangles. An 83-frame

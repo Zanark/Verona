@@ -1,6 +1,41 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-19 - vr-15 supplied-reference appearance study
+Cause: owner rejected the previous face, requested color/makeup/media/release,
+then supplied a character sheet. Duplicate side views/articulation labels are
+not anatomy/phonetic ground truth. No exact likeness promise or image texture.
+Change: softer original rest jaw/cheek/chin/bridge, locally opened eyelids
+around unchanged eye centers, thicker/asymmetric waves; olive/rosewood/bronze
+materials and green/amber irises. Original IDs/PCA motion/full framing retained.
+First36unitHTTP checks pass; actual rest max0.533324cm, zero reversed/collapsed
+nondegenerate triangles. Browser01/03 upper comparison failed ononepixel;
+03 red85->87 only. Causeunknown. Explicit atmost8pixels/2RGBlevels tolerance
+added with diagnostics; exact fullroundtrip/zero belowcut stay strict.
+Browser02 fullcolor+edges2x mean18.677/p9533.3/max83.2;04 fullcolor2x without
+edges17.585/p9516.8/max66.6 failed unchanged cadence budgets; causesunknown.
+Decision: actual color pixel cap1.5x ratherthan2x; polygonsretain2x. Smaller
+rasterwork is not a causal diagnosis or percentage speedup claim.
+Finalbrowser05 passes23cases/12modes means16.659-16.660/p95atmost16.8/max17.5/
+zero>25;185-187normalupdates/zeroGPUstorageallocations;210greeniris/1743rose
+lip pixels. Color2x request renders1262x953, not1682x1270; default1x841x635.
+Crop44300changedpixels/0above/0below/0fullroundtrip. Native01passes10checks/
+1801intervals30sec mean16.659/p9516.8/max17.3/zero>25/1831draws480x600.
+Newreal-runtime gallery9media:7PNG+2GIF,13runtimehashes/separateprovenance.
+ActualPNG/representative decoded40/24frameGIFsamples reviewed. Source sheet
+not redistributed. No new package/download/device/global/siblingchange.
+Ownedtestservers/profiles stopped/removed; no runtimeleft. Existing13 prior
+workstreams unchanged; managed issue14/neworiginalProjectitem tracks this slice.
+Publication: featuref097d8c0b60ff55d6622ed0f28c875ac9aafc103 committed/pushed
+as verifiedZanark, bothidentities/trailers/exactremote main checked. Immutable
+sourceprereleasev0.1.0-prototype.2/release451303877 published12:17:56Z;
+exacttag/source/body/prerelease/noassets, renderedREADME9images/2GIFs and
+9media/13runtime/provenance remote blobs verified. Originalprototype.1 tag
+and release450614582 unchanged.97relativelinks/12bookinputs/14eightfieldTODOs.
+Visual/phonetic acceptance not claimed. Completion tracking uses original IDs.
+Issue14/originalProjectitemPVTI_lAHOAe2wCs4BsFbFzhKJI4c verified Closed/Done;
+all14mappings read back, previous13noops. Source TODO has the issue URL backlink.
+
 2026-11-19 - Optional shoulder-free neck framing and reduced geometry work
 Cause: Owner wants only the head and some neck below the throat as an option,
 retaining later larger body extents and saving work on hidden polygons.
@@ -46,33 +81,6 @@ module-only EOF blank-line cleanup is explicitly recorded as exactCRLF-only
 delta in the new provenance; original capturedhash retained, focusedtestpass.
 Issue13/originalProject15item verified Closed/Done; all13mappings verified,
 with12previousworkstreams no-op and no duplicate Project items.
-
-2026-11-19 - vr-15 supplied-reference appearance study
-Cause: owner rejected the previous face, requested color/makeup/media/release,
-then supplied a character sheet. Duplicate side views/articulation labels are
-not anatomy/phonetic ground truth. No exact likeness promise or image texture.
-Change: softer original rest jaw/cheek/chin/bridge, locally opened eyelids
-around unchanged eye centers, thicker/asymmetric waves; olive/rosewood/bronze
-materials and green/amber irises. Original IDs/PCA motion/full framing retained.
-First36unitHTTP checks pass; actual rest max0.533324cm, zero reversed/collapsed
-nondegenerate triangles. Browser01/03 upper comparison failed ononepixel;
-03 red85->87 only. Causeunknown. Explicit atmost8pixels/2RGBlevels tolerance
-added with diagnostics; exact fullroundtrip/zero belowcut stay strict.
-Browser02 fullcolor+edges2x mean18.677/p9533.3/max83.2;04 fullcolor2x without
-edges17.585/p9516.8/max66.6 failed unchanged cadence budgets; causesunknown.
-Decision: actual color pixel cap1.5x ratherthan2x; polygonsretain2x. Smaller
-rasterwork is not a causal diagnosis or percentage speedup claim.
-Finalbrowser05 passes23cases/12modes means16.659-16.660/p95atmost16.8/max17.5/
-zero>25;185-187normalupdates/zeroGPUstorageallocations;210greeniris/1743rose
-lip pixels. Color2x request renders1262x953, not1682x1270; default1x841x635.
-Crop44300changedpixels/0above/0below/0fullroundtrip. Native01passes10checks/
-1801intervals30sec mean16.659/p9516.8/max17.3/zero>25/1831draws480x600.
-Newreal-runtime gallery9media:7PNG+2GIF,13runtimehashes/separateprovenance.
-ActualPNG/representative decoded40/24frameGIFsamples reviewed. Source sheet
-not redistributed. No new package/download/device/global/siblingchange.
-Ownedtestservers/profiles stopped/removed; no runtimeleft. Existing13 prior
-workstreams unchanged; managed issue14/neworiginalProjectitem tracks this slice.
-Sourcepublication/release/closure follow; visual/phonetic acceptance not claimed.
 
 2026-11-19 - Local transparent desktop, cursor gaze and full orientation
 Cause: Owner requests desktop use over other applications, cursor-following eyes

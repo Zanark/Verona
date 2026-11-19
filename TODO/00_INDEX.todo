@@ -14,7 +14,7 @@ vr-11 | 11_VERONA_CHARACTER.todo | DONE | Original sculpted adult character and 
 vr-12 | 12_POLYGON_VIEW_CORRECTION.todo | DONE | Restore referenced polygon default, optional shading and revised proportions
 vr-13 | 13_DESKTOP_OVERLAY.todo | DONE | Transparent desktop pop-out, cursor gaze and XYZ orientation
 vr-14 | 14_HEAD_NECK_FRAMING.todo | DONE | Optional shoulder-free neck crop and reduced geometry/normal work
-vr-15 | 15_REFERENCE_APPEARANCE.todo | IN_PROGRESS | Reference-guided face/materials and current prototype gallery/release
+vr-15 | 15_REFERENCE_APPEARANCE.todo | DONE | Reference-guided face/materials and verified prototype.2 gallery/source release
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
@@ -43,3 +43,7 @@ default. Hidden skin/hair triangles/edges and animated-normal work are reduced;
 full motion/storage/inference remain. Sourcee4e503e is pushed. Browser22cases/
 12modes and native10checks pass; earlier cadence spikes remain in the ledger.
 Real-speech accuracy and human acceptance are separate gates, not probe results.
+vr-15 updates chapter09 with a stylized reference-guided rest/material study,
+retaining polygon default and limiting optional color density to1.5x. Source
+f097d8c and immutable v0.1.0-prototype.2 published; rendered9media/2GIF gallery
+and exact source/tag/blobs verified. Not photorealistic likeness acceptance.

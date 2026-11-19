@@ -1,7 +1,8 @@
 ID: vr-15
 Title: Reference-guided face, cosmetics and current prototype gallery
+GitHub issue: https://github.com/Zanark/Verona/issues/14
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: A locally qualified appearance study guided by the supplied Verona sheet.
 Dependencies: vr-14
 
@@ -15,8 +16,8 @@ Tasks:
 [x] Adjust bounded rest shape, procedural materials and hair without new assets.
 [x] Qualify topology, playback, both views, framing and display cadence locally.
 [x] Review actual renders and produce new real-runtime PNG/GIF gallery evidence.
-[ ] Update book/guide/TODOs, issue/Project, owned continuity and source publication.
-[ ] Publish a new immutable source prerelease without moving prototype.1.
+[x] Update book/guide/TODOs, issue/Project, owned continuity and source publication.
+[x] Publish a new immutable source prerelease without moving prototype.1.
 
 Acceptance criteria:
 Changes affect actual 3D geometry/materials, not a photograph pasted over the
@@ -28,7 +29,7 @@ README media must show this runtime, with exact source/image provenance.
 No automatic download, device activation, global change or sibling disturbance.
 
 Completion evidence:
-Implemented and environment-qualified; source/release publication pending.
+Implemented, environment-qualified and source-published; human acceptance open.
 Clean tree and no active Verona Python/Electron process verified
 before runtime edits. Use isolated owned profiles/cache/synthesis and synthetic
 speech; CPU/GPU/compositor are shared resources. Reference image stays outside
@@ -45,11 +46,17 @@ Browser01/03 one upper pixel failed equality (03 red85->87); explicit bound
 now<=8 pixels/<=2 RGB levels; full restoration/zero belowcut stay strict.
 Final05 has0 upper/full differences. Browser02/04 failed mean/p95 cases
 retained, causesunknown; no universal60fps/likeness/accuracy acceptance.
+Source f097d8c0b60ff55d6622ed0f28c875ac9aafc103 pushed as verified Zanark;
+both identities, trailers and exact remote main read back. Immutable source
+prerelease v0.1.0-prototype.2, release451303877, published2026-11-19T12:17:56Z.
+Tag/source/body/no binary assets verified, GitHub-rendered README9images/2GIFs,
+9remote media/13runtime/provenance blobs match. Originalprototype.1 tag/id
+unchanged.97relativefilelinks/12bookinputs/14eightfieldTODOs checked.
 
 Completion log:
 2026-11-19 - Owner supplies a character sheet after rejecting the previous
 face; asks for coloring/makeup, actual screenshots/GIFs and prototype release.
 The sheet guides appearance only; accuracy and aesthetic acceptance remain open.
 2026-11-19 - Qualified source, actual PNG/GIF gallery and separate provenance
-prepared. Existing first-release tag/media unchanged. Issue14/originalProject
-item tracks this slice; publication and verified closure follow.
+prepared and published at v0.1.0-prototype.2. Existing first-release tag/media
+unchanged. Issue14/originalProject item is reconciled to this completed slice.
