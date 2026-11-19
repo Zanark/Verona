@@ -1,0 +1,62 @@
+ID: vr-11
+Title: Design Verona's original sculpted face and wavy hairstyle
+GitHub issue: https://github.com/Zanark/Verona/issues/10
+
+Status: IN_PROGRESS
+Milestone: An original adult office-glam presentation with actual wavy geometry preserves speech and locally qualified display fluidity.
+Dependencies: vr-10
+
+Purpose:
+Respond to the owner's request for a more distinctive, attractive adult
+character and genuinely flowing, wavy hair, without copying a reference,
+equating attractiveness with ethnicity or downloading another asset stack.
+
+Tasks:
+[x] Design a bounded rest-surface sculpt while retaining the learned motion basis.
+[x] Replace the bob with original side-parted, layered wavy hair geometry/material.
+[x] Refine warm skin, eye/lip/brow cosmetics and restrained connected contours.
+[x] Inspect actual neutral, speaking, hair-off and turned renders; exercise regression/cadence checks.
+[x] Update current gallery, canonical chapter, contracts, ledger and issue/Project.
+[ ] Commit/push the coherent verified milestone as Zanark; preserve the first release.
+
+Acceptance criteria:
+The change visibly affects facial shape and hairstyle, not just a label/color.
+Original skin indices/connectivity, audio clock, bounded voice controls and
+local privacy/error/restart contracts remain. Static styling is disclosed as
+styling, not a newly trained person or accuracy proof. Hair has visible S-curves
+and layering, leaves eyes/nose/mouth clear and stays bounded without simulation.
+No new package/model/download, camera/microphone or shared-app/profile restart.
+Normal/2x-density headless draw-cadence qualification is retained, not falsely
+promoted to GPU/display-scanout or universal60fps. Attractiveness remains the
+owner's judgment; technical checks are not subjective approval.
+
+Completion evidence:
+Implemented/technically qualified, not subjective acceptance. Original bounded
+rest sculpt leaves central lips/eye area/back unchanged; actual generated clip
+regression retains styled rest plus known PCA deltas. Same15,375skin vertices/
+30,759edges/30,746triangles and7,656,750bytes for83frames. Static hair now
+9,200vertices/17,840triangles; fullmesh1,032,460bytes, no new dependency/downloaded asset.
+Warm cosmetics, hazel eyes, rose lips, original layered chestnut S-waves.
+Shaded default, Edges/Points still available; default voice remains Hazel.
+35unit/HTTP checks and18realEdge scenarios pass inverona-character-final-03:
+four shaded/edge x1x/2x cases, each361intervals, mean16.659ms/p9516.8/max17.2,
+zero>25ms and382/382/382/383actualdraws. HeadlessRAF/submission only, no
+physicaldisplay/GPUtimer/universalhardware or muted-listening acceptance.
+Finalneutral/speaking/turned/hair-off renders inspected; zero page exceptions/
+nonlocal page requests. Actual4PNG/2GIFgallery refreshed, exact source/media
+hashes;40/24decoded GIFframes. Chapter09 and11book sources are current.
+Stable-use baseline:2f02a90, no active Verona Python/Node process observed before
+editing. Candidate uses the existing owned ephemeral server, RAM/cache/work/
+browser profile under a new ignored qualification directory; model/source are
+read-only inputs during each capture, CPU/GPU remain bounded shared resources.
+
+Completion log:
+2026-11-19 - Owner asks for an independently designed adult character with a
+polished office-glam direction and gorgeous wavy hair; previous60fps priority
+remains. No new reference, ethnicity target or release publication requested.
+2026-11-19 - Initial hairstyle inspected, then fuller waves/soft tips/part added.
+Visual review caught stepped forehead clamp; continuous angular hairline and
+curvature regression replace it. Signed shader squares avoid negative-base
+GLSLpow. Earlier receipts retained; all owned test servers/browsers/profiles
+stopped. Initial Project membership lag resolved using saved item, no duplicate.
+Source commit/push pending the final publication review.

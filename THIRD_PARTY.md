@@ -27,7 +27,9 @@ sample scene or Windows voice is bundled in this repository.
   owned SSML for bounded local prosody. User SSML, voice cloning and cloud speech
   are not supported.
 - The browser renderer uses built-in WebGL2 and HTML audio, without a CDN or JS package.
-- The small procedural hair geometry is original Verona code; no hair model,
+- Rest-surface styling and procedural layered wavy hair are original Verona
+  code applied to native-derived Claire geometry; the underlying model/sample
+  licenses still apply. No hair model,
   texture, animation package or additional third-party asset was downloaded.
 - Static cosmetic eye ellipsoids, shader iris/pupil/brow/lip treatment and
   lighting are original Verona code. No supplied reference image is bundled.

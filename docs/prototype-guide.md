@@ -17,7 +17,8 @@ This checkout is already prepared:
 Keep its terminal open. In the browser, type a sentence, click **Generate face**,
 then **Play**. Try the greeting, P/B/M, F/V and vowel example buttons.
 Hazel is the default when installed; David and Zira remain selectable. The head
-is the matching **Claire female mesh**, with optional original procedural hair.
+uses **Verona's original rest styling over Claire motion**, with optional
+side-parted chestnut waves. The trained model remains Claire, not a new identity.
 Open **Edit voice** for pitch, speed, warmth/bass, brightness/treble and emphasis;
 **Reset voice** restores Hazel/default settings. **Preview voice** prepares a
 voice-only sample: press its audio Play control to hear it without generating
@@ -46,9 +47,10 @@ contrasting speech inputs have been exercised in Edge; testing was muted.
 Correct lip contacts, expressive quality and human listening acceptance remain
 unqualified. This is a working neural-skin prototype, not SDK parity.
 
-**Presentation:** smooth directional shading, native quad contours, cosmetic
-eyebrows/lip color and static procedural eyes make the features readable.
-Points are off by default; edges and hair remain toggleable. These are not
+**Presentation:** warm smooth shading, sculpted cheek/jaw/bridge contours,
+cosmetic brows/liner/rose lips and static hazel eyes define the character.
+Edges/points are off by default; both remain toggleable and expose the native
+mesh. Hair is on by default, with actual layered S-wave geometry. These are not
 animated eye joints, teeth or a claim of photorealism.
 
 **Performance:** warm startup avoids native-scene parsing; repeating the latest
@@ -58,8 +60,10 @@ than the earlier voxel reduction, so its motion payload is larger, not 37%
 smaller. Prepared playback interpolates 30-fps learned motion on the browser's
 display clock. The local 60-fps target passed at normal/2x density; that is not
 a universal hardware guarantee or 60-fps neural generation.
-[Chapter 08](chapters/08-facial-definition-and-fluidity.md) records the current
-geometry, measurements and tradeoff. New-line inference remains precomputed.
+[Chapter 09](chapters/09-verona-character-and-waves.md) records the current
+styling, geometry and four-mode measurements. New-line inference remains
+precomputed. Restart the server to load a changed backend style; reload alone
+does not rebuild an already-running engine. Speech/clip RAM is discarded on stop.
 
 ## Fresh-clone setup
 
@@ -89,6 +93,7 @@ assets and prepares geometry; explicit setup errors appear in the terminal.
 - [Text-to-speech and native-mesh clip generation](chapters/06-text-to-face-prototype.md)
 - [Hazel voice editing, Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
 - [Facial definition and measured display fluidity](chapters/08-facial-definition-and-fluidity.md)
+- [Verona character styling and wavy hair](chapters/09-verona-character-and-waves.md)
 - [Workstream index](../TODO/00_INDEX.todo)
 - [Contributor contract](../AGENTS.md)
 - [Private project board](https://github.com/users/Zanark/projects/15)

@@ -1,5 +1,10 @@
 # 08 - Facial definition without sacrificing display fluidity
 
+> Historical presentation baseline: [chapter 09](09-verona-character-and-waves.md)
+> supersedes the unmodified rest shape, bob, cold materials and edges-on default.
+> Native topology/motion mechanisms below remain; its payload/measurements refer
+> to this earlier delivery, not the current wavy-hair presentation.
+
 ## Requirement and the failure of the previous view
 
 The owner could not readily distinguish the eyes, nose and mouth in the original

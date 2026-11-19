@@ -125,7 +125,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-11": {
+      "source": "TODO/11_VERONA_CHARACTER.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABgp6uxA",
+      "number": 10,
+      "url": "https://github.com/Zanark/Verona/issues/10",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKGoHI",
+      "title": "Design Verona's original sculpted face and wavy hairstyle",
+      "managedBody": "\n<!-- verona-workstream:vr-11 -->\nWorkstream source: `TODO/11_VERONA_CHARACTER.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-11\nTitle: Design Verona's original sculpted face and wavy hairstyle\n\nStatus: IN_PROGRESS\nMilestone: An original adult office-glam presentation with actual wavy geometry preserves speech and locally qualified display fluidity.\nDependencies: vr-10\n\nPurpose:\nRespond to the owner's request for a more distinctive, attractive adult\ncharacter and genuinely flowing, wavy hair, without copying a reference,\nequating attractiveness with ethnicity or downloading another asset stack.\n\nTasks:\n[ ] Design a bounded rest-surface sculpt while retaining the learned motion basis.\n[ ] Replace the bob with original side-parted, layered wavy hair geometry/material.\n[ ] Refine warm skin, eye/lip/brow cosmetics and restrained connected contours.\n[ ] Inspect actual neutral, speaking, hair-off and turned renders; exercise regression/cadence checks.\n[ ] Update current gallery, canonical chapter, contracts, ledger and issue/Project.\n[ ] Commit/push the coherent verified milestone as Zanark; preserve the first release.\n\nAcceptance criteria:\nThe change visibly affects facial shape and hairstyle, not just a label/color.\nOriginal skin indices/connectivity, audio clock, bounded voice controls and\nlocal privacy/error/restart contracts remain. Static styling is disclosed as\nstyling, not a newly trained person or accuracy proof. Hair has visible S-curves\nand layering, leaves eyes/nose/mouth clear and stays bounded without simulation.\nNo new package/model/download, camera/microphone or shared-app/profile restart.\nNormal/2x-density headless draw-cadence qualification is retained, not falsely\npromoted to GPU/display-scanout or universal60fps. Attractiveness remains the\nowner's judgment; technical checks are not subjective approval.\n\nCompletion evidence:\nPlanned. No new visual acceptance or performance result claimed.\nStable-use baseline:2f02a90, no active Verona Python/Node process observed before\nediting. Candidate uses the existing owned ephemeral server, RAM/cache/work/\nbrowser profile under a new ignored qualification directory; model/source are\nread-only inputs during each capture, CPU/GPU remain bounded shared resources.\n\nCompletion log:\n2026-11-19 - Owner asks for an independently designed adult character with a\npolished office-glam direction and gorgeous wavy hair; previous60fps priority\nremains. No new reference, ethnicity target or release publication requested.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-18T22:09:17.326658+00:00"
+  "verifiedAt": "2026-11-19T09:24:06.562273+00:00"
 }

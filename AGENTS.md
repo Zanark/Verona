@@ -9,9 +9,12 @@ Research is authored; the owner chose free/local AMD operation. A bounded
 CPU ONNX/PCA probe, local text-to-motion generator and audio-clocked WebGL2
 browser player exist under vr-07. The vr-08 feedback slice uses matching Claire
 v2.3.1 assets, default Hazel, bounded voice settings, procedural hair and
-latest-only RAM/derived-topology caches. Chapter 08 is the current presentation
-contract: native quad contours, shaded features, static cosmetic eyes, points
-off by default and a measured local 60-fps display target over 30-fps motion.
+latest-only RAM/derived-topology caches. Chapter 09 is the current presentation
+contract: original Verona rest styling over unchanged Claire PCA motion,
+native quad contours, warm cosmetics, static eyes and layered wavy hair.
+Edges/points default off, hair on; the local 60-fps display target is qualified
+in shaded/native-edge modes at1x/2x over30-fps motion. Styling is not a new
+trained identity, photorealism or subjective/phonetic acceptance.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

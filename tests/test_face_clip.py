@@ -9,7 +9,7 @@ import wave
 import xml.etree.ElementTree as ET
 
 from verona import speech
-from verona.appearance import claire_eyes, claire_hair
+from verona.appearance import claire_eyes, claire_hair, verona_rest_shape
 from verona.engine import FaceEngine, expression_condition, pack_positions
 from verona.mesh import claire_topology, native_control_mesh, read_mesh, reduced_mesh
 
@@ -27,6 +27,33 @@ createNode transform -n "unrelated";
 
 
 class MeshTests(unittest.TestCase):
+    def test_rest_sculpt_changes_contour_but_preserves_lips_eyes_and_back(self):
+        rest = np.array([[6, 138, 2], [4, 144, 3], [0, 140.15, 4], [2, 140, 3],
+                         [3, 147.5, 3], [-3, 147.5, 3], [5, 144, -8]], dtype=np.float32)
+        styled = verona_rest_shape(rest)
+        self.assertLess(float(styled[0, 0]), float(rest[0, 0]) - .3)
+        self.assertGreater(float(styled[1, 2]), float(rest[1, 2]) + .25)
+        np.testing.assert_array_equal(styled[2:], rest[2:])
+        self.assertLess(float(np.max(np.linalg.norm(styled - rest, axis=1))), .7)
+
+    def test_wavy_locks_have_alternating_silhouette_and_bounded_connected_geometry(self):
+        vertices, edges, triangles = claire_hair()
+        self.assertTrue(np.isfinite(vertices).all())
+        self.assertLess(len(vertices), 10000)
+        self.assertTrue(np.all(edges < len(vertices)))
+        self.assertTrue(np.all(triangles < len(vertices)))
+        self.assertGreater(float(vertices[:, 1].min()), 128)
+        self.assertLess(float(vertices[:, 1].min()), 134)
+        self.assertLess(float(np.abs(vertices[:, 0]).max()), 12)
+        hairline = vertices[(18 - 1) * 72:18 * 72]
+        curvature = np.roll(hairline, 1, axis=0) + np.roll(hairline, -1, axis=0) - 2 * hairline
+        self.assertLess(float(np.linalg.norm(curvature, axis=1).max()), .35)
+        lock = vertices[72 * 18:72 * 18 + 38 * 8].reshape(38, 8, 3).mean(axis=1)
+        lateral = lock @ np.array([np.cos(.86), 0, -np.sin(.86)])
+        gradient = np.diff(lateral[12:])
+        self.assertGreaterEqual(int(np.count_nonzero(gradient[1:] * gradient[:-1] < 0)), 2)
+        self.assertGreater(float(np.ptp(lateral[12:])), .9)
+
     def test_native_control_mesh_retains_original_cube_loops_and_winding(self):
         vertices = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
                     [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]]
@@ -252,10 +279,11 @@ class ClipTests(unittest.TestCase):
 
         engine = FaceEngine.__new__(FaceEngine)
         engine.selected = np.arange(3)
-        engine.neutral = np.zeros((3, 3), dtype=np.float32)
+        engine.neutral = verona_rest_shape(np.array(
+            [[6, 138, 2], [4, 144, 3], [0, 140.15, 4]], dtype=np.float32))
         engine.basis = np.zeros((140, 3, 3), dtype=np.float32)
         engine.basis[0, :, 0] = 1
-        engine.center, engine.scale = np.zeros(3), 1
+        engine.center, engine.scale = np.array([0, 145, 0]), 20
         engine.condition = np.zeros((1, 1, 26), dtype=np.float32)
         engine.session = Session()
         engine.session.batches, engine.session.assertions = [], []
@@ -266,9 +294,13 @@ class ClipTests(unittest.TestCase):
         self.assertEqual(len(clip.motion), 6 * 3 * 3 * 2)
         self.assertEqual(engine.session.batches, [4, 2])
         self.assertTrue(all(engine.session.assertions))
-        expected = np.arange(1, 7) * .01 * 8192
-        np.testing.assert_allclose(np.frombuffer(clip.motion, dtype="<i2").reshape(6, 3, 3)[:, 0, 0],
+        expected = (engine.neutral[0, 0] + np.arange(1, 7) * .01) / engine.scale * 8192
+        positions = np.frombuffer(clip.motion, dtype="<i2").reshape(6, 3, 3)
+        np.testing.assert_allclose(positions[:, 0, 0],
                                    expected, atol=.5)
+        rest = np.frombuffer(pack_positions(engine.neutral, engine.center, engine.scale),
+                             dtype="<i2").reshape(3, 3)
+        np.testing.assert_array_equal(positions[:, :, 1:], np.broadcast_to(rest[:, 1:], (6, 3, 2)))
         self.assertEqual(clip.audio, audio.wav)
         self.assertGreater(clip.metadata["maximumSkinChangeCm"], 0)
         stop = threading.Event()

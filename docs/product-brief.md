@@ -8,6 +8,10 @@ Hazel as default, and the matching Claire female head with procedural hair.
 The owner's November 19 visual feedback adds recognizable shaded features and
 native contours, with a 60-fps display target prioritized over polygon count.
 Static cosmetic eyes are not independent eye-joint animation.
+Later November 19 feedback requests an independently designed attractive adult
+office-glam character and genuinely wavy hair, without new reference images.
+Chapter 09 adds bounded rest-surface styling, warm shaded materials and layered
+waves over the same learned Claire motion; attractiveness remains subjective.
 
 ## Confirmed
 
@@ -89,6 +93,9 @@ Claire identity, bounded voice editing and measured speed/quality tradeoffs.
 [Chapter 08](chapters/08-facial-definition-and-fluidity.md) supersedes its
 presentation reduction with native quad contours, shaded features and measured
 normal/2x-density display cadence.
+[Chapter 09](chapters/09-verona-character-and-waves.md) advances the original
+character design and hairstyle, with shaded/native-edge cadence measured at
+both densities. This changes presentation defaults, not the speech/runtime scope.
 
 ## Text-first prototype mandate
 

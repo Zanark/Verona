@@ -60,7 +60,7 @@
     </section>
     <section class="viewer-panel" aria-label="Animated facial mesh">
       <div class="canvas-wrap">
-        <canvas id="face" aria-label="Connected Claire female facial mesh, animated from the generated speech"></canvas>
+        <canvas id="face" aria-label="Verona's sculpted face and wavy hair, animated with Claire speech motion"></canvas>
         <div class="canvas-label">AUDIO-CLOCKED &middot; 30 FPS MOTION / 60 FPS DISPLAY TARGET <span id="frame">NEUTRAL</span></div>
       </div>
       <div class="transport">
@@ -71,7 +71,7 @@
         <output id="time">0.00 / 0.00 s</output>
       </div>
       <div class="view-controls">
-        <label><input id="edges" type="checkbox" checked> Edges</label>
+        <label><input id="edges" type="checkbox"> Edges</label>
         <label><input id="points" type="checkbox"> Points</label>
         <label><input id="hair" type="checkbox" checked> Hair</label>
         <label for="yaw">Turn <input id="yaw" type="range" min="-0.8" max="0.8" step="0.01" value="0"></label>
@@ -79,7 +79,8 @@
         <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
       <blockquote id="spoken">No generated speech yet.</blockquote>
-      <p class="hint">Real learned skin motion; reduced matching native topology.
+      <p class="hint">Verona rest-surface styling; real Claire skin motion and connected native topology.
+        Shaded view by default; Edges and Points reveal the underlying mesh.
         Full SDK contact correction and independent teeth, tongue and eye-joint animation are not implemented.
         Phonetic accuracy and human acceptance are still open.</p>
     </section>

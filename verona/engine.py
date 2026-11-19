@@ -15,7 +15,7 @@ from scripts.fetch_cpu_model import ROOT
 
 import numpy as np
 
-from .appearance import claire_eyes, claire_hair
+from .appearance import claire_eyes, claire_hair, verona_rest_shape
 from .mesh import claire_topology
 from .speech import Speech
 
@@ -70,7 +70,7 @@ class FaceEngine:
             if (self.selected.shape != (15375,) or self.edges.shape != (30759, 2)
                     or self.triangles.shape != (30746, 3)):
                 raise ValueError("Pinned Claire native control topology dimensions changed.")
-            self.neutral = neutral[self.selected].copy()
+            self.neutral = verona_rest_shape(neutral[self.selected])
             basis = data["shapes_matrix_skin"]
             if basis.shape != (140, 61520, 3):
                 raise ValueError("Pinned Claire PCA dimensions do not match.")
@@ -103,6 +103,8 @@ class FaceEngine:
                             + eye_triangles.tobytes())
         self.mesh_metadata = {
             "identity": "Claire v2.3.1",
+            "appearance": "Verona: original rest sculpt, warm cosmetics and side-parted waves",
+            "deformation": "unchanged Claire PCA deltas added to styled rest; not a new trained identity",
             "vertices": len(self.selected),
             "edges": len(self.edges),
             "triangles": len(self.triangles),
@@ -180,6 +182,7 @@ class FaceEngine:
             "voice": speech.voice,
             "voiceSettings": asdict(speech.settings),
             "identity": "Claire v2.3.1",
+            "appearance": "Verona: original rest sculpt over unchanged Claire motion basis",
             "inferenceBatchSize": BATCH_SIZE,
             "expression": expression,
             "expressionStrength": intensity,

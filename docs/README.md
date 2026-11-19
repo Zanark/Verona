@@ -10,6 +10,8 @@ Chapter 07 extends that baseline with editable Hazel, native Claire/hair and
 measured caching/performance mechanisms.
 Chapter 08 supersedes its presentation topology with native quad contours,
 shaded features, static cosmetic eyes and measured 60-fps display qualification.
+Chapter 09 adds Verona's original rest styling, warm shaded default and layered
+wavy hair, retaining the underlying Claire motion and measured display target.
 
 ## Reading paths
 
@@ -26,6 +28,7 @@ and accuracy-qualification reading path.
 6. [Text to local speech, matching topology and complete face clips](chapters/06-text-to-face-prototype.md)
 7. [Editable Hazel, matching Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
 8. [Readable facial definition and measured display fluidity](chapters/08-facial-definition-and-fluidity.md)
+9. [Verona's character styling and genuine wavy geometry](chapters/09-verona-character-and-waves.md)
 
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.
