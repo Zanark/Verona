@@ -2,7 +2,7 @@ ID: vr-32
 Title: Matched emotion and eye-glow comparison variants
 GitHub issue: https://github.com/Zanark/Verona/issues/31
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Four real-renderer GIFs for the owner's comparison.
 Dependencies: vr-31
 
@@ -17,7 +17,7 @@ Tasks:
 [x] Verify cache identity, validation, exact deformation and optical isolation.
 [x] Capture four comparable real-renderer GIFs with matched voice/camera/timing.
 [x] Independently decode and inspect the actual expression/optical differences.
-[ ] Update chapter, guide, index, ledger, tracking and owned continuity; deliver.
+[x] Update chapter, guide, index, ledger, tracking and owned continuity; deliver.
 
 Acceptance criteria:
 100% more than the existing2x means4x the original neutral-relative emotion
@@ -53,7 +53,10 @@ eye details inspected over dark/light; local comparison page opened.
 Hidden browser decodes all4GIFs, equal pairs1440px/stacked600px/no overflow/
 light background. All owned hosts/profiles cleaned. No owner acceptance.
 README25GIFs/twoPNG, unchanged prior GIF/hero and same closed disclosure.
-Final source publication/tracking/continuity reconciliation remains.
+Source8626780a69da49b3a13841843bd2fbe4f41211f6 committed/pushed as Zanark;
+both identities/trailers verified. Exact remote main/all26changedblobs/clean
+tree verified, all prior media/30mappings/3releases/tagtargets unchanged.
+Chapter/guide/index/ledger and owned continuity record the completed comparison.
 
 Completion log:
 2026-11-20 - Owner requests another100% exaggeration for GIF comparison, then
@@ -63,3 +66,5 @@ comparison slice; keep2x/combined as defaults rather than adopting a new look.
 measure red-minus-max(green,blue) and retain failure. Native02 passes without
 changing runtime thresholds or optical masks. Capture01 succeeds for all four
 variants with at least98px edge margin; no frames reused or prior GIF resized.
+2026-11-20 - Publish four matched GIFs and bounded selectors in source8626780;
+verify exact remote delivery and complete the original issue/Project item.

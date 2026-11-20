@@ -31,7 +31,7 @@ vr-28 | 28_MATCHING_HAIR_MONOCHROME.todo | DONE | Monochrome Claire and optional
 vr-29 | 29_TWO_HAIRSTYLES_RED_MESH.todo | DONE | Owner-approved appearance;20-GIF/two-screenshot gallery, captioned hero and robot
 vr-30 | 30_ARTICULATED_ROBOT.todo | DONE | Original speech-driven armored robot qualified without captures; FaceMesh eyes dimmed30%
 vr-31 | 31_EXPRESSION_GLOW.todo | DONE | Glowing pupil center,2x neutral-relative emotions and actual result GIF
-vr-32 | 32_COMPARISON_VARIANTS.todo | IN_PROGRESS | Matched2x/4x emotion and spokes-only/rings-only glow GIF comparisons
+vr-32 | 32_COMPARISON_VARIANTS.todo | DONE | Matched2x/4x emotion and spokes-only/rings-only glow GIF comparisons
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
