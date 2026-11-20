@@ -32,6 +32,7 @@ vr-29 | 29_TWO_HAIRSTYLES_RED_MESH.todo | DONE | Owner-approved appearance;20-GI
 vr-30 | 30_ARTICULATED_ROBOT.todo | DONE | Original speech-driven armored robot qualified without captures; FaceMesh eyes dimmed30%
 vr-31 | 31_EXPRESSION_GLOW.todo | DONE | Glowing pupil center,2x neutral-relative emotions and actual result GIF
 vr-32 | 32_COMPARISON_VARIANTS.todo | DONE | Matched2x/4x emotion and spokes-only/rings-only glow GIF comparisons
+vr-33 | 33_BRIGHT_CENTER_COMPARISONS.todo | IN_PROGRESS | Glowing centers, brighter selected spokes/rings and matched4x GIFs
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

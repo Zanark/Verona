@@ -77,6 +77,10 @@ new human/phonetic acceptance or automatic emotion recognition.
 The next comparison request adds4x emotion deformation (100% more than2x)
 and separate spokes-only/rings-only FaceMesh eye emission. vr-32 retains
 2x/combined defaults and the original result GIF while the owner compares.
+The owner's clarification supersedes the first isolated-eye interpretation:
+both variants must keep glowing centers, brighten their selected structure and
+use4x emotion for the GIF comparison. vr-33 corrects only those alternatives;
+combined/default optics and the earlier emotion comparison remain unchanged.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.

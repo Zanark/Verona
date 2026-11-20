@@ -402,47 +402,49 @@ try {
             const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;
           };
           const baseline=read(),centers=window.veronaMechanicalFixture;
+          let baselineHot=0;
+          for(let i=0;i<baseline.length;i+=4)if(baseline[i]>245&&baseline[i+1]>190&&baseline[i+2]>150)baselineHot++;
           const variants=[],create=g.createBuffer;let created=0;
           g.createBuffer=function(){created++;return create.call(this);};
           try{
             for(const mode of ["1","2"]){
               $("eye-glow").value=mode;$("eye-glow").dispatchEvent(new Event("input"));
-              const p=read();let hot=0;
-              for(let i=0;i<p.length;i+=4)if(p[i]>245&&p[i+1]>190&&p[i+2]>150)hot++;
+              const p=read();let hot=0,centerUnchanged=true;
+              for(let i=0;i<p.length;i+=4){
+                if(p[i]>245&&p[i+1]>190&&p[i+2]>150)hot++;
+                if(baseline[i]>245&&baseline[i+1]>190&&baseline[i+2]>150)
+                  for(let channel=0;channel<4;channel++)if(p[i+channel]!==baseline[i+channel])centerUnchanged=false;
+              }
               const eyes=centers.map(({center:[x,y],ringBands:bands})=>{
                 const red=(r,a)=>{
                   const i=(Math.round(y+r*Math.sin(a))*c.width+Math.round(x+r*Math.cos(a)))*4;
                   return p[i]-Math.max(p[i+1],p[i+2]);
                 };
-                let outer=0,spoke=0,core=0;
-                for(let radius=0;radius<5;radius++){
-                  const a=(Math.floor(radius/2)%2)*Math.PI;
-                  core=Math.max(core,red(radius,a));
-                }
+                let outer=0,spoke=0;
                 const ring=(bands[2][0]+bands[2].at(-1))/2;
                 const between=(bands[1].at(-1)+bands[2][0])/2;
                 for(let n=0;n<144;n++){
                   outer=Math.max(outer,red(ring,n*Math.PI/144));
                   spoke=Math.max(spoke,red(between,n*Math.PI/144));
                 }
-                return {outer,spoke,core};
+                return {outer,spoke};
               });
-              variants.push({mode,hot,eyes,error:g.getError()});
+              variants.push({mode,hot,centerUnchanged,eyes,error:g.getError()});
             }
           }finally{
             g.createBuffer=create;$("eye-glow").value="0";$("eye-glow").dispatchEvent(new Event("input"));
           }
           const restored=read().every((v,i)=>v===baseline[i]);
           $("zoom").value=oldZoom;$("zoom").dispatchEvent(new Event("input"));
-          return {variants,created,restored};
+          return {variants,baselineHot,created,restored};
         })()`);
         assert.equal(data.eyeGlowVariants.created,0);
         assert(data.eyeGlowVariants.restored);
         for(const v of data.eyeGlowVariants.variants){
-          assert.equal(v.hot,0);assert.equal(v.error,0);
+          assert(v.hot>4&&v.hot===data.eyeGlowVariants.baselineHot);
+          assert(v.centerUnchanged);assert.equal(v.error,0);
           for(const eye of v.eyes){
-            assert(eye.core<20,JSON.stringify(v));
-            assert((v.mode==="1"?eye.spoke:eye.outer)>150,JSON.stringify(v));
+            assert((v.mode==="1"?eye.spoke:eye.outer)>220,JSON.stringify(v));
             assert((v.mode==="1"?eye.outer:eye.spoke)<20,JSON.stringify(v));
           }
         }

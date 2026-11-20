@@ -46,15 +46,15 @@ the original GIF remains unchanged below.
   </tr>
 </table>
 
-The eye pair uses the same **2x** facial motion and red emission intensity.
-Only the selected components glow: **no hot center or broad glowing halo**
-in either isolated design.
+The eye pair uses identical **4x** facial motion. **Both center dots glow**;
+the selected spokes or concentric rings are brighter, while the other structure
+stays dark. Natural eyelid occlusion is preserved.
 
 <table>
-  <tr><th>Spokes only</th><th>Concentric rings only</th></tr>
+  <tr><th>4x - glowing center + bright spokes</th><th>4x - glowing center + bright rings</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-spokes.gif" alt="FaceMesh with only radial red eye spokes glowing; no luminous rings or pupil center" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-rings.gif" alt="FaceMesh with only three concentric red eye rings glowing; no luminous spokes or pupil center" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-spokes.gif" alt="4x FaceMesh expressions with glowing pupil centers and brighter radial red spokes; rings stay dark" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-rings.gif" alt="4x FaceMesh expressions with glowing pupil centers and brighter concentric red rings; spokes stay dark" width="360"></td>
   </tr>
 </table>
 

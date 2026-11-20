@@ -1,39 +1,44 @@
 # Prototype media receipt
 
-## Current matched comparison pairs: vr-32
+## Current comparison pairs: corrected eyes at4x (vr-33)
 
 | Comparison | Left | Right |
 |---|---|---|
 | Emotion deformation | [2x GIF](comparison-emotion-2x.gif), [receipt](comparison-emotion-2x.json) | [4x GIF](comparison-emotion-4x.gif), [receipt](comparison-emotion-4x.json) |
-| Isolated eye glow | [Spokes GIF](comparison-eyes-spokes.gif), [receipt](comparison-eyes-spokes.json) | [Rings GIF](comparison-eyes-rings.gif), [receipt](comparison-eyes-rings.json) |
+| Glowing centers,4x emotion | [Bright spokes GIF](comparison-eyes-spokes.gif), [receipt](comparison-eyes-spokes.json) | [Bright rings GIF](comparison-eyes-rings.gif), [receipt](comparison-eyes-rings.json) |
 
 All four are actual720x840/210frame/13.75second transparent loops, sampled15fps,
 with identical Hazel greeting, expression strengths, camera zoom0.85 and
-timestamps. The two optical variants share the exact same2x motion bytes.
+timestamps. The two corrected optical variants share the exact same4x motion
+bytes, also matching the retained4x emotion GIF. Both retain glowing centers,
+with brighter selected structures; the opposite structure stays unlit.
 The fresh2x reference also has exactly the delivered vr31 motion bytes;
 only its matched wider framing/labels differ. The original vr31 GIF remains
 byte-for-byte unchanged. Neutral motion is identical at2x and4x.
 Current README:25GIFs/twoPNG; original centered hero first, everything else
 inside one default-closed disclosure, with the two new equal/top-aligned pairs.
 
-All840frames independently decode with exact source-alpha threshold,
-dimensions/delays, cyan captions, changing content and zero ghost pixels.
-Distinct decoded states:159/155/158/158 in the table's reading order.
-The optical GIFs contain no hot-center pixels in any frame.4x strong lids
-can occlude the combined center; no emission is forced through skin.
+The corrected pair's420frames independently decode with exact source-alpha
+threshold, dimensions/delays, cyan captions, changing content and zero ghost
+pixels. Both have155distinct decoded states. Hot centers are visible in168
+frames of each;4x strong lids occlude them in42frames, matching the retained
+combined4x sequence. No emission is forced through skin.
+The earlier emotion pair remains byte-for-byte unchanged, retaining its
+original all420frame qualification and159/155distinct decoded states.
 Decoded five-expression samples and enlarged eye details were inspected over
 dark/light backgrounds. This is agent sample review, not owner acceptance.
 
 Actual real-model packed-coordinate gains are1.99997..2.00000 and
 3.99998..4.00003, with maximum coordinate error below0.001017cm including
 Float32/Int16 rounding at0.001942cm quantum. All five emotions retain at least
-98px face-canvas edge margin. Hidden production-native02 verifies opposite
-ring/spoke red excess166vs5 in both eyes, zero isolated hot centers, no new
-buffers and byte-exact restoration of combined optics. Native01 incorrectly
-counted cyan wire's red76 as red emission; the fixture now measures red minus
-max(green,blue), not a relaxed runtime bound. Failed receipt retained.
+98px face-canvas edge margin. Corrected hidden production-native01 verifies
+selected ring/spoke red excess237vs5 in both eyes, compared with166vs5 before;
+red peaks are about243 instead of170. All45 hot-center pixels and their RGBA
+values match combined mode exactly. No new buffers; combined optics restore
+byte-for-byte. The fixture measures red minus max(green,blue), avoiding the
+earlier cyan-wire misclassification.
 
-The local comparison page also decodes all four GIFs in a disposable hidden
+The corrected local comparison page also decodes both GIFs in a disposable hidden
 browser, with equal paired layout at1440px, stacked layout at600px, no overflow
 and working light background. All capture/check hosts and profiles cleaned;
 no user/sibling profile/window/device driven. No new dependency/model/release,

@@ -1,6 +1,22 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-33 correct center retention and selected-structure brightness
+Cause: owner clarifies both eye variants retain glowing centers, selected
+spokes/rings glow brighter and both GIFs use4x emotion. Action: preserve the
+original core/corona in all FaceMesh choices and restore the removed0.30 RGB
+only along the selected structure, leaving combined/robot branches unchanged.
+Evidence: five focused JS suites/native01 pass. Selected red excess237vs5
+(previous166vs5), same45 hot-center pixels/RGBA, zero buffers, exactcombined
+restoration. Correct the earlier centerless interpretation, not optical depth.
+Capture only the two corrected4x alternatives; preserve other emotion/media.
+Actual two720x840/210frame/13.75s captures share4x motion/audio/camera/timing,
+>=98pxmargin. Independent420frame alpha/size/delay/caption/no-ghost decode,
+155distinct states each; hot centers in168frames,42naturally occluded.
+Decoded five-state/eye samples reviewed on light/dark; corrected comparison
+page opened and hidden desktop/mobile/light-background checks pass.
+All owned hosts/profiles cleaned; no user app driven or acceptance claimed.
+
 2026-11-20 - vr-32 four-GIF source delivery receipt
 Source8626780a69da49b3a13841843bd2fbe4f41211f6 committed/pushed as Zanark,
 bothauthor/committer/requiredtrailers verified. Exact remote main/all26changed

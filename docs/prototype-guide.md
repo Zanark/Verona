@@ -82,9 +82,11 @@ repeats can still reuse the completed clip. Change strength/expression, then
 **Generate face** again. The same amplification reaches every human view;
 robot armor retains its existing mechanical limits. In FaceMesh, the center
 dot now has a hot core/red corona while the outer rings remain dimmed.
-**FaceMesh eye glow** offers the current combined look, **Spokes only** and
-**Concentric rings only**. The isolated choices have no luminous center/halo
-and use the same red peak intensity. This is a live render choice: no new
+**FaceMesh eye glow** offers the current combined look, **Center + bright
+spokes** and **Center + bright concentric rings**. Both alternatives retain
+the same glowing center/corona, brighten the selected structure from about
+170 to243 red peak, and leave the other structure unlit. The comparison GIFs
+use **4x** emotions; the app's default remains2x. This is a live render choice: no new
 speech or model run. Other views, including robot cyan, ignore it; returning
 to FaceMesh restores the selection. Reload/restart restores the original
 2x/combined defaults; no new preference persistence is introduced.

@@ -1,6 +1,44 @@
 # 09 - Designing Verona without replacing the speech system
 
-## Matched exaggeration and isolated eye-glow variants (vr-32)
+## Glowing centers and brighter eye structures at4x (vr-33)
+
+The owner clarifies that the center must glow in **both** optical alternatives:
+only the choice of bright spokes versus bright concentric rings differs.
+They also select **4x** emotion for both GIFs. This supersedes vr-32's
+centerless2x optical interpretation, not its2x/4x emotion comparison.
+The app's2x/combined defaults remain unchanged.
+
+The eye fragment in `FaceRenderer` (`verona/web/app.js`) retains the original
+core, tight red corona and hot-center math for every FaceMesh optical choice.
+An alternative still selects exactly one existing structure mask at0.95
+emission, suppressing the broad halo and the opposite structure. After the
+original0.70 RGB dimming, it restores the removed0.30 only along that selected
+mask. Red peaks increase from about170 to243, about43%, without brightening
+the head, the other structure or the center. Combined mode and robot cyan
+take their unchanged branches; coverage and depth still hide covered eyes.
+No new geometry, buffers, draws, inference or preference persistence is added.
+
+`tests/browser_smoke.mjs` measures both choices using the same real mechanical
+eye fixture, also executed by `tests/robot_smoke.cjs`. Native qualification
+measures selected red excess237 versus5 for the suppressed structure in both
+eyes, compared with166/5 before. Both preserve all45 hot-center pixels and
+their RGBA values exactly, allocate zero buffers and restore combined optics
+byte-for-byte. Existing robot motion/playback/cursor/resource checks pass.
+The five focused JS suites also pass. This is optical qualification, not
+human appearance acceptance or a new frame-cadence measurement.
+
+Two fresh hidden production-renderer captures use identical4x motion, synthetic
+Hazel audio, camera and timestamps. The earlier2x/4x emotion GIFs, original
+preview and unrelated gallery media remain unchanged. Exact decoded-frame
+evidence and review scope are recorded with the [media](../media/README.md).
+Changing the live optical selector needs no generation; choosing4x still
+requires **Generate face**. Reload restores2x/combined. No user app is
+automatically restarted or driven, and no preference migration is required.
+
+## Matched exaggeration and isolated eye-glow variants (vr-32; original checkpoint)
+
+The centerless optical behavior below is historical and superseded by vr-33.
+The emotion-gain implementation and its original comparison GIFs remain.
 
 The owner next asks for another100% exaggeration to compare with2x, then
 spokes-only and concentric-rings-only eye previews. **4x** is twice the

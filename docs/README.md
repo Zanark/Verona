@@ -58,6 +58,9 @@ not playback; existing captured gallery snapshots retain their own provenance.
 Its vr-32 comparison slice adds bounded2x/4x emotion selection and live
 FaceMesh spokes-only/rings-only eye choices while retaining2x/combined defaults.
 Four matched GIFs distinguish facial amplification from optical design.
+Its vr-33 correction keeps glowing centers in both alternatives, brightens
+their selected spokes/rings and recaptures that optical pair with4x emotion.
+The original emotion pair and2x/combined defaults remain unchanged.
 
 ## Reading paths
 

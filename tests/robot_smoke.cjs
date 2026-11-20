@@ -63,10 +63,10 @@ async function run(window) {
   const eyeGlowVariants=await ev(regression.slice(glowStart+glowMarker.length,glowEnd));
   assert.equal(eyeGlowVariants.created,0);assert(eyeGlowVariants.restored);
   for(const v of eyeGlowVariants.variants){
-    assert.equal(v.hot,0);assert.equal(v.error,0);
+    assert(v.hot>4&&v.hot===eyeGlowVariants.baselineHot);
+    assert(v.centerUnchanged);assert.equal(v.error,0);
     for(const eye of v.eyes){
-      assert(eye.core<20,JSON.stringify(v));
-      assert((v.mode==="1"?eye.spoke:eye.outer)>150,JSON.stringify(v));
+      assert((v.mode==="1"?eye.spoke:eye.outer)>220,JSON.stringify(v));
       assert((v.mode==="1"?eye.outer:eye.spoke)<20,JSON.stringify(v));
     }
   }

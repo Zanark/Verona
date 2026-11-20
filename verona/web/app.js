@@ -175,7 +175,6 @@ class FaceRenderer {
             float glow = max(halo, max(rings * 0.95, spokes * 0.80));
             if (presentationStyle == 1 && eyeGlow != 0) {
               glow = (eyeGlow == 1 ? spokes : rings) * 0.95;
-              core = 0.0;
             }
             float alpha = max(1.0 - smoothstep(0.58, 0.65, radius), halo)
               * smoothstep(0.9, 1.2, local.z);
@@ -185,7 +184,8 @@ class FaceRenderer {
               : mix(vec3(0.035,0.001,0.003), vec3(1.0,0.015,0.025), glow);
             vec3 irisColor = mix(emission, presentationStyle == 4 ? vec3(0.60,0.95,1.0) : vec3(1.0,0.38,0.28), core);
             irisColor *= presentationStyle == 1 ? 0.70 : 1.0;
-            if (presentationStyle == 1 && eyeGlow == 0) {
+            if (presentationStyle == 1) {
+              if (eyeGlow != 0) irisColor += vec3(1.0,0.015,0.025) * glow * 0.30;
               float centerHalo = exp(-square(radius / 0.14)) * (1.0 - smoothstep(0.16, 0.20, radius));
               float hotCenter = 1.0 - smoothstep(0.035, 0.075, radius);
               irisColor = mix(irisColor, vec3(1.0,0.08,0.025), centerHalo * 0.85);
