@@ -6,7 +6,14 @@ model**. Confidence below applies to the stated evidence, not visual quality.
 
 ## Current decision after owner review
 
-The owner rejects the same-topology candidate as female, preserves it as
+Latest direction (vr-42): the owner prefers Claire's expressions, observes that
+the native MPFB report does not speak, and asks to use its head as a structural
+reference for **Claire with 4x emotions**. Preserve both existing candidates.
+`scripts/claire_reference_study.py` fits a bounded smooth complete-pose map
+over Claire's original topology/inference; it does not pretend the MPFB pose
+recipes are a learned speech system. [Mechanism and limits](../chapters/09-verona-character-and-waves.md#reference-shaped-claire-with-its-own-neural-speech-vr-42).
+
+Earlier, the owner rejects the same-topology candidate as female, preserves it as
 **Male-SharpJawline**, and explicitly authorizes trying the recorded MPFB
 implementation, with the completed report opened directly in Edge. This
 supersedes the original no-download gate below for the bounded local study.

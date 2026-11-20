@@ -75,6 +75,12 @@ not resume parked vr-16..19. A distinct MPFB head and native-control pose viewer
 now exist offline; Claire speech/emotion transfer, the production selector/
 voice policy and identity/contact/semantic accuracy remain unqualified.
 
+After viewing that native-pose study, the owner prefers Claire's expressions
+and requests the MPFB head as a structural reference for Claire, retaining
+all Claire points and **4x** emotion. vr-42 implements a separate opt-in
+complete-pose geometry-map experiment, not a transfer onto MPFB topology.
+The independent MPFB variant is paused for later work, not deleted or accepted.
+
 The owner's November20 request adds an **Optimus-inspired robot** presentation.
 They selected original procedural armor instead of sourcing a rigged asset:
 blue/silver helmet/fins, cyan optics and articulated mouth/jaw/brows over the

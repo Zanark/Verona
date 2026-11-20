@@ -14,6 +14,20 @@ This checkout is already prepared:
 .\VeronaDesktop.cmd
 ```
 
+**Optional reference-shaped Claire study:** `.\VeronaReference.cmd` starts a
+separate, clearly labelled experimental desktop with Claire speech, **4x**
+emotions, FaceMesh and bright spokes. Generate a sentence, then Play. It requires
+this checkout's pinned local MPFB study asset; it does not download one. This is
+an approximate structural fit over Claire, not the separate MPFB native rig,
+an accepted Female mode or a change to the normal app. Close it or Ctrl+C its
+terminal to stop its owned server and discard speech.
+
+The current local comparison/sound report is
+`.local\qualification\claire-reference-04\review.html`: Play the first video
+to hear it, or expand the individual emotion GIF/video sections. The extra
+head map measured 0.54-0.65 seconds for the 83-frame greeting; full generation
+still measured 3.62-7.30 seconds across these states, not instant narration.
+
 In the desktop app, generate and play a sentence, then click **Pop out transparent
 head**. The same head becomes a transparent, initially always-on-top window;
 speech continues without reloading. A tiny collapsed glass **...** tab sits

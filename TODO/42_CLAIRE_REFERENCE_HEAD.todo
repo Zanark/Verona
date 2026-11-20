@@ -1,0 +1,83 @@
+ID: vr-42
+Title: Speaking Claire with an MPFB-reference head structure
+GitHub issue: https://github.com/Zanark/Verona/issues/41
+
+Status: DONE
+Milestone: Review a reference-shaped Claire candidate with genuine 4x neural speech.
+Dependencies: vr-41
+
+Purpose:
+Owner prefers Claire's expressions to the separate MPFB rig and asks to use
+that head as a structural reference while keeping Claire's face points,
+speech and 4x emotions. Preserve both older candidates; return to the
+separate MPFB variant later rather than silently replacing it.
+
+Tasks:
+[x] Inspect actual reference/Claire coordinates and preserve native indices.
+[x] Implement a pinned-reference, opt-in complete-pose geometry map.
+[x] Keep the original neural speech/emotion inputs and 4x gain calculation.
+[x] Add an explicit CLI launcher with isolated cache/speech/profile ownership.
+[x] Qualify all eleven real neural speech states and the runnable CLI.
+[x] Deliver matched GIFs and sound-enabled synthetic speaking videos in Edge.
+[x] Record source/tracking publication separately from identity acceptance.
+
+Acceptance criteria:
+All15,375Claire control vertices retain their topology/index correspondence.
+Do not substitute MPFB native pose recipes for learned Claire trajectories.
+4x is the emotion setting, not the strength of the head-identity fit.
+Reuse static original eyes and current bright-spoke optics; no new model,
+downloads, installation, camera, microphone, global hook or production switch.
+Normal app/agent defaults, Male-SharpJawline and MPFB receipts stay intact.
+Show actual speech playback with sound-capable controls, not only silent GIFs.
+No exact anatomical correspondence/contact/phonetic/female-identity acceptance
+claim from geometric tests or the owner's request to try this approach.
+
+Completion evidence:
+scripts/claire_reference_study.py:reference_warp fits a smooth front-shell
+map from measured eye-aligned reference cross-sections and authored height
+guides. Protected lip/lid cores prevent independent opposing-sheet fitting.
+apply_reference maps rest AND every complete neural pose after4x inference,
+not just rest plus unrelated old animation vectors. It keeps speech in RAM
+and reuses production packing, protocol and player without playback fit work.
+VeronaReference.cmd is explicitly opt-in; its reference asset is ignored/pinned.
+tests/test_claire_reference.py covers malformed anatomy, unchanged inputs,
+shared core motion and complete-pose rather than rest-only displacement.
+.local/qualification/claire-reference-04/review.html opened directly in Edge;
+matching window confirmed. Five paired rest views,30.25sec/363frame matched
+overview,11exact GIF slices and11real sound-enabled CLI speaking videos.
+913sourceframes retain15,375vertices and original audio/indices. Float-space
+28,071,089triangle/frame comparisons: zero new near-collapse;166pain normal
+hemisphere changes remain explicitly diagnosed. Flagged map samples have
+positive Jacobians(min~1.0), minimum singular value~.644, not proof of global
+contacts/self-intersection/semantic accuracy. AllGIFalpha/delays/dimensions
+independently decoded;278unique frames/zero ghosts. All11persistedWebMs play
+and decode actual video frames through report disclosures; RMSnonzero.
+Report1440/600px layout/closedsections pass;57CPUtests pass. Ownedtestprofiles/
+servers/desktops cleaned; user's explicitly opened report remains available.
+Run05 compares old/optimized CLI outputs: all913packedframes byte-identical.
+Measured83-frame map3.773..3.956sec -> .469...550sec; fresh recordings
+.541...645sec map/3.624..7.292sec total. Not instant/realtime/60fps evidence.
+Fixed synthetic demo media remain ignored; arbitrary runtime speech stays RAM.
+Issue/Project reconciliation and Git publication are separate delivery records;
+DONE means bounded study delivered, not Female/Gender/accuracy acceptance.
+
+Completion log:
+2026-11-20 - Owner observes no speech on MPFB and prefers Claire's expressions.
+2026-11-20 - Initial rest-only experiment01 renders but flags local distortion.
+Complete-pose02 fails its conservative hemisphere diagnostic; failures kept.
+Bounded all-eleven-state probe separates shape strength from4x emotion.
+Preserve float64 through mapping/packing and select bounded0.7shape weight;
+do not attribute all failed normal tests to rounding or call them inversions.
+2026-11-20 - Whole-map03 also fails its conservative hemisphere test. Run04
+separates world-normal rotations from sampled local map orientation and keeps
+all166pain diagnostics with positive Jacobians; no contact waiver or approval.
+2026-11-20 - Skip protected/unchanged RBF regions and factor Gaussian axes;
+all913packedposes exactly match before/after, with bounded measured speedup.
+2026-11-20 - Real report check catches authoring's MIME-comma/base64 split:
+in-memory recordings decoded but first exportedWebMs were only7bytes. Preserve
+speaking-first and failures; split at ";base64,", assert Blob/filelength+EBML,
+regenerate and actually play all11persistedfiles. Hidden playback qualification
+opens each real disclosure with background throttling disabled.
+2026-11-20 - Sound/GIF report delivered in Edge; both prior candidates and
+productionapp/agent/README/media/defaults remain unchanged. No listening,
+identity, contact or phonetic acceptance; separate MPFB work stays paused.

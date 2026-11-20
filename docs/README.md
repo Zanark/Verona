@@ -1,5 +1,10 @@
 # Verona engineering book
 
+The latest review-first experiment in chapter09 is **vr-42**: use the MPFB
+head as a structural reference while retaining Claire's real neural speech
+and4x emotion inputs. `VeronaReference.cmd` is opt-in; the separate MPFB
+native-pose study and normal production app remain intact.
+
 **Status:** foundation and research manuscript, not a finished product book or
 rendered PDF. The speech-driven-face idea is recorded; proposed architecture
 and technology choices are distinguished from implemented behavior. A bounded

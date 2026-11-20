@@ -1,5 +1,95 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Reference-shaped Claire with its own neural speech (vr-42)
+
+The owner finds Claire's expressions better than the distinct MPFB native-pose
+recipes and asks to use the latter's head as a structural reference. Preserve
+Claire's points, real speech and **4x emotion**, then return to the separate
+MPFB rig later. This does not accept a female identity or complete transfer.
+
+`scripts/claire_reference_study.py:reference_warp` aligns the pinned MPFB head
+to Claire's eye spacing and orbital surface. It samples front-shell width/depth
+cross-sections, pairs them using explicit height guides, and solves a regularized
+Gaussian radial-basis displacement field using NumPy. These are approximate
+geometric correspondences, not semantic vertex matches, a new trained model or
+an exact reconstruction. Original native indices/connectivity remain Claire.
+The map uses protected lip/lid cores, fades away from the head/front surface,
+and bounds displacement. Its **0.7 head-fit weight is not the emotion gain**.
+It preserves the original static eye geometry and shader-space eye anchors.
+
+The first experiment moved only rest coordinates while retaining the old motion
+vectors; changing the shape beneath strong expressions produced local distortion.
+The maintained `apply_reference` instead maps both rest and each complete
+audio-conditioned pose, **after** Claire computes its same-audio neutral-relative
+4x emotion. Coincident input coordinates pass through the same map; this does not
+prove that Claire's original contacts or discretized triangles were correct.
+Outside the rigidly protected cores, final displacement is not algebraically
+four times another mapped displacement: the geometry map is nonlinear.
+
+The additional CPU map/finite packing runs during generation, not on each
+playback frame. Original learned basis, voice audio, motion rate, cached renderer
+buffers and audio-clocked interpolation are reused. Cancellation is checked
+between mapped frames; missing/changed reference data, malformed anatomy,
+nonfinite geometry and coordinate overflow fail explicitly. The study does not
+download missing assets or silently substitute another identity.
+
+`VeronaReference.cmd` opts into this separate desktop lane. It uses a fresh
+derived-topology cache, synthesis directory, capability URL and Electron profile;
+normal launchers and the warm agent host are unchanged. The study defaults to
+4x, FaceMesh and bright spokes, with hair off for review. Close or Ctrl+C stops
+only that owned desktop/server and discards speech; restart resets controls.
+The ignored reference asset is required and SHA-pinned. Neither candidate
+replaces the production identity or adds the eventual Gender/voice selector.
+
+### Speaking review and bounded qualification
+
+The local report at `.local\qualification\claire-reference-04\review.html`
+opens in Edge with a sound-enabled speaking video, five matched rest views,
+a 30.25-second paired GIF and closed disclosures for all ten emotions plus
+neutral, as both individual GIFs and sound videos. Click Play for audio;
+nothing autoplays. These are retained **fixed synthetic demonstration media**,
+not persisted arbitrary runtime sentences, recordings or conversations.
+
+The matched capture retains 15,375 Claire vertices, original connectivity and
+audio correspondence across 913 source motion frames per variant. Float-space
+triangle checks find no new near-collapse in 28,071,089 comparisons. They retain
+**166 pain world-normal hemisphere changes**, rather than relabelling them as
+zero failures: sampled local Jacobians remain positive (minimum about 1.0),
+with minimum singular value 0.644. A world-space normal can rotate past 90 degrees
+without a locally inverted coordinate map. Neither these samples nor the
+preserved contacts of identical coordinates prove global injectivity, triangle
+contacts after packing, self-intersection clearance or accurate expressions.
+Runs 01-03 and their unsuccessful conservative checks remain available.
+
+All 363 GIF frames independently decode with correct delays/dimensions/alpha,
+278 unique frames and zero ghost pixels. All eleven real CLI recordings exercise
+audio-clocked playback to ended, 4x and unchanged learned basis. Persisted WebMs
+subsequently play through the actual report and decode video frames; their
+recorded audio independently decodes to nonzero PCM. No independent listening
+acceptance follows. The report passes 1440/600px layout and closed-disclosure
+checks; 57 CPU tests pass. Agent review inspects mid-speech samples of all eleven
+matched GIFs, not every frame or the owner's identity judgment.
+
+The report check caught an important authoring failure: a WebM MIME type can
+contain a comma in `codecs=vp9,opus`. Splitting a FileReader data URL at its first
+comma wrote seven-byte files even though the in-memory recordings decoded.
+The corrected authoring path uses the `;base64,` delimiter, verifies persisted
+length/EBML header, regenerates and actually plays every exported video. Failed
+files and checker receipts are retained under `speaking-first`/report errors.
+Opening each disclosure and disabling test-window background throttling avoids
+mistaking hidden video suspension for a failed foreground player.
+
+An exact-output optimization separates Gaussian axes and omits RBF evaluation
+in protected/unchanged regions. Run 05 verifies **byte-identical packed motion
+for all 913 frames**, not an approximate speed/shape trade. An 83-frame greeting's
+additional map cost falls from 3.773-3.956 seconds to 0.469-0.550 seconds in that
+comparison. Fresh real CLI recordings measure 0.541-0.645 seconds for mapping
+and 3.624-7.292 seconds total generation, depending on emotion inference.
+These are local observations, not instant narration or a 60-fps guarantee.
+No fit is evaluated on playback frames. Matched GIFs use decoded-rest fitting;
+the runnable CLI starts from original float rest, so their geometry is not
+claimed byte-identical. Normal production launchers and gallery stay unchanged.
+
 ## Female identity research and review-first study (vr-39..41)
 
 The owner finds the current mesh masculine and requests a genuinely feminine
