@@ -133,9 +133,13 @@ def main():
     (args.output / "head.json").write_text(model_json)
     template = Path(__file__).with_name("mpfb_head_viewer.html").read_text()
     viewer = template.replace("__MODEL__", model_json.replace("<", "\\u003c"))
+    core = (Path(__file__).resolve().parents[1] / "verona" / "web" / "mpfb-renderer.mjs").read_text()
     for marker, filename in (("__POSES__", "mpfb_face_poses.mjs"),
                              ("__RENDERER__", "mpfb_head_renderer.mjs")):
-        viewer = viewer.replace(marker, Path(__file__).with_name(filename).read_text())
+        content = Path(__file__).with_name(filename).read_text()
+        if marker == "__RENDERER__":
+            content = core + "\n" + content
+        viewer = viewer.replace(marker, content)
     (args.output / "viewer.html").write_text(viewer, encoding="utf-8")
     files = [source / "__init__.py", source / "data" / "3dobjs" / "base.obj",
              source / "data" / "targets" / "macrodetails" / "macro.json",

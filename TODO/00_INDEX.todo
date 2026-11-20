@@ -43,6 +43,7 @@ vr-40 | 40_FEMALE_SCULPT_STUDY.todo | DONE | Owner rejects female identity; pres
 vr-41 | 41_DISTINCT_FEMALE_HEAD.todo | IN_PROGRESS | Distinct MPFB head/native-pose GIF report ready; identity review and speech transfer remain
 vr-42 | 42_CLAIRE_REFERENCE_HEAD.todo | DONE | Subtle speaking-reference study delivered then visually rejected; preserved as historical --fit shell
 vr-43 | 43_CLAIRE_STRUCTURAL_REFIT.todo | DONE | Whole-head/surface refit, original 4x speech and new blink/GIF/sound report in Edge; identity review pending
+vr-44 | 44_MPFB_NEURAL_TRANSFER.todo | DONE | Actual MPFB head speaks with Claire4x input/bounded native fitting; qualified all-state GIF/sound report opened in Edge
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

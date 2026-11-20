@@ -1,5 +1,119 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Reverse transfer onto the actual MPFB head (vr-44)
+
+The owner next requests the reverse: bring Claire's speech and expressive
+fluidity onto the imported MPFB head, not another reshaped Claire.
+`VeronaMpfb.cmd` selects `scripts/mpfb_speaking_study.py:native_session`.
+It retains the pinned **4,461 native vertices and 4,434 native polygons**,
+including the original neutral coordinates. Wire and surface views show the
+same new head. The older authored pose viewer, both Claire reference studies,
+Male-SharpJawline and normal app/agent defaults remain separate and preserved.
+
+### Transfer, native constraints and actual failed approaches
+
+`scripts/mpfb_motion_transfer.py:apply_transfer` leaves Claire's neural
+conditioning, PCA basis, audio and original gain computation untouched.
+The source first computes its original **4x neutral-relative emotion**.
+The vr-43 map registers source rest to the eye-aligned MPFB surface.
+`surface_binding` builds an AABB hierarchy, projects each active target point
+onto the exact nearest nondegenerate source triangle, and stores its three
+convex barycentric weights. Runtime samples only referenced source vertices;
+it does not repeat nearest-surface searches or use authored emotion recipes.
+
+`bind_motion` adds the weighted complete-pose displacement relative to the
+registered source rest to the **original target rest**, not to substituted
+Claire coordinates. Fixed weights avoid per-frame attachment switching.
+The first probe fails its unchanged 3cm attachment bound at the extracted
+lower-neck/shoulder rim (maximum 4.60cm); facial points above 132cm remain
+within 1.79cm. The final binding fixes the 127 lower-rim points and smoothly
+enables motion from 132 to 136cm in the aligned source coordinate system.
+These are this asset's authored support guides, not anatomical gender ratios.
+
+Closest geometry alone is not semantic lip/lid correspondence. The first
+actual speaking capture visibly tears lip rows into tooth-like spikes.
+Keep that failed report corpus as `mpfb-speaking-01`; these are skin artifacts,
+not teeth. Direct displacement embedding is therefore only an intermediate
+target, never the final displayed deformation.
+
+`native_rig_fit` projects those actual trajectories into the imported head's
+51 active faceunit deltas. A regularized least-squares objective is solved by
+160 accelerated projected-gradient steps per clip, with a precomputed
+51x51 Gram matrix. All frames are fitted as one bounded numerical batch.
+No mapping from emotion name to native-control recipe is involved.
+An initial 0..4 native-control range produces visible brow foldovers in pain;
+`mpfb-speaking-02` preserves that failed experiment. The final **0..1 native
+control bounds** avoid extrapolating each authored unit beyond its full target.
+This is not a contact solver, a proof that combinations cannot intersect, or
+a claim that all Claire detail survives. Saturation and residual RMS are
+reported in every clip's `nativeRigFit`; 4x is the source input, not a promise
+of four-times final native displacement or lossless emotional equivalence.
+
+### Playback, ownership, errors and recovery
+
+The opt-in CLI reuses the guarded `verona/server.py` loopback service: exact
+Host/Origin checks, per-run capability, bounded requests and latest-only RAM.
+It substitutes only an explicit native-page static allowlist in its own
+process. JSON `/api/mesh` carries native rest/polygons/eyes; motion is finite
+little-endian Float32 native centimeters (`frameFormat`), not Claire's Int16
+format. Source-only quantization/skin diagnostics are removed or relabelled.
+Missing or changed pinned assets and unbounded/nonfinite geometry fail explicitly.
+
+`verona/web/mpfb.js` validates complete motion before installing its audio
+Blob. The audio element's `currentTime` drives linear interpolation between
+30fps poses; paused playback freezes, ending/Stop restores native rest, and
+new generation clears the prior playable clip and revokes its object URL.
+There is no autoplay. A replaced clip's fetch returns the original server's
+stale404; errors are visible rather than empty success. WebGL loss stops
+playback and requires reload. Page reload resets controls/client buffers;
+Ctrl+C cancels generation, stops/joins the owned server and clears speech RAM.
+Closing the browser tab alone does not stop its console. There is no new
+device access, dependency, arbitrary file server or runtime transcript storage.
+
+`verona/web/mpfb-renderer.mjs:createStudyRenderer` is shared with the existing
+offline native-pose exporter. It preserves native polygon edge loops rather
+than adding triangulation diagonals. Surface normals use reusable buffers;
+wire view skips normal recomputation, and live playback does not call
+`gl.finish`. The earlier offline qualification retains its explicit completed-GPU
+draw option. Eyeballs remain static; independent teeth/tongue/eye joints,
+hair, production Gender profiles and semantic/contact acceptance are omitted.
+
+### Qualified review delivery
+
+`.local\qualification\mpfb-speaking-06\review.html` contains a 30.25-second/
+363-frame overview, eleven exact GIF slices, five native rest views and eleven
+real CLI sound recordings. It was opened directly in Edge; the matching
+window was observed. Agent review covers decoded samples of all eleven states,
+rest views and the report, not every frame or independent listening.
+Every saved video subsequently plays/decodes in its actual report disclosure.
+
+67 CPU tests, two native-pose Node checks and the new playback-loop regression
+pass. Real isolated browser cases cover pause/Stop/rest, visible generation
+failure with no playable replacement, stale 404, missing-capability 403,
+context loss and reload. Session cleanup clears speech and removes owned
+cache/synthesis/profile resources. The protected user/browser lane is untouched.
+
+The 913 exact Float32 output frames match real CLI hashes. There is zero new
+near-collapse and 9,817 retained world-normal hemisphere diagnostics; these
+are not proved inversions or contact clearance. GIF dimensions/delays/alpha
+independently decode with zero alpha mismatches. Native controls saturate in
+strong expressions; reported residual RMS makes lost motion explicit.
+
+Actual cold binding is 5.08 seconds, not whole startup. These 83-frame greetings
+measure 0.664-0.805 seconds for native transfer/fitting and 3.911-7.382 seconds
+total generation. Dual-canvas submission median 1.10ms/max 5.80ms is not a
+GPU-completed or locked 60fps measurement. All fitting precedes playback.
+
+The first hidden-window sound capture had valid audio but only four decoded
+video frames. Reject it, do not call it fluid video. Active offscreen painting
+exposes a real duplicate-loop race: seek started another animation callback
+without cancelling the preceding one, allowing a queued tick to replace
+post-end rest. The player now replaces that callback on seek and guards rest
+in `tick`; the focused regression fails without this fix. Final recordings
+contain 39-86 decoded frames each and are checked again after persistence.
+The report check also retains an unsupported offscreen `capturePage` failure;
+its actual paint-image output succeeds. No failed receipt is erased.
+
 ## Whole-head structural refit after visual rejection (vr-43)
 
 The owner cannot see a meaningful difference in vr-42's comparison. That

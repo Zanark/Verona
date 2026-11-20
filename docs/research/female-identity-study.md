@@ -6,7 +6,19 @@ model**. Confidence below applies to the stated evidence, not visual quality.
 
 ## Current decision after owner review
 
-Latest correction (vr-43): the owner sees no meaningful difference in vr-42.
+Latest direction (vr-44): the owner explicitly resumes the actual MPFB model
+and requests the reverse transfer of Claire's speech/expressions/fluidity.
+`VeronaMpfb.cmd` now drives the original native topology with real4x source
+trajectories and bounded51-control native fitting. Raw nearest-surface output
+tore lips; extrapolated native weights folded brows. Both failures are retained.
+The final0..1 rig bounds preserve coherent native shapes at the expense of
+unsupported Claire detail. This is not a lossless expression copy, authored
+emotion recipes, identity approval or production Gender integration.
+Actual eleven-state GIF/sound report:
+`.local\qualification\mpfb-speaking-06\review.html`.
+[Mechanism and limits](../chapters/09-verona-character-and-waves.md#reverse-transfer-onto-the-actual-mpfb-head-vr-44).
+
+Previous correction (vr-43): the owner sees no meaningful difference in vr-42.
 Replace its conservative front-shell approach, not the owner's judgment, with
 whole-head section correspondence plus actual reference-triangle surface
 registration. `claire_structural_fit.py:fit_model` supplies the new complete-pose

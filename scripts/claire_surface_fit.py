@@ -5,13 +5,13 @@ import numpy as np
 from scripts.claire_reference_study import EYES, _positions, _smooth
 
 
-def closest_surface(points, vertices, faces):
+def closest_surface(points, vertices, faces, *, return_faces=False):
     a, b, c = np.moveaxis(vertices[faces], 1, 0)
     ab, ac = b - a, c - a
     aa, bb, cc = (np.sum(ab * ab, axis=1), np.sum(ab * ac, axis=1),
                   np.sum(ac * ac, axis=1))
     denominator = aa * cc - bb * bb
-    result = []
+    result, selected = [], []
     for start in range(0, len(points), 16):
         p = points[start:start + 16, None]
         ap = p - a
@@ -33,8 +33,11 @@ def closest_surface(points, vertices, faces):
             better = square < distance
             best = np.where(better[..., None], candidate, best)
             distance = np.minimum(distance, square)
-        result.append(best[np.arange(len(p)), np.argmin(distance, axis=1)])
-    return np.concatenate(result)
+        indices = np.argmin(distance, axis=1)
+        result.append(best[np.arange(len(p)), indices])
+        selected.append(indices)
+    positions = np.concatenate(result)
+    return (positions, np.concatenate(selected)) if return_faces else positions
 
 
 def refine_surface(base_warp, rest, reference, faces):

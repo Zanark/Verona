@@ -1,0 +1,63 @@
+ID: vr-44
+Title: Transfer Claire neural speech and 4x emotions onto the distinct MPFB head
+
+Status: DONE
+Milestone: Review the actual imported head speaking with transferred neural trajectories.
+Dependencies: vr-41; vr-43 registration
+
+Purpose:
+Owner explicitly resumes the imported MPFB head and requests the reverse:
+bring Claire's expressive/fluid speech onto that distinct model, rather than
+reshaping Claire. Implement autonomously while the owner is AFK.
+
+Tasks:
+[x] Bind original MPFB topology/rest to real complete Claire neural trajectories.
+[x] Preserve 4x inputs, audio clock, native quad loops and target rest identity.
+[x] Provide an isolated, capability-protected runnable speaking variant.
+[x] Qualify all eleven states, error/cancel/restart and measured performance.
+[x] Inspect actual motion and produce GIF/sound report; open directly in Edge.
+[x] Update book/index/causal ledger and one issue/Project item; publish verified source.
+
+Acceptance criteria:
+The rendered animated geometry is the imported 4,461-vertex MPFB head, not
+Claire with a new label. Native rest and polygons remain unchanged.
+Use real audio-conditioned trajectories, not the older authored pose recipes.
+4x is preserved at the neural source; nonlinear transfer is not semantic proof.
+No new download/dependency/device activation, production selector/default switch,
+arbitrary speech persistence, sibling disruption or false accuracy acceptance.
+Retain previous variants/reports and explicitly diagnose correspondence/contact
+loss, failed experiments, staleness and cancellation.
+
+Completion evidence:
+VeronaMpfb.cmd / scripts/mpfb_speaking_study.py starts the separate native head.
+Original 4,461 vertices/4,434 polygons and source4x; fixed barycentric motion
+followed by coherent51-control bounded native fitting, not emotion recipes.
+Native controls0..1 intentionally lose unsupported detail; no exact final4x claim.
+.local/qualification/mpfb-speaking-06/review.html opened directly in Edge;
+matching window observed. 30.25sec/363frame overview,11exactGIFs,5restviews,
+11actual sound clips; all persisted videos subsequently play/decode through
+the report. Decoded PCM is not independent listening.67CPU tests,2native-pose
+Node checks and single-loop seek/end regression pass. Actual owned lifecycle
+tests stop/rest, explicit failure, stale404, missing-capability403, context
+loss/reload; session cleanup clears speech and removes owned profiles/cache.
+913exactFloat32 output frames match realCLI hashes; zero near-collapse and
+9,817retained normal-hemisphere diagnostics, not inversion/contact clearance.
+Cold binding5.08sec;83frame native transfer/fitting.664...805sec, total
+generation3.911..7.382sec. Dual-canvas submission median1.10ms/max5.80ms,
+not GPU-completed/locked60fps or instant narration. AllGIFalpha/delays/
+dimensions independently decoded with zero alpha mismatches.
+Failed lower-rim/raw-lip/extrapolated-brow/capture03..05 receipts retained.
+Owner identity/contact/phonetic acceptance and production Gender policy
+remain separate open gates in vr-41; no production app/agent/default switch.
+
+Completion log:
+2026-11-21 - Qualify bounded native-control projection after lip and brow
+artifacts; recapture actual audio-clocked motion using active offscreen paint.
+The first hidden recording had only4decodedframes despite valid audio; reject
+it. Active capture exposes a real duplicate-RAF seek/end race; cancel prior
+loop on seek and guard native rest, add failing-before/fixed-after regression.
+Final sound files39..86decodedframes; actual report playback passes all11.
+Open qualified report06 in Edge with no autoplay. Bounded delivery complete,
+not lossless transfer, owner approval, new release or deployment.
+2026-11-20 - Owner requests reverse transfer onto the previously imported head,
+including expressive reactions/fluidity, then a completed review report in Edge.

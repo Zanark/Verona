@@ -1,5 +1,13 @@
 # Verona product brief
 
+Latest bounded experiment (vr-44): the owner asks for the reverse transfer
+onto the actual imported MPFB head. `VeronaMpfb.cmd` now supplies real
+audio-clocked speech from original Claire4x inputs through bounded native-rig
+fitting. Geometry/topology remain MPFB; unsupported source detail is lost.
+The all-state GIF/sound report is `.local\qualification\mpfb-speaking-06\review.html`.
+Identity/contact/phonetic acceptance and production Gender/voice integration
+remain open; normal app/agent defaults and all earlier studies are preserved.
+
 **Status: first text-input prototype implemented and functionally qualified.**
 The requirements below summarize the owner's November 18 description. Technology
 choices are distinguished below from unqualified perceptual accuracy.

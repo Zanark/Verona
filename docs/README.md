@@ -1,6 +1,13 @@
 # Verona engineering book
 
-The latest review-first experiment in chapter09 is **vr-43**: replace the
+The latest review-first experiment is **vr-44**, reverse neural transfer onto
+the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric
+attachment, coherent bounded native-control fitting, real speech playback and
+the loss of unsupported Claire detail. Claire's original 4x source is retained;
+native control limits mean final displacement is not an exact 4x copy.
+Production app/agent defaults and all earlier experiments remain unchanged.
+
+The preceding experiment in chapter09 is **vr-43**: replace the
 visually rejected subtle vr-42 fit with full-head section registration and
 actual reference-surface correction, retaining Claire's neural speech and4x
 inputs. `VeronaReference.cmd` selects this candidate; `--fit shell` retains the

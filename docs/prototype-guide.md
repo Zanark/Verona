@@ -14,6 +14,20 @@ This checkout is already prepared:
 .\VeronaDesktop.cmd
 ```
 
+**Actual imported MPFB head with speech:** `.\VeronaMpfb.cmd` starts a separate
+capability-protected browser study. Generate your sentence, then press the
+audio player's Play. Claire's original **4x source** drives the new head's
+51 native faceunits, bounded to0..1; this is not lossless4x output or an
+accepted Female mode. Stop resets the head; keep the console open and use
+Ctrl+C to cancel/stop it and clear speech RAM. Closing the tab alone does not
+stop the console. Reload after WebGL loss or an expired session.
+The new GIF/sound report is
+`.local\qualification\mpfb-speaking-06\review.html`: real speaking clips for
+all ten emotions plus neutral, not the old authored-pose loops.
+Native transfer/fitting measured0.66-0.81seconds per83-frame greeting, total
+generation3.91-7.38seconds; binding5.08seconds is not full startup time.
+Normal app/agent defaults, earlier variants and their reports are unchanged.
+
 **Optional reference-shaped Claire study:** `.\VeronaReference.cmd` starts a
 separate, clearly labelled experimental desktop with Claire speech, **4x**
 emotions, FaceMesh and bright spokes. Generate a sentence, then Play. It requires

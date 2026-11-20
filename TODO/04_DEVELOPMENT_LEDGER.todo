@@ -1,6 +1,37 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-44 reverse Claire neural motion onto the actual MPFB head
+Cause: owner explicitly resumes the imported model, wants Claire's reactions/
+fluidity on that model, AFK/noquestions, finished report opened in Edge.
+Action: preserve original4461vertices/4434polygons and all earlier variants.
+OriginalClaire4x first; fixed closest-triangle convex barycentric displacement
+binding via exact AABB hierarchy, only needed sourcevertices evaluated.
+First bound fails atlower-neck4.60cm;127rimpoints fixed/smooth132..136cm support,
+not a weakened3cmlimit. Actualspeech01 visibly tears liprows; reject raw
+geometric output. Native51-control bounded least-squares fitting uses actual
+trajectories, not emotionrecipes;0..4 extrapolation02 folds brows. Final0..1
+nativeunit bounds lose unsupported detail/saturate, not exact final4x equivalence.
+Dedicated VeronaMpfb guardedloopback/Float32/audio-clock player; normals reused,
+wire skipsnormalupdates, no gl.finish live. Shared native-pose exporter preserved.
+03validsound only4videoframes:reject. Activeoffscreen04/05 exposes duplicateRAF
+seek/end race; cancelpreviousseekloop/guardrest andaddfocusedregression.
+06:913exactFloat32 hashesmatchactualCLI;zeronearcollapse/9817retainednormal
+hemisphere diagnostics, not inversion/contactclearance.363GIFframes/30.25sec/
+11exactindividuals/5restviews allalpha/delays/dimensions decoded/zeromismatch.
+11soundfiles39..86decodedframes; actualsavedreport playbackpassesall11,
+nonzeroPCM notindependentlistening.1440/600px layout/closedsections pass.
+Offscreen capturePage UnknownVizError retained; actualpaintimage succeeds.
+67CPU/twonative-poseNode/singleloopregression andactualerror/stop/stale404/
+capability403/contextloss/reload pass. Coldbinding5.08sec;83frametransfer/
+rigfit.664...805sec, total3.911..7.382sec, dualsubmissionmedian1.10ms/
+max5.80ms, notwholeStartup/instant/GPUcompleted/locked60fps.
+Inspectdecoded11state samples/restviews/report; open06directlyinEdge, matching
+window76704 observed/noautoplay. Stopownedhelpers/profiles; ownerreport remains.
+Normalapp/agent/README/gallery/defaults unchanged; no download/dependency/device/
+productionGender/voice/parkedwork/release/deployment or acceptedaccuracy claim.
+vr44issue43/originalProjectitem recorded; vr41issue40remainsopenforacceptance.
+
 2026-11-20 - vr-43 whole-head structural refit after visually rejected vr42
 Cause: owner sees no difference between currentClaire/reference04; continue,
 noquestions. Do not defend smallcoordinate differences as visual acceptance.
