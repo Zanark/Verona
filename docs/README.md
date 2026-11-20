@@ -12,6 +12,9 @@ native control and ordinary Windows topmost limitations.
 The **vr-47** manager extension splits editable-now controls from read-only
 creation settings and temporarily unavailable native controls, without
 mislabeling mode-dependent locks as permanent.
+The **vr-48** self-contained agent skill documents safe operation, measured
+performance, customization and vivid, inventory-checked color identities.
+Chapter10 distinguishes cooperative color reconciliation from runtime locking.
 
 The latest review-first experiment is **vr-44**, reverse neural transfer onto
 the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric

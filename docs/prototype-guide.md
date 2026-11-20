@@ -210,6 +210,12 @@ unqualified. This is a working neural-skin prototype, not SDK parity.
 
 ## Opt-in speech for local agent sessions
 
+For an in-depth installable operating contract, read
+[the Verona agent skill](../.github/skills/verona/SKILL.md). It covers setup,
+ownership, commands/customization, performance, failures and the owner's
+distinct-color policy. Installing that passive skill does not start speech,
+replace this checkout's setup or add a runtime color reservation service.
+
 The manager's **Head controls** has two sections: **Editable now** and
 **Read-only settings**. Session name and head variant are fixed at creation;
 create a new head to change them. Disabled live controls are labeled

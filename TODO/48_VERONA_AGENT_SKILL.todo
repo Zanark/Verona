@@ -1,0 +1,53 @@
+ID: vr-48
+Title: Installable in-depth Verona agent usage and distinct-color skill
+
+Status: DONE
+Milestone: Compatible local sessions can install/read self-contained operating guidance.
+Dependencies: vr-45, vr-46, vr-47
+
+Purpose:
+Owner requests a skill explaining Verona, operation, performance, customization
+and collision-free-looking identities. Agents must prefer vivid, obviously
+different colors, not lighter versions of occupied hues; preserve all RGB freedom.
+
+Tasks:
+[x] Author self-contained project-discovered SKILL.md, grounded in current CLI/source.
+[x] Explain ownership, startup, all models, speech/cancellation/errors and customization.
+[x] Cover measured performance without new latency or accuracy guarantees.
+[x] Require all-feature active-head color inventory and post-create/reconfigure checks.
+[x] Explain concurrent collision reconciliation and limits, not fictitious locking.
+[x] Install personally without overwriting an existing skill; verify exact content/discovery.
+[x] Add an exact self-contained copy under the owner's skill-library and Agency handoff.
+[x] Update chapter/README/index/ledger and issue/Project; owned continuity follows delivery.
+
+Acceptance criteria:
+Skill installation does not activate speech or devices or restart sessions.
+Commands correspond to actual code; no invented CLI flags/autostart/voice policy.
+Creation-time choices versus disabled live settings are accurate. Performance
+measurements retain limits. Distinct-hue policy covers every feature/model,
+original defaults, simultaneous agents, current confirmation and bounded failure.
+Color choices remain free in the app; no finite forced palette or visual guarantee.
+No credentials, capabilities, private conversation or sibling source in output.
+
+Completion evidence:
+Authored .github/skills/verona/SKILL.md; current create/say CLI help and source
+reviewed. Clarify manager inspect during startup before direct host status.
+Personal install via documented copilot skill add; enabled project discovery
+and enabled personal-copilot discovery outside Verona both confirmed.
+Library copy at C:\devdesk\homedesk\skill-library\skills\verona\SKILL.md,
+with README handoff; no companion references/scripts needed. All three skill
+files have identical SHA-256:
+10370fbf8585e1f6cbde3a672b62e354aff3d84635195e68dd7d83ac8bbc984a.
+Receipt .local/qualification/agent-skill-01/installation.json.
+Pre-existing unrelated career-forensics description-length warning unchanged.
+Documentation-only; no Verona runtime/head started, spoken to or restarted.
+Instructions checked, not proof dormant Agency chats loaded them or that
+arbitrary colors passed human visual review. No runtime palette restriction.
+
+Completion log:
+2026-11-21 - Owner explicitly requests an installable in-depth operating skill
+and obvious vivid differences across agents' color choices, not near-shade reuse.
+2026-11-21 - Owner also requests a skill-library copy and the complete process
+for asking other Agency sessions to use it, including already-open chats.
+2026-11-21 - Exact copy/personal installation and both discovery scopes verified.
+Full-path Agency prompt avoids assuming host reload commands; no global hook.

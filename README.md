@@ -72,6 +72,32 @@ neural motion for faster narration; new animated sentences remain precomputed,
 not instant. No global agent hook or automatic narration is installed.
 [Commands, measured latency and cancellation](docs/prototype-guide.md#opt-in-speech-for-local-agent-sessions).
 
+### Install the Verona agent skill
+
+[The self-contained Verona skill](.github/skills/verona/SKILL.md) explains the
+app, ownership/startup, all models, safe speech/cancellation, customization and
+warm-host performance in depth. Its agent policy requires vivid, clearly
+different color families across active heads, checking every feature before
+and after creation/customization, not merely choosing another shade.
+It documents simultaneous-agent reconciliation without pretending colors
+are atomically reserved by the runtime. All application RGB choices stay free.
+
+From a trusted checkout, Copilot CLI supports personal installation:
+
+```powershell
+copilot skill add .github\skills\verona\SKILL.md
+```
+
+For another Agency chat, including one already open, use the
+[complete full-path handoff prompt](.github/skills/verona/SKILL.md#use-from-another-agency-session-including-an-already-open-chat).
+The owner's identical library copy is
+`C:\devdesk\homedesk\skill-library\skills\verona\SKILL.md`; no companion skill
+files are required. The Verona checkout/runtime is still a separate prerequisite.
+
+Installing instructions does not start a head, activate speech or devices,
+download assets, or install an automatic narration hook. A prepared Windows
+checkout and an explicitly opted-in local session are still required.
+
 ## All ten emotions - 4x and bright spokes
 
 **Glowing centers, bright red spokes, 4x emotion.** All ten named model emotions

@@ -606,7 +606,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-48": {
+      "source": "TODO/48_VERONA_AGENT_SKILL.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhJ5pfQ",
+      "number": 47,
+      "url": "https://github.com/Zanark/Verona/issues/47",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKlnm8",
+      "title": "Installable in-depth Verona agent usage and distinct-color skill",
+      "managedBody": "\n<!-- verona-workstream:vr-48 -->\nWorkstream source: `TODO/48_VERONA_AGENT_SKILL.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-48\nTitle: Installable in-depth Verona agent usage and distinct-color skill\n\nStatus: DONE\nMilestone: Compatible local sessions can install/read self-contained operating guidance.\nDependencies: vr-45, vr-46, vr-47\n\nPurpose:\nOwner requests a skill explaining Verona, operation, performance, customization\nand collision-free-looking identities. Agents must prefer vivid, obviously\ndifferent colors, not lighter versions of occupied hues; preserve all RGB freedom.\n\nTasks:\n[x] Author self-contained project-discovered SKILL.md, grounded in current CLI/source.\n[x] Explain ownership, startup, all models, speech/cancellation/errors and customization.\n[x] Cover measured performance without new latency or accuracy guarantees.\n[x] Require all-feature active-head color inventory and post-create/reconfigure checks.\n[x] Explain concurrent collision reconciliation and limits, not fictitious locking.\n[x] Install personally without overwriting an existing skill; verify exact content/discovery.\n[x] Add an exact self-contained copy under the owner's skill-library and Agency handoff.\n[x] Update chapter/README/index/ledger and issue/Project; owned continuity follows delivery.\n\nAcceptance criteria:\nSkill installation does not activate speech or devices or restart sessions.\nCommands correspond to actual code; no invented CLI flags/autostart/voice policy.\nCreation-time choices versus disabled live settings are accurate. Performance\nmeasurements retain limits. Distinct-hue policy covers every feature/model,\noriginal defaults, simultaneous agents, current confirmation and bounded failure.\nColor choices remain free in the app; no finite forced palette or visual guarantee.\nNo credentials, capabilities, private conversation or sibling source in output.\n\nCompletion evidence:\nAuthored .github/skills/verona/SKILL.md; current create/say CLI help and source\nreviewed. Clarify manager inspect during startup before direct host status.\nPersonal install via documented copilot skill add; enabled project discovery\nand enabled personal-copilot discovery outside Verona both confirmed.\nLibrary copy at C:\\devdesk\\homedesk\\skill-library\\skills\\verona\\SKILL.md,\nwith README handoff; no companion references/scripts needed. All three skill\nfiles have identical SHA-256:\n10370fbf8585e1f6cbde3a672b62e354aff3d84635195e68dd7d83ac8bbc984a.\nReceipt .local/qualification/agent-skill-01/installation.json.\nPre-existing unrelated career-forensics description-length warning unchanged.\nDocumentation-only; no Verona runtime/head started, spoken to or restarted.\nInstructions checked, not proof dormant Agency chats loaded them or that\narbitrary colors passed human visual review. No runtime palette restriction.\n\nCompletion log:\n2026-11-21 - Owner explicitly requests an installable in-depth operating skill\nand obvious vivid differences across agents' color choices, not near-shade reuse.\n2026-11-21 - Owner also requests a skill-library copy and the complete process\nfor asking other Agency sessions to use it, including already-open chats.\n2026-11-21 - Exact copy/personal installation and both discovery scopes verified.\nFull-path Agency prompt avoids assuming host reload commands; no global hook.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-20T21:08:04.538194+00:00"
+  "verifiedAt": "2026-11-20T21:28:11.492400+00:00"
 }

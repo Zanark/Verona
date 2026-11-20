@@ -77,6 +77,40 @@ sections, not claimed as owner acceptance or new native/model qualification.
 Existing owner pages/heads are not reloaded; refresh the manager page to load
 this UI without restarting its backend or heads.
 
+### Operating instructions as an installable skill (vr-48)
+
+`.github/skills/verona/SKILL.md` is a self-contained operating contract for a
+compatible local agent, not a second application. It documents the current
+CLI and protected settings route, ownership/lifecycle, all six variants,
+the creation-time versus temporary-availability distinction, measured warm/
+cold behavior and explicit performance/accuracy limits. Personal installation
+copies this one file; the skill includes no models, credentials or runtime
+startup hook. A remote agent still needs actual local command execution.
+The owner's library receives an exact copy under `skills/verona/SKILL.md`,
+not a second implementation or a dependency bundle; Verona remains the source.
+An explicit full-path read prompt works independently of a host's skill-list
+refresh. Documented Copilot installation/reload commands are not assumed to be
+Agency commands.
+
+The owner's identity requirement is perceptual, not merely hexadecimal.
+Agents choose vivid, clearly different hue families across all five features,
+inventory all active/starting heads, account for original/null colors and
+confirm appearance again after creation or customization. Examples are not
+reserved palette slots. Arbitrary RGB values remain available; the application
+does not silently ban colors or force a finite palette. Model shape, voice and
+hidden hair are not substitutes for a clearly contrasting visible mesh.
+
+There is deliberately no claim that instructions make `list`/`create` atomic.
+For concurrently created cooperating agents, stable name ordering resolves
+conflicting proposals; only the losing agent's own colors may change.
+Already-existing/unknown-owner heads and explicit user choices take precedence.
+Three attempts bound reconciliation; unresolved/unknown or visually unverified
+colors must be reported honestly rather than called distinct. This is a
+documented cooperation policy, not a reservation service, lock, background
+watcher, universal vision guarantee or capacity proof for40colored features.
+The skill preserves normal cancellation, exact process ownership and private
+capability boundaries; installation itself must never activate speech/devices.
+
 ### Default-on per-head topmost control (vr-46)
 
 New managed heads start pinned. `desktop/main.cjs` retains its existing
