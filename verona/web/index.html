@@ -122,6 +122,29 @@
           <option value="0" selected>Center + rings + spokes (current)</option>
           <option value="1">Center + bright spokes</option><option value="2">Center + bright concentric rings</option>
         </select></label>
+        <fieldset id="mesh-colors-control" class="face-colors" hidden disabled>
+          <legend>FaceMesh colors</legend>
+          <div class="color-inputs">
+            <div class="color-option">
+              <label for="mesh-color">FaceMesh
+                <input id="mesh-color" type="color" value="#4de8db" aria-describedby="face-colors-hint">
+              </label>
+              <input id="mesh-hex" type="text" value="#4DE8DB" maxlength="7" spellcheck="false"
+                aria-label="FaceMesh hex color" aria-describedby="face-colors-hint face-colors-error">
+            </div>
+            <div class="color-option">
+              <label for="eyes-color">Eyes
+                <input id="eyes-color" type="color" value="#ff0406" aria-describedby="face-colors-hint">
+              </label>
+              <input id="eyes-hex" type="text" value="#FF0406" maxlength="7" spellcheck="false"
+                aria-label="Eye hex color" aria-describedby="face-colors-hint face-colors-error">
+            </div>
+            <button id="reset-face-colors" type="button">Reset colors</button>
+          </div>
+          <p id="face-colors-hint" class="hint">Click a swatch for the built-in color picker, or enter RGB hex
+            (#RRGGBB or #RGB). Live preview; no regeneration. Colors reset on reload.</p>
+          <p id="face-colors-error" role="alert" hidden></p>
+        </fieldset>
         <label id="pattern-density-control" for="pattern-density" hidden>Pattern density <output id="pattern-density-value">1.0x</output>
           <input id="pattern-density" type="range" min="0.5" max="3" step="0.1" value="1"></label>
         <label id="pattern-gap-control" for="pattern-gap" hidden>Cell gap <output id="pattern-gap-value">0%</output>

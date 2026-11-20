@@ -1,0 +1,61 @@
+ID: vr-38
+Title: Independent live FaceMesh and eye colors
+
+Status: DONE
+GitHub issue: https://github.com/Zanark/Verona/issues/37
+Milestone: Pick the FaceMesh wire and mechanical eye colors independently without regenerating speech.
+Dependencies: vr-33, vr-37
+
+Purpose:
+The owner wants hex entry and a built-in color selector for both the FaceMesh
+and its eyes. Preserve the current cyan/red default, selected glow structures
+and fast audio-clocked renderer; no new model, dependency or automatic storage.
+
+Tasks:
+[x] Read the existing renderer, controls, qualification and ownership contracts.
+[x] Add independent native color swatches, validated hex entry and reset.
+[x] Apply uniforms live to FaceMesh only, including its matching hair.
+[x] Qualify colors, validation/recovery, retained views/audio/defaults and cost.
+[x] Update guide, book, brief/index and causal ledger; owned continuity follows.
+[x] Prepare issue/Project reconciliation; source publication is recorded separately.
+
+Acceptance criteria:
+Each swatch opens the installed browser's built-in color selector. Hex entry
+accepts #RRGGBB/#RGB, optional hash and either case; invalid input is visibly
+reported and keeps the last valid render. Picker and hex stay synchronized.
+Mesh and eye color are independent; eye geometry, glow choices and occlusion
+remain intact. Black is supported; bright hot centers retain pale highlights.
+Only FaceMesh and its optional matching wire hair change. Claire, FaceDot,
+UniformPolygons and robot retain their colors. Reset/reload restores the
+original exact renderer defaults. Switching views retains valid colors in RAM.
+Live changes do not regenerate/seek/restart speech, build/upload geometry,
+recompile shaders or introduce a timer, network call or durable preference.
+No automatic device activation, user/sibling app interference or audible test.
+README hero/default-closed section and existing media/releases stay unchanged.
+
+Completion evidence:
+Baseline ba430cc67d1f58c295f4065e82faf0e52f914ed8 is clean.
+Initial process inspection finds no Verona Python/Electron/Edge owner.
+Qualification uses a separate hidden muted profile, loopback capability/RAM,
+derived topology and synthesis directory over shared hardware, not a sandbox.
+Implementation in web/face-colors.mjs, FaceRenderer.setFaceColor/draw/
+drawPresentation, index.html/style.css and explicit static allowlist.
+50Python/twofocusedcolorNode cases and dependent renderer/player math pass.
+facemesh-colors-03 actualEdge passes6checks/all3glows/invalidbyteexact/
+blackwhite/matchinghair/4otherviewsbyteexact/mutedactualended/reset/reload.
+20varied liveinputs average.765ms/max1.900ms with forcedGPUcompletion;
+zero RPC/geometryalloc/upload/compile/link/seek/pause. Not a new60fps guarantee.
+Desktop/mobile controls reviewed; grouping fixes orphan Eyes hex observed01.
+Review catches accumulating listeners in view sync; register once.03 asserts
+20inputs==20draws after repeated views.01/02 retained as insufficient earlier
+passing receipts. Allownedbrowser/server/profile cleanup passes; no external page
+requests or GL errors. Native picker dialog not manually operated visibly.
+README32GIFs/twoPNG/onecloseddisclosure retained; no frozenrelease/edition.
+Exact source delivery remains independently established by Git/remote readback.
+
+Completion log:
+2026-11-20 - Owner requests independently selectable FaceMesh/eye colors using
+hex codes or a built-in picker; reference shows conventional color selection.
+Implement native swatches and RGB hex, no copied reference asset or alpha UI.
+2026-11-20 - Implemented and focused-environment-qualified; guide/chapter09/
+brief/index/causal ledger updated. No listening/human appearance acceptance.

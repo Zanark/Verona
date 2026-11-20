@@ -30,7 +30,7 @@ prototype, not a bundled installer. Desktop setup is explicit:
 
 The current features are on **main**; the frozen release predates the robot,
 mechanical eyes and this gallery. The demos record the vr-36 visual runtime;
-the later agent CLI reuses that renderer without changing these visuals.
+the later agent CLI and optional color controls preserve these default visuals.
 **4x expressions, glowing centers and bright spokes** are the selected
 FaceMesh look throughout, including the opening talking hero. Robot optics
 stay cyan. The emotion gallery shows all ten available single model controls
@@ -115,6 +115,11 @@ Choose **View -> FaceMesh**, **Emotion exaggeration -> 4x**, then
 optical selection changes immediately. **4x doubles the previous 2x emotional
 deformation**, not ordinary neutral speech. Natural eyelids still hide covered eyes.
 App startup defaults remain **2x** and **Center + rings + spokes**.
+
+**FaceMesh colors:** click the separate **FaceMesh** and **Eyes** swatches for
+the built-in color picker, or type a hex code such as `#4F46E5` or `#0FF`.
+Changes preview immediately without regenerating speech. **Reset colors**
+restores cyan wire/red eyes; reload also resets them. Other views keep their colors.
 
 Earlier comparisons remain available as history:
 [2x](docs/media/comparison-emotion-2x.gif),

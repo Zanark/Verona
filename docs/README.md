@@ -81,6 +81,10 @@ RAM-only Windows synthesizer, authenticated native push and actual-ended
 completion. It separates fast voice-only/cached paths from precomputed neural
 motion, records cold/warm latency and explains ownership, cancellation and
 latest-only retry limits. Normal launches and the vr-36 gallery stay unchanged.
+Chapter09's vr-38 adds independent live FaceMesh/eye native color pickers and
+validated RGB hex input, preserving exact default rendering, glow modes,
+other views and playback. It explains the emission transform, reset/reload
+ownership, focused pixel checks and bounded draw cost without regeneration.
 
 ## Reading paths
 

@@ -93,6 +93,25 @@ use **4x** emotions; the app's default remains2x. This is a live render choice: 
 speech or model run. Other views, including robot cyan, ignore it; returning
 to FaceMesh restores the selection. Reload/restart restores the original
 2x/combined defaults; no new preference persistence is introduced.
+
+**FaceMesh colors** appears when **View -> FaceMesh** is selected. Click the
+**FaceMesh** or **Eyes** swatch to open the browser's built-in color picker,
+or enter a 6-digit RGB hex code (`#4F46E5`) or shorthand (`#0FF`). The `#` is
+optional; either case is accepted. Picker selection updates the hex field;
+valid typed colors update the swatch/live face, normalized when you finish.
+Invalid input shows an error and keeps the last valid color until corrected
+or reset. Mesh wire, including optional matching hair, and mechanical eye glow
+are independent. Glow patterns and eyelid occlusion stay intact; hot centers
+retain pale highlights, while black turns off colored optical emission.
+Other views, including robot cyan, keep their original colors.
+Live edits preserve the current speech, play position and generated motion:
+no synthesis, model run or geometry rebuild. Colors stay in this page's RAM
+across view changes and desktop Controls/pop-out. **Reset colors** restores the
+original cyan/red appearance without resetting orientation/glow or speech.
+Reload/restart also restores defaults; no color preference is saved.
+For an agent host, choose colors in its own Controls window; subsequent CLI
+speech inherits them. There are no new color flags or global agent settings.
+
 Play/Pause and the timeline follow the actual audio clock; Restart rewinds and
 pauses. XYZ orientation, zoom, volume and point/edge toggles are available.
 Browser cursor following is opt-in and limited to its page; native desktop

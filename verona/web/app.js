@@ -4,6 +4,7 @@ import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presenta
 import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
 import { createRobot, bindRobot, sampleRobot } from "/robot.mjs";
 import { startAgent } from "/agent-player.mjs";
+import { FACE_COLORS, parseFaceColor } from "/face-colors.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -126,8 +127,8 @@ class FaceRenderer {
     const fragment = `#version 300 es
       precision highp float;
       precision highp int;
-      uniform vec3 color;
-      uniform bool points, polygonView, monochrome;
+      uniform vec3 color, eyeColor;
+      uniform bool points, polygonView, monochrome, customEyeColor;
       uniform float neckDepth;
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle, eyeGlow;
@@ -191,6 +192,10 @@ class FaceRenderer {
               float hotCenter = 1.0 - smoothstep(0.035, 0.075, radius);
               irisColor = mix(irisColor, vec3(1.0,0.08,0.025), centerHalo * 0.85);
               irisColor = mix(irisColor, vec3(1.0,0.90,0.80), hotCenter);
+              if (customEyeColor) {
+                float peak = max(eyeColor.r, max(eyeColor.g, eyeColor.b));
+                irisColor = eyeColor * (irisColor.r - irisColor.b) + vec3(irisColor.b * peak);
+              }
             }
             outputColor = vec4(irisColor, alpha);
             return;
@@ -348,7 +353,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
+      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -408,6 +413,8 @@ class FaceRenderer {
     this.gaze = [0, 0];
     this.headAngles = [0, 0];
     this.patterns = { facedot: [1, .6], uniform: [1, 0] };
+    this.setFaceColor("mesh", FACE_COLORS.mesh);
+    this.setFaceColor("eyes", FACE_COLORS.eyes);
     this.lastDraw = performance.now();
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
@@ -427,6 +434,16 @@ class FaceRenderer {
     this.gl.bindBuffer(target, buffer);
     this.gl.bufferData(target, data, usage);
     return buffer;
+  }
+
+  setFaceColor(kind, value) {
+    const color = parseFaceColor(value);
+    if (kind === "mesh") {
+      this.meshColor = color.hex === FACE_COLORS.mesh ? [0.30, 0.91, 0.86] : color.rgb;
+    } else if (kind === "eyes") {
+      this.eyeColor = color.rgb;
+      this.customEyeColor = color.hex !== FACE_COLORS.eyes;
+    } else throw new Error("Choose mesh or eyes to set a FaceMesh color.");
   }
 
   setFraming(value, depth = this.neckDepths[this.presentationId], refit = true) {
@@ -677,7 +694,8 @@ class FaceRenderer {
     gl.uniform1i(u.pass, 1);
     gl.uniform1i(u.points, 0);
     gl.uniform1f(u.pointSize, 1.9 * ratio);
-    gl.uniform3f(u.color, 0.30, 0.91, 0.86);
+    if (style === 1) gl.uniform3fv(u.color, this.meshColor);
+    else gl.uniform3f(u.color, 0.30, 0.91, 0.86);
     const surface = (geometry) => {
       if (style === 1) {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geometry.meshEdges || geometry.edges);
@@ -843,6 +861,8 @@ class FaceRenderer {
     gl.uniform1i(u.monochrome, this.view.style === 0 && !$("colors").checked);
     gl.uniform1i(u.presentationStyle, this.view.style);
     gl.uniform1i(u.eyeGlow, Number($("eye-glow").value));
+    gl.uniform3fv(u.eyeColor, this.eyeColor);
+    gl.uniform1i(u.customEyeColor, this.customEyeColor);
     gl.uniform3fv(u.viewCenter, this.fit.center);
     const headMode = $("cursor-mode").value === "head", following = $("follow-eyes").checked && cursor;
     const overlayMode = document.documentElement.classList.contains("overlay");
@@ -1212,6 +1232,7 @@ function syncPresentationControls() {
   for (const label of document.querySelectorAll("[data-claire-control]")) label.hidden = !claire;
   $("mesh-detail-control").hidden = !mesh;
   $("eye-glow-control").hidden = !mesh;
+  $("mesh-colors-control").hidden = !mesh;
   $("mesh-detail").value = String(renderer.detail);
   $("mesh-detail-value").value = `${renderer.detail} / 5`;
   $("framing").value = robot ? "robot" : mesh ? "front" : renderer.framings[renderer.presentationId];
@@ -1234,6 +1255,46 @@ function syncPresentationControls() {
     $("pattern-gap-value").value = `${Math.round(pattern[1]*100)}%`;
   }
 }
+function faceColorErrors() {
+  const errors = ["mesh", "eyes"].map(kind => {
+    const input = $(`${kind}-hex`);
+    input.setAttribute("aria-invalid", String(!input.validity.valid));
+    return input.validationMessage ? `${kind === "mesh" ? "FaceMesh" : "Eyes"}: ${input.validationMessage}` : "";
+  }).filter(Boolean);
+  $("face-colors-error").textContent = errors.join(" ");
+  $("face-colors-error").hidden = !errors.length;
+}
+for (const kind of ["mesh", "eyes"]) {
+  const picker = $(`${kind}-color`), hex = $(`${kind}-hex`);
+  const apply = (value, canonicalize) => {
+    let color;
+    try {
+      color = parseFaceColor(value);
+    } catch (error) {
+      hex.setCustomValidity(error.message);
+      faceColorErrors();
+      return;
+    }
+    renderer.setFaceColor(kind, color.hex);
+    picker.value = color.hex;
+    if (canonicalize) hex.value = color.hex;
+    hex.setCustomValidity("");
+    faceColorErrors();
+    draw();
+  };
+  picker.addEventListener("input", () => apply(picker.value, true));
+  hex.addEventListener("input", () => apply(hex.value, false));
+  hex.addEventListener("change", () => apply(hex.value, true));
+}
+$("reset-face-colors").addEventListener("click", () => {
+  for (const kind of ["mesh", "eyes"]) {
+    renderer.setFaceColor(kind, FACE_COLORS[kind]);
+    $(`${kind}-color`).value = $(`${kind}-hex`).value = FACE_COLORS[kind];
+    $(`${kind}-hex`).setCustomValidity("");
+  }
+  faceColorErrors();
+  draw();
+});
 for (const id of ["pattern-density", "pattern-gap"]) $(id).addEventListener("input", () => {
   const pattern = renderer?.patterns[renderer.presentationId];
   if (!pattern) { failure(new Error("Pattern controls are available in FaceDot and UniformPolygons.")); return; }
@@ -1359,6 +1420,7 @@ try {
     ? "Default: Hazel, installed locally." : `Hazel is not installed. Using ${defaultVoice}; choose another installed voice if preferred.`;
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary);
+  $("mesh-colors-control").disabled = false;
   for (const [id, style] of Object.entries(HAIRSTYLES)) {
     const option = document.createElement("option");
     option.value = id; option.textContent = style.name; $("hairstyle").append(option);

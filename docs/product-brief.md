@@ -102,6 +102,11 @@ the same face/voice system. No global hooks, conversation scraping or automatic
 session activation. Explicit voice-only mode avoids neural preparation; new
 animated lines remain precomputed. Measured latency is not an instant-response
 or listening-accuracy acceptance claim.
+The owner's next request adds separate FaceMesh and eye colors using hex codes
+or a built-in color selector. vr-38 supplies native swatches, validated RGB hex
+and live uniform updates without regenerating speech/motion. Original cyan/red
+defaults, other views and selected glow patterns stay intact. Colors are RAM-only
+and reset on reload; no new dependency, model, persistence or global agent setup.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.

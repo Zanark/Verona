@@ -1,6 +1,30 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-38 independent live FaceMesh and eye colors
+Cause: owner wants hex entry and a built-in color selector for wire and eyes.
+Action: native swatches/validated3-or6-digitRGB/reset; renderer-only uniforms
+and a red-dominant-emission hue transform. Preserve exact legacy cyan/red,
+all glow modes, eyelid occlusion, other views, speech and startup defaults.
+50Python/twofocusedcolorNode cases and dependent renderer/player math pass.
+Actual isolated muted Edge colors03 passes6checks: greenwire/blueeyes/allglows,
+invalidlastvalid/recovery, blackwhite/matchinghair, fourotherviewsbyteexact,
+actualendedplayback/no colorRPC/seek/pause, zero geometryalloc/upload/compile.
+20varied forcedGPU-completed inputs mean.765ms/max1.900ms, not60fpsproof.
+Mobile01 review spots separated Eyes hex; group swatch/label/hex, retain01,
+rerun02 and view desktop/mobile. No overflow390px; originalfixture unchanged.
+Final source review catches listener setup inside presentation sync; move to
+one-time module setup.03 additionally asserts20inputs==20draws after repeated
+view switches, preventing accumulation. Retain01/02 as insufficient earlier
+passing receipts; no historical optical assertion is weakened.
+No initial Verona owner; allownedhiddenbrowser/server/profile cleaned.
+No audible/user/sibling/device/credentialinteraction or model/dependency/
+media/release/edition change. Historical fullsmoke failures remain separate.
+Guide/chapter09/brief/index/TODO38 explain errors, loss/reload/ownership,
+nativepicker-platform limits and RAM-only colors inherited by agent speech.
+Originalissue37/Project15item PVTI_lAHOAe2wCs4BsFbFzhKdgeY verifiedClosed/
+Completed/Done; all36oldermappingrecords unchanged. Source publication separate.
+
 2026-11-20 - vr-37 opt-in warm agent speech CLI
 Cause: owner wants selected future Agency/Copilot sessions to speak through
 Verona, explicitly prioritizing performance, not global narration/hooks.

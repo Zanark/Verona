@@ -97,6 +97,13 @@ try {
   await cdp("Emulation.setDeviceMetricsOverride", { width: 1280, height: 980, deviceScaleFactor: 1, mobile: false });
   await cdp("Page.navigate", { url: `${origin}/#${capability}` });
   await waitFor(`document.getElementById("generate") && !document.getElementById("generate").disabled`);
+  if (process.argv.includes("--colors-only")) {
+    const { checkFaceColors } = await import("./face_colors_checks.mjs");
+    await checkFaceColors({ evaluate, check, generate, waitFor, click, cdp, screenshot, report });
+    assert.deepEqual(exceptions, []);
+    assert.deepEqual(external, []);
+    assert.deepEqual(networkFailures, []);
+  } else {
   await check("Hazel is the explicit default when installed, otherwise substitution is disclosed", async () => {
     const data = await evaluate(`({voices:Array.from(document.getElementById("voice").options,o=>o.value),
       selected:document.getElementById("voice").value,notice:document.getElementById("voice-notice").textContent})`);
@@ -1113,6 +1120,7 @@ try {
   report.externalPageRequests = external;
   report.embeddedBrowserImages = embeddedImages;
   report.expectedInjectedNetworkFailures = networkFailures.length;
+  }
   report.status = "passed";
 } catch (error) {
   report.status = "failed";

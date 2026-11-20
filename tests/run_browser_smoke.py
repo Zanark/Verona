@@ -25,6 +25,7 @@ EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True, help="New private qualification directory.")
+    parser.add_argument("--colors-only", action="store_true", help="Run focused live FaceMesh color qualification.")
     args = parser.parse_args()
     if args.output.exists():
         parser.error("Choose a new output directory to preserve previous evidence.")
@@ -89,7 +90,8 @@ def run_browser(args, node) -> None:
                     port = int(port_file.read_text().splitlines()[0])
                     result = subprocess.run(
                         [node, str(Path(__file__).with_name("browser_smoke.mjs").resolve()),
-                         server.origin, state.token, str(port), str(args.output.resolve())],
+                         server.origin, state.token, str(port), str(args.output.resolve()),
+                         *(["--colors-only"] if args.colors_only else [])],
                         timeout=240, env=environment, check=False,
                     )
                 finally:

@@ -1,5 +1,83 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Live FaceMesh and optical colors without regeneration (vr-38)
+
+The owner next asks for independent face-wire and eye colors through hex entry
+or a built-in selector. `verona/web/index.html` adds a FaceMesh-only fieldset
+with two native `input[type=color]` swatches, labelled hex inputs and Reset
+colors. The installed browser/Electron supplies its standard color-selection
+dialog; the supplied reference image is not copied or served. Native picker
+appearance depends on that engine/platform. This is opaque RGB selection, not
+alpha, saved palettes or a new drawing tool.
+
+`parseFaceColor` in `verona/web/face-colors.mjs` accepts three/six hex digits,
+optional `#`, either case and surrounding whitespace. It expands shorthand and
+returns uppercase canonical hex plus normalized RGB. Named/CSS/alpha-bearing
+or malformed values fail explicitly. The `app.js` input handlers validate
+before changing state: incomplete input remains editable and visibly invalid,
+with the last valid render retained. Valid typing previews immediately and
+normalizes on change; a swatch synchronizes the hex field. Correcting one field
+does not hide an error in the other. Reset clears both errors and defaults
+without changing speech, orientation, glow selection or another view.
+
+`FaceRenderer.setFaceColor` owns two RAM-only colors. `drawPresentation` applies
+mesh RGB only for FaceMesh, including its optional matching wire hair and eye
+contours. Dot/grid and Claire/robot materials are unchanged. The shader receives
+eye RGB and a custom-color switch: only the FaceMesh emission branch transforms
+its existing red-dominant light into the chosen hue. For old optical RGB `o`,
+chosen RGB `c` and `p = max(c)`, the transform is
+`c * (o.r - o.b) + vec3(o.b * p)`. The original pale core becomes a pale version
+of the chosen hue; black produces zero optical emission. Existing radii,
+antialiasing, alpha, dimming, glow modes and real depth occlusion remain.
+Chosen base hex does not mean every shaded/blended pixel has that exact RGB.
+
+The rounded default swatches are `#4DE8DB` and `#FF0406`. Their default/reset
+path deliberately retains original floating cyan `.30/.91/.86` and the
+unchanged multi-color red optical shader, avoiding a rounding or appearance
+change to old demos. Other chosen values use normalized RGB. No per-edit
+network call, synthesis/inference, topology work, GPU geometry upload or shader
+recompile; only cached color values, uniforms and the existing draw path.
+There is no new timer or render loop. The color values survive view changes
+and native Controls/pop-out because the same renderer/page stays alive. Agent
+speech inherits that host window's colors. Reload/restart discards them; no
+localStorage, descriptor change, color API/CLI flags or global agent setup.
+Existing context-loss, capability, cancellation, stale-clip and shutdown
+contracts remain; reload also discards an unfinished color edit.
+
+### Focused qualification and boundaries
+
+Fifty Python cases, two color-input Node cases and existing renderer/player
+math pass. `tests/face_colors_checks.mjs` runs through the existing isolated
+Edge owner with `-m tests.run_browser_smoke --colors-only --output <new-path>`.
+`facemesh-colors-03` passes six actual-browser checks: all three optical modes
+show independently green wire/blue optics with zero remaining red-classified
+pixels; malformed input leaves the image byte-identical; black/white and
+matching hair work. Hidden color changes leave all four other presentations
+byte-identical. Reset/reload restores default controls and the legacy branch.
+
+Twenty varied input events during muted actual playback preserve its source,
+do not seek/pause/regenerate, allocate/upload no geometry, and compile/link no
+shader; actual audio ends normally. Forced GPU-completed input draws average
+0.765ms, maximum1.900ms on this shared Ryzen7 PRO7840U/Edge environment at
+1440x1400. These are bounded edit/draw samples, not a new 60fps claim or
+speech-latency measurement. WebGL reports no errors or external page requests.
+Desktop/mobile control samples were viewed; grouping each label/swatch/hex
+prevents orphan fields on the390px layout. `facemesh-colors-01` remains as the
+pre-grouping receipt. Final source review finds color listener registration
+inside presentation synchronization, which would accumulate redraws after
+view/control changes. Move registration to one-time module setup;03 asserts
+exactly20draws for20input events after repeated view changes.01/02 are retained
+as earlier technically passing receipts that did not detect that bug.
+
+All runs use an owned headless/muted profile, separate capability/RAM,
+derived cache and synthesis directory; owned server/browser/profile cleanup
+passes. No audible output, camera/microphone activation, user/sibling app,
+dependency/model download or existing media/release change. The native picker
+dialog itself was not manually operated in a visible desktop session; tests
+drive the real color input events and inspect actual rendered pixels. Existing
+historical full-smoke optical-fixture failures are not weakened or relabelled
+as green. No new listening, phonetic or human appearance acceptance is claimed.
+
 ## Refreshing every active README demo (vr-36)
 
 The owner next requests updated GIFs for everything and all available emotions
