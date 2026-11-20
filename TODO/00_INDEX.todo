@@ -48,6 +48,7 @@ vr-45 | 45_NAMED_HEAD_SESSIONS.todo | DONE | One GUI/all six variants, isolated 
 vr-46 | 46_DEFAULT_TOPMOST_HEADS.todo | DONE | Default-on independent pin and session name inside each head's collapsed menu
 vr-47 | 47_CONTROL_AVAILABILITY_SECTIONS.todo | DONE | Separate editable controls from creation-time and temporarily unavailable settings
 vr-48 | 48_VERONA_AGENT_SKILL.todo | DONE | Installed/copied in-depth agent skill, vivid distinct-color policy and full-path Agency handoff
+vr-49 | 49_CHEEKINESS_LIP_STRETCH_REPORT.todo | DONE | Matched current/proposed Claire sideways-smirk report; shared visual direction recorded, runtime unchanged
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

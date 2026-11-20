@@ -16,6 +16,15 @@ The **vr-48** self-contained agent skill documents safe operation, measured
 performance, customization and vivid, inventory-checked color identities.
 Chapter10 distinguishes cooperative color reconciliation from runtime locking.
 
+The **vr-49** review-only cheekiness report compares current original Claire
+with a clearly sideways, asymmetric lip pull using the same actual speech and
+renderer. Open `.local\qualification\cheekiness-claire-03\review.html` in the
+prepared checkout. Chapter09 explains the native smile/dimple reference,
+report-only smooth mouth field, geometry diagnostics and future per-variant
+adaptation. The owner approved the first proposed look (run02) and requested
+more exaggeration; run03 adds about 66% more pull and preserves that first
+preview. No running head or application expression is changed by this comparison.
+
 The latest review-first experiment is **vr-44**, reverse neural transfer onto
 the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric
 attachment, coherent bounded native-control fitting, real speech playback and

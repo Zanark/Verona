@@ -1,0 +1,59 @@
+ID: vr-49
+Title: Matched Claire cheekiness and sideways lip-stretch review report
+
+Status: DONE
+Milestone: Owner can compare current Claire with the selected asymmetric smirk direction.
+Dependencies: vr-35, vr-41, vr-45
+GitHub issue: https://github.com/Zanark/Verona/issues/48
+
+Purpose:
+Owner loves the one-sided lip stretch in the retained native MPFB cheekiness
+pose and wants that visual vocabulary across variants. First produce a matched
+current/proposed Claire report, without silently changing running heads.
+
+Tasks:
+[x] Trace the original MPFB recipe and current neural Claire cheekiness.
+[x] Record sideways/asymmetric mouth pull as the requested shared visual direction.
+[x] Render same-source Claire current/proposed stills, mouth detail and motion.
+[x] Inspect the actual report and verify its offline media and isolated cleanup.
+[x] Document mechanism, limits and future variant-specific adaptation; no rollout claim.
+[x] Finish tracking and the Edge handoff; persist the final source milestone.
+
+Acceptance criteria:
+Actual Claire geometry/renderer, same source speech, strength, gain, camera and
+topology on both sides. Original reference retained unchanged. Candidate labelled
+review-only, not an already universal expression. Preserve the approved first
+preview separately from the subsequently requested stronger candidate. Mouth-only smooth
+addition preserves the rest of the source; no new model/download/device access,
+source app changes, protected-head interruption or independent-listening claim.
+
+Completion evidence:
+.local/qualification/cheekiness-claire-03/review.html contains matched actual
+FaceMesh stills, enlarged mouth comparison, 33 paired lossless frames sampled
+at 12 fps, Play/Pause/seek/reset and the byte-identical selected MPFB reference.
+Actual neural source: 83 frames, 15,375 vertices, 0.6 strength/4x/Hazel greeting.
+Candidate adds a shared smooth rest-space mouth field; maximum packed extra
+offset 1.956 cm, 13,190 outside-field vertices bit-identical in every frame.
+Zero new near-collapses, 1,294 normal-hemisphere diagnostics; not contact or
+intersection proof. No app/runtime rollout or approval of the stronger revision
+claimed. Owner approved the first proposed look, retained unchanged as run02.
+Three focused CPU tests pass. Actual offline reader exercises all images/
+frames, motion controls, 1440/600px containment and explicit missing-frame
+failure with disabled controls. Comparison, mouth detail, a later speech pose
+and both reader layouts visually inspected. Helpers/profile/server cleaned.
+First video attempt dropped frames and was rejected;01 retained. Deterministic
+lossless review frames avoid silently weakening the video acceptance gate.
+Reader qualification failures retained; lazy-reference decoding and hidden
+animation sampling require eager test loading, active painting and bounded
+condition-based waits. Production sources and protected manager untouched.
+The stronger reader also checks an earlier-than-start first frame timestamp:
+clamp to zero prevents negative indexing. No prior failure cause inferred.
+
+Completion log:
+2026-11-21 - Owner selects mpfb-head-04/check-speech-162.png as the preferred
+cheekiness cue and requests current/proposed Claire comparison.
+2026-11-21 - Actual comparison and offline reader qualified; preferred cue
+recorded across future variant adaptations, not deployed to all models.
+2026-11-21 - Owner approves first proposed look and requests more exaggeration.
+New run03 increases the pull from 1.00/.62 cm to 1.65/1.05 cm (about 66%).
+Actual reader/geometry and sampled visual review pass; earlier reports retained.

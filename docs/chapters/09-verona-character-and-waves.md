@@ -1,5 +1,81 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Cheekiness as a sideways lip pull: review before rollout (vr-49)
+
+The owner selects the visibly tilted mouth in the retained
+`mpfb-head-04/check-speech-162.png` study and wants that cue across variants.
+The owner approved the first proposed Claire look, then requested further
+exaggeration. The stronger follow-up remains a matched current/proposed report;
+approval of the first preview is not automatic approval of the unseen revision.
+Running heads and application expression behavior stay unchanged.
+
+The reference and the current application use different mechanisms.
+`scripts/mpfb_face_poses.mjs:FACE_POSES.cheekiness` authors a unilateral
+`mouthSmileLeft=.9`, `mouthDimpleLeft=.65`, opposite `browOuterUpRight=.7`
+and `eyeSquintLeft=.35`. Its apparent lip stretch is not the native
+`mouthStretch` control, nor the later neural-to-native transfer.
+`verona/engine.py:expression_condition` instead selects Claire's explicit
+channel 2. `FaceEngine.generate` applies the chosen 2x/4x difference from the
+same-audio neutral prediction. It contains no prescribed one-sided mouth recipe.
+
+`scripts/claire_cheekiness_study.py:sideways_lip_pull` is deliberately
+**report-only**. It adds one shared, smooth rest-space field to decoded original
+Claire 4x poses: a viewer-right outward/upward corner pull, with falloff into the
+front cheek and zero effect above/outside the mouth area. Both lip sheets use
+that same field; no per-frame nearest-point attachment or upper/lower-lip
+independent offsets are introduced. The stronger vector is 1.65 cm sideways and
+1.05 cm up, about 66% more than the first 1.00/.62 cm proposal, not amplified by
+4 again. Existing temporal speech displacement is retained
+before repacking, within ordinary quantization error. This is a visible design
+proposal, not calibrated anatomy, a contact solver or an MPFB-rig transfer.
+
+The command below creates a **new** ignored output directory and refuses to
+overwrite an earlier report. It requires the already prepared local models,
+desktop and retained reference, and never downloads them:
+
+```powershell
+.\.local\cpu-env\Scripts\python.exe -m scripts.claire_cheekiness_study --output .local\qualification\<new-run-name>
+```
+
+`.local\qualification\cheekiness-claire-03\review.html` contains the stronger
+production FaceMesh renderer comparison, mouth detail and 33 paired lossless
+frames on one 12 fps review timeline. The source remains 83 frames at 30 fps.
+The approved first proposal remains unchanged in `cheekiness-claire-02`.
+Play/Pause, seeking and reset do not control a live head;
+tab hiding pauses the report and reload resets it. Missing frame files show
+an explicit error and keep controls disabled; retain its adjacent `frames`
+folder and images. No sound autoplays or independent listening is claimed.
+The source reference is byte-identical to the owner's selected screenshot;
+its yaw -2/native-strength 1 pose is not falsely labelled camera-matched to Claire.
+
+All 83 packed candidate frames retain 13,190 outside-field vertices bit-for-bit.
+Maximum extra offset is 1.956 cm, with zero new near-collapses and 1,294 world-normal
+hemisphere changes. These are geometry diagnostics, not proof of correct
+contacts, self-intersection clearance or human emotion quality.
+The first encoded-video attempt lost frames and remains as run01; deterministic
+PNG sampling replaces it rather than relaxing that failed gate.
+Three focused field tests and the actual offline reader cover deformation,
+explicit invalid inputs, image/frame loading, playback/seek/reset,1440/600px
+containment and missing-frame failure. A first animation timestamp earlier than the Play
+event is clamped to zero and exercised explicitly, avoiding a negative frame
+index. This is not claimed as the diagnosed cause of prior timing failures.
+Agent visual review samples the
+comparison, enlarged mouth, later speech pose and both reader layouts; it is
+not the owner's approval or an inspection of every animation frame.
+
+Capture owns a new loopback capability, derived cache/synthesis work and
+sandboxed offscreen desktop profile. Only its served app.js receives a
+process-local renderer reference; production files are not edited.
+Its server/process/profile are cleaned; the protected manager is not driven,
+reloaded or restarted. Model topology, static eyes/hair and audio are not
+replaced. The report is offline after generation, not a live runtime monitor.
+
+Future consistency needs model-specific adaptation: Claire-based shape maps
+must preserve the cue on each final shape; native MPFB needs speech blended
+with its selected smile/dimple character; the rigid robot needs a one-sided
+mouth-plate smirk rather than soft lip deformation. Those integrations and
+approval of this exact candidate are **not implemented by vr-49**.
+
 ## Independent feature colors across named variants (vr-45)
 
 The single manager described in chapter10 exposes mesh, eyes, hair, lips and
