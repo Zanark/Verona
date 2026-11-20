@@ -1,0 +1,49 @@
+ID: vr-51
+Title: Actual Mark model illustrated GIF report
+
+Status: DONE
+Milestone: Inspect the existing pinned Mark head without replacing application variants
+Dependencies: vr-06, vr-50
+
+Purpose:
+  Explain what the installed Mark v2.3 assets contain and show their actual
+  geometry, CPU speech motion and explicit emotion controls in a local report.
+  Distinguish Mark from Claire and the Claire-derived Male-SharpJawline study.
+
+Tasks:
+  Verify pinned assets and native correspondence as data, never execute Maya.
+  Generate one fixed synthetic greeting through actual Mark conditioning/PCA.
+  Capture a rest turntable and neutral/all-ten-emotion shaded/wire GIFs.
+  Verify encoded animation and the local report, then open it for the owner.
+  Document mechanisms, omissions, source rights and actual evidence.
+
+Acceptance criteria:
+  No Claire basis, rest sculpt, MPFB identity or invented mouth animation.
+  Explicitly label static cosmetic optics, native emotion strength and omitted
+  SDK contact/smoothing, teeth/tongue/eye joints. GIFs are silent.
+  Retain all six runtime variants and existing owner heads unchanged.
+  New bounded output/profile/temp only; no download or device activation.
+  All GIFs decode with correct duration, moving pixels and source-frame match.
+  Report visibly handles missing media and fits wide/narrow viewports.
+  No inferred human accuracy, owner approval, performance gain or deployment.
+
+Completion evidence:
+  .local\qualification\mark-model-01\review.html opened in the normal browser.
+  receipt.json: pinned Mark hashes/native correspondence, CPU-only913finite
+    outputs; 83poses/clip, 2.75s Hazel greeting, neutral/ten single channels0.60.
+  capture.json: twelve actual shaded/wire previews, no runtime/head mutation.
+  gif-verification.json: all411encoded samples match, moving/looping/durations.
+  reader.json: twelve960x552images,1280/390layouts, noautoplay, visible missing
+    media error. Contact sheet and both reader layouts visually inspected.
+  76existing CPU regressions pass. Chapter05/book index/rights/ledger updated.
+  SDK articulator/contact parity and human phonetic/identity approval omitted.
+
+Completion log:
+  2026-11-21 - Inspected installed assets, pinned receipts, CPU probe and native
+    topology. Reuse existing numerical parser/renderer, not scene execution.
+  2026-11-21 - Rendered and decoded actual Mark turntable/neutral/tenemotions;
+    qualified reader and opened requested report. Initial PowerShell wrapper
+    returned before GUI completion; awaited the same renderer, no restart.
+    All six variants and protected owner manager processes remain untouched.
+
+GitHub issue: https://github.com/Zanark/Verona/issues/50

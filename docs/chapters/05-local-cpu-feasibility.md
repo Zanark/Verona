@@ -6,6 +6,9 @@ or speech-accuracy qualification.** Workstream: `vr-06`. Date: 2026-11-18 IST.
 This chapter preserves the numerical-feasibility milestone.
 [Chapter 06](06-text-to-face-prototype.md) advances to actual local synthesized
 speech and complete native-derived motion clips; those results are separate.
+The [vr-51 visual follow-up](#actual-mark-visual-follow-up-vr-51) below now
+shows the original Mark assets in a review-only GIF report. It does not replace
+the current Claire-family application or retroactively qualify this first probe.
 
 ## The decision and the important distinction
 
@@ -191,3 +194,87 @@ The remaining first-face work is substantial and explicit:
 No recording has yet been supplied or processed. No face window, audible speech,
 expressions, SDK parity or end-to-end animation has been demonstrated. A
 successful CPU tensor probe must not be presented as the finished Verona app.
+
+## Actual Mark visual follow-up (vr-51)
+
+The owner later asked what the already installed Mark model actually looks like.
+Open `.local\qualification\mark-model-01\review.html` in the prepared checkout:
+twelve GIFs show the raw rest head turning, neutral speech and all ten native
+single emotion controls. Each frame pairs gray shaded skin with cyan triangle
+wireframe over exactly the same geometry and camera. This is a separate NVIDIA
+identity, not Claire recoloring, the Claire-derived Male-SharpJawline sculpt or
+the MPFB head. All six manager variants and existing heads remain unchanged.
+
+[`mark_model_study.py:prepare`](../../scripts/mark_model_study.py) verifies the
+three pinned model hashes and matching native scene before loading numerical
+data. `read_mesh` never executes Maya/MEL, references or plug-ins. Native scene
+skin and NPZ mean are not byte-identical: maximum/median per-index Euclidean
+distances are 0.475990/0.036112 cm in this run. Compatibility gates retain the
+existing 1.1/0.08 cm bounds; the displayed mean and 272-component basis both
+come from Mark's NPZ, with the scene supplying connectivity only.
+
+`native_control_mesh` inverts one native subdivision, retaining 15,375 actual
+animated vertex indices and 30,746 triangles instead of reconstructing all
+61,520 dense skin vertices for display. This is an explicit preview-resolution
+trade-off, not identity fitting or arbitrary remeshing. Static cosmetic eyes
+use Mark's two choroid bounds. The generic
+`mpfb-renderer.mjs:createStudyRenderer` supplies preview lighting/wire/optics,
+not MPFB geometry, original Mark materials, hair or animated eye joints.
+
+The fixed synthetic greeting is "Hey, how are you?", 2.75 seconds from the
+installed Microsoft Hazel Desktop voice. Mark predicts motion, not that voice.
+The existing rational-window CPU path generates 83 poses per clip, using
+`g2a_neutral` frame33, input strength1.3 and either zero explicit emotion or
+one of ten channels at0.60. All 913 outputs are finite `[1,1,301]` values;
+only the first272 skin coefficients are reconstructed. No Claire basis,
+procedural lip motion or neutral-relative2x/4x gain is applied. Mark cheekiness
+therefore does not include vr-49's proposed extra sideways Claire lip pull.
+
+[`mark_model_study.cjs`](../../scripts/mark_model_study.cjs) uses a hidden,
+sandboxed Electron window and direct deterministic canvas PNGs. Approximately
+12-fps samples preserve complete clip durations; the rest turntable uses48frames.
+Both shaded/wire regions must contain substantial actual geometry pixels.
+`encode` uses the already installed report-only Pillow12.2.0, leaves CPU
+dependencies untouched and decodes every encoded GIF. All411 rendered samples
+match their palette-converted decoded timeline, with moving pixels, looping
+and exact centisecond duration. This checks encoded content, not human lip-sync.
+
+`--review` qualifies all twelve actual960x552images, paused/non-autoplay audio,
+1280/390px layouts and visible missing-image errors. Sampled model contact
+sheet and both reader screenshots were inspected; not every animated frame
+was independently visually reviewed. The normal browser report was opened.
+The WAV is optional and separate from unsynchronized silent GIF loops.
+
+Run the bounded stages from the repository root, using a fresh absolute output
+directory for each attempt:
+
+```powershell
+.\.local\cpu-env\Scripts\python.exe -m scripts.mark_model_study prepare --output .local\qualification\mark-model-02
+$output = (Resolve-Path .local\qualification\mark-model-02).Path
+$env:TEMP = "$output\tmp"; $env:TMP = "$output\tmp"
+$env:LOCALAPPDATA = "$output\appdata"; $env:APPDATA = "$output\roaming"
+$capture = Start-Process .\desktop\node_modules\electron\dist\electron.exe -Wait -PassThru -ArgumentList @(
+  'scripts\mark_model_study.cjs', "--output=$output", "--user-data-dir=$output\capture-profile")
+if ($capture.ExitCode -ne 0) { throw 'Inspect capture-error.json; retain the failed run.' }
+python -m scripts.mark_model_study encode --output $output
+# Repeat the Electron command with --review and a distinct reader-profile.
+```
+
+PowerShell must wait for this GUI executable; a direct invocation can return
+before its capture receipt exists. An initial wrapper made that premature
+check; the same owned renderer completed successfully and was awaited, not
+restarted. No duplicate inference or capture was needed. Preparation/encoding
+failures raise and record stage errors; keep failed receipts and choose a new
+run rather than overwriting evidence. Existing completed runs are rejected.
+No live server, head, profile or device is used; only immutable pinned inputs
+are shared. Closing the report leaves current heads untouched; reopening its
+HTML requires no running generator. Missing media visibly fails rather than
+looking like an empty successful gallery.
+
+The full SDK's skin contact/smoothing, independently animated teeth, tongue,
+jaw and eyes remain omitted. This report is not human phonetic/anatomical/
+identity acceptance, official CPU SDK support or a real-time generation
+benchmark. Weights remain NVIDIA Open Model License; the native sample is
+separately MIT. Neither is copied into source or the report. Generated review
+media remains local/ignored; no model integration, book edition, release or
+deployment follows from this report.

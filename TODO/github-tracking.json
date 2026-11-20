@@ -645,7 +645,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-51": {
+      "source": "TODO/51_MARK_MODEL_REPORT.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhLOO3Q",
+      "number": 50,
+      "url": "https://github.com/Zanark/Verona/issues/50",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKm14c",
+      "title": "Actual Mark model illustrated GIF report",
+      "managedBody": "\n<!-- verona-workstream:vr-51 -->\nWorkstream source: `TODO/51_MARK_MODEL_REPORT.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-51\nTitle: Actual Mark model illustrated GIF report\n\nStatus: DONE\nMilestone: Inspect the existing pinned Mark head without replacing application variants\nDependencies: vr-06, vr-50\n\nPurpose:\n  Explain what the installed Mark v2.3 assets contain and show their actual\n  geometry, CPU speech motion and explicit emotion controls in a local report.\n  Distinguish Mark from Claire and the Claire-derived Male-SharpJawline study.\n\nTasks:\n  Verify pinned assets and native correspondence as data, never execute Maya.\n  Generate one fixed synthetic greeting through actual Mark conditioning/PCA.\n  Capture a rest turntable and neutral/all-ten-emotion shaded/wire GIFs.\n  Verify encoded animation and the local report, then open it for the owner.\n  Document mechanisms, omissions, source rights and actual evidence.\n\nAcceptance criteria:\n  No Claire basis, rest sculpt, MPFB identity or invented mouth animation.\n  Explicitly label static cosmetic optics, native emotion strength and omitted\n  SDK contact/smoothing, teeth/tongue/eye joints. GIFs are silent.\n  Retain all six runtime variants and existing owner heads unchanged.\n  New bounded output/profile/temp only; no download or device activation.\n  All GIFs decode with correct duration, moving pixels and source-frame match.\n  Report visibly handles missing media and fits wide/narrow viewports.\n  No inferred human accuracy, owner approval, performance gain or deployment.\n\nCompletion evidence:\n  .local\\qualification\\mark-model-01\\review.html opened in the normal browser.\n  receipt.json: pinned Mark hashes/native correspondence, CPU-only913finite\n    outputs; 83poses/clip, 2.75s Hazel greeting, neutral/ten single channels0.60.\n  capture.json: twelve actual shaded/wire previews, no runtime/head mutation.\n  gif-verification.json: all411encoded samples match, moving/looping/durations.\n  reader.json: twelve960x552images,1280/390layouts, noautoplay, visible missing\n    media error. Contact sheet and both reader layouts visually inspected.\n  76existing CPU regressions pass. Chapter05/book index/rights/ledger updated.\n  SDK articulator/contact parity and human phonetic/identity approval omitted.\n\nCompletion log:\n  2026-11-21 - Inspected installed assets, pinned receipts, CPU probe and native\n    topology. Reuse existing numerical parser/renderer, not scene execution.\n  2026-11-21 - Rendered and decoded actual Mark turntable/neutral/tenemotions;\n    qualified reader and opened requested report. Initial PowerShell wrapper\n    returned before GUI completion; awaited the same renderer, no restart.\n    All six variants and protected owner manager processes remain untouched.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-20T23:05:56.909504+00:00"
+  "verifiedAt": "2026-11-20T23:22:32.902195+00:00"
 }

@@ -7,7 +7,7 @@ Model data and Python environments stay under ignored `.local`; no model,
 sample scene or Windows voice is bundled in this repository.
 
 - NVIDIA Audio2Face-3D-v2.3.1-Claire (current app) and v2.3-Mark (historical
-  optional probe) weights/PCA/emotion data: **NVIDIA Open Model
+  optional probe and opt-in local GIF report) weights/PCA/emotion data: **NVIDIA Open Model
   License**, not the SDK's MIT license. See
   <https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/>.
   Source revisions/hashes are in `scripts/fetch_claire_model.py` and

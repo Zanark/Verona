@@ -32,6 +32,13 @@ adaptation. The owner approved the first proposed look (run02) and requested
 more exaggeration; run03 adds about 66% more pull and preserves that first
 preview. No running head or application expression is changed by this comparison.
 
+The **vr-51** actual-Mark report opens at
+`.local\qualification\mark-model-01\review.html`: twelve paired shaded/wire GIFs
+show its original rest head, neutral speech and all ten native emotions.
+Chapter05 explains Mark's separate272-component identity, native-derived
+display topology, deterministic encoding and omissions. This is not a new
+manager variant or a change to Claire, Male-SharpJawline or running heads.
+
 The latest review-first experiment is **vr-44**, reverse neural transfer onto
 the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric
 attachment, coherent bounded native-control fitting, real speech playback and
