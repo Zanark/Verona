@@ -2,7 +2,7 @@ ID: vr-31
 Title: Glowing FaceMesh pupil center and doubled expression deformation
 GitHub issue: https://github.com/Zanark/Verona/issues/30
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Stronger explicit emotions and an actual result GIF.
 Dependencies: vr-29, vr-30
 
@@ -17,7 +17,7 @@ Tasks:
 [x] Double same-audio neutral-relative skin PCA emotion deltas for all expressions.
 [x] Verify neutral/zero behavior, reference errors, cancellation and actual optics.
 [x] Capture, decode and visually inspect the real strengthened-expression GIF.
-[ ] Update chapter, guide, ledger, tracking and owned continuity; deliver source/GIF.
+[x] Update chapter, guide, ledger, tracking and owned continuity; deliver source/GIF.
 
 Acceptance criteria:
 FaceMesh center visibly glows; three rings/spokes retain their70%RGB treatment.
@@ -38,7 +38,10 @@ Realistic work, new photometric/realism/phonetic or owner-acceptance claim.
 
 Completion evidence:
 Implemented and technically/environment-qualified; reviewed GIF and local
-animated preview opened. Source publication and final tracking/continuity remain.
+animated preview opened. Source2a4f4077966e5706713be2f0e2a9d4d005f5c771
+committed/pushed as Zanark with both identities/required trailers; exact
+remote main/all18changed blobs verified, clean tree. Chapter, guide, causal
+ledger and owned continuity updated; original issue30/Project item completed.
 Clean baseline6fa65dcea24982deed81a5820754175873731df4; no Verona owner found.
 Model conditioning remains bounded. Doubling a nonlinear model input cannot
 prove2x geometry, and doubling all PCA coefficients also doubles speech.
@@ -68,3 +71,8 @@ original95%emission times70%RGB yields170. Native02 localizes the hot centers
 and verifies the unchanged ring/spoke structure. Failed receipt retained.
 Media01 correctly rejects a too-tight88%neutral crop during doubled surprise;
 Media02 recaptures all frames at80%neutral-rest height, minimum32px clearance.
+2026-11-20 - Open the actual local animated preview and publish the exact
+reviewed GIF/provenance/source. Preserve prior22media,29mapping records and
+all3releaseIDs/historical tag targets. README21GIFs/twoPNG, unchanged first
+hero, seven centered solos and one default-closed disclosure verified.
+Complete existing issue30/original Project15item without recreating identities.
