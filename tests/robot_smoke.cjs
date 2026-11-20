@@ -51,8 +51,12 @@ async function run(window) {
     return max;
   })()`);
   await fs.writeFile(output,JSON.stringify({status:"measured",redEyes,redMaximum},null,2));
-  for(const eye of redEyes){assert(eye.corePixels>10);assert.equal(eye.ringBands.length,3);assert(eye.visibleUpperSpokes>=10&&eye.visibleUpperSpokes<=14,JSON.stringify(eye));}
-  assert(redMaximum>=176&&redMaximum<=179,"FaceMesh red RGB must be scaled to 70%");
+  for(const eye of redEyes){
+    assert(eye.corePixels>10&&eye.hotCorePixels>2&&eye.coreCoronaPixels>10,JSON.stringify(eye));
+    assert(eye.ringRedMaximum>=169&&eye.ringRedMaximum<=171,"Outer red rings retain 70% RGB at 95% emission");
+    assert.equal(eye.ringBands.length,3);assert(eye.visibleUpperSpokes>=10&&eye.visibleUpperSpokes<=14,JSON.stringify(eye));
+  }
+  assert(redMaximum>=235&&redMaximum<=255,"Only the new FaceMesh center corona exceeds the dimmed rings");
   await ev(`(()=>{
     const $=id=>document.getElementById(id);
     for(const [id,value] of [["presentation","claire"],["zoom",1]]){

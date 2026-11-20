@@ -1,5 +1,101 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Glowing centers and doubled explicit emotions (vr-31)
+
+The owner next requests a glowing FaceMesh pupil center and **100% stronger
+facial emotion structures**, followed by a result GIF. This changes the
+current runtime, not the previously approved gallery's captured source.
+It does not replace Claire, infer emotion from words or resume Realistic.
+
+### Amplify the emotion difference, not the whole utterance
+
+`FaceEngine.generate` in `verona/engine.py` now reconstructs expressive skin
+from **N + 2(E - N)**, where E is the conditioned prediction and N is the
+neutral-conditioned prediction for the **identical audio window and implicit
+style vector**. The formula runs on the 140 skin PCA coefficients before
+linear reconstruction over the existing styled rest. Consequently the
+explicit-emotion difference doubles across the whole skin, not just selected
+brows or mouth corners. The neutral-conditioned speech trajectory is not
+multiplied. This separates a conditioning difference, not anatomically
+independent speech/emotion channels: their learned interaction is also in E-N.
+
+Doubling all coefficients would also exaggerate ordinary speech. Doubling the
+emotion input would instead ask a nonlinear model for an unproven geometric
+gain and could exceed its authored bound. `expression_condition` therefore
+retains0-0.6 validation and the same happy/sad/surprised/angry channel mapping.
+Default strength stays0.35. Neutral or zero strength matches the neutral
+condition exactly and takes the original single inference path, byte for byte.
+The multiplier is fixed, not a new unbounded control or a retrained identity.
+Floating-point reconstruction and final Int16 rounding remain; “2x” describes
+the pre-quantization neutral-relative deformation, not perceived realism.
+
+`FaceEngine._predict` validates each model output's complete shape and finite
+skin/tongue/jaw/eye values. Non-neutral clips use two sequential passes through
+the **same CPU session**, each at most four frames, reusing identical windows.
+Only batch-sized reference coefficients are kept, not a second full motion
+clip or another model/session. Cancellation is checked between the two passes
+and after inference, before packing/publishing. Invalid references and finite
+coordinate overflow remain explicit failures; the server's existing
+latest-success clip, busy lock and error path remain authoritative.
+
+This deliberately costs another inference pass for uncached non-neutral
+motion. Neutral/zero and complete-repeat cache hits do not acquire that cost.
+There is no new steady-frame playback work, geometry topology, motion payload
+format or persistent speech cache. Metadata records `expressionGain`,
+`expressionReference` and `inferencePassesPerBatch`; network timing includes
+both passes. Human presentations share this skin motion. The existing robot
+retargets it through its original hard mechanical limits, so its armor is not
+promised to move exactly twice as far. Strength changes require **Generate
+face** again; an existing clip is not silently rewritten.
+
+### A local red corona, not brighter whole eyes
+
+The mechanical fragment branch in `verona/web/app.js` keeps the original
+three rings/spokes and their0.70RGB multiplier. Only FaceMesh adds a tight
+warm-white center transitioning through a red exponential corona, tapered to
+zero before radius0.20. The outer rings and robot's cyan optics are untouched.
+The visible bright center belongs to the existing eye surface and follows its
+gaze, XYZ and skin/eyelid depth occlusion. Strong expressions may hide it
+behind a lid; it must not shine through closed skin or the back of the head.
+There is still no scene-light emission, fullscreen bloom, texture target,
+new draw, GPU buffer or per-frame CPU geometry work.
+
+The38-test CPU suite includes all four expressions at0.35/0.6, nonlinear fake
+conditioning, unchanged neutral/zero, malformed/nonfinite references and
+cancellation after either pass. Focused geometry/robot/hair/orientation tests
+pass. Hidden production-native `expression-glow-native-02` verifies both hot
+centers/red coronas, all three ring bands/spokes, same-clock speech, reversible
+views, cursor modes, turns and resource cleanup. The initial fixture
+incorrectly expected the outer ring to equal the old center's178 red value;
+its original95% emission times70%RGB correctly peaks at170. Center localization
+now uses hot pixels rather than treating the new corona as the old flat disc.
+The failed receipt is retained; no runtime safety bound was relaxed.
+
+The new [result loop](../media/expression-glow-preview.gif) shows the same
+synthetic Hazel greeting through all five expressions:720x840,
+210frames/13.75s. The real-model audit compares every packed coordinate with
+independently reconstructed E/N skin; four measured gains are1.99997..2.00000
+after rounding, maximum coordinate error below0.000987cm at0.001942cm quantum.
+Neutral remains byte-identical to the original reconstruction. Independent
+decoding verifies all210frames' dimensions/timing/binary alpha,156distinct
+states, cyan labels and both hot centers in every frame. Decoded samples of
+all five expressions over black/white plus native-size pupil detail were
+visually inspected, not every frame or independent listening.
+
+The capture uses a hidden production sandbox/preload, separate capability
+server/RAM/cache/synthesis and disposable profile; follow/pin off, muted
+speech and no user/sibling profile/window/device driven. Every canvas read
+redraws synchronously. All owners stop and the profile is removed. Media01
+correctly rejects tight88%neutral framing when amplified surprise reaches the
+upper margin; Media02 recaptures everything at80%rest height with at least32px
+edge clearance. The GIF uses the existing binary-alpha encoder, same-frame
+cyan labels/phrase and rounded actual clip durations, not word alignment,
+continuous one-take speech or real-time cadence. Exact public source/frame/
+media hashes and limits are in
+[`expression-glow-provenance.json`](../media/expression-glow-provenance.json).
+The approved huge README hero remains first; this new centered solo preview
+joins the other content inside its single default-closed disclosure.
+
 ## Original articulated armored robot (vr-30)
 
 **View -> Optimus-inspired robot** selects an independently authored blue/silver

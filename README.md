@@ -28,8 +28,21 @@ prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
 
 The current features are on **main**; the frozen release predates the robot,
-mechanical eyes and this gallery. Every demo below is freshly captured from
-the current app.
+mechanical eyes and this gallery. The opening hero and other demos retain the
+approved capture snapshot; this next preview shows the latest runtime.
+
+## Glowing centers, stronger expressions
+
+<p align="center">
+  <img src="docs/media/expression-glow-preview.gif" alt="FaceMesh with glowing hot pupil centers and red coronas speaking the same greeting through neutral, happy, sad, surprised and angry expressions, with doubled emotional deformation" width="720">
+</p>
+
+The center dots now glow; the outer red rings stay dimmed. Happy, sad,
+surprised and angry use **100% stronger emotion deformation** relative to the
+same neutral speech, without doubling ordinary speech movement. The labeled
+loop shows all five states with the same voice and words. Non-neutral clips
+need extra CPU generation, not extra playback work.
+[Capture and numerical evidence](docs/media/expression-glow-provenance.json).
 
 ## Meet the armored voice
 

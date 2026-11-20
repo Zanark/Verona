@@ -1,0 +1,70 @@
+ID: vr-31
+Title: Glowing FaceMesh pupil center and doubled expression deformation
+GitHub issue: https://github.com/Zanark/Verona/issues/30
+
+Status: IN_PROGRESS
+Milestone: Stronger explicit emotions and an actual result GIF.
+Dependencies: vr-29, vr-30
+
+Purpose:
+Make the center dot of each FaceMesh mechanical eye visibly glow and exaggerate
+each explicit emotion by100%, without doubling the neutral speech trajectory.
+Produce and show a newly captured result GIF; do not rebuild the whole gallery.
+
+Tasks:
+[x] Inspect owned runtime lanes, shader, bounded conditioning and PCA motion.
+[x] Add a FaceMesh-only hot center and local red corona, retaining dimmed rings.
+[x] Double same-audio neutral-relative skin PCA emotion deltas for all expressions.
+[x] Verify neutral/zero behavior, reference errors, cancellation and actual optics.
+[x] Capture, decode and visually inspect the real strengthened-expression GIF.
+[ ] Update chapter, guide, ledger, tracking and owned continuity; deliver source/GIF.
+
+Acceptance criteria:
+FaceMesh center visibly glows; three rings/spokes retain their70%RGB treatment.
+Robot cyan eyes and other views have no new glow, resources or render passes.
+For each supported non-neutral expression, skin deformation is neutralSpeech
++2*(conditionedSpeech-neutralSpeech), before existing finite Int16 packing.
+Neutral and zero strength keep their original one-pass speech motion exactly.
+Existing0-0.6 conditioning bounds, audio/frame count, cancellations, errors,
+latest-only RAM ownership and loopback capability boundaries remain.
+Extra reference inference uses identical audio windows, bounded four-frame
+batches and the same CPU session; no full neutral clip is retained.
+Actual hidden production renderer produces a labeled transparent looping GIF
+covering neutral/happy/sad/surprised/angry; exact source/media provenance.
+No private desktop, user profile, camera/microphone or sibling runtime driven.
+All existing README content remains inside its one default-closed disclosure,
+except the approved centered hero. No release, dependency/model download,
+Realistic work, new photometric/realism/phonetic or owner-acceptance claim.
+
+Completion evidence:
+Implemented and technically/environment-qualified; reviewed GIF and local
+animated preview opened. Source publication and final tracking/continuity remain.
+Clean baseline6fa65dcea24982deed81a5820754175873731df4; no Verona owner found.
+Model conditioning remains bounded. Doubling a nonlinear model input cannot
+prove2x geometry, and doubling all PCA coefficients also doubles speech.
+Use paired same-audio neutral inference and a linear PCA difference instead.
+38CPU tests/focused JS checks pass; hidden production-native02 checks hot
+centers, red coronas, unchanged170-peak outer bands, same-clock robot/view/
+cursor/seek/playback and cleanup. No new buffers during turns/seeks.
+Media02:720x840/210frames/13.75s, all five actual UI expression requests,
+same synthetic voice/words/audiohash. Real-model packed-coordinate audit:
+neutral byte-identical; four gains1.99997..2.00000, maxerror<0.000987cm,
+quantum0.001942cm. Independent every-frame alpha/timing/size/color checks
+pass;156distinct frames, no ghosts, both hot centers minimum6/5bright pixels.
+Actual decoded five-expression/light-dark sheet, native frame and pupil
+crop visually inspected. All owned hosts/profiles stopped/removed.
+No owner acceptance, listening, new cadence, release or deployment claim.
+
+Completion log:
+2026-11-20 - Owner requests center-dot glow,100% stronger emotion structures
+and a result GIF. Scope is a bounded current preview, not a whole-gallery redo.
+No user Verona Python/Electron owner detected before runtime edits; only owned
+hidden test hosts, disposable profiles/cache/synthesis and synthetic speech planned.
+2026-11-20 - Implement paired neutral-relative PCA amplification and local
+FaceMesh center emission. Retain0-0.6 input/coordinate bounds, four-frame
+batches, neutral one-pass path and between-pass cancellation.
+2026-11-20 - Native01 fixture used old center178 as an outer-ring expectation;
+original95%emission times70%RGB yields170. Native02 localizes the hot centers
+and verifies the unchanged ring/spoke structure. Failed receipt retained.
+Media01 correctly rejects a too-tight88%neutral crop during doubled surprise;
+Media02 recaptures all frames at80%neutral-rest height, minimum32px clearance.

@@ -22,6 +22,7 @@ from .speech import Speech
 
 QUANTIZATION = 8192
 EXPRESSIONS = {"neutral": None, "happy": 6, "sad": 9, "surprised": 0, "angry": 1}
+EXPRESSION_GAIN = 2.0
 BATCH_SIZE = 4
 
 
@@ -104,7 +105,7 @@ class FaceEngine:
         self.mesh_metadata = {
             "identity": "Claire v2.3.1",
             "appearance": "Verona: reference-guided rest sculpt, olive/rosewood cosmetics and espresso waves",
-            "deformation": "unchanged Claire PCA deltas added to styled rest; not a new trained identity",
+            "deformation": "Claire skin PCA with 2x explicit-emotion deltas relative to neutral speech; not a new trained identity",
             "vertices": len(self.selected),
             "edges": len(self.edges),
             "triangles": len(self.triangles),
@@ -134,11 +135,24 @@ class FaceEngine:
             },
         }
 
+    def _predict(self, windows: np.ndarray, condition: np.ndarray) -> np.ndarray:
+        prediction = self.session.run(
+            ["result"], {
+                "input": windows,
+                "emotion": np.repeat(condition, len(windows), axis=0),
+            }
+        )[0]
+        count = self.basis.shape[0]
+        if prediction.shape != (len(windows), 1, count + 29) or not np.isfinite(prediction).all():
+            raise ValueError("Model did not return finite matching skin/tongue/jaw/eye output.")
+        return prediction[:, 0, :count]
+
     def generate(
         self, speech: Speech, expression: str = "neutral", intensity: float = 0.35,
         stop: threading.Event | None = None,
     ) -> Clip:
         condition = expression_condition(self.condition, expression, intensity)
+        amplify = not np.array_equal(condition, self.condition)
         samples = np.frombuffer(speech.pcm, dtype="<i2").astype(np.float32) / 32768
         if not 0 < len(samples) <= 25 * SAMPLE_RATE:
             raise ValueError("Speech must contain 0-25 seconds of mono PCM.")
@@ -154,17 +168,18 @@ class FaceEngine:
                 raise RuntimeError("Clip generation stopped with the local server.")
             before = time.perf_counter()
             batch = min(BATCH_SIZE, frames - frame)
-            prediction = self.session.run(
-                ["result"], {
-                    "input": np.concatenate([audio_window(samples, f, 1.0)
-                                             for f in range(frame, frame + batch)]),
-                    "emotion": np.repeat(condition, batch, axis=0),
-                }
-            )[0]
+            windows = np.concatenate([audio_window(samples, f, 1.0)
+                                      for f in range(frame, frame + batch)])
+            prediction = self._predict(windows, condition)
+            if amplify:
+                if stop is not None and stop.is_set():
+                    raise RuntimeError("Clip generation stopped with the local server.")
+                reference = self._predict(windows, self.condition)
+                prediction = reference + EXPRESSION_GAIN * (prediction - reference)
+            if stop is not None and stop.is_set():
+                raise RuntimeError("Clip generation stopped with the local server.")
             timings.extend([(time.perf_counter() - before) / batch] * batch)
-            if prediction.shape != (batch, 1, count + 29) or not np.isfinite(prediction).all():
-                raise ValueError("Model did not return finite matching skin/tongue/jaw/eye output.")
-            vertices = (prediction[:, 0, :count] @ self.basis.reshape(count, -1)).reshape(
+            vertices = (prediction @ self.basis.reshape(count, -1)).reshape(
                 batch, len(self.selected), 3
             ) + self.neutral
             if first is None:
@@ -186,6 +201,9 @@ class FaceEngine:
             "inferenceBatchSize": BATCH_SIZE,
             "expression": expression,
             "expressionStrength": intensity,
+            "expressionGain": EXPRESSION_GAIN if amplify else 1.0,
+            "expressionReference": "same-audio neutral-conditioned skin PCA" if amplify else None,
+            "inferencePassesPerBatch": 2 if amplify else 1,
             "audioPcmSha256": hashlib.sha256(speech.pcm).hexdigest(),
             "motionSha256": hashlib.sha256(motion).hexdigest(),
             "generationSeconds": time.perf_counter() - started,

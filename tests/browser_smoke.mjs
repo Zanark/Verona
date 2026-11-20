@@ -347,13 +347,15 @@ try {
           g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
           const metric=(x,y)=>{const i=(Math.round(y)*c.width+Math.round(x))*4;return p[i]-Math.max(p[i+1],p[i+2]);};
           for(let side=0;side<2;side++){
-            let sx=0,sy=0,count=0;
+            let sx=0,sy=0,count=0,hotCorePixels=0,coreCoronaPixels=0;
             for(let y=0;y<c.height;y++)for(let x=Math.ceil(side*c.width/2);x<(side+1)*c.width/2;x++){
               const i=(y*c.width+x)*4;
-              if(p[i]>154&&p[i+1]>28&&p[i+1]<98&&p[i+2]<91){sx+=x;sy+=y;count++;}
+              if(p[i]>154&&p[i+1]>28&&p[i+1]<p[i]*.94&&p[i+2]<p[i]*.85)count++;
+              if(p[i]>245&&p[i+1]>190&&p[i+2]>150){sx+=x;sy+=y;hotCorePixels++;}
+              if(p[i]>190&&p[i+1]<90&&p[i+2]<90)coreCoronaPixels++;
             }
-            if(!count)throw new Error("Missing bright mechanical iris core");
-            const x=sx/count,y=sy/count,coreRadius=Math.sqrt(count/Math.PI),bands=[];
+            if(!count||!hotCorePixels)throw new Error("Missing bright mechanical iris core");
+            const x=sx/hotCorePixels,y=sy/hotCorePixels,coreRadius=Math.sqrt(count/Math.PI),bands=[];
             for(let radius=Math.ceil(coreRadius*1.35);radius<coreRadius*6;radius++){
               let sum=0;
               for(let s=0;s<64;s++){
@@ -371,12 +373,24 @@ try {
               for(let a=0;a<144;a++)high.push(metric(x+radius*Math.cos(a*Math.PI/144),y+radius*Math.sin(a*Math.PI/144))>77);
               for(let a=1;a<high.length;a++)if(high[a]&&!high[a-1])spokes++;
             }
-            eyes.push({corePixels:count,ringBands:bands,visibleUpperSpokes:spokes});
+            let ringRedMaximum=0;
+            if(bands.length===3){
+              const radius=(bands[2][0]+bands[2].at(-1))/2;
+              for(let s=0;s<64;s++){
+                const angle=(s%32/31-.5)*.36+(s<32?0:Math.PI);
+                const i=(Math.round(y+radius*Math.sin(angle))*c.width+Math.round(x+radius*Math.cos(angle)))*4;
+                ringRedMaximum=Math.max(ringRedMaximum,p[i]);
+              }
+            }
+            eyes.push({corePixels:count,hotCorePixels,coreCoronaPixels,ringRedMaximum,
+              ringBands:bands,visibleUpperSpokes:spokes});
           }
           $("zoom").value=zoom;$("zoom").dispatchEvent(new Event("input"));return eyes;
         })()`);
         for(const eye of data.mechanicalEyes){
           assert(eye.corePixels>10,JSON.stringify(eye));
+          assert(eye.hotCorePixels>2&&eye.coreCoronaPixels>10,JSON.stringify(eye));
+          assert(eye.ringRedMaximum>=169&&eye.ringRedMaximum<=171,JSON.stringify(eye));
           assert.equal(eye.ringBands.length,3,JSON.stringify(eye));
           assert(eye.visibleUpperSpokes>=10&&eye.visibleUpperSpokes<=14,JSON.stringify(eye));
         }

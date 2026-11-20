@@ -1,10 +1,43 @@
 # Prototype media receipt
 
-## Current approved gallery: vr-29, including vr-30 robot
+## Current expression and pupil-glow preview: vr-31
+
+[`expression-glow-preview.gif`](expression-glow-preview.gif) is a new actual
+720x840 transparent capture:720-square face plus120px cyan labels/phrase,
+210frames/13.75s at sampled15fps. Neutral/happy/sad/surprised/angry each say
+the same synthetic Hazel greeting. Non-neutral strength is0.6 with2x
+neutral-relative deformation; neutral stays unchanged. The bright center/red
+corona is distinct from the original dimmed rings, not fullscreen bloom.
+The current README has21GIFs/twoPNG; its approved opening hero and previous
+gallery remain, and the new centered preview is inside the same closed section.
+
+[`expression-glow-provenance.json`](expression-glow-provenance.json) records
+the exact runtime/Git/media/210original PNG hashes, frame delays, labels,
+voice settings, real-model audit and independent decode results. All four
+measured neutral-relative gains are1.99997..2.00000 after position rounding;
+neutral motion is byte-identical to its unamplified reconstruction. This is
+numerical skin-deformation evidence, not perceived emotion or phonetic accuracy.
+Both hot centers survive all decoded frames, minimum6/5 bright pixels. Every
+frame has matching binary alpha/dimensions/delay,156distinct decoded states,
+no ghosts and cyan captions. All five decoded expression samples were inspected
+over black/white, plus a native-sized decoded frame and3x eye-detail crop.
+This is sample visual review, not owner approval or listening acceptance.
+
+Hidden sandboxed production renderer, disposable profile, separate loopback/
+RAM/cache/synthesis and synchronous canvas reads reuse the existing capture
+boundary. Follow/pin off, speech muted; all owned hosts/profiles cleaned up.
+Media01's tight neutral framing correctly failed when doubled surprise reached
+the upper margin. Media02 recaptures every frame with80%rest-height fit; every
+expression keeps at least32px edge margin. No runtime fit bound was relaxed.
+The same existing encoder uses255visible colors/transparent index0, source
+alpha128 threshold, full-size disposal2 and infinite looping. Runtime never
+loads this GIF. No new dependency, model, release or book edition.
+
+## Approved previous gallery snapshot: vr-29, including vr-30 robot
 
 After their in-app review, the owner explicitly approved the current appearance
 and requested updated screenshots/GIFs, robot coverage and a push. The old pause
-is resolved. The README now embeds **20GIFs and two interface PNGs**. Only its
+is resolved. That delivery embedded **20GIFs and two interface PNGs**. Only its
 huge centered captioned hero precedes a single default-closed`details`; the
 title and everything else, including the separate XYZ loop, are inside.
 

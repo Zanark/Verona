@@ -180,7 +180,14 @@ class FaceRenderer {
               ? mix(vec3(0.001,0.015,0.035),vec3(0.015,0.58,1.0),glow)
               : mix(vec3(0.035,0.001,0.003), vec3(1.0,0.015,0.025), glow);
             vec3 irisColor = mix(emission, presentationStyle == 4 ? vec3(0.60,0.95,1.0) : vec3(1.0,0.38,0.28), core);
-            outputColor = vec4(irisColor * (presentationStyle == 1 ? 0.70 : 1.0), alpha);
+            irisColor *= presentationStyle == 1 ? 0.70 : 1.0;
+            if (presentationStyle == 1) {
+              float centerHalo = exp(-square(radius / 0.14)) * (1.0 - smoothstep(0.16, 0.20, radius));
+              float hotCenter = 1.0 - smoothstep(0.035, 0.075, radius);
+              irisColor = mix(irisColor, vec3(1.0,0.08,0.025), centerHalo * 0.85);
+              irisColor = mix(irisColor, vec3(1.0,0.90,0.80), hotCenter);
+            }
+            outputColor = vec4(irisColor, alpha);
             return;
           }
           float alpha = 0.92;

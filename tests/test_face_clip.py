@@ -264,6 +264,91 @@ class SpeechTests(unittest.TestCase):
 
 
 class ClipTests(unittest.TestCase):
+    def expression_fixture(self):
+        class Session:
+            def __init__(self):
+                self.calls = []
+
+            def run(self, names, inputs):
+                windows, condition = inputs["input"], inputs["emotion"]
+                result = np.zeros((len(windows), 1, 31), dtype=np.float32)
+                effect = condition[:, 0, 16:] @ np.arange(1, 11, dtype=np.float32)
+                result[:, 0, 0] = .125 + windows.mean(axis=(1, 2)) + effect ** 2 * .01
+                result[:, 0, 1] = -.05 + effect * .03
+                self.calls.append((windows.copy(), condition.copy(), result.copy()))
+                return [result]
+
+            def get_providers(self):
+                return ["CPUExecutionProvider"]
+
+        engine = FaceEngine.__new__(FaceEngine)
+        engine.selected = np.arange(3)
+        engine.neutral = np.array([[0, .1, 0], [.2, 0, 0], [0, 0, .3]], dtype=np.float32)
+        engine.basis = np.zeros((2, 3, 3), dtype=np.float32)
+        engine.basis[0, :, 0] = [1, .5, -.2]
+        engine.basis[1, :, 1] = [-.1, 1, .4]
+        engine.center, engine.scale = np.zeros(3), 2
+        engine.condition = np.zeros((1, 1, 26), dtype=np.float32)
+        engine.condition[0, 0, 0] = .125
+        engine.session = Session()
+        pcm = np.arange(3000, dtype="<i2").tobytes()
+        return engine, speech.Speech(speech.package_pcm(pcm), pcm, "fixture")
+
+    def test_doubles_all_explicit_emotion_deltas_not_neutral_speech(self):
+        for expression in ("happy", "sad", "surprised", "angry"):
+            for strength in (.35, .6):
+                with self.subTest(expression=expression, strength=strength):
+                    engine, audio = self.expression_fixture()
+                    clip = engine.generate(audio, expression, strength)
+                    calls = engine.session.calls
+                    self.assertEqual([len(c[0]) for c in calls], [4, 4, 2, 2])
+                    expected = bytearray()
+                    for expressive, neutral in zip(calls[::2], calls[1::2]):
+                        np.testing.assert_array_equal(expressive[0], neutral[0])
+                        np.testing.assert_array_equal(neutral[1],
+                                                     np.repeat(engine.condition, len(neutral[0]), axis=0))
+                        old = (expressive[2][:, 0, :2] @ engine.basis.reshape(2, -1)).reshape(-1, 3, 3)
+                        baseline = (neutral[2][:, 0, :2] @ engine.basis.reshape(2, -1)).reshape(-1, 3, 3)
+                        expected.extend(pack_positions(engine.neutral + baseline + 2 * (old - baseline),
+                                                       engine.center, engine.scale))
+                    np.testing.assert_allclose(np.frombuffer(clip.motion, dtype="<i2"),
+                                               np.frombuffer(expected, dtype="<i2"), atol=1)
+                    self.assertEqual(clip.audio, audio.wav)
+                    self.assertEqual(clip.metadata["frames"], 6)
+                    self.assertEqual(clip.metadata["expressionGain"], 2)
+                    np.testing.assert_array_equal(engine.condition[0, 0, 16:], 0)
+        for expression, strength in (("neutral", .6), ("happy", 0), ("angry", 0)):
+            with self.subTest(expression=expression, strength=strength):
+                engine, audio = self.expression_fixture()
+                clip = engine.generate(audio, expression, strength)
+                self.assertEqual(len(engine.session.calls), 2)
+                self.assertEqual(clip.metadata["expressionGain"], 1)
+                self.assertEqual(clip.motion, engine.generate(audio).motion)
+
+    def test_expression_reference_rejects_bad_output_and_honors_cancellation(self):
+        for invalid in (np.zeros((4, 1, 30)), np.full((4, 1, 31), np.nan)):
+            engine, audio = self.expression_fixture()
+            with patch.object(engine.session, "run",
+                              side_effect=[[np.zeros((4, 1, 31))], [invalid]]) as run:
+                with self.assertRaisesRegex(ValueError, "finite matching"):
+                    engine.generate(audio, "happy")
+                self.assertEqual(run.call_count, 2)
+        for stop_on in (1, 2):
+            engine, audio = self.expression_fixture()
+            stop = threading.Event()
+            original = engine.session.run
+
+            def cancel(names, inputs):
+                result = original(names, inputs)
+                if len(engine.session.calls) == stop_on:
+                    stop.set()
+                return result
+
+            with patch.object(engine.session, "run", side_effect=cancel) as run:
+                with self.assertRaisesRegex(RuntimeError, "stopped"):
+                    engine.generate(audio, "happy", stop=stop)
+                self.assertEqual(run.call_count, stop_on)
+
     def test_expression_uses_separate_model_channel_and_preserves_neutral(self):
         neutral = np.zeros((1, 1, 26), dtype=np.float32)
         result = expression_condition(neutral, "happy", .35)

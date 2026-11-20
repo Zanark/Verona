@@ -50,6 +50,11 @@ speech-clock retargeting and selected-only rigid geometry. It records no-image
 native qualification and limits, plus the requested 30% FaceMesh eye dimming.
 The later approved gallery includes its real speaking/turning loop and native
 interface screenshot; no official model, voice or new accuracy claim.
+Chapter09's vr-31 doubles the explicit-emotion difference relative to identical
+neutral-conditioned speech, retaining neutral motion and bounded inputs. It
+adds only a FaceMesh hot pupil center/red corona, preserving dimmed outer rings
+and robot cyan. Extra CPU inference is confined to expressive generation,
+not playback; existing captured gallery snapshots retain their own provenance.
 
 ## Reading paths
 

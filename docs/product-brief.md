@@ -68,8 +68,12 @@ existing speech clock. vr-30 implements that bounded stylized interpretation,
 not an official movie asset, new voice, metallic Claire filter or Realistic
 roadmap resumption. Functional native checks do not establish likeness or
 phonetic/human acceptance. FaceMesh red eyes separately become 30% dimmer.
-The earlier owner in-app eye-review gate still blocks new captures and README
-redesign. Neither implementation nor functional checks imply appearance approval.
+The owner later approved that appearance and requested the completed current
+gallery. A subsequent request adds a glowing FaceMesh center dot,100% stronger
+explicit emotion structures and a new result GIF. vr-31 doubles the
+same-audio neutral-relative skin deformation, not the neutral speech itself,
+with an additional CPU pass for non-neutral generation. This does not imply
+new human/phonetic acceptance or automatic emotion recognition.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.
