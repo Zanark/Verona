@@ -18,6 +18,7 @@ from .agent_speech import SpeechWorker
 from .engine import FaceEngine, expression_condition, validate_expression_gain
 from .server import State
 from .speech import preferred_voice, validate_text
+from .session_config import appearance, colors_patch
 
 
 TERMINAL = {"completed", "failed", "cancelled"}
@@ -35,6 +36,10 @@ class AgentBridge:
         self.version = 0
         self.fault = None
         self.listener = self.connection = self.writer = None
+        self.appearance = state.appearance or appearance(session=path.stem)
+        self.pending_appearance = None
+        self.controls = []
+        self.config_error = None
 
     def listen(self) -> int:
         self.listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -54,6 +59,9 @@ class AgentBridge:
 
     def snapshot(self) -> dict:
         result = {"ready": self.ready and not self.closed, "version": self.version,
+                  "appearance": self.appearance,
+                  "appearancePending": self.pending_appearance is not None,
+                  "controls": self.controls,
                   "state": "disconnected" if self.closed else "failed" if self.fault
                   else "idle" if self.ready else "starting"}
         if self.fault:
@@ -82,12 +90,49 @@ class AgentBridge:
             raise ValueError("Supply one agent action.")
         action = request["action"]
         allowed = {"status": {"action"}, "cancel": {"action", "id"},
+                   "configure": {"action", "colors"}, "close": {"action"},
                    "wait": {"action", "id", "version", "seconds"},
                    "say": {"action", "id", "text", "voice", "expression", "intensity", "gain", "mode"}}
-        if action not in allowed or set(request) != allowed[action]:
+        if action == "configure" and set(request) == {"action", "settings"}:
+            pass
+        elif action not in allowed or set(request) != allowed[action]:
             raise ValueError("Invalid agent action fields.")
         with self.condition:
             if action == "status":
+                return self.snapshot()
+            if action in ("configure", "close"):
+                if not self.ready or self.closed or self.fault:
+                    raise RuntimeError("Named player is not ready; no configuration was applied.")
+                if action == "close":
+                    if self.job and self.job["state"] not in TERMINAL:
+                        self.job["cancel"].set()
+                    self._send({"action": "close"})
+                    self.ready = False
+                    return {"state": "closing", "appearance": self.appearance}
+                settings = request.get("settings")
+                if "settings" in request:
+                    available = {control["id"] for control in self.controls}
+                    if (not isinstance(settings, dict) or not settings or set(settings) - available
+                            or len(settings) > 1
+                            or any(not isinstance(value, (str, bool)) or
+                                   (isinstance(value, str) and len(value) > 200)
+                                   for value in settings.values())):
+                        raise ValueError("Update one available native control at a time.")
+                    update = {"settings": settings}
+                else:
+                    colors = {**self.appearance["colors"], **colors_patch(request["colors"])}
+                    update = {"colors": colors}
+                if self.pending_appearance is not None:
+                    raise BlockingIOError("A color update is awaiting native confirmation; retry shortly.")
+                revision = uuid.uuid4().hex
+                self.config_error = None
+                self.pending_appearance = revision
+                self._send({"action": "configure", **update, "revision": revision})
+                if not self.condition.wait_for(
+                        lambda: self.pending_appearance is None or self.closed or self.fault, timeout=5):
+                    raise RuntimeError("Player did not confirm colors; inspect status before retrying.")
+                if self.config_error or self.fault or self.closed or (settings is None and self.appearance["colors"] != colors):
+                    raise RuntimeError(self.config_error or "Native player could not confirm the requested configuration.")
                 return self.snapshot()
             identifier = request["id"]
             if not isinstance(identifier, str) or not re.fullmatch(r"[0-9a-f]{32}", identifier):
@@ -157,6 +202,33 @@ class AgentBridge:
 
     def event(self, event: dict) -> None:
         with self.condition:
+            if event.get("event") == "controls":
+                controls = event.get("controls")
+                if (not isinstance(controls, list) or len(controls) > 64
+                        or any(not isinstance(control, dict) or
+                               not isinstance(control.get("id"), str) or
+                               not re.fullmatch(r"[a-z0-9-]{1,60}", control["id"])
+                               for control in controls)):
+                    raise RuntimeError("Invalid native controls metadata.")
+                self.controls = controls
+                if self.pending_appearance is not None and event.get("revision") == self.pending_appearance:
+                    self.config_error = str(event["error"])[:400] if event.get("error") else None
+                    self.pending_appearance = None
+                self.version += 1
+                self.condition.notify_all()
+                return
+            if event.get("event") == "appearance":
+                colors = colors_patch(event.get("colors"))
+                if set(colors) != set(self.appearance["colors"]):
+                    raise RuntimeError("Native player omitted appearance colors.")
+                self.appearance = {**self.appearance, "colors": colors}
+                self.state.appearance = self.appearance
+                if self.pending_appearance is not None and event.get("revision") == self.pending_appearance:
+                    self.config_error = str(event["error"])[:400] if event.get("error") else None
+                    self.pending_appearance = None
+                self.version += 1
+                self.condition.notify_all()
+                return
             if event == {"event": "ready"}:
                 if not self.closed:
                     self.ready = True
@@ -209,10 +281,10 @@ class AgentBridge:
             self.connection.settimeout(None)
             self.writer = self.connection.makefile("w", encoding="utf-8", newline="\n")
             while True:
-                line = self.stream.readline(8193)
+                line = self.stream.readline(32769)
                 if not line:
                     raise RuntimeError("Owned native player exited; no speech was replayed.")
-                if len(line) > 8192:
+                if len(line) > 32768:
                     raise RuntimeError("Native player returned an oversized acknowledgement.")
                 if not line.strip():
                     continue
@@ -269,17 +341,34 @@ class AgentBridge:
             self.descriptor = None
 
 
-def host(path) -> None:
+def host(path, *, model="claire", colors=None) -> None:
     from .desktop import run_desktop
     if path.exists():
         raise RuntimeError("Session already exists. Stop its host; remove a stale descriptor explicitly after checking ownership.")
-    speech = SpeechWorker()
-    try:
-        print("Preparing the dedicated warm CPU face and native player...", file=sys.stderr, flush=True)
-        state = State(FaceEngine(), speech.voices)
-        state.synthesizer = speech.synthesize
-        bridge = AgentBridge(state, path, speech)
-        state.agent = bridge
-        run_desktop(state, bridge)
-    finally:
-        speech.close()
+    import tempfile
+    from pathlib import Path
+    from unittest.mock import patch
+    from .mesh import claire_topology
+    from .variants import prepare_variant
+    from .lifecycle import parent_lifetime
+    config = appearance(model, colors, path.stem)
+    with parent_lifetime() as stopping, tempfile.TemporaryDirectory(prefix="verona-agent-owned-") as directory:
+        owned = Path(directory)
+        with (patch("verona.engine.claire_topology", side_effect=lambda n,s,c,f:
+                    claire_topology(n,s,owned/"cache",f)),
+              patch("verona.speech.ROOT", owned)):
+            speech = SpeechWorker()
+            try:
+                print("Preparing the dedicated warm CPU face and native player...", file=sys.stderr, flush=True)
+                state = State(FaceEngine(), speech.voices)
+                state.stop = stopping
+                state.static = prepare_variant(state.engine, model)
+                state.appearance = config
+                state.synthesizer = speech.synthesize
+                bridge = AgentBridge(state, path, speech)
+                state.agent = bridge
+                if stopping.is_set():
+                    raise RuntimeError("Owning manager exited while this head was starting.")
+                run_desktop(state, bridge)
+            finally:
+                speech.close()

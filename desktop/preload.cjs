@@ -4,6 +4,8 @@ contextBridge.exposeInMainWorld("veronaDesktop", {
   agentEnabled: process.argv.includes("--verona-agent"),
   agentReady: () => ipcRenderer.invoke("verona:agent-ready"),
   agentResult: (value) => ipcRenderer.invoke("verona:agent-result", value),
+  agentAppearance: (value) => ipcRenderer.invoke("verona:agent-appearance", value),
+  agentControls: (value) => ipcRenderer.invoke("verona:agent-controls", value),
   onAgent: (callback) => {
     const handler = (_event, value) => callback(value);
     ipcRenderer.on("verona:agent", handler);

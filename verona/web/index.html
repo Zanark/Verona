@@ -123,14 +123,15 @@
           <option value="1">Center + bright spokes</option><option value="2">Center + bright concentric rings</option>
         </select></label>
         <fieldset id="mesh-colors-control" class="face-colors" hidden disabled>
-          <legend>FaceMesh colors</legend>
+          <legend>Appearance colors</legend>
           <div class="color-inputs">
             <div class="color-option">
-              <label for="mesh-color">FaceMesh
+              <label for="mesh-color">Mesh / skin
                 <input id="mesh-color" type="color" value="#4de8db" aria-describedby="face-colors-hint">
               </label>
               <input id="mesh-hex" type="text" value="#4DE8DB" maxlength="7" spellcheck="false"
                 aria-label="FaceMesh hex color" aria-describedby="face-colors-hint face-colors-error">
+              <span id="mesh-default">Original</span><button id="mesh-reset" type="button">Original mesh</button>
             </div>
             <div class="color-option">
               <label for="eyes-color">Eyes
@@ -138,11 +139,29 @@
               </label>
               <input id="eyes-hex" type="text" value="#FF0406" maxlength="7" spellcheck="false"
                 aria-label="Eye hex color" aria-describedby="face-colors-hint face-colors-error">
+              <span id="eyes-default">Original</span><button id="eyes-reset" type="button">Original eyes</button>
+            </div>
+            <div class="color-option">
+              <label for="hair-color">Hair <input id="hair-color" type="color" value="#24170f"></label>
+              <input id="hair-hex" type="text" value="#24170F" maxlength="7" spellcheck="false" aria-label="Hair hex color">
+              <span id="hair-default">Original</span><button id="hair-reset" type="button">Original hair</button>
+            </div>
+            <div class="color-option">
+              <label for="lips-color">Lips <input id="lips-color" type="color" value="#a45261"></label>
+              <input id="lips-hex" type="text" value="#A45261" maxlength="7" spellcheck="false" aria-label="Lips hex color">
+              <span id="lips-default">Original</span><button id="lips-reset" type="button">Original lips</button>
+            </div>
+            <div class="color-option">
+              <label for="eyebrows-color">Eyebrows <input id="eyebrows-color" type="color" value="#30251f"></label>
+              <input id="eyebrows-hex" type="text" value="#30251F" maxlength="7" spellcheck="false" aria-label="Eyebrows hex color">
+              <span id="eyebrows-default">Original</span><button id="eyebrows-reset" type="button">Original eyebrows</button>
             </div>
             <button id="reset-face-colors" type="button">Reset colors</button>
           </div>
           <p id="face-colors-hint" class="hint">Click a swatch for the built-in color picker, or enter RGB hex
-            (#RRGGBB or #RGB). Live preview; no regeneration. Colors reset on reload.</p>
+            (#RRGGBB or #RGB). Swatches are suggestions while marked Original, not sampled pixels.
+            Live preview; no regeneration. Named desktop sessions retain their colors.</p>
+          <p id="appearance-mapping" class="hint"></p>
           <p id="face-colors-error" role="alert" hidden></p>
         </fieldset>
         <label id="pattern-density-control" for="pattern-density" hidden>Pattern density <output id="pattern-density-value">1.0x</output>

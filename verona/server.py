@@ -28,6 +28,8 @@ STATIC = {
     "/robot.mjs": ("robot.mjs", "text/javascript; charset=utf-8"),
     "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
     "/face-colors.mjs": ("face-colors.mjs", "text/javascript; charset=utf-8"),
+    "/session-controls.mjs": ("session-controls.mjs", "text/javascript; charset=utf-8"),
+    "/session-controls.css": ("session-controls.css", "text/css; charset=utf-8"),
 }
 MAX_BODY = 8192
 CSP = (
@@ -50,6 +52,8 @@ class State:
         self.stop = threading.Event()
         self.agent = None
         self.synthesizer = None
+        self.static = {}
+        self.appearance = None
 
 
 class LocalServer(ThreadingHTTPServer):
@@ -150,8 +154,8 @@ class Handler(BaseHTTPRequestHandler):
         if not self.guard():
             return
         state = self.server.state
-        if self.path in STATIC:
-            name, kind = STATIC[self.path]
+        if self.path in self.server.state.static or self.path in STATIC:
+            name, kind = self.server.state.static.get(self.path, STATIC.get(self.path))
             self.reply(200, (WEB / name).read_bytes(), kind)
         elif self.path == "/favicon.ico":
             self.reply(204, b"", "image/x-icon")
@@ -162,6 +166,7 @@ class Handler(BaseHTTPRequestHandler):
                     "defaultVoice": preferred_voice(state.voices),
                     "mesh": state.engine.mesh_metadata,
                     "limits": {"characters": MAX_TEXT, "seconds": MAX_SECONDS},
+                    "appearance": state.agent.appearance if state.agent else state.appearance,
                 })
         elif self.path == "/api/mesh":
             if self.guard(authenticated=True):

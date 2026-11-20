@@ -1,5 +1,28 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Independent feature colors across named variants (vr-45)
+
+The single manager described in chapter10 exposes mesh, eyes, hair, lips and
+eyebrows independently for each named head. `session_config.colors_patch`
+validates the whole partial patch, canonicalizes three/six-digit RGB hex and
+uses null for original styling. The renderer's `window.veronaAppearance`
+applies atomically and reports the full confirmed five-key appearance.
+CLI `create`, `host` and live `configure` use the same schema; `default`
+removes an override. No sentence regeneration, model reload or per-frame
+geometry upload is needed just to change colors.
+
+Original null/default styling is preserved. Feature visibility depends on
+the selected view and region; color controls are not new anatomical geometry.
+Robot hair maps to existing helmet/crest armor, lips to mouth plates and
+eyebrows to brow plates. Native MPFB uses approximate cosmetic region masks
+and an optional static hair cap, not Claire's animated hairstyle asset.
+For native MPFB, choosing a non-null hair color shows that cap; restoring the
+original hair color removes it. Lip/brow masks use rest coordinates scaled by
+eye spacing, not separate anatomical meshes. The cap rotates with the head
+but does not deform with its faceunits.
+These are presentation controls, not accepted identity, contact or human
+expression-accuracy improvements. Historical captures/reports remain immutable.
+
 ## Reverse transfer onto the actual MPFB head (vr-44)
 
 The owner next requests the reverse: bring Claire's speech and expressive

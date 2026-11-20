@@ -1,0 +1,5 @@
+.session-label{position:fixed;bottom:8px;left:8px;max-width:95vw;padding:4px 10px;border:1px solid #33505a;border-radius:8px;background:#081018dd;color:#d9eeeb;font:13px "Segoe UI",sans-serif;pointer-events:none}
+.managed-head [data-desktop="controls"]{display:none!important}
+.managed-head .views{grid-template-columns:1fr}
+.managed-head .views figure:nth-child(2){display:none}
+.managed-head body>header,.managed-head body>section,.managed-head body>.caption{display:none}

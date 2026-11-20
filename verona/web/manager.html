@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Verona | Session manager</title><link rel="stylesheet" href="/manager.css"></head>
+<body><header><h1>Verona</h1><p>One control room. A separate named head and speech owner for each chat.</p>
+<button id="refresh">Refresh</button><button id="exit">Exit manager and its heads</button></header>
+<main><aside><h2>Sessions</h2><div id="sessions"></div><button id="new">New session</button></aside>
+<section><h2 id="heading">Create a head</h2><p id="status" role="status"></p><p id="error" role="alert"></p>
+<form id="create"><label>Session name<input id="name" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,47}" maxlength="48" placeholder="coding"></label>
+<label>Head variant<select id="model"></select></label><button>Create separate head</button></form>
+<fieldset id="colors"><legend>Independent colors</legend><div id="palette"></div>
+<button id="save-colors" type="button">Apply colors</button><button id="original-colors" type="button">Restore original colors</button>
+<p>Robot: hair = helmet/crest, lips = mouth plates, eyebrows = brow plates.
+Native MPFB: a custom hair color adds an optional static cap; original removes it. Lip/brow masks are approximate.</p></fieldset>
+<div id="selected" hidden><h3>Head controls</h3><div id="controls"></div>
+<form id="speech"><label>Speak through this head<textarea id="sentence" maxlength="280" required placeholder="A short message for this session"></textarea></label>
+<label><input id="voice-only" type="checkbox"> Voice only (skip neural face generation)</label><button>Speak</button>
+<button id="cancel" type="button">Stop this speech</button></form>
+<button id="close" type="button">Close this head</button></div>
+<p class="note">Each head retains its own model, colors, latest speech and audio clock in RAM.
+Different heads may speak simultaneously; CPU and memory use grow with active heads.
+Closing this tab does not stop the manager. Exit closes only manager-created heads; external CLI hosts stay independent.
+No automatic narration, downloads, camera or microphone. Model identity/articulation accuracy is not accepted.</p>
+</section></main><script type="module" src="/manager.js"></script></body></html>

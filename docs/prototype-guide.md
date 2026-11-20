@@ -11,8 +11,46 @@ voiced personal assistant remain future work.
 This checkout is already prepared:
 
 ```powershell
-.\VeronaDesktop.cmd
+.\Verona.cmd
 ```
+
+This is the **one manager GUI**, also opened by `VeronaDesktop.cmd`. Create a
+named head, choose any of six models and set its five optional colors.
+Selecting its session shows confirmed colors and its actual native controls:
+voice, expression, volume and the view/orientation options that model supports.
+Use **Speak**, **Stop this speech** and **Close this head** centrally.
+The head windows show the face and session identity, not separate settings GUIs.
+Models are selected at creation; close/recreate a session to change its model.
+Changes, speech and colors are RAM-only. A head may take seconds to prepare;
+wait for ready, rather than repeatedly creating it.
+
+Two chats can create independent heads through the same GUI, or:
+
+```powershell
+.\VeronaAgent.cmd create --session coding --model claire --hair-color "#442211"
+.\VeronaAgent.cmd create --session review --model mpfb --lips-color "#BB4466"
+.\VeronaAgent.cmd status --session coding
+'A local update.' | .\VeronaAgent.cmd say --session coding
+.\VeronaAgent.cmd configure --session coding --eyebrows-color "#776655"
+```
+
+`--mesh-color`, `--eyes-color`, `--hair-color`, `--lips-color` and
+`--eyebrows-color` accept RGB hex; `default` restores an original feature.
+The model IDs are `claire`, `robot`, `mpfb`, `reference-structure`,
+`reference-shell` and `male-sharp`. The last is the preserved owner-named
+sculpt, now selectable, not a new accepted Female model.
+Manager-owned heads share no speech jobs/audio clocks or mutable caches.
+CPU/RAM costs grow per head; the safety cap of eight is not an eight-head
+performance qualification. Close unused heads. **Exit** closes its owned
+heads only; independent `host` sessions remain until explicitly closed.
+Closing the browser tab leaves the manager running. Ctrl+C its console also
+requests owned cleanup. A managed head watches its original manager's process
+handle and closes if that manager exits unexpectedly.
+
+### Preserved standalone studies and reports
+
+The manager selects all variants; the following legacy study commands are
+optional compatibility/research routes, not required for normal use.
 
 **Actual imported MPFB head with speech:** `.\VeronaMpfb.cmd` starts a separate
 capability-protected browser study. Generate your sentence, then press the
@@ -26,7 +64,8 @@ The new GIF/sound report is
 all ten emotions plus neutral, not the old authored-pose loops.
 Native transfer/fitting measured0.66-0.81seconds per83-frame greeting, total
 generation3.91-7.38seconds; binding5.08seconds is not full startup time.
-Normal app/agent defaults, earlier variants and their reports are unchanged.
+Earlier variants and their reports are preserved. The manager now selects
+the native head directly; Claire-family named heads start4x/bright-spokes.
 
 **Optional reference-shaped Claire study:** `.\VeronaReference.cmd` starts a
 separate, clearly labelled experimental desktop with Claire speech, **4x**
@@ -91,7 +130,7 @@ presentation cut, not a newly modeled closed neck or full-body asset.
 The previous browser version remains available, without the desktop dependency:
 
 ```powershell
-.\Verona.cmd
+.\.local\cpu-env\Scripts\python.exe -m verona --open
 ```
 
 Keep its terminal open. In the browser, type a sentence, click **Generate face**,
@@ -176,7 +215,8 @@ speech output. This does not install an assistant, scrape conversations or
 enable speech for every session. Remote/cloud agents cannot reach this machine's
 loopback host unless they actually run commands here.
 
-Start the dedicated host once, keeping its terminal open:
+Prefer **New session** in the manager or the `create` CLI above. For an
+independently owned host, keep its terminal open:
 
 ```powershell
 .\VeronaAgent.cmd host --session work
@@ -185,8 +225,8 @@ Start the dedicated host once, keeping its terminal open:
 It opens its own native window without focusing it. The model, synthesizer and
 renderer stay warm. This host starts in FaceMesh with bright spokes and 4x,
 cursor following off and overlay pinning off. Normal `VeronaDesktop.cmd` and
-`Verona.cmd` defaults remain unchanged. You can customize this window or pop out
-its head; CLI calls apply their explicit voice/expression/gain and inherit the
+`Verona.cmd` now open the same manager. Its session list also discovers this
+external host and can customize it; CLI calls apply explicit voice/expression/gain and inherit the
 window's bounded voice settings. Do not share one host between overlapping
 speakers or repeatedly start hosts per reply.
 
@@ -423,7 +463,7 @@ Review [third-party terms](../THIRD_PARTY.md) before downloading model/sample da
 python -m venv .local\cpu-env
 .\.local\cpu-env\Scripts\python.exe -m pip install -r requirements-cpu.txt
 .\.local\cpu-env\Scripts\python.exe -m scripts.fetch_claire_model
-.\Verona.cmd
+.\.local\cpu-env\Scripts\python.exe -m verona --open
 ```
 
 Only setup/downloads need internet; runtime never downloads missing assets.
@@ -431,12 +471,12 @@ Pinned Claire model/topology files total about 337 MB, plus isolated dependencie
 No extra TTS model, CUDA, PyTorch or npm install is needed. Startup verifies
 assets and prepares geometry; explicit setup errors appear in the terminal.
 
-For the optional desktop shell, use existing Node.js >=22.12/npm and explicitly
+For the manager's native heads, use existing Node.js >=22.12/npm and explicitly
 install its pinned Electron runtime once:
 
 ```powershell
 .\Setup-VeronaDesktop.cmd
-.\VeronaDesktop.cmd
+.\Verona.cmd
 ```
 
 Setup uses the configured certificate-verified npm registry/feed, a lockfile,

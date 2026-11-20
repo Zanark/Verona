@@ -82,3 +82,6 @@ html.overlay, .overlay body { background: transparent; padding: 0; margin: 0; ma
   .canvas-wrap { height: 480px; min-height: 300px; }
   .transport { flex-wrap: wrap; }
 }
+.face-colors .color-option > span { font-size: 11px; color: #a7bac8; }
+.face-colors .color-option > button { font-size: 11px; padding: 4px; }
+.face-colors .color-option { flex-wrap: wrap; max-width: 100%; }

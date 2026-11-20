@@ -66,7 +66,8 @@ def run_desktop(state=None, agent=None) -> None:
         thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": .05})
         thread.start()
         environment = {key: os.environ[key] for key in
-                       ("SystemRoot", "WINDIR", "TEMP", "TMP", "USERPROFILE", "APPDATA",
+                       ("SystemRoot", "SystemDrive", "ProgramData", "ALLUSERSPROFILE",
+                        "WINDIR", "TEMP", "TMP", "USERPROFILE", "APPDATA",
                         "LOCALAPPDATA", "PATH") if key in os.environ}
         with tempfile.TemporaryDirectory(prefix="verona-desktop-") as directory:
             # Only the owned, disposable profile receives GPU/code caches; speech stays in RAM.
@@ -74,6 +75,9 @@ def run_desktop(state=None, agent=None) -> None:
             if agent:
                 environment["VERONA_AGENT_MODE"] = "1"
                 environment["VERONA_AGENT_PORT"] = str(agent.listen())
+                import hashlib
+                environment["VERONA_HEAD_SLOT"] = os.environ.get("VERONA_HEAD_SLOT", str(
+                    int(hashlib.sha256(agent.path.stem.encode()).hexdigest()[:4], 16) % 8))
             try:
                 child = subprocess.Popen(
                     [str(ELECTRON), str(ROOT / "desktop"),
@@ -84,6 +88,10 @@ def run_desktop(state=None, agent=None) -> None:
                     agent.attach(child, server)
                 print(f"Verona desktop process {child.pid}; close its window or Ctrl+C here to stop.",
                       flush=True)
+                while child.poll() is None and not state.stop.wait(.2):
+                    pass
+                if state.stop.is_set():
+                    stop_desktop(child)
                 code = child.wait()
                 if code:
                     raise RuntimeError(f"Desktop compositor exited with code {code}.")

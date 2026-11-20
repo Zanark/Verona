@@ -4,7 +4,7 @@ import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presenta
 import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
 import { createRobot, bindRobot, sampleRobot } from "/robot.mjs";
 import { startAgent } from "/agent-player.mjs";
-import { FACE_COLORS, parseFaceColor } from "/face-colors.mjs";
+import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -17,6 +17,17 @@ const editing = ["generate", "preview", "reset-voice", "text", "voice", "express
 const preview = $("voice-preview");
 let token = window.location.hash.slice(1);
 let renderer, clip, audioUrl, previewUrl, defaultVoice, raf = 0, busy = false;
+const appearance = createAppearance(colors => {
+  renderer?.setAppearance(colors);
+  for (const key of APPEARANCE_KEYS) {
+    $(`${key}-color`).value = $(`${key}-hex`).value = colors[key] || COLOR_SWATCHES[key];
+    $(`${key}-hex`).setCustomValidity("");
+    $(`${key}-default`).textContent = colors[key] === null ? "Original" : "Custom";
+  }
+  faceColorErrors();
+  if (renderer) draw();
+});
+window.veronaAppearance = appearance;
 
 function failure(error) {
   $("error").textContent = error instanceof Error ? error.message : String(error);
@@ -127,14 +138,29 @@ class FaceRenderer {
     const fragment = `#version 300 es
       precision highp float;
       precision highp int;
-      uniform vec3 color, eyeColor;
-      uniform bool points, polygonView, monochrome, customEyeColor;
+      uniform vec3 color, eyeColor, meshColor, hairColor, lipColor, browColor;
+      uniform bool points, polygonView, monochrome, customEyeColor, customMeshColor, customHairColor, customLipColor, customBrowColor;
       uniform float neckDepth;
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle, eyeGlow;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
       float square(float value) { return value*value; }
+      vec3 featureInk(vec3 base) {
+        if (material == 1 && customHairColor) return hairColor;
+        if (material != 0) return base;
+        if (customMeshColor) base = meshColor;
+        float x = abs(rest.x - 0.08);
+        float lipCenter = 140.15 - 0.10 * square(x / 2.5);
+        float lip = (1.0-smoothstep(0.70,1.0,square(x/2.65)+square((rest.y-lipCenter)/0.70)))
+          * smoothstep(2.6,3.2,rest.z);
+        float browY = 149.25 + 0.46 * exp(-square((x-3.65)/1.4));
+        float brow = (1.0-smoothstep(0.18,0.27,abs(rest.y-browY)))
+          * smoothstep(1.3,1.8,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(1.6,2.5,rest.z);
+        if (customLipColor) base = mix(base, lipColor, lip);
+        if (customBrowColor) base = mix(base, browColor, brow);
+        return base;
+      }
       vec3 tint(vec3 value) {
         return monochrome ? vec3(dot(value, vec3(0.2126, 0.7152, 0.0722))) : value;
       }
@@ -197,6 +223,7 @@ class FaceRenderer {
                 irisColor = eyeColor * (irisColor.r - irisColor.b) + vec3(irisColor.b * peak);
               }
             }
+            if (presentationStyle == 4 && customEyeColor) irisColor = eyeColor * (0.12 + glow * 0.88);
             outputColor = vec4(irisColor, alpha);
             return;
           }
@@ -218,8 +245,9 @@ class FaceRenderer {
             } else alpha *= 1.0 - smoothstep(0.35, 1.1, min(distanceToLine.x, distanceToLine.y));
             if (alpha < 0.01) discard;
           }
-          vec3 ink = color;
+          vec3 ink = featureInk(color);
           if (material == 2) {
+            if (customEyeColor) ink = eyeColor;
             vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
             float radius = length((rest - eyeCenter).xy - gaze);
             ink *= 0.45 + 0.55 * smoothstep(0.18, 0.35, radius);
@@ -235,11 +263,13 @@ class FaceRenderer {
         if (pass == 1) {
           float facing = smoothstep(-0.05,0.55,n.z);
           outputColor = polygonView
-            ? vec4(tint(color*(0.42+diffuse*0.48+rim*0.35)),facing*0.38)
-            : vec4(tint(color*(0.65+diffuse*0.35)),facing*(material==1?0.12:0.105));
+            ? vec4(tint(featureInk(color)*(0.42+diffuse*0.48+rim*0.35)),facing*0.38)
+            : vec4(tint(featureInk(color)*(0.65+diffuse*0.35)),facing*(material==1?0.12:0.105));
           return;
         }
         vec3 base = color;
+        if (material == 0 && customMeshColor) base = meshColor;
+        if (material == 1 && customHairColor) base = hairColor;
         float polish = 0.10;
         if (material == 0) {
           float x = abs(rest.x - 0.08);
@@ -247,16 +277,16 @@ class FaceRenderer {
           float lip = (1.0-smoothstep(0.70,1.0,square(x/2.65)+square((rest.y-lipCenter)/0.70)))
             * smoothstep(2.6,3.2,rest.z);
           if (polygonView) {
-            base=mix(base,vec3(0.37,0.16,0.20),lip*0.8);
+            base=mix(base,customLipColor ? lipColor : vec3(0.37,0.16,0.20),lip*0.8);
             float cavity=(1.0-smoothstep(0.65,1.0,square(x/2.3)+square((rest.y-140.1)/0.62)))
               *(1.0-smoothstep(3.0,3.35,rest.z));
             base=mix(base,vec3(0.025,0.018,0.024),cavity);
             float browY=149.18+0.42*(1.0-square((x-3.1)/1.8));
             float brow=(1.0-smoothstep(0.12,0.23,abs(rest.y-browY)))
               *smoothstep(1.3,1.8,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(1.6,2.5,rest.z);
-            base=mix(base,vec3(0.055,0.068,0.08),brow*0.8);
+            base=mix(base,customBrowColor ? browColor : vec3(0.055,0.068,0.08),brow*0.8);
           } else {
-          base = mix(base,vec3(0.32,0.095,0.105),lip * 0.86);
+          base = mix(base,customLipColor ? lipColor : vec3(0.32,0.095,0.105),lip * 0.86);
           polish += lip*0.11;
           float blush = exp(-square((x-3.9)/1.7)-square((rest.y-144.4)/1.6))
             * smoothstep(1.5,2.8,rest.z);
@@ -272,7 +302,7 @@ class FaceRenderer {
           float grain=sin(rest.x*75.0+sin(rest.y*61.0))*sin(rest.y*75.0+rest.z*39.0);
           base*=1.0+0.018*grain*detail;
           float strands=0.96+0.04*sin(rest.x*75.0+rest.y*21.0)*detail;
-          base = mix(base,vec3(0.018,0.010,0.006),brow*strands*0.96);
+          base = mix(base,customBrowColor ? browColor : vec3(0.018,0.010,0.006),brow*strands*0.96);
           float eyeX=(x-3.02)/1.65;
           float upper=147.53+0.80*sqrt(max(0.0,1.0-eyeX*eyeX))+0.075*eyeX;
           float liner=(1.0-smoothstep(0.035,0.10,abs(rest.y-upper)))
@@ -310,6 +340,7 @@ class FaceRenderer {
           hazel*=fibers*limbus;
           vec3 irisColor=polygonView
             ?vec3(0.10,0.28,0.29)*(0.8+0.2*sin(atan(local.y,local.x)*30.0)):hazel;
+          if (customEyeColor) irisColor = eyeColor*fibers*limbus;
           base = mix(base,irisColor,iris);
           base = mix(base,polygonView?vec3(0.012,0.021,0.027):vec3(0.003,0.002,0.002),pupil);
           if (!polygonView) {
@@ -353,7 +384,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
+      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -413,8 +444,7 @@ class FaceRenderer {
     this.gaze = [0, 0];
     this.headAngles = [0, 0];
     this.patterns = { facedot: [1, .6], uniform: [1, 0] };
-    this.setFaceColor("mesh", FACE_COLORS.mesh);
-    this.setFaceColor("eyes", FACE_COLORS.eyes);
+    this.setAppearance(appearance.read());
     this.lastDraw = performance.now();
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
@@ -436,14 +466,13 @@ class FaceRenderer {
     return buffer;
   }
 
-  setFaceColor(kind, value) {
-    const color = parseFaceColor(value);
-    if (kind === "mesh") {
-      this.meshColor = color.hex === FACE_COLORS.mesh ? [0.30, 0.91, 0.86] : color.rgb;
-    } else if (kind === "eyes") {
-      this.eyeColor = color.rgb;
-      this.customEyeColor = color.hex !== FACE_COLORS.eyes;
-    } else throw new Error("Choose mesh or eyes to set a FaceMesh color.");
+  setAppearance(colors) {
+    this.colors = colors;
+    this.rgbColors = Object.fromEntries(APPEARANCE_KEYS.map(key =>
+      [key, colors[key] === null ? null : parseFaceColor(colors[key]).rgb]));
+    this.meshColor = this.rgbColors.mesh || [0.30, 0.91, 0.86];
+    this.eyeColor = this.rgbColors.eyes || parseFaceColor(COLOR_SWATCHES.eyes).rgb;
+    this.customEyeColor = colors.eyes !== null;
   }
 
   setFraming(value, depth = this.neckDepths[this.presentationId], refit = true) {
@@ -640,7 +669,9 @@ class FaceRenderer {
       gl.uniform1i(u.pass,0);
       gl.uniform1i(u.robotPart,group.part);
       gl.uniform1i(u.material,group.material);
-      gl.uniform3fv(u.color,group.color);
+      const key = group.part >= 20 ? "lips" : [4,5].includes(group.part) ? "eyebrows"
+        : group.material === 1 ? "hair" : "mesh";
+      gl.uniform3fv(u.color,this.rgbColors[key] || group.color);
       gl.drawArrays(gl.TRIANGLES,0,group.count);
       if (group.material === 2) {
         gl.enable(gl.BLEND);
@@ -694,8 +725,7 @@ class FaceRenderer {
     gl.uniform1i(u.pass, 1);
     gl.uniform1i(u.points, 0);
     gl.uniform1f(u.pointSize, 1.9 * ratio);
-    if (style === 1) gl.uniform3fv(u.color, this.meshColor);
-    else gl.uniform3f(u.color, 0.30, 0.91, 0.86);
+    gl.uniform3fv(u.color, this.meshColor);
     const surface = (geometry) => {
       if (style === 1) {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geometry.meshEdges || geometry.edges);
@@ -726,6 +756,7 @@ class FaceRenderer {
     if (showHair) {
       this.staticSurface(hair);
       gl.uniform1i(u.material, 1);
+      gl.uniform3fv(u.color, this.rgbColors.hair || [0.30,0.91,0.86]);
       surface(hair);
     }
     gl.disable(gl.BLEND);
@@ -863,6 +894,10 @@ class FaceRenderer {
     gl.uniform1i(u.eyeGlow, Number($("eye-glow").value));
     gl.uniform3fv(u.eyeColor, this.eyeColor);
     gl.uniform1i(u.customEyeColor, this.customEyeColor);
+    for (const [key, name] of [["mesh","Mesh"],["hair","Hair"],["lips","Lip"],["eyebrows","Brow"]]) {
+      gl.uniform1i(u[`custom${name}Color`], this.colors[key] !== null);
+      gl.uniform3fv(u[`${name.toLowerCase()}Color`], this.rgbColors[key] || [0,0,0]);
+    }
     gl.uniform3fv(u.viewCenter, this.fit.center);
     const headMode = $("cursor-mode").value === "head", following = $("follow-eyes").checked && cursor;
     const overlayMode = document.documentElement.classList.contains("overlay");
@@ -1232,7 +1267,10 @@ function syncPresentationControls() {
   for (const label of document.querySelectorAll("[data-claire-control]")) label.hidden = !claire;
   $("mesh-detail-control").hidden = !mesh;
   $("eye-glow-control").hidden = !mesh;
-  $("mesh-colors-control").hidden = !mesh;
+  $("mesh-colors-control").hidden = false;
+  $("appearance-mapping").textContent = robot
+    ? "Robot: mesh = armor; hair = blue helmet/crest and armor group; lips = mouth plates; eyebrows = brow plates."
+    : `Mesh colors skin / wire; eyes color irises / optics. Hair ${renderer.hairVisible[renderer.presentationId] ? "shown" : "is off — enable Hair to see its color"}. Original restores this presentation's styling.`;
   $("mesh-detail").value = String(renderer.detail);
   $("mesh-detail-value").value = `${renderer.detail} / 5`;
   $("framing").value = robot ? "robot" : mesh ? "front" : renderer.framings[renderer.presentationId];
@@ -1256,7 +1294,7 @@ function syncPresentationControls() {
   }
 }
 function faceColorErrors() {
-  const errors = ["mesh", "eyes"].map(kind => {
+  const errors = APPEARANCE_KEYS.map(kind => {
     const input = $(`${kind}-hex`);
     input.setAttribute("aria-invalid", String(!input.validity.valid));
     return input.validationMessage ? `${kind === "mesh" ? "FaceMesh" : "Eyes"}: ${input.validationMessage}` : "";
@@ -1264,7 +1302,7 @@ function faceColorErrors() {
   $("face-colors-error").textContent = errors.join(" ");
   $("face-colors-error").hidden = !errors.length;
 }
-for (const kind of ["mesh", "eyes"]) {
+for (const kind of APPEARANCE_KEYS) {
   const picker = $(`${kind}-color`), hex = $(`${kind}-hex`);
   const apply = (value, canonicalize) => {
     let color;
@@ -1275,25 +1313,31 @@ for (const kind of ["mesh", "eyes"]) {
       faceColorErrors();
       return;
     }
-    renderer.setFaceColor(kind, color.hex);
+    // Preserve other in-progress invalid hex entries while previewing this one.
+    const entries = APPEARANCE_KEYS.map(key => [key, $(`${key}-hex`).value,
+      $(`${key}-hex`).validationMessage]);
+    appearance.apply({[kind]: color.hex});
+    for (const [key, value, error] of entries) if (key !== kind && error) {
+      $(`${key}-hex`).value = value;
+      $(`${key}-hex`).setCustomValidity(error);
+    }
     picker.value = color.hex;
-    if (canonicalize) hex.value = color.hex;
+    hex.value = canonicalize ? color.hex : value;
     hex.setCustomValidity("");
     faceColorErrors();
-    draw();
+    window.dispatchEvent(new CustomEvent("verona-appearance", {detail: appearance.read()}));
   };
   picker.addEventListener("input", () => apply(picker.value, true));
   hex.addEventListener("input", () => apply(hex.value, false));
   hex.addEventListener("change", () => apply(hex.value, true));
+  $(`${kind}-reset`).addEventListener("click", () => {
+    appearance.apply({[kind]: null});
+    window.dispatchEvent(new CustomEvent("verona-appearance", {detail: appearance.read()}));
+  });
 }
 $("reset-face-colors").addEventListener("click", () => {
-  for (const kind of ["mesh", "eyes"]) {
-    renderer.setFaceColor(kind, FACE_COLORS[kind]);
-    $(`${kind}-color`).value = $(`${kind}-hex`).value = FACE_COLORS[kind];
-    $(`${kind}-hex`).setCustomValidity("");
-  }
-  faceColorErrors();
-  draw();
+  appearance.apply(Object.fromEntries(APPEARANCE_KEYS.map(key => [key, null])));
+  window.dispatchEvent(new CustomEvent("verona-appearance", {detail: appearance.read()}));
 });
 for (const id of ["pattern-density", "pattern-gap"]) $(id).addEventListener("input", () => {
   const pattern = renderer?.patterns[renderer.presentationId];
@@ -1408,6 +1452,9 @@ try {
     throw new Error("Open the full local URL printed by the Verona terminal, including its #session part.");
   }
   const session = await (await request("/api/session")).json();
+  if (session.appearance?.session) document.title = `Verona | ${session.appearance.session} | ${session.appearance.model}`;
+  $("face").dataset.appearanceModel = session.appearance?.model || "claire";
+  $("face").dataset.appearanceSession = session.appearance?.session || "";
   for (const voice of session.voices) {
     const option = document.createElement("option");
     option.value = voice.name;
@@ -1420,6 +1467,7 @@ try {
     ? "Default: Hazel, installed locally." : `Hazel is not installed. Using ${defaultVoice}; choose another installed voice if preferred.`;
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary);
+  appearance.apply(session.appearance?.colors || {});
   $("mesh-colors-control").disabled = false;
   for (const [id, style] of Object.entries(HAIRSTYLES)) {
     const option = document.createElement("option");
@@ -1432,6 +1480,7 @@ try {
     $("presentation").append(option);
   }
   $("presentation").disabled = false;
+  if (session.appearance?.model === "robot") renderer.setPresentation("robot");
   syncPresentationControls();
   new ResizeObserver(draw).observe($("face"));
   $("voice").disabled = false;
@@ -1443,7 +1492,7 @@ try {
   if (desktop?.agentEnabled) {
     $("follow-eyes").checked = false;
     $("pin-overlay").checked = false;
-    renderer.setPresentation("facemesh");
+    renderer.setPresentation(session.appearance?.model === "robot" ? "robot" : "facemesh");
     $("eye-glow").value = "1";
     $("expression-gain").value = "4";
     syncPresentationControls();

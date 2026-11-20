@@ -1,5 +1,11 @@
 # Verona engineering book
 
+The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
+(`VeronaDesktop.cmd` is an alias). Chapter10 describes isolated warm engines,
+native control forwarding and owned lifecycle; chapter09 describes independent
+feature colors. All six authored variants, including original Claire, remain
+selectable. Earlier study launchers/reports are preserved, not required.
+
 The latest review-first experiment is **vr-44**, reverse neural transfer onto
 the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric
 attachment, coherent bounded native-control fitting, real speech playback and

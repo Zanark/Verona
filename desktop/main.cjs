@@ -15,9 +15,11 @@ let agentSocket;
 const endpoint = process.env.VERONA_LOCAL_URL;
 const agentEnabled = process.env.VERONA_AGENT_MODE === "1";
 const agentPort = Number(process.env.VERONA_AGENT_PORT);
+const headSlot = Number(process.env.VERONA_HEAD_SLOT || 0);
 delete process.env.VERONA_LOCAL_URL;
 delete process.env.VERONA_AGENT_MODE;
 delete process.env.VERONA_AGENT_PORT;
+delete process.env.VERONA_HEAD_SLOT;
 start({ url: endpoint }).catch(fatal);
 
 function fatal(error) {
@@ -86,6 +88,22 @@ async function start(config) {
       trusted(event);
       report({ event: "ready" });
     });
+    ipcMain.handle("verona:agent-appearance", (event, value) => {
+      trusted(event);
+      if (!value || !value.colors || typeof value.colors !== "object"
+          || (value.revision != null && !/^[0-9a-f]{32}$/.test(value.revision))) {
+        throw new Error("Invalid native appearance confirmation.");
+      }
+      report({ event: "appearance", ...value });
+    });
+    ipcMain.handle("verona:agent-controls", (event, value) => {
+      trusted(event);
+      if (!value || !Array.isArray(value.controls) || value.controls.length > 64
+          || (value.revision != null && !/^[0-9a-f]{32}$/.test(value.revision))) {
+        throw new Error("Invalid native controls confirmation.");
+      }
+      report({event: "controls", ...value});
+    });
     ipcMain.handle("verona:agent-result", (event, result) => {
       trusted(event);
       if (!result || !/^[0-9a-f]{32}$/.test(result.id)
@@ -104,8 +122,11 @@ async function start(config) {
         while ((newline = pending.indexOf("\n")) >= 0) {
           const command = JSON.parse(pending.slice(0, newline));
           pending = pending.slice(newline + 1);
-          if (!command || !["say", "cancel"].includes(command.action)
-              || !/^[0-9a-f]{32}$/.test(command.id)) throw new Error("Invalid agent command.");
+          if (command?.action === "close") { window.close(); continue; }
+          if (!command || !["say", "cancel", "configure"].includes(command.action)
+              || (command.action === "configure"
+                ? !/^[0-9a-f]{32}$/.test(command.revision)
+                : !/^[0-9a-f]{32}$/.test(command.id))) throw new Error("Invalid agent command.");
           window.webContents.send("verona:agent", command);
         }
       } catch (error) { fatal(error); }
@@ -122,7 +143,10 @@ async function start(config) {
           controlBounds = window.getBounds();
           const bounds = screen.getDisplayMatching(overlayBounds || controlBounds).workArea;
           const width = Math.min(480, bounds.width - 40), height = Math.min(600, bounds.height - 40);
-          const x = overlayBounds?.x ?? bounds.x + bounds.width - width - 20, y = overlayBounds?.y ?? bounds.y + 20;
+          const columns = Math.max(1, Math.floor((bounds.width - 20) / (width + 12)));
+          const slot = agentEnabled && Number.isInteger(headSlot) && headSlot >= 0 && headSlot < 8 ? headSlot : 0;
+          const x = overlayBounds?.x ?? bounds.x + bounds.width - width - 20 - (slot % columns) * (width + 12);
+          const y = overlayBounds?.y ?? bounds.y + 20 + Math.floor(slot / columns) * (height + 12);
           window.setBounds({ x: Math.max(bounds.x, Math.min(x, bounds.x + bounds.width - width)),
             y: Math.max(bounds.y, Math.min(y, bounds.y + bounds.height - height)), width, height });
         } else { overlayBounds = window.getBounds(); window.setBounds(controlBounds); }

@@ -17,6 +17,10 @@ def session_path(name: str) -> Path:
     return Path(os.environ["LOCALAPPDATA"]) / "Verona" / "agent" / f"{name}.json"
 
 
+def manager_path() -> Path:
+    return session_path("inventory").parent.parent / "manager.json"
+
+
 def private_descriptor(path: Path, data: dict) -> None:
     """Create, never replace, a descriptor readable only by this Windows user/System."""
     raw = json.dumps(data).encode("utf-8")
@@ -105,8 +109,8 @@ def read_descriptor(path: Path) -> dict:
     return value
 
 
-def call(descriptor: dict, payload: dict) -> dict:
-    connection = http.client.HTTPConnection("127.0.0.1", descriptor["port"], timeout=20)
+def call(descriptor: dict, payload: dict, *, timeout=20) -> dict:
+    connection = http.client.HTTPConnection("127.0.0.1", descriptor["port"], timeout=timeout)
     origin = f"http://127.0.0.1:{descriptor['port']}"
     try:
         connection.request("POST", "/api/agent", json.dumps(payload), {
@@ -114,8 +118,8 @@ def call(descriptor: dict, payload: dict) -> dict:
             "Content-Type": "application/json",
         })
         response = connection.getresponse()
-        raw = response.read(8193)
-        if len(raw) > 8192:
+        raw = response.read(65537)
+        if len(raw) > 65536:
             raise RuntimeError("Agent host returned an oversized response.")
         result = json.loads(raw)
         if not isinstance(result, dict):
@@ -132,9 +136,16 @@ def call(descriptor: dict, payload: dict) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("host", "status", "say", "stop"):
+    commands.add_parser("list")
+    from .session_config import MODELS, COLOR_KEYS, colors_patch
+    for name in ("host", "create", "status", "say", "stop", "configure", "close"):
         command = commands.add_parser(name)
         command.add_argument("--session", required=True, help="Explicit named host; no global default.")
+        if name in ("host", "create", "configure"):
+            for key in COLOR_KEYS:
+                command.add_argument(f"--{key}-color", help="RGB hex, or 'default' to restore original.")
+        if name in ("host", "create"):
+            command.add_argument("--model", choices=tuple(MODELS), default="claire")
         if name == "say":
             command.add_argument("--id", default=uuid.uuid4().hex, help="Stable request ID for safe explicit retries.")
             command.add_argument("--voice")
@@ -147,14 +158,36 @@ def main() -> None:
             command.add_argument("--id", required=True, help="Cancel only this request, not another speaker.")
     args = parser.parse_args()
     try:
+        if args.command == "list":
+            print(json.dumps(call(read_descriptor(manager_path()), {"action": "list"})), flush=True)
+            return
         path = session_path(args.session)
+        if args.command == "create":
+            colors = colors_patch({key: None if value == "default" else value
+                                   for key in COLOR_KEYS
+                                   if (value := getattr(args, key + "_color")) is not None})
+            print(json.dumps(call(read_descriptor(manager_path()), {
+                "action":"create","session":args.session,"model":args.model,"colors":colors})), flush=True)
+            return
         if args.command == "host":
             from .agent_host import host
-            host(path)
+            colors = colors_patch({key: None if value == "default" else value
+                                   for key in COLOR_KEYS
+                                   if (value := getattr(args, key + "_color")) is not None})
+            host(path, model=args.model, colors=colors)
             return
         descriptor = read_descriptor(path)
         if args.command == "status":
             result = call(descriptor, {"action": "status"})
+        elif args.command == "configure":
+            colors = colors_patch({key: None if value == "default" else value
+                                   for key in COLOR_KEYS
+                                   if (value := getattr(args, key + "_color")) is not None})
+            if not colors:
+                raise ValueError("Supply at least one --FEATURE-color.")
+            result = call(descriptor, {"action": "configure", "colors": colors})
+        elif args.command == "close":
+            result = call(descriptor, {"action": "close"})
         elif args.command == "stop":
             result = call(descriptor, {"action": "cancel", "id": args.id})
         else:

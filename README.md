@@ -20,13 +20,26 @@ reference artwork or a photorealistic reconstruction.
 &middot; [Engineering book](docs/README.md)
 
 ```powershell
-.\VeronaDesktop.cmd
+.\Verona.cmd
 ```
 
-**Generate face**, **Play**, then **Pop out transparent head**.
+One **session manager** creates and controls all heads. Choose a session name,
+model and colors, then **Create separate head**. Select a head to change its
+actual controls or speak through it. Two chats can have separate heads at once.
 Fresh checkout? Follow [setup](docs/prototype-guide.md) first; this is a source
 prototype, not a bundled installer. Desktop setup is explicit:
-`.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
+`.\Setup-VeronaDesktop.cmd`. `VeronaDesktop.cmd` opens this same manager;
+different launchers are not needed.
+
+All six choices are here: **original Claire, procedural robot, native MPFB,
+structural-reference Claire, historical subtle-reference Claire and
+Male-SharpJawline**. Claire is preserved. These are experimental identities,
+not accepted Female profiles or anatomical-accuracy claims.
+Independent **mesh, eyes, hair, lips and eyebrows** accept swatches or RGB hex.
+Native MPFB hair is an optional static cap; robot hair colors its helmet/crest.
+Each head has its own model, capability, speech RAM and audio clock.
+**Exit manager and its heads** closes only heads this manager created;
+closing the browser tab alone does not stop them.
 
 The current features are on **main**; the frozen release predates the robot,
 mechanical eyes and this gallery. The demos record the vr-36 visual runtime;
@@ -38,17 +51,22 @@ plus neutral; it does not preview combinations.
 
 ## Let a selected local agent session speak
 
-Start one explicitly named warm host, then pipe replies from another terminal:
+Open the manager once. An opted-in local chat can create its own warm head:
 
 ```powershell
-.\VeronaAgent.cmd host --session work
+.\VeronaAgent.cmd create --session work --model claire --hair-color "#442211" --lips-color "#B03060"
+.\VeronaAgent.cmd create --session review --model mpfb --eyebrows-color "#6677AA"
+.\VeronaAgent.cmd list
+.\VeronaAgent.cmd status --session work
 
 # Another terminal or an explicitly opted-in local agent session:
 'The build is ready.' | .\VeronaAgent.cmd say --session work
 'A quick spoken update.' | .\VeronaAgent.cmd say --session work --voice-only
+.\VeronaAgent.cmd configure --session work --hair-color "#113355" --lips-color "#DD5577"
 ```
 
-Default agent view: **FaceMesh, bright spokes, 4x**; normal launches stay unchanged.
+Wait for `"ready": true` before speaking. Named Claire-family heads start in
+**FaceMesh, bright spokes, 4x**; native MPFB bounds transferred controls to0..1.
 The host reuses its model, Windows speech worker and player. Voice-only skips
 neural motion for faster narration; new animated sentences remain precomputed,
 not instant. No global agent hook or automatic narration is installed.
@@ -114,12 +132,14 @@ Choose **View -> FaceMesh**, **Emotion exaggeration -> 4x**, then
 **Generate face**. Select **FaceMesh eye glow -> Center + bright spokes**;
 optical selection changes immediately. **4x doubles the previous 2x emotional
 deformation**, not ordinary neutral speech. Natural eyelids still hide covered eyes.
-App startup defaults remain **2x** and **Center + rings + spokes**.
+Named manager heads already select4x/bright spokes; the preserved standalone
+browser's defaults remain **2x** and **Center + rings + spokes**.
 
-**FaceMesh colors:** click the separate **FaceMesh** and **Eyes** swatches for
+**Independent colors:** use the manager's five swatches or
 the built-in color picker, or type a hex code such as `#4F46E5` or `#0FF`.
-Changes preview immediately without regenerating speech. **Reset colors**
-restores cyan wire/red eyes; reload also resets them. Other views keep their colors.
+**Apply colors** updates the selected live head without regenerating speech.
+**Restore original colors** removes custom overrides. Controls and colors are
+session-local, not saved preferences. Feature visibility depends on the view.
 
 Earlier comparisons remain available as history:
 [2x](docs/media/comparison-emotion-2x.gif),

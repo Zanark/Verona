@@ -22,7 +22,25 @@ function waitForAudio(audio, event, signal, milliseconds) {
 
 export async function startAgent(desktop, prepare, lock, failure) {
   let active = null;
+  let controls = null;
   desktop.onAgent(async (message) => {
+    if (message.action === "configure") {
+      try {
+        if (message.settings) {
+          const value = controls.apply(message.settings);
+          await desktop.agentControls({controls: value, revision: message.revision});
+        } else {
+          const colors = window.veronaAppearance.apply(message.colors);
+          await desktop.agentAppearance({colors, revision: message.revision});
+        }
+      } catch (error) {
+        failure(error);
+        const result = {revision: message.revision, error: error.message};
+        if (message.settings) await desktop.agentControls({...result, controls: controls.describe()});
+        else await desktop.agentAppearance({...result, colors: window.veronaAppearance.read()});
+      }
+      return;
+    }
     if (message.action === "cancel") {
       if (active?.id === message.id) {
         active.cancelled = true;
@@ -39,6 +57,7 @@ export async function startAgent(desktop, prepare, lock, failure) {
     active = job;
     let result = { id: job.id, state: "failed" };
     lock(true);
+    if (controls) await controls.report(null);
     try {
       const prepared = await prepare(message);
       job.audio = prepared.audio;
@@ -64,9 +83,24 @@ export async function startAgent(desktop, prepare, lock, failure) {
       job.controller.abort();
       active = null;
       lock(false);
+      if (controls) await controls.report(null);
     }
     try { await desktop.agentResult(result); }
     catch (error) { failure(error); }
   });
+  if (desktop.agentAppearance && globalThis.window?.veronaAppearance) {
+    window.addEventListener("verona-appearance", event => {
+      desktop.agentAppearance({colors: event.detail}).catch(failure);
+    });
+    await desktop.agentAppearance({colors: window.veronaAppearance.read()});
+  }
+  if (desktop.agentControls && globalThis.document) {
+    const {attachSessionControls} = await import("/session-controls.mjs");
+    const link = document.createElement("link");
+    link.rel = "stylesheet"; link.href = "/session-controls.css"; document.head.append(link);
+    controls = attachSessionControls(desktop, failure);
+    await controls.report(null);
+    await desktop.command("overlay");
+  }
   await desktop.agentReady();
 }

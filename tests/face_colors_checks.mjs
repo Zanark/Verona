@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 
 export async function checkFaceColors({ evaluate, check, generate, waitFor, click, cdp, screenshot, report }) {
   await cdp("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1400, deviceScaleFactor: 1, mobile: false });
-  await check("Default colors preserve the existing renderer and controls are FaceMesh-only", async () => {
-    assert.equal(await evaluate(`document.getElementById("mesh-colors-control").hidden`), true);
+  await check("Default colors preserve the existing renderer and controls cover every presentation", async () => {
+    assert.equal(await evaluate(`document.getElementById("mesh-colors-control").hidden`), false);
     const data = await evaluate(`(() => {
       const $=id=>document.getElementById(id);
       window.colorCheck={
@@ -67,7 +67,7 @@ export async function checkFaceColors({ evaluate, check, generate, waitFor, clic
     assert(data.otherStillInvalid && data.recovered);
     assert.equal(data.hex, "#8844FF"); assert.equal(data.eyes, "#00FFFF");
   });
-  await check("Black, white, matching hair and view changes preserve independent colors and other presentations", async () => {
+  await check("Black, white and matching hair remain usable; mesh and eyes color every presentation", async () => {
     report.viewIsolation = await evaluate(`(() => {
       const $=id=>document.getElementById(id),c=colorCheck,result=[];
       c.change("mesh-color","#00ff00");
@@ -88,8 +88,8 @@ export async function checkFaceColors({ evaluate, check, generate, waitFor, clic
     assert.equal(report.viewIsolation.black.white, 0);
     assert(report.viewIsolation.white.white > 20);
     for (const view of report.viewIsolation.result) {
-      assert(view.hidden);
-      assert.deepEqual(view.difference, { changed: 0, maximum: 0 }, view.view);
+      assert.equal(view.hidden, false);
+      assert(view.difference.changed > 0, view.view);
     }
     assert(report.viewIsolation.hair.green > 1000);
     assert.deepEqual(report.viewIsolation.retained, ["#00ff00", "#ffffff"]);
@@ -148,6 +148,6 @@ export async function checkFaceColors({ evaluate, check, generate, waitFor, clic
     await waitFor(`document.getElementById("generate") && !document.getElementById("generate").disabled`);
     assert.deepEqual(await evaluate(`["presentation","mesh-hex","eyes-hex"].map(id=>document.getElementById(id).value)`),
       ["claire", "#4DE8DB", "#FF0406"]);
-    assert.equal(await evaluate(`document.getElementById("mesh-colors-control").hidden`), true);
+    assert.equal(await evaluate(`document.getElementById("mesh-colors-control").hidden`), false);
   });
 }

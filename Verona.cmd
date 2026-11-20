@@ -6,5 +6,5 @@ if not exist ".local\cpu-env\Scripts\python.exe" (
   pause
   exit /b 1
 )
-".local\cpu-env\Scripts\python.exe" -m verona --open
+".local\cpu-env\Scripts\python.exe" -m verona.manager
 if errorlevel 1 pause

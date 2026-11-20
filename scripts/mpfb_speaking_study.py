@@ -23,6 +23,10 @@ def native_session(port=0):
         "/app.js": ("mpfb.js", "text/javascript; charset=utf-8"),
         "/style.css": ("mpfb.css", "text/css; charset=utf-8"),
         "/mpfb-renderer.mjs": ("mpfb-renderer.mjs", "text/javascript; charset=utf-8"),
+        "/face-colors.mjs": ("face-colors.mjs", "text/javascript; charset=utf-8"),
+        "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
+        "/session-controls.mjs": ("session-controls.mjs", "text/javascript; charset=utf-8"),
+        "/session-controls.css": ("session-controls.css", "text/css; charset=utf-8"),
     }
     with tempfile.TemporaryDirectory(prefix="verona-native-mpfb-") as directory:
         owned = Path(directory)
@@ -57,7 +61,8 @@ def main():
         if not args.no_open and not webbrowser.open(server.url):
             raise RuntimeError("Browser launch failed; restart with --no-open and open its printed URL.")
         try:
-            server.state.stop.wait()
+            while not server.state.stop.wait(.2):
+                pass
         except KeyboardInterrupt:
             print("Stopping this owned MPFB study.")
 

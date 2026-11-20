@@ -1,5 +1,89 @@
 # 10 - A transparent desktop without a second speech system
 
+## One manager, independently owned heads (vr-45)
+
+The owner now requests one GUI for every variant and separate simultaneous
+heads for separate opted-in chats. `Verona.cmd` and `VeronaDesktop.cmd` both
+select `verona.manager.main`. The following older single-window sections
+describe the preserved underlying shell, not the current normal entrypoint.
+
+`SessionManager.create` starts a named `verona.agent host` subprocess with one
+selected model and validated five-feature appearance. Each process owns its
+FaceEngine, persistent Windows speech worker, latest clip/sample, cancellation
+identity, loopback capability and disposable native profile/cache/synthesis
+directory. There is no shared mutable clip or background narration hook.
+`verona.variants.prepare_variant` reuses the authored reference/MPFB adapters;
+the preserved Male-SharpJawline applies its sculpt to rest and every complete
+speech pose before existing quantization. It is not a new learned identity.
+
+The manager's capability-protected API discovers private named descriptors
+and returns bounded status/confirmed appearance, not capability tokens or
+transcripts. Up to eight owned heads may be live; listing inspects at most64
+records with eight bounded workers. These are defensive limits, not qualified
+concurrency guarantees. Every additional head incurs CPU, RAM and Chromium
+cost; speech generation remains precomputed and can contend across sessions.
+List responses omit repeated native control schemas; only the selected head
+is inspected in detail. This avoids multiplying GUI/CLI response size by the
+number of live heads. Hidden manager tabs stop their periodic refresh.
+
+The central GUI does not iframe head pages or weaken `frame-ancestors 'none'`.
+`session-controls.mjs:attachSessionControls` describes actual supported native
+inputs. Settings travel through the existing authenticated native socket and
+isolated Electron preload; the renderer validates a patch before dispatching
+the original input event. Disabled controls stay unavailable. DOM disabled/
+hidden changes and generation locks report updated metadata. Revision-tagged
+acknowledgements distinguish requested appearance from confirmed appearance;
+a rejected/timed-out update is an error, not silently reported as applied.
+Only one setting is changed per transaction. Text is submitted separately,
+cleared from the manager after acceptance and never included in status.
+
+Managed windows immediately select the transparent head presentation, hide the
+return-to-separate-controls button and display their session/model name.
+Initial placement uses bounded slots so the first two heads do not start
+stacked on a sufficiently wide display. Native drag/zoom remain available.
+Each model exposes its own real controls; native MPFB does not pretend to
+support Claire's hair rig, gaze or every presentation.
+Changing models means close/recreate, not a hidden live identity substitution.
+
+Stop names one request and affects only that head. Closing a head removes its
+owned descriptor/profile and clears its speech RAM. Manager Exit/console Ctrl+C
+closes only manager-created heads; external CLI hosts stay independent unless
+explicitly selected for Close. Closing the manager browser tab is not Exit.
+`lifecycle.parent_lifetime` retains a Windows process handle, not a PID-only
+poll vulnerable to reuse; loss of that exact manager requests owned shutdown,
+including during cold preparation. The desktop wait is bounded so it notices
+that signal. No other application's process is signalled.
+Restart is explicit; unsaved controls and colors are not restored preferences.
+Stale descriptor/account/resource failures remain visible rather than starting
+an unnoticed replacement. Existing reports, user profiles and sibling apps
+are outside this ownership boundary.
+
+### Qualification and costs
+
+`tests.run_session_smoke` and `tests/session_smoke.cjs` exercise the real GUI
+and native hosts using disposable profiles/data and muted synthetic speech.
+`named-heads-06/session-report.json` records actual focused native-control and
+color Apply edits, simultaneous Claire/MPFB playback, request-owned Stop,
+all six real model paths, CLI create/configure/list/stdin voice-only/close,
+external-host survival and cleanup after abrupt manager death. All owned
+hosts/descriptors stop. Seventy-three CPU tests and nine focused Node cases
+cover the supporting protocol/player behavior. Passing is not listening,
+identity or human-expression acceptance.
+
+Cold ready times in that run span7.3-12.5seconds; native MPFB is12.510seconds,
+Claire7.724seconds. A separate ready-time resource snapshot records seven
+processes per head tree: summed working sets about738MiB Claire/864MiB MPFB,
+private bytes about585/659MiB. These are not peak measurements; summed working
+sets can double-count shared pages. Eight live heads are not qualified.
+Warm-host voice-only synthesis to native playing acknowledgement measures
+0.910seconds once; total4.212seconds includes playback. Do not equate that
+with latency of new animated speech or an end-to-end guarantee.
+
+The owner's old MPFB console hang was stopped by its verified process identity.
+`tests.run_mpfb_interrupt_smoke` sends real Ctrl+C only to its own disposable
+console: the bounded wait catches KeyboardInterrupt, exits0 in0.702seconds and
+removes owned native temporary data. Earlier failed fixtures/receipts remain.
+
 ## What changed and why
 
 The owner asked for a local desktop version, a head window with a genuinely

@@ -9,3 +9,8 @@ textarea{resize:vertical;min-height:62px;width:100%}.controls{display:flex;flex-
 button{cursor:pointer}button:disabled{opacity:.5;cursor:default}audio{width:100%}
 #error{color:#ffaeae;white-space:pre-wrap}.limits{font-size:13px}
 @media(max-width:700px){body{padding:10px}.views{grid-template-columns:1fr}.controls{align-items:stretch}}
+.appearance {border:1px solid #486071;margin:16px 0;padding:12px}
+.appearance p,.appearance span{font-size:13px;color:#a7bac8}
+.appearance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.appearance input{min-width:0;width:100%;font:inherit;background:#152532;color:inherit;border:1px solid #486071}
+.appearance input[type=color]{height:32px}

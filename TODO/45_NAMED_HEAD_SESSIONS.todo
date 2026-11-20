@@ -1,0 +1,79 @@
+ID: vr-45
+Title: One session manager, isolated heads and independent feature colors
+
+Status: DONE
+Milestone: One GUI controls all six authored variants and multiple named speaking heads.
+Dependencies: vr-37, vr-38, vr-40, vr-43, vr-44
+
+Purpose:
+Two explicitly opted-in local chats need separate heads, models, audio owners
+and identifying colors, without asking the owner to run different launchers.
+
+Tasks:
+[x] Independent mesh/eye/hair/lip/eyebrow pickers and hex in supported renderers.
+[x] Named CLI hosts select all six variants and accept live validated colors.
+[x] One manager GUI creates, lists, configures, speaks through and closes heads.
+[x] Show each session's model, confirmed colors and native controls; no transcript logs.
+[x] Preserve per-head capability, RAM speech, cancellation and isolated mutable resources.
+[x] Correct the observed Windows Ctrl+C hang in the native MPFB console.
+[x] Qualify concurrent sessions, renderer changes, errors, lifecycle and actual GUI.
+[x] Update chapter/guide/index/ledger, issue/Project, verified source and owned continuity.
+
+Acceptance criteria:
+Normal launch opens the single manager. It can create two distinct simultaneous
+heads with independent models/colors and address each by session name.
+Settings change without neural regeneration; renderer errors are visible.
+No head/model or color is silently substituted. Legacy originals remain.
+GUI controls represent actual native controls, including applicability limits.
+One session's Stop/Close does not stop another. Manager Exit closes only its
+owned heads. Existing external CLI sessions stay independent unless explicitly
+selected for Close. Cold setup and per-head CPU/RAM costs remain explicit.
+No camera/microphone activation, cloud speech, automatic download, transcript
+persistence, automatic agent hooks, release, deployment or accuracy acceptance.
+
+Completion evidence:
+Runtime ownership at start: no Python/Electron app detected. Owner later launched native MPFB and
+explicitly requested termination; exact PID178024 and wrapper186720 verified
+gone, other heads/Edge untouched. Development uses owned temporary profiles,
+cache/synthesis directories and synthetic speech; old reports remain immutable.
+73 CPU tests and nine focused Node cases pass; final six session rejection/
+isolation cases include a late unsolicited-event configuration-error race.
+named-heads-06/session-report.json: actual single GUI creates every variant,
+focused native volume and color Apply work, two real heads speak concurrently,
+Stop one preserves the other, native playback completes for all six models.
+Actual CLI create/configure/list/stdin voice-only/close pass. External host
+survives manager Exit; abrupt exact manager death closes owned host and its
+descriptor. All qualification processes/owned head descriptors removed.
+Cold ready seconds: Claire7.724, MPFB12.510, robot7.537, structural9.005,
+shell7.848, sharp7.556. Not instant narration or an eight-head qualification.
+named-head-resources-01/resources.json: each ready head tree has seven
+processes; summed working sets738MiB Claire/864MiB MPFB, private585/659MiB.
+Snapshot not peak RAM; summed working sets can double-count shared pages.
+Warm-host uncached voice-only playing acknowledgement0.910s; total4.212s
+includes playback, muted not independent listening.
+Real Edge synthetic WebGL: all five feature colors change pixels across five
+presentations and native views; resets/default hashes match369286c; zero
+production geometry allocations/uploads for color edits. Not identity approval.
+mpfb-interrupt-01/interrupt-report.json: actual isolated Ctrl+C caught and
+clean exit0 in0.702s, owned temporary native directory removed.
+Source/tracking delivery receipt is separate from tests; no release/deployment.
+
+Completion log:
+2026-11-21 - Owner requests independent feature colors and named multi-head
+sessions, then requires one GUI for everything. Reuse authenticated warm agent
+host protocol; isolate each head, centralize management without global narration.
+Observed native console indefinite Event.wait blocks Windows Ctrl+C; replace
+with bounded waits. Requested hung runtime stopped after exact ownership check.
+2026-11-21 - Final named-heads-06 qualifies real GUI/CLI/six models/ownership.
+01 fixture incorrectly used intensity.7; unchanged.6 bound correctly rejected.
+03 harness performed two reads across closing session disappearance; fix test
+to derive from one snapshot. Both failed receipts retained;02/04/05 also kept.
+Native MPFB explicit gain/volume now forward through actual controls.
+Keep configuration rejection tied to its revision, not cleared by late status.
+Missing Windows SystemDrive in stripped environment created a literal
+%SystemDrive% cache in cwd; preserve required Windows environment fields,
+remove only verified test-created cache and confirm05/06 do not recreate it.
+Native hair color deliberately adds a static cap; lips/brows use approximate
+rest-coordinate masks. Original Claire/default pixels/earlier reports preserved.
+Eight-head cap, anatomical accuracy, Gender policy and owner acceptance remain
+unqualified; no automatic narration, devices, download or deployment.
