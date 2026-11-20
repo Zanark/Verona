@@ -46,6 +46,37 @@ Each model exposes its own real controls; native MPFB does not pretend to
 support Claire's hair rig, gaze or every presentation.
 Changing models means close/recreate, not a hidden live identity substitution.
 
+### Editable versus read-only manager settings (vr-47)
+
+`manager.js:showControls` partitions each actual control snapshot into two
+sections. **Editable now** contains enabled native inputs on a ready head.
+**Read-only settings** always includes the session name and head variant with
+explicit **Set at creation** copy, followed by currently disabled native
+inputs. These latter inputs say **Currently unavailable**, not creation-only:
+presentation, model capability and speech activity can affect availability.
+Changing the session name or model still requires a new head; this UI does not
+add rename, live model replacement or new creation-time options.
+
+Controls move between the two grids when readiness or disabled metadata changes.
+The render signature includes head identity/model/readiness as well as schema;
+a focus-preservation guard applies only to the same head and unchanged
+availability. A newly disabled control or a different selected head must not
+retain stale editable inputs just because an old input has focus.
+Unavailable inputs have no change listener; editable inputs still forward the
+original single-setting transaction and surface request errors. Empty editable
+state is explicit. No controls are dropped, synthesized as model features or
+enabled merely to fill the first section.
+
+`tests/test_manager_controls.cjs` runs real manager HTML/CSS/JavaScript with
+deterministic API fixtures in a disposable Electron profile, not a real head.
+Its `control-groups-02/controls-report.json` covers immutable identity labels,
+temporary disabled controls, focused readiness changes, bidirectional mode
+regrouping, actual settings events, same-schema head selection and narrow
+section layout. The selected-controls screenshot is inspected for the two
+sections, not claimed as owner acceptance or new native/model qualification.
+Existing owner pages/heads are not reloaded; refresh the manager page to load
+this UI without restarting its backend or heads.
+
 ### Default-on per-head topmost control (vr-46)
 
 New managed heads start pinned. `desktop/main.cjs` retains its existing

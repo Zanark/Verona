@@ -1,6 +1,28 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-47 editable-now and read-only head-control sections
+Cause: owner supplies manager control screenshot and wants editable settings
+separate from ones fixed at head creation. Existing grey inputs are not all
+immutable; mode/readiness/speech can disable live native controls.
+Action: manager showControls partitions enabled/ready inputs into Editable now,
+fixed session/model plus disabled native inputs into Read-only settings.
+Creation-time fields explicitly say create a new head; unavailable live inputs
+explicitly are not necessarily fixed. No invented live rename/model swap or new
+creation options. One original transaction per enabled setting, failures visible.
+Render signature includes identity/model/readiness; preserve focused editing
+only for same head/unchanged availability. Prevent stale focused controls from
+remaining editable after readiness loss or following selection to another head.
+Five actual Electron DOM fixture checks in control-groups-02: correct grouping,
+immutable/temporary distinction, focused readiness loss/restoration, both mode
+regroup directions, selected-head settings events, same-schema head identity and
+narrow section layout. Selected-controls screenshot inspected, not owner
+acceptance; no real-head/model/native speech qualification claimed or needed.
+Existing owner runtime/profile never driven/reloaded/restarted. Refresh manager
+page to load new UI; heads can remain open. No backend/device/dependency/newbook/
+release/deployment change. Chapter10/bookindex/guide/index updated; vr47/#46/
+originalProject15 item tracks slice,45older mappings preserved.
+
 2026-11-21 - vr-46 default topmost heads with uncluttered collapsed chrome
 Cause: owner wants a separate Always on top toggle per head, enabled by default,
 then supplies screenshot requiring both it and the name inside the existing

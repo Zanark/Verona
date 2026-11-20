@@ -11,7 +11,18 @@
 <button id="save-colors" type="button">Apply colors</button><button id="original-colors" type="button">Restore original colors</button>
 <p>Robot: hair = helmet/crest, lips = mouth plates, eyebrows = brow plates.
 Native MPFB: a custom hair color adds an optional static cap; original removes it. Lip/brow masks are approximate.</p></fieldset>
-<div id="selected" hidden><h3>Head controls</h3><div id="controls"></div>
+<div id="selected" hidden><h3>Head controls</h3>
+<section class="control-section" aria-labelledby="editable-heading">
+<h4 id="editable-heading">Editable now</h4>
+<p>Changes apply only to this head. Availability updates with its mode and activity.</p>
+<div id="controls"></div><p id="no-editable" hidden>No controls are editable right now.</p>
+</section>
+<section class="control-section" aria-labelledby="readonly-heading">
+<h4 id="readonly-heading">Read-only settings</h4>
+<p>Session name and head variant are set at creation. Other unavailable controls
+are marked separately: they may become editable in another mode or after speech finishes.</p>
+<div id="readonly-controls"></div>
+</section>
 <form id="speech"><label>Speak through this head<textarea id="sentence" maxlength="280" required placeholder="A short message for this session"></textarea></label>
 <label><input id="voice-only" type="checkbox"> Voice only (skip neural face generation)</label><button>Speak</button>
 <button id="cancel" type="button">Stop this speech</button></form>

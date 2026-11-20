@@ -1,0 +1,47 @@
+ID: vr-47
+Title: Separate editable head controls from read-only and creation-time settings
+
+Status: DONE
+Milestone: The manager clearly separates what can be changed now from fixed/unavailable values.
+Dependencies: vr-45, vr-46
+
+Purpose:
+Owner requests two head-control sections: editable controls and settings that
+cannot be edited after creation. Do not falsely classify disabled live controls
+as permanently fixed; mode and speech activity can temporarily disable them.
+
+Tasks:
+[x] Split the manager into Editable now and Read-only settings.
+[x] Show immutable session name/model with explicit creation-time explanation.
+[x] Group disabled live controls separately with honest temporary-availability copy.
+[x] Qualify regrouping, readiness, selection/focus isolation and settings forwarding.
+[x] Update chapter/index/ledger, issue/Project and owned continuity.
+
+Acceptance criteria:
+Every runtime control appears once in its correct current-availability section.
+Session name/head variant are read-only and explicitly set at creation.
+Disabled live controls are not claimed to require recreation; regroup after
+mode/activity changes. No controls are silently dropped or made writable.
+Selecting another head cannot retain the previous head's focused controls.
+Existing owner runtime/profiles remain untouched; no new model/speech behavior.
+
+Completion evidence:
+control-groups-02/controls-report.json records five actual-DOM fixture checks:
+correct sections/creation labels, focused readiness regrouping, mode-dependent
+disabled controls moving both directions, actual selected-head setting events,
+same-schema head selection replacing focused identity/controls and narrow
+section layout without internal horizontal overflow.
+Actual manager HTML/JS/CSS in sandboxed Electron, deterministic API fixtures;
+not a real-head/model or native speech qualification. Final selected-controls
+screenshot inspected: both bordered sections and their explanations readable.
+Initial01 screenshot retained;02 scrolls selected controls into view.
+Development changes only manager HTML/JS/CSS; existing active pages are not reloaded.
+Disposable native test profile; no real user head, microphone or camera needed.
+
+Completion log:
+2026-11-21 - Owner supplies head-controls screenshot and requests two sections.
+Current disabled controls are mode/activity-dependent, not all creation-only.
+2026-11-21 - Implemented two sections, immutable fields and precise unavailable
+copy. Focus guard now checks same identity and availability: background updates
+must disable/regroup stale controls; selecting another head cannot preserve old
+focused controls. Request errors remain explicit; no backend/model changes.

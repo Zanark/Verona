@@ -210,6 +210,14 @@ unqualified. This is a working neural-skin prototype, not SDK parity.
 
 ## Opt-in speech for local agent sessions
 
+The manager's **Head controls** has two sections: **Editable now** and
+**Read-only settings**. Session name and head variant are fixed at creation;
+create a new head to change them. Disabled live controls are labeled
+**Currently unavailable**, not permanently fixed: changing mode or finishing
+speech may make them editable. The sections update from the head's actual
+readiness/control metadata. Refresh an already-open manager page to load
+updated UI; existing head windows do not need restarting.
+
 An agent with permission to run local Windows commands can use Verona as its
 speech output. This does not install an assistant, scrape conversations or
 enable speech for every session. Remote/cloud agents cannot reach this machine's

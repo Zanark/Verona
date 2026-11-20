@@ -41,9 +41,26 @@ function syncColors(value={}) {
 }
 function showControls(session) {
   const controls=session.controls||[];
-  const signature=JSON.stringify(controls);
-  if(signature===controlSignature || $("controls").contains(document.activeElement)) return;
-  controlSignature=signature;$("controls").replaceChildren();
+  const signature=JSON.stringify([session.session,session.appearance?.model,Boolean(session.ready),controls]);
+  const availability=JSON.stringify([Boolean(session.ready),controls.map(spec=>[spec.id,Boolean(spec.disabled)])]);
+  const editing=$("controls").contains(document.activeElement)
+    && $("controls").dataset.session===session.session
+    && $("controls").dataset.availability===availability;
+  if(signature===controlSignature || editing) return;
+  controlSignature=signature;
+  $("controls").dataset.session=session.session;
+  $("controls").dataset.availability=availability;
+  $("controls").replaceChildren();$("readonly-controls").replaceChildren();
+  const model=session.appearance?.model;
+  const variant=[...$("model").options].find(option=>option.value===model)?.textContent||model||"Unknown";
+  for(const [name,value] of [["Session name",session.session],["Head variant",variant]]) {
+    const label=document.createElement("label"), title=document.createElement("span");
+    const input=document.createElement("input"), hint=document.createElement("small");
+    title.textContent=name;input.value=value;input.readOnly=true;
+    hint.className="control-hint";hint.textContent="Set at creation. Create a new head to change.";
+    label.append(title,input,hint);$("readonly-controls").append(label);
+  }
+  let editable=0;
   for(const spec of controls) {
     const label=document.createElement("label"), title=document.createElement("span");
     title.textContent=spec.label;
@@ -53,13 +70,20 @@ function showControls(session) {
     } else {input.type=spec.type;if(spec.min)input.min=spec.min;if(spec.max)input.max=spec.max;if(spec.step)input.step=spec.step;}
     if(spec.type==="checkbox")input.checked=spec.value;else input.value=spec.value;
     input.disabled=spec.disabled||!session.ready;
-    input.addEventListener("change",async()=>{
+    if(!input.disabled) input.addEventListener("change",async()=>{
       const name=selected;input.disabled=true;
       try {await request({action:"settings",session:name,settings:{[spec.id]:spec.type==="checkbox"?input.checked:input.value}});controlSignature="";input.blur();await refresh();}
       catch(error){fail(error);controlSignature="";await refresh();}
     });
-    label.append(title,input);$("controls").append(label);
+    label.append(title,input);
+    if(input.disabled) {
+      const hint=document.createElement("small");hint.className="control-hint";
+      hint.textContent=session.ready?"Currently unavailable for this head's mode or activity. Not necessarily fixed at creation.":
+        "Currently unavailable: this head is not ready.";
+      label.append(hint);$("readonly-controls").append(label);
+    } else {$("controls").append(label);editable++;}
   }
+  $("no-editable").hidden=editable>0;
 }
 function display() {
   $("sessions").replaceChildren();

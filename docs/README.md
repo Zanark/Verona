@@ -9,6 +9,9 @@ Its **vr-46** extension keeps each head's name and independent **Always on top**
 checkbox inside its collapsed floating menu. Pinning is enabled by default;
 chapter10 explains the shared
 native control and ordinary Windows topmost limitations.
+The **vr-47** manager extension splits editable-now controls from read-only
+creation settings and temporarily unavailable native controls, without
+mislabeling mode-dependent locks as permanent.
 
 The latest review-first experiment is **vr-44**, reverse neural transfer onto
 the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric

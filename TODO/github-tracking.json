@@ -593,7 +593,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-47": {
+      "source": "TODO/47_CONTROL_AVAILABILITY_SECTIONS.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhJnCAQ",
+      "number": 46,
+      "url": "https://github.com/Zanark/Verona/issues/46",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKlUzI",
+      "title": "Separate editable head controls from read-only and creation-time settings",
+      "managedBody": "\n<!-- verona-workstream:vr-47 -->\nWorkstream source: `TODO/47_CONTROL_AVAILABILITY_SECTIONS.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-47\nTitle: Separate editable head controls from read-only and creation-time settings\n\nStatus: DONE\nMilestone: The manager clearly separates what can be changed now from fixed/unavailable values.\nDependencies: vr-45, vr-46\n\nPurpose:\nOwner requests two head-control sections: editable controls and settings that\ncannot be edited after creation. Do not falsely classify disabled live controls\nas permanently fixed; mode and speech activity can temporarily disable them.\n\nTasks:\n[x] Split the manager into Editable now and Read-only settings.\n[x] Show immutable session name/model with explicit creation-time explanation.\n[x] Group disabled live controls separately with honest temporary-availability copy.\n[x] Qualify regrouping, readiness, selection/focus isolation and settings forwarding.\n[x] Update chapter/index/ledger, issue/Project and owned continuity.\n\nAcceptance criteria:\nEvery runtime control appears once in its correct current-availability section.\nSession name/head variant are read-only and explicitly set at creation.\nDisabled live controls are not claimed to require recreation; regroup after\nmode/activity changes. No controls are silently dropped or made writable.\nSelecting another head cannot retain the previous head's focused controls.\nExisting owner runtime/profiles remain untouched; no new model/speech behavior.\n\nCompletion evidence:\ncontrol-groups-02/controls-report.json records five actual-DOM fixture checks:\ncorrect sections/creation labels, focused readiness regrouping, mode-dependent\ndisabled controls moving both directions, actual selected-head setting events,\nsame-schema head selection replacing focused identity/controls and narrow\nsection layout without internal horizontal overflow.\nActual manager HTML/JS/CSS in sandboxed Electron, deterministic API fixtures;\nnot a real-head/model or native speech qualification. Final selected-controls\nscreenshot inspected: both bordered sections and their explanations readable.\nInitial01 screenshot retained;02 scrolls selected controls into view.\nDevelopment changes only manager HTML/JS/CSS; existing active pages are not reloaded.\nDisposable native test profile; no real user head, microphone or camera needed.\n\nCompletion log:\n2026-11-21 - Owner supplies head-controls screenshot and requests two sections.\nCurrent disabled controls are mode/activity-dependent, not all creation-only.\n2026-11-21 - Implemented two sections, immutable fields and precise unavailable\ncopy. Focus guard now checks same identity and availability: background updates\nmust disable/regroup stale controls; selecting another head cannot preserve old\nfocused controls. Request errors remain explicit; no backend/model changes.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-20T20:55:11.079353+00:00"
+  "verifiedAt": "2026-11-20T21:08:04.538194+00:00"
 }
