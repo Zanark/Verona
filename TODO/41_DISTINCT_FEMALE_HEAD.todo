@@ -1,27 +1,31 @@
 ID: vr-41
-Title: Distinct female head after sculpt review
+Title: Distinct MPFB female head after sculpt rejection
 
-Status: BLOCKED
-Milestone: Evaluate an independently authored female identity if needed after review.
+Status: IN_PROGRESS
+Milestone: Author a distinct MPFB female-head candidate and report for owner review.
 Dependencies: vr-40
 
 Purpose:
-Owner explicitly asks to record the recommended distinct MakeHuman/MPFB head
-as a TODO to try after reviewing the existing-assets study. This is separate
-from the old parked Meshy/Realistic model and is not authorized to start now.
+After rejecting the existing-assets study as female, the owner names it
+Male-SharpJawline and explicitly asks to try the recorded MakeHuman/MPFB
+implementation, then open its report in Edge. This is separate from the
+old parked Meshy/Realistic model.
 
 Tasks:
-[ ] Receive owner review of vr-40 and explicit go-ahead for this experiment.
-[ ] Propose exact pinned portable tools/core assets, sizes, sources and licenses.
-[ ] Obtain explicit download/tool approval; inspect every included asset license.
-[ ] Author a distinct neutral head and present front/profile/three-quarter views.
+[x] Receive owner review of vr-40 and explicit go-ahead for this experiment.
+[x] Pin local portable tools/core assets, sizes, sources and licenses.
+[x] Inspect core CC0 assets and contributed faceunits01 per-target CC0 metadata.
+[x] Author a distinct neutral head and present front/profile/three-quarter views.
+[x] Produce a local all-ten-native-pose-plus-neutral GIF report and viewer.
+[ ] Receive owner identity review; native pose recipes are not neural transfer.
 [ ] Verify semantic correspondence, speech/emotion transfer and contacts before
     selecting a runtime adapter or integrating Gender/voice profiles.
 [ ] Qualify performance/errors/staleness/cancellation/restart and owner acceptance.
 
 Acceptance criteria:
-BLOCKED until review and future authorization. No automatic download, global
-install, cloud upload, paid asset or license acceptance. Core CC0 policy does
+Explicit owner go-ahead supersedes the earlier review/download gate for this
+bounded local experiment. No global install, cloud upload or paid asset.
+Core CC0 policy does
 not automatically clear contributed packs. A neutral identity approval is
 not a completed deformation rig. Preserve existing Male appearance, overrides
 and honest Claire motion provenance. All ten controls require technical and
@@ -29,10 +33,41 @@ separate visual/semantic evaluation; no "complete accurate emotions" claim
 from exposed labels. No changes to parked vr-16..19.
 
 Completion evidence:
-Plan only; no tool/asset downloaded, installed, accepted or integrated.
 Research basis: docs/research/female-identity-study.md, F03-F08/F11-F14.
-Blocker: owner review of the same-topology study and explicit future go-ahead.
+Pinned MPFB2.0.18 commit d0a32e57a7f915cb2f2b95410e2117648c7bbb7e.
+Official portable Blender4.5.16 archive verified against SHA256:
+e258e90a1ebc14798ad65b3426bc5f11f5e0e013541c61cc7c3ee9bbf4ca0ce6.
+Core assets CC0 (LICENSE.md sections C/D); 52 contributed faceunits01 target
+entries identify Mika Suominen/CC0. Add-on code GPLv3+, kept offline/ignored.
+Download provenance: .local/qualification/mpfb-head-01/download-receipt.json.
+scripts/mpfb_head_study.py generates the distinct evaluated female macro head
+and native deltas in a fresh owned background/factory/offline Blender profile.
+4,461vertices/4,434polygons/8,868triangles; actual female-young target stack
+verified instead of trusting an incorrect upstream gender1 scripting example.
+52sourceunits/51activeheadsurfaceunits; no tongue geometry from tongueOut.
+scripts/mpfb_face_poses.mjs explicitly authors ten native pose recipes; these
+are not transferred Claire speech/emotion outputs or equivalent4x speech.
+Local .local/qualification/mpfb-head-03/review.html: five rest views,
+432frame/36sec overview and11exactindividualGIFs, plus offline interactive
+wire/surface viewer.53Python/twoNode cases pass.671finitepose samples,
+no new near-collapse; normalhemisphere diagnostics2/3/6 angry/cheekiness/pain,
+not a contact/selfintersection guarantee. All432decodedalpha/delays/dimensions
+checked, zero ghost-alpha mismatch. Sourceunit dual-GPUdraw median8.30ms/
+max168.30ms, not production/end-to-end speech performance.
+No transfer, production integration, semantic/contact accuracy or owner
+identity acceptance yet. Keep IN_PROGRESS; do not close from preview delivery.
 
 Completion log:
 2026-11-20 - Owner explicitly defers recommended MPFB/new-head route until
 after review, selecting existing assets/tools first.
+2026-11-20 - Owner rejects first female identity, names Male-SharpJawline and
+explicitly authorizes the previously deferred MPFB implementation.
+2026-11-20 - Pinned local tools/assets qualified, real new head/native controls
+exported and GIF review report prepared. Original download timeout and failed
+add-on registration01 retained;02/03 succeed. App/defaults/README unchanged.
+2026-11-20 - Final isolation04 requires owned working directory as well as
+Blender resource paths; preserve bootstrap logger escape under ignored01.
+Regenerated head is byte-identical to03. Disable inactive tongueOut; actual
+51control/animationstop/reload/context-loss checks pass, and16sampled content
+pixel comparisons match03. Native scrollbar excluded for a known below-fold
+layout difference; failed full-image checks retained. Full media evidence stays03.

@@ -19,7 +19,7 @@ establish accurate expressions on a changed identity.
 After research the owner chooses **existing assets/tools only first**. vr-40
 investigates a bounded same-topology complete-pose map, not another downloaded
 model or a production rest-only substitution. `sculpt_positions` in
-`scripts/female_sculpt_study.py` changes lower-face width/chin height and
+`scripts/male_sharp_jawline.py` (originally `female_sculpt_study.py`) changes lower-face width/chin height and
 cheek/nose/lip planes, fading to exact identity above146cm to preserve existing
 cosmetic eyes. Both the rest and each complete speech pose use the same map.
 Preserved coincident points are a mathematical property of that map, not proof
@@ -44,6 +44,97 @@ triangle diagnostics. Independent363-frame GIF decoding finds no ghost alpha.
 These are study evidence, not post-quantization contact/semantic/phonetic or
 owner acceptance. The lower face visibly tapers, but still resembles the old
 character; no claim of a convincing distinct female identity follows.
+
+### Owner review: Male-SharpJawline, then a different MPFB head
+
+The owner rejects the study as female, names it **Male-SharpJawline**, and
+explicitly authorizes trying the recorded MPFB route. This supersedes the
+earlier review/download gate, not the parked vr-16..19 roadmap. The preserved
+helper's numerical map/revision and historical report remain unchanged.
+
+`scripts/mpfb_head_study.py:main` is an **offline authoring/export command**,
+not an application importer. Portable Blender4.5.16 LTS runs background,
+factory-startup, no-autoexec and offline with two threads and a separate owned
+configuration/scripts/extensions/datafiles/TEMP/home. The reviewed MPFB2.0.18
+source is pinned to `d0a32e57a7f915cb2f2b95410e2117648c7bbb7e`. It remains
+ignored offline tooling, not a per-frame runtime dependency. Core graphical
+assets are CC0; the separate faceunits01 metadata specifically declares CC0
+and Mika Suominen for every target. The add-on itself is GPLv3+; that is not
+silently treated as the graphical output's license.
+
+The exporter calls MPFB's `HumanService.create_human`, applies a female/adult
+macro stack and three bounded native oval/chin targets, and extracts actual
+head/neck body polygons using the authored neck joint. This produces4,461
+vertices/4,434polygons/8,868triangles, unrelated to Claire's selected vertex
+indices. The actual generated macro stack is recorded: the upstream scripting
+example misleadingly calls gender1 a woman, while pinned `macro.json` assigns
+the female endpoint to0. Verification uses the applied female-young targets,
+not the example's variable name. A procedural label is not visual acceptance.
+
+For each licensed source faceunit the exporter evaluates Blender's real
+shape-key result and subtracts that candidate's evaluated rest positions.
+`head.json` contains the distinct rest, native polygons, original index map,
+52native deltas and eye centers/radii measured from MPFB's anatomical groups.
+`blendFaceUnits` in `scripts/mpfb_face_poses.mjs` computes
+`rest + strength * sum(weight_i * native_delta_i)` without accumulating drift.
+That is an additive authoring rig, **not** a transfer of Claire's PCA basis or
+its ten learned emotion-conditioned trajectories. `tongueOut` has no exported
+head-surface effect; a source control's existence is not an implemented tongue.
+
+`FACE_POSES` explicitly authors ten illustrative native-control recipes.
+They must not be presented as the old neural emotion outputs, lip-sync,
+equivalent4x amplification, complete accurate emotions or an accepted Female
+mode. Semantic correspondence, speech/emotion transfer, contacts/correctives,
+independent teeth/tongue/eye joints, the production selector and voice defaults
+remain unimplemented/unqualified. Identity review is the next owner gate.
+
+`mpfb_head_renderer.mjs`/`mpfb_head_viewer.html` form a self-contained offline
+reviewer: matching wire/surface cameras, native quad edges rather than displayed
+triangulation diagonals, real depth occlusion and static study eye optics.
+One-time topology/buffers are reused; pose coordinates/normals update only for
+an explicit redraw or selected animation. Uncheck Animate to cancel; reload
+discards all state. No speech, app connection, network, device access or saved
+preferences. Initialization/WebGL-context errors appear visibly. The exporter
+rejects an unowned profile, online mode, unreviewed pack, wrong add-on version,
+nonfinite geometry or an existing output directory; previous runs are retained.
+
+### Native-head review evidence, not speech qualification
+
+`.local\qualification\mpfb-head-03\review.html` contains five neutral viewpoints,
+a36-second/432-frame dual-view overview and11individual exact GIF slices.
+All52source-unit redraws and all11authored poses rendered in a separate hidden
+sandboxed Electron profile, then that process/profile was cleaned. GPU-completed
+dual-canvas redraw median8.30ms/max168.30ms is a bounded study observation,
+not a production60-fps/end-to-end speech guarantee. There is no full SDK solver.
+
+The671sample finite pose sweep found zero new near-collapses. Normal-hemisphere
+diagnostics reached2/3/6triangles for angry/cheekiness/pain respectively;
+these require inspection, not a blanket quality pass or a claim that every
+sign change proves inversion. No contact/self-intersection guarantee follows.
+Independent decoding checks all432GIFframe dimensions/delays/source alpha,
+with zero ghost-alpha mismatches. Agent review samples each authored pose
+and rest viewpoints, not every frame or independent listening.
+
+Two focused native-blend tests and the existing53Pythoncases pass.
+The first tool download timed out; resumed bytes passed the exact official
+Blender checksum. Authoring01 failed because add-on preferences were not
+registered before initialization;02/03 use the owned-profile registration.
+Failed receipts remain. Production app, CLI, README/media and defaults stay
+unchanged; no release/deployment or accepted accuracy follows.
+
+Final ownership review found MPFB's early logger falling back to a relative
+`mpfb` directory before its location service initializes. Those generated logs
+are retained under the ignored run01 receipt, not committed. The exporter now
+requires its working directory inside the owned profile as well as isolated
+Blender resource paths. Run04 regenerates a byte-identical `head.json`, keeps
+bootstrap logs inside that profile, and disables the inactive `tongueOut`
+option with an explicit explanation. It qualifies51active controls, animation
+stop/stable pixels, reload reset and visible forced-context-loss handling.
+Five rest views plus eleven pose samples have byte-identical decoded **content**
+pixels to03. Native scrollbar chrome is excluded: longer controls below the
+capture change its thumb height; earlier full-image comparison failures remain.
+The complete432-frame capture/decode remains03, with its exact source snapshot;
+04 does not pretend to be a second full media capture.
 
 ## Live FaceMesh and optical colors without regeneration (vr-38)
 

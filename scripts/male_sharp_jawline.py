@@ -1,9 +1,10 @@
-"""Offline same-topology appearance experiment; NOT an application identity."""
+"""Owner-named Male-SharpJawline study; not an application identity."""
 
 import numpy as np
 
 
 REVISION = "lower-face-study-1"
+PROFILE_NAME = "Male-SharpJawline"
 
 
 def sculpt_positions(vertices: np.ndarray) -> np.ndarray:

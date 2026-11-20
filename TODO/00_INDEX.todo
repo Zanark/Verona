@@ -39,8 +39,8 @@ vr-36 | 36_CURRENT_README_GALLERY.todo | DONE | All20feature GIFs/two screenshot
 vr-37 | 37_AGENT_SPEECH_CLI.todo | DONE | Warm named CLI face/voice speech; native push/ended/cancel and measured latency
 vr-38 | 38_FACEMESH_COLORS.todo | DONE | Independent live FaceMesh/eye color pickers and validated hex entry
 vr-39 | 39_FEMALE_IDENTITY_RESEARCH.todo | DONE | Female identity/motion/license research; existing-assets study selected first
-vr-40 | 40_FEMALE_SCULPT_STUDY.todo | DONE | Limited same-topology sculpt/comparison GIFs ready; owner review pending, app unchanged
-vr-41 | 41_DISTINCT_FEMALE_HEAD.todo | BLOCKED | Distinct MPFB head only after sculpt review and future explicit authorization
+vr-40 | 40_FEMALE_SCULPT_STUDY.todo | DONE | Owner rejects female identity; preserves sculpt as Male-SharpJawline, app unchanged
+vr-41 | 41_DISTINCT_FEMALE_HEAD.todo | IN_PROGRESS | Distinct MPFB head/native-pose GIF report ready; identity review and speech transfer remain
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

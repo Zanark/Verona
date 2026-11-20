@@ -89,9 +89,11 @@ ownership, focused pixel checks and bounded draw cost without regeneration.
 ## Reading paths
 
 [Female identity investigation](research/female-identity-study.md) separates
-geometry, speech motion, asset rights and Gender/voice integration. The owner
-chooses an existing-assets sculpt study first; a distinct MPFB head is deferred
-until after review. Neither a Female selector nor accepted new identity exists.
+geometry, speech motion, asset rights and Gender/voice integration. After review,
+the owner rejects the first sculpt as female and names it Male-SharpJawline.
+Chapter09 records the authorized distinct MPFB head, offline native-control
+viewer and GIF report, separate from still-unqualified neural speech/emotion
+transfer. Neither a production Female selector nor accepted new identity exists.
 
 For orientation, read chapters 01 then 02. For the potential face-tracking
 building block, read chapter 03; it describes another application's source,

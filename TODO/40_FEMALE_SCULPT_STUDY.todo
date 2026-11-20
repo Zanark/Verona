@@ -15,7 +15,7 @@ Tasks:
 [x] Qualify neutral and all ten single-emotion speech poses at the selected4x.
 [x] Render matched baseline/study front, both profiles and three-quarter views.
 [x] Prepare clear local review previews and preserve failed receipts.
-[x] Record measured limits, source evidence and the owner's pending review.
+[x] Record measured limits, source evidence and the owner's review.
 
 Acceptance criteria:
 No production renderer/engine/API/default/voice change. Same topology/indices
@@ -28,8 +28,9 @@ Owned hidden/muted profile/capability/RAM/cache/synthesis; no user/sibling/
 device interaction. No deliberate speech/transcript/model persistence.
 
 Completion evidence:
-scripts/female_sculpt_study.py is an offline study helper, not imported by the
-application; tests/test_female_sculpt.py covers mapping/contact-equality/
+scripts/male_sharp_jawline.py preserves the owner-named Male-SharpJawline
+offline study, not imported by the application; tests/test_male_sharp_jawline.py
+covers mapping/contact-equality/
 symmetry/upper-region/input/Float32 boundaries. Full53-case Python suite passes.
 .local/qualification/female-sculpt-02/review.html: paired rest front,+/-37deg,
 +/-90deg; silent4x/max-strength all-ten-plus-neutral comparison GIF and11
@@ -47,7 +48,7 @@ by exact-fit/topology02. First encoding found PowerShell7 assembly mismatch;
 use installed WindowsPowerShell5.1, no install. All owned processes/profiles/
 server cleaned; no production app/README/voices/media/model/dependency change.
 Agent assessment: visibly tapered lower face, still close to the old character;
-not a convincing distinct female identity claim. Owner review remains pending.
+not a convincing distinct female identity claim. Owner rejects it as female.
 Gender selector/default voice integration remains unimplemented pending review.
 
 Completion log:
@@ -55,3 +56,6 @@ Completion log:
 Separate MakeHuman/MPFB follow-up recorded under vr-41, after review only.
 2026-11-20 - Bounded study and local comparison deliverable complete. This DONE
 means investigation/preview ready, not accepted identity or requested full mode.
+2026-11-20 - Owner: "nothing like a female"; preserve as Male-SharpJawline.
+Rename maintained helper/test without changing its numerical map or historical
+reports/receipts. Authorize the distinct MPFB experiment in vr-41.

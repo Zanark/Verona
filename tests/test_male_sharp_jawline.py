@@ -4,10 +4,10 @@ import unittest
 
 import numpy as np
 
-from scripts.female_sculpt_study import sculpt_positions
+from scripts.male_sharp_jawline import sculpt_positions
 
 
-class FemaleSculptTests(unittest.TestCase):
+class MaleSharpJawlineTests(unittest.TestCase):
     def test_complete_pose_mapping_preserves_coincident_points_and_upper_face(self):
         source = np.array([[2, 140.2, 5], [2, 140.2, 5], [3, 146, 3], [-3, 149, 3]],
                           dtype=np.float32)

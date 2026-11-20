@@ -4,7 +4,24 @@ Research date: 2026-11-20. Source baseline: `b3c3632`. This is a research and
 sculpt-study contract, **not an implemented Gender selector or accepted female
 model**. Confidence below applies to the stated evidence, not visual quality.
 
-## Decision after research
+## Current decision after owner review
+
+The owner rejects the same-topology candidate as female, preserves it as
+**Male-SharpJawline**, and explicitly authorizes trying the recorded MPFB
+implementation, with the completed report opened directly in Edge. This
+supersedes the original no-download gate below for the bounded local study.
+The maintained helper is now `scripts/male_sharp_jawline.py`; old qualification
+artifacts/source pin retain their original names and contents.
+
+The distinct candidate is now authored using pinned portable Blender4.5.16
+and MPFB2.0.18 plus rights-inspected native faceunits01, outside production.
+See [chapter09's mechanism and limits](../chapters/09-verona-character-and-waves.md#owner-review-male-sharpjawline-then-a-different-mpfb-head).
+Local report: `.local\qualification\mpfb-head-03\review.html`.
+It shows actual new geometry and explicitly authored native-control pose GIFs,
+**not** transferred Claire speech/emotion clips. Neither the production
+Gender/voice selector nor semantic/contact/phonetic accuracy is accepted.
+
+## Original decision after research - superseded after review
 
 The owner chooses **existing assets/tools only, a limited same-topology sculpt
 investigation first**. Keep the current app unchanged for comparison. Record a
@@ -234,7 +251,8 @@ or resumption of the parked static avatar follows.
 
 ## Existing-assets study - implemented, not accepted
 
-`sculpt_positions` (`scripts/female_sculpt_study.py`) is an offline helper,
+`sculpt_positions` (`scripts/male_sharp_jawline.py`, originally
+`female_sculpt_study.py`) is an offline helper,
 not imported by the application. Study revision `lower-face-study-1` maps
 complete poses with `x' = s(y)*x`, `y' = y + lift(y)` and
 `z' = z + h(x,y)`. It tapers the lower jaw/chin and shifts cheek/nose/lip

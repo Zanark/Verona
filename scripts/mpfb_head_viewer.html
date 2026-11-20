@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'">
+<title>Verona - distinct MPFB head study</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#081018;color:#d9eeeb;font:16px "Segoe UI",sans-serif}
+header{height:60px;padding:8px 24px}h1{font-size:21px;margin:0;color:#4de8db}
+header p{font-size:13px;margin:3px 0}.views{display:grid;grid-template-columns:1fr 1fr}
+figure{margin:0;min-width:0}figcaption{text-align:center;height:32px;padding:6px;color:#8ce5dc}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1}
+.caption{height:28px;text-align:center;color:#fff4cf}section{padding:18px 24px;border-top:1px solid #33505a}
+label{display:inline-block;margin:8px}select{max-width:90vw}button,select{font:inherit}
+.note{color:#edb879}#error{white-space:pre-wrap;color:#ffaba6}
+@media(max-width:700px){header{height:auto}.views{grid-template-columns:1fr}}
+</style>
+<header><h1>Verona | MPFB female-head candidate 1</h1>
+<p>New MakeHuman topology. Hair off. Native faceunit pose studies; NOT transferred speech or accepted emotion accuracy.</p></header>
+<main class="views">
+<figure><figcaption>Native quad loops + bright spokes / center</figcaption><canvas id="wire" width="640" height="640"></canvas></figure>
+<figure><figcaption>Untextured surface - same geometry / camera</figcaption><canvas id="surface" width="640" height="640"></canvas></figure>
+</main>
+<div class="caption" id="caption">Neutral geometry</div>
+<section>
+<label>Authored pose <select id="pose"></select></label>
+<label>Native faceunit <select id="unit"><option value="">Use authored pose</option></select></label>
+<label>Strength <input id="strength" type="range" min="0" max="1" step=".01" value="1"></label>
+<label>Yaw <input id="yaw" type="range" min="-100" max="100" step="1" value="0"></label>
+<label><input id="animate" type="checkbox"> Animate pose / turn</label>
+<p class="note">These are explicitly authored muscle-control recipes, not Claire's ten neural emotion outputs.
+The old 4x speech gain does not carry over to this different rig. Eyes are static procedural optics,
+not independent eyeball animation. No teeth/tongue rig, contact solver, audio or semantic approval.</p>
+<p>Local review only. No microphone, camera, network, speech synthesis, file writes or saved preferences.
+Stop animation by unchecking Animate; reload resets state. Errors appear below instead of an empty face.</p>
+<pre id="error" role="alert"></pre>
+</section>
+<script id="model" type="application/json">__MODEL__</script>
+<script type="module">
+__POSES__
+__RENDERER__
+</script></html>
