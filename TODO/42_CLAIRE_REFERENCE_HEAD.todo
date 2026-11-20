@@ -62,6 +62,10 @@ Issue/Project reconciliation and Git publication are separate delivery records;
 DONE means bounded study delivered, not Female/Gender/accuracy acceptance.
 
 Completion log:
+2026-11-20 - Owner rejects report04's current/reference comparison as visually
+indistinguishable. Delivered-study status is not identity or appearance approval.
+vr-43 replaces the conservative front-shell approach; this source/report remains
+the rejected baseline and can be reproduced with VeronaReference.cmd --fit shell.
 2026-11-20 - Owner observes no speech on MPFB and prefers Claire's expressions.
 2026-11-20 - Initial rest-only experiment01 renders but flags local distortion.
 Complete-pose02 fails its conservative hemisphere diagnostic; failures kept.

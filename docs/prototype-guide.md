@@ -23,10 +23,15 @@ an accepted Female mode or a change to the normal app. Close it or Ctrl+C its
 terminal to stop its owned server and discard speech.
 
 The current local comparison/sound report is
-`.local\qualification\claire-reference-04\review.html`: Play the first video
-to hear it, or expand the individual emotion GIF/video sections. The extra
-head map measured 0.54-0.65 seconds for the 83-frame greeting; full generation
-still measured 3.62-7.30 seconds across these states, not instant narration.
+`.local\qualification\claire-structure-07\review.html`: Play the first video
+to hear it, compare the shape-only blink, or expand the individual emotion
+GIF/video sections. The new whole-head/actual-surface map measured 0.98-1.15
+seconds for the 83-frame greeting; full generation measured 4.43-7.51 seconds
+across these states, not instant narration. No geometry fit runs during playback.
+The owner rejected the older subtle fit as visually indistinguishable; its
+report remains at `.local\qualification\claire-reference-04\review.html`.
+`.\VeronaReference.cmd --fit shell` explicitly selects that historical map;
+the default, or `--fit structure`, selects the new review candidate.
 
 In the desktop app, generate and play a sentence, then click **Pop out transparent
 head**. The same head becomes a transparent, initially always-on-top window;

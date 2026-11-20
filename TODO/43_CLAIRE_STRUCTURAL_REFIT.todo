@@ -1,0 +1,82 @@
+ID: vr-43
+Title: Visibly distinct reference-led Claire structure after subtle-fit rejection
+GitHub issue: https://github.com/Zanark/Verona/issues/42
+
+Status: DONE
+Milestone: Deliver an unmistakable structural comparison with real 4x speech.
+Dependencies: vr-41 authored reference asset; vr-42 rejected visual baseline
+
+Purpose:
+Owner sees no meaningful difference between current Claire and the vr-42
+reference study. Do not defend small coordinate changes as visual success.
+Revisit the actual head silhouette/landmarks instead of multiplying the old
+front-shell offset, while preserving speech, original points and 4x input.
+
+Tasks:
+[x] Measure actual source/reference head profiles and diagnose the weak fit.
+[x] Implement a full structural mapping with bounded cost and explicit failures.
+[x] Preserve complete-pose neural speech and original point correspondence.
+[x] Qualify finite geometry, all emotions, actual playback and measured cost.
+[x] Inspect a clearly labelled visual comparison before authoring the full tour.
+[x] Deliver the new comparison/sound report without overwriting rejected media.
+[x] Update chapter, index and causal ledger; reconcile issue/Project separately.
+
+Acceptance criteria:
+New candidate visibly changes the head contour and reference-led proportions,
+not only render colors, camera fitting, labels, hair or a small rest offset.
+Actual anatomical/profile measurements explain the change; no claim that a
+numerical difference or image hash proves femininity, quality or approval.
+Retain all original Claire control vertices and true 4x neural speech inputs.
+No new download/dependency, production switch, camera/mic or sibling disruption.
+Keep old study, failure receipts, both earlier variants and active user report.
+No identity/contact/phonetic acceptance claim without actual owner review.
+
+Completion evidence:
+scripts/claire_structural_fit.py:structural_warp uses actual triangle-plane
+sections/65heights/96rays, full XYZ radial mapping and exact eye anchors.
+fit_model derives the reference mouth region from its native mouthPucker.
+scripts/claire_surface_fit.py:closest_surface/refine_surface add256real
+triangle-surface constraints and a once-fitted37x45x39lattice. Static eye/hair
+buffers/indices remain original; hair off, two eye centers exact.
+apply_reference(fit="structure") maps rest and complete original neuralposes;
+VeronaReference.cmd now selects it by default. --fit shell retains vr42.
+Restprobe06:15,375vertex Jacobian sampling at.01cm, minDet.324/minSingular.368,
+zero newfloatcollapse/hemisphere, maxrestoffset1.901cm; surfacecontrolRMS
+.258 -> .0595cm. Failedmask/socket/corner/shear experiments01..04 preserved.
+Run07:913sourceframes/variant/identicalaudio+originalmotion,28,071,089valid
+floattriangle comparisons/zero newcollapse/99retainedhemispherediagnostics.
+Flagged minJacobian.505/minsingular.434, not global/contact/packing proof.
+All363GIFframes alpha/delays/dimensions decoded:277unique/zeroghosts;
+11exactindividualslices plus2-frame shape-blink independentlydecoded.
+All11actualCLI4x/PCApreserving/endedvideos exported with realaudio; actual
+report subsequentlyplays/decodevideoframes andPCMnonzero. No humanlistening.
+Actual1440/600px reportlayout/closedsections/nooverflow pass. Inspectrestviews,
+11mid-speechsamples/reportpreview; not everyframe or owner's identity judgment.
+62CPUtests pass. Actual83framemap.983..1.148sec; total4.435..7.507sec.
+Probe fitting2.17sec not wholeCLIstartup; no fit duringplayback/no60fpsclaim.
+.local/qualification/claire-structure-07/review.html opened directlyinEdge;
+matchingfull-headreportwindow confirmed. Noautoplay/userclicksPlay.
+Allownedtestserver/desktop/profiles cleaned; userreports remain available.
+Fixedsyntheticmediaignored; arbitraryspeechlatest-onlyRAM. No newdownload/
+dependency/productionGender/voicepolicy/default/README/gallery/release/deploy.
+Sourcepublication/remoteIDs have a separate delivery receipt. DONE means this
+bounded revisedstudy delivered, not femaleidentity/contact/accuracy approval.
+
+Completion log:
+2026-11-20 - Owner: current Claire and reference study show no visible difference.
+Current fit protects a broad orbital strip, samples only y136..155.5 and fades
+the field outside that band; most upper-head silhouette remains unchanged.
+Measure actual 3D source/reference profiles before selecting a replacement map.
+2026-11-20 - Whole-head radial registration closes eye holes only duringfitting.
+Hardmask/openprofiles fail; angularsmoothing alone exposes severe chin shear
+(minsingular~.025 despitepositivedeterminant). Physical.65cm height smoothing
+passesunchangedthresholds in05; nearest-triangle facialrefinement passes06.
+Render andinspectnewrest02 before fulltour07; crown/jaw/mouth/profile change,
+withoutclaiming acceptedfemaleidentity. Reuseoldadapter/ownedCLI lifecycle.
+2026-11-20 - Captureall11actual4xneuralstates/matchedGIFs and soundCLIvideos.
+Addsame-camera shapeblink to make geometry comparison direct, not zoom/labels.
+PinnedCPUenvironment fixes initialambient-Python reportcheck failure without
+installation. Retain failure receipt. Actualsavedvideos decode throughreport.
+2026-11-20 - Openqualifiedreport inEdge; priorrejectedreport04/MPFB/sculpt and
+normal app untouched. Issue42/originalProjectitemcreatedonce/readbackverified;
+finalcompletion andGitpublication reconciled independently, no duplicate IDs.

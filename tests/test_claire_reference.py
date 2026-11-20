@@ -97,3 +97,35 @@ class ClaireReferenceTests(unittest.TestCase):
                 path.write_bytes(raw + b" ")
                 with self.assertRaisesRegex(ValueError, "reference changed"):
                     apply_reference(engine, path)
+
+    def test_structural_backend_reuses_the_original_complete_pose_adapter(self):
+        rest = self.head().astype(np.float32)
+        triangles = np.array([[0, 1, 2]])
+        center, scale = np.array([0, 145, 0]), 30.
+        motion = pack_positions(rest[None], center, scale)
+        engine = SimpleNamespace(
+            neutral=rest, triangles=triangles, selected=np.arange(len(rest)),
+            center=center, scale=scale, mesh_metadata={},
+            mesh_bytes=pack_positions(rest, center, scale) + b"unchanged topology",
+            generate=lambda *args, **kwargs: Clip("fixture", b"audio", motion,
+                                                  {"generationSeconds": 0.}))
+        raw = json.dumps({"rest": []}).encode()
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "reference.json"
+            path.write_bytes(raw)
+            with (patch("scripts.claire_reference_study.REFERENCE_SHA256", hashlib.sha256(raw).hexdigest()),
+                  patch("scripts.claire_structural_fit.fit_model",
+                        return_value=(lambda p: p + [.2, 0, 0], {"revision": "synthetic-structure"})) as fit):
+                apply_reference(engine, path, fit="structure")
+                fit.assert_called_once()
+                self.assertIs(fit.call_args.args[0], rest)
+                self.assertIs(fit.call_args.args[1], triangles)
+                result = engine.generate(None, expression_gain=4)
+                self.assertEqual(result.audio, b"audio")
+                decoded = np.frombuffer(motion, dtype="<i2").reshape(-1, 3)
+                expected = pack_positions(decoded / QUANTIZATION * scale + center + [.2, 0, 0],
+                                          center, scale)
+                self.assertEqual(result.motion, expected)
+                self.assertIn("full-head structural", result.metadata["appearance"])
+                with self.assertRaisesRegex(ValueError, "fit must be"):
+                    apply_reference(engine, path, fit="not-a-fit")

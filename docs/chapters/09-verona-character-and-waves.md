@@ -1,5 +1,109 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Whole-head structural refit after visual rejection (vr-43)
+
+The owner cannot see a meaningful difference in vr-42's comparison. That
+overrides its numerical success: the delivered report is a **rejected visual
+baseline**, not an accepted identity. Its broad protected orbital strip and
+short front-shell height range leave too much of Claire's silhouette intact.
+`VeronaReference.cmd` now selects the new structural candidate; `--fit shell`
+retains the old experiment. Normal app/agent launchers remain unchanged.
+
+`scripts/claire_structural_fit.py:structural_warp` replaces front-only offsets
+with complete-head cross-section correspondence. Exact triangle/height-plane
+intersections produce 65 sections and 96 angular rays per section. The
+eye-aligned reference supplies width, depth and crown; ordered vertical guides
+control the front-central lower extent, mouth region and eye height. Native
+`mouthPucker` displacement locates the reference mouth region; the source
+140.15cm mouth guide is authored, not a measured anatomical correspondence.
+For the original float rest, the crown moves from 157.926 to 158.819cm,
+the lower front-central extent from 136.431 to 136.801cm, and the mouth guide
+to 140.979cm. These are geometric measurements, not universal female ratios.
+
+The radial map changes complete XYZ coordinates around each section's depth
+center, not only cheek width. Matching static eye ellipsoids close orbital
+holes **during fitting only**; original output eye buffers remain untouched.
+Two Gaussian corrections constrain the original eye centers exactly without
+freezing the entire orbital/brow region. Two circular binomial passes and
+0.65cm physical-height Gaussian smoothing regularize the sampled profiles.
+Neck blending, finite coordinates, supported sections, ordered guides and a
+5cm radial-displacement bound fail explicitly rather than substituting Claire.
+
+Silhouette registration alone still preserves too much nose/mouth surface.
+`scripts/claire_surface_fit.py:closest_surface` projects onto actual reference
+triangle interiors or clamped edges, not nearest vertices. `refine_surface`
+selects 256 distributed front-head controls, rejects correspondences beyond
+2cm and solves a regularized 1.3cm Gaussian residual field. It samples that
+field **once** into a 37x45x39 XYZ lattice with 0.5cm spacing; generation uses
+eight-corner trilinear interpolation and exact eye-center correction. The
+lattice alone occupies about 1.49MiB, is speech-independent and dies with
+the owned runtime. Active out-of-grid queries and corrections over 2cm fail.
+Nearest geometry is not semantic lip/lid correspondence or a contact solver.
+Original hair geometry is not refitted and remains off for this review.
+
+`claire_reference_study.py:apply_reference(fit="structure")` reuses the same
+complete-pose adapter: original Claire inference and **4x neutral-relative
+emotion first**, then the identical map on rest and each complete pose.
+All 15,375 original points, native indices/connectivity, audio and learned
+basis remain. Geometry weight 1.0 is separate from emotion gain 4x; nonlinear
+final motion is not literally four times another mapped displacement.
+Mapping remains generation-only, with cancellation between frames. The CLI
+keeps its existing owned capability/server/cache/synthesis/profile lifecycle;
+missing/changed pinned assets fail, speech stays latest-only RAM, close/Ctrl+C
+stops that lane and restart discards controls/field. No download or device use.
+
+### Actual failures, speech and comparison evidence
+
+The isolated structural probe retains failed experiments 01..04: hard eye
+masking, open socket profiles, sharp angular corners, then severe chin-section
+shear. At one corner, a negative finite-difference determinant converges
+positive at smaller epsilon; that alone is not established inversion. The
+chin case instead has a singular value near 0.025 despite positive determinant.
+Physical-height smoothing resolves the radial stage in05 without relaxing
+the 0.01cm finite-difference sampling or determinant/conditioning thresholds.
+Probe06 adds the surface stage: all 15,375 rest vertices have sampled minimum
+Jacobian 0.324/minimum singular value 0.368, zero new float near-collapse,
+zero rest normal-hemisphere changes and exact eye anchors. Maximum rest
+offset is 1.901cm; control RMS falls from 0.258 to 0.0595cm. Its measured
+2.17-second fit is an isolated probe observation, not whole CLI startup time.
+
+`.local\qualification\claire-structure-07\review.html` contains a direct
+same-camera shape-blink GIF, five paired rest views, the 30.25-second paired
+emotion tour, eleven exact GIF slices and eleven actual CLI sound videos.
+The prior report04 and both earlier candidates remain intact. Press Play for
+voice; no autoplay. Only these fixed synthetic demonstrations are persisted,
+not arbitrary runtime sentences, recordings or conversations.
+
+913 source frames per variant retain exact source motion/audio. Across
+28,071,089 valid float triangle/frame comparisons there is zero new near-collapse
+and **99 retained world-normal hemisphere changes**, with positive sampled
+local Jacobian/conditioning at flagged vertices (minimum 0.505/0.434).
+All 363 GIF frames decode
+with correct alpha/delays/dimensions, 277 unique frames and zero ghost pixels;
+the separate two-frame shape blink also independently decodes. Actual saved
+WebMs play/decode through the report disclosures and have nonzero decoded PCM.
+The report passes 1440/600px layout, closed sections and no-overflow checks.
+Agent visual review covers rest views and one mid-speech sample of every state,
+not every frame, independent listening or owner identity approval.
+
+The 83-frame real CLI recordings measure 0.98-1.15 seconds for the added map
+and 4.43-7.51 seconds total generation across emotions. No map runs on playback
+frames; this is not instant narration, a new frame-cadence qualification or
+an end-to-end guarantee. GIF fitting uses decoded rest while live fitting uses
+original float rest, so their geometry is not claimed byte-identical.
+62 CPU tests pass, including actual triangle-region selection, residual-field
+improvement/eye anchors/bounds, full-head mapping and shared adapter behavior.
+An initial report-check command used ambient Python and lacked ONNX Runtime;
+rerunning with the pinned CPU environment passes without installing anything.
+
+Positive samples, unchanged coincident points and source channels do not prove
+global injectivity, self-intersection clearance, post-quantization contacts,
+phonetic accuracy or perceived emotions. Static eyes may still disagree with
+changed lids; full SDK contact correction and independently animated
+teeth/tongue/eye joints remain omitted. This is a new **review candidate**, not
+an accepted Female mode, production Gender/voice selector or transfer of the
+separate MPFB rig. The rejected shell study below remains historical evidence.
+
 ## Reference-shaped Claire with its own neural speech (vr-42)
 
 The owner finds Claire's expressions better than the distinct MPFB native-pose

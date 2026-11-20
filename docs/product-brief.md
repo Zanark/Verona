@@ -81,6 +81,14 @@ all Claire points and **4x** emotion. vr-42 implements a separate opt-in
 complete-pose geometry-map experiment, not a transfer onto MPFB topology.
 The independent MPFB variant is paused for later work, not deleted or accepted.
 
+The owner then rejects vr-42's comparison as visually indistinguishable and
+directs continued implementation without questions. vr-43 replaces that subtle
+front-shell fit with full-head cross-sections and actual reference-surface
+registration, preserving Claire speech, original topology/points and4x inputs.
+The opt-in launcher now selects this new candidate; `--fit shell` preserves
+the rejected baseline. A matched shape blink, all-emotion GIFs and real sound
+videos support review, not female-identity, anatomy or contact acceptance.
+
 The owner's November20 request adds an **Optimus-inspired robot** presentation.
 They selected original procedural armor instead of sourcing a rigged asset:
 blue/silver helmet/fins, cyan optics and articulated mouth/jaw/brows over the

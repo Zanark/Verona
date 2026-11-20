@@ -133,21 +133,28 @@ def fit_reference(rest, reference, reference_eyes):
     return warp(rest), receipt
 
 
-def apply_reference(engine, path=REFERENCE):
+def apply_reference(engine, path=REFERENCE, *, fit="shell"):
     import time
     from verona.engine import Clip, QUANTIZATION, pack_positions
 
+    if fit not in ("shell", "structure"):
+        raise ValueError("Reference fit must be shell or structure.")
     raw = Path(path).read_bytes()
     if hashlib.sha256(raw).hexdigest() != REFERENCE_SHA256:
         raise ValueError("MPFB reference changed; re-author and review a new pinned study.")
     model = json.loads(raw)
-    warp, receipt = reference_warp(engine.neutral, np.array(model["rest"]).reshape(-1, 3),
-                                  np.array(model["eyeCenters"]))
+    if fit == "structure":
+        from scripts.claire_structural_fit import fit_model
+        warp, receipt = fit_model(engine.neutral, engine.triangles, model)
+    else:
+        warp, receipt = reference_warp(engine.neutral, np.array(model["rest"]).reshape(-1, 3),
+                                      np.array(model["eyeCenters"]))
     fitted = warp(engine.neutral)
     size = len(engine.selected) * 3 * 2
     engine.mesh_bytes = pack_positions(fitted, engine.center, engine.scale) + engine.mesh_bytes[size:]
-    engine.mesh_metadata = {**engine.mesh_metadata,
-                            "appearance": "UNACCEPTED Claire / MPFB-reference head study",
+    appearance = ("UNACCEPTED Claire / MPFB full-head structural study" if fit == "structure"
+                  else "UNACCEPTED Claire / MPFB-reference head study")
+    engine.mesh_metadata = {**engine.mesh_metadata, "appearance": appearance,
                             "referenceStudy": receipt}
     generate = engine.generate
 
@@ -178,6 +185,7 @@ def apply_reference(engine, path=REFERENCE):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--reference", type=Path, default=REFERENCE)
+    parser.add_argument("--fit", choices=("shell", "structure"), default="structure")
     args = parser.parse_args()
     from verona.desktop import run_desktop
     from verona.engine import FaceEngine
@@ -192,8 +200,9 @@ def main():
 
         def study_reply(handler, status, content, kind):
             if status == 200 and handler.path == "/":
-                content = content.replace(b"local speaking-face prototype",
-                                          b"UNACCEPTED Claire / MPFB reference study")
+                label = (b"UNACCEPTED Claire / MPFB structural study" if args.fit == "structure"
+                         else b"UNACCEPTED Claire / MPFB reference study")
+                content = content.replace(b"local speaking-face prototype", label)
                 content = content.replace(b'value="2" selected', b'value="2"')
                 content = content.replace(b'value="4">4x', b'value="4" selected>4x')
             elif status == 200 and handler.path == "/app.js":
@@ -209,7 +218,7 @@ def main():
                     claire_topology(n, s, owned / "cache", f)),
               patch("verona.speech.ROOT", owned), patch.object(Handler, "reply", study_reply)):
             engine = FaceEngine()
-            receipt = apply_reference(engine, args.reference)
+            receipt = apply_reference(engine, args.reference, fit=args.fit)
             print(json.dumps(receipt), flush=True)
             run_desktop(State(engine, installed_voices()))
 

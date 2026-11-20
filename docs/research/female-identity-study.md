@@ -6,7 +6,17 @@ model**. Confidence below applies to the stated evidence, not visual quality.
 
 ## Current decision after owner review
 
-Latest direction (vr-42): the owner prefers Claire's expressions, observes that
+Latest correction (vr-43): the owner sees no meaningful difference in vr-42.
+Replace its conservative front-shell approach, not the owner's judgment, with
+whole-head section correspondence plus actual reference-triangle surface
+registration. `claire_structural_fit.py:fit_model` supplies the new complete-pose
+map; `claire_surface_fit.py:refine_surface` samples its facial residual into a
+generation-time lattice. Speech, all original points and4x inputs remain.
+The new report is `.local\qualification\claire-structure-07\review.html`;
+neither this candidate nor the separate MPFB head has identity/contact approval.
+[Mechanism and evidence](../chapters/09-verona-character-and-waves.md#whole-head-structural-refit-after-visual-rejection-vr-43).
+
+Previous direction (vr-42): the owner prefers Claire's expressions, observes that
 the native MPFB report does not speak, and asks to use its head as a structural
 reference for **Claire with 4x emotions**. Preserve both existing candidates.
 `scripts/claire_reference_study.py` fits a bounded smooth complete-pose map

@@ -41,7 +41,8 @@ vr-38 | 38_FACEMESH_COLORS.todo | DONE | Independent live FaceMesh/eye color pic
 vr-39 | 39_FEMALE_IDENTITY_RESEARCH.todo | DONE | Female identity/motion/license research; existing-assets study selected first
 vr-40 | 40_FEMALE_SCULPT_STUDY.todo | DONE | Owner rejects female identity; preserves sculpt as Male-SharpJawline, app unchanged
 vr-41 | 41_DISTINCT_FEMALE_HEAD.todo | IN_PROGRESS | Distinct MPFB head/native-pose GIF report ready; identity review and speech transfer remain
-vr-42 | 42_CLAIRE_REFERENCE_HEAD.todo | DONE | Speaking reference-shaped Claire/4x CLI and matched GIF/sound report delivered; no identity acceptance
+vr-42 | 42_CLAIRE_REFERENCE_HEAD.todo | DONE | Subtle speaking-reference study delivered then visually rejected; preserved as historical --fit shell
+vr-43 | 43_CLAIRE_STRUCTURAL_REFIT.todo | DONE | Whole-head/surface refit, original 4x speech and new blink/GIF/sound report in Edge; identity review pending
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
