@@ -74,13 +74,20 @@ Pitch is a Windows-engine request, not a calibrated acoustic semitone shift.
 Neutral/happy/sad/surprised/angry are separate explicit expression inputs,
 not inferred from text. Angry uses the model's anger channel at the same
 bounded0-0.6 strength as the other expressions.
-Emotion-driven skin deformation is now **2x** the same-audio neutral-relative
-difference, not2x all speech motion. Neutral and zero strength stay unchanged.
+**Emotion exaggeration** selects **2x** (unchanged default) or **4x** the
+same-audio neutral-relative difference, not all speech motion.4x is100% more
+than the previous2x. Neutral and zero strength stay unchanged at either setting.
 Uncached non-neutral clips need an additional local inference pass; exact
 repeats can still reuse the completed clip. Change strength/expression, then
 **Generate face** again. The same amplification reaches every human view;
 robot armor retains its existing mechanical limits. In FaceMesh, the center
 dot now has a hot core/red corona while the outer rings remain dimmed.
+**FaceMesh eye glow** offers the current combined look, **Spokes only** and
+**Concentric rings only**. The isolated choices have no luminous center/halo
+and use the same red peak intensity. This is a live render choice: no new
+speech or model run. Other views, including robot cyan, ignore it; returning
+to FaceMesh restores the selection. Reload/restart restores the original
+2x/combined defaults; no new preference persistence is introduced.
 Play/Pause and the timeline follow the actual audio clock; Restart rewinds and
 pauses. XYZ orientation, zoom, volume and point/edge toggles are available.
 Browser cursor following is opt-in and limited to its page; native desktop

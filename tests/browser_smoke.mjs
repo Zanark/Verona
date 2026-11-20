@@ -382,9 +382,10 @@ try {
                 ringRedMaximum=Math.max(ringRedMaximum,p[i]);
               }
             }
-            eyes.push({corePixels:count,hotCorePixels,coreCoronaPixels,ringRedMaximum,
+            eyes.push({center:[x,y],corePixels:count,hotCorePixels,coreCoronaPixels,ringRedMaximum,
               ringBands:bands,visibleUpperSpokes:spokes});
           }
+          window.veronaMechanicalFixture=eyes;
           $("zoom").value=zoom;$("zoom").dispatchEvent(new Event("input"));return eyes;
         })()`);
         for(const eye of data.mechanicalEyes){
@@ -393,6 +394,57 @@ try {
           assert(eye.ringRedMaximum>=169&&eye.ringRedMaximum<=171,JSON.stringify(eye));
           assert.equal(eye.ringBands.length,3,JSON.stringify(eye));
           assert(eye.visibleUpperSpokes>=10&&eye.visibleUpperSpokes<=14,JSON.stringify(eye));
+        }
+        data.eyeGlowVariants=await evaluate(`(() => {
+          const $=id=>document.getElementById(id),oldZoom=$("zoom").value;
+          $("zoom").value="2";$("zoom").dispatchEvent(new Event("input"));
+          const c=$("face"),g=c.getContext("webgl2"),read=()=>{
+            const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;
+          };
+          const baseline=read(),centers=window.veronaMechanicalFixture;
+          const variants=[],create=g.createBuffer;let created=0;
+          g.createBuffer=function(){created++;return create.call(this);};
+          try{
+            for(const mode of ["1","2"]){
+              $("eye-glow").value=mode;$("eye-glow").dispatchEvent(new Event("input"));
+              const p=read();let hot=0;
+              for(let i=0;i<p.length;i+=4)if(p[i]>245&&p[i+1]>190&&p[i+2]>150)hot++;
+              const eyes=centers.map(({center:[x,y],ringBands:bands})=>{
+                const red=(r,a)=>{
+                  const i=(Math.round(y+r*Math.sin(a))*c.width+Math.round(x+r*Math.cos(a)))*4;
+                  return p[i]-Math.max(p[i+1],p[i+2]);
+                };
+                let outer=0,spoke=0,core=0;
+                for(let radius=0;radius<5;radius++){
+                  const a=(Math.floor(radius/2)%2)*Math.PI;
+                  core=Math.max(core,red(radius,a));
+                }
+                const ring=(bands[2][0]+bands[2].at(-1))/2;
+                const between=(bands[1].at(-1)+bands[2][0])/2;
+                for(let n=0;n<144;n++){
+                  outer=Math.max(outer,red(ring,n*Math.PI/144));
+                  spoke=Math.max(spoke,red(between,n*Math.PI/144));
+                }
+                return {outer,spoke,core};
+              });
+              variants.push({mode,hot,eyes,error:g.getError()});
+            }
+          }finally{
+            g.createBuffer=create;$("eye-glow").value="0";$("eye-glow").dispatchEvent(new Event("input"));
+          }
+          const restored=read().every((v,i)=>v===baseline[i]);
+          $("zoom").value=oldZoom;$("zoom").dispatchEvent(new Event("input"));
+          return {variants,created,restored};
+        })()`);
+        assert.equal(data.eyeGlowVariants.created,0);
+        assert(data.eyeGlowVariants.restored);
+        for(const v of data.eyeGlowVariants.variants){
+          assert.equal(v.hot,0);assert.equal(v.error,0);
+          for(const eye of v.eyes){
+            assert(eye.core<20,JSON.stringify(v));
+            assert((v.mode==="1"?eye.spoke:eye.outer)>150,JSON.stringify(v));
+            assert((v.mode==="1"?eye.outer:eye.spoke)<20,JSON.stringify(v));
+          }
         }
         const rearRed=await evaluate(`(() => {
           const $=id=>document.getElementById(id);$("yaw").value="3.14";$("yaw").dispatchEvent(new Event("input"));

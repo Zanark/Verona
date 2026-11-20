@@ -57,6 +57,19 @@ async function run(window) {
     assert.equal(eye.ringBands.length,3);assert(eye.visibleUpperSpokes>=10&&eye.visibleUpperSpokes<=14,JSON.stringify(eye));
   }
   assert(redMaximum>=235&&redMaximum<=255,"Only the new FaceMesh center corona exceeds the dimmed rings");
+  const glowMarker="data.eyeGlowVariants=await evaluate(\u0060",glowStart=regression.indexOf(glowMarker);
+  const glowEnd=regression.indexOf("\u0060);",glowStart+glowMarker.length);
+  assert(glowStart>=0&&glowEnd>glowStart);
+  const eyeGlowVariants=await ev(regression.slice(glowStart+glowMarker.length,glowEnd));
+  assert.equal(eyeGlowVariants.created,0);assert(eyeGlowVariants.restored);
+  for(const v of eyeGlowVariants.variants){
+    assert.equal(v.hot,0);assert.equal(v.error,0);
+    for(const eye of v.eyes){
+      assert(eye.core<20,JSON.stringify(v));
+      assert((v.mode==="1"?eye.spoke:eye.outer)>150,JSON.stringify(v));
+      assert((v.mode==="1"?eye.outer:eye.spoke)<20,JSON.stringify(v));
+    }
+  }
   await ev(`(()=>{
     const $=id=>document.getElementById(id);
     for(const [id,value] of [["presentation","claire"],["zoom",1]]){
@@ -193,7 +206,7 @@ async function run(window) {
   assert(previousViews.every(v=>v.visible>500&&v.error===0&&v.sourcePreserved&&v.timePreserved));
   assert(!window.isVisible()&&!window.isAlwaysOnTop());
   await fs.writeFile(output,JSON.stringify({status:"passed",setup,turning,eyesMode,headMode,motion,playback:{time:playback.time,paused:playback.paused},
-    overlay,restoration,previousViews,redEyes,redMaximum,
+    overlay,restoration,previousViews,redEyes,redMaximum,eyeGlowVariants,
     noImagesCaptured:true,hiddenSandboxedWindow:true},null,2));
   app.quit();
 }

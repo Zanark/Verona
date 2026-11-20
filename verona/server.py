@@ -10,7 +10,7 @@ import sys
 import threading
 import time
 
-from .engine import FaceEngine, expression_condition
+from .engine import FaceEngine, expression_condition, validate_expression_gain
 from .speech import (
     MAX_SECONDS, MAX_TEXT, VoiceSettings, installed_voices, preferred_voice, synthesize, validate_text,
 )
@@ -212,18 +212,19 @@ class Handler(BaseHTTPRequestHandler):
             request = json.loads(raw)
             required = {"text", "voice", "expression", "intensity"}
             if (not isinstance(request, dict) or not required <= set(request)
-                    or set(request) - required - {"voiceSettings"}):
-                raise ValueError("Supply text, voice, expression, intensity and optional voiceSettings only.")
+                    or set(request) - required - {"voiceSettings", "expressionGain"}):
+                raise ValueError("Supply text, voice, expression, intensity and optional voiceSettings/expressionGain only.")
             text = validate_text(request["text"])
             voice = request["voice"]
             if not isinstance(voice, str) or voice not in [v["name"] for v in state.voices]:
                 raise ValueError("Choose one of the installed English voices.")
             expression_condition(state.engine.condition, request["expression"], request["intensity"])
+            gain = validate_expression_gain(request.get("expressionGain", 2))
             settings = VoiceSettings.parse(request.get("voiceSettings", {}))
             speech_key = hashlib.sha256(json.dumps(
                 [text, voice, asdict(settings)], sort_keys=True, ensure_ascii=True
             ).encode("utf-8")).hexdigest()
-            clip_key = f"{speech_key}:{request['expression']}:{float(request['intensity'])}"
+            clip_key = f"{speech_key}:{request['expression']}:{float(request['intensity'])}:{gain}"
             if self.path == "/api/generate" and state.clip is not None and state.clip_key == clip_key:
                 self.json_reply(200, {
                     **state.clip.metadata, "cacheHit": True,
@@ -239,7 +240,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.reply(200, speech.wav, "audio/wav")
                 return
             clip = state.engine.generate(
-                speech, request["expression"], request["intensity"], stop=state.stop
+                speech, request["expression"], request["intensity"], stop=state.stop, expression_gain=gain
             )
             state.clip = clip
             state.clip_key = clip_key

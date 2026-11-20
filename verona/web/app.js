@@ -10,7 +10,7 @@ let cursor = null;
 const audio = $("audio");
 const controls = ["play", "restart", "seek"];
 const settingNames = ["pitch", "rate", "bass", "treble"];
-const editing = ["generate", "preview", "reset-voice", "text", "voice", "expression", "intensity",
+const editing = ["generate", "preview", "reset-voice", "text", "voice", "expression", "intensity", "expression-gain",
   ...settingNames, "emphasis"];
 const preview = $("voice-preview");
 let token = window.location.hash.slice(1);
@@ -129,7 +129,7 @@ class FaceRenderer {
       uniform bool points, polygonView, monochrome;
       uniform float neckDepth;
       uniform vec2 gaze, patternSettings;
-      uniform int material, pass, presentationStyle;
+      uniform int material, pass, presentationStyle, eyeGlow;
       in vec3 viewNormal, rest;
       out vec4 outputColor;
       float square(float value) { return value*value; }
@@ -173,6 +173,10 @@ class FaceRenderer {
             float core = 1.0 - smoothstep(0.105, 0.145, radius);
             float halo = 0.22 * exp(-square(radius / 0.62));
             float glow = max(halo, max(rings * 0.95, spokes * 0.80));
+            if (presentationStyle == 1 && eyeGlow != 0) {
+              glow = (eyeGlow == 1 ? spokes : rings) * 0.95;
+              core = 0.0;
+            }
             float alpha = max(1.0 - smoothstep(0.58, 0.65, radius), halo)
               * smoothstep(0.9, 1.2, local.z);
             if (alpha < 0.01) discard;
@@ -181,7 +185,7 @@ class FaceRenderer {
               : mix(vec3(0.035,0.001,0.003), vec3(1.0,0.015,0.025), glow);
             vec3 irisColor = mix(emission, presentationStyle == 4 ? vec3(0.60,0.95,1.0) : vec3(1.0,0.38,0.28), core);
             irisColor *= presentationStyle == 1 ? 0.70 : 1.0;
-            if (presentationStyle == 1) {
+            if (presentationStyle == 1 && eyeGlow == 0) {
               float centerHalo = exp(-square(radius / 0.14)) * (1.0 - smoothstep(0.16, 0.20, radius));
               float hotCenter = 1.0 - smoothstep(0.035, 0.075, radius);
               irisColor = mix(irisColor, vec3(1.0,0.08,0.025), centerHalo * 0.85);
@@ -343,7 +347,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
+      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -837,6 +841,7 @@ class FaceRenderer {
     gl.uniform1i(u.polygonView,polygonView);
     gl.uniform1i(u.monochrome, this.view.style === 0 && !$("colors").checked);
     gl.uniform1i(u.presentationStyle, this.view.style);
+    gl.uniform1i(u.eyeGlow, Number($("eye-glow").value));
     gl.uniform3fv(u.viewCenter, this.fit.center);
     const headMode = $("cursor-mode").value === "head", following = $("follow-eyes").checked && cursor;
     const overlayMode = document.documentElement.classList.contains("overlay");
@@ -1069,6 +1074,7 @@ async function generate() {
       body: JSON.stringify({
         text, voice: $("voice").value, expression: $("expression").value,
         intensity: Number($("intensity").value),
+        expressionGain: Number($("expression-gain").value),
         voiceSettings: voiceSettings(),
       }),
     });
@@ -1106,7 +1112,7 @@ async function generate() {
     const settings = metadata.voiceSettings;
     $("details").textContent = `${metadata.voice} | pitch ${settings.pitch} st, speed ${settings.rate}, `
       + `bass ${settings.bass} dB, treble ${settings.treble} dB, ${settings.emphasis} emphasis | `
-      + `${metadata.duration.toFixed(2)} s | ${metadata.frames} frames | `
+      + `${metadata.duration.toFixed(2)} s | ${metadata.frames} frames | ${metadata.expressionGainSetting}x emotion setting | `
       + `${metadata.cacheHit ? "reused complete clip" : metadata.speechCacheHit ? "reused speech" : "new speech"} | `
       + `${readySeconds.toFixed(2)} s ready (${metadata.requestSeconds.toFixed(2)} s server; excludes startup)`;
     $("status").textContent = "Ready. Press Play; the mesh follows the audio clock.";
@@ -1152,7 +1158,7 @@ $("seek").addEventListener("input", () => {
 });
 $("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
-for (const id of ["appearance", "colors", "edges", "points", "yaw", "tilt", "roll", "zoom"]) {
+for (const id of ["appearance", "colors", "edges", "points", "eye-glow", "yaw", "tilt", "roll", "zoom"]) {
   $(id).addEventListener("input", () => { updateAngles(); syncZoom(); draw(); });
 }
 function syncZoom() {
@@ -1200,6 +1206,7 @@ function syncPresentationControls() {
   const claire = renderer.view.style === 0, mesh = renderer.view.style === 1, robot = renderer.view.style === 4;
   for (const label of document.querySelectorAll("[data-claire-control]")) label.hidden = !claire;
   $("mesh-detail-control").hidden = !mesh;
+  $("eye-glow-control").hidden = !mesh;
   $("mesh-detail").value = String(renderer.detail);
   $("mesh-detail-value").value = `${renderer.detail} / 5`;
   $("framing").value = robot ? "robot" : mesh ? "front" : renderer.framings[renderer.presentationId];

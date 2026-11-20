@@ -70,8 +70,11 @@
       </select>
       <label for="intensity">Expression strength <output id="strength">0.35</output></label>
       <input id="intensity" type="range" min="0" max="0.6" step="0.05" value="0.35">
-      <p class="hint">Emotion deformation is doubled relative to neutral speech.
-        Non-neutral expressions need extra local processing; strength changes apply after Generate face.</p>
+      <label for="expression-gain">Emotion exaggeration</label>
+      <select id="expression-gain"><option value="2" selected>2x (current)</option>
+        <option value="4">4x (100% more)</option></select>
+      <p class="hint">Exaggeration scales emotion relative to neutral speech, not ordinary speech.
+        Non-neutral expressions need extra local processing; changes apply after Generate face.</p>
       <button id="generate" class="primary" type="button" disabled>Generate face</button>
       <p class="hint">Up to 280 characters / 25 seconds. Generate first, then press Play.
         Speech and motion stay in memory; no transcript history is saved.</p>
@@ -112,6 +115,10 @@
         </select></label>
         <label id="mesh-detail-control" for="mesh-detail" hidden>Mesh detail <output id="mesh-detail-value">5 / 5</output>
           <input id="mesh-detail" type="range" min="1" max="5" step="1" value="5"></label>
+        <label id="eye-glow-control" for="eye-glow" hidden>FaceMesh eye glow <select id="eye-glow">
+          <option value="0" selected>Center + rings + spokes (current)</option>
+          <option value="1">Spokes only</option><option value="2">Concentric rings only</option>
+        </select></label>
         <label id="pattern-density-control" for="pattern-density" hidden>Pattern density <output id="pattern-density-value">1.0x</output>
           <input id="pattern-density" type="range" min="0.5" max="3" step="0.1" value="1"></label>
         <label id="pattern-gap-control" for="pattern-gap" hidden>Cell gap <output id="pattern-gap-value">0%</output>

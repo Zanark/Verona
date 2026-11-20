@@ -16,8 +16,9 @@ class FixtureEngine:
     mesh_metadata = {"fixture": True}
     mesh_bytes = b"fixture-mesh"
 
-    def generate(self, speech, expression, intensity, stop):
-        return Clip("fixture-clip", speech.wav, b"fixture-motion", {"id": "fixture-clip"})
+    def generate(self, speech, expression, intensity, stop, *, expression_gain=2):
+        return Clip("fixture-clip", speech.wav, b"fixture-motion",
+                    {"id": "fixture-clip", "expressionGainSetting": expression_gain})
 
 
 class LocalServerTests(unittest.TestCase):
@@ -113,6 +114,10 @@ class LocalServerTests(unittest.TestCase):
             self.payload(voice="not-installed"),
             self.payload(intensity=float("nan")),
             self.payload(intensity=True),
+            self.payload(expressionGain=True),
+            self.payload(expressionGain="4"),
+            self.payload(expressionGain=3),
+            self.payload(expressionGain=float("nan")),
             self.payload(extra="not-supported"),
             self.payload(voiceSettings={"pitch": 99}),
             self.payload(voiceSettings={"rate": True}),
@@ -180,6 +185,21 @@ class LocalServerTests(unittest.TestCase):
         self.assertIn(b"failed", body)
         self.assertFalse(self.state.busy.locked())
         self.assertIsNone(self.state.clip)
+
+    def test_gain_switch_reuses_speech_but_not_wrong_gain_motion(self):
+        pcm = bytes(1600)
+        sample = Speech(package_pcm(pcm), pcm, "fixture")
+        with (patch("verona.server.synthesize", return_value=sample) as synth,
+              patch.object(self.state.engine, "generate", wraps=self.state.engine.generate) as generate):
+            for gain, calls, hit in ((2, 1, False), (4, 2, False), (4, 2, True), (2, 3, False)):
+                status, _, body = self.request("POST", "/api/generate", self.payload(expressionGain=gain))
+                self.assertEqual(status, 200)
+                result = json.loads(body)
+                self.assertEqual(result["expressionGainSetting"], gain)
+                self.assertEqual(result["cacheHit"], hit)
+                self.assertEqual(generate.call_count, calls)
+                self.assertEqual(synth.call_count, 1)
+            self.assertEqual(generate.call_args.kwargs["expression_gain"], 2)
 
 
 if __name__ == "__main__":

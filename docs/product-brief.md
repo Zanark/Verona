@@ -74,6 +74,9 @@ explicit emotion structures and a new result GIF. vr-31 doubles the
 same-audio neutral-relative skin deformation, not the neutral speech itself,
 with an additional CPU pass for non-neutral generation. This does not imply
 new human/phonetic acceptance or automatic emotion recognition.
+The next comparison request adds4x emotion deformation (100% more than2x)
+and separate spokes-only/rings-only FaceMesh eye emission. vr-32 retains
+2x/combined defaults and the original result GIF while the owner compares.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.

@@ -1,0 +1,65 @@
+ID: vr-32
+Title: Matched emotion and eye-glow comparison variants
+GitHub issue: https://github.com/Zanark/Verona/issues/31
+
+Status: IN_PROGRESS
+Milestone: Four real-renderer GIFs for the owner's comparison.
+Dependencies: vr-31
+
+Purpose:
+Compare the delivered2x emotion deformation with4x, and compare spokes-only
+with concentric-rings-only FaceMesh emission. Preserve the delivered GIF
+and existing defaults while the owner chooses.
+
+Tasks:
+[x] Add bounded2x/4x gain selection with unchanged default and neutral motion.
+[x] Add FaceMesh-only combined/spokes-only/rings-only glow selection.
+[x] Verify cache identity, validation, exact deformation and optical isolation.
+[x] Capture four comparable real-renderer GIFs with matched voice/camera/timing.
+[x] Independently decode and inspect the actual expression/optical differences.
+[ ] Update chapter, guide, index, ledger, tracking and owned continuity; deliver.
+
+Acceptance criteria:
+100% more than the existing2x means4x the original neutral-relative emotion
+difference, not4x speech. Neutral/zero remains unchanged; bounded conditioning,
+four-frame batches, cancellation, finite packing and latest-only ownership remain.
+Gain is part of complete-clip identity but not speech identity. Default2x and
+combined eye appearance remain unchanged. Gain changes require regeneration.
+Spokes-only suppresses rings/core/halo emission; rings-only suppresses spokes/
+core/halo emission. No red hot center in either isolated variant. Both use the
+same red palette and original per-component emission, with existing occlusion.
+Robot cyan/other human views unchanged; live optical choice requires no new
+buffers/draws or speech generation and survives reversible view switches.
+Two emotion GIFs use combined optics and identical camera/voice/settings;
+two optical GIFs use2x emotions and identical camera/voice/settings.
+Retain the original2x GIF byte-for-byte; label the new pairs unambiguously.
+All new README content remains inside the one default-closed disclosure;
+solo images centered and paired GIFs equal-sized/top-aligned.
+No user/sibling app/profile/cursor/device driven or automatic restart.
+No new dependency/model/release/book edition, realism or owner-acceptance claim.
+
+Completion evidence:
+Baselinebef1f04d06f8649ad04217d95fa548c56b29ae17 clean and delivered.
+No Verona Python/Electron owner detected before runtime edits.
+40CPU tests/fivefocusedJSfiles and hidden production-native02 pass. Isolated
+eye red excess166vs5, hotcenters0, createdbuffers0, exactcombinedrestoration.
+Four720x840/210frame/13.75s loops freshly UI-generated, same Hazel greeting/
+strengths/timestamps/zoom.85. Opticalpair shares exact2xmotion; fresh2xmotion
+matches prior delivered clips, neutral4x identical. Measured packed gains
+1.99997..2.00000/3.99998..4.00003, maxerror<.001017cm at.001942cm quantum.
+All840frames independently verified: alpha/size/delay/captions/changing states/
+no ghosts; isolated hotcenters0 throughout. Decoded all-five-state samples and
+eye details inspected over dark/light; local comparison page opened.
+Hidden browser decodes all4GIFs, equal pairs1440px/stacked600px/no overflow/
+light background. All owned hosts/profiles cleaned. No owner acceptance.
+README25GIFs/twoPNG, unchanged prior GIF/hero and same closed disclosure.
+Final source publication/tracking/continuity reconciliation remains.
+
+Completion log:
+2026-11-20 - Owner requests another100% exaggeration for GIF comparison, then
+spokes-only and concentric-rings-only eye-glow variants. Define one bounded
+comparison slice; keep2x/combined as defaults rather than adopting a new look.
+2026-11-20 - Native01 fixture falsely counts cyan wire's red76 as emission;
+measure red-minus-max(green,blue) and retain failure. Native02 passes without
+changing runtime thresholds or optical masks. Capture01 succeeds for all four
+variants with at least98px edge margin; no frames reused or prior GIF resized.

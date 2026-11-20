@@ -1,6 +1,45 @@
 # Prototype media receipt
 
-## Current expression and pupil-glow preview: vr-31
+## Current matched comparison pairs: vr-32
+
+| Comparison | Left | Right |
+|---|---|---|
+| Emotion deformation | [2x GIF](comparison-emotion-2x.gif), [receipt](comparison-emotion-2x.json) | [4x GIF](comparison-emotion-4x.gif), [receipt](comparison-emotion-4x.json) |
+| Isolated eye glow | [Spokes GIF](comparison-eyes-spokes.gif), [receipt](comparison-eyes-spokes.json) | [Rings GIF](comparison-eyes-rings.gif), [receipt](comparison-eyes-rings.json) |
+
+All four are actual720x840/210frame/13.75second transparent loops, sampled15fps,
+with identical Hazel greeting, expression strengths, camera zoom0.85 and
+timestamps. The two optical variants share the exact same2x motion bytes.
+The fresh2x reference also has exactly the delivered vr31 motion bytes;
+only its matched wider framing/labels differ. The original vr31 GIF remains
+byte-for-byte unchanged. Neutral motion is identical at2x and4x.
+Current README:25GIFs/twoPNG; original centered hero first, everything else
+inside one default-closed disclosure, with the two new equal/top-aligned pairs.
+
+All840frames independently decode with exact source-alpha threshold,
+dimensions/delays, cyan captions, changing content and zero ghost pixels.
+Distinct decoded states:159/155/158/158 in the table's reading order.
+The optical GIFs contain no hot-center pixels in any frame.4x strong lids
+can occlude the combined center; no emission is forced through skin.
+Decoded five-expression samples and enlarged eye details were inspected over
+dark/light backgrounds. This is agent sample review, not owner acceptance.
+
+Actual real-model packed-coordinate gains are1.99997..2.00000 and
+3.99998..4.00003, with maximum coordinate error below0.001017cm including
+Float32/Int16 rounding at0.001942cm quantum. All five emotions retain at least
+98px face-canvas edge margin. Hidden production-native02 verifies opposite
+ring/spoke red excess166vs5 in both eyes, zero isolated hot centers, no new
+buffers and byte-exact restoration of combined optics. Native01 incorrectly
+counted cyan wire's red76 as red emission; the fixture now measures red minus
+max(green,blue), not a relaxed runtime bound. Failed receipt retained.
+
+The local comparison page also decodes all four GIFs in a disposable hidden
+browser, with equal paired layout at1440px, stacked layout at600px, no overflow
+and working light background. All capture/check hosts and profiles cleaned;
+no user/sibling profile/window/device driven. No new dependency/model/release,
+book edition, listening, live-cadence, realism or phonetic-accuracy acceptance.
+
+## Previous expression and pupil-glow preview: vr-31
 
 [`expression-glow-preview.gif`](expression-glow-preview.gif) is a new actual
 720x840 transparent capture:720-square face plus120px cyan labels/phrase,
@@ -8,8 +47,8 @@
 the same synthetic Hazel greeting. Non-neutral strength is0.6 with2x
 neutral-relative deformation; neutral stays unchanged. The bright center/red
 corona is distinct from the original dimmed rings, not fullscreen bloom.
-The current README has21GIFs/twoPNG; its approved opening hero and previous
-gallery remain, and the new centered preview is inside the same closed section.
+That delivery brought the README to21GIFs/twoPNG; its approved opening hero
+and previous gallery remain, with the centered preview inside the closed section.
 
 [`expression-glow-provenance.json`](expression-glow-provenance.json) records
 the exact runtime/Git/media/210original PNG hashes, frame delays, labels,

@@ -296,10 +296,10 @@ class ClipTests(unittest.TestCase):
 
     def test_doubles_all_explicit_emotion_deltas_not_neutral_speech(self):
         for expression in ("happy", "sad", "surprised", "angry"):
-            for strength in (.35, .6):
-                with self.subTest(expression=expression, strength=strength):
+            for strength, gain in ((.35, 2), (.6, 2), (.35, 4), (.6, 4)):
+                with self.subTest(expression=expression, strength=strength, gain=gain):
                     engine, audio = self.expression_fixture()
-                    clip = engine.generate(audio, expression, strength)
+                    clip = engine.generate(audio, expression, strength, expression_gain=gain)
                     calls = engine.session.calls
                     self.assertEqual([len(c[0]) for c in calls], [4, 4, 2, 2])
                     expected = bytearray()
@@ -309,21 +309,30 @@ class ClipTests(unittest.TestCase):
                                                      np.repeat(engine.condition, len(neutral[0]), axis=0))
                         old = (expressive[2][:, 0, :2] @ engine.basis.reshape(2, -1)).reshape(-1, 3, 3)
                         baseline = (neutral[2][:, 0, :2] @ engine.basis.reshape(2, -1)).reshape(-1, 3, 3)
-                        expected.extend(pack_positions(engine.neutral + baseline + 2 * (old - baseline),
+                        expected.extend(pack_positions(engine.neutral + baseline + gain * (old - baseline),
                                                        engine.center, engine.scale))
                     np.testing.assert_allclose(np.frombuffer(clip.motion, dtype="<i2"),
                                                np.frombuffer(expected, dtype="<i2"), atol=1)
                     self.assertEqual(clip.audio, audio.wav)
                     self.assertEqual(clip.metadata["frames"], 6)
-                    self.assertEqual(clip.metadata["expressionGain"], 2)
+                    self.assertEqual(clip.metadata["expressionGain"], gain)
+                    self.assertEqual(clip.metadata["expressionGainSetting"], gain)
                     np.testing.assert_array_equal(engine.condition[0, 0, 16:], 0)
         for expression, strength in (("neutral", .6), ("happy", 0), ("angry", 0)):
             with self.subTest(expression=expression, strength=strength):
                 engine, audio = self.expression_fixture()
-                clip = engine.generate(audio, expression, strength)
+                clip = engine.generate(audio, expression, strength, expression_gain=4)
                 self.assertEqual(len(engine.session.calls), 2)
                 self.assertEqual(clip.metadata["expressionGain"], 1)
                 self.assertEqual(clip.motion, engine.generate(audio).motion)
+
+    def test_expression_gain_is_bounded_before_inference(self):
+        for gain in (True, "4", None, [], {}, float("nan"), 0, 3, 5):
+            with self.subTest(gain=gain):
+                engine, audio = self.expression_fixture()
+                with self.assertRaisesRegex(ValueError, "2x or 4x"):
+                    engine.generate(audio, "happy", expression_gain=gain)
+                self.assertEqual(engine.session.calls, [])
 
     def test_expression_reference_rejects_bad_output_and_honors_cancellation(self):
         for invalid in (np.zeros((4, 1, 30)), np.full((4, 1, 31), np.nan)):

@@ -1,6 +1,72 @@
 # 09 - Designing Verona without replacing the speech system
 
-## Glowing centers and doubled explicit emotions (vr-31)
+## Matched exaggeration and isolated eye-glow variants (vr-32)
+
+The owner next asks for another100% exaggeration to compare with2x, then
+spokes-only and concentric-rings-only eye previews. **4x** is twice the
+previous2x neutral-relative emotion difference. The existing2x/combined look
+remains the default; adding comparison choices is not appearance acceptance.
+The original GIF and its source receipt remain immutable.
+
+`validate_expression_gain` in `verona/engine.py` accepts only numeric2/4,
+rejecting booleans, strings, unsupported values and nonfinite numbers.
+`FaceEngine.generate` applies the chosen gain to the same **N+gain*(E-N)**
+skin coefficients, preserving neutral/zero one-pass motion, bounded inputs,
+four-frame batches, finite packing and cancellation.4x needs no additional
+inference pass over2x. Actual metadata distinguishes the selected gain from
+the effective1x gain for neutral speech.
+
+`Handler.do_POST` in `verona/server.py` validates optional `expressionGain`
+before cache lookup or synthesis. Omission retains2x compatibility. Complete
+clip identity now includes the gain; speech identity does not. Switching
+2x/4x regenerates motion without synthesizing identical speech, and only the
+latest successful clip remains. Invalid settings cannot reuse an old success.
+The selector in `verona/web/index.html` is disabled during generation; changes
+apply only after **Generate face**, not to already generated playback.
+
+`FaceRenderer` in `verona/web/app.js` uses one additional scalar uniform for
+the FaceMesh-only optical choice. The combined branch retains its original
+center/corona, ring and spoke math. Spokes-only uses the existing angular/
+radial spoke mask; rings-only uses the existing three radial bands. Both
+isolated choices remove core and broad-halo emission and use the same0.95
+component emission with the original0.70 red RGB multiplier. Thus their peaks
+match; the combined look retains its original0.80 spoke coefficient. Existing
+eye coverage/depth occlusion remains, with no new buffers, draws or targets.
+The hidden control is ignored in other presentations, including robot cyan.
+It repaints immediately and survives view switches without touching speech.
+Reload/restart resets both selectors; no persistence or automatic user-app
+restart is added.
+
+The two expression GIFs use combined eyes; the two optical GIFs share the same
+2x clips. All use identical synthetic Hazel dialogue, model strengths,
+timestamps, canvas and fixed wider camera so4x can be compared without a
+misleading size change. The new2x reference is freshly rendered rather than
+resizing the prior GIF. Matching settings and numerical deformation do not
+establish realism, independent listening, live cadence or owner acceptance.
+
+The40-test CPU suite covers2x/4x deformation for all four emotions, unchanged
+neutral/zero, invalid gains before inference, HTTP validation and gain-aware
+clip reuse with unchanged speech synthesis. Focused JS checks and hidden
+production-native02 pass. Isolated optics measure red excess166 for the
+selected structure versus5 for the suppressed one in both eyes, with zero
+hot-center pixels, zero new buffers and byte-identical combined restoration.
+The initial fixture counted cyan wire's red76 as unwanted red emission;
+native02 uses red-minus-max(green,blue). That failed receipt remains.
+
+Four actual720x840/210frame/13.75second GIFs have matching camera/timing and
+at least98px edge clearance. Independent all840frame decoding verifies source
+alpha, dimensions, delays, captions, changing content and zero ghosts.
+Real-model packed gains are1.99997..2.00000 and3.99998..4.00003. The fresh2x
+motion bytes equal the previously delivered2x clips; neutral4x is identical
+too. Decoded samples of all five expressions and enlarged eye details were
+inspected over dark/light backgrounds.4x lids may hide the combined center;
+this is preserved depth occlusion, not a reason to shine through the skin.
+An isolated hidden browser decodes all four comparison-page images and checks
+equal desktop pairs, responsive stacking and light background. All owned
+hosts/profiles are cleaned; no user app is driven or restarted. Exact hashes,
+source and limitations are in the [media receipts](../media/README.md).
+
+## Glowing centers and doubled explicit emotions (vr-31; original checkpoint)
 
 The owner next requests a glowing FaceMesh pupil center and **100% stronger
 facial emotion structures**, followed by a result GIF. This changes the

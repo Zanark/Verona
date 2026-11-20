@@ -26,6 +26,12 @@ EXPRESSION_GAIN = 2.0
 BATCH_SIZE = 4
 
 
+def validate_expression_gain(value: object) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or value not in (2, 4):
+        raise ValueError("Choose 2x or 4x emotion exaggeration.")
+    return float(value)
+
+
 def expression_condition(neutral: np.ndarray, name: object, intensity: object) -> np.ndarray:
     if not isinstance(name, str) or name not in EXPRESSIONS:
         raise ValueError("Choose neutral, happy, sad, surprised or angry.")
@@ -105,7 +111,7 @@ class FaceEngine:
         self.mesh_metadata = {
             "identity": "Claire v2.3.1",
             "appearance": "Verona: reference-guided rest sculpt, olive/rosewood cosmetics and espresso waves",
-            "deformation": "Claire skin PCA with 2x explicit-emotion deltas relative to neutral speech; not a new trained identity",
+            "deformation": "Claire skin PCA with 2x (default) or 4x neutral-relative emotion deltas; not a new trained identity",
             "vertices": len(self.selected),
             "edges": len(self.edges),
             "triangles": len(self.triangles),
@@ -149,8 +155,9 @@ class FaceEngine:
 
     def generate(
         self, speech: Speech, expression: str = "neutral", intensity: float = 0.35,
-        stop: threading.Event | None = None,
+        stop: threading.Event | None = None, *, expression_gain: float = EXPRESSION_GAIN,
     ) -> Clip:
+        gain = validate_expression_gain(expression_gain)
         condition = expression_condition(self.condition, expression, intensity)
         amplify = not np.array_equal(condition, self.condition)
         samples = np.frombuffer(speech.pcm, dtype="<i2").astype(np.float32) / 32768
@@ -175,7 +182,7 @@ class FaceEngine:
                 if stop is not None and stop.is_set():
                     raise RuntimeError("Clip generation stopped with the local server.")
                 reference = self._predict(windows, self.condition)
-                prediction = reference + EXPRESSION_GAIN * (prediction - reference)
+                prediction = reference + gain * (prediction - reference)
             if stop is not None and stop.is_set():
                 raise RuntimeError("Clip generation stopped with the local server.")
             timings.extend([(time.perf_counter() - before) / batch] * batch)
@@ -201,7 +208,8 @@ class FaceEngine:
             "inferenceBatchSize": BATCH_SIZE,
             "expression": expression,
             "expressionStrength": intensity,
-            "expressionGain": EXPRESSION_GAIN if amplify else 1.0,
+            "expressionGain": gain if amplify else 1.0,
+            "expressionGainSetting": gain,
             "expressionReference": "same-audio neutral-conditioned skin PCA" if amplify else None,
             "inferencePassesPerBatch": 2 if amplify else 1,
             "audioPcmSha256": hashlib.sha256(speech.pcm).hexdigest(),

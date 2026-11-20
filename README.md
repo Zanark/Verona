@@ -28,8 +28,40 @@ prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
 
 The current features are on **main**; the frozen release predates the robot,
-mechanical eyes and this gallery. The opening hero and other demos retain the
-approved capture snapshot; this next preview shows the latest runtime.
+mechanical eyes and this gallery. The opening hero and earlier demos retain
+their capture snapshots; the comparison pairs show the latest options.
+
+## Compare the new variants
+
+The expression pair uses the same dialogue, voice, strengths and camera.
+**4x is 100% more than the previous 2x emotion deformation**, not four times
+ordinary speech. A fresh 2x reference uses the same wider framing as 4x;
+the original GIF remains unchanged below.
+
+<table>
+  <tr><th>2x - current default</th><th>4x - 100% more exaggerated</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-emotion-2x.gif" alt="Matched current 2x emotion reference through all five expressions with combined glowing eyes" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-emotion-4x.gif" alt="Matched 4x emotion variant, twice the previous emotional deformation, with the same voice, camera and combined glowing eyes" width="360"></td>
+  </tr>
+</table>
+
+The eye pair uses the same **2x** facial motion and red emission intensity.
+Only the selected components glow: **no hot center or broad glowing halo**
+in either isolated design.
+
+<table>
+  <tr><th>Spokes only</th><th>Concentric rings only</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-spokes.gif" alt="FaceMesh with only radial red eye spokes glowing; no luminous rings or pupil center" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-rings.gif" alt="FaceMesh with only three concentric red eye rings glowing; no luminous spokes or pupil center" width="360"></td>
+  </tr>
+</table>
+
+In the app, choose **Emotion exaggeration**, then **Generate face**.
+**FaceMesh eye glow** changes immediately. Defaults remain **2x** and
+**Center + rings + spokes** while these alternatives are compared.
+[Comparison capture receipts](docs/media/README.md).
 
 ## Glowing centers, stronger expressions
 

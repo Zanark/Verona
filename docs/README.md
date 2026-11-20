@@ -55,6 +55,9 @@ neutral-conditioned speech, retaining neutral motion and bounded inputs. It
 adds only a FaceMesh hot pupil center/red corona, preserving dimmed outer rings
 and robot cyan. Extra CPU inference is confined to expressive generation,
 not playback; existing captured gallery snapshots retain their own provenance.
+Its vr-32 comparison slice adds bounded2x/4x emotion selection and live
+FaceMesh spokes-only/rings-only eye choices while retaining2x/combined defaults.
+Four matched GIFs distinguish facial amplification from optical design.
 
 ## Reading paths
 
