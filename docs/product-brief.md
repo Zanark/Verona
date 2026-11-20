@@ -84,8 +84,12 @@ combined/default optics and the earlier emotion comparison remain unchanged.
 The owner prefers bright spokes/glowing centers and 4x, requests every emotion
 and combination, then chooses to research the model's additional controls
 before defining the gallery. vr-34 finds ten explicit controls, not just the
-four exposed by the app. A 56-GIF neutral/singles/pairs gallery is proposed;
-new controls, mixed expressions and capture remain a separate next slice.
+four exposed by the app at that checkpoint. A 56-GIF neutral/singles/pairs
+gallery is proposed, then superseded by the owner's explicit unique-only
+choice. vr-35 exposes all ten single controls and delivers ten emotion GIFs,
+a neutral baseline and their overview at4x with bright spokes/glowing centers.
+No combinations are previewed; mixed-control behavior remains unimplemented.
+The owner requests no further questions while AFK. Defaults remain2x/combined.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.

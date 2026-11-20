@@ -1,5 +1,41 @@
 # Prototype media receipt
 
+## All ten unique emotions plus neutral (vr-35)
+
+[Overview GIF](emotions-all.gif) / [receipt](emotions-all.json):720x840,
+462frames/30.25s. Eleven individual42frame/2.75s loops and their same-name JSON
+receipts: [neutral](emotion-neutral.gif), [amazement](emotion-amazement.gif),
+[anger](emotion-anger.gif), [cheekiness](emotion-cheekiness.gif),
+[disgust](emotion-disgust.gif), [fear](emotion-fear.gif), [grief](emotion-grief.gif),
+[joy](emotion-joy.gif), [out of breath](emotion-outofbreath.gif),
+[pain](emotion-pain.gif), [sadness](emotion-sadness.gif).
+
+Owner selects unique-only, not combinations. All use glowing centers/bright
+spokes, identical synthetic Hazel greeting/audio, native detail, zoom0.85 and
+fixed camera/timestamps. Emotional strength0.6/gain4; neutral remains unchanged.
+Eleven actual UI/model generations produce83motion frames each and distinct
+motion hashes, with exact one-channel conditions and retained implicit style.
+Measured gain3.9999822088..4.0000227723; maximum reconstruction coordinate
+error0.001024074cm at0.0019414421cm quantum, including Float32/Int16 rounding.
+
+Individuals are exact captured-frame/shared-palette slices of the overview.
+All924encoded frames independently decode with exact alpha threshold,
+dimensions/delays, cyan captions, changing content and zero ghosts.
+Overview342distinct states; individuals31each except grief32. Minimum
+face-canvas margin98px. Two decoded samples per state were viewed on both
+dark/light backgrounds, plus native pain. Not every-frame visual review.
+Anger/pain naturally hide hot centers in all42sampled frames; spokes remain
+visible. Other states retain visible hot centers. The unchanged eye shader
+reuses explicitly labelled vr-33 native qualification, not a new optical run.
+
+The local twelve-image preview passes hidden disposable-browser decode,
+1440px equal/top-aligned pairs,600px stacking, no overflow and light-background
+checks. All owned hosts/profiles cleaned. Captures mute audio and never drive
+user/sibling apps/devices. No owner/listening/semantic/phonetic acceptance,
+model/dependency/release/book edition or mixture API. App defaults unchanged.
+README now has37GIFs/twoPNG; original hero remains first and all other content
+is inside the single default-closed disclosure. All previous media is unchanged.
+
 ## Current comparison pairs: corrected eyes at4x (vr-33)
 
 | Comparison | Left | Right |
@@ -15,7 +51,7 @@ with brighter selected structures; the opposite structure stays unlit.
 The fresh2x reference also has exactly the delivered vr31 motion bytes;
 only its matched wider framing/labels differ. The original vr31 GIF remains
 byte-for-byte unchanged. Neutral motion is identical at2x and4x.
-Current README:25GIFs/twoPNG; original centered hero first, everything else
+At vr-33, README:25GIFs/twoPNG; original centered hero first, everything else
 inside one default-closed disclosure, with the two new equal/top-aligned pairs.
 
 The corrected pair's420frames independently decode with exact source-alpha

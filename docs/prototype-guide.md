@@ -71,9 +71,12 @@ Open **Edit voice** for pitch, speed, warmth/bass, brightness/treble and emphasi
 voice-only sample: press its audio Play control to hear it without generating
 face motion. Generate face applies those settings to both speech and animation.
 Pitch is a Windows-engine request, not a calibrated acoustic semitone shift.
-Neutral/happy/sad/surprised/angry are separate explicit expression inputs,
-not inferred from text. Angry uses the model's anger channel at the same
-bounded0-0.6 strength as the other expressions.
+Neutral plus Happy, Sad, Surprised, Angry, Cheekiness, Disgust, Fear, Grief,
+Out of breath and Pain are separate explicit inputs, not inferred from text.
+Happy maps to model joy, Sad to sadness, Surprised to amazement and Angry to
+anger; the remaining names match their model channels. All ten use bounded0-0.6 strength.
+Out of breath changes facial conditioning, not the voice or synthesized breaths.
+Only one emotion is selectable; mixed-expression inputs are not supported.
 **Emotion exaggeration** selects **2x** (unchanged default) or **4x** the
 same-audio neutral-relative difference, not all speech motion.4x is100% more
 than the previous2x. Neutral and zero strength stay unchanged at either setting.

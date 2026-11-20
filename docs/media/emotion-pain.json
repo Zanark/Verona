@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "createdUtc": "2026-11-20T10:15:04.975352+00:00",
+  "file": "emotion-pain.gif",
+  "sha256": "fabc89bccbdeac232132446f4105166258b583c809f073e3c8e9f498d50746d3",
+  "bytes": 1929103,
+  "sourceBaseCommit": "8b838e207d38e754467b2e760a7abc990d5245b5",
+  "sourceState": "Working-tree runtime identified below; parent commit is not claimed to contain these changes.",
+  "sourceSha256": {
+    "verona/engine.py": "1aaa35a8eceba128d3b5e85b38195e9543f03b213bde81557773d1a2499c217c",
+    "verona/speech.py": "b61f652f8e940c2612996153e8c052ad97d0c9ccb717c9d5d56ec42ef6aef9cf",
+    "verona/mesh.py": "e84cfb7ae7ab5719035b0ff4af5b9170b24361da13ee9ac74aa8043cd647f4d0",
+    "verona/appearance.py": "03eb4a37825c04467a6770100156530bf8423fccbacd3e8ed4311a254a5b35e4",
+    "scripts/probe_cpu.py": "b0812b01ed6952468e00b950385da6318e4610dae4c7bd1b86375b102b752df7",
+    "verona/server.py": "451d47eb4767fdeef7b777319430a526f5b59b2dfec6b3499b688ae7d499e4a6",
+    "verona/web/app.js": "9253459f685532ac865850232bf132483115fb954b8643c681b1a45fef868dd7",
+    "verona/web/index.html": "f103a879d00ed16f9f22c03a90255213af06dafcee9e3eafda5e1250e811001b",
+    "verona/web/robot.mjs": "5b17d0957f15105322872c4d5727172fccd227ecb5e1de54de08ea54a6c7b29d",
+    "verona/web/style.css": "9778aeb01fb5f4d32f5e39be943a93c955de8ca2602bc81e1665bbffbddd83eb",
+    "verona/web/presentations.mjs": "d132a69df7dbb09567c5e3e78fa026c95d2d24c25d141b4ba9e0f5e0174a7666",
+    "verona/web/hairstyles.mjs": "d640f0f50bcf0d306b2b1be1ce53a7b47811d42c88dae755305e34efc1c99b90",
+    "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+    "verona/web/orientation.mjs": "8983694c532ca5d9d8d3d783028913e971eb3d66834916141c6dcff63ae8f50f",
+    "desktop/main.cjs": "ce5f5d4e45448275d5cfddba8696e4fce45998f9b46ad480e0e11ce53a370da7",
+    "desktop/preload.cjs": "e96374e203f348382cef47eb639ab0a1107a1df2ee01e0afc9b4aeeebea9aa11"
+  },
+  "sourceGitBlobs": {
+    "verona/engine.py": "509dff49adcdafd475e6783328946d62075fb6ad",
+    "verona/speech.py": "eb13a3af5aac5c98c3cd29e7d97a470e04565852",
+    "verona/mesh.py": "7c8f47e4cf91db400b8c561f634e06148b68857c",
+    "verona/appearance.py": "a80fc71abef73ecd92b666f9b038c81760998d58",
+    "scripts/probe_cpu.py": "71d89e0f1c26f0431ae95bf26510b556e507d981",
+    "verona/server.py": "ead7be8143f1ba873fe2e7d8c4dadb499fd3aab1",
+    "verona/web/app.js": "00162dfbbee7cf1caa50302f97f89904dbb67c01",
+    "verona/web/index.html": "9405e481bad26be8baf6483a79581148d8d4454b",
+    "verona/web/robot.mjs": "32931fa2b25d0c4db7d3f43bfe5147c837ee94c8",
+    "verona/web/style.css": "3c9acc0ee71c161c24e5535fa5d9b11719d399f7",
+    "verona/web/presentations.mjs": "af621a559d9b0b8cdc94d9476b129b6245c33c07",
+    "verona/web/hairstyles.mjs": "3090617a1ee78cce91a4bdf9ecc174a9c0c2237c",
+    "verona/web/framing.mjs": "0e37af6dc960d192af86a5bfddd5da2a63a5e04b",
+    "verona/web/orientation.mjs": "4cb04eb23ae498f0340c79b625b8e7237e7e2d46",
+    "desktop/main.cjs": "d07ab0d0167319fb468f545a2a560e5d3792ec55",
+    "desktop/preload.cjs": "2b8ab32839b477e68730a149d05adbbd6934daa3"
+  },
+  "width": 720,
+  "height": 840,
+  "faceCanvasHeight": 720,
+  "frames": 42,
+  "delaysCentiseconds": [
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    7,
+    7,
+    6,
+    2
+  ],
+  "durationSeconds": 2.75,
+  "zoom": 0.85,
+  "view": "facemesh",
+  "phrase": "Hey, how are you?",
+  "sequence": [
+    {
+      "expression": "pain",
+      "strength": 0.6,
+      "label": "PAIN | 4x | center + bright spokes",
+      "firstFrame": 0,
+      "frames": 42,
+      "duration": 2.75,
+      "voice": "Microsoft Hazel Desktop",
+      "voiceSettings": {
+        "pitch": 0,
+        "rate": 0,
+        "emphasis": "none",
+        "bass": 0,
+        "treble": 0
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "motionSha256": "89912604ab9526913290f1b8d5801f1bb73f750a81a32bd83aa2eef82ab628c6",
+      "expressionGain": 4
+    }
+  ],
+  "originalPngSha256": {
+    "speech-000.png": "ed125316a4204e7b0b92818ea2e3296f75da9ebc3c8d4d544ad523eb2f5d90f1",
+    "speech-001.png": "7f4bb853d1f04c8371acd2918a4ac747b66901752dfb4e0fe7528f658af650f6",
+    "speech-002.png": "02d041b1df958bd27238426ec9d52dbacbea613d81f006e490fbc9013ed6d095",
+    "speech-003.png": "adbaf9825a64e54779a8231a43372d07622bf0bc638dc45817228b74618f10a3",
+    "speech-004.png": "389772c7f533034b0a8f3cf2207edfaf2cd8c36b1f73a211505fc011bb65a722",
+    "speech-005.png": "8e2b76d6373c7de9c84bd98a83784727bcbcc8681873e89003af5724ea242d1a",
+    "speech-006.png": "4aee68ca06a44129c23ff023fadaff289ee1fd5804498aac4652def78c6a066b",
+    "speech-007.png": "0f1be16d55d483fff21a7181cd68bceab76f06ad05c0b2bad88c5592fcac552d",
+    "speech-008.png": "2cf11067f2e53ab406213499c1c0ff881852699fe84d20b745501050fcf1cfd9",
+    "speech-009.png": "68823b6fa6da7af4d0c4381c3e6d7829ec53f529a245360603b32d60e837d816",
+    "speech-010.png": "f8cc33caeba59acccff638ca780913e989639e8634ce212edf0507dde2d7cd48",
+    "speech-011.png": "80fa3aec582b6eedbb022bc9857812a3e06a818c450f1c1ec54145ad6c8ee36d",
+    "speech-012.png": "e8ba15c7edabc715cec91260f54f9a5adc7b70b819b587a675ba477370db9141",
+    "speech-013.png": "43f0c82b9026abf0d79257a59c4c40d63954a9cd51d9858ceac8940b50251b2f",
+    "speech-014.png": "8904487720c0042dc43672b676e47b1d2e1f5e286745c378a7c4c4f0a5a51668",
+    "speech-015.png": "47f57f38e7547ea6ff12dcdf5929de3bc15376bfc84cd0773353e424842c8eef",
+    "speech-016.png": "79f7d21f3dcb2a38f7359fca52a35de8eb8b6229669959474549418a0860d6d8",
+    "speech-017.png": "a8b35612475686ead2727fe40af75ac0fd51de0d9e258b1439e0798d0cd9b09f",
+    "speech-018.png": "dcd46bbdd66ba7776686562a5dd6caad52288286a301ce22d119adcb639bdf0b",
+    "speech-019.png": "7d904d11037cb5a9523af498c1f13bb0eea93d26347acfc20aec2a2758c627d2",
+    "speech-020.png": "9bd96c325841ba340e0ac8de504b8f4799d0a3a8e9812a340d28e70f6f0c297f",
+    "speech-021.png": "30fe0e6a2e3bd4215bf72c5291c3081418bc0c9052f5bc1536af3bd33a51b4f1",
+    "speech-022.png": "26b3e36bb4a26af505fb45a5425ca7c633819f645241de19b40c104d3823f628",
+    "speech-023.png": "16f3a212d3f8ecbea66c0c5604b8c7ff5af24ee989ae738457c604a64add4469",
+    "speech-024.png": "c2cce9d2039858d1aa2cdf378d30d747a85a07955bc528bec8e13628c298d0ea",
+    "speech-025.png": "4747f4b33bc93a8298fb1d08fecdf5a5fc8e6d3fa21258df304296149d2a6562",
+    "speech-026.png": "fe08af6e275107bba24ab52a5df72c6dfb18c9cda103146c6f8faf964b5086dd",
+    "speech-027.png": "3f49eb263fccf3b7aefea7ca109fdee329d60b1550891901774b2a30bfa9d21f",
+    "speech-028.png": "0a9b17d1f5bebc326b496b1035df9f93ba65d054783334a9673211bb5dc237c3",
+    "speech-029.png": "1d11783a821ea031044347d9befb9c8b54555f7b8be6342dc5e2131ac9055bc9",
+    "speech-030.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-031.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-032.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-033.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-034.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-035.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-036.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-037.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-038.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-039.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-040.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f",
+    "speech-041.png": "5f0421044c8b59c00432d716e374bdc5e6c8b9d8f115520f0a5e33be1771a92f"
+  },
+  "realModelAudit": [
+    {
+      "expression": "pain",
+      "strength": 0.6,
+      "frames": 83,
+      "gain": 4.0,
+      "inferencePassesPerBatch": 2,
+      "gainSetting": 4.0,
+      "sameAudioWindows": true,
+      "maximumCoordinateErrorCm": 0.0010166773572564125,
+      "positionQuantumCm": 0.0019414420239627361,
+      "measuredNeutralRelativeGain": 3.999984304927867,
+      "originalSpeechMotionUnchanged": false,
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "motionSha256": "89912604ab9526913290f1b8d5801f1bb73f750a81a32bd83aa2eef82ab628c6",
+      "generationSeconds": 4.612248499994166,
+      "explicitEmotionIndex": 8,
+      "explicitConditionWeights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.6000000238418579,
+        0.0
+      ]
+    }
+  ],
+  "decodedVerification": {
+    "verification": {
+      "frames": 42,
+      "uniqueDecodedFrames": 31,
+      "alphaMatchesSourceThresholdEveryPixel": true,
+      "ghostPixels": 0,
+      "dimensionsAndDelays": true,
+      "minimumRedPixels": 72,
+      "minimumCyanCaptionPixels": 4120
+    },
+    "fileSha256": "fabc89bccbdeac232132446f4105166258b583c809f073e3c8e9f498d50746d3"
+  },
+  "decodedCenterVerification": {
+    "naturalOcclusionPreserved": true,
+    "emotions": [
+      {
+        "expression": "pain",
+        "frames": 42,
+        "minimumHotPixels": 0,
+        "framesWithHotPixels": 0
+      }
+    ]
+  },
+  "capture": "Real hidden sandboxed production Electron/preload, separate capability/RAM/server/cache/synthesis and disposable profile; follow/pin off, muted synthetic Hazel. No user/sibling window/profile/cursor or device driven. Every canvas read redraws synchronously.",
+  "cleanup": {
+    "serverStopped": true,
+    "desktopStopped": true,
+    "profileRemoved": true
+  },
+  "encoding": "Existing System.Drawing shared255-visible-color palette, transparent index0; alpha>=128 opaque, lower coverage clear; full-size GIF89a/disposal2/infinite loop. No matte/chroma key/fullscreen bloom.",
+  "captions": "Cyan RGB(77,232,219) labels and synthetic phrase composited below actual canvas in the same frames, following each speech clip's rounded duration. Not word-level alignment.",
+  "visualReview": "Agent inspected decoded samples of all eleven states over dark/light backgrounds and sampled pupil details. Individual clips are slices of the same captured overview frames. Not every-frame visual review or owner acceptance.",
+  "failures": "See this capture run's retained logs and verification receipts. Earlier comparison-interpretation corrections are historical, not failures of these unique-emotion clips.",
+  "limits": "Silent UI-generated single-emotion clips only: ten exact model channels plus neutral, not emotion combinations or every continuous strength. Four-times neutral-relative skin deformation, unchanged neutral speech. Natural lid occlusion retained. Not real-time cadence, listening, semantic/phonetic accuracy or owner acceptance. Binary transparency. Defaults and all earlier media retained.",
+  "comparison": {
+    "expressionGainSetting": 4,
+    "eyeGlow": 1,
+    "cameraMatchedZoom": 0.85,
+    "centerGlowPreserved": true,
+    "selectedStructureBrighter": true
+  },
+  "opticalQualification": {
+    "sourceSha256": {
+      "verona/web/app.js": "9253459f685532ac865850232bf132483115fb954b8643c681b1a45fef868dd7",
+      "verona/web/robot.mjs": "5b17d0957f15105322872c4d5727172fccd227ecb5e1de54de08ea54a6c7b29d",
+      "verona/web/index.html": "013a40e2e9f20b26eefc43ee42ad9f0cc29355513a74d2e897b3689656ad1749",
+      "tests/robot_smoke.cjs": "50892178646424045eda265d766ad542fc9b549228ba74ba73b86a50ada84397",
+      "tests/browser_smoke.mjs": "0c701337895a2fc185b88306df08597ecb9deaec5b98932a8e4c98df21bca0fb"
+    },
+    "measurements": {
+      "variants": [
+        {
+          "mode": "1",
+          "hot": 45,
+          "centerUnchanged": true,
+          "eyes": [
+            {
+              "outer": 5,
+              "spoke": 237
+            },
+            {
+              "outer": 5,
+              "spoke": 237
+            }
+          ],
+          "error": 0
+        },
+        {
+          "mode": "2",
+          "hot": 45,
+          "centerUnchanged": true,
+          "eyes": [
+            {
+              "outer": 237,
+              "spoke": 5
+            },
+            {
+              "outer": 237,
+              "spoke": 5
+            }
+          ],
+          "error": 0
+        }
+      ],
+      "baselineHot": 45,
+      "created": 0,
+      "restored": true
+    },
+    "qualificationRun": "bright-center-native-01: retained vr33 native optics qualification; exact unchanged eye shader, not a fresh native run."
+  },
+  "uniqueEmotionDemo": true,
+  "overviewSlice": {
+    "firstFrame": 378,
+    "frames": 42,
+    "modelEmotion": "pain",
+    "file": "emotions-all.gif",
+    "overviewSha256": "4853abc7a3c8c068b22d2550ba3d03d518e0adb40f00f87f12e40211b9ad0336"
+  }
+}

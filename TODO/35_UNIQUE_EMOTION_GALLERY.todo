@@ -1,0 +1,61 @@
+ID: vr-35
+Title: All ten unique emotions with bright spokes and 4x
+
+Status: DONE
+Milestone: Actual FaceMesh GIFs for every named model emotion, plus neutral.
+Dependencies: vr-34
+
+Purpose:
+The owner chooses unique emotions only for this demo, not pairwise or
+higher-order combinations. Use the approved bright-spokes/glowing-center look
+and 4x emotion. Do not ask further questions while the owner is AFK.
+
+Tasks:
+[x] Expose the six remaining existing model controls without changing defaults.
+[x] Extend focused condition/generation/API coverage and run existing CPU tests.
+[x] Capture all ten single emotions and neutral through the actual local UI.
+[x] Encode and independently decode every frame; inspect decoded examples.
+[x] Deliver labeled individual GIFs and a complete unique-emotion overview.
+[x] Reconcile book, README disclosure, ledger, tracking, source and continuity.
+
+Acceptance criteria:
+All ten exact model channels appear once, plus unamplified neutral speech.
+One fixed Hazel greeting, strength0.6, gain4, bright spokes/glowing centers,
+camera, geometry detail and timestamps make comparisons controlled.
+Existing Happy/Sad/Surprised/Angry request identifiers stay compatible.
+Six new single controls use their pinned exact channels; no mixture preview
+or new blend API is implied. Existing validation/cache/cancellation apply.
+No new weights, dependencies, cloud inference, user recording or camera/mic.
+Keep failures; no clipping/overflow or forced pupil emission through eyelids.
+Stable-use lane has no detected Verona owner before editing. Capture uses an
+owned hidden host, loopback capability/RAM/session/cache/speech work directory
+and disposable profile; do not drive a user/sibling app. Clean owned processes.
+Preserve all old GIFs/releases, huge hero first and one default-closed README
+disclosure around everything else. Silent GIFs are not listening/accuracy proof.
+
+Completion evidence:
+40CPUtests pass. unique-emotions-media-01 real UI/model:11x83motionframes,
+correct onehot channels, fixedHazel/audio/style/camera, ten emotional gain4
+and neutral byte-identical. Measuredgain3.9999822088..4.0000227723;
+maxcoordinateerror.001024074cm includingrounding at.0019414421cmquantum.
+docs/media/emotions-all.gif/.json:462frames/30.25s/342distinctstates;
+11newemotion-*.gif/.json:42frames/2.75s/31states each exceptgrief32.
+All924encodedframes independentlydecoded alpha/size/delay/captions/no ghosts;
+>=98pxmargin. Two-times/all11 decoded dark/light samples andnativepain viewed.
+Anger/pain centers naturally lid-hidden, spokes visible; unchangedshader/
+retainedvr33nativeoptics. Hidden12imagepage decode/1440pairs/600stack/light/
+nooverflow pass. Ownedcapture/checkprocesses/profilescleaned.
+No Verona Python/Electron owner found before runtime changes; user apps untouched.
+README37GIFs/twoPNG, hugeherofirst/singlecloseddisclosure; oldmediaunchanged.
+Book/guide/brief/media/index/ledger and owned continuity record the actual
+unique-only scope and qualification. Git publication is verified separately
+after the coherent milestone commit; this record does not claim owner approval.
+
+Completion log:
+2026-11-20 - Owner chooses unique emotions only, preserving combinations as a
+future surprise when using the tool. No more questions while AFK.
+2026-11-20 - All singles implemented/qualified; new overview and individual
+GIFs delivered with receipts and unchanged prior media. No combinations,
+new defaults, dependencies, release, listening or human-accuracy acceptance.
+
+GitHub issue: https://github.com/Zanark/Verona/issues/34

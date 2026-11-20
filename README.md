@@ -29,7 +29,61 @@ prototype, not a bundled installer. Desktop setup is explicit:
 
 The current features are on **main**; the frozen release predates the robot,
 mechanical eyes and this gallery. The opening hero and earlier demos retain
-their capture snapshots; the comparison pairs show the latest options.
+their capture snapshots; the unique-emotion gallery shows the selected new look.
+
+## All ten emotions - 4x and bright spokes
+
+**Glowing centers, bright red spokes, 4x emotion.** All ten named model emotions
+plus neutral, one at a time: same Hazel greeting, camera and timing.
+No combinations are previewed.
+
+<p align="center">
+  <img src="docs/media/emotions-all.gif" alt="All ten unique FaceMesh emotions plus neutral, with cyan dialogue captions, glowing centers and bright red spokes" width="720">
+</p>
+
+The overview loops through **neutral, amazement, anger, cheekiness, disgust,
+fear, grief, joy, out of breath, pain and sadness** in 30.25 seconds.
+Each individual loop below is 2.75 seconds.
+
+<p align="center">
+  <img src="docs/media/emotion-neutral.gif" alt="Neutral speech baseline with glowing centers and bright red spokes" width="720">
+</p>
+
+<table>
+  <tr><th>Amazement</th><th>Anger</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-amazement.gif" alt="4x amazement" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-anger.gif" alt="4x anger" width="360"></td>
+  </tr>
+  <tr><th>Cheekiness</th><th>Disgust</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-cheekiness.gif" alt="4x cheekiness" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-disgust.gif" alt="4x disgust" width="360"></td>
+  </tr>
+  <tr><th>Fear</th><th>Grief</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-fear.gif" alt="4x fear" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-grief.gif" alt="4x grief" width="360"></td>
+  </tr>
+  <tr><th>Joy</th><th>Out of breath</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-joy.gif" alt="4x joy" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-outofbreath.gif" alt="4x out-of-breath facial conditioning" width="360"></td>
+  </tr>
+  <tr><th>Pain</th><th>Sadness</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-pain.gif" alt="4x pain" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-sadness.gif" alt="4x sadness" width="360"></td>
+  </tr>
+</table>
+
+Neutral speech is not amplified; the ten emotions use strength **0.6**.
+Strong anger/pain lids naturally cover the pupil centers; light does not shine
+through skin. These are explicit model controls, not detected emotions or a
+human-accuracy guarantee. Out of breath changes the face, not the voice.
+All ten single controls are now available in the app; Happy/Joy,
+Surprised/Amazement and Sad/Sadness retain their existing selector names.
+[Capture receipts and limits](docs/media/README.md).
 
 ## Compare the new variants
 
@@ -60,7 +114,7 @@ stays dark. Natural eyelid occlusion is preserved.
 
 In the app, choose **Emotion exaggeration**, then **Generate face**.
 **FaceMesh eye glow** changes immediately. Defaults remain **2x** and
-**Center + rings + spokes** while these alternatives are compared.
+**Center + rings + spokes**; the gallery above uses the selected 4x/bright-spokes look.
 [Comparison capture receipts](docs/media/README.md).
 
 ## Glowing centers, stronger expressions

@@ -65,6 +65,12 @@ Its vr-34 research identifies all ten model emotion controls, distinguishes
 implicit style from explicit weights, numerically probes 57 bounded cases and
 defines a proposed 56-GIF singles/pairs gallery. Additional controls, mixed
 expressions and that larger gallery are not implemented by the research.
+Its vr-35 follow-through supersedes that proposed gallery size: the owner
+chooses only the ten unique emotions plus neutral, no combination previews.
+Six additional single controls are now exposed. Twelve actual GIFs demonstrate
+the selected4x/glowing-center/bright-spokes look with controlled full clips,
+independent decoding and explicit occlusion/accuracy limits. Defaults stay
+2x/combined; mixed controls remain unimplemented.
 
 ## Reading paths
 

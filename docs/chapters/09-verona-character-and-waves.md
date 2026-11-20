@@ -1,6 +1,76 @@
 # 09 - Designing Verona without replacing the speech system
 
+## All ten unique emotions, no combination previews (vr-35)
+
+After vr-34's inventory, the owner explicitly selects **unique emotions only**
+for this demo and leaves combinations as a future surprise. This supersedes
+the proposed 56/1,024 gallery choice below. The delivered gallery is neutral
+plus the ten named channels, using the preferred **4x/glowing-center/bright-spokes**
+look. App defaults remain 2x/combined; mixture controls remain unimplemented.
+
+`EXPRESSIONS` and `expression_condition` in `verona/engine.py` now expose the
+six previously hidden single channels: cheekiness2, disgust3, fear4, grief5,
+outofbreath7 and pain8. `verona/web/index.html` adds matching options. Existing
+happy6/joy, sad9/sadness, surprised0/amazement and angry1/anger request IDs remain
+compatible. Neutral is the all-zero explicit vector; the 16 implicit style
+values stay intact. These are model labels, not every possible human emotion.
+
+No new inference mechanism is needed. `generate` retains the bounded sequential
+conditioned/reference passes and `N + gain * (E - N)` reconstruction over
+identical audio windows. Only the emotion difference is amplified; neutral and
+zero-strength speech retain their original single-pass bytes. Strength remains
+0..0.6, gain remains 2 or 4, and invalid names/mixture strings/objects fail
+explicitly. Existing latest-only cache identity includes the expression;
+locking, errors, cancellation between batches and restart ownership do not change.
+Selecting an expression requires Generate face again; optical selection is live.
+No preference persistence, voice modification, model download or dependency is added.
+
+### Actual full-clip and decoded-gallery evidence
+
+`tests/test_face_clip.py` extends the existing deformation and zero-strength
+cases to all ten names and checks exact one-hot indices, retained implicit
+style and no mutation. `tests/test_local_server.py` rejects mixture-shaped
+payloads through the existing API guard. All 40 CPU tests pass.
+
+The isolated `unique-emotions-media-01` run drives all eleven choices through
+the actual hidden production Electron UI/preload/server/model, with separate
+capability/RAM, derived topology cache, synthesis directory and disposable
+profile. Eleven 83-frame clips share the exact synthetic Hazel greeting/audio,
+style, native FaceMesh detail, zoom0.85, fixed XYZ and sampling times.
+All ten emotional inputs set exactly one correct channel to0.6 at gain4;
+neutral remains unamplified. All eleven motion hashes differ. Measured packed
+neutral-relative gains span3.9999822088..4.0000227723; maximum reconstruction
+coordinate error is0.001024074cm including Float32/Int16 rounding, at
+0.0019414421cm quantum. This is numerical evidence, not perceived accuracy.
+
+[`emotions-all.gif`](../media/emotions-all.gif) is720x840/462frames/30.25s.
+The eleven `emotion-*.gif` loops are42frames/2.75s each, exact slices of the
+overview's captured frames and shared palette, not independently regenerated
+speech. Their JSON receipts record source/Git/frame/media hashes, conditions,
+timing and exact overview slices. Every924encoded frame is independently decoded:
+source-alpha threshold at every pixel, dimensions/delays, cyan captions,
+changing content and zero ghost pixels. Overview has342distinct decoded states;
+each individual has31, except grief32. Minimum face-canvas edge margin is98px.
+
+Decoded samples at two times for every state were viewed over dark and light,
+plus a native pain frame; this is sample review, not every-frame visual review
+or owner approval. Strong anger/pain lids cover the hot centers throughout
+their42sampled frames; red spokes remain visible. Other states retain visible
+hot centers. Existing vr-33 native optical qualification is retained, not
+rerun: `verona/web/app.js` is unchanged. No light is forced through lids.
+
+The local twelve-GIF review page also decodes every image in a hidden disposable
+browser: equal/top-aligned pairs at1440px, stacking at600px, no overflow and
+working light background. All owned capture/check hosts/profiles are cleaned.
+No user/sibling window/profile/device is driven; playback is muted, so this
+does not establish independent listening, phonetic accuracy or human semantics.
+Old media/releases remain unchanged. The huge README hero remains first;
+all other content, including this gallery, stays in one default-closed disclosure.
+
 ## Full-model emotion inventory before a larger GIF gallery (vr-34)
+
+Historical research checkpoint: its four-control UI inventory and proposed
+gallery sizes describe vr-34, before vr-35 exposed all singles and selected eleven states.
 
 The owner prefers **glowing centers + bright spokes** and **4x** emotion,
 then asks to see every emotion and combination. They explicitly choose to

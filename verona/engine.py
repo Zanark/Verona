@@ -21,7 +21,10 @@ from .speech import Speech
 
 
 QUANTIZATION = 8192
-EXPRESSIONS = {"neutral": None, "happy": 6, "sad": 9, "surprised": 0, "angry": 1}
+EXPRESSIONS = {
+    "neutral": None, "happy": 6, "sad": 9, "surprised": 0, "angry": 1,
+    "cheekiness": 2, "disgust": 3, "fear": 4, "grief": 5, "outofbreath": 7, "pain": 8,
+}
 EXPRESSION_GAIN = 2.0
 BATCH_SIZE = 4
 
@@ -34,7 +37,7 @@ def validate_expression_gain(value: object) -> float:
 
 def expression_condition(neutral: np.ndarray, name: object, intensity: object) -> np.ndarray:
     if not isinstance(name, str) or name not in EXPRESSIONS:
-        raise ValueError("Choose neutral, happy, sad, surprised or angry.")
+        raise ValueError(f"Choose one expression: {', '.join(EXPRESSIONS)}.")
     if (isinstance(intensity, bool) or not isinstance(intensity, (int, float))
             or not np.isfinite(intensity) or not 0 <= intensity <= 0.6):
         raise ValueError("Expression strength must be between 0 and 0.6.")

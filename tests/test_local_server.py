@@ -114,6 +114,8 @@ class LocalServerTests(unittest.TestCase):
             self.payload(voice="not-installed"),
             self.payload(intensity=float("nan")),
             self.payload(intensity=True),
+            self.payload(expression="happy+sad"),
+            self.payload(expression={"happy": .3, "sad": .3}),
             self.payload(expressionGain=True),
             self.payload(expressionGain="4"),
             self.payload(expressionGain=3),

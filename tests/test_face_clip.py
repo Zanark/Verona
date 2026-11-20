@@ -295,7 +295,8 @@ class ClipTests(unittest.TestCase):
         return engine, speech.Speech(speech.package_pcm(pcm), pcm, "fixture")
 
     def test_doubles_all_explicit_emotion_deltas_not_neutral_speech(self):
-        for expression in ("happy", "sad", "surprised", "angry"):
+        for expression in ("happy", "sad", "surprised", "angry", "cheekiness",
+                           "disgust", "fear", "grief", "outofbreath", "pain"):
             for strength, gain in ((.35, 2), (.6, 2), (.35, 4), (.6, 4)):
                 with self.subTest(expression=expression, strength=strength, gain=gain):
                     engine, audio = self.expression_fixture()
@@ -318,7 +319,11 @@ class ClipTests(unittest.TestCase):
                     self.assertEqual(clip.metadata["expressionGain"], gain)
                     self.assertEqual(clip.metadata["expressionGainSetting"], gain)
                     np.testing.assert_array_equal(engine.condition[0, 0, 16:], 0)
-        for expression, strength in (("neutral", .6), ("happy", 0), ("angry", 0)):
+        for expression, strength in (
+            ("neutral", .6), *((name, 0) for name in (
+                "happy", "sad", "surprised", "angry", "cheekiness",
+                "disgust", "fear", "grief", "outofbreath", "pain")),
+        ):
             with self.subTest(expression=expression, strength=strength):
                 engine, audio = self.expression_fixture()
                 clip = engine.generate(audio, expression, strength, expression_gain=4)
@@ -360,14 +365,17 @@ class ClipTests(unittest.TestCase):
 
     def test_expression_uses_separate_model_channel_and_preserves_neutral(self):
         neutral = np.zeros((1, 1, 26), dtype=np.float32)
-        result = expression_condition(neutral, "happy", .35)
-        self.assertAlmostEqual(float(result[0, 0, 22]), .35, places=6)
-        self.assertEqual(np.count_nonzero(result), 1)
-        self.assertEqual(np.count_nonzero(neutral), 0)
-        angry = expression_condition(neutral, "angry", .6)
-        self.assertAlmostEqual(float(angry[0, 0, 17]), .6, places=6)
-        self.assertEqual(np.count_nonzero(angry), 1)
-        self.assertEqual(np.count_nonzero(neutral), 0)
+        neutral[0, 0, :16] = np.arange(16) / 32
+        original = neutral.copy()
+        names = ("surprised", "angry", "cheekiness", "disgust", "fear",
+                 "grief", "happy", "outofbreath", "pain", "sad")
+        for index, name in enumerate(names):
+            with self.subTest(expression=name):
+                result = expression_condition(neutral, name, .6)
+                expected = original.copy()
+                expected[0, 0, 16 + index] = .6
+                np.testing.assert_array_equal(result, expected)
+                np.testing.assert_array_equal(neutral, original)
         for intensity in (True, "0.3", float("nan"), -.1, .61):
             with self.assertRaises(ValueError):
                 expression_condition(neutral, "happy", intensity)
