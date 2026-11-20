@@ -1,0 +1,63 @@
+ID: vr-34
+Title: Full-model emotion controls and bounded gallery definition
+
+GitHub issue: https://github.com/Zanark/Verona/issues/33
+
+Status: DONE
+Milestone: Source-grounded full emotion inventory and proposed FaceMesh GIF scope.
+Dependencies: vr-33
+
+Purpose:
+The owner likes bright spokes/glowing centers and4x emotions, requests all
+emotions/combinations, then explicitly chooses to explore the model's extra
+controls before defining the gallery. Research first; do not silently scope
+the full model to the four emotions currently exposed by Verona.
+
+Tasks:
+[x] Read pinned Claire metadata and SDK conditioning/accumulation mechanisms.
+[x] Probe all ten controls and bounded blends locally without changing runtime.
+[x] Distinguish explicit emotions, implicit style, neutral and continuous weights.
+[x] Define a finite gallery, its strengths, comparison settings and limits.
+[x] Reconcile book/index/ledger/tracking/owned continuity and research delivery.
+
+Acceptance criteria:
+Exact names/channel order grounded in pinned model metadata and actual tensor
+shape. Current app's four emotions distinguished from ten model controls.
+Preserve model/assets, application defaults, old media and user/sibling apps.
+No new dependency, cloud inference, user recording or camera/microphone.
+Probe records exact frames, conditioning policy, finite/packing checks and
+limitations; no numerical output described as visual or semantic acceptance.
+Gallery uses the owner's chosen bright spokes/glowing center and4x, fixed
+voice/phrase/camera/timestamps; any finite subset or normalization policy is
+explicitly a sampling choice, not every possible weighted expression.
+Do not implement production controls or generate an unbounded gallery under
+the research choice. No release, deployment or finished book edition.
+
+Completion evidence:
+Pinned network_info.json declares sixteen implicit values and ten explicit
+controls: amazement, anger, cheekiness, disgust, fear, grief, joy, outofbreath,
+pain, sadness. Existing expression_condition exposes only four plus neutral.
+SDK copies explicit vectors after the implicit values; accumulator stores
+time-keyed vectors. Actual model input26values =16implicit +10explicit.
+57four-frame CPU cases: neutral/10singles/45pairs/1tenway, totalstrength0.6,
+gain4, fixedaudio/style and frames12/28/44/60. All finite/Int16-packable with
+57distinct packed outputs. Singlemax sampled displacements0.733..3.682cm,
+pair joint-vs-average coefficient residual0.0120..0.3547. Not fullclip or
+visual/semantic acceptance. No runtime/default/model/media changes.
+Propose56GIFs neutral+10singles+45pairs, equaldivisionof0.6total, brightspokes/
+glowingcenters/4x/samevoicephrasecamera/timestamps. Complete equal-subset
+sampling would be1024includingneutral; continuous blends remain unlimited.
+Chapter09/source register/brief/index distinguish proposed from implemented.
+Research findings and the finite sampling proposal are complete; gallery
+size selection, production implementation and capture are not this milestone.
+Source publication is established separately by Git history.
+
+Completion log:
+2026-11-20 - Owner chooses model-control research before gallery scope after
+approving the bright-spokes and4x visual combination.
+2026-11-20 - Read pinned metadata/SDK and actual local emotion data; execute
+57-case bounded CPU probe and define the proposed56-case sampling policy.
+2026-11-20 - Created issue33 and its Project15 item. Immediate final inventory
+missed the new membership; a fresh inventory found the original saved item.
+No duplicate issue/card was created. Reconcile this completed research status
+to the same saved issue/item, preserving all32earlier mappings.

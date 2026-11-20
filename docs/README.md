@@ -61,6 +61,10 @@ Four matched GIFs distinguish facial amplification from optical design.
 Its vr-33 correction keeps glowing centers in both alternatives, brightens
 their selected spokes/rings and recaptures that optical pair with4x emotion.
 The original emotion pair and2x/combined defaults remain unchanged.
+Its vr-34 research identifies all ten model emotion controls, distinguishes
+implicit style from explicit weights, numerically probes 57 bounded cases and
+defines a proposed 56-GIF singles/pairs gallery. Additional controls, mixed
+expressions and that larger gallery are not implemented by the research.
 
 ## Reading paths
 

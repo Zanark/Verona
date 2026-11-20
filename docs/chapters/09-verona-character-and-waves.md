@@ -1,5 +1,97 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Full-model emotion inventory before a larger GIF gallery (vr-34)
+
+The owner prefers **glowing centers + bright spokes** and **4x** emotion,
+then asks to see every emotion and combination. They explicitly choose to
+research the additional model controls before defining the gallery. This is
+appearance preference, not acceptance of semantic/phonetic accuracy, and not
+an instruction to change the app's defaults.
+
+The pinned Claire
+[`network_info.json`](https://huggingface.co/nvidia/Audio2Face-3D-v2.3.1-Claire/blob/a46eafb067adfdd7cc8f5c7941586b309004561c/network_info.json)
+declares the following **ten explicit channels**, in this exact order:
+
+| Explicit index | Model name | Current Verona selector |
+|---|---|---|
+| 0 | amazement | Surprised |
+| 1 | anger | Angry |
+| 2 | cheekiness | Not exposed |
+| 3 | disgust | Not exposed |
+| 4 | fear | Not exposed |
+| 5 | grief | Not exposed |
+| 6 | joy | Happy |
+| 7 | outofbreath | Not exposed |
+| 8 | pain | Not exposed |
+| 9 | sadness | Sad |
+
+Neutral is all ten explicit channels at zero, not an eleventh channel.
+`expression_condition` in `verona/engine.py` currently exposes only the four
+mapped names plus neutral. Six additional controls exist in the pinned model,
+but this research does not add them or mixed expressions to the API/UI.
+These are model control labels, not a complete taxonomy of human emotion.
+Out-of-breath/pain conditioning does not change the voice or synthesize breaths.
+
+The network's 26-value conditioning input contains **16 implicit learned style
+values followed by those ten explicit weights**. The first 16 are not 16 named
+emotions. The verified implicit database contains 26,726 vectors across 84 named
+shots; several shots/frames can represent one named expression or delivery
+style. They are not 84 extra independent emotion sliders. Verona retains
+`cp1_neutral` frame 212 throughout this comparison to avoid changing two things.
+
+SDK `InferenceInputBuffers::GetExplicitEmotions` locates the explicit segment
+after the implicit values. `GeometryExecutorCore::ReadExplicitEmotion` reads
+it from the time-keyed accumulator, whose `Accumulate_Helper` checks dimensions,
+timestamps and lifecycle before storing a vector; it does not normalize that
+vector at this boundary. See [R02a](../research/speech-face-sources.md#r02a---full-claire-emotion-controls).
+This establishes a multicomponent input path, not a guarantee that every
+arbitrary combination produces a good-looking or semantically clear face.
+
+### Actual bounded CPU research, not a completed gallery
+
+The isolated `full-emotion-research-01` receipt uses the pinned local model,
+CPUExecutionProvider, one synthetic Hazel greeting and audio frames 12, 28, 44, 60.
+Every inference batch has four frames and the same implicit style. Cases:
+neutral, ten single controls at 0.6, all 45 pairs at 0.3 per component, plus one
+ten-way diagnostic at 0.06 per component. The total 0.6 budget is a conservative
+**research sampling policy**, not an SDK sum-to-one/normalization requirement.
+The same neutral-relative 4x coefficient formula is used before reconstruction.
+
+All 57 cases produce finite, Int16-packable geometry and 57 distinct four-frame
+packed results. Single-control maximum neutral-relative vertex distance over
+these samples ranges from about 0.733 cm (cheekiness) to 3.682 cm (pain).
+These distances are not emotion-quality scores or full-clip bounds.
+For pairs, actual joint-network output differs from averaging the matching
+single-control outputs: relative coefficient L2 residual 0.0120-0.3547. Therefore
+future blends must run the joint condition through the network, not simply
+average two already-rendered faces and call that the model's blended output.
+No new assets, dependencies, application controls, recordings or GIFs are
+created by this research; no user app/profile/device is driven.
+
+### Finite gallery definition and limits
+
+Continuous weights, changing strengths and transitions give infinitely many
+possible clips. Even one equally weighted example for each subset of the ten
+channels produces **1,024 cases including neutral**, not merely 16 cases from the
+four currently exposed controls.
+
+The proposed first gallery is **56 GIFs: neutral + ten singles + all 45 pairs**.
+It covers every named channel and every pair, not every higher-order mixture.
+Use 0.6 total explicit strength, divided equally among selected channels; 4x
+neutral-relative amplification, FaceMesh native detail, glowing centers/bright
+spokes, identical synthetic Hazel phrase/audio and fixed camera/timestamps.
+Label every component rather than inventing names such as "bittersweet".
+Keep pure-neutral speech unchanged. A future complete equal-subset gallery
+would additionally include all triples through ten-way mixtures, still only
+one sample per subset rather than all possible weighted expressions.
+
+Actual rendering must first qualify full clips, geometry packing, eye/depth
+occlusion, shared framing and decoded media. If one condition needs a wider
+camera, use the same revised camera for the whole comparison, not a misleading
+per-emotion zoom. Preserve old GIFs and the one closed README disclosure.
+Gallery size, new mixed-control behavior and capture are a separate next slice;
+this research leaves production behavior/defaults and prior media unchanged.
+
 ## Glowing centers and brighter eye structures at4x (vr-33)
 
 The owner clarifies that the center must glow in **both** optical alternatives:

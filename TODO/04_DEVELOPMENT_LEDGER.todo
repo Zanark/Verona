@@ -1,6 +1,21 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-34 investigate full model emotion controls before GIF scope
+Cause: owner likes brightspokes/glowingcenters and4x, requests all emotions/
+combinations, then selects model-control research first. Pinned Claire metadata
+lists ten explicit controls, while Verona exposes four plus neutral. SDK
+places10weights after16implicit style values and reads multicomponent vectors.
+Action: preserve production behavior; one isolated local CPU session probes
+neutral/10singles/45pairs/1tenway at four fixed audio frames, totalstrength0.6
+and4xneutral-relative reconstruction. All57finite/Int16-packable/distinct.
+Pair joint-network outputs differ from averaged singles (relative coefficient
+residual0.0120..0.3547); use true joint conditioning for any future blending.
+Define proposed56-GIF neutral/singles/pairs gallery and explicit coverage/
+strength/framing/occlusion limits. Equal-subset coverage would be1024cases;
+continuous weighted/time-varying expressions cannot be exhausted by finiteGIFs.
+No new runtime controls/defaults/models/dependencies/media or accuracy claims.
+
 2026-11-20 - vr-33 corrected optical-pair source delivery receipt
 Source21207529d1a713e18db1a55037144e3aaf76dbc8 committed/pushed as Zanark,
 bothidentities/trailers. Exact remote main/all18changedblobs/clean tree verified;

@@ -81,6 +81,11 @@ The owner's clarification supersedes the first isolated-eye interpretation:
 both variants must keep glowing centers, brighten their selected structure and
 use4x emotion for the GIF comparison. vr-33 corrects only those alternatives;
 combined/default optics and the earlier emotion comparison remain unchanged.
+The owner prefers bright spokes/glowing centers and 4x, requests every emotion
+and combination, then chooses to research the model's additional controls
+before defining the gallery. vr-34 finds ten explicit controls, not just the
+four exposed by the app. A 56-GIF neutral/singles/pairs gallery is proposed;
+new controls, mixed expressions and capture remain a separate next slice.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.

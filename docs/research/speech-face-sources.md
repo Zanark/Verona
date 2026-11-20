@@ -39,6 +39,29 @@ Commit: `1ca0f02535ed774f5dbcd724a31cd486368dc783`.
 The sample callback counts results; it is not an implemented Verona exporter or
 viewer. Internal geometry executor implementations were not exhaustively audited.
 
+### R02a - Full Claire emotion controls
+
+Reviewed 2026-11-20 for vr-34, not part of the original November 18 execution.
+Claire revision `a46eafb067adfdd7cc8f5c7941586b309004561c`; SDK revision remains
+`1ca0f02535ed774f5dbcd724a31cd486368dc783`.
+
+- [Claire network metadata](https://huggingface.co/nvidia/Audio2Face-3D-v2.3.1-Claire/blob/a46eafb067adfdd7cc8f5c7941586b309004561c/network_info.json):
+  ten ordered explicit names, 16 implicit components, 140 skin PCA coefficients.
+- [Claire model configuration](https://huggingface.co/nvidia/Audio2Face-3D-v2.3.1-Claire/blob/a46eafb067adfdd7cc8f5c7941586b309004561c/model_config.json):
+  neutral source shot `cp1_neutral`, frame 212; SDK postprocessing parameters
+  remain distinct from Verona's simplified reconstruction.
+- [model_regression.cpp, GetExplicitEmotions](https://github.com/NVIDIA/Audio2Face-3D-SDK/blob/1ca0f02535ed774f5dbcd724a31cd486368dc783/audio2face-sdk/source/audio2face-core/model_regression.cpp#L112-L117):
+  explicit segment follows the implicit vector.
+- [executor_regression_core.cpp, ReadExplicitEmotion](https://github.com/NVIDIA/Audio2Face-3D-SDK/blob/1ca0f02535ed774f5dbcd724a31cd486368dc783/audio2face-sdk/source/audio2face-core/executor_regression_core.cpp#L74-L86):
+  reads a multicomponent explicit vector, not a one-label enum.
+- [emotion_accumulator.cpp, Accumulate_Helper](https://github.com/NVIDIA/Audio2Face-3D-SDK/blob/1ca0f02535ed774f5dbcd724a31cd486368dc783/audio2x-common/source/audio2x/emotion_accumulator.cpp):
+  dimensions/timestamp/lifecycle checks and vector storage; no normalization
+  in this reviewed boundary. This is not a claim about every SDK producer.
+
+The actual 57-case, four-frame CPU probe and proposed finite GIF sampling policy
+are distinguished from visual/semantic acceptance in chapter 09's vr-34 section.
+No new model or native asset was downloaded for this follow-up.
+
 ### R03 - NVIDIA training framework
 
 Commit: `112c5eb3408afd065ac8974b2c6ea9ab0e3965c6`.
