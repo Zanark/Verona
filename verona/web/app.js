@@ -3,6 +3,7 @@ import { JAW_CROP, trimJawTopology } from "/framing.mjs";
 import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presentationFit } from "/presentations.mjs";
 import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
 import { createRobot, bindRobot, sampleRobot } from "/robot.mjs";
+import { startAgent } from "/agent-player.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -1022,7 +1023,7 @@ function refreshSettings() {
   clearPreview();
 }
 
-async function previewVoice() {
+async function previewVoice(options = {}) {
   if (busy) return;
   $("error").hidden = true;
   $("overlay-error").hidden = true;
@@ -1037,12 +1038,14 @@ async function previewVoice() {
     const response = await request("/api/preview", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, voice: $("voice").value, voiceSettings: voiceSettings(),
-        expression: $("expression").value, intensity: Number($("intensity").value) }),
+        expression: $("expression").value, intensity: Number($("intensity").value),
+        ...(options.agentRequestId ? { agentRequestId: options.agentRequestId } : {}) }),
     });
     previewUrl = URL.createObjectURL(await response.blob());
     preview.src = previewUrl;
     preview.hidden = false;
     $("status").textContent = "Voice preview ready. Press its Play control; Generate face applies this voice to the mesh.";
+    return {};
   } catch (error) {
     $("status").textContent = "Voice preview failed. Correct the settings, then retry.";
     failure(error);
@@ -1052,7 +1055,7 @@ async function previewVoice() {
   }
 }
 
-async function generate() {
+async function generate(options = {}) {
   if (busy) return;
   $("error").hidden = true;
   $("overlay-error").hidden = true;
@@ -1076,6 +1079,7 @@ async function generate() {
         intensity: Number($("intensity").value),
         expressionGain: Number($("expression-gain").value),
         voiceSettings: voiceSettings(),
+        ...(options.agentRequestId ? { agentRequestId: options.agentRequestId } : {}),
       }),
     });
     const metadata = await response.json();
@@ -1117,6 +1121,7 @@ async function generate() {
       + `${readySeconds.toFixed(2)} s ready (${metadata.requestSeconds.toFixed(2)} s server; excludes startup)`;
     $("status").textContent = "Ready. Press Play; the mesh follows the audio clock.";
     draw();
+    return metadata;
   } catch (error) {
     clearClip();
     $("status").textContent = "Generation failed. Correct the input or check the local terminal, then retry.";
@@ -1127,8 +1132,8 @@ async function generate() {
   }
 }
 
-$("generate").addEventListener("click", generate);
-$("preview").addEventListener("click", previewVoice);
+$("generate").addEventListener("click", () => generate());
+$("preview").addEventListener("click", () => previewVoice());
 $("reset-voice").addEventListener("click", () => {
   $("voice").value = defaultVoice;
   for (const name of settingNames) $(name).value = "0";
@@ -1373,6 +1378,34 @@ try {
   $("reset-voice").disabled = false;
   $("status").textContent = `Ready. Verona styling / ${session.mesh.identity} motion; ${session.mesh.vertices.toLocaleString()} connected face points.`;
   draw();
+  if (desktop?.agentEnabled) {
+    $("follow-eyes").checked = false;
+    $("pin-overlay").checked = false;
+    renderer.setPresentation("facemesh");
+    $("eye-glow").value = "1";
+    $("expression-gain").value = "4";
+    syncPresentationControls();
+    await startAgent(desktop, async (message) => {
+      if (busy) throw new Error("Verona controls are busy; no agent speech was started.");
+      $("text").value = message.text;
+      $("voice").value = message.voice;
+      $("expression").value = message.expression;
+      $("intensity").value = String(message.intensity);
+      $("expression-gain").value = String(message.gain);
+      const metadata = message.mode === "voice"
+        ? await previewVoice({ agentRequestId: message.id })
+        : await generate({ agentRequestId: message.id });
+      if (!metadata) throw new Error($("error").textContent || "Agent speech preparation failed.");
+      return { audio: message.mode === "voice" ? preview : audio,
+        cache: message.mode === "voice" ? {} : {
+          cacheHit: metadata.cacheHit, speechCacheHit: metadata.speechCacheHit === true,
+        } };
+    }, (locked) => {
+      for (const id of editing) $(id).disabled = locked || busy;
+      for (const id of controls) $(id).disabled = locked || busy || !clip;
+    }, failure);
+    draw();
+  }
 } catch (error) {
   $("status").textContent = "The local face could not start.";
   failure(error);

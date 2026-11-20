@@ -29,11 +29,30 @@ prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
 
 The current features are on **main**; the frozen release predates the robot,
-mechanical eyes and this gallery. Every feature demo below uses the current
-runtime. **4x expressions, glowing centers and bright spokes** are the selected
+mechanical eyes and this gallery. The demos record the vr-36 visual runtime;
+the later agent CLI reuses that renderer without changing these visuals.
+**4x expressions, glowing centers and bright spokes** are the selected
 FaceMesh look throughout, including the opening talking hero. Robot optics
 stay cyan. The emotion gallery shows all ten available single model controls
 plus neutral; it does not preview combinations.
+
+## Let a selected local agent session speak
+
+Start one explicitly named warm host, then pipe replies from another terminal:
+
+```powershell
+.\VeronaAgent.cmd host --session work
+
+# Another terminal or an explicitly opted-in local agent session:
+'The build is ready.' | .\VeronaAgent.cmd say --session work
+'A quick spoken update.' | .\VeronaAgent.cmd say --session work --voice-only
+```
+
+Default agent view: **FaceMesh, bright spokes, 4x**; normal launches stay unchanged.
+The host reuses its model, Windows speech worker and player. Voice-only skips
+neural motion for faster narration; new animated sentences remain precomputed,
+not instant. No global agent hook or automatic narration is installed.
+[Commands, measured latency and cancellation](docs/prototype-guide.md#opt-in-speech-for-local-agent-sessions).
 
 ## All ten emotions - 4x and bright spokes
 

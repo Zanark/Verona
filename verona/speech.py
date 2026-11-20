@@ -208,6 +208,14 @@ def synthesize(
             raw = stream.readframes(stream.getnframes())
             if not raw or len(raw) != stream.getnframes() * 2:
                 raise RuntimeError("Windows speech produced empty or truncated audio.")
+    return finish_speech(raw, voice, settings)
+
+
+def finish_speech(raw: bytes, voice: str, settings: VoiceSettings) -> Speech:
+    if not raw or len(raw) % 2:
+        raise RuntimeError("Windows speech produced empty or truncated PCM.")
+    if len(raw) > MAX_SECONDS * SAMPLE_RATE * 2:
+        raise ValueError(f"Speech must fit within {MAX_SECONDS} seconds; shorten the text.")
     raw = shape_tone(raw, settings.bass, settings.treble)
     pcm = bytes(LEAD_SAMPLES * 2) + raw + bytes(TAIL_SAMPLES * 2)
     if len(pcm) > MAX_SECONDS * SAMPLE_RATE * 2:

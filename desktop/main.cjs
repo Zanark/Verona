@@ -11,13 +11,19 @@ app.commandLine.appendSwitch("disable-sync");
 app.commandLine.appendSwitch("host-resolver-rules", "MAP * ~NOTFOUND, EXCLUDE 127.0.0.1");
 
 let window, timer, parentWatch, overlay = false, pinned = true, follow = true, controlBounds, overlayBounds;
+let agentSocket;
 const endpoint = process.env.VERONA_LOCAL_URL;
+const agentEnabled = process.env.VERONA_AGENT_MODE === "1";
+const agentPort = Number(process.env.VERONA_AGENT_PORT);
 delete process.env.VERONA_LOCAL_URL;
+delete process.env.VERONA_AGENT_MODE;
+delete process.env.VERONA_AGENT_PORT;
 start({ url: endpoint }).catch(fatal);
 
 function fatal(error) {
-  dialog.showErrorBox("Verona desktop failed", `${error.message}\nInspect the Verona terminal, then restart VeronaDesktop.cmd.`);
-  console.error(error.message);
+  const message = endpoint ? error.message.replaceAll(endpoint, "[private Verona URL]") : error.message;
+  dialog.showErrorBox("Verona desktop failed", `${message}\nInspect the Verona terminal, then restart VeronaDesktop.cmd.`);
+  console.error(message);
   app.exit(1);
 }
 
@@ -47,6 +53,8 @@ async function start(config) {
       nodeIntegration: false, contextIsolation: true, sandbox: true,
       webSecurity: true, devTools: false, backgroundThrottling: false,
       spellcheck: false, navigateOnDragDrop: false,
+      ...(agentEnabled ? { autoplayPolicy: "no-user-gesture-required",
+        additionalArguments: ["--verona-agent"] } : {}),
     },
   });
   window.removeMenu();
@@ -61,9 +69,52 @@ async function start(config) {
     console.error("Verona desktop renderer is unresponsive; close and restart VeronaDesktop.cmd.");
   });
   let previous = "";
-  ipcMain.handle("verona:command", (event, action, value) => {
+  function trusted(event) {
     if (event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame
         || new URL(event.senderFrame.url).origin !== url.origin) throw new Error("Untrusted desktop command.");
+  }
+  if (agentEnabled) {
+    if (!Number.isInteger(agentPort) || agentPort < 1 || agentPort > 65535) {
+      throw new Error("Invalid owned agent control endpoint.");
+    }
+    agentSocket = require("node:net").createConnection({ host: "127.0.0.1", port: agentPort });
+    const report = (value) => agentSocket.write(JSON.stringify(value) + "\n");
+    report({ token: url.hash.slice(1) });
+    agentSocket.on("error", fatal);
+    agentSocket.on("close", () => app.quit());
+    ipcMain.handle("verona:agent-ready", (event) => {
+      trusted(event);
+      report({ event: "ready" });
+    });
+    ipcMain.handle("verona:agent-result", (event, result) => {
+      trusted(event);
+      if (!result || !/^[0-9a-f]{32}$/.test(result.id)
+          || !["playing", "completed", "failed", "cancelled"].includes(result.state)) {
+        throw new Error("Invalid native speech result.");
+      }
+      report({ event: "job", ...result });
+    });
+    let pending = "";
+    agentSocket.setEncoding("utf8");
+    agentSocket.on("data", (chunk) => {
+      try {
+        pending += chunk;
+        if (Buffer.byteLength(pending) > 8192) throw new Error("Oversized agent command.");
+        let newline;
+        while ((newline = pending.indexOf("\n")) >= 0) {
+          const command = JSON.parse(pending.slice(0, newline));
+          pending = pending.slice(newline + 1);
+          if (!command || !["say", "cancel"].includes(command.action)
+              || !/^[0-9a-f]{32}$/.test(command.id)) throw new Error("Invalid agent command.");
+          window.webContents.send("verona:agent", command);
+        }
+      } catch (error) { fatal(error); }
+    });
+    follow = false;
+    pinned = false;
+  }
+  ipcMain.handle("verona:command", (event, action, value) => {
+    trusted(event);
     if (action === "overlay" || action === "controls") {
       const next = action === "overlay";
       if (next !== overlay) {
@@ -82,13 +133,15 @@ async function start(config) {
     } else if (action === "pin" && typeof value === "boolean") {
       pinned = value;
       window.setAlwaysOnTop(overlay && pinned, "pop-up-menu");
-    } else if (action === "follow" && typeof value === "boolean") { follow = value; previous = ""; }
+    } else if (action === "follow" && typeof value === "boolean") {
+      follow = value; previous = ""; syncCursorTimer();
+    }
     else if (action === "minimize") window.minimize();
     else if (action === "close") window.close();
     else throw new Error("Unknown or invalid desktop command.");
     return { overlay, pinned, follow };
   });
-  timer = setInterval(() => {
+  function pollCursor() {
     if (!follow || window.isDestroyed() || !window.isVisible() || window.isMinimized()) return;
     const point = screen.getCursorScreenPoint(), bounds = window.getContentBounds();
     const key = `${point.x},${point.y},${bounds.x},${bounds.y}`;
@@ -96,7 +149,12 @@ async function start(config) {
       previous = key;
       window.webContents.send("verona:cursor", { x: point.x - bounds.x, y: point.y - bounds.y });
     }
-  }, 33);
+  }
+  function syncCursorTimer() {
+    if (!follow) { clearInterval(timer); timer = null; }
+    else if (!timer) timer = setInterval(pollCursor, 33);
+  }
+  syncCursorTimer();
   const parent = process.ppid;
   parentWatch = setInterval(() => {
     try { process.kill(parent, 0); }
@@ -106,8 +164,11 @@ async function start(config) {
     }
   }, 1000);
   await window.loadURL(url.href);
-  window.show();
+  if (agentEnabled) window.showInactive();
+  else window.show();
 }
 
 app.on("window-all-closed", () => app.quit());
-app.on("before-quit", () => { clearInterval(timer); clearInterval(parentWatch); });
+app.on("before-quit", () => {
+  clearInterval(timer); clearInterval(parentWatch); agentSocket?.destroy();
+});

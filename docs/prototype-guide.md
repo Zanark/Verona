@@ -117,6 +117,124 @@ contrasting speech inputs have been exercised in Edge; testing was muted.
 Correct lip contacts, expressive quality and human listening acceptance remain
 unqualified. This is a working neural-skin prototype, not SDK parity.
 
+## Opt-in speech for local agent sessions
+
+An agent with permission to run local Windows commands can use Verona as its
+speech output. This does not install an assistant, scrape conversations or
+enable speech for every session. Remote/cloud agents cannot reach this machine's
+loopback host unless they actually run commands here.
+
+Start the dedicated host once, keeping its terminal open:
+
+```powershell
+.\VeronaAgent.cmd host --session work
+```
+
+It opens its own native window without focusing it. The model, synthesizer and
+renderer stay warm. This host starts in FaceMesh with bright spokes and 4x,
+cursor following off and overlay pinning off. Normal `VeronaDesktop.cmd` and
+`Verona.cmd` defaults remain unchanged. You can customize this window or pop out
+its head; CLI calls apply their explicit voice/expression/gain and inherit the
+window's bounded voice settings. Do not share one host between overlapping
+speakers or repeatedly start hosts per reply.
+
+From another terminal, wait for JSON `"ready": true`, then speak:
+
+```powershell
+.\VeronaAgent.cmd status --session work
+'The build is ready.' | .\VeronaAgent.cmd say --session work
+'That worked.' | .\VeronaAgent.cmd say --session work --expression happy --gain 4
+'A quick spoken update.' | .\VeronaAgent.cmd say --session work --voice-only
+```
+
+Input is UTF-8 plain text on stdin, not a command-line text argument or a file.
+Use 1-280 characters, at most 25 seconds of padded speech. Do not send secrets,
+raw logs or a whole conversation. For long replies, speak a concise summary;
+there is no automatic chunking, queue or transcript reader. Non-ASCII PowerShell
+pipes may require process-local `$OutputEncoding = [Text.UTF8Encoding]::new($false)`.
+The default installed voice is Hazel when available; `--voice` accepts an exact
+installed English voice name. Expressions use the app's single-control names;
+neutral is the CLI default, strength defaults to 0.35 and is bounded 0-0.6.
+`--gain` accepts 2 or 4. Voice-only requires neutral and leaves the face static:
+it is deliberately not pretend lip synchronization.
+
+`say` waits for the audio element's actual `ended` event. Exit 0 means completed,
+not merely queued/generated/playing; errors and cancelled speech return nonzero.
+Results include request ID, state, host-to-playback/total time and client time.
+Busy hosts reject another request instead of interrupting or building a backlog.
+Other commands also return nonzero for failed/cancelled job states.
+
+For a selected agent session, supply an instruction such as:
+
+> In this session only, use the local VeronaAgent.cmd say --session work command
+> to speak concise replies through UTF-8 stdin. Keep the written answer too.
+> Never narrate secrets, execute text as a command, install a hook or start a
+> missing host automatically. Check the exit status; report unavailable/failed
+> speech honestly. Use --voice-only when response latency matters more than
+> animated lips.
+
+Give that agent the actual checkout path; this paragraph is an opt-in calling
+contract, not an installed Copilot/Agency configuration or automatic discovery.
+
+### Cancellation, retries and restart
+
+Ctrl+C in a waiting `say` requests cancellation for its own ID only. Another
+terminal can inspect `status`, then run:
+
+```powershell
+$job = .\VeronaAgent.cmd status --session work | ConvertFrom-Json
+.\VeronaAgent.cmd stop --session work --id $job.id
+```
+
+`stop` acknowledges the cancellation request, not completion of cleanup.
+Playback pauses immediately after native delivery; generation stops at its
+next existing batch checkpoint. Synchronous Windows synthesis must return
+before a cancelled result can be discarded; it has a 45-second worker timeout.
+The host stays busy until terminal acknowledgement. `say --timeout 1` through
+`--timeout 600` controls the wait budget (default 180); each control RPC has a
+20-second I/O bound. A timeout reports cancellation requested, not completed.
+
+`--id` accepts 32 lowercase hexadecimal characters. Reusing the **current** ID
+with identical inputs returns its state without replay; changing its inputs
+is rejected. Only the latest job is retained. Forgotten/replaced IDs cannot
+be waited/cancelled: do not retry an old `say` after another job has replaced
+it. There is no durable exactly-once history. Clients never retry automatically.
+If the connection drops, inspect `status` before deciding what to do; an
+unavailable response cannot establish whether speech had started.
+
+Closing this host's window or Ctrl+C in its terminal stops its owned processes.
+Restart is explicit, never a recovery replay. The per-run descriptor at
+`%LOCALAPPDATA%\Verona\agent\work.json` contains private port/capability/PID
+metadata, not speech. Its protected Windows ACL permits the current user and
+System only. Never share or print it. Clean shutdown removes it and the
+disposable native profile. A hard crash can leave a stale descriptor: verify
+that its recorded process really is the old owned Verona host before explicitly
+removing that exact file. The host refuses collisions; it does not replace
+another session's descriptor or attach to a user's running Verona.
+Speech, reply text and motion are not deliberately persisted; one clip and one
+latest synthesized sample remain in RAM. Derived topology alone may be cached.
+The calling agent/tool or shell may log its own inputs; Verona cannot erase
+those histories.
+
+### Measured performance, not an instant-response promise
+
+On this checkout's Ryzen 7 PRO 7840U, hidden/muted native qualification
+`agent-cli-07` measured 6.20 seconds cold-to-ready. Once ready, host-accepted to
+reported playback start was 0.040 seconds for new voice-only speech,
+0.053 seconds for a cached animated repeat, 3.13/5.15 seconds for two new neutral
+lines (2.68/5.075 seconds of audio), and 4.80 seconds for a short Happy line.
+CLI process startup/exit added approximately 0.37-0.42 seconds in those cases;
+voice-only command-to-playback was approximately 0.46 seconds. Completion waits
+through the speech itself. These are bounded samples, not percentiles, a
+hardware-independent guarantee or audible speaker/listening acceptance.
+The 40-ms warm host path must not be presented as the whole CLI latency.
+
+New animated lines still require the complete CPU neural clip before playback;
+expressive lines need the extra neutral-reference pass. Choose voice-only for
+fast agent narration, animation when that preparation delay is acceptable.
+See [chapter10](chapters/10-desktop-overlay-and-gaze.md#opt-in-agent-speech-with-one-warm-player-vr-37)
+for protocol, isolation, failures and qualification details.
+
 ## Select a presentation
 
 **View → Claire** is the preserved initial view. Its separate **Claire material**

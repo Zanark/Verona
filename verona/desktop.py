@@ -8,12 +8,19 @@ import tempfile
 import threading
 import ctypes
 from ctypes import wintypes
+from contextlib import ExitStack
 
 from .server import LocalServer, create_state
 
 
 ROOT = Path(__file__).resolve().parents[1]
 ELECTRON = ROOT / "desktop" / "node_modules" / "electron" / "dist" / "electron.exe"
+
+
+def join_server(thread) -> None:
+    thread.join(timeout=10)
+    if thread.is_alive():
+        raise RuntimeError("Owned desktop server did not stop.")
 
 
 def stop_desktop(child: subprocess.Popen) -> None:
@@ -44,7 +51,7 @@ def stop_desktop(child: subprocess.Popen) -> None:
         child.wait(timeout=10)
 
 
-def main() -> None:
+def run_desktop(state=None, agent=None) -> None:
     if not ELECTRON.is_file():
         print("Desktop runtime missing. Run Setup-VeronaDesktop.cmd explicitly, then VeronaDesktop.cmd.",
               file=sys.stderr)
@@ -52,9 +59,9 @@ def main() -> None:
     child = None
     server = None
     thread = None
-    state = None
     try:
-        state = create_state()
+        if state is None:
+            state = create_state()
         server = LocalServer(0, state)
         thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": .05})
         thread.start()
@@ -64,19 +71,25 @@ def main() -> None:
         with tempfile.TemporaryDirectory(prefix="verona-desktop-") as directory:
             # Only the owned, disposable profile receives GPU/code caches; speech stays in RAM.
             environment["VERONA_LOCAL_URL"] = server.url
-            child = subprocess.Popen(
-                [str(ELECTRON), str(ROOT / "desktop"),
-                 f"--user-data-dir={directory}"], text=True,
-                cwd=ROOT, env=environment,
-            )
-            print(f"Verona desktop process {child.pid}; close its window or Ctrl+C here to stop.",
-                  flush=True)
+            if agent:
+                environment["VERONA_AGENT_MODE"] = "1"
+                environment["VERONA_AGENT_PORT"] = str(agent.listen())
             try:
+                child = subprocess.Popen(
+                    [str(ELECTRON), str(ROOT / "desktop"),
+                     f"--user-data-dir={directory}"], text=True,
+                    cwd=ROOT, env=environment, encoding="utf-8",
+                )
+                if agent:
+                    agent.attach(child, server)
+                print(f"Verona desktop process {child.pid}; close its window or Ctrl+C here to stop.",
+                      flush=True)
                 code = child.wait()
                 if code:
                     raise RuntimeError(f"Desktop compositor exited with code {code}.")
             finally:
-                stop_desktop(child)
+                if child is not None:
+                    stop_desktop(child)
     except KeyboardInterrupt:
         print("\nStopping owned Verona desktop and discarding speech RAM.", flush=True)
     except (OSError, RuntimeError, ValueError) as error:
@@ -85,13 +98,20 @@ def main() -> None:
     finally:
         if state is not None:
             state.stop.set()
-        if server is not None:
-            server.shutdown()
-            server.server_close()
-        if thread is not None:
-            thread.join(timeout=10)
-            if thread.is_alive():
-                raise RuntimeError("Owned desktop server did not stop.")
+        with ExitStack() as cleanup:
+            if thread is not None:
+                cleanup.callback(join_server, thread)
+            if server is not None:
+                cleanup.callback(server.server_close)
+                cleanup.callback(server.shutdown)
+            if agent is not None:
+                cleanup.callback(agent.close)
+            if child is not None:
+                cleanup.callback(stop_desktop, child)
+
+
+def main() -> None:
+    run_desktop()
 
 
 if __name__ == "__main__":

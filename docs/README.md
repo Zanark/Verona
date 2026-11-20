@@ -76,6 +76,11 @@ screenshots at the selected4x/bright-spokes look, retaining the12same-runtime
 emotion GIFs byte-for-byte. The32-GIF README keeps only its huge talking hero
 outside one default-closed section. Independent967-frame decoding and actual
 GitHub-styled desktop/tablet/mobile layout checks qualify the media, not accuracy.
+Chapter10's vr-37 adds explicit named-host/stdin agent speech with a persistent
+RAM-only Windows synthesizer, authenticated native push and actual-ended
+completion. It separates fast voice-only/cached paths from precomputed neural
+motion, records cold/warm latency and explains ownership, cancellation and
+latest-only retry limits. Normal launches and the vr-36 gallery stay unchanged.
 
 ## Reading paths
 
@@ -93,7 +98,7 @@ and accuracy-qualification reading path.
 7. [Editable Hazel, matching Claire and measured performance](chapters/07-hazel-claire-and-performance.md)
 8. [Readable facial definition and measured display fluidity](chapters/08-facial-definition-and-fluidity.md)
 9. [Verona's character styling and genuine wavy geometry](chapters/09-verona-character-and-waves.md)
-10. [Transparent desktop, cursor gaze, full orientation and optional head/neck framing](chapters/10-desktop-overlay-and-gaze.md)
+10. [Transparent desktop, cursor gaze, framing and opt-in agent speech](chapters/10-desktop-overlay-and-gaze.md)
 
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.

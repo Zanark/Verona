@@ -26,6 +26,7 @@ STATIC = {
     "/presentations.mjs": ("presentations.mjs", "text/javascript; charset=utf-8"),
     "/hairstyles.mjs": ("hairstyles.mjs", "text/javascript; charset=utf-8"),
     "/robot.mjs": ("robot.mjs", "text/javascript; charset=utf-8"),
+    "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
 }
 MAX_BODY = 8192
 CSP = (
@@ -46,6 +47,8 @@ class State:
         self.speech_key = None
         self.busy = threading.Lock()
         self.stop = threading.Event()
+        self.agent = None
+        self.synthesizer = None
 
 
 class LocalServer(ThreadingHTTPServer):
@@ -183,7 +186,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.headers.get_all("Origin", []) != [self.server.origin]:
             self.json_reply(403, {"error": "Generation requires this local page's origin."})
             return
-        if self.path not in ("/api/generate", "/api/preview"):
+        if self.path not in ("/api/generate", "/api/preview", "/api/agent"):
             self.json_reply(404, {"error": "Unknown Verona operation."})
             return
         lengths = self.headers.get_all("Content-Length", [])
@@ -200,6 +203,22 @@ class Handler(BaseHTTPRequestHandler):
             self.json_reply(415, {"error": "Use a JSON text request."})
             return
         state = self.server.state
+        if self.path == "/api/agent":
+            if state.agent is None:
+                self.json_reply(404, {"error": "Agent speech is not enabled in this app."})
+                return
+            try:
+                raw = self.rfile.read(length)
+                if len(raw) != length:
+                    raise ValueError("Request body is incomplete.")
+                self.json_reply(200, state.agent.command(json.loads(raw)))
+            except BlockingIOError as error:
+                self.json_reply(409, {"error": str(error)})
+            except (ValueError, UnicodeDecodeError) as error:
+                self.json_reply(400, {"error": str(error)})
+            except (OSError, RuntimeError) as error:
+                self.json_reply(503, {"error": str(error)})
+            return
         if not state.busy.acquire(blocking=False):
             self.json_reply(409, {"error": "One local clip is already generating; wait for it to finish."})
             return
@@ -212,7 +231,7 @@ class Handler(BaseHTTPRequestHandler):
             request = json.loads(raw)
             required = {"text", "voice", "expression", "intensity"}
             if (not isinstance(request, dict) or not required <= set(request)
-                    or set(request) - required - {"voiceSettings", "expressionGain"}):
+                    or set(request) - required - {"voiceSettings", "expressionGain", "agentRequestId"}):
                 raise ValueError("Supply text, voice, expression, intensity and optional voiceSettings/expressionGain only.")
             text = validate_text(request["text"])
             voice = request["voice"]
@@ -221,6 +240,13 @@ class Handler(BaseHTTPRequestHandler):
             expression_condition(state.engine.condition, request["expression"], request["intensity"])
             gain = validate_expression_gain(request.get("expressionGain", 2))
             settings = VoiceSettings.parse(request.get("voiceSettings", {}))
+            stop = state.stop
+            if "agentRequestId" in request:
+                if state.agent is None:
+                    raise ValueError("Agent requests require an explicitly started agent host.")
+                stop = state.agent.generation_stop(request["agentRequestId"])
+            if stop.is_set():
+                raise RuntimeError("Speech request was cancelled.")
             speech_key = hashlib.sha256(json.dumps(
                 [text, voice, asdict(settings)], sort_keys=True, ensure_ascii=True
             ).encode("utf-8")).hexdigest()
@@ -233,15 +259,20 @@ class Handler(BaseHTTPRequestHandler):
                 return
             speech_hit = state.speech is not None and state.speech_key == speech_key
             if not speech_hit:
-                state.speech = synthesize(text, voice, state.voices, settings)
+                speech = (state.synthesizer or synthesize)(text, voice, state.voices, settings)
+                if stop.is_set():
+                    raise RuntimeError("Speech request was cancelled.")
+                state.speech = speech
                 state.speech_key = speech_key
             speech = state.speech
             if self.path == "/api/preview":
                 self.reply(200, speech.wav, "audio/wav")
                 return
             clip = state.engine.generate(
-                speech, request["expression"], request["intensity"], stop=state.stop, expression_gain=gain
+                speech, request["expression"], request["intensity"], stop=stop, expression_gain=gain
             )
+            if stop.is_set():
+                raise RuntimeError("Speech request was cancelled.")
             state.clip = clip
             state.clip_key = clip_key
             self.json_reply(200, {

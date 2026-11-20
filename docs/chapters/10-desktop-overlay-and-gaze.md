@@ -560,3 +560,153 @@ prerelease was silently installed. Direct npm registry TLS failed; the existing
 configured HTTPS package feed worked without disabling certificate validation.
 Early setup may have used Electron's normal per-user download cache. Current
 setup directs its caches under `.local`; no shared cache was deleted.
+
+## Opt-in agent speech with one warm player (vr-37)
+
+The owner wants selected local Agency/Copilot sessions to speak through Verona,
+with performance prioritized. This is an output adapter, not an assistant,
+conversation scraper or global narration hook. `VeronaAgent.cmd` calls
+`verona.agent.main`; its `host --session NAME` starts an explicitly owned,
+dedicated desktop. Lightweight `status`, stdin-driven `say` and ID-targeted
+`stop` clients never start, discover or attach to another running desktop.
+Normal launches leave the agent endpoint disabled.
+
+### Warm ownership rather than a process per sentence
+
+`agent_host.host` creates one `SpeechWorker`, `State` and `FaceEngine`, then
+passes that state into `desktop.run_desktop`. One native window, renderer and
+audio clock survive across replies. Agent startup chooses FaceMesh, bright
+spokes and 4x; following/pinning start off and `showInactive` avoids deliberate
+focus theft. Normal Claire/2x/combined startup and normal autoplay policy remain.
+An initial integration mistakenly changed only the View selector before
+`syncPresentationControls` restored it from renderer state. Calling
+`FaceRenderer.setPresentation` fixes the actual presentation, not just its label;
+the final native receipt reads back the resulting controls before readiness.
+
+`agent_speech.SpeechWorker` owns one persistent Windows PowerShell process.
+Its fixed System.Speech loop enumerates voices once, receives escaped SSML over
+stdin and synthesizes 16-kHz mono 16-bit PCM into a .NET `MemoryStream`, never a
+temporary WAV. Bounded base64 replies return over its owned stdout pipe.
+`speech.finish_speech` shares existing tone shaping, lead/tail silence, duration
+checks and WAV packaging with normal synthesis. One worker lock rejects
+overlap; one bounded response slot and a 45-second timeout prevent an unbounded
+queue. Worker death, invalid/oversized PCM and missing voices fail explicitly.
+No automatic worker/model restart retries an utterance.
+
+The CPU model is still precomputed. Neutral uses one inference pass;
+non-neutral emotion also needs the same-audio neutral reference. A warm host
+does not make uncached neural motion free. Existing latest-clip and latest-
+speech caches are reused, not replaced with a growing transcript/audio cache.
+`--voice-only` explicitly calls the existing preview path and plays that audio
+without animating the face. The fast path must not be described as lip-sync.
+
+### Capability RPC outside, authenticated native push inside
+
+`agent.private_descriptor` creates a named descriptor exclusively, with a
+protected Windows DACL for the current user and System. It holds a per-run port,
+capability, PID and instance nonce, not speech. Clients import only standard
+library modules; they read bounded UTF-8 stdin and call only 127.0.0.1, with
+the exact HTTP origin and capability. `Handler.do_POST` exposes `/api/agent`
+only when `State.agent` exists, preserving normal Host/origin/token/body/request-
+slot guards. Agent status/wait/cancel dispatch before the generation lock.
+
+The first native implementation attempted Python/Electron stdin/stdout JSONL.
+Actual Windows GUI Electron reached stdin EOF immediately, quit, and aborted
+its first page navigation. It did not qualify; receipts01-04 remain. The
+working transport is `AgentBridge.listen` plus Node's `net` socket: another
+ephemeral 127.0.0.1 listener, exactly one owned native connection, capability
+authentication before acknowledgements, bounded newline framing and no idle
+HTTP polling. Its port and the ready URL travel in the child's allowlisted
+environment, removed before renderer children start. Main/preload IPC still
+checks the owned sender/main frame/origin; there is no generic execution or
+filesystem bridge. Native load errors redact the private ready URL.
+
+`AgentBridge.command` admits one active job. Concurrent calls fail409; no queue
+interrupts an existing speaker or accumulates stale replies. The current ID
+and payload fingerprint make an identical current-ID retry idempotent, including
+after completion; different inputs under that ID fail. Only the latest job is
+kept: replaced IDs cannot be waited/cancelled, and there is no durable exactly-
+once history. Clients do not retry automatically. Explicitly sending an old ID
+as a fresh `say` after replacement is not a safe recovery strategy.
+
+`web/agent-player.mjs:startAgent` receives pushed work, calls the existing
+`generate`/`previewVoice`, verifies decoded audio and awaits `play()`. Only the
+actual `ended` event acknowledges completed. Decode/output/play rejection,
+bounded media waits, invalid acknowledgement or disconnect are failures, not
+empty success. A CLI `wait` blocks on a versioned condition only during that
+explicit call; there is no background client polling. Disabling following now
+also removes its 33-ms native timer; the existing 1-second parent guard remains.
+
+### Cancellation, loss and shutdown
+
+Cancellation targets one current ID, pauses playback after native delivery and
+sets its generation event. The server checks before/after synthesis and after
+the existing batched inference checkpoints; a cancelled candidate is not
+published over the previous successful clip. The UI deliberately does not abort
+HTTP generation early and falsely release the host while inference continues.
+Synchronous System.Speech must return or reach its worker timeout before that
+result can be discarded. The host remains busy until terminal acknowledgement.
+Timeout/Ctrl+C request cancellation; neither claims cleanup or playback ended.
+
+Reader/protocol/write failures mark the active job failed and wake waiters.
+The current job tracks timestamps/state/fingerprint, not reply text. Text stays
+in the existing page/request RAM; audio/motion stay in the existing latest-only
+RAM boundary. This does not control the calling shell/agent's own history.
+No reconnect replay, microphone, camera, model download or cloud call is added.
+
+Window close/Ctrl+C stops only this host's native process, sets cancellation,
+closes its worker/control socket/readers and server, and removes its owned
+descriptor/profile. `ExitStack` cleanup continues through another cleanup
+failure instead of leaking the remaining owned resources. Descriptor removal
+checks the instance nonce; changed ownership fails without deleting that file.
+A crash can leave a stale descriptor; restart refuses to overwrite it and
+requires explicit ownership inspection/cleanup. Different session names do
+not reserve CPU/GPU capacity or authorize interrupting another application.
+
+### Qualification and performance boundary
+
+Before runtime work, process inspection found no existing Verona Python/native
+owner. Qualification used synthetic text, its own hidden/muted production
+Electron window, RAM, capability, descriptor directory, TEMP/profile and derived
+topology cache. Pinned model assets were read-only; user/sibling apps, profiles,
+cursor and devices were not driven. No audio files were saved. All owned host,
+native and speech PIDs exited; profiles/descriptors were removed.
+
+The actual persistent worker's three RAM-only samples took 0.351/0.033/0.006
+seconds to prepare; worker startup was 0.681 seconds. Repeated identical input
+returned identical PCM in this bounded sample; that is not an accuracy claim.
+Native07 exercised actual `.cmd` clients for new/cached/expressive faces,
+voice-only, current-ID no-replay, busy rejection, generation/playback cancellation,
+short timeout and clean shutdown. Protected ACL metadata was independently
+read back. Native05 had already passed playback but its `Get-Acl` probe failed
+because the inherited module could not load; a direct .NET ACL read fixed the
+probe without weakening its user/System/protected-DACL assertions.
+
+| Native07 case | Host accepted to reported playback | Completion includes |
+|---|---:|---|
+| Cold host ready | 6.20 s startup | Model, speech worker, native page |
+| First neutral line, 2.68 s audio | 3.13 s | Full CPU motion + playback |
+| New neutral line, 5.075 s audio | 5.15 s | Full CPU motion + playback |
+| Exact animated repeat | 0.053 s | Cached clip + playback |
+| Short Happy line,4x | 4.80 s | Expressive + neutral inference |
+| New voice-only line | 0.040 s | No neural motion + playback |
+
+Process startup/exit added approximately 0.37-0.42 seconds to these five speech
+cases; voice-only command-to-playback was approximately 0.46 seconds. Do not
+advertise 40 ms as end-to-end CLI latency. These samples are not latency
+percentiles, physical speaker onset or universal guarantees on shared hardware.
+
+All 50 Python cases and four focused Node audio-lifecycle cases pass, alongside
+existing orientation/framing/hair/presentation/robot math. The focused real
+Edge flow passes five checks: normal opt-out/defaults, manual Generate without
+autoplay, actual-ended Play, exact-repeat cache and manual voice preview.
+The full historical browser suite is **not green**: Browser01 hit a one-byte
+full-frame round-trip difference; Browser02 stopped at six upper optical spokes
+versus the fixture's 10-14 expectation. Serving unchanged HEAD `app.js` reproduced
+the exact six-spoke failure in an isolated baseline run. Neither assertion was
+weakened and no unrelated optical fix is included. Retained failed receipts
+are separate from the passing focused agent/browser qualification.
+
+The vr-36 gallery and three frozen releases remain unchanged. No new edition,
+installation, release, deployment, human listening/phonetic acceptance or
+universal real-time performance claim follows from these results.

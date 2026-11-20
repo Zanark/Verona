@@ -1,6 +1,35 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-20 - vr-37 opt-in warm agent speech CLI
+Cause: owner wants selected future Agency/Copilot sessions to speak through
+Verona, explicitly prioritizing performance, not global narration/hooks.
+Action: add named warm host and stdlib stdin/JSON clients; retain one model,
+RAM-only persistent System.Speech worker and production native/audio player.
+Actual Windows GUI stdin EOF aborted navigation; retain native01-04 failures,
+replace that transport with capability-authenticated loopback native push.
+Native05 passes playback but inherited Get-Acl module fails; direct .NET ACL
+read preserves exact protected current-user/System assertions. Native06 passes.
+Review catches selector-only FaceMesh initialization; call actual renderer
+setter, qualify native07 defaults/4x/brightspokes/follow-off/pin-off/hidden/muted.
+Native07 coldready6.20s; host-to-reported-start new neutral3.13/5.15s,
+Happy4.80s, cachedrepeat.053s, voiceonly.040s. CLIstartup/exit .37-.42s;
+voiceonly command-to-playback about.46s, not40ms end-to-end or instantaneous
+new neural motion. Actualended completion, noqueue/busy, latest-ID no-replay,
+generation/play cancellation and1s wait budget/nonzero results verified.
+50Python/fourfocusedNode cases pass plus dependent renderer math.
+Full historical browser01 fails one-byte roundtrip; browser02 and unchanged
+HEAD app.js baseline fail exactsame six-spoke fixture vs10-14expectation.
+No assertion weakened/unrelated optical fix. Focused actualEdge fivechecks
+pass normaldefaults/optout/manualGenerate/manualPlayended/cache/voicepreview.
+Allownedhosts/native/speechPIDs/profiles/descriptors cleaned; synthetic/muted,
+separateTEMP/RAM/cache/capability, no user/sibling app/profile/device driven.
+README32GIFs/twoPNG/onecloseddisclosure retained; no media/weights/dependency/
+default-normal-launch/release/bookedition/listening/accuracy acceptance change.
+Guide/chapter10/index/brief/TODO37/tracking carry limits and source references.
+vr37 maps to originalissue36/Project15item PVTI_lAHOAe2wCs4BsFbFzhKc6XQ;
+firstpostcreateinventorylag recoveredoriginalitem, no duplicated issue/card.
+
 2026-11-20 - vr-36 refresh every active README feature demo
 Cause: owner wants updated GIFs for everything and all possible named emotions
 inside the collapsed section; preserve their prior unique-only/no-mixture scope.

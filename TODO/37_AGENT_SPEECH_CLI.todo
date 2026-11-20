@@ -1,0 +1,72 @@
+ID: vr-37
+Title: Opt-in warm CLI speech for selected agent sessions
+
+Status: DONE
+GitHub issue: https://github.com/Zanark/Verona/issues/36
+Milestone: An explicit local agent session can speak through Verona without restarting its engines per reply.
+Dependencies: vr-13, vr-35
+
+Purpose:
+The owner wants selected future Agency/Copilot sessions to use Verona to speak
+their replies. Performance is the priority. Provide explicit CLI calls, not
+automatic narration, transcript scraping or global agent hooks.
+
+Tasks:
+[x] Add a lightweight stdin/JSON CLI and an explicitly started named host.
+[x] Keep the model, native renderer and local Windows synthesizer warm.
+[x] Use bounded latest-only jobs, no queue, no overlap or automatic replay.
+[x] Support spoken animated faces and an explicit faster voice-only option.
+[x] Report actual playback completion, errors, cancellation and staleness.
+[x] Keep capabilities private and ephemeral; do not save reply text or audio.
+[x] Exercise isolated synthetic/muted native playback and measure latency.
+[x] Update guide/book/brief/index/causal ledger, tracking and owned continuity.
+[x] Prepare verified Zanark source delivery; no release or deployment.
+
+Acceptance criteria:
+Normal browser/desktop behavior stays opt-out and unchanged.
+Only explicitly selected sessions call the named host. No hook/config/scheduler
+is installed and no existing app is discovered, attached, restarted or stopped.
+CLI clients use only the standard library and do not load NumPy/ONNX/Electron.
+Warm calls reuse one TTS worker, one model and one renderer; idle work is bounded.
+Speech remains 1-280 characters/25 seconds. Concurrent requests fail explicitly.
+Success means the renderer reports ended, not merely accepted or generated.
+Disconnects, replaced IDs, timeouts and stale hosts must not look successful.
+Cancellation stops playback and cancels inference at the next bounded checkpoint;
+document the Windows synthesis boundary. No automatic replay after reconnection.
+Capability files are current-user protected, excluded from source and removed
+on clean shutdown; stale files require explicit cleanup, not silent replacement.
+Tests never play audible speech or drive user/sibling apps/profiles/devices.
+Use separate hidden native host/profile, RAM, synthesis and derived-cache lane.
+Record cold/warm/repeat/voice-only measurements with their exact scope, not
+an invented universal real-time guarantee or listening/accuracy acceptance.
+
+Completion evidence:
+Initial baseline cc22765b1f07e72fd513d26e2855353eef68b086 is clean.
+Process inspection before runtime work finds no Verona Python/Electron owner.
+GitHub code search cannot resolve the private repository; local source is used.
+The existing exporter writes files and cold-loads a model; it is not the agent
+playback path. The current native UI already owns the single audio clock.
+Implemented VeronaAgent.cmd and verona.agent/agent_host/agent_speech,
+native main/preload push and web/agent-player.mjs over existing generation.
+50Python/fourfocusedNode tests pass; existing renderer math passes.
+Private agent-cli-07 native receipt: all actualCLI playback/cache/no-replay/
+busy/cancel/timeout/default-profile/ACL/owned-cleanup cases pass. Cold6.20s;
+host-start voiceonly.040s/cachedface.053s/newface3.13-5.15s/Happy4.80s.
+CLIstartup/exit .37-.42s; voiceonly command-to-playback about.46s, not40ms.
+Five focused actualEdge normal-lane checks pass. Full historical smoke remains
+failed: one-byte roundtrip in01; six-spoke optical fixture failure in02 also
+reproduced with unchanged HEAD app.js baseline. No assertions relaxed.
+Receipts01-06 preserved, including Windows GUI stdin EOF and ACL-probe failure.
+Final source hashes: .local/qualification/agent-cli-07/source-receipt.json.
+Allowned native/speech/host PIDs/profiles/descriptors cleaned. Muted/synthetic,
+no listening/accuracy acceptance. Chapter10/guide/brief/index/ledger explain
+ownership, current-ID-only idempotency, errors, cancellation/restart and limits.
+All32GIFs/twoPNG/threefrozenreleases retained; no new install/edition/release.
+
+Completion log:
+2026-11-20 - Owner requests a CLI-accessible speaking option for selected future
+agent sessions and explicitly prioritizes performance. Design uses a dedicated
+opt-in warm host, capability-authenticated loopback calls and native push IPC;
+no idle renderer polling or automatic agent-session activation.
+2026-11-20 - Implemented and environment-qualified; source delivery is recorded
+separately by Git history and exact remote verification, not issue completion.

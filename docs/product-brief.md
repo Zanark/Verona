@@ -95,6 +95,13 @@ emotions plus neutral inside its existing collapsed section. vr-36 recaptures
 the feature gallery at4x/bright spokes, retains the just-qualified unique-emotion
 loops and keeps the huge captioned hero above everything. This is a media/docs
 refresh, not a default change, mixture preview, new voice or accuracy acceptance.
+The owner next requests a CLI-accessible speaking option for selected future
+Agency/Copilot sessions, explicitly prioritizing performance. vr-37 provides a
+named opt-in warm host, stdin/JSON clients and native push-driven playback using
+the same face/voice system. No global hooks, conversation scraping or automatic
+session activation. Explicit voice-only mode avoids neural preparation; new
+animated lines remain precomputed. Measured latency is not an instant-response
+or listening-accuracy acceptance claim.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.
