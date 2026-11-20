@@ -203,8 +203,9 @@ try {
   $("wire").dataset.appearanceModel = session.appearance?.model || "mpfb";
   $("wire").dataset.appearanceSession = session.appearance?.session || "";
   pose = Float32Array.from(model.rest);
-  draw = [createStudyRenderer($("wire"), model, false, false),
-    createStudyRenderer($("surface"), model, true, false)];
+  const managed = Boolean(desktop?.agentEnabled);
+  draw = [createStudyRenderer($("wire"), model, false, false, managed)];
+  if (!managed) draw.push(createStudyRenderer($("surface"), model, true, false));
   for (const voice of session.voices) $("voice").add(new Option(voice.name, voice.name));
   $("voice").value = session.defaultVoice;
   $("text").maxLength = session.limits.characters;

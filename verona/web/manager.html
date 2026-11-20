@@ -1,34 +1,90 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>Verona | Session manager</title><link rel="stylesheet" href="/manager.css"></head>
-<body><header><h1>Verona</h1><p>One control room. A separate named head and speech owner for each chat.</p>
-<button id="refresh">Refresh</button><button id="exit">Exit manager and its heads</button></header>
-<main><aside><h2>Sessions</h2><div id="sessions"></div><button id="new">New session</button></aside>
-<section><h2 id="heading">Create a head</h2><p id="status" role="status"></p><p id="error" role="alert"></p>
-<form id="create"><label>Session name<input id="name" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,47}" maxlength="48" placeholder="coding"></label>
-<label>Head variant<select id="model"></select></label><button>Create separate head</button></form>
-<fieldset id="colors"><legend>Independent colors</legend><div id="palette"></div>
-<button id="save-colors" type="button">Apply colors</button><button id="original-colors" type="button">Restore original colors</button>
-<p>Robot: hair = helmet/crest, lips = mouth plates, eyebrows = brow plates.
-Native MPFB: a custom hair color adds an optional static cap; original removes it. Lip/brow masks are approximate.</p></fieldset>
-<div id="selected" hidden><h3>Head controls</h3>
-<section class="control-section" aria-labelledby="editable-heading">
-<h4 id="editable-heading">Editable now</h4>
-<p>Changes apply only to this head. Availability updates with its mode and activity.</p>
-<div id="controls"></div><p id="no-editable" hidden>No controls are editable right now.</p>
-</section>
-<section class="control-section" aria-labelledby="readonly-heading">
-<h4 id="readonly-heading">Read-only settings</h4>
-<p>Session name and head variant are set at creation. Other unavailable controls
-are marked separately: they may become editable in another mode or after speech finishes.</p>
-<div id="readonly-controls"></div>
-</section>
-<form id="speech"><label>Speak through this head<textarea id="sentence" maxlength="280" required placeholder="A short message for this session"></textarea></label>
-<label><input id="voice-only" type="checkbox"> Voice only (skip neural face generation)</label><button>Speak</button>
-<button id="cancel" type="button">Stop this speech</button></form>
-<button id="close" type="button">Close this head</button></div>
-<p class="note">Each head retains its own model, colors, latest speech and audio clock in RAM.
-Different heads may speak simultaneously; CPU and memory use grow with active heads.
-Closing this tab does not stop the manager. Exit closes only manager-created heads; external CLI hosts stay independent.
-No automatic narration, downloads, camera or microphone. Model identity/articulation accuracy is not accepted.</p>
-</section></main><script type="module" src="/manager.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verona | Session manager</title><link rel="stylesheet" href="/manager.css">
+</head>
+<body>
+<a class="skip-link" href="#workspace">Skip to workspace</a>
+<header class="app-header">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">V</span><div><h1>Verona</h1><p>Local voice. Independent faces.</p></div></div>
+  <div class="manager-actions"><p id="connection" role="status">Connecting to local manager...</p>
+    <button id="refresh" type="button">Refresh</button>
+    <details class="manager-menu"><summary>Manager options</summary><div>
+      <p>Closing this tab leaves heads running.</p><button id="exit" class="danger" type="button">Exit manager and its heads</button>
+    </div></details>
+  </div>
+</header>
+<main class="workspace">
+  <aside class="session-sidebar" aria-labelledby="sessions-heading">
+    <div class="section-heading"><h2 id="sessions-heading">Sessions</h2><span id="session-count" class="count">0</span></div>
+    <button id="new" class="primary" type="button">+ New session</button>
+    <p id="empty-sessions" class="hint">Loading sessions...</p>
+    <nav id="sessions" aria-label="Choose a head"></nav>
+    <p class="sidebar-note">One named head per chat.<br>Only the selected head changes.</p>
+  </aside>
+  <section id="workspace" class="studio" tabindex="-1" aria-labelledby="heading">
+    <div class="studio-heading"><p class="eyebrow">YOUR WORKSPACE</p><h2 id="heading">Create a head</h2>
+      <p id="status" role="status"></p></div>
+    <p id="error" role="alert"></p>
+    <form id="create" class="surface">
+      <h3>A face for this session</h3><p class="hint">Choose its identity once. Customize its colors below before creating.</p>
+      <div class="form-grid">
+        <label for="name">Session name<input id="name" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,47}" maxlength="48"
+          placeholder="e.g. coding" aria-describedby="name-hint" autocomplete="off" spellcheck="false">
+          <small id="name-hint">1-48 letters, numbers, underscores or hyphens; start with a letter or number.</small></label>
+        <label for="model">Head variant<select id="model"></select><small>Name and variant are fixed at creation.</small></label>
+      </div>
+      <button id="create-head" class="primary" type="submit">Create separate head</button>
+    </form>
+    <div id="selected" hidden>
+      <form id="speech" class="surface speech-composer">
+        <div class="section-heading"><h3>Give this head a voice</h3><span class="hint">LOCAL / IN MEMORY</span></div>
+        <label for="sentence">What should it say?<textarea id="sentence" maxlength="280" required rows="3"
+          placeholder="Write a short message for this session"></textarea></label>
+        <div class="composer-options"><label class="check-label"><input id="voice-only" type="checkbox"> Voice only <span class="hint">(skip face generation)</span></label>
+          <output id="character-count" for="sentence" class="hint">0 / 280</output></div>
+        <div class="action-row"><button id="speak" class="primary" type="submit">Speak</button>
+          <button id="cancel" type="button">Stop this speech</button></div>
+        <p class="hint">Uses the selected head's voice and expression. Stop affects only its current speech.</p>
+      </form>
+    </div>
+    <details id="appearance-panel" class="surface disclosure" open>
+      <summary>Appearance <span>Five independent colors</span></summary>
+      <fieldset id="colors"><legend class="sr-only">Independent colors</legend>
+        <div id="palette"></div>
+        <div class="action-row"><button id="save-colors" type="button">Apply colors</button>
+          <button id="original-colors" class="quiet" type="button">Restore original colors</button><span id="color-state" role="status" class="hint"></span></div>
+        <p class="hint">Blank means original. Choose clearly distinct hue families for different heads; any RGB color remains available.</p>
+        <details class="mapping-note"><summary>How colors map to each model</summary>
+          <p>Robot: hair = helmet/crest, lips = mouth plates, eyebrows = brow plates.
+          Native MPFB: a custom hair color adds an optional static cap; original removes it.
+          Lip/brow masks are approximate.</p></details>
+      </fieldset>
+    </details>
+    <div id="head-settings" hidden>
+      <section class="control-section surface" aria-labelledby="editable-heading">
+        <h3 id="editable-heading">Editable now</h3>
+        <p class="hint">Live settings for this head. Availability follows its mode and activity.</p>
+        <div id="controls"></div><p id="no-editable" class="hint" hidden>No controls are editable right now.</p>
+      </section>
+      <section class="control-section surface readonly-section" aria-labelledby="readonly-heading">
+        <h3 id="readonly-heading">Read-only settings</h3>
+        <p class="hint">Name and variant are set at creation. Other unavailable controls are marked separately;
+          they may become editable in another mode or after speech finishes.</p>
+        <div id="readonly-controls"></div>
+      </section>
+      <div class="head-footer"><p class="hint">Closing releases this head's speech and unsaved settings.</p>
+        <button id="close" class="danger" type="button">Close this head</button></div>
+    </div>
+    <details class="runtime-note"><summary>Local ownership and limits</summary>
+      <p>Each head retains its own model, colors, latest speech and audio clock in RAM.
+      Different heads may speak simultaneously; CPU and memory use grow with active heads.
+      Closing this tab does not stop the manager. Exit closes only manager-created heads;
+      external CLI hosts stay independent. No automatic narration, downloads, camera or microphone.
+      Model identity and articulation accuracy are not accepted. Drafts are not saved across reloads.</p>
+    </details>
+  </section>
+</main>
+<script type="module" src="/manager.js"></script>
+</body></html>

@@ -19,6 +19,11 @@ named head, choose any of six models and set its five optional colors.
 Selecting its session shows confirmed colors and its actual native controls:
 voice, expression, volume and the view/orientation options that model supports.
 Use **Speak**, **Stop this speech** and **Close this head** centrally.
+The session rail keeps head selection separate from the speech workspace.
+Expand **Appearance** for the five colors; **Manager options** contains Exit.
+Unsent text, voice-only and raw color edits stay with their selected head while
+this page stays open. Reload discards these drafts. A failed connection is
+explicitly stale, not a fresh empty list; use Refresh to recover.
 The head windows show the face and session identity, not separate settings GUIs.
 Models are selected at creation; close/recreate a session to change its model.
 Changes, speech and colors are RAM-only. A head may take seconds to prepare;
@@ -216,13 +221,17 @@ ownership, commands/customization, performance, failures and the owner's
 distinct-color policy. Installing that passive skill does not start speech,
 replace this checkout's setup or add a runtime color reservation service.
 
-The manager's **Head controls** has two sections: **Editable now** and
+The selected head's settings have two sections: **Editable now** and
 **Read-only settings**. Session name and head variant are fixed at creation;
 create a new head to change them. Disabled live controls are labeled
 **Currently unavailable**, not permanently fixed: changing mode or finishing
 speech may make them editable. The sections update from the head's actual
 readiness/control metadata. Refresh an already-open manager page to load
 updated UI; existing head windows do not need restarting.
+Preserved standalone Claire controls are grouped under Expression,
+Look & framing and Pose & cursor. Their technical explanation is collapsible;
+the existing audio/renderer is reused. Managed MPFB shows just its transparent
+wire head and floating menu, not both study previews.
 
 An agent with permission to run local Windows commands can use Verona as its
 speech output. This does not install an assistant, scrape conversations or

@@ -114,7 +114,8 @@ async function run(window) {
     return {...initial,opened,escaped,outside};
   })()`);
   assert(report.overlayToolbar.collapsed && report.overlayToolbar.expanded==="false");
-  assert(report.overlayToolbar.width<=36 && report.overlayToolbar.height<=22 && /blur/.test(report.overlayToolbar.blur));
+  assert(report.overlayToolbar.width>=24 && report.overlayToolbar.width<=36 &&
+    report.overlayToolbar.height>=24 && report.overlayToolbar.height<=28 && /blur/.test(report.overlayToolbar.blur));
   assert(report.overlayToolbar.opened && report.overlayToolbar.escaped && report.overlayToolbar.outside);
   await pause(100);
   assert(await evaluate(`document.getElementById("overlay-options").getBoundingClientRect().width>300`));

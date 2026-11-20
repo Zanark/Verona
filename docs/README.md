@@ -16,6 +16,13 @@ The **vr-48** self-contained agent skill documents safe operation, measured
 performance, customization and vivid, inventory-checked color identities.
 Chapter10 distinguishes cooperative color reconciliation from runtime locking.
 
+The **vr-50** UI refinement makes the manager session-led and speech-first,
+groups browser settings, preserves per-head drafts/focus through polling and
+labels stale/pending/error states explicitly. Floating tabs meet a 24px minimum
+height while pin/name stay collapsed; managed MPFB uses transparent output and
+only its visible renderer. Chapter10 explains asynchronous revision guards,
+design decisions, actual browser/native checks and rejected capture receipts.
+
 The **vr-49** review-only cheekiness report compares current original Claire
 with a clearly sideways, asymmetric lip pull using the same actual speech and
 renderer. Open `.local\qualification\cheekiness-claire-03\review.html` in the

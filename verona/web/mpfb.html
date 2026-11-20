@@ -3,26 +3,14 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Verona | Native MPFB speaking study</title><link rel="stylesheet" href="/style.css"></head>
 <body>
-<header><h1>Native MPFB head + Claire speech</h1>
-<p>Original imported geometry. Real audio-conditioned motion. Selectable source expression gain (4x default).
-Unaccepted research variant, not the normal app.</p></header>
+<header><h1>Verona <span>Native MPFB</span></h1>
+<p>Original imported geometry, driven by Claire speech. A research variant; identity and articulation are not accepted.</p></header>
 <main>
-<div class="views"><figure><canvas id="wire" width="640" height="640"></canvas><figcaption>Native polygon wire / bright spokes</figcaption></figure>
-<figure><canvas id="surface" width="640" height="640"></canvas><figcaption>Same native head / surface inspection</figcaption></figure></div>
-<p id="caption">Loading isolated local model...</p>
-<fieldset class="appearance"><legend>Appearance colors</legend>
-<p>Pick a swatch or enter #RGB / #RRGGBB. Original restores exact original styling; swatches marked Original are suggestions.
-Lips and eyebrows use approximate rest-coordinate color masks, not new anatomy.</p>
-<div class="appearance-grid">
-<label>Mesh / skin <input id="mesh-color" type="color" value="#4de8db"><input id="mesh-hex" aria-label="Mesh hex" value="#4DE8DB" maxlength="7"><span id="mesh-default">Original</span><button id="mesh-reset" type="button">Original mesh</button></label>
-<label>Eyes <input id="eyes-color" type="color" value="#ff0406"><input id="eyes-hex" aria-label="Eyes hex" value="#FF0406" maxlength="7"><span id="eyes-default">Original</span><button id="eyes-reset" type="button">Original eyes</button></label>
-<label>Optional hair cap <input id="hair-color" type="color" value="#24170f"><input id="hair-hex" aria-label="Hair hex" value="#24170F" maxlength="7"><span id="hair-default">Original</span><button id="hair-reset" type="button">Original (no hair)</button></label>
-<label>Lips <input id="lips-color" type="color" value="#a45261"><input id="lips-hex" aria-label="Lips hex" value="#A45261" maxlength="7"><span id="lips-default">Original</span><button id="lips-reset" type="button">Original lips</button></label>
-<label>Eyebrows <input id="eyebrows-color" type="color" value="#30251f"><input id="eyebrows-hex" aria-label="Eyebrows hex" value="#30251F" maxlength="7"><span id="eyebrows-default">Original</span><button id="eyebrows-reset" type="button">Original eyebrows</button></label>
-</div><p id="appearance-note"></p></fieldset>
+<section class="study-input"><h2>Bring a sentence to life</h2>
 <label>Sentence <textarea id="text" maxlength="400">Hey, how are you?</textarea></label>
 <div class="controls">
 <label>Voice <select id="voice"></select></label>
+<details class="expression-options"><summary>Expression &amp; turn</summary>
 <label>Emotion <select id="expression">
 <option value="neutral">Neutral</option><option value="surprised">Surprised</option>
 <option value="angry">Angry</option><option value="cheekiness">Cheekiness</option>
@@ -33,14 +21,31 @@ Lips and eyebrows use approximate rest-coordinate color masks, not new anatomy.<
 <label>Intensity <input id="intensity" type="range" min="0" max="0.6" step=".05" value=".6"></label>
 <label>Emotion exaggeration <select id="expression-gain"><option value="2">2x</option><option value="4" selected>4x (native study default)</option></select></label>
 <label>Turn <input id="yaw" type="range" min="-90" max="90" value="0"></label>
+</details>
 <label>Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
 <button id="generate" disabled>Generate speech</button>
 <button id="stop" disabled>Stop / rest</button>
 </div>
 <audio id="audio" controls preload="auto"></audio>
-<p id="status" role="status">No audio plays automatically.</p><p id="error" role="alert"></p>
+<p id="status" role="status">No audio plays automatically.</p></section>
+<p id="error" role="alert"></p>
+<div class="views"><figure><canvas id="wire" width="640" height="640"></canvas><figcaption>Native polygon wire / bright spokes</figcaption></figure>
+<figure><canvas id="surface" width="640" height="640"></canvas><figcaption>Same native head / surface inspection</figcaption></figure></div>
+<p id="caption">Loading isolated local model...</p>
+<details class="settings-group"><summary>Appearance <span>Five independent colors</span></summary>
+<fieldset class="appearance"><legend>Appearance colors</legend>
+<p>Pick a swatch or enter #RGB / #RRGGBB. Original restores exact original styling; swatches marked Original are suggestions.
+Lips and eyebrows use approximate rest-coordinate color masks, not new anatomy.</p>
+<div class="appearance-grid">
+<label>Mesh / skin <input id="mesh-color" type="color" value="#4de8db"><input id="mesh-hex" aria-label="Mesh hex" value="#4DE8DB" maxlength="7"><span id="mesh-default">Original</span><button id="mesh-reset" type="button">Original mesh</button></label>
+<label>Eyes <input id="eyes-color" type="color" value="#ff0406"><input id="eyes-hex" aria-label="Eyes hex" value="#FF0406" maxlength="7"><span id="eyes-default">Original</span><button id="eyes-reset" type="button">Original eyes</button></label>
+<label>Optional hair cap <input id="hair-color" type="color" value="#24170f"><input id="hair-hex" aria-label="Hair hex" value="#24170F" maxlength="7"><span id="hair-default">Original</span><button id="hair-reset" type="button">Original (no hair)</button></label>
+<label>Lips <input id="lips-color" type="color" value="#a45261"><input id="lips-hex" aria-label="Lips hex" value="#A45261" maxlength="7"><span id="lips-default">Original</span><button id="lips-reset" type="button">Original lips</button></label>
+<label>Eyebrows <input id="eyebrows-color" type="color" value="#30251f"><input id="eyebrows-hex" aria-label="Eyebrows hex" value="#30251F" maxlength="7"><span id="eyebrows-default">Original</span><button id="eyebrows-reset" type="button">Original eyebrows</button></label>
+</div><p id="appearance-note"></p></fieldset></details>
+<details class="technical-notes"><summary>How this study works &amp; its limits</summary>
 <p class="limits">Native controls are bounded to 0..1; this is not a lossless copy of Claire's 4x displacement.
 Fixed eyeballs, no teeth/tongue rig or contact solver. Geometric transfer is not
 phonetic, emotion, identity or femininity acceptance. Speech is latest-only RAM.
-Closing this tab does not stop the console; use Ctrl+C there. Reload after a lost session or WebGL context.</p>
+Closing this tab does not stop the console; use Ctrl+C there. Reload after a lost session or WebGL context.</p></details>
 </main><script type="module" src="/app.js"></script></body></html>

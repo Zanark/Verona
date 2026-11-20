@@ -44,12 +44,22 @@ app.whenReady().then(async()=>{
       const toggle=document.getElementById("overlay-toggle")||document.querySelector(".session-menu summary");
       toggle.click();
       const expanded=visible(pin)&&visible(label);
+      let dismisses=true;
+      if(!existing){
+        document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}));
+        dismisses=!visible(pin)&&document.activeElement===toggle;
+        toggle.click();
+        document.body.dispatchEvent(new Event("pointerdown",{bubbles:true}));
+        dismisses=dismisses&&!visible(pin);toggle.click();
+      }
       pin.click();await Promise.resolve();
       const final=pin.checked;
       toggle.click();
       const collapsedAgain=!visible(pin)&&!visible(label);
       const sameControl=!existing||existing===pin;
-      return {initial,initiallyHidden,expanded,collapsedAgain,off,final,sameControl,calls,errors,
+      const target=toggle.getBoundingClientRect();
+      return {initial,initiallyHidden,expanded,collapsedAgain,off,final,sameControl,calls,errors,dismisses,
+        target:{width:target.width,height:target.height},
         identity:label.textContent===document.title,
         count:document.querySelectorAll("#pin-overlay").length};
     })()`,true);
@@ -60,6 +70,8 @@ app.whenReady().then(async()=>{
     assert.equal(result.collapsedAgain,true);assert.equal(result.identity,true);
     assert.equal(result.off,false);assert.equal(result.final,true);
     assert.equal(result.sameControl,true);assert.equal(result.count,1);
+    assert.equal(result.dismisses,true);
+    assert(result.target.width>=24&&result.target.height>=24);
     assert.deepEqual(result.errors,[]);
     assert.deepEqual(result.calls,[{action:"pin",value:false},{action:"pin",value:true}]);
     report.checks.push(original?"Claire: pin/name hidden in collapsed original menu; expand/collapse, direct and hidden-menu manager toggles pass.":

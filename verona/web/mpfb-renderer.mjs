@@ -1,5 +1,5 @@
-export function createStudyRenderer(canvas, model, shaded, finish = true) {
-  const gl = canvas.getContext("webgl2", {alpha: false, antialias: true, preserveDrawingBuffer: true});
+export function createStudyRenderer(canvas, model, shaded, finish = true, transparent = false) {
+  const gl = canvas.getContext("webgl2", {alpha: transparent, antialias: true, preserveDrawingBuffer: true});
   if (!gl) throw new Error("WebGL2 is required for the local head study.");
   const vertex = `#version 300 es
     in vec3 position; in vec3 normal; in vec3 restPosition;
@@ -137,7 +137,9 @@ export function createStudyRenderer(canvas, model, shaded, finish = true) {
   let colors=Object.fromEntries(keys.map(key=>[key,null])),rgb={};
 
   const draw = (pose,yaw) => {
-    gl.clearColor(.031,.063,.094,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    if(transparent)gl.clearColor(0,0,0,0);
+    else gl.clearColor(.031,.063,.094,1);
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     gl.useProgram(program);gl.uniform2f(uniforms.angle,yaw*Math.PI/180,-.035);
     gl.uniform1f(uniforms.bias,0);gl.bindVertexArray(vao);
     gl.uniform1i(uniforms.feature,0);
@@ -177,7 +179,8 @@ export function createStudyRenderer(canvas, model, shaded, finish = true) {
     gl.bindVertexArray(eyeVao);gl.uniform3fv(uniforms.color,rgb.eyes||[1,.025,.04]);
     gl.uniform1i(uniforms.feature,2);
     gl.drawArrays(gl.LINES,eyes.length/3,spokes.length/3);
-    gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.BLEND);
+    gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
     gl.uniform1i(uniforms.mode,2);
     gl.drawArrays(gl.POINTS,(eyes.length+spokes.length)/3,centers.length/3);
     gl.disable(gl.BLEND);

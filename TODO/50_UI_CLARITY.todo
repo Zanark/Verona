@@ -1,0 +1,59 @@
+ID: vr-50
+Title: Calm browser workspace and floating-head controls
+
+Status: IN_PROGRESS
+Milestone: One coherent, readable UI across the manager and existing face players
+Dependencies: vr-45, vr-46, vr-47
+GitHub issue: https://github.com/Zanark/Verona/issues/49
+
+Purpose:
+  Put session selection, speech and deliberate customization ahead of competing
+  controls. Preserve every existing model, color choice and native ownership
+  boundary. Apply researched hierarchy/material/accessibility principles rather
+  than copying another application's visual effects or implementation.
+
+Tasks:
+  Review the requested design discussion, its images and explicit document
+  references. Inventory actual Verona surfaces and protect the live runtime.
+  Implement a calmer manager, grouped browser controls and fitted native menus.
+  Preserve focused controls, per-head unsent drafts and explicit stale/error
+  feedback. Qualify actual interactions and representative rendered layouts.
+  Update the engineering book and causal ledger; contribute grounded learnings
+  back to the requested discussion after qualification.
+
+Acceptance criteria:
+  All six existing variants and all five arbitrary feature colors remain.
+  Editable now and Read-only settings retain their distinct meanings.
+  Pin/name stay inside default-collapsed floating menus; pin remains default-on.
+  Polling does not replace focused session targets or unsent speech/color edits.
+  Speech acceptance never clears another head's draft or newly typed text.
+  Loading, empty, stale, pending and failed states do not masquerade as success.
+  Browser/narrow/keyboard and actual native transparency/controls are checked
+  with isolated fixtures and owned profiles, without driving existing heads.
+  No new renderer/audio owner, device activation, external runtime assets or
+  ornamental animation loop; no unmeasured performance or human-acceptance claim.
+
+Completion evidence:
+  Implemented and environment-qualified in a detached candidate at d527fe4.
+  76 CPU regressions; ui-controls-04 eleven manager fixture checks and
+  ui-controls-03 shared menus; ui-player-layouts-09 actual encoded wide/narrow/
+  native images and MPFB alpha. ui-topmost-01 actual two-head Windows pin state.
+  ui-live-01 native16/real-Edge color6checks; ui-sessions-01 all six native
+  variants, actual muted speech, GUI/CLI edits and owned lifecycle/isolation.
+  Representative actual images visually inspected. Earlier01..08 capture
+  receipts retained/rejected; no owner visual, listening or accuracy acceptance.
+  Chapter10/index/guide/causal ledger updated. Source promotion and requested
+  implementation-learning contribution remain pending at this checkpoint.
+
+Completion log:
+  2026-11-21 - Began the bounded UI workstream after reading the complete
+    requested discussion, illustrated reference book and additional local
+    document references. Created a detached candidate worktree; no UI runtime
+    edits have been promoted to the live-served checkout.
+  2026-11-21 - Qualified browser/native implementation and actual six-variant
+    flow with disposable state. Rejected empty/stale capture evidence rather
+    than treating fixture success as a visual pass. Delivery/board follow next.
+  2026-11-21 - Put standalone MPFB speech before secondary settings/previews.
+    Requalified wide/narrow actual images and native pin/readiness. Separate
+    narrow input and scrolled-model captures rather than require an offscreen
+    mesh to appear above the fold. Prune retired unselected head drafts.

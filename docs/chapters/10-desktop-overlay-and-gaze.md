@@ -190,6 +190,136 @@ The owner's old MPFB console hang was stopped by its verified process identity.
 console: the bounded wait catches KeyboardInterrupt, exits0 in0.702seconds and
 removes owned native temporary data. Earlier failed fixtures/receipts remain.
 
+## A calmer workspace without a second application (vr-50)
+
+The manager's primary jobs are choosing a head, speaking through it and changing
+that head deliberately. `manager.html` now gives these a stable session rail and
+a speech-first workspace. Creation explains immutable identity; five independent
+colors live in one Appearance disclosure. **Editable now** and **Read-only
+settings** remain separate, with temporary unavailability distinguished from
+creation-time identity. Exit is secondary, under **Manager options**, because
+closing a tab and stopping owned heads are different operations.
+
+The browser Claire player retains its existing renderer and audio element.
+`index.html` groups Expression, Look & framing, Pose & cursor and technical
+limits with native disclosures. The transport owns Volume and the spoken-text
+readback precedes secondary settings. MPFB's standalone page retains its two
+inspection views and original controls, but uses the same surface/type/spacing
+direction. Its speech card comes first, beside both previews on wide screens;
+Expression & turn, Appearance and technical detail are secondary disclosures.
+On narrow screens speech precedes the stacked previews. `manager.css`,
+`style.css` and `mpfb.css` use restrained opaque
+surfaces, readable secondary text, visible field borders and focus outlines.
+Identity swatches do not replace written session/model/state labels; arbitrary
+five-feature RGB choices remain available.
+
+This is an independently authored application of design principles, not an
+imported Material/Fluent component library or a native Liquid Glass claim.
+[Material Web theming](https://github.com/material-components/material-web/blob/main/docs/theming/README.md)
+separates reusable roles from literal colors;
+[Fluent principles](https://fluent2.microsoft.design/design-principles) prioritize
+clear, focused content; [Apple materials](https://developer.apple.com/design/human-interface-guidelines/materials)
+distinguish functional layers from content.
+[Nielsen's heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/)
+make status, user control and recovery design requirements, not decorations.
+Glass remains limited to floating controls; CSS backdrop blur is not desktop
+acrylic. No remote font, UI framework, dependency or decorative animation loop
+is added. These sources informed decisions, not certification or pixel copying.
+
+### Draft ownership and asynchronous truth
+
+`manager.js:display` updates keyed session buttons in place instead of replacing
+every button on each poll. An unchanged session target therefore keeps keyboard
+focus. `rememberDraft` and `choose` retain unsent text, voice-only choice and raw
+color edits per head in a page-local Map, including invalid intermediate hex.
+Creation has its own draft. This RAM is bounded by the local session inventory,
+not a transcript database; an authoritative inventory drops disappeared heads'
+drafts, including unselected ones, so name reuse does not inherit retired input.
+Reload or closing the tab discards all drafts.
+
+`act` gates repeated in-flight actions and displays pending copy. Speech captures
+its selected head and submitted text before awaiting the request. Acceptance
+clears only that matching draft, never newer typing or another head's text.
+Acceptance still does not mean synthesis/playback completed: the existing actual
+head state/audio-ended protocol remains authoritative.
+
+`confirmed` advances a local revision and merges the acknowledged native result.
+`refresh` commits a list/inspect snapshot only if that revision is unchanged;
+an obsolete in-flight poll requests a fresh serialized refresh rather than
+overwriting newly confirmed appearance. This is a client response-order guard,
+not distributed locking or an atomic list/configure transaction.
+Failed actions keep explicit errors and unapplied drafts. Connection failure
+labels the last confirmed state as stale and disables new mutations; successful
+empty inventory is distinct from inventory unavailable. An existing exact-job
+Stop can still be attempted. Nothing silently recreates a closed head, retries
+speech or persists unsent input across restart.
+
+### Fitted floating menus and native MPFB
+
+The collapsed tab is now 34 x 24 CSS pixels, rather than 34 x 20. This follows
+the [WCAG 2.2 minimum target](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+dimension without claiming the enhanced 44-pixel target or a complete
+accessibility audit. Pin/name remain hidden until expansion; pin stays default-on.
+Claire retains its original menu/listeners. MPFB's existing native details menu
+adds an OS drag region, explicit Close, Escape with focus return and outside-click
+dismissal. Expanded menus wrap/scroll within the viewport. Failures remain visible
+even when the rest of the managed MPFB workspace is hidden.
+
+The old MPFB study context explicitly requested opaque WebGL and a fixed dark
+clear. `mpfb-renderer.mjs:createStudyRenderer` now accepts an opt-in transparent
+context; `mpfb.js` selects it only for managed native heads. Clear becomes zero
+alpha, while separate color/alpha blend factors preserve correct optical alpha.
+Ordinary browser studies retain opaque rendering. Managed MPFB creates only its
+visible wire renderer, not a second hidden shaded renderer. Neural inference,
+motion transfer, topology, voice and audio ownership are unchanged. Removing
+known hidden work is not a measured percentage speedup.
+
+### Qualification, failed receipts and remaining boundaries
+
+The candidate was prepared in a detached worktree while the root manager kept
+serving known-good files. Pinned dependencies/models were read-only inputs;
+profiles, app data, synthesis workspace and derived caches were disposable.
+No existing manager/head was driven, reloaded or restarted.
+
+`ui-controls-04` records eleven actual-manager-DOM fixture checks, including draft
+and response-order races, duplicate submission, focus, stale recovery and
+360/560-pixel containment; the common menu fixture covers hidden pin/name,
+direct/manager toggles, Escape/outside dismissal and minimum tab dimensions.
+`ui-player-layouts-09` checks both player layouts at 1280/640/360 pixels and
+actual MPFB WebGL with 359,316 zero-alpha pixels, 9,094 opaque pixels and four
+zero-alpha corners. Encoded model/menu pixels are required before screenshot
+acceptance; wide/narrow MPFB and collapsed/expanded native images were inspected.
+Default wide layouts and expanded narrow settings are separate from scrolled
+narrow model captures. `ui-topmost-01` rechecks actual Claire/MPFB readiness and
+independent Windows topmost off/on state after the final markup change.
+The Claire static layout fixture intentionally omits runtime initialization;
+its loading canvas is not a ready-head screenshot.
+
+Earlier player receipts are retained and rejected as visual evidence: initial
+capture raised UnknownVizError, subsequent images could be empty/stale despite
+DOM checks. The final harness samples actual rendered frames after layout,
+copies PNG bytes during the paint callback and checks decoded image content.
+An exit code, DOM dimensions or drawing-buffer readback alone did not establish
+that the saved screenshot showed the current menu/model.
+Runs07/08 additionally exposed a wrong viewport assumption: after moving speech
+first, expanded narrow controls correctly push model previews below the fold.
+The final fixture retains first-screen controls and separately scrolls the
+previews into view before requiring the unchanged encoded mesh-pixel gate.
+
+`ui-live-01/native/desktop-report.json` passes sixteen real native checks:
+alpha/composition over an owned backdrop, menu/drag/zoom/pin, same live audio,
+view/framing restoration and bounded cadence. Its 1,801-interval sample has
+mean 16.659 ms, p95 16.8 ms and maximum 17.0 ms; these are shared-machine RAF
+measurements, not GPU completion, scanout or universal 60-fps guarantees.
+The focused real-Edge color flow passes six checks, including actual pixels,
+invalid-input recovery and unchanged playback/geometry uploads.
+`ui-sessions-01` initializes all six actual native model paths, completes muted
+speech, exercises selected-head GUI edits, two-head cancellation isolation,
+CLI operation, external-host survival and exact-parent-death cleanup.
+Seventy-six CPU regressions pass. Muted audio is not independent listening;
+fixtures/native qualification are not owner visual approval, anatomical
+acceptance, an accessibility certification, a new release or deployment.
+
 ## What changed and why
 
 The owner asked for a local desktop version, a head window with a genuinely

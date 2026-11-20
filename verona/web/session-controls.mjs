@@ -10,6 +10,23 @@ export function attachSessionControls(desktop, failure) {
     options.className = "session-options";
     menu.append(toggle, options);
     document.body.append(menu);
+    const drag = document.createElement("span");
+    drag.className = "drag-handle";
+    drag.textContent = "Drag to move";
+    const close = document.createElement("button");
+    close.type = "button";
+    close.textContent = "Close head";
+    close.addEventListener("click", async () => {
+      try { await desktop.command("close"); }
+      catch (error) { failure(error); }
+    });
+    options.append(drag, close);
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && menu.open) { menu.open = false; toggle.focus(); }
+    });
+    document.addEventListener("pointerdown", event => {
+      if (!menu.contains(event.target)) menu.open = false;
+    });
   }
   let pin = document.getElementById("pin-overlay");
   if (!pin) {

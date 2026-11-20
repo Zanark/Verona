@@ -26,10 +26,11 @@
     </div>
   </div>
   <p id="overlay-error" role="alert" hidden></p>
-  <header><h1>VERONA <span>local speaking-face prototype</span></h1>
-    <p>Text &rarr; Windows voice &rarr; neural CPU face. No camera, microphone or cloud service.</p></header>
+  <header><h1>Verona <span>Local speaking face</span></h1>
+    <p>Write a line. Generate its motion. Press Play. Your speech stays on this computer.</p></header>
   <main>
     <section class="input-panel" aria-label="Speech input">
+      <h2>Bring a sentence to life</h2>
       <label for="text">What should the face say?</label>
       <textarea id="text" maxlength="280" rows="5">Hey, how are you?</textarea>
       <div class="examples" aria-label="Example sentences">
@@ -62,7 +63,9 @@
         <button id="reset-voice" type="button" disabled>Reset voice</button>
       </div>
       <audio id="voice-preview" controls preload="auto" hidden aria-label="Voice preview"></audio>
-      <label for="expression">Explicit expression <small>(not inferred from text)</small></label>
+      <details class="settings-group expression-options">
+      <summary>Expression <span>Explicit, not inferred</span></summary>
+      <label for="expression">Expression</label>
       <select id="expression">
         <option value="neutral">Neutral</option><option value="happy">Happy</option>
         <option value="sad">Sad</option><option value="surprised">Surprised</option>
@@ -78,6 +81,7 @@
         <option value="4">4x (100% more)</option></select>
       <p class="hint">Exaggeration scales emotion relative to neutral speech, not ordinary speech.
         Non-neutral expressions need extra local processing; changes apply after Generate face.</p>
+      </details>
       <button id="generate" class="primary" type="button" disabled>Generate face</button>
       <p class="hint">Up to 280 characters / 25 seconds. Generate first, then press Play.
         Speech and motion stay in memory; no transcript history is saved.</p>
@@ -94,7 +98,7 @@
       </div>
       <div class="canvas-wrap">
         <canvas id="face" aria-label="Verona's sculpted face and wavy hair, animated with Claire speech motion"></canvas>
-        <div class="canvas-label">AUDIO-CLOCKED &middot; 30 FPS MOTION / 60 FPS DISPLAY TARGET <span id="frame">NEUTRAL</span></div>
+        <div class="canvas-label">LOCAL FACE PREVIEW <span id="frame">NEUTRAL</span></div>
       </div>
       <div class="transport">
         <button id="play" type="button" disabled>Play</button>
@@ -102,8 +106,12 @@
         <label for="seek" class="sr-only">Speech position in seconds</label>
         <input id="seek" type="range" min="0" max="1" value="0" step="0.001" disabled>
         <output id="time">0.00 / 0.00 s</output>
+        <label for="volume" class="volume-control">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
       </div>
+      <blockquote id="spoken">No generated speech yet.</blockquote>
       <div class="view-controls">
+        <details class="settings-group" open><summary>Look &amp; framing <span>Live preview</span></summary>
+        <div class="settings-grid">
         <label for="presentation">View <select id="presentation" disabled></select></label>
         <label for="appearance" data-claire-control>Claire material <select id="appearance">
           <option value="polygon" selected>Transparent polygons</option>
@@ -175,6 +183,9 @@
         <label data-claire-control><input id="points" type="checkbox"> Points</label>
         <label><input id="hair" type="checkbox" checked disabled> Hair (this view)</label>
         <label for="hairstyle">Hairstyle (shared) <select id="hairstyle" disabled></select></label>
+        </div></details>
+        <details class="settings-group"><summary>Pose &amp; cursor <span>Orientation, tracking and zoom</span></summary>
+        <div class="settings-grid">
         <label for="tilt">X <input id="tilt" aria-label="X rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="tilt-angle">0 deg</output></label>
         <label for="yaw">Y <input id="yaw" aria-label="Y rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="yaw-angle">0 deg</output></label>
         <label for="roll">Z <input id="roll" aria-label="Z rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="roll-angle">0 deg</output></label>
@@ -185,9 +196,10 @@
           <option value="head">Head follows cursor (eyes centered)</option>
         </select></label>
         <label for="zoom">Zoom <input id="zoom" type="range" min="0.35" max="2.3" step="0.05" value="1"></label>
-        <label for="volume">Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8"></label>
+        </div></details>
       </div>
       <p id="geometry-details" class="hint" aria-live="polite"></p>
+      <details class="technical-notes"><summary>How this prototype works &amp; its limits</summary>
       <p class="hint">Human views offer Claire waves (original) and Spiral curls with 48 locks. Hair starts off outside Claire;
         enable Hair for this view, then choose a shared hairstyle. Hair matches the head's polygons, wire, dots or grid.
         Full bust reveals the complete hair;
@@ -197,7 +209,6 @@
       <p class="hint">Head and neck follows the jaw instead of a horizontal plane.
         Drag Visible neck to preview the cut live: 0 is jawline-only, 6 shows more neck.
         Skin and hair share the curved cut. Full bust restores the complete original geometry.</p>
-      <blockquote id="spoken">No generated speech yet.</blockquote>
       <p class="hint">Claire preserves the current look and motion. FaceMesh is a front-face wire mask with
         five detail levels (5 retains native face detail) and red mechanical irises with bright cores,
         concentric rings and radial spokes, now 30% dimmer. FaceDot shows depth-occluded surface dots;
@@ -216,9 +227,10 @@
         Cursor gaze moves the procedural irises, not learned eye joints.
         Full SDK contact correction and independent teeth, tongue and eye-joint animation are not implemented.
         Phonetic accuracy and human acceptance are still open.</p>
+      </details>
     </section>
   </main>
   <audio id="audio" preload="auto"></audio>
-  <footer>Loopback only &middot; No external scripts/fonts &middot; Close this tab and stop the Verona terminal with Ctrl+C.</footer>
+  <footer>Local only &middot; No camera or microphone &middot; No external scripts or fonts &middot; Closing a browser tab does not stop its local host.</footer>
 </body>
 </html>
