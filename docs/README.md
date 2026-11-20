@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**M1 / v0.1.0** freezes the functional local speaking-face workspace.
+[Release notes](releases/v0.1.0.md) separate delivered features, experimental
+identities and remaining accuracy/listening gates. Chapter10 explains the
+source/media/checksum boundary; this remains a living manuscript, not a newly
+rendered or published book edition.
+
 The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
 (`VeronaDesktop.cmd` is an alias). Chapter10 describes isolated warm engines,
 native control forwarding and owned lifecycle; chapter09 describes independent

@@ -1,0 +1,53 @@
+ID: vr-52
+Title: First milestone gallery and versioned source release
+GitHub issue: https://github.com/Zanark/Verona/issues/51
+
+Status: IN_PROGRESS
+Milestone: M1 - Local speaking-face workspace
+Dependencies: vr-45, vr-46, vr-47, vr-48, vr-50, vr-51
+
+Purpose:
+  Freeze the owner's first achieved milestone as v0.1.0, refresh the README
+  with actual current six-variant GIFs/UI evidence, and publish an honest,
+  recoverable source release without interrupting existing heads.
+
+Tasks:
+  Capture current production renderers with one synthetic greeting in an
+    isolated output/profile/cache/synthesis lane; verify actual encoded GIFs.
+  Update README, media provenance, release notes, guide/book and causal ledger.
+  Reconcile the original issue/Project item and bounded GitHub M1 milestone.
+  Review exact source allowlist, package versioned source/checksums/manifest,
+    commit/push with both Zanark identities and publish/verify exact release.
+  Celebrate the verified result on owned MeshBoard and preserve continuity.
+
+Acceptance criteria:
+  Preserve hero-first/single-closed-disclosure layout and every current hair.
+  Show all six manager variants; distinguish optional raw Mark study and
+    report-only sideways cheekiness from runtime features and owner approval.
+  Accurate setup, OS/model/license/dependency and known-limit documentation.
+  No installer/accuracy/clean-machine/listening certification claim.
+  No credentials, models, personal media or context stores in release assets.
+  Exact tag/source/archive/media hashes and remote asset readback; retain
+    existing releases/tags and parked/in-progress work without closing it.
+  Existing owner/sibling applications, profiles, devices and heads untouched.
+  Celebration is actually published, not a draft or invented peer response.
+
+Completion evidence:
+  milestone-gallery-01 captures six actual current CPU/production-renderer
+    greetings; nine newGIFs/281encodedframes match full decoded timelines.
+  Actual connected manager02 composition inspected; initial stale-paint PNG
+    retained/rejected. Contact sheet and GitHub-CSS narrow/hair samples viewed.
+  Actual GitHub GFM/owned Edge:41images/40GIFs,16equalpairs/8centeredsoloGIFs,
+    twohairstyles, closeddisclosure,1200/768/390aspect/nooverflow pass.
+  76CPUregressions pass; verona/desktop runtime unchanged from qualified vr50.
+  M1 GitHub milestone1 links12bounded core/UI/operation/report/release issues.
+    Existing completed states preserved; vr52 remains open. No parked/open
+    unrelated issue is closed or moved.
+  Exact archive, publication, download verification and celebration pending.
+
+Completion log:
+  2026-11-21 - Owner explicitly declares first milestone and authorizes updated
+    README GIFs, commit/push, release, project housekeeping and social celebration.
+    Existing prototype.1/.2/.3 remain historical; select v0.1.0 for M1, not1.0.
+  2026-11-21 - Prepared verified source/media milestone; publication and final
+    completion are separate gates, not inferred from a local commit.

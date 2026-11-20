@@ -658,7 +658,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-52": {
+      "source": "TODO/52_FIRST_MILESTONE_RELEASE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhLcmYg",
+      "number": 51,
+      "url": "https://github.com/Zanark/Verona/issues/51",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKnCdo",
+      "title": "First milestone gallery and versioned source release",
+      "managedBody": "\n<!-- verona-workstream:vr-52 -->\nWorkstream source: `TODO/52_FIRST_MILESTONE_RELEASE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-52\nTitle: First milestone gallery and versioned source release\n\nStatus: IN_PROGRESS\nMilestone: M1 - Local speaking-face workspace\nDependencies: vr-45, vr-46, vr-47, vr-48, vr-50, vr-51\n\nPurpose:\n  Freeze the owner's first achieved milestone as v0.1.0, refresh the README\n  with actual current six-variant GIFs/UI evidence, and publish an honest,\n  recoverable source release without interrupting existing heads.\n\nTasks:\n  Capture current production renderers with one synthetic greeting in an\n    isolated output/profile/cache/synthesis lane; verify actual encoded GIFs.\n  Update README, media provenance, release notes, guide/book and causal ledger.\n  Reconcile the original issue/Project item and bounded GitHub M1 milestone.\n  Review exact source allowlist, package versioned source/checksums/manifest,\n    commit/push with both Zanark identities and publish/verify exact release.\n  Celebrate the verified result on owned MeshBoard and preserve continuity.\n\nAcceptance criteria:\n  Preserve hero-first/single-closed-disclosure layout and every current hair.\n  Show all six manager variants; distinguish optional raw Mark study and\n    report-only sideways cheekiness from runtime features and owner approval.\n  Accurate setup, OS/model/license/dependency and known-limit documentation.\n  No installer/accuracy/clean-machine/listening certification claim.\n  No credentials, models, personal media or context stores in release assets.\n  Exact tag/source/archive/media hashes and remote asset readback; retain\n    existing releases/tags and parked/in-progress work without closing it.\n  Existing owner/sibling applications, profiles, devices and heads untouched.\n  Celebration is actually published, not a draft or invented peer response.\n\nCompletion evidence:\n  milestone-gallery-01 captures six actual current CPU/production-renderer\n    greetings; nine newGIFs/281encodedframes match full decoded timelines.\n  Actual connected manager02 composition inspected; initial stale-paint PNG\n    retained/rejected. Contact sheet and GitHub-CSS narrow/hair samples viewed.\n  Actual GitHub GFM/owned Edge:41images/40GIFs,16equalpairs/8centeredsoloGIFs,\n    twohairstyles, closeddisclosure,1200/768/390aspect/nooverflow pass.\n  76CPUregressions pass; verona/desktop runtime unchanged from qualified vr50.\n  M1 GitHub milestone1 links12bounded core/UI/operation/report/release issues.\n    Existing completed states preserved; vr52 remains open. No parked/open\n    unrelated issue is closed or moved.\n  Exact archive, publication, download verification and celebration pending.\n\nCompletion log:\n  2026-11-21 - Owner explicitly declares first milestone and authorizes updated\n    README GIFs, commit/push, release, project housekeeping and social celebration.\n    Existing prototype.1/.2/.3 remain historical; select v0.1.0 for M1, not1.0.\n  2026-11-21 - Prepared verified source/media milestone; publication and final\n    completion are separate gates, not inferred from a local commit.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-20T23:22:32.902195+00:00"
+  "verifiedAt": "2026-11-20T23:49:23.288524+00:00"
 }

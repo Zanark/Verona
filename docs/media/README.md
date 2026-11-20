@@ -1,11 +1,44 @@
 # Prototype media receipt
 
-## Current complete README gallery (vr-36)
+## M1 current six-head gallery and controls (vr-52)
+
+[Milestone provenance](milestone-v0.1.0-provenance.json) records six fresh
+actual-renderer greeting loops from runtime
+`d7897633ea0994817a2c3008e60a9fe2ab90df6c`, two byte-identical verified Mark
+study excerpts, current MPFB menu states and a connected actual manager PNG.
+The README embeds40GIFs/onePNG;31older GIFs are retained unchanged, including
+the approved hero, both current hairstyles and all ten emotion controls.
+The old menu/screenshots remain historical files, no longer inline.
+
+Each current choice uses "Hey, how are you?", Happy0.6/4x source, small authored
+yaw, a clearly distinct solid mesh tint and original other feature colors.
+Native MPFB fitting bounds its controls to0..1. No source expression, geometry,
+shader or runtime setting default was changed. A capture-only read-only renderer
+getter and synchronous audio-time redraw select samples, not new motion.
+The Mark neutral/rest loops use its separate native-derived model, native1x,
+and remain report-only. The MPFB menu loop alternates two vr-50 actual WebGL/
+production-DOM captures over a dark composite; it is not OS-pinning footage.
+
+All281new encoded frames match the complete palette-converted source timelines,
+looping/duration/motion checks. The six-model contact sheet and actual connected
+manager composition were visually inspected, not every animated frame.
+The first manager PNG was rejected as stale first-paint despite ready DOM.
+Run02 waits for live connection/font readiness/two animation frames; its empty
+inventory is real and the example name is unsubmitted, not a fake live head.
+Source captures/raw frames/logs stay in ignored local qualification output.
+No independent listening, model-accuracy or new likeness acceptance is asserted.
+
+76CPU regressions pass at the release gate; unchanged runtime retains vr-50
+native/browser qualification without pretending it was all rerun. Actual
+GitHub-rendered Markdown is checked separately for closed disclosure, media
+loading, mobile/wide layout, equal pairs and natural aspect ratio.
+
+## Historical complete feature gallery (vr-36)
 
 [Current feature provenance](gallery-vr36-provenance.json) covers twenty fresh
 `gallery-vr36-*.gif` loops and two fresh interface PNGs, captured from runtime
 `7735e0f436190cb9ef4ca2b05b2ab949362b0fd5`.
-The README now embeds32GIFs/twoPNG:20fresh feature loops plus the12byte-identical,
+The README then embedded32GIFs/twoPNG:20fresh feature loops plus the12byte-identical,
 same-runtime emotion GIFs below. Five older comparison/preview GIFs remain
 historical links. No earlier media file is overwritten or deleted.
 

@@ -1,5 +1,33 @@
 # 10 - A transparent desktop without a second speech system
 
+## Freezing a functional milestone without changing a live workspace (vr-52)
+
+M1/v0.1.0 packages the existing runtime, not a new inference or UI implementation.
+`SessionManager.create`, `prepare_variant` and the production browser renderers
+remain byte-identical to source `d7897633ea0994817a2c3008e60a9fe2ab90df6c`.
+The release manifest checks these source hashes, records exact qualification
+provenance and inventories the source archive. The ZIP/manifest checksums are
+verified again after downloading the published assets. A Git tag alone would
+not demonstrate that an uploaded archive contained those reviewed bytes.
+
+Six sequential hidden sandboxed renderers generated one synthetic Hazel greeting
+through real CPU engines and isolated caches/speech roots. No user head,
+profile, capability or audio clock was reused. The actual Mark excerpts remain
+a separate native-identity report, not another manager choice; the current
+MPFB disclosure GIF reuses the actual WebGL/DOM qualification, not an invented
+OS-drag recording. The older hero and feature loops keep their own provenance.
+An initial manager screenshot exposed stale first-paint content despite ready
+DOM metadata; it was rejected. The accepted screenshot waits for connection,
+fonts and two animation frames before capturing the completed composition.
+
+This release reruns CPU regressions, but reuses the earlier vr-50 browser/native
+qualification for unchanged runtime. Neither muted renders nor GIF sample
+equality establish independent listening, phonetic accuracy or owner acceptance
+of experimental faces. The [release notes](../releases/v0.1.0.md) describe
+failures, cancellation, RAM loss, explicit restart and separate-checkout recovery.
+Packaging never bundles model weights, captured speech or private continuity.
+Publication is distinct from deployment, live-window reload and book rendering.
+
 ## One manager, independently owned heads (vr-45)
 
 The owner now requests one GUI for every variant and separate simultaneous

@@ -3,7 +3,7 @@
 </p>
 
 <details>
-<summary><strong>Explore Verona: all 10 emotions, robot mode, views, hairstyles and controls</strong></summary>
+<summary><strong>Explore Verona M1: six heads, all 10 emotions, hairstyles and controls</strong></summary>
 
 # Verona
 
@@ -13,7 +13,8 @@ Windows voices, CPU neural motion and an animated 3D face. **No camera,
 microphone or cloud runtime.** This gallery shows the actual prototype, not
 reference artwork or a photorealistic reconstruction.
 
-[**Frozen prototype 3**](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.3)
+[**Milestone 1 - v0.1.0**](https://github.com/Zanark/Verona/releases/tag/v0.1.0)
+&middot; [Release notes and boundaries](docs/releases/v0.1.0.md)
 &middot; [Setup and controls](docs/prototype-guide.md)
 &middot; [All emotions](#all-ten-emotions---4x-and-bright-spokes)
 &middot; [Both hairstyles](#every-hairstyle-in-motion)
@@ -41,13 +42,54 @@ Each head has its own model, capability, speech RAM and audio clock.
 **Exit manager and its heads** closes only heads this manager created;
 closing the browser tab alone does not stop them.
 
-The current features are on **main**; the frozen release predates the robot,
-mechanical eyes and this gallery. The demos record the vr-36 visual runtime;
-the later agent CLI and optional color controls preserve these default visuals.
+**M1 freezes the working local speaking-face workspace, not a claim of perfect
+lip sync or a production-ready assistant.** The current six-head gallery below
+uses the milestone runtime. The preserved hero, emotion, hair and presentation
+loops record the vr-36 visual runtime; their unchanged visuals remain relevant,
+but their old interfaces are not the current manager.
 **4x expressions, glowing centers and bright spokes** are the selected
 FaceMesh look throughout, including the opening talking hero. Robot optics
 stay cyan. The emotion gallery shows all ten available single model controls
 plus neutral; it does not preview combinations.
+
+## Six heads, one local workspace
+
+Fresh actual-renderer GIFs use the same synthetic **"Hey, how are you?"**
+greeting, Happy0.6/4x source and small authored turns. Distinct solid mesh tints
+make the choices legible; other feature colors stay original. MPFB fits bounded
+native controls, so 4x source is not4x native deformation.
+
+<table width="100%">
+  <tr><th width="50%">Original Claire</th><th width="50%">Procedural robot</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-claire.gif" alt="Current original neural Claire speaking with a cyan mesh" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-robot.gif" alt="Current blue procedural robot speaking through mechanical plates" width="360"></td>
+  </tr>
+  <tr><th width="50%">Native MPFB</th><th width="50%">Structural-reference Claire</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mpfb.gif" alt="Current magenta native MPFB head with bounded speech transfer" width="360"><br>Independent native topology; transferred speech, not a new neural model.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-reference-structure.gif" alt="Current orange structural-reference fit of Claire, experimental" width="360"><br>Experimental geometric fit, not an accepted likeness.</td>
+  </tr>
+  <tr><th width="50%">Historical subtle-reference</th><th width="50%">Male-SharpJawline</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-reference-shell.gif" alt="Preserved green subtle-reference Claire fit, historically rejected by the owner" width="360"><br>Historically rejected fit, retained for comparison.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-male-sharp.gif" alt="Current violet Male-SharpJawline sculpt speaking" width="360"><br>Preserved sculpt over Claire motion, not the native Mark identity.</td>
+  </tr>
+</table>
+
+### A separate look at the actual Mark model
+
+Mark v2.3 is **report-only, not a seventh manager choice**. These paired
+shaded/wire studies show its own native-derived topology, rest turntable and
+neutral speech at native1x. They do not replace Claire or Male-SharpJawline.
+
+<table width="100%">
+  <tr><th width="50%">Mark rest turntable</th><th width="50%">Mark neutral greeting</th></tr>
+  <tr>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mark-turntable.gif" alt="Actual native Mark rest head rotating in shaded and wire views" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mark-neutral.gif" alt="Actual native Mark neutral speech in shaded and wire views" width="360"></td>
+  </tr>
+</table>
 
 ## Let a selected local agent session speak
 
@@ -308,19 +350,23 @@ positions inside the owned browser; they do not move the system cursor.
 ## A floating head, not a floating control panel
 
 <p align="center">
-  <img src="docs/media/gallery-vr36-overlay-controls.gif" alt="Current native bright-spokes overlay alternating between its tiny collapsed glass tab and expanded controls" width="400">
+  <img src="docs/media/milestone-v0.1.0-menu.gif" alt="Current MPFB floating menu collapsed and expanded, with head name and Always on top inside the disclosure" width="400">
 </p>
 
 The native overlay starts with a **tiny translucent glass ... tab centered
 above the head**. Click to expand; **Escape** or clicking outside collapses it.
-Expand for **Drag to move**, **- / + / Fit**, **Controls** and **Close**.
+Expand for **Drag to move**, **- / + / Fit**, **Close**, the name and pin.
+The preserved standalone shell also has **Controls** to return from pop-out;
+managed heads keep their controls in the central manager.
 The native window remembers its placement across Controls/pop-out for this run;
-restart resets it. Always-on-top is optional, and transparent areas may intercept clicks.
+restart resets it. **Always on top is enabled by default, independently for each
+head.** Its toggle and the head name appear only inside the expanded menu.
+Transparent areas may intercept clicks; topmost cannot override secure desktops.
 
-The GIF alternates two actual Electron captures, preserving binary GIF
-transparency. It is not a recording of desktop dragging or OS acrylic blur;
-the glass effect styles Verona's own web content, and GIF cannot preserve its
-full partial-alpha shading.
+This GIF alternates two production-menu/actual MPFB WebGL qualification
+captures over an opaque dark composite. It is not a recording of desktop
+dragging, OS pinning or speech; independent native pinning was qualified
+separately. The glass effect styles Verona's own web content.
 
 <table width="100%">
   <tr><th width="50%" align="center">Decide how much neck is visible</th><th width="50%" align="center">Zoom in and out</th></tr>
@@ -347,14 +393,16 @@ material. Re-enable it to restore colors; neither option changes your speech.
   <img src="docs/media/gallery-vr36-colors.gif" alt="Current shaded Claire and 48-lock curls switching from colors to grayscale" width="640">
 </p>
 
-### Current app screenshots
+### Current manager
 
 <p align="center">
-  <img src="docs/media/gallery-vr36-overview.png" alt="Current Verona desktop controls with Hazel, 4x expression selection and original Claire waves" width="900">
+  <img src="docs/media/milestone-v0.1.0-manager.png" alt="Current connected local manager with an empty session rail, creation form and five independent feature colors" width="900">
 </p>
-<p align="center">
-  <img src="docs/media/gallery-vr36-robot-overview.png" alt="Current Verona desktop controls with 4x expression selection and the original blue and silver armored robot" width="900">
-</p>
+
+The real manager is connected in an isolated empty test lane; the example name
+is unsubmitted, not an invented live session. Select a created head for its
+speech-first workspace, **Editable now** and **Read-only settings**. Original
+vr-36 standalone screenshots remain [historical](docs/media/README.md).
 
 ## Prototype boundaries
 
@@ -373,11 +421,14 @@ Hairstyle turntables show view rotation; control GIFs may show discrete states.
 [Media provenance and timings](docs/media/README.md) identify their exact sources.
 No private transcripts, reference sheets, model assets or voice recordings are
 included in the gallery.
-The 32 GIFs are deliberately media-heavy, especially the large captioned
+The stronger sideways-cheekiness comparison remains a **report-only proposal**,
+not the expression shown throughout this release. No broader approval is implied.
+The 40 GIFs are deliberately media-heavy, especially the large captioned
 intro; loading may take a moment on slower connections.
 
 [Engineering book](docs/README.md) &middot; [Third-party terms](THIRD_PARTY.md)
 &middot; [Immutable prototype 1](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.1)
 &middot; [Immutable prototype 2](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.2)
+&middot; [Immutable prototype 3](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.3)
 
 </details>
