@@ -49,7 +49,7 @@ vr-46 | 46_DEFAULT_TOPMOST_HEADS.todo | DONE | Default-on independent pin and se
 vr-47 | 47_CONTROL_AVAILABILITY_SECTIONS.todo | DONE | Separate editable controls from creation-time and temporarily unavailable settings
 vr-48 | 48_VERONA_AGENT_SKILL.todo | DONE | Installed/copied in-depth agent skill, vivid distinct-color policy and full-path Agency handoff
 vr-49 | 49_CHEEKINESS_LIP_STRETCH_REPORT.todo | DONE | Matched current/proposed Claire sideways-smirk report; shared visual direction recorded, runtime unchanged
-vr-50 | 50_UI_CLARITY.todo | IN_PROGRESS | Calm session/speech workspace, grouped player settings and fitted native head menus
+vr-50 | 50_UI_CLARITY.todo | DONE | Calm session/speech workspace, grouped player settings and fitted native head menus; design-thread case study published
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

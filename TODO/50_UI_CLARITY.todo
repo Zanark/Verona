@@ -1,7 +1,7 @@
 ID: vr-50
 Title: Calm browser workspace and floating-head controls
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: One coherent, readable UI across the manager and existing face players
 Dependencies: vr-45, vr-46, vr-47
 GitHub issue: https://github.com/Zanark/Verona/issues/49
@@ -40,10 +40,15 @@ Completion evidence:
   native images and MPFB alpha. ui-topmost-01 actual two-head Windows pin state.
   ui-live-01 native16/real-Edge color6checks; ui-sessions-01 all six native
   variants, actual muted speech, GUI/CLI edits and owned lifecycle/isolation.
-  Representative actual images visually inspected. Earlier01..08 capture
-  receipts retained/rejected; no owner visual, listening or accuracy acceptance.
-  Chapter10/index/guide/causal ledger updated. Source promotion and requested
-  implementation-learning contribution remain pending at this checkpoint.
+  Representative actual images visually inspected. Earlier01..08 captures
+  retained, with failed/stale samples rejected and06 superseded by final layout.
+  No owner visual, listening or accuracy acceptance.
+  Chapter10/index/guide/causal ledger updated. Source milestone
+  15a50d9b0736518af935d6c3f61b0058fe8ba01a committed, fast-forwarded into main
+  and pushed; exact remote22files and both linked Zanark identities verified.
+  Requested eight-section implementation-learning contribution published in
+  the original open local design thread; exact saved/indexed text verified.
+  No existing owner page/head driven, reloaded or restarted.
 
 Completion log:
   2026-11-21 - Began the bounded UI workstream after reading the complete
@@ -57,3 +62,6 @@ Completion log:
     Requalified wide/narrow actual images and native pin/readiness. Separate
     narrow input and scrolled-model captures rather than require an offscreen
     mesh to appear above the fold. Prune retired unselected head drafts.
+  2026-11-21 - Delivered verified source and published the requested design
+    case study after qualification. Preserved all rejected receipts, prior
+    tracking identities, owner runtime and explicit human-acceptance limits.
