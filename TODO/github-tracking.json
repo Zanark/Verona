@@ -580,7 +580,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-46": {
+      "source": "TODO/46_DEFAULT_TOPMOST_HEADS.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhJYdSQ",
+      "number": 45,
+      "url": "https://github.com/Zanark/Verona/issues/45",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKlH14",
+      "title": "Independent default-on Always on top for every popped-out head",
+      "managedBody": "\n<!-- verona-workstream:vr-46 -->\nWorkstream source: `TODO/46_DEFAULT_TOPMOST_HEADS.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-46\nTitle: Independent default-on Always on top for every popped-out head\n\nStatus: DONE\nMilestone: Every managed model keeps identity/topmost in its floating menu, initially pinned.\nDependencies: vr-45\n\nPurpose:\nKeep each opted-in chat head above normal application windows by default,\nwith an independent toggle inside the head's collapsible menu and in the\nsingle manager. Keep the head name inside that menu too, not a bottom badge.\n\nTasks:\n[x] Preserve native pin IPC and enable named-head pinning by default.\n[x] Expose the same control on all six managed models, including native MPFB.\n[x] Hide pin/name inside the existing collapsed menu; native details fallback for MPFB.\n[x] Qualify default native topmost state, toggling and independent ownership.\n[x] Update chapter/guide/index/ledger, issue/Project and owned continuity.\n\nAcceptance criteria:\nNew managed heads default to native always-on-top. Their menu checkbox and\nmanager setting operate the same per-head control without regenerating speech.\nPin/name are not visible with the menu collapsed. Central manager pinning\nremains available while that menu is closed.\nTurning off one head's pin leaves another head's pin unchanged.\nExisting owner sessions/profiles are not reloaded, restarted or driven.\nSecure desktops, exclusive fullscreen and ordering between competing topmost\nwindows are not promised; no global window policy or startup service.\n\nCompletion evidence:\ntopmost-controls-02/controls-report.json: actual common module in isolated\nElectron using real Claire toolbar/CSS and native MPFB CSS. Checked default,\npin/name hidden when collapsed, expand/re-collapse, reused original listener,\ndirect click and manager update while hidden, one pin control per head.\ntopmost-native-02/topmost-report.json: two actual Claire/MPFB heads have\nWS_EX_TOPMOST by default; off/on through the manager changes only that native\nwindow. Other head stays pinned. Owned manager stopped/descriptors removed.\nSix targeted CPU session cases and five Node bridge/player cases pass.\nNo new dependency/device, new speech, listening or human visual acceptance.\nProtected user lane at inspection: manager Python191968 and head Python196224\nwith their launchers190892/173368; do not touch/reload/stop these processes.\nCandidate source starts from8be8753, uses own profiles/data and exact owned PIDs.\n\nCompletion log:\n2026-11-21 - Owner explicitly requests an Always on top option on the separate\nhead and then requires enabled by default. Existing native pin IPC is reusable;\nnamed hosts currently override it off and native MPFB lacks a pin control.\n2026-11-21 - Owner's screenshot refines the chrome: pin/name must live inside\nthe collapsible section. Reuse Claire's actual menu/input; native details\nfallback for MPFB. Exempt only the hidden menu's pin from unavailable metadata.\nInitial direct-badge receipts01 retained; final menu receipts02 supersede them.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-20T20:21:28.579520+00:00"
+  "verifiedAt": "2026-11-20T20:55:11.079353+00:00"
 }

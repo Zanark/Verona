@@ -38,12 +38,53 @@ Only one setting is changed per transaction. Text is submitted separately,
 cleared from the manager after acceptance and never included in status.
 
 Managed windows immediately select the transparent head presentation, hide the
-return-to-separate-controls button and display their session/model name.
+return-to-separate-controls button and retain their session/model name inside
+the collapsible floating menu.
 Initial placement uses bounded slots so the first two heads do not start
 stacked on a sufficiently wide display. Native drag/zoom remain available.
 Each model exposes its own real controls; native MPFB does not pretend to
 support Claire's hair rig, gaze or every presentation.
 Changing models means close/recreate, not a hidden live identity substitution.
+
+### Default-on per-head topmost control (vr-46)
+
+New managed heads start pinned. `desktop/main.cjs` retains its existing
+per-window `pinned` state and trusted `pin` command; overlay mode applies
+`setAlwaysOnTop(overlay && pinned, "pop-up-menu")`. There is no global policy.
+`app.js` initializes the named Claire checkbox consistently instead of
+overriding it off. `session-controls.mjs:attachSessionControls` moves that same
+input, with its original native listener intact, into the existing collapsible
+`overlay-options` menu, alongside the session/model label. Both disappear when
+that menu is collapsed; neither is a permanently visible corner badge.
+For MPFB, which lacks the input, it creates the equivalent checked checkbox
+and reuses the same privileged command. MPFB also lacks Claire's floating
+toolbar, so a native HTML `details`/`summary` menu supplies the same collapsed
+presentation without another window or speech implementation.
+There is only one pin control per
+head, exposed through the existing native-input schema as `pin-overlay`.
+The menu's checkbox and selected-session manager setting therefore dispatch
+the same input event. Neither regenerates geometry/speech nor owns an audio
+clock; pinning remains available during speech and from the manager even while
+the menu is closed. Hidden menu ancestry is deliberately not treated as an
+unavailable pin setting; genuinely disabled inputs remain disabled.
+
+The checkbox is default-on at each new host start, not a persistent preference.
+It affects only that native window, not any other session or browser window.
+Normal Windows topmost semantics apply: secure desktops, exclusive fullscreen
+and precedence over other topmost windows are not guaranteed. Existing owner
+heads are not reloaded/restarted to pick up a source update. Native command
+errors still use the renderer's explicit failure path.
+
+`tests/test_session_controls.cjs` runs the actual common module in isolated
+Electron DOMs using the real Claire toolbar/CSS and MPFB CSS. Its
+`topmost-controls-02/controls-report.json` confirms default checked state,
+hidden pin/name when collapsed, expansion/re-collapse, one reused Claire
+listener and both direct/menu and closed-menu manager input dispatch.
+`tests.run_topmost_smoke` creates two disposable real Claire/MPFB heads:
+`topmost-native-02/topmost-report.json` checks their exact owned Windows
+`WS_EX_TOPMOST` flags, manager off/on, unchanged other-head pinning and owned
+shutdown/descriptor cleanup. Six targeted session and five Node bridge/player
+cases pass. This is native-state/DOM qualification, not human visual acceptance.
 
 Stop names one request and affects only that head. Closing a head removes its
 owned descriptor/profile and clears its speech RAM. Manager Exit/console Ctrl+C

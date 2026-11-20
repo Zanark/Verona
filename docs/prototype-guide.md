@@ -224,7 +224,17 @@ independently owned host, keep its terminal open:
 
 It opens its own native window without focusing it. The model, synthesizer and
 renderer stay warm. This host starts in FaceMesh with bright spokes and 4x,
-cursor following off and overlay pinning off. Normal `VeronaDesktop.cmd` and
+cursor following off and **Always on top** enabled by default. Every managed
+head keeps its **Always on top** checkbox and session/model name inside the
+collapsible **...** menu. Both are hidden while that menu is collapsed; the manager
+also exposes pinning for the selected session even when the head menu is closed.
+Unchecking one head does
+not unpin another, pause speech or regenerate its clip. Closing/recreating a
+head restores the default; this is not a saved global preference.
+This keeps the head above ordinary windows, not Windows secure desktops,
+exclusive-fullscreen applications or necessarily every competing topmost window.
+Existing running heads are not automatically restarted or reloaded.
+Normal `VeronaDesktop.cmd` and
 `Verona.cmd` now open the same manager. Its session list also discovers this
 external host and can customize it; CLI calls apply explicit voice/expression/gain and inherit the
 window's bounded voice settings. Do not share one host between overlapping

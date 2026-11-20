@@ -5,6 +5,10 @@ The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
 native control forwarding and owned lifecycle; chapter09 describes independent
 feature colors. All six authored variants, including original Claire, remain
 selectable. Earlier study launchers/reports are preserved, not required.
+Its **vr-46** extension keeps each head's name and independent **Always on top**
+checkbox inside its collapsed floating menu. Pinning is enabled by default;
+chapter10 explains the shared
+native control and ordinary Windows topmost limitations.
 
 The latest review-first experiment is **vr-44**, reverse neural transfer onto
 the actual MPFB head: `VeronaMpfb.cmd`. Chapter09 explains fixed geometric

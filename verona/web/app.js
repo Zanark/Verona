@@ -1491,7 +1491,7 @@ try {
   draw();
   if (desktop?.agentEnabled) {
     $("follow-eyes").checked = false;
-    $("pin-overlay").checked = false;
+    $("pin-overlay").checked = true;
     renderer.setPresentation(session.appearance?.model === "robot" ? "robot" : "facemesh");
     $("eye-glow").value = "1";
     $("expression-gain").value = "4";

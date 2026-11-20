@@ -1,4 +1,32 @@
 export function attachSessionControls(desktop, failure) {
+  let options = document.getElementById("overlay-options");
+  if (!options) {
+    const menu = document.createElement("details");
+    menu.className = "session-menu";
+    const toggle = document.createElement("summary");
+    toggle.textContent = "...";
+    toggle.setAttribute("aria-label", "Floating controls");
+    options = document.createElement("div");
+    options.className = "session-options";
+    menu.append(toggle, options);
+    document.body.append(menu);
+  }
+  let pin = document.getElementById("pin-overlay");
+  if (!pin) {
+    pin = document.createElement("input");
+    pin.id = "pin-overlay";
+    pin.type = "checkbox";
+    pin.checked = true;
+    pin.addEventListener("input", async () => {
+      try { await desktop.command("pin", pin.checked); }
+      catch (error) { failure(error); }
+    });
+  }
+  pin.setAttribute("aria-label", "Always on top");
+  const pinLabel = document.createElement("label");
+  pinLabel.className = "session-pin";
+  pinLabel.append(pin, document.createTextNode("Always on top"));
+  options.append(pinLabel);
   const excluded = new Set(["text", "seek", "preview", "generate"]);
   const elements = () => [...document.querySelectorAll("input,select")].filter(element =>
     element.id && !excluded.has(element.id) && !/(?:-color|-hex)$/.test(element.id)
@@ -7,7 +35,8 @@ export function attachSessionControls(desktop, failure) {
     id: element.id, type: element.type,
     label: element.getAttribute("aria-label") || element.id.replaceAll("-", " "),
     value: element.type === "checkbox" ? element.checked : element.value,
-    disabled: element.disabled || Boolean(element.closest("[hidden]")),
+    // Collapsing the menu must not disable pinning from the central manager.
+    disabled: element.disabled || (element !== pin && Boolean(element.closest("[hidden]"))),
     min: element.min || "", max: element.max || "", step: element.step || "",
     options: element.tagName === "SELECT" ? [...element.options].map(option =>
       ({value: option.value, label: option.textContent, disabled: option.disabled})) : [],
@@ -55,6 +84,6 @@ export function attachSessionControls(desktop, failure) {
   const label = document.createElement("div");
   label.className = "session-label";
   label.textContent = document.title;
-  document.body.append(label);
+  options.append(label);
   return {apply, report, describe};
 }

@@ -1,6 +1,29 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-46 default topmost heads with uncluttered collapsed chrome
+Cause: owner wants a separate Always on top toggle per head, enabled by default,
+then supplies screenshot requiring both it and the name inside the existing
+collapsible section rather than permanent top/bottom badges.
+Action: preserve trusted per-window native pin IPC/pop-up-menu level; remove
+named-mode default-off mismatch in main/app. Move original Claire checkbox and
+its listener into overlay-options with session/model identity. MPFB creates
+the equivalent checked input and native details/summary fallback. Single
+central schema control, still usable while its menu is hidden; genuinely
+disabled inputs remain disabled. No audio/geometry regeneration/global policy.
+Actual common-module Electron DOM qualification02: real Claire toolbar/CSS and
+MPFB CSS; defaults, hidden pin/name, expand/collapse, direct click, manager
+update while hidden, one original listener/control pass. Native02: exact owned
+Claire/MPFB WS_EX_TOPMOST default flags, off/on, unchanged other-head pinning,
+owned shutdown/descriptors removed. Six targeted CPU/five Node cases pass.
+Owner sessions/profiles never driven/reloaded/restarted. Initial badge01
+receipts retained, not final UX. Chapter10/guide/bookindex/vr46index updated.
+vr46/#45/Project15 tracks this one bounded workstream; preserve44oldermappings.
+Default restored on new head; not a saved preference. Normal Windows semantics,
+not secure desktops/exclusive fullscreen/priority over every other topmost app.
+No dependency/download/device, automatic narration, release/deploy/bookedition
+or human visual/listening/identity acceptance.
+
 2026-11-21 - vr-45 one GUI and independently colored named speaking heads
 Cause: owner wants hair/lips/eyebrows independently colored in all variants,
 separate simultaneous chat heads, CLI access and one GUI instead of launchers.

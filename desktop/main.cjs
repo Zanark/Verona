@@ -132,7 +132,7 @@ async function start(config) {
       } catch (error) { fatal(error); }
     });
     follow = false;
-    pinned = false;
+    pinned = true;
   }
   ipcMain.handle("verona:command", (event, action, value) => {
     trusted(event);

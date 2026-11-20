@@ -1,0 +1,51 @@
+ID: vr-46
+Title: Independent default-on Always on top for every popped-out head
+
+Status: DONE
+Milestone: Every managed model keeps identity/topmost in its floating menu, initially pinned.
+Dependencies: vr-45
+
+Purpose:
+Keep each opted-in chat head above normal application windows by default,
+with an independent toggle inside the head's collapsible menu and in the
+single manager. Keep the head name inside that menu too, not a bottom badge.
+
+Tasks:
+[x] Preserve native pin IPC and enable named-head pinning by default.
+[x] Expose the same control on all six managed models, including native MPFB.
+[x] Hide pin/name inside the existing collapsed menu; native details fallback for MPFB.
+[x] Qualify default native topmost state, toggling and independent ownership.
+[x] Update chapter/guide/index/ledger, issue/Project and owned continuity.
+
+Acceptance criteria:
+New managed heads default to native always-on-top. Their menu checkbox and
+manager setting operate the same per-head control without regenerating speech.
+Pin/name are not visible with the menu collapsed. Central manager pinning
+remains available while that menu is closed.
+Turning off one head's pin leaves another head's pin unchanged.
+Existing owner sessions/profiles are not reloaded, restarted or driven.
+Secure desktops, exclusive fullscreen and ordering between competing topmost
+windows are not promised; no global window policy or startup service.
+
+Completion evidence:
+topmost-controls-02/controls-report.json: actual common module in isolated
+Electron using real Claire toolbar/CSS and native MPFB CSS. Checked default,
+pin/name hidden when collapsed, expand/re-collapse, reused original listener,
+direct click and manager update while hidden, one pin control per head.
+topmost-native-02/topmost-report.json: two actual Claire/MPFB heads have
+WS_EX_TOPMOST by default; off/on through the manager changes only that native
+window. Other head stays pinned. Owned manager stopped/descriptors removed.
+Six targeted CPU session cases and five Node bridge/player cases pass.
+No new dependency/device, new speech, listening or human visual acceptance.
+Protected user lane at inspection: manager Python191968 and head Python196224
+with their launchers190892/173368; do not touch/reload/stop these processes.
+Candidate source starts from8be8753, uses own profiles/data and exact owned PIDs.
+
+Completion log:
+2026-11-21 - Owner explicitly requests an Always on top option on the separate
+head and then requires enabled by default. Existing native pin IPC is reusable;
+named hosts currently override it off and native MPFB lacks a pin control.
+2026-11-21 - Owner's screenshot refines the chrome: pin/name must live inside
+the collapsible section. Reuse Claire's actual menu/input; native details
+fallback for MPFB. Exempt only the hidden menu's pin from unavailable metadata.
+Initial direct-badge receipts01 retained; final menu receipts02 supersede them.
