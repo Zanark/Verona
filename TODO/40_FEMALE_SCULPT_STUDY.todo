@@ -1,0 +1,57 @@
+ID: vr-40
+Title: Existing-assets female sculpt study for review
+
+Status: DONE
+Milestone: Compare a limited same-topology female appearance before app integration.
+Dependencies: vr-39
+
+Purpose:
+The owner chooses existing assets/tools first. Investigate actual face shape
+without downloading another head/toolset or disguising a cosmetic change as
+a new accurate female model. Keep the stable app untouched until review.
+
+Tasks:
+[x] Define an offline complete-pose map over existing pinned Claire geometry.
+[x] Qualify neutral and all ten single-emotion speech poses at the selected4x.
+[x] Render matched baseline/study front, both profiles and three-quarter views.
+[x] Prepare clear local review previews and preserve failed receipts.
+[x] Record measured limits, source evidence and the owner's pending review.
+
+Acceptance criteria:
+No production renderer/engine/API/default/voice change. Same topology/indices
+and identical source audio/conditioning for comparisons. Whole-pose mapping,
+finite Int16 bounds and orientation/nondegeneracy diagnostics, not rest-only
+delta substitution. Hair-off matched-scale views distinguish geometry from
+styling. Inspect real renders and all ten emotion samples; no invented
+femininity, phonetic/contact/semantic accuracy or performance acceptance.
+Owned hidden/muted profile/capability/RAM/cache/synthesis; no user/sibling/
+device interaction. No deliberate speech/transcript/model persistence.
+
+Completion evidence:
+scripts/female_sculpt_study.py is an offline study helper, not imported by the
+application; tests/test_female_sculpt.py covers mapping/contact-equality/
+symmetry/upper-region/input/Float32 boundaries. Full53-case Python suite passes.
+.local/qualification/female-sculpt-02/review.html: paired rest front,+/-37deg,
++/-90deg; silent4x/max-strength all-ten-plus-neutral comparison GIF and11
+individual exact image-block slices. Actual hidden sandboxed production renderer,
+server-only test reference, exact baseline fit/front topology pinned.
+22clips,913skinframes/variant; identical source motion and audio hashes.
+Rest maxoffset.9634cm/animated.9891cm; finiteInt16 and28,071,089 valid source
+triangle/frame FLOAT-map comparisons without new collapse/reversed hemisphere.
+Not a post-quantization triangle/contact/self-intersection/accuracy guarantee.
+Overview363frames/277unique,30.25sec,29121889bytes; independent every-frame
+alpha/delay/dimension decode, zero ghosts; all11sampled states reviewed over
+light/dark plus matched rest front/profile/three-quarter.
+Run01 retained: independent auto-fit moved unchanged eyes on screen; superseded
+by exact-fit/topology02. First encoding found PowerShell7 assembly mismatch;
+use installed WindowsPowerShell5.1, no install. All owned processes/profiles/
+server cleaned; no production app/README/voices/media/model/dependency change.
+Agent assessment: visibly tapered lower face, still close to the old character;
+not a convincing distinct female identity claim. Owner review remains pending.
+Gender selector/default voice integration remains unimplemented pending review.
+
+Completion log:
+2026-11-20 - Owner selects same-topology existing-assets/tools investigation.
+Separate MakeHuman/MPFB follow-up recorded under vr-41, after review only.
+2026-11-20 - Bounded study and local comparison deliverable complete. This DONE
+means investigation/preview ready, not accepted identity or requested full mode.

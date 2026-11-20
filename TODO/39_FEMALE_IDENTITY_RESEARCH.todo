@@ -1,0 +1,38 @@
+ID: vr-39
+Title: Female identity and deformation research
+
+Status: DONE
+Milestone: Source-grounded identity/animation decision before a female-model implementation.
+Dependencies: vr-38
+
+Purpose:
+Research a genuinely distinct feminine head, all-ten expression compatibility,
+local CPU performance and Male/Female voice/profile integration, not hair-only
+or a label change. Preserve honest limits and the parked Realistic roadmap.
+
+Tasks:
+[x] Trace rest/PCA, topology/eyes, caches, UI and normal/warm voice paths.
+[x] Review primary MPFB/FLAME/Blender/deformation-transfer/license sources.
+[x] Define identity, contact, expression, cache and voice acceptance boundaries.
+[x] Resolve first experiment with the owner and record the deferred alternative.
+[x] Author research, book/index/brief and causal development documentation.
+
+Acceptance criteria:
+Separate identity mesh, speech model and presentation; distinguish code/asset
+licenses, verified facts and unqualified candidates. No new download/install,
+new-runtime accuracy claim or automatic resumption of the parked static avatar.
+Document complete flow, failure/cancellation/staleness/restart and ownership
+requirements for eventual profile integration. Preserve all old app behavior.
+
+Completion evidence:
+docs/research/female-identity-study.md contains five progressive investigations,
+18primary-source references and exact current source/symbol contracts.
+FLAME2023Open/academic/add-on license distinction explicitly retained.
+Actual local System.Speech metadata reports David Desktop Male/Hazel Desktop
+Female; enumeration only, not synthesis or listening. Owner chooses existing
+assets/tools-only same-topology sculpt first; MPFB is a later after-review TODO,
+not download/install authorization. Gender selection/defaults not yet implemented.
+
+Completion log:
+2026-11-20 - Extensive research followed by explicit owner scope decision.
+Existing source b3c3632 remains the stable application baseline.

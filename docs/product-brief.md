@@ -61,6 +61,16 @@ Neither changes neural lip/expression motion or resumes Realistic.
 
 ## Confirmed
 
+The owner's latest request rejects the current mesh as masculine and asks for
+a truly distinct feminine female face plus Male/Female selection. Everything
+existing should remain under Male, with an installed male voice by default
+and optional override; Female needs its own suitable default, also overridable.
+Extensive research precedes implementation. After that research the owner
+chooses an **existing-assets/tools-only same-topology sculpt study first**.
+The recommended distinct MPFB head is recorded as a later TODO after review;
+no tool/model download is authorized now. This does not resume parked vr-16..19.
+The study is not yet a production selector or accepted identity/emotion result.
+
 The owner's November20 request adds an **Optimus-inspired robot** presentation.
 They selected original procedural armor instead of sourcing a rigged asset:
 blue/silver helmet/fins, cyan optics and articulated mouth/jaw/brows over the

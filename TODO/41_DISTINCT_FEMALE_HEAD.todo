@@ -1,0 +1,38 @@
+ID: vr-41
+Title: Distinct female head after sculpt review
+
+Status: BLOCKED
+Milestone: Evaluate an independently authored female identity if needed after review.
+Dependencies: vr-40
+
+Purpose:
+Owner explicitly asks to record the recommended distinct MakeHuman/MPFB head
+as a TODO to try after reviewing the existing-assets study. This is separate
+from the old parked Meshy/Realistic model and is not authorized to start now.
+
+Tasks:
+[ ] Receive owner review of vr-40 and explicit go-ahead for this experiment.
+[ ] Propose exact pinned portable tools/core assets, sizes, sources and licenses.
+[ ] Obtain explicit download/tool approval; inspect every included asset license.
+[ ] Author a distinct neutral head and present front/profile/three-quarter views.
+[ ] Verify semantic correspondence, speech/emotion transfer and contacts before
+    selecting a runtime adapter or integrating Gender/voice profiles.
+[ ] Qualify performance/errors/staleness/cancellation/restart and owner acceptance.
+
+Acceptance criteria:
+BLOCKED until review and future authorization. No automatic download, global
+install, cloud upload, paid asset or license acceptance. Core CC0 policy does
+not automatically clear contributed packs. A neutral identity approval is
+not a completed deformation rig. Preserve existing Male appearance, overrides
+and honest Claire motion provenance. All ten controls require technical and
+separate visual/semantic evaluation; no "complete accurate emotions" claim
+from exposed labels. No changes to parked vr-16..19.
+
+Completion evidence:
+Plan only; no tool/asset downloaded, installed, accepted or integrated.
+Research basis: docs/research/female-identity-study.md, F03-F08/F11-F14.
+Blocker: owner review of the same-topology study and explicit future go-ahead.
+
+Completion log:
+2026-11-20 - Owner explicitly defers recommended MPFB/new-head route until
+after review, selecting existing assets/tools first.

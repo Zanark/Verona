@@ -1,5 +1,50 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Female identity research and review-first study (vr-39..41)
+
+The owner finds the current mesh masculine and requests a genuinely feminine
+head, all emotion support and a Male/Female choice with overridable matching
+voice defaults. This is not permission to claim success from a hairstyle or
+label. Existing appearances are to remain under Male, while actual source
+provenance remains Claire. Gender selection/default changes are not yet shipped.
+
+[The five-stage investigation](../research/female-identity-study.md) traces
+the current skin PCA/rest styling, triangle-versus-native edge topology,
+static eye masks, cache identity and both ordinary/warm speech-default paths.
+It compares MPFB, FLAME's exact version/license distinction, Blender binding
+and deformation-gradient transfer. A face asset, rig, speech estimator and
+presentation are separate contracts: preserving ten input channels does not
+establish accurate expressions on a changed identity.
+
+After research the owner chooses **existing assets/tools only first**. vr-40
+investigates a bounded same-topology complete-pose map, not another downloaded
+model or a production rest-only substitution. `sculpt_positions` in
+`scripts/female_sculpt_study.py` changes lower-face width/chin height and
+cheek/nose/lip planes, fading to exact identity above146cm to preserve existing
+cosmetic eyes. Both the rest and each complete speech pose use the same map.
+Preserved coincident points are a mathematical property of that map, not proof
+that original or discretized lip/lid contact is correct. Native topology and
+the production app stay unchanged while matched hair-off previews are reviewed.
+
+vr-41 records the distinct MakeHuman/MPFB head as a later experiment **after
+review and future authorization**. No downloads or license acceptance follow
+from that TODO; core asset CC0 does not clear an uninspected contributed pack.
+It does not resume the old parked static avatar. Numerical bounds, real renders,
+owner identity approval, expression/contact quality and performance each remain
+separate gates. The stable app and existing README GIFs remain the baseline.
+
+The bounded study is complete at
+`.local\qualification\female-sculpt-02\review.html`: matched rest viewpoints,
+30.25-second paired all-ten-plus-neutral GIF and individually collapsed clips.
+Run01 revealed that identical UI camera values did not pin the renderer's
+per-mesh fit. Run02 exposes only a private test reference and copies baseline
+front topology/fit; stable renderer source is untouched. Its913frames per
+variant preserve exact source audio/motion, pack finitely and pass float-space
+triangle diagnostics. Independent363-frame GIF decoding finds no ghost alpha.
+These are study evidence, not post-quantization contact/semantic/phonetic or
+owner acceptance. The lower face visibly tapers, but still resembles the old
+character; no claim of a convincing distinct female identity follows.
+
 ## Live FaceMesh and optical colors without regeneration (vr-38)
 
 The owner next asks for independent face-wire and eye colors through hex entry
