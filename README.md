@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="docs/media/gallery-facemesh-transparent.gif" alt="Verona speaks directly to you with mechanical red eyes, changing neural expressions and synchronized cyan dialogue captions on a transparent background" width="900">
+  <img src="docs/media/gallery-vr36-facemesh-transparent.gif" alt="Verona speaks directly to you with 4x expressions, glowing centers, bright red spokes and synchronized cyan dialogue captions on a transparent background" width="900">
 </p>
 
 <details>
-<summary><strong>Explore Verona: robot mode, animated demos, hairstyles and setup</strong></summary>
+<summary><strong>Explore Verona: all 10 emotions, robot mode, views, hairstyles and controls</strong></summary>
 
 # Verona
 
@@ -15,6 +15,7 @@ reference artwork or a photorealistic reconstruction.
 
 [**Frozen prototype 3**](https://github.com/Zanark/Verona/releases/tag/v0.1.0-prototype.3)
 &middot; [Setup and controls](docs/prototype-guide.md)
+&middot; [All emotions](#all-ten-emotions---4x-and-bright-spokes)
 &middot; [Both hairstyles](#every-hairstyle-in-motion)
 &middot; [Engineering book](docs/README.md)
 
@@ -28,8 +29,11 @@ prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. Browser-only launch: `.\Verona.cmd`.
 
 The current features are on **main**; the frozen release predates the robot,
-mechanical eyes and this gallery. The opening hero and earlier demos retain
-their capture snapshots; the unique-emotion gallery shows the selected new look.
+mechanical eyes and this gallery. Every feature demo below uses the current
+runtime. **4x expressions, glowing centers and bright spokes** are the selected
+FaceMesh look throughout, including the opening talking hero. Robot optics
+stay cyan. The emotion gallery shows all ten available single model controls
+plus neutral; it does not preview combinations.
 
 ## All ten emotions - 4x and bright spokes
 
@@ -85,55 +89,26 @@ All ten single controls are now available in the app; Happy/Joy,
 Surprised/Amazement and Sad/Sadness retain their existing selector names.
 [Capture receipts and limits](docs/media/README.md).
 
-## Compare the new variants
+## Use this look in the app
 
-The expression pair uses the same dialogue, voice, strengths and camera.
-**4x is 100% more than the previous 2x emotion deformation**, not four times
-ordinary speech. A fresh 2x reference uses the same wider framing as 4x;
-the original GIF remains unchanged below.
+Choose **View -> FaceMesh**, **Emotion exaggeration -> 4x**, then
+**Generate face**. Select **FaceMesh eye glow -> Center + bright spokes**;
+optical selection changes immediately. **4x doubles the previous 2x emotional
+deformation**, not ordinary neutral speech. Natural eyelids still hide covered eyes.
+App startup defaults remain **2x** and **Center + rings + spokes**.
 
-<table>
-  <tr><th>2x - current default</th><th>4x - 100% more exaggerated</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-emotion-2x.gif" alt="Matched current 2x emotion reference through all five expressions with combined glowing eyes" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-emotion-4x.gif" alt="Matched 4x emotion variant, twice the previous emotional deformation, with the same voice, camera and combined glowing eyes" width="360"></td>
-  </tr>
-</table>
-
-The eye pair uses identical **4x** facial motion. **Both center dots glow**;
-the selected spokes or concentric rings are brighter, while the other structure
-stays dark. Natural eyelid occlusion is preserved.
-
-<table>
-  <tr><th>4x - glowing center + bright spokes</th><th>4x - glowing center + bright rings</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-spokes.gif" alt="4x FaceMesh expressions with glowing pupil centers and brighter radial red spokes; rings stay dark" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/comparison-eyes-rings.gif" alt="4x FaceMesh expressions with glowing pupil centers and brighter concentric red rings; spokes stay dark" width="360"></td>
-  </tr>
-</table>
-
-In the app, choose **Emotion exaggeration**, then **Generate face**.
-**FaceMesh eye glow** changes immediately. Defaults remain **2x** and
-**Center + rings + spokes**; the gallery above uses the selected 4x/bright-spokes look.
-[Comparison capture receipts](docs/media/README.md).
-
-## Glowing centers, stronger expressions
-
-<p align="center">
-  <img src="docs/media/expression-glow-preview.gif" alt="FaceMesh with glowing hot pupil centers and red coronas speaking the same greeting through neutral, happy, sad, surprised and angry expressions, with doubled emotional deformation" width="720">
-</p>
-
-The center dots now glow; the outer red rings stay dimmed. Happy, sad,
-surprised and angry use **100% stronger emotion deformation** relative to the
-same neutral speech, without doubling ordinary speech movement. The labeled
-loop shows all five states with the same voice and words. Non-neutral clips
-need extra CPU generation, not extra playback work.
-[Capture and numerical evidence](docs/media/expression-glow-provenance.json).
+Earlier comparisons remain available as history:
+[2x](docs/media/comparison-emotion-2x.gif),
+[4x](docs/media/comparison-emotion-4x.gif),
+[bright spokes](docs/media/comparison-eyes-spokes.gif),
+[bright rings](docs/media/comparison-eyes-rings.gif) and
+[original center-glow preview](docs/media/expression-glow-preview.gif).
+They are not the current feature demos.
 
 ## Meet the armored voice
 
 <p align="center">
-  <img src="docs/media/gallery-robot-speaking.gif" alt="Original blue and silver Optimus-inspired armored head speaking with articulated mouth plates, cyan optics and gentle XYZ turns" width="720">
+  <img src="docs/media/gallery-vr36-robot-speaking.gif" alt="Current original blue and silver Optimus-inspired armored head speaking with 4x expression input, articulated mouth plates, cyan optics and gentle XYZ turns" width="720">
 </p>
 
 Choose **View -> Optimus-inspired robot**. Original blue/silver armor, tall
@@ -146,7 +121,7 @@ transformation or character voice.
 ## FaceMesh in every direction
 
 <p align="center">
-  <img src="docs/media/gallery-facemesh-xyz.gif" alt="Transparent FaceMesh speaking while looking left and right, up and down, rolling both ways and combining XYZ rotations" width="640">
+  <img src="docs/media/gallery-vr36-facemesh-xyz.gif" alt="Current FaceMesh with 4x expression and bright red spokes speaking while looking left and right, up and down, rolling both ways and combining XYZ rotations" width="640">
 </p>
 
 The huge opening loop stays front-facing to address the reader: smiles, anger,
@@ -155,9 +130,9 @@ captions are embedded in the **same GIF frames**, below the face, so they cannot
 drift into a separate loop. The spooky dialogue is fictional; Verona does not
 capture faces. GIFs are silent; the app plays the voice.
 
-This separate loop demonstrates signed **X/Y/Z** rotation. FaceMesh's mechanical
-red irises have a core, three concentric rings, radial spokes and a soft
-depth-occluded halo, now **30% dimmer** than the first red-eye build.
+This separate loop demonstrates signed **X/Y/Z** rotation with glowing centers
+and bright spokes. Concentric rings stay dark in this selected look; light never
+shines through eyelids. The optional combined look retains its earlier dimming.
 
 ## Every hairstyle in motion
 
@@ -172,8 +147,8 @@ waves and cool **Transparent polygons**.
 <table width="100%">
   <tr><th width="50%" align="center">Claire waves (original)</th><th width="50%" align="center">Spiral curls</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-claire.gif" alt="Claire waves original hairstyle rotating from front to both sides" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-hair-curls.gif" alt="Spiral curls with all 48 locks turning from the front to both sides" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-hair-claire.gif" alt="Current Claire waves original hairstyle rotating from front to both sides" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-hair-curls.gif" alt="Current Spiral curls with all 48 locks turning from the front to both sides" width="360"></td>
   </tr>
 </table>
 
@@ -195,13 +170,13 @@ Change **View** without restarting or regenerating the current clip.
 <table width="100%">
   <tr><th width="50%" align="center">Claire</th><th width="50%" align="center">FaceMesh</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-claire.gif" alt="Claire reference color and makeup presentation turning over the same paused speech pose" width="360"><br>Original head, optional hair, cool contours or reference color/makeup.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facemesh.gif" alt="Current FaceMesh triangular facial mask and dimmed mechanical red irises turning in 3D" width="360"><br>Front face only, mechanical red eyes. Optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-claire.gif" alt="Current Claire reference color and makeup presentation turning over a paused 4x-expression speech pose" width="360"><br>Original head, optional hair, cool contours or reference color/makeup.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-facemesh.gif" alt="Current FaceMesh triangular facial mask with glowing centers and bright red spokes turning in 3D" width="360"><br>Front face only, mechanical red eyes. Optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</td>
   </tr>
   <tr><th width="50%" align="center">FaceDot</th><th width="50%" align="center">UniformPolygons</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-facedot.gif" alt="FaceDot visible-surface dots turning with ears and jaw" width="360"><br>Dots on face, ears, eyes and neck; no connecting lines. Optional dotted hair, off here.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-view-uniform.gif" alt="UniformPolygons rectangular surface grid turning with the face" width="360"><br>Rectangular surface-grid outlines on face, ears, eyes and neck. Optional grid hair, off here.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-facedot.gif" alt="Current FaceDot visible-surface dots turning with ears and jaw" width="360"><br>Dots on face, ears, eyes and neck; no connecting lines. Optional dotted hair, off here.</td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-uniform.gif" alt="Current UniformPolygons rectangular surface grid turning with the face" width="360"><br>Rectangular surface-grid outlines on face, ears, eyes and neck. Optional grid hair, off here.</td>
   </tr>
 </table>
 
@@ -218,11 +193,11 @@ the app's unchanged defaults are **1x / 0%**.
 <table width="100%">
   <tr><th width="50%" align="center">Triangle-edge curls</th><th width="50%" align="center">Dotted curls</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-matching-facemesh.gif" alt="Optional 48-lock curls drawn as triangle edges around the red-eyed FaceMesh mask" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-matching-facedot.gif" alt="Optional Spiral curls drawn as depth-occluded surface dots matching FaceDot" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-facemesh.gif" alt="Current optional 48-lock curls drawn as triangle edges around the bright-spokes FaceMesh mask" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-facedot.gif" alt="Current optional Spiral curls drawn as depth-occluded surface dots matching FaceDot" width="360"></td>
   </tr>
   <tr><th colspan="2" align="center">Surface-grid curls</th></tr>
-  <tr><td colspan="2" align="center" valign="top"><img src="docs/media/gallery-matching-uniform.gif" alt="Optional Spiral curls following UniformPolygons' curved rectangular grid format" width="360"></td></tr>
+  <tr><td colspan="2" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-uniform.gif" alt="Current optional Spiral curls following UniformPolygons' curved rectangular grid format" width="360"></td></tr>
 </table>
 
 Hair is **off by default outside Claire**. Enable it when you want it; the robot
@@ -234,8 +209,8 @@ dots or grid without regenerating the speech.
 <table width="100%">
   <tr><th width="50%" align="center">FaceDot density and gap</th><th width="50%" align="center">UniformPolygons density and gap</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-pattern-facedot.gif" alt="FaceDot stepping through sparse and dense dots and increasing cell gaps" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-pattern-uniform.gif" alt="UniformPolygons stepping through sparse and dense grids and increasing cell gaps" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-pattern-facedot.gif" alt="Current FaceDot stepping through sparse and dense dots and increasing cell gaps" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-pattern-uniform.gif" alt="Current UniformPolygons stepping through sparse and dense grids and increasing cell gaps" width="360"></td>
   </tr>
 </table>
 
@@ -251,8 +226,8 @@ Enable **Follow cursor**, then select **Cursor mode**.
 <table width="100%">
   <tr><th width="50%" align="center">Eyes follow cursor</th><th width="50%" align="center">Head follows cursor (eyes centered)</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-cursor-eyes.gif" alt="Irises following synthetic pointer positions while the head stays oriented" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-cursor-head.gif" alt="Whole head aiming at synthetic pointer positions while the irises remain centered" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-cursor-eyes.gif" alt="Current glowing irises following synthetic pointer positions while the head stays oriented" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-cursor-head.gif" alt="Current bright-spokes head aiming at synthetic pointer positions while the irises remain centered" width="360"></td>
   </tr>
 </table>
 
@@ -263,7 +238,7 @@ positions inside the owned browser; they do not move the system cursor.
 ## A floating head, not a floating control panel
 
 <p align="center">
-  <img src="docs/media/gallery-overlay-controls.gif" alt="Actual native overlay alternating between its tiny collapsed glass tab and expanded controls" width="400">
+  <img src="docs/media/gallery-vr36-overlay-controls.gif" alt="Current native bright-spokes overlay alternating between its tiny collapsed glass tab and expanded controls" width="400">
 </p>
 
 The native overlay starts with a **tiny translucent glass ... tab centered
@@ -280,8 +255,8 @@ full partial-alpha shading.
 <table width="100%">
   <tr><th width="50%" align="center">Decide how much neck is visible</th><th width="50%" align="center">Zoom in and out</th></tr>
   <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-jawline.gif" alt="Visible neck control stepping through jawline-only and longer curved neck crops" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-zoom.gif" alt="Shared zoom control stepping between smaller and larger face sizes" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-jawline.gif" alt="Current visible neck control stepping through jawline-only and longer curved neck crops" width="360"></td>
+    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-zoom.gif" alt="Current bright-spokes FaceMesh zooming between smaller and larger sizes" width="360"></td>
   </tr>
 </table>
 
@@ -299,16 +274,16 @@ Disable **Colors** in Claire for grayscale skin, eyes, makeup and hair in either
 material. Re-enable it to restore colors; neither option changes your speech.
 
 <p align="center">
-  <img src="docs/media/gallery-colors.gif" alt="The same shaded Claire and 48-lock curls switching from their colors to grayscale" width="640">
+  <img src="docs/media/gallery-vr36-colors.gif" alt="Current shaded Claire and 48-lock curls switching from colors to grayscale" width="640">
 </p>
 
 ### Current app screenshots
 
 <p align="center">
-  <img src="docs/media/gallery-overview.png" alt="Current Verona desktop controls with Hazel, explicit expression and original Claire waves" width="900">
+  <img src="docs/media/gallery-vr36-overview.png" alt="Current Verona desktop controls with Hazel, 4x expression selection and original Claire waves" width="900">
 </p>
 <p align="center">
-  <img src="docs/media/gallery-robot-overview.png" alt="Current Verona desktop controls with Optimus-inspired robot selected and its blue and silver armored head" width="900">
+  <img src="docs/media/gallery-vr36-robot-overview.png" alt="Current Verona desktop controls with 4x expression selection and the original blue and silver armored robot" width="900">
 </p>
 
 ## Prototype boundaries
@@ -328,7 +303,7 @@ Hairstyle turntables show view rotation; control GIFs may show discrete states.
 [Media provenance and timings](docs/media/README.md) identify their exact sources.
 No private transcripts, reference sheets, model assets or voice recordings are
 included in the gallery.
-The twenty GIFs are deliberately media-heavy, especially the large captioned
+The 32 GIFs are deliberately media-heavy, especially the large captioned
 intro; loading may take a moment on slower connections.
 
 [Engineering book](docs/README.md) &middot; [Third-party terms](THIRD_PARTY.md)

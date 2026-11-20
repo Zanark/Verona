@@ -1,5 +1,38 @@
 # Prototype media receipt
 
+## Current complete README gallery (vr-36)
+
+[Current feature provenance](gallery-vr36-provenance.json) covers twenty fresh
+`gallery-vr36-*.gif` loops and two fresh interface PNGs, captured from runtime
+`7735e0f436190cb9ef4ca2b05b2ab949362b0fd5`.
+The README now embeds32GIFs/twoPNG:20fresh feature loops plus the12byte-identical,
+same-runtime emotion GIFs below. Five older comparison/preview GIFs remain
+historical links. No earlier media file is overwritten or deleted.
+
+The new huge [talking hero](gallery-vr36-facemesh-transparent.gif) is800x920,
+321frames/26.59s, zoom0.95, with an82px minimum face edge margin.
+It keeps the nine authored phrases and cyan captions inside the same frames.
+Every fresh expressive generation selects4x; FaceMesh selects glowing centers
+and bright spokes. Robot optics remain cyan. Neutral speech is unamplified;
+non-reader feature speech selects Happy/strength0.4. App defaults stay2x/combined.
+
+All967new frames independently decode with exact source-alpha threshold,
+dimensions/delays, changing content and zero ghost pixels. Decoded samples
+from all20groups were viewed over dark/light, plus a native decoded hero frame
+and both interface screenshots; not every-frame visual review. The12retained
+emotion GIFs retain their original924-frame checks and exact source/media hashes.
+No new native optical run: the renderer is unchanged.
+
+Actual GitHub-rendered Markdown with captured GitHub styles passes hidden,
+disposable Edge layout checks at1200/768/390px:34images/32GIFs,12equal/top-aligned
+pairs,8centered solo GIFs, aspect preservation and no overflow.
+Only the huge hero is visible before expanding the single default-closed
+section; all ten emotions plus neutral are inside it. Closed desktop/mobile
+samples were viewed. This is local representative layout, not a live GitHub
+browser screenshot. Capture/layout owners and profiles are cleaned; no user/
+sibling app/device is driven. No runtime/default/model/dependency/voice change,
+mixture preview/API, release, book edition or new accuracy/listening acceptance.
+
 ## All ten unique emotions plus neutral (vr-35)
 
 [Overview GIF](emotions-all.gif) / [receipt](emotions-all.json):720x840,
@@ -33,7 +66,7 @@ The local twelve-image preview passes hidden disposable-browser decode,
 checks. All owned hosts/profiles cleaned. Captures mute audio and never drive
 user/sibling apps/devices. No owner/listening/semantic/phonetic acceptance,
 model/dependency/release/book edition or mixture API. App defaults unchanged.
-README now has37GIFs/twoPNG; original hero remains first and all other content
+At vr-35, README had37GIFs/twoPNG; original hero remained first and all other content
 is inside the single default-closed disclosure. All previous media is unchanged.
 
 ## Current comparison pairs: corrected eyes at4x (vr-33)

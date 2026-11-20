@@ -71,6 +71,11 @@ Six additional single controls are now exposed. Twelve actual GIFs demonstrate
 the selected4x/glowing-center/bright-spokes look with controlled full clips,
 independent decoding and explicit occlusion/accuracy limits. Defaults stay
 2x/combined; mixed controls remain unimplemented.
+Its vr-36 gallery refresh recaptures all20feature loops and both interface
+screenshots at the selected4x/bright-spokes look, retaining the12same-runtime
+emotion GIFs byte-for-byte. The32-GIF README keeps only its huge talking hero
+outside one default-closed section. Independent967-frame decoding and actual
+GitHub-styled desktop/tablet/mobile layout checks qualify the media, not accuracy.
 
 ## Reading paths
 

@@ -90,6 +90,11 @@ choice. vr-35 exposes all ten single controls and delivers ten emotion GIFs,
 a neutral baseline and their overview at4x with bright spokes/glowing centers.
 No combinations are previewed; mixed-control behavior remains unimplemented.
 The owner requests no further questions while AFK. Defaults remain2x/combined.
+The next request refreshes every README feature GIF and puts all ten named
+emotions plus neutral inside its existing collapsed section. vr-36 recaptures
+the feature gallery at4x/bright spokes, retains the just-qualified unique-emotion
+loops and keeps the huge captioned hero above everything. This is a media/docs
+refresh, not a default change, mixture preview, new voice or accuracy acceptance.
 
 - Project name: Verona.
 - A new application, not a recreation of KardboardCode-VTuber.

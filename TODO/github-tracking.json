@@ -450,7 +450,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-36": {
+      "source": "TODO/36_CURRENT_README_GALLERY.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhADawA",
+      "number": 35,
+      "url": "https://github.com/Zanark/Verona/issues/35",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKcUv4",
+      "title": "Refresh every active README demo and show all unique emotions",
+      "managedBody": "\n<!-- verona-workstream:vr-36 -->\nWorkstream source: `TODO/36_CURRENT_README_GALLERY.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-36\nTitle: Refresh every active README demo and show all unique emotions\n\nStatus: DONE\nMilestone: One current-runtime README gallery with the selected 4x/bright-spokes look.\nDependencies: vr-35\n\nPurpose:\nThe owner requests updated GIFs for everything and all possible named emotions\ninside the collapsed README section. Preserve the earlier unique-only choice:\nten model emotions plus neutral, not mixture previews or a human-emotion taxonomy.\n\nTasks:\n[x] Capture all twenty current feature demos and both screenshots in isolation.\n[x] Use 4x emotion and bright spokes/glowing centers wherever FaceMesh applies.\n[x] Independently decode all new GIF frames and inspect decoded samples.\n[x] Refresh the huge talking hero, views, robot, hair and every control demo.\n[x] Keep the current eleven-state emotion gallery inside one closed disclosure.\n[x] Replace obsolete embedded comparisons with historical links, not deleted files.\n[x] Record media receipts and update the book/index/causal ledger.\n[x] Prepare bounded tracking/source delivery with exact post-push readback gates.\n\nAcceptance criteria:\nEvery active feature GIF refers to the current runtime, not an earlier capture.\nThe just-qualified vr35 emotion GIFs may be reused only with exact matching\nruntime fingerprints; all ten single channels and neutral remain individually shown.\nKeep the huge front-facing captioned hero first and everything else inside\none default-closed details element. Keep equal/top-aligned pairs and centered solos.\nNo runtime/default/model/dependency/voice changes, blends, release or book edition.\nActual synthetic speech and manual controls, not inferred emotions, listening,\nphonetic accuracy, live cadence or owner visual acceptance.\nDo not stop/reload user or sibling apps. Separate hidden production host,\nephemeral capability/RAM/cache/speech work root and disposable profile.\nFollow/pin off, muted playback, no system cursor/camera/microphone activity.\nKeep failed attempts and original media; clean only exact owned helper resources.\n\nCompletion evidence:\ndocs/media/gallery-vr36-provenance.json:20freshGIFs/967independentlydecodedframes,\ntwo fresh screenshots, exact source7735e0f and12unchanged same-runtime emotionGIFs.\nHero800x920/321frames/26.59s/zoom.95, minimum face edge margin82px.\nAll20decoded-group light/dark samples, native decoded hero and both shots viewed.\nActual GitHub GFM/local styled Edge fixture passes1200/768/390px:\n34images/32GIFs,12equal/top-aligned pairs,8centered solos, no overflow/aspect loss;\nonlyhero visible by default. Closed desktop/mobile samples viewed.\nNo runtime source edited. Previous media retained. All owned hosts/profiles cleaned.\nWorktree clean at7735e0f before slice; no Verona Python/Electron owner detected.\nSource delivery has its separate exact remote commit/blob/identity receipt;\ncapture/layout qualification does not itself claim a push or new release.\n\nCompletion log:\n2026-11-20 - Owner requests a fully current README gallery and all unique emotions\ninside its existing collapsed section; the earlier no-combination-demo scope remains.\n2026-11-20 - Complete current-runtime feature recapture and decoded sample review;\nretain current emotion GIFs by matching fingerprints, replace obsolete embeds\nwith historical links, and qualify the default-closed responsive GFM layout.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-20T10:20:56.054102+00:00"
+  "verifiedAt": "2026-11-20T10:43:41.516312+00:00"
 }

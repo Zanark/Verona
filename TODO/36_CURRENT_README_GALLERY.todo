@@ -1,0 +1,57 @@
+ID: vr-36
+Title: Refresh every active README demo and show all unique emotions
+
+Status: DONE
+Milestone: One current-runtime README gallery with the selected 4x/bright-spokes look.
+Dependencies: vr-35
+
+Purpose:
+The owner requests updated GIFs for everything and all possible named emotions
+inside the collapsed README section. Preserve the earlier unique-only choice:
+ten model emotions plus neutral, not mixture previews or a human-emotion taxonomy.
+
+Tasks:
+[x] Capture all twenty current feature demos and both screenshots in isolation.
+[x] Use 4x emotion and bright spokes/glowing centers wherever FaceMesh applies.
+[x] Independently decode all new GIF frames and inspect decoded samples.
+[x] Refresh the huge talking hero, views, robot, hair and every control demo.
+[x] Keep the current eleven-state emotion gallery inside one closed disclosure.
+[x] Replace obsolete embedded comparisons with historical links, not deleted files.
+[x] Record media receipts and update the book/index/causal ledger.
+[x] Prepare bounded tracking/source delivery with exact post-push readback gates.
+
+Acceptance criteria:
+Every active feature GIF refers to the current runtime, not an earlier capture.
+The just-qualified vr35 emotion GIFs may be reused only with exact matching
+runtime fingerprints; all ten single channels and neutral remain individually shown.
+Keep the huge front-facing captioned hero first and everything else inside
+one default-closed details element. Keep equal/top-aligned pairs and centered solos.
+No runtime/default/model/dependency/voice changes, blends, release or book edition.
+Actual synthetic speech and manual controls, not inferred emotions, listening,
+phonetic accuracy, live cadence or owner visual acceptance.
+Do not stop/reload user or sibling apps. Separate hidden production host,
+ephemeral capability/RAM/cache/speech work root and disposable profile.
+Follow/pin off, muted playback, no system cursor/camera/microphone activity.
+Keep failed attempts and original media; clean only exact owned helper resources.
+
+Completion evidence:
+docs/media/gallery-vr36-provenance.json:20freshGIFs/967independentlydecodedframes,
+two fresh screenshots, exact source7735e0f and12unchanged same-runtime emotionGIFs.
+Hero800x920/321frames/26.59s/zoom.95, minimum face edge margin82px.
+All20decoded-group light/dark samples, native decoded hero and both shots viewed.
+Actual GitHub GFM/local styled Edge fixture passes1200/768/390px:
+34images/32GIFs,12equal/top-aligned pairs,8centered solos, no overflow/aspect loss;
+onlyhero visible by default. Closed desktop/mobile samples viewed.
+No runtime source edited. Previous media retained. All owned hosts/profiles cleaned.
+Worktree clean at7735e0f before slice; no Verona Python/Electron owner detected.
+Source delivery has its separate exact remote commit/blob/identity receipt;
+capture/layout qualification does not itself claim a push or new release.
+
+Completion log:
+2026-11-20 - Owner requests a fully current README gallery and all unique emotions
+inside its existing collapsed section; the earlier no-combination-demo scope remains.
+2026-11-20 - Complete current-runtime feature recapture and decoded sample review;
+retain current emotion GIFs by matching fingerprints, replace obsolete embeds
+with historical links, and qualify the default-closed responsive GFM layout.
+
+GitHub issue: https://github.com/Zanark/Verona/issues/35

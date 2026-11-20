@@ -35,6 +35,7 @@ vr-32 | 32_COMPARISON_VARIANTS.todo | DONE | Matched2x/4x emotion and spokes-onl
 vr-33 | 33_BRIGHT_CENTER_COMPARISONS.todo | DONE | Glowing centers, brighter selected spokes/rings and matched4x GIFs
 vr-34 | 34_FULL_EMOTION_RESEARCH.todo | DONE | Full-model emotion inventory, bounded local probe and proposed GIF gallery definition
 vr-35 | 35_UNIQUE_EMOTION_GALLERY.todo | DONE | All ten unique emotions plus neutral,4x and bright-spokes GIFs
+vr-36 | 36_CURRENT_README_GALLERY.todo | DONE | All20feature GIFs/two screenshots refreshed;32GIFs/all ten emotions in one closed section
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

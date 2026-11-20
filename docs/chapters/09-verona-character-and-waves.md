@@ -1,5 +1,64 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Refreshing every active README demo (vr-36)
+
+The owner next requests updated GIFs for everything and all available emotions
+inside the collapsed section. The earlier **unique-only** choice still applies:
+ten explicit model emotions plus neutral, not mixture spoilers or every human
+emotion. The huge captioned talking hero remains above the first heading;
+everything else stays inside one default-closed disclosure.
+
+Twenty fresh feature loops now demonstrate the same committed runtime,
+`7735e0f436190cb9ef4ca2b05b2ab949362b0fd5`: talking hero, signed XYZ,
+robot speech, both hairstyles, all human views, matching hair, pattern controls,
+cursor modes, neck extent, zoom, colors and native overlay controls.
+Their `gallery-vr36-*` names preserve the earlier captures rather than
+overwriting their provenance. The twelve just-qualified vr-35 emotion GIFs
+remain byte-identical; their recorded runtime fingerprints match this capture.
+The README embeds **32 GIFs and two fresh interface screenshots**.
+Five older comparison/preview GIFs become historical links, not active demos.
+
+The selected capture settings are **4x emotion and glowing centers/bright
+spokes**. The production renderer in `verona/web/app.js` and controls in
+`verona/web/index.html` are unchanged. Non-reader feature speech uses Happy
+at strength0.4; the hero keeps its nine authored neutral/happy/angry/surprised/sad
+phrases. The emotion gallery retains strength0.6. Neutral stays unamplified,
+robot optics stay cyan, and startup defaults remain2x/combined.
+No new inference, shader, preference persistence, voice, model or dependency.
+
+### Capture, encoding and presentation boundaries
+
+The isolated hidden production Electron UI/preload/server/model uses a separate
+capability, RAM clip, derived cache, synthesis directory and disposable profile.
+Follow/pin are off and playback muted. Synthetic cursor inputs do not move the
+system pointer; no user/sibling app, profile, camera or microphone is driven.
+All owned capture and layout hosts/profiles are cleaned.
+
+The new hero is800x920:800-square transparent face plus120px cyan dialogue strip,
+321frames/26.59s, zoom0.95 and minimum face edge margin82px. Captions share the
+actual GIF frames, so there is no second clock to drift. Manual turns and
+stepped controls remain explicitly labelled; they are not inferred head motion
+or live-cadence measurements. GIF transparency is binary, so the native glass
+tab cannot retain its full partial-alpha shading.
+
+[`gallery-vr36-provenance.json`](../media/gallery-vr36-provenance.json) records
+source/Git/media/frame hashes, timings, speech settings, retained-emotion hashes,
+cleanup and independent decoding. All967new frames pass exact source-alpha
+threshold, dimensions/delays, changing-content and zero-ghost checks.
+Decoded samples from all twenty groups were viewed over dark/light backgrounds,
+plus a native decoded hero frame and both fresh interface screenshots.
+This is sample review, not every-frame visual review or new owner approval.
+The retained emotion gallery keeps its separate924-frame qualification below;
+the unchanged eye shader retains vr-33's native optical qualification.
+
+Actual GitHub GFM output, rendered locally with captured GitHub styles in hidden
+Edge, passes1200/768/390px checks:34decoded images/32GIFs, only the hero visible
+initially, all other content inside the closed disclosure,12equal/top-aligned
+pairs,8centered solo GIFs, preserved aspect ratios and no overflow.
+Closed desktop/mobile screenshots were also inspected. This is representative
+local GitHub layout, not signed-in GitHub chrome. No new release, book edition,
+listening, semantic, phonetic or human-accuracy acceptance is implied.
+
 ## All ten unique emotions, no combination previews (vr-35)
 
 After vr-34's inventory, the owner explicitly selects **unique emotions only**
