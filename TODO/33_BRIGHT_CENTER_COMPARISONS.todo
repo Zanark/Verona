@@ -2,7 +2,7 @@ ID: vr-33
 Title: Bright spoke and ring comparisons with glowing centers at4x
 GitHub issue: https://github.com/Zanark/Verona/issues/32
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Corrected pair of real-renderer4x eye-comparison GIFs.
 Dependencies: vr-32
 
@@ -15,7 +15,7 @@ Tasks:
 [x] Update labels and optical regressions; retain combined default/robot behavior.
 [x] Qualify the actual renderer, capture both at4x and independently decode.
 [x] Inspect decoded expressions/eye details; publish corrected GIF/JSON pair.
-[ ] Reconcile chapter, guide, README, index, ledger, tracking and continuity.
+[x] Reconcile chapter, guide, README, index, ledger, tracking and continuity.
 
 Acceptance criteria:
 Both alternatives retain the same glowing center as combined mode.
@@ -42,10 +42,15 @@ All420frames independently decode alpha/timing/size/captions/no ghosts;
 dark. Corrected local pair opened; hidden browser verifies desktop/mobile
 layout, both GIF decodes and light background. All owned hosts/profiles cleaned.
 Both emotion GIFs/original preview/unrelated media remain unchanged.
-Final source/tracking/continuity reconciliation remains.
+Source21207529d1a713e18db1a55037144e3aaf76dbc8 committed/pushed as Zanark;
+both identities/trailers verified. Exact remote main/all18changedblobs/clean
+tree verified. Prior media/31mappingrecords/3releases/tagtargets unchanged.
+Chapter/guide/README/index/ledger and owned continuity reconcile the correction.
 
 Completion log:
 2026-11-20 - Owner corrects the isolated previews to retain glowing centers,
 asks brighter selected structures and explicitly selects4x for both GIFs.
 2026-11-20 - Qualify corrected optics and capture two fresh4x GIFs. Independently
 decode every frame, inspect actual samples and open the corrected comparison.
+2026-11-20 - Publish corrected optical pair in source2120752; verify exact
+remote delivery and complete the original issue/Project item.
