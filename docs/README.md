@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Intact ears and hair tips (vr-70):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#preserve-ears-and-complete-hair-vr-70)
+bounds the skin's jaw mask and preserves complete selected hairstyles, with a
+real before/after image, explicit extra draw cost and focused qualification.
+The [living journal](../book/journal.md) records why a larger window alone
+could not fix this separate internal cut.
+
 **Unclipped floating zoom (vr-69):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#zoom-without-cutting-the-head-at-the-window-edge-vr-69)
 explains coordinated native bounds/projection, truthful monitor limits and
 audio/menu continuity, with actual 100/140% images. The [living journal](../book/journal.md)

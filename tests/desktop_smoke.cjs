@@ -69,9 +69,9 @@ async function run(window) {
     return {full,cropped:calls,before,after:a.currentTime,paused:a.paused,error:g.getError()};
   })()`);
   assert(report.framing.cropped[0].count < report.framing.full[0].count);
-  assert(report.framing.cropped.at(-2).count < report.framing.full.at(-2).count);
+  assert.equal(report.framing.cropped.at(-2).count, report.framing.full.at(-2).count);
   assert(!report.framing.paused && report.framing.after >= report.framing.before && report.framing.error === 0);
-  report.checks.push("Head/neck framing reduces actual skin/hair submissions without pausing or seeking speech.");
+  report.checks.push("Head/neck framing reduces actual skin submissions and retains complete hair without pausing or seeking speech.");
   report.overlayCommand = await evaluate(`window.veronaDesktop.command("overlay")`);
   report.beforePinWait = { visible: window.isVisible(), pinned: window.isAlwaysOnTop() };
   await wait(`document.documentElement.classList.contains("overlay")`);
@@ -192,6 +192,7 @@ async function run(window) {
   report.alpha = alpha;
   const lowerNeck = await evaluate(`(async () => {
     const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+    $("hair").checked=false;$("hair").dispatchEvent(new Event("input"));
     const meta=(await (await fetch("/api/session",{headers:{"X-Verona-Token":location.hash.slice(1)}})).json()).mesh;
     const row=c.height/2+(134-meta.center[1])/meta.scale*.91*c.height/2;
     let leaked=0;
@@ -206,7 +207,7 @@ async function run(window) {
   assert.equal(lowerNeck.leaked,0,JSON.stringify(lowerNeck));
   assert.equal(lowerNeck.error,0);
   report.lowerNeck=lowerNeck;
-  report.checks.push("Both materials, native contours, hair and diagnostic points leave zero alpha below the neck.");
+  report.checks.push("Both skin materials, native contours and diagnostic points leave zero alpha below the neck; hair is independently preserved.");
   report.jawDepths=[];
   await evaluate(`document.getElementById("appearance").value="shaded";
     document.getElementById("edges").checked=false;document.getElementById("edges").dispatchEvent(new Event("input"));`);
@@ -229,7 +230,7 @@ async function run(window) {
   await evaluate(`document.getElementById("neck-depth").value="1.7";document.getElementById("neck-depth").dispatchEvent(new Event("input"));
     document.getElementById("appearance").value="polygon";document.getElementById("edges").checked=true;
     document.getElementById("edges").dispatchEvent(new Event("input"));`);
-  report.checks.push("Live native neck endpoints retain the clip; default skin/hair bottom rises at both jaw sides instead of a horizontal chop.");
+  report.checks.push("Live native neck endpoints retain the clip; default skin bottom rises at both jaw sides instead of a horizontal chop.");
   report.presentationViews = [];
   for (const id of ["facemesh", "facedot", "uniform"]) {
     const data = await evaluate(`(() => {
@@ -305,6 +306,95 @@ async function run(window) {
   await evaluate(`document.getElementById("colors").checked=true;document.getElementById("colors").dispatchEvent(new Event("input"));
     document.getElementById("yaw").value="0";document.getElementById("yaw").dispatchEvent(new Event("input"));`);
   report.checks.push("Matching hair retains transparent native bounds and floating-tab headroom in all formats for original waves and doubled curls, front and turned.");
+  if (process.argv.includes("--ear-hair")) {
+    await setZoom(Math.min(1.4, zoomLimit));
+    await evaluate(`(async () => {
+      const $=id=>document.getElementById(id);
+      $("cursor-mode").value="head";$("cursor-mode").dispatchEvent(new Event("input"));
+      $("hair").checked=true;$("hair").dispatchEvent(new Event("input"));
+      $("edges").checked=false;$("edges").dispatchEvent(new Event("input"));
+      window.veronaAppearance.apply({mesh:"#F2B134",hair:"#2643C4",lips:"#DE1746",eyes:"#00A86B"});
+      const headers={"X-Verona-Token":location.hash.slice(1)};
+      const meta=(await (await fetch("/api/session",{headers})).json()).mesh;
+      const binary=await (await fetch("/api/mesh",{headers})).arrayBuffer();
+      const {createHairstyle}=await import("/hairstyles.mjs");
+      window.earWitnesses={};
+      const skin={positions:new Int16Array(binary,0,meta.vertices*3),
+        triangles:new Uint32Array(binary,meta.triangleOffset,meta.triangles*3)};
+      for(const style of ["claire","curls"]){
+        const hair=style==="claire"?{positions:new Int16Array(binary,meta.hair.positionOffset,meta.hair.vertices*3),
+          triangles:new Uint32Array(binary,meta.hair.triangleOffset,meta.hair.triangles*3)}:createHairstyle(style,meta);
+        window.earWitnesses[style]={};
+        for(const [name,mesh] of Object.entries({skin,hair})){
+          const centers=[];
+          for(let i=0;i<mesh.triangles.length;i+=3){
+            const vertices=Array.from(mesh.triangles.subarray(i,i+3),index=>
+              [0,1,2].map(axis=>mesh.positions[index*3+axis]/meta.quantization*meta.scale+meta.center[axis]));
+            if(vertices.every(p=>Math.abs(p[0])>7.5&&Math.abs(p[0])<11&&p[1]>141&&p[1]<146.8&&p[2]<0&&p[2]>-12)){
+              centers.push([0,1,2].map(axis=>vertices.reduce((sum,p)=>sum+p[axis],0)/3));
+            }
+          }
+          window.earWitnesses[style][name]=centers.map(p=>p.map((v,i)=>(v-meta.center[i])/meta.scale));
+        }
+      }
+    })()`);
+    report.earHair=[];
+    for(const style of ["claire","curls"])for(const material of ["polygon","shaded"]){
+      for(const [tilt,yaw] of [[-.4,-.65],[-.4,.65],[.4,-.65],[.4,.65]]){
+        const result=await evaluate(`(() => {
+          const $=id=>document.getElementById(id),set=(id,value)=>{$(id).value=String(value);$(id).dispatchEvent(new Event("input"));};
+          set("hairstyle","${style}");set("appearance","${material}");set("tilt",${tilt});set("yaw",${yaw});
+          set("framing","full");
+          const c=$("face"),g=c.getContext("webgl2"),program=g.getParameter(g.CURRENT_PROGRAM);
+          const uniform=name=>g.getUniform(program,g.getUniformLocation(program,name));
+          const rotation=uniform("rotation"),center=uniform("viewCenter"),offset=uniform("rotationOffset"),
+            scale=uniform("viewScale"),zoom=uniform("zoom"),aspect=uniform("aspect");
+          const project=p=>{
+            const v=p.map((n,i)=>(n-center[i])*scale);
+            const r=[0,1,2].map(i=>rotation[i]*v[0]+rotation[i+3]*v[1]+rotation[i+6]*v[2]+offset[i]);
+            return [Math.round((r[0]*zoom/aspect+1)*c.width/2),Math.round((r[1]*zoom+1)*c.height/2)];
+          };
+          const full=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,full);
+          const witnesses=Object.fromEntries(Object.entries(window.earWitnesses["${style}"]).map(([name,points])=>{
+            const pixels=[...new Set(points.map(project).filter(([x,y])=>x>1&&y>1&&x<c.width-2&&y<c.height-2)
+              .map(([x,y])=>y*c.width+x))].filter(index=>
+                [-1,0,1].every(dy=>[-1,0,1].every(dx=>full[(index+dy*c.width+dx)*4+3]>240)));
+            return [name,pixels];
+          }));
+          window.earFullImage=c.toDataURL("image/png");
+          set("framing","head-neck");
+          const cropped=new Uint8Array(full.length);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,cropped);
+          const draw=g.drawElements;
+          let hairAlphaChanged=0;
+          try{
+            g.drawElements=function(...args){if(uniform("material")===1)return draw.apply(this,args);};
+            set("framing","full");
+            const fullHair=new Uint8Array(full.length);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,fullHair);
+            set("framing","head-neck");
+            const croppedHair=new Uint8Array(full.length);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,croppedHair);
+            for(let i=3;i<fullHair.length;i+=4)if(fullHair[i]!==croppedHair[i])hairAlphaChanged++;
+          }finally{g.drawElements=draw;set("framing","head-neck");}
+          return {witnesses:Object.fromEntries(Object.entries(witnesses).map(([name,pixels])=>
+            [name,{sampled:pixels.length,missing:pixels.filter(index=>cropped[index*4+3]<240).length}])),
+            hairAlphaChanged,error:g.getError(),source:$("audio").src,time:$("audio").currentTime};
+        })()`);
+        report.earHair.push({style,material,tilt,yaw,...result});
+        assert.equal(result.error,0);assert.equal(result.source,before.source);assert.equal(result.time,0);
+        const name=`ear-${style}-${material}-${tilt}-${yaw}`;
+        const full=await evaluate(`window.earFullImage`);
+        await fs.writeFile(path.join(output,`${name}-full.png`),Buffer.from(full.split(",")[1],"base64"));
+        await fs.writeFile(path.join(output,`${name}-cropped.png`),
+          (await window.webContents.capturePage()).toPNG());
+      }
+    }
+    assert(report.earHair.every(row=>row.hairAlphaChanged===0&&Object.values(row.witnesses).every(w=>w.sampled>10&&w.missing===0)),
+      JSON.stringify(report.earHair));
+    report.checks.push("Sixteen matched full/cropped native poses preserve lateral skin/hair witnesses and exact entire-hair alpha in both materials and hairstyles, at opposite pitch/yaw.");
+    await setZoom(1);
+    await evaluate(`for(const [id,value] of Object.entries({tilt:0,yaw:0,appearance:"polygon"})){
+      const e=document.getElementById(id);e.value=String(value);e.dispatchEvent(new Event("input"));}
+      window.veronaAppearance.apply({mesh:null,hair:null,lips:null,eyes:null});`);
+  }
   if (process.argv.includes("--zoom-only")) {
     await evaluate(`window.veronaDesktop.command("controls")`);
     await wait(`!document.documentElement.classList.contains("overlay")`);
@@ -313,7 +403,8 @@ async function run(window) {
       text:document.getElementById("text").value,voice:document.getElementById("voice").value})`);
     assert.deepEqual(restored, before);
     report.checks.push("Zoom-only qualification restores controls and clears topmost without replacing audio or capturing the desktop.");
-    report.scope = "Focused zoom qualification; no desktop-composition or unrelated cadence claim.";
+    report.scope = "Focused zoom qualification" + (process.argv.includes("--ear-hair") ? " plus lateral ear/hair crop witnesses" : "")
+      + "; no desktop-composition or unrelated cadence claim.";
     await fs.writeFile(path.join(output,"desktop-report.json"),JSON.stringify(report,null,2));
     return;
   }

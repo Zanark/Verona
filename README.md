@@ -291,8 +291,9 @@ waves and cool **Transparent polygons**.
 of 24**, keeping the same per-lock detail. The other nine styles and their
 gallery GIFs have been removed, not hidden. Hair changes do not regenerate speech.
 These are procedural geometric styles, not strand simulation. **Head and neck**
-trims long hair to the same jaw-following boundary; use **Full bust** to retain
-its length.
+now trims skin, not hair: both hairstyles retain their complete tips, and the
+bounded jaw mask no longer rises through the ears.
+[Before/after and mechanism](docs/chapters/10-desktop-overlay-and-gaze.md#preserve-ears-and-complete-hair-vr-70).
 
 These are manual view turntables at 10 sampled frames/second, not hair physics
 or head motion inferred from speech. Only the selected alternative is built;
@@ -391,7 +392,8 @@ separately. The glass effect styles Verona's own web content.
 **Framing -> Head and neck -> Visible neck** previews a curved jaw-following cut:
 **0-6 cm**, default **1.7 cm**. Full bust restores the complete original geometry.
 **Zoom: 35-230%; Fit: 100%.** The GIF samples browser zoom states; the native
-buttons use the same control. High zoom intentionally can crop the model.
+buttons use the same control. The native window grows with zoom and limits the
+maximum to the monitor's usable area; browser-only high zoom can still crop.
 
 ## Shape the voice
 

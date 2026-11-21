@@ -41,3 +41,24 @@ for (const value of [-1,6.1,NaN]) assert.throws(() => trimJawTopology(jawPositio
 assert.throws(() => trimJawTopology(jawPositions,[],[0,1,999],meta,0),/bounds/);
 assert.throws(() => trimJawTopology(jawPositions,[],[3,4,5],meta,0),/entire/);
 console.log("Jawline rises at the sides/rear, neck depth is bounded, curved interiors survive and hidden work is removed.");
+
+const lateralPositions = [
+  9,143.3,-6, 9.3,143.4,-6, 9.2,143.7,-6,
+  -9,143.3,-6, -9.3,143.4,-6, -9.2,143.7,-6,
+  10,141,-5, 10.3,141.1,-5, 10.2,141.4,-5,
+  -10,141,-5, -10.3,141.1,-5, -10.2,141.4,-5,
+  9,120,-6, 9.3,120,-6, 9.2,120,-6,
+];
+const lateralTriangles = new Uint32Array([0,1,2, 3,4,5, 6,7,8, 9,10,11, 12,13,14]);
+const lateralEdges = new Uint32Array([0,1, 3,4, 6,7, 9,10, 12,13]);
+for (const neck of [0, JAW_CROP.defaultNeck, JAW_CROP.maximumNeck]) {
+  const lateral = trimJawTopology(lateralPositions, lateralEdges, lateralTriangles, meta, neck);
+  assert.deepEqual([...lateral.triangles], [...lateralTriangles.slice(0,12)]);
+  assert.deepEqual([...lateral.edges], [...lateralEdges.slice(0,8)]);
+  assert.deepEqual([...lateral.vertices], Array.from({length:12},(_,i)=>i));
+  for (let i=0;i<12;i++) assert(lateralPositions[i*3+1] >=
+    jawCutHeight(lateralPositions[i*3],lateralPositions[i*3+2],neck));
+  assert.equal(jawCutHeight(100,-100,neck),140-neck);
+}
+assert(Math.abs(jawCutHeight(6,0,0)-139.3)<1e-10, "The original inner jaw curve stays unchanged.");
+console.log("Both lateral ear/hair bands survive every neck endpoint while low geometry stays removed.");

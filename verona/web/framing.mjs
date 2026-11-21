@@ -31,12 +31,12 @@ export const NECK_CUTOFF_Y = 134;
 
 export const JAW_CROP = Object.freeze({
   chin: 135.7, curve: 0.1, rearRise: 3, rearStart: -1, rearSpan: 7,
-  defaultNeck: 1.7, maximumNeck: 6,
+  ceiling: 140, defaultNeck: 1.7, maximumNeck: 6,
 });
 
 export function jawCutHeight(x, z, neck) {
-  return JAW_CROP.chin + JAW_CROP.curve * x * x
-    + JAW_CROP.rearRise * Math.max(0, Math.min(1, (JAW_CROP.rearStart - z) / JAW_CROP.rearSpan)) - neck;
+  return Math.min(JAW_CROP.ceiling, JAW_CROP.chin + JAW_CROP.curve * x * x
+    + JAW_CROP.rearRise * Math.max(0, Math.min(1, (JAW_CROP.rearStart - z) / JAW_CROP.rearSpan))) - neck;
 }
 
 export function trimJawTopology(positions, edges, triangles, meta, neck) {

@@ -169,10 +169,10 @@ class FaceRenderer {
       }
       void main() {
         if (material == 2 && blinkOccludes(rest)) discard;
-        if (neckDepth >= 0.0 && rest.y < ${JAW_CROP.chin}
+        if (material != 1 && neckDepth >= 0.0 && rest.y < min(${JAW_CROP.ceiling.toFixed(1)}, ${JAW_CROP.chin}
           + ${JAW_CROP.curve} * rest.x * rest.x
           + ${JAW_CROP.rearRise.toFixed(1)} * clamp((${JAW_CROP.rearStart.toFixed(1)} - rest.z)
-            / ${JAW_CROP.rearSpan.toFixed(1)}, 0.0, 1.0) - neckDepth) discard;
+            / ${JAW_CROP.rearSpan.toFixed(1)}, 0.0, 1.0)) - neckDepth) discard;
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
@@ -486,15 +486,14 @@ class FaceRenderer {
     if (value !== "full" && value !== "head-neck") throw new Error("Choose a supported face framing.");
     const headOnly = value === "head-neck";
     if (this.hairVisible[this.presentationId]) this.ensureHair();
-    if (headOnly && (this.neck?.depth !== depth
-        || Boolean(this.neck?.hair) !== this.hairVisible[this.presentationId])) {
-      const next = this.createNeck(depth, this.hairData, this.hairEdges, this.hairTriangles, this.hair);
+    if (headOnly && this.neck?.depth !== depth) {
+      const next = this.createNeck(depth);
       this.deleteNeck();
       this.neck = next;
     }
     this.headOnly = headOnly;
     this.skin = headOnly ? this.neck.skin : this.fullSkin;
-    this.activeHair = headOnly ? this.neck.hair : this.hair;
+    this.activeHair = this.hair;
     if (headOnly) this.releaseBuffers(this.fullSkin, ["triangles", "edges"]);
     else {
       if (!this.fullSkin.triangles) {
@@ -507,25 +506,20 @@ class FaceRenderer {
     if (refit) this.updateFit();
   }
 
-  createNeck(depth, positions, edges, triangles, surface) {
+  createNeck(depth) {
     const skin = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, depth);
-    const hair = this.hairVisible[this.presentationId]
-      ? trimJawTopology(positions, edges, triangles, this.meta, depth) : null;
     const upload = data => ({
       triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.triangles),
       edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.edges),
       triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
     });
     return { depth, skin: { ...upload(skin), triangleData: skin.triangles, vertices: skin.vertices,
-      points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) },
-      hair: hair ? { ...surface, ...upload(hair), vertices: hair.vertices } : null };
+      points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) } };
   }
 
   deleteNeck() {
     if (!this.neck) return;
-    for (const surface of [this.neck.skin, this.neck.hair]) {
-      this.releaseBuffers(surface, ["triangles", "edges", "meshEdges"]);
-    }
+    this.releaseBuffers(this.neck.skin, ["triangles", "edges"]);
     this.gl.deleteBuffer(this.neck.skin.points);
     this.neck = null;
   }
@@ -543,19 +537,11 @@ class FaceRenderer {
       triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.triangles),
       edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.edges),
     });
-    let nextNeck;
-    try { nextNeck = this.headOnly ? this.createNeck(this.neck.depth, data.positions, data.edges, data.triangles, surface) : null; }
-    catch (error) {
-      this.releaseBuffers(surface, ["positions", "normals", "triangles", "edges"]);
-      throw error;
-    }
-    this.deleteNeck();
     this.releaseBuffers(this.hair, ["positions", "normals", "triangles", "edges", "meshEdges"]);
     this.hair = surface; this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
-    this.hairStyle = id; this.neck = nextNeck;
+    this.hairStyle = id;
     this.hairFits = {};
-    this.activeHair = this.headOnly ? nextNeck.hair : surface;
-    if (this.headOnly) this.skin = nextNeck.skin;
+    this.activeHair = surface;
     for (const slot of this.normalSlots) slot.frame = -1;
     this.geometryKey = null;
     this.updateFit();
@@ -594,9 +580,7 @@ class FaceRenderer {
       }
       if (this.hairVisible[this.presentationId]) {
         if (!this.hairFits[key]) {
-          const hairVertices = this.headOnly
-            ? trimJawTopology(this.hairData, this.hairEdges, this.hairTriangles, this.meta, JAW_CROP.maximumNeck).vertices : null;
-          this.hairFits[key] = presentationFit(this.neutralData, vertices, this.meta.quantization, this.hairData, hairVertices);
+          this.hairFits[key] = presentationFit(this.neutralData, vertices, this.meta.quantization, this.hairData);
         }
         this.fit = this.hairFits[key];
       }
@@ -683,6 +667,7 @@ class FaceRenderer {
     gl.drawElements(gl.TRIANGLES, this.meta.eyes.triangles * 3, gl.UNSIGNED_INT, 0);
     if (showHair) {
       this.staticSurface(hair);
+      gl.uniform1i(u.material, 1);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, hair.triangles);
       gl.drawElements(gl.TRIANGLES, hair.triangleCount * 3, gl.UNSIGNED_INT, 0);
     }

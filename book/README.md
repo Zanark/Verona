@@ -3,8 +3,8 @@
 ## Current deliverable
 
 The [living development journal](journal.md) now records vr-69's floating-zoom
-correction, including real 100/140% owned-window images and the retained
-composition-gate failure. This short dated source continuation is not another
+and vr-70's separate internal ear/hair corrections, including actual owned-window
+images, retained failures and their scope. This short dated source continuation is not another
 rendered edition. All frozen PDFs and their source cutoffs below stay unchanged.
 
 The latest separate continuation is **Finding Different Voices**, anchored to

@@ -1,6 +1,34 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-70 separates an internal jaw cut from viewport clipping
+Cause: unbounded x*x side/rear rise intersects actual lateral ears and hair.
+The first capped candidate still cuts hair tips: skin anatomy is not a valid
+hairstyle mask. Larger native bounds alone cannot recover discarded geometry.
+Action: cap the combined skin height at140 before neck subtraction; preserve
+the inner curve, conservative pruning and full motion. Reuse complete selected
+hair in visible/depth passes and combined fits, without duplicate crop indices.
+Three skin crop buffers replace five; hair changes do not rebuild skin.
+Evidence: old native16poses lose1278 protected witnesses; final fixed02 passes
+11checks/44124witness samples with zero missing, exact full-hair alpha in all
+16poses, and all48existing view/style/zoom edge cases. Lower skin alpha remains
+zero below neck. Focused browser01 passes six cases, exact filled-skin roundtrip,
+same speech and nine created/deleted crop buffers. Three Node geometry tests
+and changed-JS syntax pass. Actual before/after and eight shaded poses reviewed.
+Tradeoff: default skin25335/full30746 triangles; complete hair17840 vs11353.
+No new model or per-frame rebuild; no whole-app performance improvement claim.
+Failures retained: capped-only native01 still loses tips; browser01/02 show
+3/5 differing contour-color bytes, cause unknown. Final filled-skin fixture
+checks contours separately. Broader browser03/04 and untouched ddbf1ec fail
+the identical iris-artwork assertion (6 visible upper spokes, expected10..14).
+No weakened iris gate, composition/cadence/all-six-head acceptance claim.
+Public chapter/index/README and dated living journal explain the correction;
+frozen PDFs and unrelated mouth shading remain untouched. Stable owner runtime
+was protected during qualification. At22:43 the sole owned idle Verona head
+was replaced; same manager remains and every fresh control/appearance is read
+back unchanged. Seven promoted source/test files exactly match the candidate.
+No sibling changes or speech replay; private live-ear-hair-01 receipt retained.
+
 2026-11-21 - vr-69 floating zoom candidate qualified in an isolated native lane
 Cause: the owner's 140% screenshots show straight hair/head cuts; fixed480x600
 native bounds clip a separately enlarged projection. Merely growing the window

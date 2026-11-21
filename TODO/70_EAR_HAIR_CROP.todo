@@ -1,0 +1,65 @@
+ID: vr-70
+Title: Preserve ears and side hair in the jaw crop
+
+Status: DONE
+Milestone: Anatomically bounded head/neck mask
+Dependencies: vr-21, vr-65, vr-69
+
+Purpose:
+  Correct the internal diagonal cut through the ear and adjacent hair during
+  turned/tilted head poses, separately from the native viewport zoom fix.
+
+Tasks:
+  Compare the existing crop against actual native skin and hair geometry.
+  Bound the shared CPU/shader mask below lateral ear structures.
+  Preserve the intended central jaw/neck crop and conservative primitive pruning.
+  Qualify both hairstyles and materials in opposite yaw/pitch poses.
+  Preserve motion, controls, resource ownership and the active stable-use lane.
+  Update the chapter, living journal, causal ledger and issue/Project tracking.
+
+Acceptance criteria:
+  Protected lateral head geometry survives CPU pruning and fragment discard.
+  Actual native cropped pixels retain the full-reference ear/hair witnesses.
+  Default neck1.7 and slider0..6 still remove lower neck/shoulder geometry.
+  No new per-frame scan, model loading, rebuild or audio replay.
+  Isolated tests do not drive or reload the owner's current head.
+  Technical qualification remains separate from owner visual acceptance.
+
+Completion evidence:
+  Final native fixed02:11 checks,16 matched opposite pitch/yaw/material/style
+    cases; zero missing among44124 protected witnesses and exact entire-hair
+    full/cropped alpha. All48 shared view/style/zoom edge cases pass.
+  Filled skin/contours/points leave zero alpha below neck. Default skin retains
+    25335/full30746 triangles; complete hair17840 rather than11353 is an
+    intentional visual cost, not a frame-rate or whole-app memory claim.
+  Focused browser01 passes six cases: exact filled-skin Full bust restoration,
+    no lower skin leakage, complete hair submissions, speech continuity and
+    balanced nine created/deleted crop buffers. Three Node geometry tests and
+    changed-JS syntax pass. Actual before/after and eight shaded poses reviewed.
+  Shared CPU/shader cap140 preserves the inner jaw curve and conservative
+    primitive lower bound. Hair is deliberately exempt, including depth
+    material and combined fits. Only selected visible hair remains resident.
+  Retain baseline/capped-only failures, initial contour-color differences and
+    broader iris-artwork failure. Unchanged ddbf1ec fails the same iris gate;
+    no broad-suite, cadence, composition or independent six-model claim.
+  Chapter10, README/index, causal ledger and living book/journal.md updated.
+    No frozen PDF, release tag/assets, skill or unrelated mouth-shading edits.
+  Stable lane: existing owned Verona head and manager, unchanged during tests.
+  Development lane: ignored detached ear-hair-70 checkout; shared pinned model
+    and Electron inputs, disposable cache/profile/speech qualification output.
+    Worktrees/junctions are not an OS-enforced read-only boundary.
+  All seven promoted source/test files match the isolated candidate exactly.
+    Only the owned idle Verona head replaced after fresh settings were saved;
+    same manager remains, all controls/appearance restored, no speech replay.
+    Private promotion receipt: live-ear-hair-01.
+
+Completion log:
+  2026-11-21 - Owner reports an internal cut near the ear and neighboring hair.
+    Trace finds an unbounded x-squared crop shared by CPU and GPU.
+    Actual native lateral skin band abs(x)8..9 has y142.27..146; the old
+    boundary can rise through it. Prepare isolated reproduction before changing
+    the live runtime. The separate mouth-shading observation is out of scope.
+  2026-11-21 - Capped-only geometry still shears the hairstyle. Separate the
+    skin crop from complete selected hair; explicitly include hair in fit and
+    identify its depth material. Qualify, review actual images and promote the
+    exact candidate to this chat's head with every fresh setting preserved.
