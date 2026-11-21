@@ -18,6 +18,8 @@ from verona.desktop import ELECTRON, ROOT, stop_desktop
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--local-voices", action="store_true",
+                        help="Exercise two actual heads and optional voice controls instead of the six-head gallery.")
     args = parser.parse_args()
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -58,7 +60,8 @@ def main():
             environment["VERONA_LOCAL_URL"] = (
                 f"http://127.0.0.1:{descriptor['port']}/#{descriptor['token']}")
             browser = subprocess.Popen([
-                str(ELECTRON), str(ROOT / "tests" / "session_smoke.cjs"),
+                str(ELECTRON), str(ROOT / "tests" / (
+                    "local_voice_smoke.cjs" if args.local_voices else "session_smoke.cjs")),
                 f"--user-data-dir={output / 'browser-profile'}",
                 f"--qualification-output={output}"], cwd=ROOT, env=environment,
                 stdout=log, stderr=log)
@@ -66,7 +69,7 @@ def main():
             if code:
                 raise RuntimeError(f"Unified GUI qualification failed ({code}); retain its receipt.")
             report = json.loads((output / "session-report.json").read_text())
-            if report.get("error") or len(report.get("models", [])) != 6:
+            if report.get("error") or len(report.get("models", [])) != (2 if args.local_voices else 6):
                 raise RuntimeError("Incomplete unified session qualification.")
 
             def cli(*arguments, text=None):

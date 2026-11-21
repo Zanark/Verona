@@ -1,6 +1,6 @@
 # Verona GitHub tracking
 
-Repository: **Zanark/Verona**, private.
+Repository: **Zanark/Verona**, public (verified during v0.2.0 delivery; not changed by it).
 Project: [Verona, owner Project 15](https://github.com/users/Zanark/projects/15),
 private and linked to this repository.
 

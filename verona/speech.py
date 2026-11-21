@@ -13,6 +13,7 @@ import xml.etree.ElementTree as ET
 os.environ["OPENBLAS_NUM_THREADS"] = "2"
 os.environ["OMP_NUM_THREADS"] = "2"
 from scripts.fetch_cpu_model import ROOT
+from .local_voices import is_local_voice, local_voice_catalog, validate_voice_settings
 
 
 MAX_TEXT = 280
@@ -171,7 +172,7 @@ def installed_voices() -> list[dict[str, str]]:
     if any(not isinstance(v, dict) or not isinstance(v.get("name"), str)
            or not isinstance(v.get("culture"), str) for v in result):
         raise RuntimeError("Windows speech returned invalid voice metadata.")
-    return result
+    return result + local_voice_catalog()
 
 
 def package_pcm(raw: bytes) -> bytes:
@@ -192,6 +193,14 @@ def synthesize(
     settings = VoiceSettings.parse(asdict(settings))
     if voice not in [v["name"] for v in voices]:
         raise ValueError("Choose one of the installed English voices.")
+    validate_voice_settings(voice, settings)
+    if is_local_voice(voice):
+        from .agent_speech import SpeechWorker
+        worker = SpeechWorker(local=True)
+        try:
+            return worker.synthesize(text, voice, voices, settings)
+        finally:
+            worker.close()
     work = ROOT / ".local" / "work"
     work.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="speech-", dir=work) as directory:

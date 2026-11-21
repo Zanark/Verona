@@ -122,6 +122,13 @@ class AgentTests(unittest.TestCase):
         self.assertFalse(self.sent)
         self.assertIsNone(self.state.speech)
 
+    def test_omitted_cli_voice_uses_current_head_selection_not_global_hazel(self):
+        self.state.voices.append({"name": "second", "culture": "en-GB"})
+        self.bridge.controls = [{"id": "voice", "value": "second"}]
+        self.assertEqual(self.request(self.say())[0], 200)
+        self.assertEqual(self.sent[-1]["voice"], "second")
+        self.assertEqual(self.bridge.snapshot()["voice"], "second")
+
     def test_cancelled_synthesis_does_not_replace_the_previous_ram_sample(self):
         self.request(self.say())
         old_pcm = bytes(1600)

@@ -1,6 +1,28 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-68 distinct offline voices implemented and candidate-qualified
+Cause: simultaneous sessions need genuinely different voices, not Hazel pitch
+variants. Owner requests deep local-only research and implementation while AFK.
+Action: compare Windows, maintained Piper, Kokoro and sherpa primary sources;
+select optional pinned Kokoro INT8/28 English styles, keep all Windows voices.
+One lazy CPU child reuses one model; explicit hashes/setup, no runtime fetch.
+Resample24kHz to existing16kHz/EQ/audio-clock contract. Disable unsupported
+pitch/emphasis visibly and reject API attempts. Reserve unused startup voices,
+respect current CLI selection and visibly mark manual collisions.
+Evidence: all28 actual styles yield different bounded PCM; one child reused,
+then Windows works and the complete local process tree exits. Actual isolated
+Claire/Mark native lane passes defaults, controls, face playback, cancellation,
+CLI and ownership cleanup. 98CPU regressions and real manager DOM checks pass.
+Correction: first memory probe measured a Windows venv launcher, not inference.
+Retain it with explicit invalid-scope note. Full-tree baseline311.92/444.07MiB
+falls to190.05/189.97MiB after disabling CPU arena; timing not a speedup claim.
+Correct missing SystemDrive/ProgramData worker environment; preserve generated
+literal-path cache artifacts under ignored qualification rather than staging.
+Boundary: no listening/phonetic acceptance, global shared broker, multilingual
+support or eight-head throughput claim. Final all-style allocator run,
+journal continuation, installed skill and live promotion follow separately.
+
 2026-11-21 - vr-67 native-head release delivered and owned live use restored
 Cause: qualified implementation, illustrated discovery and journal need an
 immutable delivery boundary, not a local-only completion claim.

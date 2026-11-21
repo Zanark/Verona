@@ -1,5 +1,8 @@
 # 07 - Editable Hazel, matching Claire and measured performance
 
+**Current voice contract:** [vr-68 below](#distinct-offline-voices-and-session-allocation-vr-68)
+adds optional local Kokoro styles while retaining Windows speech; older
+Windows-only descriptions remain historical.
 **Current resource contract:** [vr-57 below](#selected-head-resource-ownership-vr-57)
 audits the earlier five-head runtime; [vr-65/66 below](#native-model-selection-and-bounded-transfer-batches-vr-6566)
 extend its ownership contract to six choices and four shared views. The vr-08 measurements that
@@ -534,3 +537,107 @@ blinks and bounded geometry ownership. Zero/off restores the underlying
 motion, with no new geometry uploads or retained buffer growth. Fixture,
 actual-model, silent browser and human listening/accuracy evidence remain
 separate.
+
+## Distinct offline voices and session allocation (vr-68)
+
+The owner needs to distinguish simultaneous chats by sound, not by inspecting
+which identical Hazel head is speaking. The selected solution adds an explicit
+optional **28-style English Kokoro v1.0 INT8 pack**, retains installed Windows
+voices and does not infer a voice from a model's apparent identity.
+[The authored comparison](../research/local-voices.md) covers Windows, maintained
+Piper, Kokoro/ONNX and sherpa-onnx, primary sources, exact hashes and separate
+model/wrapper/phonemizer licenses. It is a practical selection, not a universal
+quality ranking or a claim that the optional stack is all permissively licensed.
+
+```mermaid
+flowchart TB
+    Catalog["Metadata-only voice catalog"] --> Allocate["Reserve an unused session voice"]
+    Allocate --> Choice{"Selected provider"}
+    Choice --> Windows["Existing RAM-only System.Speech"]
+    Choice --> Local["Lazy local child / verified INT8 model"]
+    Local --> PCM["24 kHz finite mono / bounded duration"]
+    PCM --> Resample["SoXR to 16 kHz signed PCM"]
+    Windows --> Shared["Shared EQ and padding"]
+    Resample --> Shared
+    Shared --> Face["Selected face model + same audio clock"]
+```
+
+### Metadata does not imply resident models
+
+`local_voices.voice_metadata` and `voice_pack_status` load no numerical/TTS
+stack. Missing optional setup has an explicit notice and leaves Windows voices
+available. First actual local speech starts `SpeechWorker(local=True)`;
+`LocalSynthesizer.synthesize` verifies both complete asset hashes before
+constructing a CPU-only ORT session. Two intra-op threads, one inter-op thread
+and disabled CPU arena bound unnecessary warm retention. Every style uses that
+same neural session; the NPZ supplies the requested style, not28 networks.
+
+The child is reused between Kokoro styles. Subsequent Windows synthesis closes
+it; local failure discards it and propagates an error without voice substitution.
+Host close releases both worker paths. Merely choosing Windows in the menu does
+not immediately evict the child before another synthesis. Several warm heads
+still mean several local models; this slice does not implement a global broker.
+Model/style assets stay ignored, pinned and explicitly installed. No runtime
+download, transcription, microphone, cloning or speech-file export is introduced.
+
+### One waveform and explicit capability differences
+
+The optional engine produces24-kHz mono. Invalid/nonfinite/empty output or
+speech over25seconds fails before publication. SoXR resamples to the existing
+16-kHz signed-16-bit interface; `finish_speech` applies the same bounded EQ and
+silence padding. The final waveform drives both motion and playback, preserving
+audio-clock ownership for all six head choices.
+
+The existing speed control maps -5..5 to0.5x..2x. Kokoro pitch/emphasis are not
+implemented: selecting it visibly resets them to0/none and disables them,
+including after busy/unlock/reset paths. API combinations with unsupported
+settings fail. Bass, treble and volume remain available. Facial emotions are
+still explicit motion controls, not expressive neural TTS or detected feelings.
+
+The existing280-character/25-second limits and45-second worker timeout remain.
+Input and output lines are bounded. Cancellation discards an in-flight result;
+it does not instantly stop synchronous inference. Failed, stale or cancelled
+work must not replace the successful speech/clip cache. Restart loses unsaved
+voice/control choices and warm neural state; it never replays old speech.
+
+### Allocate distinct defaults, do not silently revoice peers
+
+`SessionManager.create` enumerates voices lazily, serializes creation, reads
+current selections and reserves voices of its own still-starting children.
+Automatic creation picks unused Kokoro styles before unused Windows voices.
+Explicit occupied/absent startup choices and exhausted inventory fail.
+Unverifiable external occupancy blocks allocation rather than guessing.
+
+`AgentBridge.snapshot` reports the actual voice and an omitted CLI `say --voice`
+now uses that selection instead of resetting Hazel. Manager cards identify it.
+Manual later duplicates are permitted but visibly marked **shared voice**;
+this is not a distributed lock against other managers/owners changing settings.
+
+### Evidence and performance tradeoffs
+
+`local-voices-01` synthesized all28 styles in RAM, with28 different nonempty
+bounded PCM hashes and one reused local child, then Windows speech and teardown.
+Its first synthesis was8.081seconds; subsequent median5.107seconds,
+range4.127..18.380seconds. These are shared-machine sequential observations,
+not independent listening acceptance, instant response or a Piper comparison.
+
+The resource probe initially measured only a small Windows virtual-environment
+launcher. That receipt is explicitly corrected and retained. The corrected
+process-tree baseline measured311.92 then444.07MiB private bytes after two
+styles. Disabling ORT's CPU arena measured190.05 then189.97MiB in the same
+two-style sequence, with zero process-CPU seconds in a1.5-second idle sample.
+First/warm wall times17.517/7.119seconds were not speed improvements; the
+tradeoff is lower retained allocation, not a fabricated universal acceleration.
+These numbers exclude the face engine, Windows worker, Chromium and manager.
+Exact owned process handles confirm the **entire** optional tree exits on
+Windows synthesis, not merely its launcher. Receipts:
+`local-voice-resources-01` (invalid scope), `-02` (baseline), `-03` (arena off).
+
+Actual `local-voices-native-01` uses disposable profiles/descriptors and real
+Claire/Mark heads. It confirms different Heart/Bella defaults,28 options,
+Windows prosody, disabled/reset local controls, local speed/EQ into actual
+face playback, current-selection requests, cancellation and visible manual
+collision warnings. CLI creation/configuration/speech/close, external-owner
+survival, manager death cleanup and descriptor removal also pass. All audio
+is muted; this is environmental technical qualification, not human listening,
+phonetic accuracy, subjective preference or an eight-head throughput guarantee.

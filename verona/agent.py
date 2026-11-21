@@ -146,6 +146,7 @@ def main() -> None:
                 command.add_argument(f"--{key}-color", help="RGB hex, or 'default' to restore original.")
         if name in ("host", "create"):
             command.add_argument("--model", choices=tuple(MODELS), default="claire")
+            command.add_argument("--voice", help="Installed voice; manager otherwise reserves an unused voice.")
         if name == "say":
             command.add_argument("--id", default=uuid.uuid4().hex, help="Stable request ID for safe explicit retries.")
             command.add_argument("--voice")
@@ -167,14 +168,15 @@ def main() -> None:
                                    for key in COLOR_KEYS
                                    if (value := getattr(args, key + "_color")) is not None})
             print(json.dumps(call(read_descriptor(manager_path()), {
-                "action":"create","session":args.session,"model":args.model,"colors":colors})), flush=True)
+                "action":"create","session":args.session,"model":args.model,"colors":colors,
+                **({"voice": args.voice} if args.voice is not None else {})})), flush=True)
             return
         if args.command == "host":
             from .agent_host import host
             colors = colors_patch({key: None if value == "default" else value
                                    for key in COLOR_KEYS
                                    if (value := getattr(args, key + "_color")) is not None})
-            host(path, model=args.model, colors=colors)
+            host(path, model=args.model, colors=colors, voice=args.voice)
             return
         descriptor = read_descriptor(path)
         if args.command == "status":

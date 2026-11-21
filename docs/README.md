@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Distinct offline voices (vr-68):** [the primary-source comparison](research/local-voices.md)
+selects the optional28-style Kokoro CPU pack while retaining Windows voices.
+[Chapter07](chapters/07-hazel-claire-and-performance.md#distinct-offline-voices-and-session-allocation-vr-68)
+explains lazy ownership, resampling, controls, cancellation, allocation and
+measured costs; [setup](prototype-guide.md#optional-28-voice-offline-pack) is explicit.
+
 **v0.2.0 native-head source release:** [release notes](releases/v0.2.0.md)
 describe shared controls, selected loading, qualification and unresolved limits.
 The separate local **post-M1 journal continuation** has31pages, six dated

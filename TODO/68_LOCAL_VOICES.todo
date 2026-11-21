@@ -1,0 +1,49 @@
+ID: vr-68
+Title: Distinct offline voices for independent sessions
+
+Status: IN_PROGRESS
+Milestone: Recognizable local speaking personalities
+Dependencies: vr-67
+
+Purpose:
+  Give different sessions genuinely different local voices, rather than pitch
+  variants of Hazel or several heads silently sharing the same default.
+
+Tasks:
+  Compare primary-source offline CPU engines, licenses and resource boundaries.
+  Add explicit pinned optional voice setup; never download during runtime.
+  Integrate a bounded lazy local neural synthesizer and English voice catalog.
+  Assign unused voices to new heads and respect the selected voice in the CLI.
+  Qualify actual synthesis, cancellation, failure, resource and native controls.
+  Update guides, research, skill, living book/journal, tracking and continuity.
+
+Acceptance criteria:
+  Multiple actual new voices synthesize locally without text leaving the host.
+  Metadata listing loads no neural TTS; only one model and selected style are
+    active per requesting head, with explicit teardown and bounded audio.
+  Different new sessions receive unused voice defaults; explicit choices and
+    current selections are preserved, with truthful collision/availability UI.
+  Unsupported controls cannot silently succeed or fall back to another voice.
+  Existing Windows voices and their settings remain compatible.
+  Evidence distinguishes technical checks from independent listening acceptance.
+
+Completion evidence:
+  Authored primary-source comparison: docs/research/local-voices.md.
+  Optional pinned115MiB pack installed here;28 actual English styles produce
+    distinct bounded PCM through one reused child; Windows remains functional.
+  98CPU regressions pass. Real manager DOM and actual isolated Claire/Mark
+    native controls, local audio-to-face, cancellation, CLI and owned cleanup
+    pass; no independent listening or preferred-style acceptance is implied.
+  Corrected full-worker-tree two-style memory samples190.05/189.97MiB with
+    arena disabled; entire owned tree exits on Windows synthesis. Preserve
+    invalid launcher-only receipt and default-arena baseline, not false savings.
+  Source/library/personal Verona skill copies hash-identical.
+  Final all-style allocator qualification, dated journal continuation, verified
+    source publication and owned live-head catalog promotion remain pending.
+
+Completion log:
+  2026-11-21 - Owner requests deep research, selection and implementation of
+    multiple new entirely local voices; no questions while away. Stable live
+    head Verona remains Claire/Hazel while isolated candidate work proceeds.
+  2026-11-21 - Technical implementation and above candidate qualifications
+    complete. Keep workstream IN_PROGRESS through journal/live delivery.

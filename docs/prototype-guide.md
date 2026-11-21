@@ -56,6 +56,46 @@ Closing the browser tab leaves the manager running. Ctrl+C its console also
 requests owned cleanup. A managed head watches its original manager's process
 handle and closes if that manager exits unexpectedly.
 
+### Optional 28-voice offline pack
+
+The prepared checkout exposes 28 Kokoro English styles in addition to its
+three Windows voices. On another machine the Windows count can differ.
+Explicit setup, from this checkout, using its existing CPU environment:
+
+```powershell
+.\.local\cpu-env\Scripts\python.exe -m pip install -r requirements-local-voices.txt
+.\.local\cpu-env\Scripts\python.exe scripts\fetch_local_voices.py
+.\.local\cpu-env\Scripts\python.exe scripts\fetch_local_voices.py --verify
+```
+
+Setup fetches about 115 MiB of pinned model/style files into
+`.local\models\kokoro-v1.0`. Runtime never installs packages, downloads assets
+or sends speech text to a service. Restart an owned head normally to refresh
+its voice catalog; do not interrupt somebody else's session. Missing optional
+setup leaves Windows voices available and displays setup guidance.
+
+New manager-created heads reserve unused voices, preferring Kokoro. Cards show
+the current voice; a deliberate manually shared choice is marked. Select
+**Voice** in that head's controls, or request an unused startup voice:
+
+```powershell
+.\VeronaAgent.cmd create --session review --model mark --voice "Kokoro Michael"
+```
+
+The CLI's omitted `say --voice` respects the current native selection. All 28
+styles use one lazy CPU model per local-speaking head, not one model per voice.
+One child is reused between styles and released on subsequent Windows synthesis
+or host close. Several warm neural-speaking heads still multiply memory costs.
+Windows remains the lower-setup-cost option; these voices are not instant.
+
+Kokoro supports speed, bass and treble; unsupported pitch/emphasis visibly
+reset to 0/none and become unavailable. API attempts to use them fail, rather
+than pretending to apply them. Facial expression controls remain separate from
+vocal emotion. Keep lines short: the same 280-character/25-second limits and
+45-second synthesis bound apply. Stop discards cancelled output but cannot
+instantly interrupt synchronous inference. Failures never substitute a voice.
+[Research, exact pins, rights and measurements](research/local-voices.md).
+
 ### What a head actually loads
 
 FaceMesh is a presentation of the selected head, not another trained model.

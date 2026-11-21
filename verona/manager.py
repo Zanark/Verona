@@ -15,6 +15,8 @@ import webbrowser
 from .agent import call, manager_path, private_descriptor, read_descriptor, session_path
 from .server import BRANDING_STATIC, Handler, LocalServer, MAX_BODY, State, WEB
 from .session_config import MODELS, appearance, colors_patch
+from .speech import installed_voices
+from .local_voices import choose_session_voice
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,8 +27,9 @@ class SessionManager:
         self.lock = threading.Lock()
         self.children = {}
         self.closing = False
+        self.voices = None
 
-    def create(self, name, model, colors):
+    def create(self, name, model, colors, voice=None):
         path = session_path(name)
         config = appearance(model, colors, name)
         with self.lock:
@@ -39,7 +42,30 @@ class SessionManager:
                 raise ValueError("That session already exists; choose another name or close it first.")
             if sum(value["process"].poll() is None for value in self.children.values()) >= 8:
                 raise ValueError("This manager already owns eight warm heads; close one first.")
+            if self.voices is None:
+                self.voices = installed_voices()
+            used_voices = set()
+            directory = session_path("inventory").parent
+            paths = list(directory.glob("*.json")) if directory.exists() else []
+            if len(paths) > 64:
+                raise RuntimeError("Too many session descriptors to verify unused voices.")
+            for existing in paths:
+                status = call(read_descriptor(existing), {"action": "status"}, timeout=.8)
+                selected = status.get("voice") or next(
+                    (c["value"] for c in status.get("controls", []) if c["id"] == "voice"), None)
+                owned = self.children.get(existing.stem)
+                if not isinstance(selected, str) or not selected:
+                    if owned and not status.get("ready"):
+                        continue
+                    raise RuntimeError("An existing head omitted its voice; inspect it before creating another.")
+                used_voices.add(selected)
+                if owned and status.get("ready"):
+                    owned["voice"] = selected
+            used_voices.update(record["voice"] for record in self.children.values()
+                               if record["process"].poll() is None)
+            voice = choose_session_voice(self.voices, used_voices, voice)
             args = [sys.executable, "-m", "verona.agent", "host", "--session", name, "--model", model]
+            args.extend(["--voice", voice])
             for key, value in config["colors"].items():
                 if value is not None:
                     args.extend([f"--{key}-color", value])
@@ -56,7 +82,8 @@ class SessionManager:
                                      stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                      text=True, encoding="utf-8", errors="replace",
                                      creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-            record = {"process": child, "appearance": config, "messages": deque(maxlen=6), "slot": slot}
+            record = {"process": child, "appearance": config, "messages": deque(maxlen=6),
+                      "slot": slot, "voice": voice}
             self.children[name] = record
 
             def read_output():
@@ -67,7 +94,7 @@ class SessionManager:
                 finally:
                     child.stdout.close()
             threading.Thread(target=read_output, daemon=True).start()
-        return {"session": name, "state": "starting", "appearance": config}
+        return {"session": name, "state": "starting", "appearance": config, "voice": voice}
 
     def inspect(self, name):
         path = session_path(name)
@@ -80,6 +107,7 @@ class SessionManager:
             return {"session": name, "state": "starting" if owned and code is None else
                     "closed" if code == 0 else "failed",
                     "appearance": config, "owned": bool(owned),
+                    "voice": owned["voice"] if owned else None,
                     **({"error": error or "No live session descriptor."} if code not in (None, 0) else {})}
         try:
             descriptor = read_descriptor(path)
@@ -112,7 +140,8 @@ class SessionManager:
                    "settings": {"action","session","settings"}, "close": {"action","session"},
                    "cancel": {"action","session","id"},
                    "say": {"action","session","text","voice","expression","intensity","gain","mode"}}
-        if action not in allowed or set(value) != allowed[action]:
+        if action not in allowed or (set(value) != allowed[action] and not (
+                action == "create" and set(value) == allowed[action] | {"voice"})):
             raise ValueError("Invalid manager action fields.")
         if action == "status":
             return {"ready": True, "manager": True}
@@ -121,7 +150,7 @@ class SessionManager:
         if action == "inspect":
             return self.inspect(value["session"])
         if action == "create":
-            return self.create(value["session"], value["model"], colors_patch(value["colors"]))
+            return self.create(value["session"], value["model"], colors_patch(value["colors"]), value.get("voice"))
         if action == "shutdown":
             return {"state": "closing"}
         descriptor = read_descriptor(session_path(value["session"]))

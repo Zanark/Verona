@@ -44,6 +44,34 @@ sample scene or Windows voice is bundled in this repository.
   README screenshots/GIFs show the actual renderer using native-derived Claire
   geometry and a synthetic greeting; the model/sample terms above still apply.
 
+## Optional offline neural voices (vr-68)
+
+Explicit optional setup in `requirements-local-voices.txt` and
+`scripts/fetch_local_voices.py` adds Kokoro v1.0 INT8 and a shared style bundle,
+not bundled model/native binaries. Runtime synthesis is local and never
+downloads assets. [Research and exact hashes](docs/research/local-voices.md)
+record the source, selected English catalog and qualification boundaries.
+
+- Kokoro-82M weights: **Apache-2.0**, as declared by the upstream
+  [model card](https://huggingface.co/hexgrad/Kokoro-82M/blob/main/README.md).
+  Quantized ONNX/style artifacts come from the pinned
+  [kokoro-onnx model release](https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0).
+- `kokoro-onnx` 0.6.1 and `espeakng-loader` 0.2.4 wrappers: **MIT**.
+  The loader's wrapper license does not relicense its bundled eSpeak components.
+- `phonemizer` 3.6.0 and eSpeak NG: **GPL-3.0**; retain the exact upstream
+  licenses/source obligations. The eSpeak loader installs local phonemization
+  libraries/data; no system-wide voice installation is performed.
+- Python-SoXR 1.1.0: **LGPL-2.1-or-later**, with its bundled libsoxr notices.
+- Exact pinned auxiliary Python packages retain their distribution notices:
+  joblib (BSD-3-Clause), attrs (MIT), dlinfo (MIT) and typing-extensions (PSF).
+  Existing NumPy/ORT pins remain unchanged.
+
+The optional stack is not wholly Apache/MIT. Local use and a source/setup
+repository are not a blanket grant to distribute a combined binary product.
+A child-process boundary is not a legal determination about copyleft.
+Any future bundled installer/model distribution requires its own applicable
+license/source/notice review. No such redistribution occurs here.
+
 ## Local journal-production tools
 
 The separately pinned `book/requirements-journal.txt` uses installed

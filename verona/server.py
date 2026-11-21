@@ -18,6 +18,7 @@ if TYPE_CHECKING:
 from .speech import (
     MAX_SECONDS, MAX_TEXT, VoiceSettings, installed_voices, preferred_voice, synthesize, validate_text,
 )
+from .local_voices import voice_pack_status
 
 
 WEB = Path(__file__).with_name("web")
@@ -53,6 +54,7 @@ class State:
     def __init__(self, engine: FaceEngine, voices: list[dict[str, str]]) -> None:
         self.engine = engine
         self.voices = voices
+        self.default_voice = preferred_voice(voices) if voices else None
         self.token = secrets.token_urlsafe(32)
         self.clip = None
         self.clip_key = None
@@ -171,7 +173,8 @@ class Handler(BaseHTTPRequestHandler):
             if self.guard(authenticated=True):
                 self.json_reply(200, {
                     "voices": state.voices,
-                    "defaultVoice": preferred_voice(state.voices),
+                    "defaultVoice": state.default_voice,
+                    "voicePack": voice_pack_status(),
                     "mesh": state.engine.mesh_metadata,
                     "limits": {"characters": MAX_TEXT, "seconds": MAX_SECONDS},
                     "appearance": state.agent.appearance if state.agent else state.appearance,

@@ -17,7 +17,7 @@ from .agent import private_descriptor, read_descriptor
 from .agent_speech import SpeechWorker
 from .engine import FaceEngine, expression_condition, validate_expression_gain
 from .server import State
-from .speech import preferred_voice, validate_text
+from .speech import validate_text
 from .session_config import appearance, colors_patch
 
 
@@ -59,6 +59,8 @@ class AgentBridge:
 
     def snapshot(self) -> dict:
         result = {"ready": self.ready and not self.closed, "version": self.version,
+                  "voice": next((c["value"] for c in self.controls if c["id"] == "voice"),
+                                self.state.default_voice),
                   "appearance": self.appearance,
                   "appearancePending": self.pending_appearance is not None,
                   "controls": self.controls,
@@ -139,7 +141,7 @@ class AgentBridge:
                 raise ValueError("Request ID must contain 32 lowercase hexadecimal characters.")
             if action == "say":
                 text = validate_text(request["text"])
-                voice = preferred_voice(self.state.voices) if request["voice"] is None else request["voice"]
+                voice = self.snapshot()["voice"] if request["voice"] is None else request["voice"]
                 if not isinstance(voice, str) or voice not in [v["name"] for v in self.state.voices]:
                     raise ValueError("Choose one of the installed English voices.")
                 expression_condition(self.state.engine.condition, request["expression"], request["intensity"])
@@ -341,7 +343,7 @@ class AgentBridge:
             self.descriptor = None
 
 
-def host(path, *, model="claire", colors=None) -> None:
+def host(path, *, model="claire", colors=None, voice=None) -> None:
     from .desktop import run_desktop
     if path.exists():
         raise RuntimeError("Session already exists. Stop its host; remove a stale descriptor explicitly after checking ownership.")
@@ -360,7 +362,11 @@ def host(path, *, model="claire", colors=None) -> None:
             speech = SpeechWorker()
             try:
                 print("Preparing the dedicated warm CPU face and native player...", file=sys.stderr, flush=True)
+                if voice is not None and voice not in [row["name"] for row in speech.voices]:
+                    raise ValueError("Requested startup voice is not installed; no voice was substituted.")
                 state = State(FaceEngine("mark" if model == "mark" else "claire"), speech.voices)
+                if voice is not None:
+                    state.default_voice = voice
                 state.stop = stopping
                 state.static = prepare_variant(state.engine, model)
                 state.appearance = config

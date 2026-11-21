@@ -149,6 +149,42 @@ assert not any(name in sys.modules for name in (
                 manager.create("late", "claire", {})
             spawn.assert_not_called()
 
+    def test_manager_reserves_unused_voices_while_heads_are_still_starting(self):
+        from verona.agent import session_path
+        from verona.local_voices import voice_metadata
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"LOCALAPPDATA": directory}), patch(
+                "verona.manager.subprocess.Popen") as spawn:
+            spawn.return_value.poll.return_value = None
+            manager = SessionManager()
+            manager.voices = voice_metadata()
+            first = manager.create("one", "claire", {})
+            self.assertEqual(manager.inspect("one")["voice"], first["voice"])
+            private_descriptor(session_path("one"), {
+                "version": 1, "port": 12345, "token": "a" * 43, "pid": 42, "instance": "b" * 32})
+            with patch("verona.manager.call", return_value={"ready": False, "voice": ""}):
+                second = manager.create("two", "mark", {})
+            self.assertNotEqual(first["voice"], second["voice"])
+            with patch("verona.manager.call", return_value={"ready": False, "voice": ""}):
+                with self.assertRaisesRegex(ValueError, "already used"):
+                    manager.create("three", "claire", {}, first["voice"])
+            self.assertEqual(spawn.call_count, 2)
+            with patch("verona.manager.call", return_value={"ready": True, "voice": "Kokoro Emma"}):
+                third = manager.create("three", "claire", {})
+            self.assertEqual(third["voice"], first["voice"])
+
+    def test_unknown_existing_voice_occupancy_blocks_new_allocation(self):
+        from verona.agent import session_path
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"LOCALAPPDATA": directory}), patch(
+                "verona.manager.subprocess.Popen") as spawn:
+            private_descriptor(session_path("external"), {
+                "version": 1, "port": 12345, "token": "a" * 43, "pid": 42, "instance": "b" * 32})
+            manager = SessionManager()
+            manager.voices = [{"name": "Windows", "culture": "en-US"}]
+            with patch("verona.manager.call", return_value={"ready": True}):
+                with self.assertRaisesRegex(RuntimeError, "omitted its voice"):
+                    manager.create("new", "claire", {})
+            spawn.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

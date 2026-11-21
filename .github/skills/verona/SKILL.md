@@ -1,6 +1,6 @@
 ---
 name: verona
-description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers setup, one-manager/multiple-head ownership, six models including native MPFB and actual Mark, shared presentations and controls, speech/cancellation, warm-host performance and inventory-checked vivid colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
+description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers setup, distinct offline voices, one-manager/multiple-head ownership, six models including native MPFB and actual Mark, shared controls, cancellation, warm-host performance and inventory-checked vivid colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
 ---
 
 # Verona: a separate, recognizable speaking head for this session
@@ -8,7 +8,7 @@ description: Use Verona as an explicitly opted-in local speaking face for this a
 ## 1. What Verona is and is not
 
 Verona is a Windows-local prototype: text becomes installed Windows
-System.Speech audio and an audio-clocked animated 3D face. It uses CPU neural
+System.Speech or explicitly installed optional Kokoro audio and an audio-clocked animated 3D face. It uses CPU neural
 motion, an Electron/WebGL2 head window and one loopback session-manager GUI.
 An explicitly opted-in chat can own a separate warm head with its own model,
 voice worker, colors, speech RAM, cancellation identity and audio clock.
@@ -98,6 +98,34 @@ Manager Exit does not close external hosts; explicitly close only your host.
 Avoid this route just to bypass the manager's resource cap or a busy head.
 
 ## 4. Choose a model honestly
+
+### Give this session a distinct local voice
+
+Inventory actual voices on existing heads before selecting one. The manager
+reserves unused startup voices automatically, preferring the optional28-style
+English Kokoro pack. Use `create --voice "Kokoro Michael"` for an explicit unused
+choice; occupied/absent startup choices fail. Windows voices remain available.
+Do not silently revoice another owner's head. Manual later collisions are
+allowed but visibly marked **shared voice** on manager cards; choose another
+unused voice for this session. Omitted CLI `say --voice` respects its current
+native selection rather than resetting it to Hazel.
+
+Voice names/options on a ready head are authoritative, not this skill's example.
+The optional pack needs explicit owner-authorized setup documented in the
+prototype guide; a fresh machine may have only Windows voices. Runtime never
+downloads models. One CPU model is loaded lazily per local-speaking head and
+reused across styles, not one model per voice. Windows synthesis releases a
+previous local child; closing the head releases it. Several warm neural heads
+multiply memory. Cold synthesis is noticeable; do not claim instant or realtime
+responses, perceptually unique voices or accepted pronunciation without evidence.
+
+Kokoro supports speed/bass/treble, not implemented pitch/emphasis. Selecting it
+visibly resets and disables those controls; unsupported API settings fail.
+Facial emotions do not imply expressive vocal synthesis. Cancellation discards
+in-flight output but does not immediately interrupt synchronous inference.
+Optional phonemization includes GPL components; no cloud, cloning or recordings.
+
+### Head geometry
 
 | Model ID | Actual choice and limits |
 |---|---|

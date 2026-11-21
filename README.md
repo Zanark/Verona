@@ -13,7 +13,7 @@
 
 **Type a sentence. Hear a local voice. Give it a face.**
 
-Windows voices, CPU neural motion and an animated 3D face. **No camera,
+Windows voices plus **28 optional offline neural voices**, CPU neural motion and an animated 3D face. **No camera,
 microphone or cloud runtime.** This gallery shows the actual prototype, not
 reference artwork or a photorealistic reconstruction.
 
@@ -46,6 +46,22 @@ All six share both optional procedural hairstyles and the same live controls.
 Each head has its own model, capability, speech RAM and audio clock.
 **Exit manager and its heads** closes only heads this manager created;
 closing the browser tab alone does not stop them.
+
+### Different sessions, different local voices
+
+New heads automatically choose an **unused voice**, preferring the installed
+Kokoro pack: Heart, Bella, Michael, Emma and 24 more US/British English styles.
+Choose another in the selected head's **Voice** control; its name appears on
+the session card. Omitted CLI voice keeps that selection. Manually duplicated
+choices are visibly marked **shared voice**.
+
+This checkout has **31 voices: 28 Kokoro + Hazel, David and Zira**.
+Fresh installations need [explicit optional setup](docs/prototype-guide.md#optional-28-voice-offline-pack);
+runtime never downloads models. One shared neural model serves the styles
+inside each requesting head, not 28 loaded models. Windows voices remain
+available. Neural voices add CPU/memory and cold-start delay; pitch/emphasis
+are explicitly unavailable for Kokoro, while speed, bass and treble work.
+[Research, rights and actual measurements](docs/research/local-voices.md).
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
 lip sync or a production-ready assistant.** The six model overviews below are

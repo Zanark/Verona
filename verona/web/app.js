@@ -1038,6 +1038,23 @@ function clearClip() {
   draw();
 }
 
+let installedVoiceMetadata = [];
+let voicePackMessage = "";
+function syncVoiceControls(locked = false) {
+  const voice = installedVoiceMetadata.find(item => item.name === $("voice").value);
+  const local = voice?.provider === "kokoro";
+  if (local) {
+    $("pitch").value = "0";
+    $("emphasis").value = "none";
+    $("pitch-value").textContent = "0 st";
+  }
+  $("pitch").disabled = locked || busy || local;
+  $("emphasis").disabled = locked || busy || local;
+  $("voice-notice").textContent = local
+    ? `${voice.name}: offline neural voice. Speed, bass and treble work; unsupported pitch/emphasis are reset and disabled.`
+    : `${$("voice").value}: installed Windows voice. ${voicePackMessage}`;
+}
+
 function voiceSettings() {
   return Object.fromEntries([...settingNames.map((name) => [name, Number($(name).value)]),
     ["emphasis", $("emphasis").value]]);
@@ -1090,6 +1107,7 @@ async function previewVoice(options = {}) {
   } finally {
     busy = false;
     for (const id of editing) $(id).disabled = false;
+    syncVoiceControls();
   }
 }
 
@@ -1167,6 +1185,7 @@ async function generate(options = {}) {
   } finally {
     busy = false;
     for (const id of editing) $(id).disabled = false;
+    syncVoiceControls();
   }
 }
 
@@ -1176,10 +1195,12 @@ $("reset-voice").addEventListener("click", () => {
   $("voice").value = defaultVoice;
   for (const name of settingNames) $(name).value = "0";
   $("emphasis").value = "none";
+  syncVoiceControls();
   refreshSettings();
 });
 for (const name of settingNames) $(name).addEventListener("input", refreshSettings);
 for (const id of ["text", "voice", "emphasis"]) $(id).addEventListener("input", clearPreview);
+$("voice").addEventListener("input", syncVoiceControls.bind(null, false));
 preview.addEventListener("play", () => audio.pause());
 $("play").addEventListener("click", async () => {
   $("error").hidden = true;
@@ -1440,16 +1461,17 @@ try {
   if (session.appearance?.model === "mpfb" || session.appearance?.model === "mark") {
     $("model-details").textContent = `${session.mesh.identity}. Surface offers transparent polygons or shaded color/makeup; FaceMesh, FaceDot and UniformPolygons share this native geometry and one audio clock. Native shape is uniformly aligned to the shared eye frame, not replaced with Claire. Neck cut, XYZ, cursor tracking, zoom, colors, optional procedural hair and blinking are shared controls. Sideways cheekiness adds a live cosmetic lip pull only to cheekiness clips; turn it off for model-only motion. MPFB fits neural motion to native controls before geometric 2x/4x exaggeration; Mark uses its own network/PCA. These are prototypes, not contact-corrected or human-accepted facial performances.`;
   }
+  installedVoiceMetadata = session.voices;
+  voicePackMessage = session.voicePack?.message || "";
   for (const voice of session.voices) {
     const option = document.createElement("option");
     option.value = voice.name;
-    option.textContent = `${voice.name} (${voice.culture})`;
+    option.textContent = `${voice.name} (${voice.culture}${voice.provider === "kokoro" ? `, ${voice.style}, offline neural` : ""})`;
     $("voice").append(option);
   }
   defaultVoice = session.defaultVoice;
   $("voice").value = defaultVoice;
-  $("voice-notice").textContent = defaultVoice === "Microsoft Hazel Desktop"
-    ? "Default: Hazel, installed locally." : `Hazel is not installed. Using ${defaultVoice}; choose another installed voice if preferred.`;
+  syncVoiceControls();
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary);
   appearance.apply(session.appearance?.colors || {});
@@ -1486,6 +1508,7 @@ try {
       if (busy) throw new Error("Verona controls are busy; no agent speech was started.");
       $("text").value = message.text;
       $("voice").value = message.voice;
+      syncVoiceControls();
       $("expression").value = message.expression;
       $("intensity").value = String(message.intensity);
       $("expression-gain").value = String(message.gain);
@@ -1499,6 +1522,7 @@ try {
         } };
     }, (locked) => {
       for (const id of editing) $(id).disabled = locked || busy;
+      syncVoiceControls(locked);
       for (const id of controls) $(id).disabled = locked || busy || !clip;
     }, failure);
     draw();

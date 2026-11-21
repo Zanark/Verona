@@ -94,6 +94,18 @@ can exceed the native 0..1 rig envelope. Shared sideways cheekiness is a
 reversible shader cue, not another model or anatomical/contact acceptance.
 Chapter07 records measured startup peaks, GPU-buffer bytes and qualification
 limits; do not turn these into whole-app or eight-head performance guarantees.
+vr-68 adds an explicit optional Kokoro v1.0 INT8 English pack:28 styles over
+one lazy CPU model per requesting warm head, not28 models or one global broker.
+The metadata-only manager stays independent of neural imports. New managed
+heads reserve unused installed voices; CLI speech without --voice respects the
+current native selection. Manual collisions are visibly marked, not ownership
+locks. Windows synthesis releases an old local child; close releases all.
+Kokoro has speed/EQ but not implemented pitch/emphasis: visibly reset/disable
+those controls and reject unsupported API requests. Setup is explicit/pinned;
+no runtime fetch, cloud TTS, fallback-on-failure or saved audio. Phonemizer/
+eSpeak terms are GPL, not covered by the weights' Apache license. Chapter07 and
+docs/research/local-voices.md distinguish measured CPU costs from listening
+acceptance; cancellation discards but does not instantly interrupt inference.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
@@ -173,8 +185,9 @@ requirements introduce media processing.
 `VeronaDesktop.cmd` owns the native desktop and local server; closing the window
 stops both. `Setup-VeronaDesktop.cmd` explicitly installs pinned Electron locally.
 The owner authorizes autonomous text-prototype work and regular verified
-commits/pushes. Windows System.Speech supplies local TTS; no cloud speech or
-additional speech model is required. Model and native topology assets remain
+commits/pushes. Windows System.Speech remains local TTS with no additional
+speech model required; explicit optional Kokoro setup adds more offline voices.
+No cloud speech. Model and native topology assets remain
 ignored/pinned. Never execute the downloaded Maya ASCII scene.
 Runtime binds only 127.0.0.1, requires a per-run API capability and keeps one
 successful clip and one latest synthesized voice sample in RAM. The geometry

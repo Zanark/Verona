@@ -1,14 +1,17 @@
-"""One bounded, RAM-only System.Speech worker for an explicitly started agent host."""
+"""Bounded RAM-only Windows speech with a lazy optional local neural child."""
 
 from dataclasses import asdict
 import base64
 import json
 import os
+from pathlib import Path
 import queue
 import subprocess
 import threading
+import sys
 
 from .speech import POWERSHELL, Speech, VoiceSettings, finish_speech, speech_markup, validate_text
+from .local_voices import is_local_voice, local_voice_catalog, validate_voice_settings
 
 
 WORKER_SCRIPT = r"""
@@ -51,16 +54,24 @@ try {
 
 
 class SpeechWorker:
-    def __init__(self) -> None:
-        if not POWERSHELL.is_file():
+    def __init__(self, *, local=False) -> None:
+        self.local = local
+        self.local_worker = None
+        self.label = "Local Kokoro" if local else "Windows speech"
+        if not local and not POWERSHELL.is_file():
             raise RuntimeError("Windows PowerShell/System.Speech is required.")
         environment = {k: os.environ[k] for k in (
-            "SystemRoot", "WINDIR", "TEMP", "TMP", "USERPROFILE", "APPDATA", "LOCALAPPDATA")
+            "SystemRoot", "SystemDrive", "ProgramData", "ALLUSERSPROFILE", "WINDIR",
+            "TEMP", "TMP", "USERPROFILE", "APPDATA", "LOCALAPPDATA")
             if k in os.environ}
+        environment.update(OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2")
+        command = ([sys.executable, "-m", "verona.local_voice_worker"] if local else
+                   [str(POWERSHELL), "-NoProfile", "-NonInteractive", "-Command", WORKER_SCRIPT])
         self.process = subprocess.Popen(
-            [str(POWERSHELL), "-NoProfile", "-NonInteractive", "-Command", WORKER_SCRIPT],
+            command,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
             text=True, encoding="utf-8", env=environment,
+            cwd=Path(__file__).resolve().parents[1],
             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         )
         self.results = queue.Queue(maxsize=1)
@@ -73,7 +84,9 @@ class SpeechWorker:
             if (not isinstance(self.voices, list) or not self.voices
                     or any(not isinstance(v, dict) or not isinstance(v.get("name"), str)
                            or not isinstance(v.get("culture"), str) for v in self.voices)):
-                raise RuntimeError("No valid enabled English Windows voice is installed.")
+                raise RuntimeError(f"No valid enabled English {self.label} voice is installed.")
+            if not local:
+                self.voices += local_voice_catalog()
         except (OSError, RuntimeError, ValueError, KeyError):
             self.close()
             raise
@@ -83,15 +96,15 @@ class SpeechWorker:
             while True:
                 line = self.process.stdout.readline(1_100_001)
                 if not line:
-                    raise RuntimeError("Windows speech worker exited; restart the named agent host.")
+                    raise RuntimeError(f"{self.label} worker exited; restart the named agent host.")
                 if len(line) > 1_100_000:
-                    raise RuntimeError("Windows speech worker returned oversized audio.")
+                    raise RuntimeError(f"{self.label} worker returned oversized audio.")
                 result = json.loads(line.lstrip("\ufeff"))
                 if not isinstance(result, dict):
-                    raise RuntimeError("Windows speech worker returned an invalid response.")
+                    raise RuntimeError(f"{self.label} worker returned an invalid response.")
                 self.results.put_nowait(result)
         except (OSError, ValueError, RuntimeError, queue.Full) as error:
-            self.error = str(error) or "Unexpected extra Windows speech response."
+            self.error = str(error) or f"Unexpected extra {self.label} response."
             try:
                 self.results.put_nowait({"error": self.error})
             except queue.Full:
@@ -99,7 +112,7 @@ class SpeechWorker:
 
     def _call(self, request: dict) -> dict:
         if not self.lock.acquire(blocking=False):
-            raise RuntimeError("Windows speech worker is already busy; no request was queued.")
+            raise RuntimeError(f"{self.label} worker is already busy; no request was queued.")
         try:
             if self.error:
                 raise RuntimeError(self.error)
@@ -109,7 +122,7 @@ class SpeechWorker:
                 result = self.results.get(timeout=45)
             except queue.Empty as error:
                 self.close()
-                raise RuntimeError("Windows speech exceeded 45 seconds; restart the named host.") from error
+                raise RuntimeError(f"{self.label} exceeded 45 seconds; no speech was retried.") from error
             if self.error or "error" in result:
                 raise RuntimeError(self.error or result["error"])
             return result
@@ -122,23 +135,41 @@ class SpeechWorker:
         settings = VoiceSettings.parse(asdict(settings))
         if voice not in [v["name"] for v in self.voices]:
             raise ValueError("Choose one of the installed English voices.")
+        validate_voice_settings(voice, settings)
+        if is_local_voice(voice) and not self.local:
+            if self.local_worker is None:
+                self.local_worker = SpeechWorker(local=True)
+            try:
+                return self.local_worker.synthesize(text, voice, voices, settings)
+            except (OSError, RuntimeError, ValueError):
+                self.local_worker.close()
+                self.local_worker = None
+                raise
+        if self.local_worker is not None:
+            self.local_worker.close()
+            self.local_worker = None
         culture = next(v["culture"] for v in self.voices if v["name"] == voice)
-        response = self._call({"action": "speak", "voice": voice, "rate": settings.rate,
-                               "ssml": speech_markup(text, culture, settings)})
+        response = self._call(
+            {"action": "speak", "voice": voice, "text": text, "settings": asdict(settings)}
+            if self.local else {"action": "speak", "voice": voice, "rate": settings.rate,
+                                "ssml": speech_markup(text, culture, settings)})
         if not isinstance(response.get("pcm"), str):
-            raise RuntimeError("Windows speech worker omitted its PCM audio.")
+            raise RuntimeError(f"{self.label} worker omitted its PCM audio.")
         try:
             raw = base64.b64decode(response["pcm"], validate=True)
         except ValueError as error:
-            raise RuntimeError("Windows speech worker returned invalid PCM encoding.") from error
+            raise RuntimeError(f"{self.label} worker returned invalid PCM encoding.") from error
         return finish_speech(raw, voice, settings)
 
     def close(self) -> None:
+        if self.local_worker is not None:
+            self.local_worker.close()
+            self.local_worker = None
         if self.process.poll() is None:
             self.process.terminate()
             self.process.wait(timeout=5)
         self.reader.join(timeout=5)
         if self.reader.is_alive():
-            raise RuntimeError("Owned Windows speech reader did not stop.")
+            raise RuntimeError(f"Owned {self.label} reader did not stop.")
         self.process.stdin.close()
         self.process.stdout.close()

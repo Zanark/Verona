@@ -866,7 +866,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-68": {
+      "source": "TODO/68_LOCAL_VOICES.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhUW9Yw",
+      "number": 67,
+      "url": "https://github.com/Zanark/Verona/issues/67",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKu0-M",
+      "title": "Distinct offline voices for independent sessions",
+      "managedBody": "\n<!-- verona-workstream:vr-68 -->\nWorkstream source: `TODO/68_LOCAL_VOICES.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-68\nTitle: Distinct offline voices for independent sessions\n\nStatus: IN_PROGRESS\nMilestone: Recognizable local speaking personalities\nDependencies: vr-67\n\nPurpose:\n  Give different sessions genuinely different local voices, rather than pitch\n  variants of Hazel or several heads silently sharing the same default.\n\nTasks:\n  Compare primary-source offline CPU engines, licenses and resource boundaries.\n  Add explicit pinned optional voice setup; never download during runtime.\n  Integrate a bounded lazy local neural synthesizer and English voice catalog.\n  Assign unused voices to new heads and respect the selected voice in the CLI.\n  Qualify actual synthesis, cancellation, failure, resource and native controls.\n  Update guides, research, skill, living book/journal, tracking and continuity.\n\nAcceptance criteria:\n  Multiple actual new voices synthesize locally without text leaving the host.\n  Metadata listing loads no neural TTS; only one model and selected style are\n    active per requesting head, with explicit teardown and bounded audio.\n  Different new sessions receive unused voice defaults; explicit choices and\n    current selections are preserved, with truthful collision/availability UI.\n  Unsupported controls cannot silently succeed or fall back to another voice.\n  Existing Windows voices and their settings remain compatible.\n  Evidence distinguishes technical checks from independent listening acceptance.\n\nCompletion evidence:\n  Authored primary-source comparison: docs/research/local-voices.md.\n  Optional pinned115MiB pack installed here;28 actual English styles produce\n    distinct bounded PCM through one reused child; Windows remains functional.\n  98CPU regressions pass. Real manager DOM and actual isolated Claire/Mark\n    native controls, local audio-to-face, cancellation, CLI and owned cleanup\n    pass; no independent listening or preferred-style acceptance is implied.\n  Corrected full-worker-tree two-style memory samples190.05/189.97MiB with\n    arena disabled; entire owned tree exits on Windows synthesis. Preserve\n    invalid launcher-only receipt and default-arena baseline, not false savings.\n  Source/library/personal Verona skill copies hash-identical.\n  Final all-style allocator qualification, dated journal continuation, verified\n    source publication and owned live-head catalog promotion remain pending.\n\nCompletion log:\n  2026-11-21 - Owner requests deep research, selection and implementation of\n    multiple new entirely local voices; no questions while away. Stable live\n    head Verona remains Claire/Hazel while isolated candidate work proceeds.\n  2026-11-21 - Technical implementation and above candidate qualifications\n    complete. Keep workstream IN_PROGRESS through journal/live delivery.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T15:19:03.280578+00:00"
+  "verifiedAt": "2026-11-21T16:02:10.748123+00:00"
 }

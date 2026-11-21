@@ -131,7 +131,8 @@ function display() {
     const model=session.appearance?.model;
     const variant=[...$("model").options].find(option=>option.value===model)?.textContent||model||"Unknown variant";
     button.querySelector(".session-name").textContent=session.session;
-    button.querySelector(".session-meta").textContent=`${variant} / ${session.state}`;
+    const sameVoice=session.voice && sessions.some(other=>other.session!==session.session && other.voice===session.voice);
+    button.querySelector(".session-meta").textContent=`${variant} / ${session.state}${session.voice ? ` / ${session.voice}${sameVoice ? " (shared voice)" : ""}` : ""}`;
     button.querySelector(".session-swatch").style.backgroundColor=session.appearance?.colors?.mesh||"";
     button.classList.toggle("active",session.session===selected);
     button.setAttribute("aria-pressed",String(session.session===selected));

@@ -1,0 +1,9 @@
+-r requirements-cpu.txt
+kokoro-onnx==0.6.1
+espeakng-loader==0.2.4
+phonemizer==3.6.0
+soxr==1.1.0
+joblib==1.6.0
+attrs==26.1.0
+dlinfo==2.0.0
+typing-extensions==4.16.0

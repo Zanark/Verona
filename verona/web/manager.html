@@ -23,14 +23,16 @@
     <button id="new" class="primary" type="button">+ New session</button>
     <p id="empty-sessions" class="hint">Loading sessions...</p>
     <nav id="sessions" aria-label="Choose a head"></nav>
-    <p class="sidebar-note">One named head per chat.<br>Only the selected head changes.</p>
+    <p class="sidebar-note">One named head per chat.<br>Only the selected head changes.<br>Cards identify each voice; shared manual choices are marked.</p>
   </aside>
   <section id="workspace" class="studio" tabindex="-1" aria-labelledby="heading">
     <div class="studio-heading"><p class="eyebrow">YOUR WORKSPACE</p><h2 id="heading">Create a head</h2>
       <p id="status" role="status"></p></div>
     <p id="error" role="alert"></p>
     <form id="create" class="surface">
-      <h3>A face for this session</h3><p class="hint">Choose its identity once. Customize its colors below before creating.</p>
+      <h3>A face for this session</h3><p class="hint">Choose its identity once. Customize its colors below before creating.
+        New sessions automatically choose an unused installed voice, preferring the optional offline Kokoro pack.
+        Change the voice later in this head's controls.</p>
       <div class="form-grid">
         <label for="name">Session name<input id="name" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,47}" maxlength="48"
           placeholder="e.g. coding" aria-describedby="name-hint" autocomplete="off" spellcheck="false">
