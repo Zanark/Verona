@@ -5,6 +5,36 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Give Mark two genuinely short silhouettes (vr-80)
+
+The owner points out that the existing waves and curls were designed as long
+feminine styles. Two original alternatives now give actual Mark a raised
+textured quiff and a lower classic side part. They reuse the existing packed
+mesh and parallel-transport sweeps, not a new character asset or neural model.
+New Mark players begin with visible quiff hair in every presentation; other
+models and already-running heads keep their prior state.
+
+The first gallery attempt exposed a misplaced nested script block before
+Electron could load it. Syntax preflight now runs before model work.
+The next capture passed numerical checks but looked like a loose helmet.
+Actual upper-skull measurements showed why: a long-hair clearance sphere
+was too wide/deep. `shortScalp` instead fits independent axes to the resident
+native rest points, with explicit clearance. A degree/radian capture error
+was also corrected before accepting the front/three-quarter previews.
+Rejected outputs remain private diagnostics, not the new README assets.
+
+The final actual Mark run draws all eleven emotion clips in four views and
+passes24 repeated native style/view hide/restore checks. The isolated synthetic
+fixture separately proves stable per-style/view GPU bytes and no unlit normal
+slots. Every420palette-converted source sample matches its decoded GIF timeline:
+one30.25s overview and two5.5s hairstyle loops. Front/side contact sheets receive
+representative agent review, not exhaustive frame review or owner acceptance.
+
+The README retains its branding, speech hero, other five model previews and
+two original long-style GIFs. Chapter09 explains the fit and ownership.
+No inference, new timer, live-head restart, speech recording publication,
+release rewrite or rendered-book edition is introduced.
+
 ## 2026-11-22 - Let the identity speak without a blue square (vr-79)
 
 The owner asks for the existing face-mesh identity to become a transparent

@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Mark's short hairstyles (vr-80):** [chapter09](chapters/09-verona-character-and-waves.md#short-hair-designed-for-mark-vr-80)
+explains the textured quiff, classic side part, Mark-only startup defaults
+and unchanged selected-only ownership. The README adds two actual Mark
+hair previews and refreshes his complete emotion/four-view overview.
+
 **Transparent identity (vr-79):** [chapter09](chapters/09-verona-character-and-waves.md#an-original-identity-across-the-local-shell-vr-59)
 and the [branding guide](branding/README.md) explain the purple-haired,
 pink-lipped transparent head, licensed Audiowide lettering, larger light/dark

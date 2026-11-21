@@ -26,7 +26,7 @@ reference artwork or a photorealistic reconstruction.
 &middot; [Milestone 1](https://github.com/Zanark/Verona/releases/tag/v0.1.0)
 &middot; [Setup and controls](docs/prototype-guide.md)
 &middot; [All emotions](#all-ten-emotions---4x-and-bright-spokes)
-&middot; [Both hairstyles](#every-hairstyle-in-motion)
+&middot; [All four hairstyles](#every-hairstyle-in-motion)
 &middot; [Engineering book](docs/README.md)
 
 ```powershell
@@ -46,7 +46,8 @@ structural-reference Claire, historical subtle-reference Claire and
 Male-SharpJawline**. Claire is preserved. These are experimental identities,
 not accepted Female profiles or anatomical-accuracy claims.
 Independent **mesh, eyes, hair, lips and eyebrows** accept swatches or RGB hex.
-All six share both optional procedural hairstyles and the same live controls.
+All six share four hairstyle choices and the same live controls. **Mark starts
+with a short textured quiff**, with **Classic side part** as a second short option.
 Each head has its own model, capability, speech RAM and audio clock.
 **Exit manager and its heads** closes only heads this manager created;
 closing the browser tab alone does not stop them.
@@ -94,7 +95,7 @@ These are silent, 10-fps sampled previews, not live performance tests.
 
 **Shared across every model:** full/head-neck framing and visible-neck depth,
 zoom, XYZ rotation, eyes-only or whole-head cursor following, five feature
-colors, original waves or spiral curls, natural blinking and live sideways
+colors, four hairstyle choices, natural blinking and live sideways
 cheekiness strength. Surface has the two materials; FaceMesh has mesh detail/
 optics; FaceDot and UniformPolygons have density/gap controls. Switching views
 preserves each view's settings without loading another speech model.
@@ -163,9 +164,12 @@ Hair, makeup and eyelids are procedural approximations, not native rig assets.
 The original **Mark v2.3 network, PCA, conditioning and native-derived topology**,
 not a renamed Claire or Male-SharpJawline sculpt. Uniform alignment preserves
 its native shape. All four face types and shared controls are available.
+**Short textured quiff** is now Mark's default, visible in all four face types;
+choose **Classic side part** for a lower, neatly swept look. The refreshed
+overview below uses the quiff instead of the old long waves.
 
 <p align="center">
-  <img src="docs/media/model-vr67-mark.gif" alt="Actual Mark v2.3 speaking through neutral and all ten native emotions in all four shared face types" width="100%">
+  <img src="docs/media/model-vr80-mark.gif" alt="Actual Mark v2.3 with a short textured quiff speaking through neutral and all ten native emotions in Surface, FaceMesh, FaceDot and UniformPolygons, with hair visible throughout" width="100%">
 </p>
 
 ### Structural-reference Claire
@@ -312,28 +316,39 @@ shines through eyelids. The optional combined look retains its earlier dimming.
 
 ## Every hairstyle in motion
 
-**Only Claire waves (original) and Spiral curls. Both available options are below.**
+**Four choices: two preserved long styles and two new short designs for Mark.**
 Choose a human **View**, enable **Hair (this view)**, then pick **Hairstyle (shared)**.
-Hair starts on in Claire and off in other views; each view remembers its choice
-until reload. Hair follows that view's polygons, triangle edges, dots or grid.
-These previews select **Reference color + makeup**, **Full bust** and **80% zoom**
-to reveal the complete hair. The app still starts with the original
-waves and cool **Transparent polygons**.
+New Mark players start with **Short textured quiff**, hair on in every view.
+Other models retain original waves, hair on in Surface/Claire and off elsewhere.
+Each view remembers visibility until reload; the selected style is shared.
+Hair follows that view's polygons, triangle edges, dots or grid.
+
+<p align="center">
+  <strong>Mark: Short textured quiff &middot; Classic side part</strong><br>
+  <img src="docs/media/mark-vr80-quiff.gif" alt="Actual Mark speaking with a short raised textured quiff while turning left and right in Surface and FaceMesh" width="50%"><img src="docs/media/mark-vr80-side-part.gif" alt="Actual Mark speaking with a compact classic side part while turning left and right in Surface and FaceMesh" width="50%">
+</p>
+
+The **quiff** has a raised front with short swept-back ridges. The **side part**
+has a lower asymmetric crown and strands swept away from the part. Both keep
+the sides and back short—no long spiral locks. These new previews replay the
+same native Happy greeting in Surface and FaceMesh with authored yaw.
+The preserved long-style turntables below use Reference color + makeup,
+Full bust and 80% zoom, and retain their earlier capture provenance.
 
 <p align="center">
   <strong>Claire waves (original) &middot; Spiral curls</strong><br>
   <img src="docs/media/gallery-vr36-hair-claire.gif" alt="Current Claire waves original hairstyle rotating from front to both sides" width="50%"><img src="docs/media/gallery-vr36-hair-curls.gif" alt="Current Spiral curls with all 48 locks turning from the front to both sides" width="50%">
 </p>
 
-**One speech system, two hairstyles.** Spiral curls now have **48 locks instead
+**One speech system, four hairstyles.** Spiral curls retain **48 locks instead
 of 24**, keeping the same per-lock detail. The other nine styles and their
 gallery GIFs have been removed, not hidden. Hair changes do not regenerate speech.
 These are procedural geometric styles, not strand simulation. **Head and neck**
-now trims skin, not hair: both hairstyles retain their complete tips, and the
+now trims skin, not hair: hairstyles retain their complete tips, and the
 bounded jaw mask no longer rises through the ears.
 [Before/after and mechanism](docs/chapters/10-desktop-overlay-and-gaze.md#preserve-ears-and-complete-hair-vr-70).
 
-These are manual view turntables at 10 sampled frames/second, not hair physics
+These are silent 10-fps sampled previews, not hair physics
 or head motion inferred from speech. Only the selected alternative is built;
 switching back restores the original Claire geometry.
 

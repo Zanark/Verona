@@ -142,10 +142,15 @@ Optional phonemization includes GPL components; no cloud, cloning or recordings.
 These are six selectable shapes over two neural identities, not six independently
 trained speech models or accepted gender identities. Every head shares Surface
 (legacy ID `claire`), FaceMesh, FaceDot and UniformPolygons, full/head-neck
-framing, neck depth, XYZ/cursor motion, zoom, colors, both optional procedural
+framing, neck depth, XYZ/cursor motion, zoom, colors, four procedural
 hairstyles and natural blinking. Surface supports transparent polygons and
 shaded color/makeup. Native shape is uniformly aligned, not replaced by Claire.
 Hair, eyelids and makeup remain cosmetic approximations, not accepted anatomy.
+New Mark players start with Short textured quiff and hair on in all four
+presentations. Classic side part is a second short design; original waves
+and Spiral curls remain available. Other models retain their original
+startup style/visibility. Never restart or reconfigure an existing head
+merely to apply a new default.
 
 MPFB fits conditioned and same-audio neutral geometry separately, then applies
 2x/4x to their native difference. Final exaggerated geometry can exceed the

@@ -11,6 +11,8 @@ quick opacity controls. This dated source continuation is not another
 rendered edition. All frozen PDFs and their source cutoffs below stay unchanged.
 The vr-79 entry explains the transparent purple-haired/pink-lipped identity,
 Audiowide wordmark, alpha-preserving icon generation and isolated qualification.
+The vr-80 entry adds Mark's quiff/side part, the rejected helmet fit, native
+upper-skull fitting and independently decoded actual-model README previews.
 
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:

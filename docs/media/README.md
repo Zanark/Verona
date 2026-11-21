@@ -1,6 +1,39 @@
 # Prototype media receipt
 
-## Current six-model / four-view gallery (vr-67)
+## Current Mark short-hair previews (vr-80)
+
+[Mark provenance](mark-vr80-provenance.json) records three new actual Mark
+production-renderer GIFs. The960x1080 overview shows neutral plus all ten
+single emotions in all four views with the new default quiff/hair visible.
+Its30.25-second tour preserves the synthetic Hazel greeting, strength0.6/4x
+and matching timestamps; Surface alternates its two materials.
+Each600x680 hairstyle loop replays the same native Happy clip in shaded
+Surface then FaceMesh with authored plus/minus30-degree yaw, lasting5.5s.
+These are silent10-fps samples of30-fps source motion, not live playback.
+
+All420palette-converted source samples match independently decoded GIF
+timelines, including duration/loop/motion; lossless deltas yield360encoded
+frames. The three files total19,576,078bytes (about18.7MiB). Actual Mark
+passes24repeated short-style/view hide/restore checks with zero WebGL errors
+and no unlit normal slots. A separate synthetic WebGL fixture checks stable
+GPU bytes per view/style, not actual Mark process memory.
+
+Initial script parsing failed before capture; preflight now runs before model
+work. The next technically passing images were rejected as an oversized
+helmet, leading to native upper-skull fitting instead of the long-hair sphere.
+The capture's degree/radian yaw error was also corrected. Final representative
+front/three-quarter, FaceMesh and neutral/Happy overview contact sheets were
+agent-reviewed, not every frame or independent listening.
+
+The README now embeds27GIFs: Mark's overview is replaced, two short-style
+previews added. Its branding, speech hero, other five model previews and both
+long-style turntables are unchanged. Existing media and releases are retained;
+the vr-67 Mark GIF below is historical rather than silently overwritten.
+Capture uses a private engine/cache/server/disposable profile; cleanup passes
+and no live manager/head is driven or restarted. No owner approval, identity/
+phonetic accuracy, hair physics, runtime FPS or memory-saving claim is made.
+
+## Earlier six-model / four-view gallery (vr-67)
 
 [Six-model provenance](model-vr67-provenance.json) records six new actual
 960x1080 production-renderer GIFs, one per selectable model. Each contains
@@ -22,7 +55,7 @@ publishing previews are intentionally large, not runtime FPS/memory evidence.
 A collapsed disclosure is not lazy-loading or a media-memory guarantee.
 Historical media files and their distinct receipts remain unchanged.
 
-The README embeds **25 GIFs and two PNGs**. Its approved hero and complete
+At vr-67 the README embedded **25 GIFs and two PNGs**. Its approved hero and complete
 motion-demo section remain byte-for-byte unchanged. Actual authenticated
 GitHub GFM with retained public GitHub CSS passes1200/768/390px layout checks:
 six dedicated full-width model GIFs, natural aspect ratios, no tables,

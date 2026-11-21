@@ -36,8 +36,13 @@ app.whenReady().then(async () => {
     const catalog=await(await request("clips.json")).json();
     const $=id=>document.getElementById(id);
     const blink=$("natural-blink");blink.checked=false;blink.dispatchEvent(new Event("input"));
+    for(const id of ["idle-life","idle-sounds"]){$(id).checked=false;$(id).dispatchEvent(new Event("input"));}
     if($("follow-eyes")){$("follow-eyes").checked=false;$("follow-eyes").dispatchEvent(new Event("input"));}
     window.galleryCatalog=catalog;
+    if(catalog.model==="mark"){
+      if(galleryRenderer.hairStyle!=="quiff"||!Object.values(galleryRenderer.hairVisible).every(Boolean))
+        throw Error("Mark must start with visible short quiff hair in every view.");
+    }
     return catalog;
   })()`);
   const views = ["Surface", "FaceMesh", "FaceDot", "UniformPolygons"];
@@ -79,7 +84,7 @@ app.whenReady().then(async () => {
       for(let view=0;view<viewIds.length;view++){
         let canvas;
           set("presentation",viewIds[view]);set("framing",viewIds[view]==="facemesh"?"front":"head-neck");
-          set("hair",view===0);set("tilt",0);set("yaw",0);set("roll",0);set("zoom",.9);
+          set("hair",view===0||galleryCatalog.model==="mark");set("tilt",0);set("yaw",0);set("roll",0);set("zoom",.9);
           if(view===0)set("appearance",${emotion}%2?"polygon":"shaded");
           if(view===1){set("mesh-detail",5);set("eye-glow",1);}
           if(view===2){set("pattern-density",.75);set("pattern-gap",.2);}
@@ -116,11 +121,91 @@ app.whenReady().then(async () => {
     await ev("galleryComposites.forEach(c=>{c.width=c.height=1;});galleryComposites=[];");
     captures.push({name:result.name,duration:result.duration,images});
   }
+  const markQualification=catalog.model==="mark"?await ev(`(()=>{
+    const r=galleryRenderer,$=id=>document.getElementById(id);
+    const change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event("input"));};
+    const cases=[];
+    for(let cycle=0;cycle<3;cycle++)for(const view of ["claire","facemesh","facedot","uniform"]){
+      change("presentation",view);
+      for(const style of ["quiff","side-part"]){
+        change("hairstyle",style);r.draw(0);
+        const data=r.hairData;
+        $("hair").checked=false;$("hair").dispatchEvent(new Event("input"));
+        const released=["positions","normals","triangles","edges","meshEdges"].every(key=>!r.hair[key]);
+        $("hair").checked=true;$("hair").dispatchEvent(new Event("input"));r.draw(0);
+        cases.push({cycle,view,style,selected:r.hairStyle,released,restored:r.hairData===data,
+          normals:r.normalSlots.length,error:r.gl.getError()});
+      }
+    }
+    return {cases};
+  })()`):null;
+  for(const sample of markQualification?.cases||[]){
+    assert.equal(sample.selected,sample.style);
+    assert(sample.released&&sample.restored);
+    assert.equal(sample.error,0);
+    if(sample.view!=="claire")assert.equal(sample.normals,0);
+  }
+  const hairstyles=[];
+  if(catalog.model==="mark")for(const style of ["quiff","side-part"]){
+    const directory=`hair-${style}`;
+    await fs.mkdir(path.join(output,directory));
+    const result=await ev(`(async()=>{
+      const $=id=>document.getElementById(id),info=galleryCatalog.clips.find(c=>c.name==="happy");
+      const data=await(await galleryRequest(info.filename)).arrayBuffer();
+      galleryRenderer.setClip(data,info.metadata);
+      const set=(id,value)=>{const input=$(id);
+        if(input.type==="checkbox")input.checked=value;else input.value=String(value);
+        input.dispatchEvent(new Event("input"));};
+      const style=${JSON.stringify(style)};
+      set("hairstyle",style);
+      const perView=Math.ceil(info.metadata.duration*galleryCatalog.previewFps);
+      const frames=[];
+      for(const view of ["claire","facemesh"]){
+        set("presentation",view);set("hair",true);set("appearance","shaded");
+        set("framing",view==="claire"?"head-neck":"front");set("zoom",.9);
+        set("tilt",0);set("roll",0);
+        const canvas=$("face");canvas.style.cssText="position:fixed;inset:0;width:600px;height:600px";
+        for(let i=0;i<perView;i++){
+          const time=i*info.metadata.duration/perView;
+          set("yaw",Math.PI/6*Math.sin(2*Math.PI*i/(perView-1)));
+          galleryRenderer.draw(time,0);
+          const gl=canvas.getContext("webgl2");gl.finish();
+          if(gl.getError())throw Error("Mark hairstyle capture WebGL failure.");
+          const c=document.createElement("canvas");c.width=600;c.height=680;
+          const g=c.getContext("2d");g.fillStyle="#081018";g.fillRect(0,0,600,680);
+          g.textAlign="center";g.textBaseline="middle";g.fillStyle="#6ef5db";g.font='600 25px "Segoe UI"';
+          g.fillText(style==="quiff"?"MARK | SHORT TEXTURED QUIFF":"MARK | CLASSIC SIDE PART",300,24);
+          g.drawImage(canvas,0,48,600,600);
+          g.fillStyle="#d8e6e8";g.font='18px "Segoe UI"';
+          g.fillText((view==="claire"?"Surface / color + makeup":"FaceMesh")+" | same native Happy speech",300,660);
+          frames.push(c);
+        }
+      }
+      window.galleryComposites=frames;
+      return {duration:info.metadata.duration*2,count:frames.length};
+    })()`);
+    const images=[];
+    for(let i=0;i<result.count;i++){
+      const png=await ev(`galleryComposites[${i}].toDataURL("image/png").split(",")[1]`);
+      const filename=`${directory}/${String(i).padStart(3,"0")}.png`;
+      await fs.writeFile(path.join(output,filename),Buffer.from(png,"base64"));images.push(filename);
+    }
+    const capture=`capture-${style}.json`,verification=`gif-verification-${style}.json`;
+    await fs.writeFile(path.join(output,capture),JSON.stringify({
+      model:"mark",hairstyle:style,filename:`mark-vr80-${style}.gif`,dimensions:[600,680],
+      clips:[{name:"happy",duration:result.duration,images}],views:["Surface","FaceMesh"],
+      previewFps:10,silent:true,sourceFps:30,
+      limits:"Same native Happy clip replayed in two presentations with authored yaw; not hair physics or live playback."
+    },null,2));
+    hairstyles.push({id:style,capture,verification});
+    await ev("galleryComposites.forEach(c=>{c.width=c.height=1;});galleryComposites=[];");
+  }
   assert.equal(errors.length, 0, errors.join("\n"));
   assert.equal(external.length, 0, JSON.stringify(external));
   assert(!window.isVisible());
   await fs.writeFile(path.join(output,"capture.json"),JSON.stringify({
     model:catalog.model,clips:captures,views,previewFps:catalog.previewFps,
+    ...(catalog.model==="mark"?{filename:"model-vr80-mark.gif",hairstyles,markQualification}:{}),
     sourceFps:30,dimensions:[960,1080],hidden:true,sandbox:true,
     errors,external,speechPlayback:false,
     limits:"Offline sampled production draws; fixed synthetic greeting, not runtime FPS or listening acceptance.",

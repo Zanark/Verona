@@ -88,7 +88,7 @@ function surfaceNormals(positions, triangles, offset = 0, count = positions.leng
 }
 
 class FaceRenderer {
-  constructor(canvas, meta, binary) {
+  constructor(canvas, meta, binary, model = "claire") {
     this.canvas = canvas;
     this.meta = meta;
     this.frames = 0;
@@ -417,7 +417,12 @@ class FaceRenderer {
     this.hairEdges = new Uint32Array(binary, hair.edgeOffset, hair.edges * 2);
     this.hairTriangles = new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3);
     this.originalHair = { positions: this.hairData, edges: this.hairEdges, triangles: this.hairTriangles };
-    this.hairStyle = "claire";
+    this.hairStyle = model === "mark" ? "quiff" : "claire";
+    if (this.hairStyle !== "claire") {
+      const data = createHairstyle(this.hairStyle, meta, this.neutralData);
+      this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
+      this.hair = { triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2 };
+    }
     const eyes = meta.eyes;
     const eyeData = new Int16Array(binary,eyes.positionOffset,eyes.vertices*3);
     this.eyes = {
@@ -429,7 +434,7 @@ class FaceRenderer {
     this.eyeTriangles = new Uint32Array(binary, eyes.triangleOffset, eyes.triangles * 3);
     this.presentationId = "claire";
     this.view = presentation("claire");
-    this.hairVisible = Object.fromEntries(Object.keys(PRESENTATIONS).map(id => [id, id === "claire"]));
+    this.hairVisible = Object.fromEntries(Object.keys(PRESENTATIONS).map(id => [id, id === "claire" || model === "mark"]));
     this.hairFits = {};
     this.framings = Object.fromEntries(Object.entries(PRESENTATIONS).map(([id, view]) => [id, view.framing]));
     this.neckDepths = Object.fromEntries(Object.keys(PRESENTATIONS).map(id => [id, JAW_CROP.defaultNeck]));
@@ -545,7 +550,7 @@ class FaceRenderer {
   setHairStyle(id) {
     hairstyle(id);
     if (id === this.hairStyle) return;
-    const data = id === "claire" ? this.originalHair : createHairstyle(id, this.meta);
+    const data = id === "claire" ? this.originalHair : createHairstyle(id, this.meta, this.neutralData);
     const surface = {
       triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
     };
@@ -1557,7 +1562,7 @@ try {
   $("voice").value = defaultVoice;
   syncVoiceControls();
   const binary = await (await request("/api/mesh")).arrayBuffer();
-  renderer = new FaceRenderer($("face"), session.mesh, binary);
+  renderer = new FaceRenderer($("face"), session.mesh, binary, session.appearance?.model);
   appearance.apply(session.appearance?.colors || {});
   $("mesh-colors-control").disabled = false;
   for (const [id, style] of Object.entries(HAIRSTYLES)) {

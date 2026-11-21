@@ -1,0 +1,369 @@
+{
+  "workstream": "vr-80",
+  "createdAt": "2026-11-22T02:57:52.192243+05:30",
+  "baseCommit": "61d5fc04ca3e74bb076d38e25498cb2036465487",
+  "model": "Mark v2.3",
+  "sourceSha256": {
+    "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+    "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+    "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+    "verona/web/app.js": "06547f1b8eea8340dd2bb9f52d155eb9c58071e2d539eb54bfde4b84192849f0",
+    "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+    "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+    "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+    "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+    "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+    "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+    "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+    "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+    "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+  },
+  "syntheticText": "Hey, how are you?",
+  "voice": "Microsoft Hazel Desktop",
+  "sourceFps": 30,
+  "sampleFps": 10,
+  "silent": true,
+  "overview": "Native neutral plus ten single emotions, strength0.6/gain4; four matching-timestamp views with quiff hair.",
+  "hairstyles": "Same native Happy clip replayed in Surface/shaded then FaceMesh; authored yaw plus/minus30degrees.",
+  "nativeQualification": {
+    "cases": [
+      {
+        "cycle": 0,
+        "view": "claire",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 2,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "claire",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 2,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "facemesh",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "facemesh",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "facedot",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "facedot",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "uniform",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 0,
+        "view": "uniform",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "claire",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 2,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "claire",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 2,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "facemesh",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "facemesh",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "facedot",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "facedot",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "uniform",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 1,
+        "view": "uniform",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "claire",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 2,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "claire",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 2,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "facemesh",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "facemesh",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "facedot",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "facedot",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "uniform",
+        "style": "quiff",
+        "selected": "quiff",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      },
+      {
+        "cycle": 2,
+        "view": "uniform",
+        "style": "side-part",
+        "selected": "side-part",
+        "released": true,
+        "restored": true,
+        "normals": 0,
+        "error": 0
+      }
+    ]
+  },
+  "isolation": "Private engine/cache/server/disposable profile; no live head driven.",
+  "cleanup": {
+    "serverStopped": true,
+    "desktopStopped": true,
+    "profileRemoved": true
+  },
+  "files": [
+    {
+      "model": "mark",
+      "filename": "model-vr80-mark.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 248,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 15896961,
+      "sha256": "4319da588e0b514ba8bb54a8ca16f143cbfd2832f2986e787378c3c6dd3c9a66",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f"
+    },
+    {
+      "model": "mark",
+      "filename": "mark-vr80-quiff.gif",
+      "hairstyle": "quiff",
+      "dimensions": [
+        600,
+        680
+      ],
+      "sourceFrames": 56,
+      "encodedFrames": 56,
+      "durationMs": 5500,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 1795181,
+      "sha256": "521b133dc16de5a8da399f9d7cfb41b8f836576ec22bcac6a1e479bc3995f628",
+      "emotions": [
+        "happy"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f"
+    },
+    {
+      "model": "mark",
+      "filename": "mark-vr80-side-part.gif",
+      "hairstyle": "side-part",
+      "dimensions": [
+        600,
+        680
+      ],
+      "sourceFrames": 56,
+      "encodedFrames": 56,
+      "durationMs": 5500,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 1883936,
+      "sha256": "5ad1f22c1ef341526ab31f0e738eddf70297e3ebda40394893bad16d7cacb5b2",
+      "emotions": [
+        "happy"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f"
+    }
+  ],
+  "review": "Representative actual front/three-quarter/style and neutral/Happy overview contact sheets agent-reviewed.",
+  "retainedFailures": [
+    "Initial gallery script parse failure; syntax preflight added before model work.",
+    "First numeric-passing previews rejected for oversized long-hair fit and degree/radian capture error."
+  ],
+  "limits": "Not runtime FPS/memory, hair physics, listening, human identity/phonetic accuracy or owner acceptance. Prior release and other media unchanged."
+}

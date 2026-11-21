@@ -63,7 +63,7 @@ if(realMesh){
   meta=JSON.parse(await fs.readFile(path.join(realMesh,"mesh.json"),"utf8"));
   binary=await fs.readFile(path.join(realMesh,"mesh.bin"));
 }
-let nativeMode=false,retiredMode=false,retiredMeshRequests=0;
+let nativeMode=false,markMode=false,retiredMode=false,retiredMeshRequests=0;
 const server=http.createServer(async(req,res)=>{
   try{
     const url=new URL(req.url,"http://127.0.0.1");
@@ -71,7 +71,7 @@ const server=http.createServer(async(req,res)=>{
     if(url.pathname==="/api/session"){
       res.setHeader("Content-Type","application/json");
       res.end(JSON.stringify({mesh:meta,voices:[{name:"Fixture",culture:"en-US"}],defaultVoice:"Fixture",
-        limits:{characters:280},appearance:{model:retiredMode?"robot":nativeMode?"mpfb":"claire",session:"fixture",colors:{}}}));
+        limits:{characters:280},appearance:{model:retiredMode?"robot":markMode?"mark":nativeMode?"mpfb":"claire",session:"fixture",colors:{}}}));
       return;
     }
     if(url.pathname==="/api/mesh"){
@@ -81,6 +81,7 @@ const server=http.createServer(async(req,res)=>{
     }
     let name=url.pathname.slice(1)||"index.html";
     if(name==="retired"){retiredMode=true;nativeMode=false;name="index.html";}
+    if(name==="mark"){markMode=true;nativeMode=false;name="index.html";}
     if(name==="native"){nativeMode=true;name="mpfb.html";}
     if(name==="legacy-native"){nativeMode=true;name="mpfb.html";}
     if(name==="legacy"){nativeMode=false;name="index.html";}
@@ -367,7 +368,7 @@ try{
         f.change("presentation",view);
         for(const visible of [true,false]){
           h.checked=visible;h.dispatchEvent(new Event("input"));
-          for(const style of ["curls","claire"]){
+          for(const style of ["quiff","side-part","curls","claire"]){
             f.change("hairstyle",style);
             if(view!=="facemesh")for(const framing of ["head-neck","full"]){
               f.change("framing",framing);
@@ -479,6 +480,38 @@ try{
     const legacy=await hashNative();
     assert.deepEqual(current,legacy,"Native original default pixels changed.");
     report.legacyDefaultPixels.nativeSha256=legacy;
+  }
+  await cdp("Page.navigate",{url:`${origin}/mark#${"a".repeat(43)}`});
+  await waitFor('window.rendererFixture && !document.getElementById("generate").disabled');
+  await disableBlinking();
+  report.markHairstyles=await evaluate(`(()=>{
+    const r=rendererFixture,$=id=>document.getElementById(id);
+    const change=(id,value)=>{$(id).value=value;$(id).dispatchEvent(new Event("input"));};
+    const initial={style:r.hairStyle,visible:Object.values(r.hairVisible).every(Boolean)};
+    const cases=[];
+    for(let cycle=0;cycle<3;cycle++)for(const view of ["claire","facemesh","facedot","uniform"]){
+      change("presentation",view);
+      for(const style of ["quiff","side-part"]){
+        change("hairstyle",style);r.draw(0);
+        const data=r.hairData;
+        $("hair").checked=false;$("hair").dispatchEvent(new Event("input"));
+        const released=["positions","normals","triangles","edges","meshEdges"].every(key=>!r.hair[key]);
+        $("hair").checked=true;$("hair").dispatchEvent(new Event("input"));r.draw(0);
+        cases.push({cycle,view,style,selected:r.hairStyle,released,restored:r.hairData===data,
+          bytes:resourceProbe().bytes,normals:r.normalSlots.length,error:r.gl.getError()});
+      }
+    }
+    return {initial,cases};
+  })()`);
+  assert.equal(report.markHairstyles.initial.style,"quiff");
+  assert(report.markHairstyles.initial.visible);
+  for(const sample of report.markHairstyles.cases){
+    assert.equal(sample.selected,sample.style);
+    assert(sample.released&&sample.restored);
+    assert.equal(sample.error,0);
+    if(sample.view!=="claire")assert.equal(sample.normals,0);
+    const first=report.markHairstyles.cases.find(item=>item.view===sample.view&&item.style===sample.style);
+    assert.equal(sample.bytes,first.bytes,"Mark hairstyle changes must not accumulate GPU resources.");
   }
   await cdp("Page.navigate",{url:`${origin}/retired#${"a".repeat(43)}`});
   await waitFor('!document.getElementById("error").hidden && document.getElementById("error").textContent.includes("retired by its owner")');

@@ -1,0 +1,59 @@
+ID: vr-80
+Title: Two short Mark hairstyles and refreshed README motion previews
+GitHub issue: https://github.com/Zanark/Verona/issues/79
+
+Status: DONE
+Milestone: Model-appropriate Mark presentation
+Dependencies: vr-66, vr-67
+
+Purpose:
+  Give actual Mark two distinct short masculine hairstyle designs instead of
+  relying on the existing long waves/curls; refresh the README demonstrations.
+
+Tasks:
+  Add original textured-quiff and classic-side-part procedural geometry.
+  Start new Mark players with short hair, preserving other models' defaults
+  and explicit live hairstyle/visibility choices.
+  Retain selected-only GPU ownership and native skull clearance fitting.
+  Qualify actual Mark across all four presentations and inspect real frames.
+  Publish both new hairstyle GIFs and refresh Mark's all-emotion overview.
+  Update chapter, guide, media provenance, journal, tracking and source.
+
+Acceptance criteria:
+  Two visibly distinct short styles have no long side/rear locks.
+  New Mark players show the short default; other heads are not recolored or
+  restarted. Existing choices stay manually available.
+  Style switching, hair hiding/restoration, jaw crop and unlit views preserve
+  bounded resources, speech and the selected native identity.
+  README showcases both styles on actual Mark, with truthful capture captions.
+  Existing hero and unrelated model/media files remain unchanged.
+
+Completion evidence:
+  Original quiff5504vertices/10656triangles and side-part6784/13152; native
+  upper-skull fitting avoids the initially rejected oversized long-hair shell.
+  Three focused Node geometry/framing/presentation checks and final isolated
+  WebGL fixture pass, including24stable-resource synthetic style/view cases.
+  Actual Mark passes24hide/restore/view/style cases, zero GL errors, no unlit
+  normal slots, eleven emotion clips across all four presentations and zero
+  collapsed packed short-style triangles. Existing curls remain byte-identical.
+  Three GIFs:30.25s overview plus5.5s per style; all420source samples match
+  decoded timelines (360encoded frames), totaling19,576,078bytes.
+  Representative front/three-quarter, FaceMesh and neutral/Happy composites
+  agent-reviewed. No exhaustive visual review, listening or owner acceptance.
+  104CPU unit tests, nine book-production tests and192affected local links pass.
+  Capture/public provenance: docs/media/mark-vr80-provenance.json.
+  Private successful run: .local/qualification/mark-hair-80-capture-03.
+  Initial parse failure and rejected helmet/yaw run retained as diagnostics.
+  Source/repository skill, chapter/index/guide/media and living journals updated.
+  Existing branding/hero, five other models and both long-style GIFs preserved.
+
+Completion log:
+  2026-11-22 - Owner asks for two male hairstyles for Mark and updated README
+    GIFs. Stable manager306384/head310488 and all sibling sessions protected.
+    Development uses a separate candidate with private cache/profile/output;
+    no automatic restart or existing-session hairstyle override.
+  2026-11-22 - Implemented and environment-qualified both original short
+    designs. Mark-only startup uses visible quiff across all views; manual
+    choices and other model defaults stay intact. Corrected script preflight,
+    native shape fitting and capture radians from observed failures.
+    No live restart, new release, frozen edition rewrite or private audio.

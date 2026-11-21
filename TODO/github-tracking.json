@@ -1022,7 +1022,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-80": {
+      "source": "TODO/80_MARK_SHORT_HAIRSTYLES.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhXslfA",
+      "number": 79,
+      "url": "https://github.com/Zanark/Verona/issues/79",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKx8Tc",
+      "title": "Two short Mark hairstyles and refreshed README motion previews",
+      "managedBody": "\n<!-- verona-workstream:vr-80 -->\nWorkstream source: `TODO/80_MARK_SHORT_HAIRSTYLES.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-80\nTitle: Two short Mark hairstyles and refreshed README motion previews\n\nStatus: DONE\nMilestone: Model-appropriate Mark presentation\nDependencies: vr-66, vr-67\n\nPurpose:\n  Give actual Mark two distinct short masculine hairstyle designs instead of\n  relying on the existing long waves/curls; refresh the README demonstrations.\n\nTasks:\n  Add original textured-quiff and classic-side-part procedural geometry.\n  Start new Mark players with short hair, preserving other models' defaults\n  and explicit live hairstyle/visibility choices.\n  Retain selected-only GPU ownership and native skull clearance fitting.\n  Qualify actual Mark across all four presentations and inspect real frames.\n  Publish both new hairstyle GIFs and refresh Mark's all-emotion overview.\n  Update chapter, guide, media provenance, journal, tracking and source.\n\nAcceptance criteria:\n  Two visibly distinct short styles have no long side/rear locks.\n  New Mark players show the short default; other heads are not recolored or\n  restarted. Existing choices stay manually available.\n  Style switching, hair hiding/restoration, jaw crop and unlit views preserve\n  bounded resources, speech and the selected native identity.\n  README showcases both styles on actual Mark, with truthful capture captions.\n  Existing hero and unrelated model/media files remain unchanged.\n\nCompletion evidence:\n  Original quiff5504vertices/10656triangles and side-part6784/13152; native\n  upper-skull fitting avoids the initially rejected oversized long-hair shell.\n  Three focused Node geometry/framing/presentation checks and final isolated\n  WebGL fixture pass, including24stable-resource synthetic style/view cases.\n  Actual Mark passes24hide/restore/view/style cases, zero GL errors, no unlit\n  normal slots, eleven emotion clips across all four presentations and zero\n  collapsed packed short-style triangles. Existing curls remain byte-identical.\n  Three GIFs:30.25s overview plus5.5s per style; all420source samples match\n  decoded timelines (360encoded frames), totaling19,576,078bytes.\n  Representative front/three-quarter, FaceMesh and neutral/Happy composites\n  agent-reviewed. No exhaustive visual review, listening or owner acceptance.\n  104CPU unit tests, nine book-production tests and192affected local links pass.\n  Capture/public provenance: docs/media/mark-vr80-provenance.json.\n  Private successful run: .local/qualification/mark-hair-80-capture-03.\n  Initial parse failure and rejected helmet/yaw run retained as diagnostics.\n  Source/repository skill, chapter/index/guide/media and living journals updated.\n  Existing branding/hero, five other models and both long-style GIFs preserved.\n\nCompletion log:\n  2026-11-22 - Owner asks for two male hairstyles for Mark and updated README\n    GIFs. Stable manager306384/head310488 and all sibling sessions protected.\n    Development uses a separate candidate with private cache/profile/output;\n    no automatic restart or existing-session hairstyle override.\n  2026-11-22 - Implemented and environment-qualified both original short\n    designs. Mark-only startup uses visible quiff across all views; manual\n    choices and other model defaults stay intact. Corrected script preflight,\n    native shape fitting and capture radians from observed failures.\n    No live restart, new release, frozen edition rewrite or private audio.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T20:57:44.519002+00:00"
+  "verifiedAt": "2026-11-21T21:35:42.331336+00:00"
 }

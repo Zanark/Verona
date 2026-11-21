@@ -7,6 +7,7 @@ const meta = { center: [0,142,-5], scale: 28, quantization: 16000 }, hashes = ne
 const inventory = [];
 for (const id of Object.keys(HAIRSTYLES).filter(id=>id!=="claire")) {
   const hair = createHairstyle(id,meta), count=hair.positions.length/3;
+  const p = i => [0,1,2].map(a=>hair.positions[i*3+a]/meta.quantization*meta.scale+meta.center[a]);
   assert(count>500 && count<17000);
   assert(hair.triangles.length/3<33000);
   const parents=Uint32Array.from({length:count},(_,i)=>i);
@@ -17,11 +18,16 @@ for (const id of Object.keys(HAIRSTYLES).filter(id=>id!=="claire")) {
   }
   const components=new Map();
   for(let i=0;i<count;i++){const r=root(i);components.set(r,(components.get(r)||0)+1);}
-  assert.equal(components.size,49,"One scalp and 48 independent spiral locks, previously 24");
-  assert.equal([...components.values()].filter(size=>size===320).length,48);
+  if (id === "curls") {
+    assert.equal(components.size,49,"One scalp and 48 independent spiral locks, previously 24");
+    assert.equal([...components.values()].filter(size=>size===320).length,48);
+  } else {
+    assert(components.size>1,`${id} needs a scalp and swept strand surfaces`);
+    assert(Array.from({length:count},(_,i)=>p(i)[1]).every(y=>y>146),
+      `${id} must remain short instead of retaining the long locks`);
+  }
   assert([...hair.triangles,...hair.edges].every(i=>i>=0 && i<count));
   let collapsed=0, faceBlocked=0;
-  const p = i => [0,1,2].map(a=>hair.positions[i*3+a]/meta.quantization*meta.scale+meta.center[a]);
   for(let i=0;i<count;i++){const [x,y,z]=p(i);if(Math.abs(x)<5 && y>139 && y<151 && z>0)faceBlocked++;}
   assert.equal(faceBlocked,0,`${id} covers the protected central face`);
   for(let i=0;i<hair.triangles.length;i+=3){
@@ -35,8 +41,8 @@ for (const id of Object.keys(HAIRSTYLES).filter(id=>id!=="claire")) {
   for(const depth of [0,1.7,6])assert(trimJawTopology(hair.positions,hair.edges,hair.triangles,meta,depth).triangles.length<=hair.triangles.length);
   inventory.push({id,vertices:count,triangles:hair.triangles.length/3});
 }
-assert.deepEqual(Object.keys(HAIRSTYLES),["claire","curls"]);
-assert.equal(hashes.size,1);
+assert.deepEqual(Object.keys(HAIRSTYLES),["claire","curls","quiff","side-part"]);
+assert.equal(hashes.size,3);
 for(const id of ["pixie","bob","angled","straight","ponytail","twins","bun","double","braid"]){
   assert.throws(()=>hairstyle(id),/supported/);
   assert.throws(()=>createHairstyle(id,meta),/supported/);
@@ -45,15 +51,31 @@ assert.throws(()=>createHairstyle("unknown",meta),/supported/);
 assert.throws(()=>createHairstyle("claire",meta),/verified mesh/);
 assert.throws(()=>createHairstyle("curls",{...meta,scale:0}),/malformed/);
 assert.throws(()=>createHairstyle("curls",{...meta,scale:.001}),/bounds/);
-const original=createHairstyle("curls",meta);
-const fitted=createHairstyle("curls",{...meta,hair:{scale:1.12}});
-assert.deepEqual(fitted.triangles,original.triangles);
-for(let i=0;i<fitted.positions.length;i++){
-  const axis=i%3,anchor=[0,148.2,-5.7][axis];
-  const world=original.positions[i]/meta.quantization*meta.scale+meta.center[axis];
-  const expected=(world-anchor)*1.12+anchor;
-  const actual=fitted.positions[i]/meta.quantization*meta.scale+meta.center[axis];
-  assert(Math.abs(actual-expected)<=meta.scale/meta.quantization*1.12);
+for(const id of ["curls","quiff","side-part"]){
+  const original=createHairstyle(id,meta);
+  const fitted=createHairstyle(id,{...meta,hair:{scale:1.12}});
+  assert.deepEqual(fitted.triangles,original.triangles);
+  for(let i=0;i<fitted.positions.length;i++){
+    const axis=i%3,anchor=[0,148.2,-5.7][axis];
+    const world=original.positions[i]/meta.quantization*meta.scale+meta.center[axis];
+    const expected=(world-anchor)*1.12+anchor;
+    const actual=fitted.positions[i]/meta.quantization*meta.scale+meta.center[axis];
+    assert(Math.abs(actual-expected)<=meta.scale/meta.quantization*1.12);
+  }
 }
 assert.throws(()=>createHairstyle("curls",{...meta,hair:{scale:NaN}}),/hair fit/);
+const skull=[];
+for(let row=0;row<20;row++)for(let col=0;col<40;col++){
+  const theta=row/19*1.45,angle=col/40*2*Math.PI;
+  skull.push(6*Math.sin(theta)*Math.sin(angle),148.2+9.5*Math.cos(theta),-3+9*Math.sin(theta)*Math.cos(angle));
+}
+const packedSkull=Int16Array.from(skull,(v,i)=>Math.round((v-meta.center[i%3])/meta.scale*meta.quantization));
+for(const id of ["quiff","side-part"]){
+  const fitted=createHairstyle(id,{...meta,hair:{scale:1.12}},packedSkull);
+  const unfitted=createHairstyle(id,{...meta,hair:{scale:1.12}});
+  const width=hair=>Math.max(...Array.from(hair.positions).filter((_,i)=>i%3===0))
+    -Math.min(...Array.from(hair.positions).filter((_,i)=>i%3===0));
+  assert(width(fitted)<width(unfitted)*.8,"Short hair must follow the narrower native skull, not the long-hair clearance sphere.");
+  assert.throws(()=>createHairstyle(id,meta,new Int16Array(3)),/upper-skull/);
+}
 console.log(JSON.stringify({deterministicDistinctHairstyles:hashes.size,inventory}));

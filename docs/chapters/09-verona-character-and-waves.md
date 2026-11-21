@@ -1,5 +1,58 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Short hair designed for Mark (vr-80)
+
+The owner rejects reusing the long, feminine-styled waves/curls as Mark's only
+hair choices. `hairstyles.mjs:createHairstyle` now adds two original short
+geometries: **Short textured quiff** and **Classic side part**. Both share a
+short ellipsoidal scalp rather than inheriting the long hanging curl locks.
+The quiff raises the front and sweeps fourteen ridges back across the crown;
+the lower side part fans eighteen ridges away from an offset part.
+Parallel-transport tube frames avoid arbitrary normal flips along the sweeps.
+
+The first actual Mark previews exposed an oversized helmet: the long-hair
+clearance sphere was too wide and too deep for a short cut. Passing the
+already-resident neutral skin to `createHairstyle` now lets `shortScalp`
+measure samples above world y149. It centers the depth/width bounds, adds
+0.25cm clearance, then expands the ellipsoid to enclose those samples with
+another2.5% margin. New short geometry maps into those independent axes before
+Int16 packing. Original waves/curls keep their previous fitting and geometry.
+Finite coordinates, upper-skull presence and representable bounds fail
+explicitly. Short sides end above the ears instead of keeping long locks
+hidden below a mask. This bounded startup/selection fit is not a per-frame
+collision solver, new neural identity, dynamic strands or learned hair motion.
+
+`FaceRenderer` receives the selected model at initialization. Only new Mark
+players select quiff and enable hair in all four presentations by default.
+All models can manually select any of the four styles; the other models'
+initial style/visibility stay unchanged. A manual selection is not replaced
+during speech or view switches. Reload restores model-specific defaults;
+existing running heads are not silently reconfigured.
+
+One original source plus one selected alternative is retained on the CPU.
+Changing styles releases replaced GPU resources; hiding hair releases its
+buffers and restores them on demand. No additional frame loop, per-frame
+geometry generation, inference or asset download is introduced.
+The jaw crop continues to affect skin, not complete hair.
+
+The refreshed Mark overview and two dedicated hairstyle GIFs use actual
+Mark neural motion and production WebGL, not Claire renamed as Mark.
+The capture's first attempted turn used degrees in a radian slider; the
+corrected previews use actual plus/minus30-degree yaw, not a rear-head cut.
+See the [media receipt](../media/README.md) for capture/encoding scope.
+Silent sampled GIFs and geometric checks are not user visual acceptance,
+hair physics or a new runtime performance measurement.
+
+![Mark with the short textured quiff](../media/mark-vr80-quiff.gif)
+
+*The raised front and fourteen swept ridges preserve a short side silhouette;
+the same native Happy greeting plays in Surface and FaceMesh.*
+
+![Mark with the classic side part](../media/mark-vr80-side-part.gif)
+
+*A lower crown and eighteen offset-part ridges give the second short design
+a distinct shape, rather than merely changing the quiff's color.*
+
 ## Shared native-head presentation and sideways cheekiness (vr-65/66)
 
 Native MPFB and actual Mark now use the same `FaceRenderer` as Claire instead

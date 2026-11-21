@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+Mark now starts with a short textured quiff, visible in all four presentations.
+A classic side part provides a second short masculine design. Both fit the
+selected native skull and remain manual choices alongside waves/curls.
+The README refreshes Mark's complete overview and adds both hairstyle GIFs;
+other models' startup defaults and existing running heads are unchanged.
+
 ## v0.3.1 - Recorded local idle effects
 
 Supplied female/male sneeze recordings replace synthesis and share the yawn's

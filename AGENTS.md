@@ -42,13 +42,17 @@ vr-21 replaces Head and neck's flat plane with a shared rest-space jaw/rear
 curve and per-view Visible neck0-6cm (default1.7). Keep conservative curved-
 primitive retention, exact shader clipping, latest-five crop buffer deletion,
 stable Dot/grid fitting and Full bust restoration; no motion/inference change.
-vr-29 supersedes vr-22's style inventory: ONLY Claire waves (original) and
-Spiral curls remain in hairstyles.mjs; curls have48 locks instead of24.
+vr-80 extends vr-29's style inventory: Claire waves (original), Spiral curls,
+Short textured quiff and Classic side part are the four choices in
+hairstyles.mjs; curls retain48 locks. New Mark players default to the short
+quiff with hair visible in all four views; other models retain their previous
+style/visibility defaults. Live choices are never overwritten by a draw or
+view switch, and running heads are not automatically restarted or reconfigured.
 Retired implementations/media are removed, not hidden or cached. Never restore
 them from historical docs/receipts without an explicit request.
 No per-frame generation or unbounded style cache.
 Keep original plus latest alternative/crop buffers, shared jaw clipping and
-default hair-free views (vr-28 adds opt-in matching hair). vr-23 adds exclusive iris/head cursor modes, bounded smoothed
+default hair-free views except Mark (vr-80). vr-23 adds exclusive iris/head cursor modes, bounded smoothed
 head rotation around the eye midpoint, exactly centered head-mode irises and
 manual XYZ offsets. Use the existing cursor IPC and one RAF; no cursor warping,
 joint/physical-gaze claim or speech change. Reload restores original/eyes mode.
@@ -60,7 +64,7 @@ projection. vr-25 adds per-view density0.5-3/gap0-80% uniforms: FaceDot now uses
 surface-sampled circular marks, not one point/native vertex. Do not inflate
 neural topology or call the grid a quad rig. Reload resets unsaved controls.
 vr-28 keeps Claire colors/hair on by default and adds reversible grayscale plus
-per-view Hair choices, default off elsewhere. One shared hairstyle uses each
+per-view Hair choices, default off elsewhere except Mark's vr-80 short default. One shared hairstyle uses each
 view's triangles/wire/dots/grid and depth occlusion, with combined bounded fits.
 Keep original plus latest alternative resources, lazy triangle-edge buffers,
 no animated-normal work in unlit views and no per-frame geometry/fit rebuild.

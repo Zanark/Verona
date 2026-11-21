@@ -27,6 +27,8 @@ def save(path, value):
 
 
 def capture(output, model):
+    subprocess.run(["node", "--check", str(Path(__file__).with_suffix(".cjs"))],
+                   check=True, cwd=ROOT)
     os.environ.update(OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2")
     from verona.desktop import ELECTRON, stop_desktop
     from verona.engine import EXPRESSIONS, FaceEngine
@@ -121,10 +123,10 @@ def capture(output, model):
     print(json.dumps({"model": model, "capture": str(output), "clips": len(clips)}))
 
 
-def encode(output):
+def encode(output, capture_name="capture.json", verification_name="gif-verification.json"):
     from PIL import Image, ImageChops
 
-    capture = json.loads((output / "capture.json").read_text(encoding="utf-8"))
+    capture = json.loads((output / capture_name).read_text(encoding="utf-8"))
     clips = capture["clips"]
     # One shared palette includes every expression, not just the first pose.
     swatch = Image.new("RGB", (240 * len(clips), 270))
@@ -146,14 +148,14 @@ def encode(output):
         with Image.open(output / filename) as image:
             return image.convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE)
 
-    target = output / f"model-vr67-{capture['model']}.gif"
+    target = output / capture.get("filename", f"model-vr67-{capture['model']}.gif")
     first = frame(entries[0])
     first.save(target, save_all=True, append_images=(frame(name) for name in entries[1:]),
                duration=durations, loop=0, optimize=True, disposal=1)
     elapsed = expected_time = 0
     changed = False
     with Image.open(target) as gif:
-        if gif.size != (960, 1080) or gif.info.get("loop") != 0:
+        if gif.size != tuple(capture["dimensions"]) or gif.info.get("loop") != 0:
             raise ValueError("Wrong gallery dimensions or loop metadata.")
         decoded_count = gif.n_frames
         index = 0
@@ -173,9 +175,10 @@ def encode(output):
             expected_time += duration
         if elapsed != expected_time or index + 1 != decoded_count or not changed:
             raise ValueError("GIF lost timeline duration, samples or visible animation.")
-    save(output / "gif-verification.json", {
+    save(output / verification_name, {
         "model": capture["model"], "filename": target.name,
-        "dimensions": [960, 1080], "sourceFrames": len(entries),
+        **({"hairstyle": capture["hairstyle"]} if "hairstyle" in capture else {}),
+        "dimensions": capture["dimensions"], "sourceFrames": len(entries),
         "encodedFrames": decoded_count, "durationMs": elapsed,
         "everySourceSampleMatchesEncodedTimeline": True,
         "bytes": target.stat().st_size, "sha256": hashlib.sha256(target.read_bytes()).hexdigest(),
@@ -184,6 +187,8 @@ def encode(output):
         "encoderSourceSha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
     })
     print(json.dumps({"gif": str(target), "bytes": target.stat().st_size, "durationMs": elapsed}))
+    for hair in capture.get("hairstyles", []):
+        encode(output, hair["capture"], hair["verification"])
 
 
 def main():

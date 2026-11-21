@@ -1,6 +1,8 @@
 export const HAIRSTYLES = Object.freeze({
   claire: Object.freeze({ name: "Claire waves (original)", fit: 1 }),
   curls: Object.freeze({ name: "Spiral curls", fit: 1 }),
+  quiff: Object.freeze({ name: "Short textured quiff", fit: 1 }),
+  "side-part": Object.freeze({ name: "Classic side part", fit: 1 }),
 });
 
 export function hairstyle(id) {
@@ -13,7 +15,26 @@ const smooth = (a, b, x) => {
   return t * t * (3 - 2 * t);
 };
 
-export function createHairstyle(id, meta) {
+function shortScalp(meta, neutral) {
+  if (!neutral.length || neutral.length % 3) throw new Error("Malformed short-hair skull coordinates.");
+  const points = [];
+  const low = [Infinity, Infinity, Infinity], high = [-Infinity, -Infinity, -Infinity];
+  for (let i = 0; i < neutral.length; i += 3) {
+    const p = [0, 1, 2].map(a => neutral[i + a] / meta.quantization * meta.scale + meta.center[a]);
+    if (!p.every(Number.isFinite)) throw new Error("Short-hair fitting requires finite skull coordinates.");
+    if (p[1] < 149) continue;
+    points.push(p);
+    for (let a = 0; a < 3; a++) { low[a] = Math.min(low[a], p[a]); high[a] = Math.max(high[a], p[a]); }
+  }
+  if (!points.length) throw new Error("Short-hair fitting requires upper-skull samples.");
+  const center = [(low[0] + high[0]) / 2, 148.2, (low[2] + high[2]) / 2];
+  const axes = [(high[0] - low[0]) / 2 + .25, high[1] - center[1] + .25, (high[2] - low[2]) / 2 + .25];
+  let radius = 1;
+  for (const p of points) radius = Math.max(radius, Math.hypot(...p.map((v, a) => (v - center[a]) / axes[a])));
+  return { center, axes: axes.map(v => v * radius * 1.025) };
+}
+
+export function createHairstyle(id, meta, neutral) {
   hairstyle(id);
   if (id === "claire") throw new Error("Original Claire hair comes from the verified mesh, not a reconstruction.");
   if (meta.center?.length !== 3 || !meta.center.every(Number.isFinite)
@@ -22,6 +43,7 @@ export function createHairstyle(id, meta) {
     throw new Error("Cannot build hair with malformed mesh coordinates.");
   }
   const positions = [], edges = [], triangles = [];
+  const shortFit = id !== "curls" && neutral ? shortScalp(meta, neutral) : null;
   const vertex = (x, y, z) => positions.push(x, y, z);
   const connect = (offset, rows, columns, contourEvery = 8, reverse = false) => {
     for (let row = 0; row < rows - 1; row++) for (let column = 0; column < columns; column++) {
@@ -56,30 +78,75 @@ export function createHairstyle(id, meta) {
     connect(offset, sections, sides, 4, true);
   };
   const columns = 64, rows = 16;
-  for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
-    const t = row / (rows - 1), a = 2 * Math.PI * col / columns, front = smooth(0, 1, Math.max(0, Math.cos(a)));
-    const limit = 1.63 - .58 * front + .10 * Math.sin(a) * front;
-    const theta = (.012 + .988 * t) * limit;
-    vertex(9.5 * Math.sin(theta) * Math.sin(a) - .5 * (1 - t) ** 2,
-      148.2 + 11 * Math.cos(theta), -5.7 + 11.6 * Math.sin(theta) * Math.cos(a));
-  }
-  connect(0, rows, columns);
-  const count = 48;
-  for (let lock = 0; lock < count; lock++) {
-    const a = .88 + (2 * Math.PI - 1.76) * lock / (count - 1);
-    tube(t => {
-      const theta = .72 + .83 * smooth(0, .35, t), fall = smooth(.25, 1, t);
-      const phase = t * Math.PI * 9 + lock * .8, curl = 1.05 * smooth(.2, .4, t);
-      const radius = 9.65 * Math.sin(theta) + .3 * fall;
-      return [radius * Math.sin(a) + curl * Math.cos(phase),
-        148.2 + 11 * Math.cos(theta) - 18 * fall,
-        -5.7 + 11.8 * Math.sin(theta) * Math.cos(a) + curl * Math.sin(phase)];
-    }, t => .55 * (.35 + .65 * smooth(0, .15, t)) * (1 - .6 * smooth(.85, 1, t)));
+  if (id !== "curls") {
+    const point = (theta, angle) => {
+      const x = Math.sin(theta) * Math.sin(angle), z = Math.sin(theta) * Math.cos(angle);
+      const top = Math.max(0, Math.cos(theta));
+      const lift = id === "quiff"
+        ? 1.9 * Math.exp(-(((theta - .62) / .48) ** 2)) * smooth(0, .8, Math.cos(angle))
+        : .7 * smooth(-.3, .7, x) * top;
+      return [9.5 * x, 148.2 + 11 * Math.cos(theta) + lift, -5.7 + 11.6 * z];
+    };
+    for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
+      const t = row / (rows - 1), a = 2 * Math.PI * col / columns;
+      const front = smooth(0, 1, Math.max(0, Math.cos(a)));
+      vertex(...point((.012 + .988 * t) * (1.45 - .40 * front), a));
+    }
+    connect(0, rows, columns, 4);
+    const swept = (x, z, t) => {
+      const y = Math.sqrt(Math.max(0, 1 - x * x - z * z));
+      const p = point(Math.acos(y), Math.atan2(x, z));
+      p[1] += .12 + .25 * Math.sin(Math.PI * t);
+      return p;
+    };
+    if (id === "quiff") {
+      for (let lock = 0; lock < 14; lock++) {
+        const x = -.7 + 1.4 * lock / 13;
+        tube(t => {
+          const across = x + .055 * Math.sin(Math.PI * t);
+          const arc = 1.02 - (1.6 + .12 * Math.sin(lock * 1.7)) * t;
+          return swept(across, Math.sqrt(1 - across * across) * Math.sin(arc), t);
+        }, t => .42 * (.12 + .88 * Math.sin(Math.PI * t) ** .45));
+      }
+    } else {
+      for (const side of [-1, 1]) for (let lock = 0; lock < 9; lock++) {
+        tube(t => {
+          const z = .66 - 1.32 * lock / 8 - .08 * Math.sin(Math.PI * t);
+          const start = -.23 + side * .018;
+          const x = start * (1 - t) + side * .965 * Math.sqrt(1 - z * z) * t;
+          return swept(x, z, t);
+        }, t => .30 * (.12 + .88 * Math.sin(Math.PI * t) ** .45));
+      }
+    }
+  } else {
+    for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
+      const t = row / (rows - 1), a = 2 * Math.PI * col / columns, front = smooth(0, 1, Math.max(0, Math.cos(a)));
+      const limit = 1.63 - .58 * front + .10 * Math.sin(a) * front;
+      const theta = (.012 + .988 * t) * limit;
+      vertex(9.5 * Math.sin(theta) * Math.sin(a) - .5 * (1 - t) ** 2,
+        148.2 + 11 * Math.cos(theta), -5.7 + 11.6 * Math.sin(theta) * Math.cos(a));
+    }
+    connect(0, rows, columns);
+    const count = 48;
+    for (let lock = 0; lock < count; lock++) {
+      const a = .88 + (2 * Math.PI - 1.76) * lock / (count - 1);
+      tube(t => {
+        const theta = .72 + .83 * smooth(0, .35, t), fall = smooth(.25, 1, t);
+        const phase = t * Math.PI * 9 + lock * .8, curl = 1.05 * smooth(.2, .4, t);
+        const radius = 9.65 * Math.sin(theta) + .3 * fall;
+        return [radius * Math.sin(a) + curl * Math.cos(phase),
+          148.2 + 11 * Math.cos(theta) - 18 * fall,
+          -5.7 + 11.8 * Math.sin(theta) * Math.cos(a) + curl * Math.sin(phase)];
+      }, t => .55 * (.35 + .65 * smooth(0, .15, t)) * (1 - .6 * smooth(.85, 1, t)));
+    }
   }
   const factor = meta.hair?.scale ?? 1, hairAnchor = [0, 148.2, -5.7];
   if (!Number.isFinite(factor) || factor < 1) throw new Error("Malformed native hair fit.");
   const packed = Int16Array.from(positions, (value, i) => {
-    if (factor !== 1) {
+    if (shortFit) {
+      const axis = i % 3;
+      value = shortFit.center[axis] + (value - hairAnchor[axis]) / [9.5, 11, 11.6][axis] * shortFit.axes[axis];
+    } else if (factor !== 1) {
       const anchor = hairAnchor[i % 3];
       value = (value - anchor) * factor + anchor;
     }
