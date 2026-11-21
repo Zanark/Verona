@@ -75,6 +75,16 @@ Blender study. Do not restore either from historical records or Git.
 Five named variants and four human presentations remain. Keep Claire and the
 Claire-only GLB export; do not confuse FaceMesh's desired red mechanical irises
 with the retired character. No owner/sibling runtime restart is authorized.
+vr-57 supersedes the older original-plus-alternative GPU retention guidance:
+keep only selected view/crop and visible hairstyle buffers, releasing inactive
+indices and hidden hair. Keep original source data, control choices and exact
+current GPU motion for restoration. Unlit views retain no CPU motion copy or
+animated-normal slots; lit Claire reads current GPU samples back once with
+explicit error handling and two bounded slots. No regeneration or quality cut.
+An empty manager imports no numerical/inference engine; each actual warm head
+still owns one required Claire speech model and only its selected adapter.
+Chapter07 records measured startup peaks, GPU-buffer bytes and qualification
+limits; do not turn these into whole-app or eight-head performance guarantees.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.

@@ -6,6 +6,7 @@ import threading
 import unittest
 from unittest.mock import patch
 import wave
+import weakref
 import xml.etree.ElementTree as ET
 
 from verona import speech
@@ -27,6 +28,42 @@ createNode transform -n "unrelated";
 
 
 class MeshTests(unittest.TestCase):
+    def test_startup_releases_full_source_pca_before_creating_inference_session(self):
+        mean = np.zeros((61520, 3), dtype=np.float32)
+        mean[:, 0] = np.linspace(-1, 1, len(mean))
+        references = {}
+
+        class Archive:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+            def __getitem__(self, key):
+                if key == "shapes_mean_skin":
+                    return mean
+                source = np.broadcast_to(np.zeros(1, dtype=np.float32), (140, 61520, 3))
+                references["source"] = weakref.ref(source)
+                return source
+
+        def create_session(path):
+            self.assertIsNone(references["source"]())
+            return object()
+
+        empty = np.empty((0, 3), dtype="<u4")
+        with (patch("verona.engine.verify"),
+              patch("verona.engine.np.load", return_value=Archive()),
+              patch("verona.engine.claire_topology", return_value=(
+                  np.arange(15375), np.zeros((30759, 2), dtype="<u4"),
+                  np.zeros((30746, 3), dtype="<u4"), 0)),
+              patch("verona.engine.conditioning", return_value=np.zeros((1, 1, 26))),
+              patch("verona.engine.claire_hair", return_value=(np.zeros((1, 3)), empty, empty)),
+              patch("verona.engine.claire_eyes", return_value=(np.zeros((1, 3)), empty)),
+              patch("verona.engine.create_cpu_session", side_effect=create_session)):
+            engine = FaceEngine()
+        self.assertEqual(engine.basis.shape, (140, 15375, 3))
+
     def test_rest_sculpt_changes_contour_but_preserves_lips_eye_centers_and_back(self):
         rest = np.array([[6, 138, 2], [4, 144, 3], [0, 140.15, 4], [2, 140, 3],
                          [3, 147.55, 3], [-3, 147.55, 3], [5, 144, -8]], dtype=np.float32)

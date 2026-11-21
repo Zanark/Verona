@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Current runtime efficiency (vr-57):** [chapter07's resource audit](chapters/07-hazel-claire-and-performance.md#selected-head-resource-ownership-vr-57)
+traces selected-head loading, manager imports, peak PCA lifetime, lazy GPU
+geometry/motion and measured limits. FaceMesh still needs Claire's speech
+model; a model catalog does not mean every model is loaded.
+
 **M1 / v0.1.0** freezes the functional local speaking-face workspace.
 [Release notes](releases/v0.1.0.md) separate delivered features, experimental
 identities and remaining accuracy/listening gates. Chapter10 explains the

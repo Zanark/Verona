@@ -12,8 +12,6 @@ import xml.etree.ElementTree as ET
 
 os.environ["OPENBLAS_NUM_THREADS"] = "2"
 os.environ["OMP_NUM_THREADS"] = "2"
-import numpy as np
-
 from scripts.fetch_cpu_model import ROOT
 
 
@@ -94,6 +92,8 @@ def speech_markup(text: str, culture: str, settings: VoiceSettings) -> str:
 def shape_tone(raw: bytes, bass: int, treble: int) -> bytes:
     if bass == treble == 0:
         return raw
+    import numpy as np
+
     samples = np.frombuffer(raw, dtype="<i2").astype(np.float64) / 32768
     # Separate the clip's ends before applying the FFT-domain shelves.
     padding = SAMPLE_RATE // 2

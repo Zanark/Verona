@@ -161,11 +161,14 @@ try {
           belowColored++;if(belowExamples.length<8)belowExamples.push({x,y,minimum,worldX,color:Array.from(after.slice(i,i+4))});
         }
       }
-      change("full");const restored=pixels();let roundTrip=0;
-      for(let i=0;i<before.length;i++)if(before[i]!==restored[i])roundTrip++;
+      change("full");const restored=pixels();let roundTrip=0;const roundTripExamples=[];
+      for(let i=0;i<before.length;i++)if(before[i]!==restored[i]){
+        roundTrip++;
+        if(roundTripExamples.length<8)roundTripExamples.push({byte:i,before:before[i],after:restored[i]});
+      }
       g.drawElements=draw;
       change("head-neck");
-      return {removed,aboveChanged,aboveMaxChannelDelta,aboveExamples,belowColored,belowExamples,roundTrip,full,cropped,cutRow,error:g.getError(),
+      return {removed,aboveChanged,aboveMaxChannelDelta,aboveExamples,belowColored,belowExamples,roundTrip,roundTripExamples,full,cropped,cutRow,error:g.getError(),
         description:$("geometry-details").textContent};
     })()`);
     report.framing=data;
@@ -253,7 +256,7 @@ try {
       const pixels=()=>{const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;};
       const baseline=pixels(),source=a.src,time=a.currentTime,create=g.createBuffer,remove=g.deleteBuffer,live=new Set();
       let created=0,deleted=0,peak=0;
-      g.createBuffer=function(){const b=create.call(this);live.add(b);created++;peak=Math.max(peak,live.size);return b;};
+      g.createBuffer=function(){const b=create.call(this);live.add(b);created++;peak=Math.max(peak,created-deleted);return b;};
       g.deleteBuffer=function(b){live.delete(b);deleted++;return remove.call(this,b);};
       const styles=Array.from($("hairstyle").options,o=>({id:o.value,name:o.textContent})),results=[],images=[];
       for(const yaw of [0,.8]){
@@ -283,7 +286,8 @@ try {
     for(let i=0;i<images.length;i++)await fs.writeFile(path.join(output,`hairstyles-${i?"turned":"front"}.png`),Buffer.from(images[i].split(",")[1],"base64"));
     assert.deepEqual(data.styles.map(s=>s.id),["claire","curls"]);assert(data.results.every(r=>r.error===0));
     for(const yaw of [0,.8])assert.equal(new Set(data.results.filter(r=>r.yaw===yaw).map(r=>r.pixelHash)).size,2);
-    assert.equal(data.remaining,0);assert(data.peak<=14,JSON.stringify(receipt));assert.equal(data.difference,0);
+    // Re-created original buffers have new identities; balanced ownership is the invariant.
+    assert.equal(data.created,data.deleted);assert(data.peak<=14,JSON.stringify(receipt));assert.equal(data.difference,0);
     assert(!data.hidden && data.disabled && data.retained==="curls" && data.sameSource && data.sameTime);
   });
   await check("Presentation views preserve Claire, occlude dots, bound detail buffers and keep the same clip", async () => {

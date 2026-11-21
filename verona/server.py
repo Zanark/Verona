@@ -1,5 +1,7 @@
 """Loopback-only bounded prototype HTTP service, not a production web server."""
 
+from __future__ import annotations
+
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from dataclasses import asdict
 import hashlib
@@ -9,8 +11,10 @@ import secrets
 import sys
 import threading
 import time
+from typing import TYPE_CHECKING
 
-from .engine import FaceEngine, expression_condition, validate_expression_gain
+if TYPE_CHECKING:
+    from .engine import FaceEngine
 from .speech import (
     MAX_SECONDS, MAX_TEXT, VoiceSettings, installed_voices, preferred_voice, synthesize, validate_text,
 )
@@ -228,6 +232,8 @@ class Handler(BaseHTTPRequestHandler):
             self.json_reply(409, {"error": "One local clip is already generating; wait for it to finish."})
             return
         try:
+            from .engine import expression_condition, validate_expression_gain
+
             started = time.perf_counter()
             raw = self.rfile.read(length)
             if len(raw) != length:
@@ -299,6 +305,8 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def create_state() -> State:
+    from .engine import FaceEngine
+
     voices = installed_voices()
     print("Verifying local model/topology and preparing CPU geometry...", flush=True)
     return State(FaceEngine(), voices)

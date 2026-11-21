@@ -1,6 +1,41 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-57 selected-head resource audit and measured reductions
+Cause: owner worries all models load while using FaceMesh and requests a complete
+performance audit without loss of quality. Trace actual manager/engine/adapter/
+browser/native ownership instead of treating catalog entries as loaded weights.
+Finding: each explicit warm head needs one Claire model; FaceMesh is its view,
+not a separate network. Only selected optional adapter runs. Empty manager
+needlessly imported numerical/inference DLLs through reused server/speech code.
+Action: lazy engine/NumPy import boundaries; release full source PCA after its
+selected copy and before ORT startup. Release inactive full/front/crop geometry,
+hidden/original-backup hair GPU buffers, unused optical indices and unlit normal
+slots. MPFB wire no longer allocates/uploads unused normals. Unlit motion keeps
+GPU samples only; switching to lit Claire reads those exact samples back once.
+Tradeoff: rebuild on selection/readback may pause; original source remains for
+restoration. Two lazy normal slots, current clip/audio clock, math, thirty-frame
+motion, threading, speech caches, cancellation and ownership remain unchanged.
+Evidence: two-process baseline/candidate manager private68.69-70.04 ->
+18.82-18.95MiB; head startup peak386.78-387.74 ->288.11-288.46MiB.
+Ready head working set not reduced100MiB; synthetic latency noisy/no speed claim.
+Actual Claire repeated-view hair-off FaceMesh GPU buffers3,055,342 ->754,894bytes
+(75.3%), not total VRAM. Motion/mesh hashes and four human/two MPFB default canvas
+pixels exact; repeated styles/crops/views return same bytes/no GL errors.
+82CPU/focused JS and three Electron DOM/layout suites pass. Hardware browser
+color/playback02 and final native five-variant sessions03 pass, including two
+independent clocks/cancel, CLI, external survival and exact-parent-death cleanup.
+Failures: strict legacy crop-restoration gate differs2-5channelbytes and also
+fails against untouched4c5a8dd; software retry fails iris-spoke count. Keep both,
+do not weaken pixel/optical thresholds. Native02 structural-close timeout also
+retained;03 passes unchanged threshold, cause unproven. Add timeout inventory
+diagnostic, not speculative shutdown changes. No full-browser-green claim.
+Final isolated probe writes static actual-mesh fixture and reproduces all hashes.
+Document mechanisms/limits in chapter07/10, guide/index/contract and skill copies.
+No owner/sibling head driven/restarted, model/download/dependency/device/new
+persistent speech cache/book edition/release/deployment or accuracy acceptance.
+Original vr57/#56/Project15 mapping retained; preserve all55older records.
+
 2026-11-21 - vr-56 full-width README gallery without table borders
 Cause: owner wants gallery tables to occupy the complete README content width
 with no visible borders. A width attribute alone cannot remove GitHub's table

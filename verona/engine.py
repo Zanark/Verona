@@ -85,6 +85,7 @@ class FaceEngine:
             if basis.shape != (140, 61520, 3):
                 raise ValueError("Pinned Claire PCA dimensions do not match.")
             self.basis = np.ascontiguousarray(basis[:, self.selected, :])
+            del basis
         self.center = (neutral.min(axis=0) + neutral.max(axis=0)) / 2
         self.scale = float(np.max(np.ptp(neutral, axis=0)) / 2)
         self.condition = conditioning(DESTINATION / "implicit_emo_db.npz", "cp1_neutral", 212)

@@ -5,6 +5,14 @@ study after M1. Five named variants and four human views remain. Older six-model
 qualification below describes its original revision, not today's selector.
 No live manager/head is restarted to apply source work.
 
+**vr-57 resource update:** [chapter07](07-hazel-claire-and-performance.md#selected-head-resource-ownership-vr-57)
+audits this manager/head/browser chain. The manager no longer imports the
+numerical engine; heads keep one required Claire model and only their chosen
+adapter. Inactive GPU topology, hidden hair and unlit CPU motion/normal storage
+are released rather than kept for every presentation. Speech ownership, the
+eight-head safety cap, conditional cursor polling and parent watches remain
+unchanged. Measured memory savings are not a concurrent-head capacity promise.
+
 ## Freezing a functional milestone without changing a live workspace (vr-52)
 
 M1/v0.1.0 packages the existing runtime, not a new inference or UI implementation.

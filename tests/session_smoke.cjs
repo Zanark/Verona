@@ -19,6 +19,8 @@ app.whenReady().then(async()=>{
   async function wait(fn,label,seconds=75) {
     const until=Date.now()+seconds*1000;
     while(Date.now()<until){const result=await fn();if(result)return result;await pause(100);}
+    try {report.timeoutInventory=await command({action:"list"});}
+    catch(error){report.timeoutInventoryError=String(error);}
     throw new Error("Timed out: "+label);
   }
   const list=async()=> (await command({action:"list"})).sessions;

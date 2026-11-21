@@ -351,31 +351,21 @@ class FaceRenderer {
     this.triangleData = new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3);
     this.neutral = this.buffer(gl.ARRAY_BUFFER, this.neutralData);
     this.neutralNormals = this.buffer(gl.ARRAY_BUFFER, surfaceNormals(this.neutralData,this.triangleData));
-    this.normalScratch = new Float32Array(meta.vertices * 3);
-    this.normalSlots = [0,1].map(() => ({
-      frame:-1, buffer:this.buffer(gl.ARRAY_BUFFER,this.normalScratch,gl.DYNAMIC_DRAW),
-    }));
-    this.edges = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.edgeOffset, meta.edges * 2));
-    this.triangles = this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3));
+    this.normalSlots = [];
+    this.skinEdges = new Uint32Array(binary, meta.edgeOffset, meta.edges * 2);
     this.fullSkin = {
-      triangles: this.triangles, edges: this.edges, triangleData: this.triangleData,
+      triangleData: this.triangleData,
       triangleCount: meta.triangles, edgeCount: meta.edges, vertices: null,
     };
-    this.skinEdges = new Uint32Array(binary, meta.edgeOffset, meta.edges * 2);
     const hair = meta.hair;
     this.hair = {
-      positions: this.buffer(gl.ARRAY_BUFFER, new Int16Array(binary, hair.positionOffset, hair.vertices * 3)),
-      edges: this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, hair.edgeOffset, hair.edges * 2)),
-      triangles: this.buffer(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3)),
       triangleCount: hair.triangles, edgeCount: hair.edges,
     };
     const hairData = new Int16Array(binary,hair.positionOffset,hair.vertices*3);
     this.hairData = hairData;
     this.hairEdges = new Uint32Array(binary, hair.edgeOffset, hair.edges * 2);
     this.hairTriangles = new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3);
-    this.hair.normals = this.buffer(gl.ARRAY_BUFFER,surfaceNormals(hairData,
-      new Uint32Array(binary,hair.triangleOffset,hair.triangles*3)));
-    this.originalHair = { surface: this.hair, positions: this.hairData, edges: this.hairEdges, triangles: this.hairTriangles };
+    this.originalHair = { positions: this.hairData, edges: this.hairEdges, triangles: this.hairTriangles };
     this.hairStyle = "claire";
     const eyes = meta.eyes;
     const eyeData = new Int16Array(binary,eyes.positionOffset,eyes.vertices*3);
@@ -402,6 +392,7 @@ class FaceRenderer {
     this.headAngles = [0, 0];
     this.patterns = { facedot: [1, .6], uniform: [1, 0] };
     this.setAppearance(appearance.read());
+    this.setPresentation(desktop?.agentEnabled ? "facemesh" : "claire");
     this.lastDraw = performance.now();
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
@@ -423,6 +414,30 @@ class FaceRenderer {
     return buffer;
   }
 
+  releaseBuffers(surface, names) {
+    if (!surface) return;
+    for (const name of names) {
+      if (surface[name]) this.gl.deleteBuffer(surface[name]);
+      delete surface[name];
+    }
+  }
+
+  ensureHair() {
+    if (this.hair.positions) return;
+    Object.assign(this.hair, {
+      positions: this.buffer(this.gl.ARRAY_BUFFER, this.hairData),
+      normals: this.buffer(this.gl.ARRAY_BUFFER, surfaceNormals(this.hairData, this.hairTriangles)),
+      edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, this.hairEdges),
+      triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, this.hairTriangles),
+    });
+  }
+
+  releaseNormalSlots() {
+    for (const slot of this.normalSlots) this.gl.deleteBuffer(slot.buffer);
+    this.normalSlots = [];
+    this.normalScratch = null;
+  }
+
   setAppearance(colors) {
     this.colors = colors;
     this.rgbColors = Object.fromEntries(APPEARANCE_KEYS.map(key =>
@@ -435,7 +450,9 @@ class FaceRenderer {
   setFraming(value, depth = this.neckDepths[this.presentationId], refit = true) {
     if (value !== "full" && value !== "head-neck") throw new Error("Choose a supported face framing.");
     const headOnly = value === "head-neck";
-    if (headOnly && this.neck?.depth !== depth) {
+    if (this.hairVisible[this.presentationId]) this.ensureHair();
+    if (headOnly && (this.neck?.depth !== depth
+        || Boolean(this.neck?.hair) !== this.hairVisible[this.presentationId])) {
       const next = this.createNeck(depth, this.hairData, this.hairEdges, this.hairTriangles, this.hair);
       this.deleteNeck();
       this.neck = next;
@@ -443,26 +460,36 @@ class FaceRenderer {
     this.headOnly = headOnly;
     this.skin = headOnly ? this.neck.skin : this.fullSkin;
     this.activeHair = headOnly ? this.neck.hair : this.hair;
+    if (headOnly) this.releaseBuffers(this.fullSkin, ["triangles", "edges"]);
+    else {
+      if (!this.fullSkin.triangles) {
+        this.fullSkin.triangles = this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, this.triangleData);
+        this.fullSkin.edges = this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, this.skinEdges);
+      }
+      this.deleteNeck();
+    }
     for (const slot of this.normalSlots) slot.frame = -1;
     if (refit) this.updateFit();
   }
 
   createNeck(depth, positions, edges, triangles, surface) {
     const skin = trimJawTopology(this.neutralData, this.skinEdges, this.triangleData, this.meta, depth);
-    const hair = trimJawTopology(positions, edges, triangles, this.meta, depth);
+    const hair = this.hairVisible[this.presentationId]
+      ? trimJawTopology(positions, edges, triangles, this.meta, depth) : null;
     const upload = data => ({
       triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.triangles),
       edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.edges),
       triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
     });
     return { depth, skin: { ...upload(skin), triangleData: skin.triangles, vertices: skin.vertices,
-      points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) }, hair: { ...surface, ...upload(hair), vertices: hair.vertices } };
+      points: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, skin.vertices) },
+      hair: hair ? { ...surface, ...upload(hair), vertices: hair.vertices } : null };
   }
 
   deleteNeck() {
     if (!this.neck) return;
     for (const surface of [this.neck.skin, this.neck.hair]) {
-      for (const name of ["triangles", "edges"]) this.gl.deleteBuffer(surface[name]);
+      this.releaseBuffers(surface, ["triangles", "edges", "meshEdges"]);
     }
     this.gl.deleteBuffer(this.neck.skin.points);
     this.neck = null;
@@ -472,25 +499,23 @@ class FaceRenderer {
     hairstyle(id);
     if (id === this.hairStyle) return;
     const data = id === "claire" ? this.originalHair : createHairstyle(id, this.meta);
-    const surface = id === "claire" ? data.surface : {
+    const surface = {
+      triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
+    };
+    if (this.hairVisible[this.presentationId]) Object.assign(surface, {
       positions: this.buffer(this.gl.ARRAY_BUFFER, data.positions),
       normals: this.buffer(this.gl.ARRAY_BUFFER, surfaceNormals(data.positions, data.triangles)),
       triangles: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.triangles),
       edges: this.buffer(this.gl.ELEMENT_ARRAY_BUFFER, data.edges),
-      triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2,
-    };
+    });
     let nextNeck;
     try { nextNeck = this.headOnly ? this.createNeck(this.neck.depth, data.positions, data.edges, data.triangles, surface) : null; }
     catch (error) {
-      if (id !== "claire") for (const name of ["positions", "normals", "triangles", "edges"]) this.gl.deleteBuffer(surface[name]);
+      this.releaseBuffers(surface, ["positions", "normals", "triangles", "edges"]);
       throw error;
     }
     this.deleteNeck();
-    if (this.hair !== this.originalHair.surface) {
-      for (const name of ["positions", "normals", "triangles", "edges", "meshEdges"]) {
-        if (this.hair[name]) this.gl.deleteBuffer(this.hair[name]);
-      }
-    }
+    this.releaseBuffers(this.hair, ["positions", "normals", "triangles", "edges", "meshEdges"]);
     this.hair = surface; this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
     this.hairStyle = id; this.neck = nextNeck;
     this.hairFits = {};
@@ -502,8 +527,10 @@ class FaceRenderer {
   }
 
   setHairVisible(visible) {
+    if (visible === this.hairVisible[this.presentationId]) return;
     this.hairVisible[this.presentationId] = visible;
-    this.updateFit();
+    this.deleteNeck();
+    this.setPresentation(this.presentationId);
   }
 
   setNeckDepth(depth) {
@@ -565,14 +592,30 @@ class FaceRenderer {
 
   setPresentation(id) {
     const view = presentation(id);
+    this.presentationId = id;
+    this.view = view;
     if (view.style === 1) {
       this.setDetail(this.detail);
       this.skin = this.front;
       this.headOnly = false;
       this.activeHair = this.hair;
+      this.deleteNeck();
+      this.releaseBuffers(this.fullSkin, ["triangles", "edges"]);
     } else this.setFraming(this.framings[id], this.neckDepths[id], false);
-    this.presentationId = id;
-    this.view = view;
+    if (view.style !== 1 && this.front) {
+      this.releaseBuffers(this.front, ["triangles", "edges", "points"]);
+      this.front = null;
+    }
+    if (this.hairVisible[id]) this.ensureHair();
+    else this.releaseBuffers(this.hair, ["positions", "normals", "triangles", "edges", "meshEdges"]);
+    if (view.style !== 1) {
+      this.releaseBuffers(this.eyes, ["edges"]);
+      this.releaseBuffers(this.hair, ["meshEdges"]);
+    }
+    if (view.style !== 0) {
+      this.releaseNormalSlots();
+      this.motionData = null;
+    }
     this.updateFit();
     for (const slot of this.normalSlots) slot.frame = -1;
   }
@@ -663,7 +706,7 @@ class FaceRenderer {
     }
     this.clearClip();
     this.motion = this.buffer(this.gl.ARRAY_BUFFER, new Int16Array(binary));
-    this.motionData = new Int16Array(binary);
+    this.motionData = this.view.style === 0 ? new Int16Array(binary) : null;
     this.frames = metadata.frames;
   }
 
@@ -672,7 +715,7 @@ class FaceRenderer {
     this.motion = null;
     this.frames = 0;
     this.motionData = null;
-    for (const slot of this.normalSlots) slot.frame = -1;
+    this.releaseNormalSlots();
   }
 
   attribute(name, buffer, type, offset = 0) {
@@ -684,6 +727,20 @@ class FaceRenderer {
 
   normalBuffer(frame) {
     if (!this.motion) return this.neutralNormals;
+    if (!this.motionData) {
+      const data = new Int16Array(this.frames * this.meta.vertices * 3);
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.motion);
+      this.gl.getBufferSubData(this.gl.ARRAY_BUFFER, 0, data);
+      const error = this.gl.getError();
+      if (error !== this.gl.NO_ERROR) throw new Error(`Cannot restore motion for lit rendering (WebGL error ${error}).`);
+      this.motionData = data;
+    }
+    if (!this.normalSlots.length) {
+      this.normalScratch = new Float32Array(this.meta.vertices * 3);
+      this.normalSlots = [0, 1].map(() => ({
+        frame: -1, buffer: this.buffer(this.gl.ARRAY_BUFFER, this.normalScratch, this.gl.DYNAMIC_DRAW),
+      }));
+    }
     let slot=this.normalSlots.find(item=>item.frame===frame);
     if (!slot) {
       slot=this.normalSlots[frame%2];

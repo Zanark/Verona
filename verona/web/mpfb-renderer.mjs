@@ -66,13 +66,14 @@ export function createStudyRenderer(canvas, model, shaded, finish = true, transp
     });
   }
   const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
-  const positions = gl.createBuffer(), normals = gl.createBuffer(), indices = gl.createBuffer();
-  for (const [name, buffer] of [["position",positions],["normal",normals]]) {
+  const positions = gl.createBuffer(), normals = shaded ? gl.createBuffer() : null, indices = gl.createBuffer();
+  for (const [name, buffer] of [["position",positions],...(shaded ? [["normal",normals]] : [])]) {
     gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
     gl.bufferData(gl.ARRAY_BUFFER,model.rest.length*4,gl.DYNAMIC_DRAW);
     const attribute=gl.getAttribLocation(program,name);
     gl.enableVertexAttribArray(attribute);gl.vertexAttribPointer(attribute,3,gl.FLOAT,false,0,0);
   }
+  if (!shaded) gl.disableVertexAttribArray(gl.getAttribLocation(program,"normal"));
   const restBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,restBuffer);
   gl.bufferData(gl.ARRAY_BUFFER,Float32Array.from(model.rest),gl.STATIC_DRAW);
   const restAttribute=gl.getAttribLocation(program,"restPosition");
@@ -132,7 +133,7 @@ export function createStudyRenderer(canvas, model, shaded, finish = true, transp
   gl.enableVertexAttribArray(attribute);gl.vertexAttribPointer(attribute,3,gl.FLOAT,false,0,0);
   gl.disableVertexAttribArray(gl.getAttribLocation(program,"normal"));
   gl.bindVertexArray(vao);
-  const normalData=new Float32Array(model.rest.length);
+  const normalData=shaded ? new Float32Array(model.rest.length) : null;
   const keys=["mesh","eyes","hair","lips","eyebrows"];
   let colors=Object.fromEntries(keys.map(key=>[key,null])),rgb={};
 
@@ -160,7 +161,7 @@ export function createStudyRenderer(canvas, model, shaded, finish = true, transp
       }
     }
     gl.bindBuffer(gl.ARRAY_BUFFER,positions);gl.bufferSubData(gl.ARRAY_BUFFER,0,pose);
-    gl.bindBuffer(gl.ARRAY_BUFFER,normals);gl.bufferSubData(gl.ARRAY_BUFFER,0,normalData);
+    if(shaded){gl.bindBuffer(gl.ARRAY_BUFFER,normals);gl.bufferSubData(gl.ARRAY_BUFFER,0,normalData);}
     gl.uniform1i(uniforms.mode,shaded?1:0);
     gl.uniform3fv(uniforms.color,rgb.mesh||[.67,.72,.74]);
     gl.colorMask(shaded,shaded,shaded,shaded);

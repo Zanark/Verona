@@ -1,5 +1,9 @@
 # 07 - Editable Hazel, matching Claire and measured performance
 
+**Current resource contract:** [vr-57 below](#selected-head-resource-ownership-vr-57)
+audits the present five-head/four-view runtime. The vr-08 measurements that
+follow remain historical, not current latency or memory promises.
+
 Presentation note: [chapter 08](08-facial-definition-and-fluidity.md) supersedes
 this slice's voxel topology and payload measurements with native contour loops,
 shading and static cosmetic eyes. This chapter preserves the vr-08 baseline.
@@ -232,3 +236,144 @@ the model-derived geometry cache survives restart. Ctrl+C ownership, loopback
 capability boundaries and omitted SDK/contact/teeth/tongue/eye-joint processing
 remain as described in chapter 06. No listening or phonetic accuracy acceptance,
 book rendering, release, installer or deployment is implied.
+
+## Selected-head resource ownership (vr-57)
+
+November 21, 2026. The owner's question was whether using FaceMesh secretly
+loads every available character. It does not. A presentation is not a trained
+speech identity: FaceMesh, FaceDot, UniformPolygons and Claire share Claire's
+native-index motion. Removing that network/PCA while retaining its animated
+lips would remove the speech-motion system, not merely an unused model.
+
+### Following the actual owners
+
+| Boundary | What is actually resident or active |
+|---|---|
+| `SessionManager` | Catalog strings, owned processes and bounded descriptor/status data; no `FaceEngine`, NumPy or ONNX Runtime import in a fresh manager. |
+| `agent_host.host` / `FaceEngine` | One matching Claire network, selected 140-component PCA, conditioning, native display geometry and one local voice worker per explicitly created warm head. |
+| `variants.prepare_variant` | Only the chosen adapter. Plain Claire reads no MPFB/reference asset. Reference choices read their fitting reference; MPFB additionally binds native target geometry/controls. Male-SharpJawline maps complete poses. |
+| `State` / `Handler.do_POST` | One successful clip and one synthesized sample in RAM; exact-repeat and expression-only reuse remain bounded. One nonqueued generation slot per head. |
+| `FaceRenderer` | Shared source/rest geometry plus the selected view's GPU indices; hidden hair has no GPU buffers. No cache of all view/style meshes. |
+| MPFB player | Managed heads create only their visible wire renderer; the standalone comparison intentionally has wire and shaded canvases. Wire rendering now allocates/uploads no unused normal buffer. |
+| Electron / lifecycle | One isolated compositor/profile per head, event/audio-driven drawing, conditional cursor polling, parent watches and explicit owned cleanup. A different port alone is not isolation. |
+
+`scripts.probe_cpu` imports Mark manifest constants for its separate research
+entrypoint, but Claire passes its own pinned `network.onnx` explicitly.
+Importing constants does not open Mark weights. The live numerical probe
+records exactly one inference-session creation and no optional adapters.
+There is deliberately no shared mutable multi-head speech service or model
+pool: multiple warm heads still multiply neural, speech and Chromium costs.
+
+### Why the changes help
+
+The manager previously reached `engine` through its reused HTTP server and
+loaded numerical/inference DLLs without constructing a face. `server.py` now
+keeps its engine annotation type-only and imports generation helpers only in
+the face request path. `speech.shape_tone` imports NumPy only when nonzero
+shelves need it. Creating a real head still performs the same asset checks and
+warms the same engine; failures are not deferred into fake readiness.
+
+`FaceEngine.__init__` needs the full 61,520-vertex PCA temporarily to select its
+15,375 display vertices. Its local `basis` reference previously survived until
+the constructor returned, overlapping ONNX session construction. Explicitly
+releasing that temporary after the contiguous selected copy lowers the startup
+peak; it does **not** make the steady-state speech model 100 MiB smaller.
+The regression checks source-array lifetime at inference-session creation.
+
+`FaceRenderer.setPresentation`, `setFraming` and `setHairVisible` now release
+inactive front/crop/full index buffers, unused optical edge buffers and hidden
+hair buffers. Original hairstyle data remains recoverable from the one source
+payload, but an unused original GPU hairstyle is not retained beside curls.
+Controls, fits and the current clip survive switching; geometry is rebuilt on
+selection rather than cached forever. Shader programs, source rest data and
+the roughly 1 MB base payload remain shared necessities, not additional models.
+
+Unlit views also retain motion only in the GPU, not a second JavaScript array.
+Selecting lit Claire reads that **same current GPU buffer** back once for
+animated normals, checks WebGL errors and keeps only two normal slots.
+Returning to an unlit view drops the CPU array and those slots. At the maximum
+750 frames this removes a retained 69,187,500-byte JavaScript motion reference;
+garbage collection is not an immediate RSS reduction guarantee. The explicit
+switch back to lit rendering can incur a readback stall. No network request,
+speech regeneration, changed sample, lower frame rate or quantization is used.
+`clearClip` frees motion and normal buffers; context loss still stops playback
+and requires explicit reload. Failed readback is an error, never zero-motion
+success. New owned profiles/processes were used; existing owner windows were
+not restarted, refreshed or used as test clients.
+
+### Measurements, not universal promises
+
+Two fresh-process samples per side, pinned Python 3.13/CPU assets, two BLAS/OMP
+threads, disposable cold derived caches and synthetic 0.4-second PCM:
+
+| Measurement | Before | After |
+|---|---:|---:|
+| Empty manager private committed memory | 68.69-70.04 MiB | 18.82-18.95 MiB |
+| Head startup peak working set | 386.78-387.74 MiB | 288.11-288.46 MiB |
+| Head ready working set | 264.28-268.45 MiB | 268.23-271.97 MiB |
+| Actual Claire FaceMesh geometry buffers, hair off, after repeated view/hair cycles | 3,055,342 bytes / 23 buffers | 754,894 bytes / 9 buffers |
+
+The last row is a **75.3% reduction in instrumented geometry-buffer allocation**,
+not total VRAM, Chromium memory or total system use. Other hair-off views in
+the same actual-mesh sweep use 883,666-945,150 buffer bytes. Three identical
+sweeps and further hairstyle/crop changes return to the same allocation.
+Unlit motion has zero CPU normal slots; lit motion has two, released on return.
+The GPU-to-CPU recovered samples match every original quantized element.
+No continuing idle draw loop was observed in the bounded fixture interval.
+
+Mesh and neutral/happy motion SHA-256 values match before/after exactly.
+Synthetic generation latency varied across runs; no inference-speed or
+steady-state head-memory improvement is claimed. These are isolated CPU-engine
+measurements, not complete Electron-tree or eight-head capacity measurements.
+Long speech still needs a current server clip and GPU motion; non-neutral
+expressions still require two inference passes. MPFB binding/native fitting
+still adds work. Shorter text, warm reuse and closing unused owned heads remain
+the safest operational performance choices.
+
+### Qualification and retained failures
+
+The 82-case CPU suite covers imports, PCA lifetime, generation, cache/error/
+cancellation and ownership. Real-asset software-WebGL comparisons retain
+byte-identical original pixels in all four Claire views and both native
+comparison canvases. They exercise selected-only geometry, repeated
+view/hair/crop changes, lazy motion readback, clip cleanup and unchanged
+color-only work. The native session lane exercises all five actual variants,
+simultaneous independent heads, speech cancellation, CLI control, external
+ownership and manager-parent death. Actual hardware-backed browser color/
+playback checks and isolated Electron manager/pin/layout fixtures are separate
+from software rasterizer comparisons; muted audio is not listening acceptance.
+
+The old full browser harness did **not** pass unmodified in this environment:
+its exact crop-restoration gate found 2-5 differing channel bytes, and the same
+gate also failed against untouched `4c5a8dd` renderer source. A software retry
+passed crop restoration but failed a rasterizer-sensitive iris-spoke count.
+Those receipts are retained, not relabelled as passes or fixed by loosening
+pixel thresholds. Independent baseline pixel comparison and native/live
+playback lanes cover the changed mechanisms. A later native run also timed
+out waiting for a structural-reference head to disappear; its owned cleanup
+completed. The unchanged close threshold passed all five variants in
+`performance-sessions-03`, including the subsequent CLI, external-survival
+and parent-death checks. That intermittent timeout's cause is unproven;
+the later pass does not erase it or establish universal shutdown reliability.
+
+The older hairstyle test counted newly created buffer identities left alive;
+replacing the original buffers correctly changes their identities. It now
+checks balanced create/delete ownership and bounded peak additional buffers,
+while the newer instrumentation checks exact retained byte counts per view.
+
+Private receipts: `.local\qualification\performance-baseline-01`,
+`performance-candidate-01`, `performance-final-01`, `performance-realmesh-01`,
+`performance-browser-colors-02`, `performance-electron-01` and the numbered
+`performance-sessions-*` runs. Failed full-browser/software/native runs remain
+beside them. None is a human expression review, independent audio audition,
+universal frame-rate claim, new release or permission to interrupt live heads.
+
+Reproduce the bounded process probe and then compare its static real mesh:
+
+```powershell
+.\.local\cpu-env\Scripts\python.exe -m tests.run_performance_probe --output .local\qualification\new-resource-probe
+node tests\test_appearance_rendering.mjs --baseline=4c5a8dd --real-mesh=.local\qualification\new-resource-probe\1-engine
+```
+
+The process probe writes static model-derived geometry, never speech audio or
+transcripts. It cannot establish multi-head capacity or perceptual accuracy.

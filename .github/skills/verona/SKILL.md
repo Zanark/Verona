@@ -300,6 +300,21 @@ Controls/colors are not persistent preferences across head recreation.
 
 ## 8. Best performance without pretending the face is real-time inference
 
+Current loading contract (vr-57): FaceMesh is a presentation of Claire's
+speech engine, not a second neural identity. The manager does not load a model
+or numerical/inference libraries; each actual warm head loads one required
+Claire network/PCA and only its selected adapter. Mark and other unselected
+head assets are not all loaded from the catalog. Hidden hair/inactive view
+GPU buffers are released. Unlit views keep motion only in the GPU, without
+a CPU motion copy or normal slots; switching to lit Claire reads the same
+samples back once and can briefly stall. Do not promise zero model memory.
+The chapter07 vr-57 audit measures manager private memory near19MiB and head
+startup peak near288MiB in its isolated CPU probe; these exclude the full
+Electron process tree. Its75.3% reduction is geometry-buffer allocation after
+view cycling, not total VRAM or total application RAM. No universal speed,
+latency or eight-head guarantee follows. Never restart an existing head just
+to apply the optimization; use the next normally requested owned launch.
+
 - Keep one warm head per opted-in chat; reuse its engine and Windows speech
   worker. Never cold-start per answer or create several heads for one chat.
   Close your unused head. Each extra head costs substantial CPU/RAM/Chromium.
@@ -319,7 +334,7 @@ Controls/colors are not persistent preferences across head recreation.
   unnecessary views. Change only with user permission and actual available
   controls. Keep the owner's FaceMesh/bright-spokes/4x preference unless asked
   otherwise; do not degrade it silently for a benchmark.
-- Existing measurements are examples, not SLAs: six-model cold readiness
+- Historical pre-vr-57 measurements are examples, not SLAs: six-model cold readiness
   about7.3-12.5seconds; one ready snapshot about738MiB Claire/864MiB MPFB summed
   working set, including shared pages, not peak or unique memory. One warm
   voice-only run acknowledged playing at0.910seconds; total4.212seconds includes

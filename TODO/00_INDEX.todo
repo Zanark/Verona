@@ -56,6 +56,7 @@ vr-53 | 53_M1_DEVELOPMENT_JOURNAL.todo | DONE | Local M1 journal:84native pages/
 vr-54 | 54_CLAIRE_BLENDER_WORKSHOP.todo | DONE | Local Claire/PCA GLB, 55-piece editable armor workshop and 15-page illustrated Blender guide
 vr-55 | 55_RETIRE_ARMORED_VARIANT.todo | DONE | Removed rejected app/Blender characters and inspected copies; preserved Claire export and replaced journal pictures
 vr-56 | 56_BORDERLESS_README.todo | DONE | Full-width borderless README rows; 15 equal pairs/two full-width solos, all media and collapsed gallery preserved
+vr-57 | 57_HEAD_RESOURCE_PERFORMANCE.todo | DONE | Selected-only GPU resources, lightweight manager and lower measured startup peak; exact motion/default pixels preserved
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

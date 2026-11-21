@@ -56,6 +56,27 @@ Closing the browser tab leaves the manager running. Ctrl+C its console also
 requests owned cleanup. A managed head watches its original manager's process
 handle and closes if that manager exits unexpectedly.
 
+### What a head actually loads
+
+FaceMesh is a view over Claire's neural speech motion, not another trained
+model. It does not load every available character or Mark's separate weights.
+Only the selected reference/MPFB adapter loads when that variant needs it.
+The empty manager now avoids numerical/inference libraries entirely.
+Each warm head still owns one substantial CPU engine and one Chromium shell.
+
+Inactive view geometry and hidden hair GPU buffers are released. Unlit views
+keep current motion in the GPU without a second JavaScript motion array or
+animated-normal slots; switching to lit Claire recovers those same samples
+once, with a possible GPU readback pause, and switching back releases them.
+Controls/audio/motion quality remain unchanged. The source payload and current
+GPU clip remain needed; choosing FaceMesh does not remove all model memory.
+
+[The measured audit](chapters/07-hazel-claire-and-performance.md#selected-head-resource-ownership-vr-57)
+separates startup peak, manager private memory, GPU geometry and remaining
+costs. Reuse a warm head, keep sentences short and close unused **owned** heads;
+voice-only skips inference but is not moving-lip speech. Source updates do not
+restart existing windows; apply them on the next normally requested launch.
+
 ### Preserved standalone studies and reports
 
 The manager selects all variants; the following legacy study commands are

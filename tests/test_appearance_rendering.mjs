@@ -11,11 +11,12 @@ const output=path.resolve(".local","qualification",`appearance-${Date.now()}`);
 const profile=path.join(output,"edge-profile");
 await fs.mkdir(profile,{recursive:true});
 const baselineRef=process.argv.find(arg=>arg.startsWith("--baseline="))?.slice(11);
+const realMesh=process.argv.find(arg=>arg.startsWith("--real-mesh="))?.slice(12);
 const baseline=baselineRef?Object.fromEntries(["app.js","mpfb.js","mpfb-renderer.mjs"].map(name=>
   [name,execFileSync("git",["show",`${baselineRef}:verona/web/${name}`],{encoding:"utf8"})])):null;
 // Retained-view comparisons do not restore the retired module's dead import.
 if(baseline)baseline["app.js"]=baseline["app.js"].replace(/^import .* from "\/robot\.mjs";\r?\n/m,"");
-const meta={center:[0,146,0],scale:12,quantization:10000,identity:"Synthetic fixture"};
+let meta={center:[0,146,0],scale:12,quantization:10000,identity:"Synthetic fixture"};
 const positions=[],triangles=[],edges=[];
 const columns=49,rows=85;
 for(let y=0;y<rows;y++) for(let x=0;x<columns;x++){
@@ -54,7 +55,11 @@ meta.hair={vertices:4,positionOffset:append(quantize(hair)),
 meta.eyes={vertices:8,positionOffset:append(quantize(eyes)),
   triangleOffset:append(Uint32Array.from([0,1,2,0,2,3,4,5,6,4,6,7])),triangles:4};
 meta.bytes=length;
-const binary=Buffer.concat(chunks);
+let binary=Buffer.concat(chunks);
+if(realMesh){
+  meta=JSON.parse(await fs.readFile(path.join(realMesh,"mesh.json"),"utf8"));
+  binary=await fs.readFile(path.join(realMesh,"mesh.bin"));
+}
 let nativeMode=false,retiredMode=false,retiredMeshRequests=0;
 const server=http.createServer(async(req,res)=>{
   try{
@@ -84,6 +89,7 @@ const server=http.createServer(async(req,res)=>{
     if(name==="mpfb.html")data=Buffer.from(data.toString().replace('src="/app.js"','src="/mpfb.js"')
       .replace('href="/style.css"','href="/mpfb.css"'));
     if(url.pathname==="/legacy-native")data=Buffer.from(data.toString().replace('src="/mpfb.js"','src="/legacy-mpfb.js"'));
+    if(name==="app.js")data=Buffer.from(data.toString()+"\nwindow.rendererFixture=renderer;\n");
     res.setHeader("Content-Type",name.endsWith(".css")?"text/css":name.endsWith(".html")?"text/html":"text/javascript");
     res.end(data);
   }catch(error){res.writeHead(500).end(error.message);}
@@ -97,6 +103,7 @@ const edge=spawn("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.
 let browserLog="";edge.stderr.on("data",data=>browserLog+=data);
 let ws;
 const pending=new Map(),errors=[],report={fixture:"Synthetic geometry, software WebGL; no human/identity acceptance",views:[]};
+if(realMesh)report.fixture="Actual Claire mesh, synthetic motion and MPFB fixture, software WebGL; no human/identity acceptance";
 let sequence=0;
 function cdp(method,params={}){
   return new Promise((resolve,reject)=>{
@@ -133,11 +140,40 @@ try{
     }else if(data.method==="Runtime.exceptionThrown")errors.push(data.params.exceptionDetails.text);
   });
   await cdp("Runtime.enable");await cdp("Page.enable");
+  await cdp("Page.addScriptToEvaluateOnNewDocument",{source:`(()=>{
+    const sizes=new Map(),bound=new Map();
+    let draws=0,uploads=0;
+    const p=WebGL2RenderingContext.prototype;
+    for(const name of ["bindBuffer","bufferData","deleteBuffer","bufferSubData","drawElements","drawArrays"]){
+      const original=p[name];
+      p[name]=function(...args){
+        if(name==="bindBuffer")bound.set(args[0],args[1]);
+        if(name==="bufferData")sizes.set(bound.get(args[0]),typeof args[1]==="number"?args[1]:args[1].byteLength);
+        if(name==="deleteBuffer")sizes.delete(args[0]);
+        if(name==="bufferSubData")uploads++;
+        if(name.startsWith("draw"))draws++;
+        return original.apply(this,args);
+      };
+    }
+    window.resourceProbe=()=>({buffers:sizes.size,bytes:[...sizes.values()].reduce((a,b)=>a+b,0),draws,uploads});
+  })();`});
   await cdp("Emulation.setDeviceMetricsOverride",{width:1200,height:1000,deviceScaleFactor:1,mobile:false});
+  const sweep=()=>evaluate(`(()=>{
+    const cases=[];
+    for(let cycle=0;cycle<3;cycle++)for(const view of ["claire","facemesh","facedot","uniform"])
+      for(const visible of [false,true]){
+        const start=performance.now(),p=document.getElementById("presentation"),h=document.getElementById("hair");
+        p.value=view;p.dispatchEvent(new Event("input"));
+        h.checked=visible;h.dispatchEvent(new Event("input"));
+        cases.push({cycle,view,hair:visible,...resourceProbe(),milliseconds:performance.now()-start});
+      }
+    return cases;
+  })()`);
   const legacyHashes={};
   if(baseline){
     await cdp("Page.navigate",{url:`${origin}/legacy#${"a".repeat(43)}`});
     await waitFor('document.getElementById("generate") && !document.getElementById("generate").disabled');
+    report.resourceBaseline=await sweep();
     for(const view of ["claire","facemesh","facedot","uniform"]){
       await evaluate(`(()=>{
         const p=document.getElementById("presentation");p.value=${JSON.stringify(view)};p.dispatchEvent(new Event("input"));
@@ -154,6 +190,20 @@ try{
   }
   await cdp("Page.navigate",{url:`${origin}/#${"a".repeat(43)}`});
   await waitFor('window.veronaAppearance && !document.getElementById("generate").disabled');
+  report.resources=await sweep();
+  for(const sample of report.resources){
+    const first=report.resources.find(value=>value.view===sample.view&&value.hair===sample.hair);
+    assert.equal(sample.bytes,first.bytes,"Switching views must not accumulate GPU geometry.");
+  }
+  if(baseline)for(const sample of report.resources.filter(value=>value.cycle===2&&!value.hair)){
+    const old=report.resourceBaseline.find(value=>value.cycle===2&&value.view===sample.view&&!value.hair);
+    assert(sample.bytes<old.bytes*.8,`${sample.view}: inactive geometry was not released.`);
+  }
+  await delay(100);
+  const idle=await evaluate("resourceProbe()");
+  await delay(300);
+  report.idle=await evaluate("resourceProbe()");
+  assert.equal(report.idle.draws,idle.draws,"Idle face must not run a continuous render loop.");
   await evaluate(`window.pixelFixture={
     change:(id,value)=>{const e=document.getElementById(id);e.value=value;e.dispatchEvent(new Event("input"));},
     pixels:(id="face")=>{const c=document.getElementById(id),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
@@ -217,6 +267,53 @@ try{
   assert(report.gui.invalid&&report.gui.unchanged&&report.gui.stillInvalid);
   assert.equal(report.gui.events,3);
   assert(Object.values(report.gui.reset).every(value=>value===null));
+  report.resourceLifecycle=await evaluate(`(()=>{
+    const f=pixelFixture,r=rendererFixture,errors=[];
+    f.change("presentation","facemesh");
+    const h=document.getElementById("hair");h.checked=false;h.dispatchEvent(new Event("input"));
+    const before=resourceProbe();
+    const motion=new Int16Array(r.meta.vertices*3*3);
+    for(let frame=0;frame<3;frame++)motion.set(r.neutralData,frame*r.neutralData.length);
+    r.setClip(motion.buffer,{frames:3,vertices:r.meta.vertices,quantization:r.meta.quantization,fps:30});
+    r.draw(.05);
+    const unlitSlots=r.normalSlots.length;
+    const unlitCpuMotion=r.motionData!==null;
+    f.change("presentation","claire");r.draw(.05);
+    const litSlots=r.normalSlots.length;
+    const restoredMotion=r.motionData.every((value,index)=>value===motion[index]);
+    f.change("presentation","facemesh");r.draw(.05);
+    const returnedSlots=r.normalSlots.length;
+    const returnedCpuMotion=r.motionData!==null;
+    r.clearClip();
+    const cleared=resourceProbe();
+    for(let cycle=0;cycle<2;cycle++){
+      for(const view of ["claire","facedot","uniform","facemesh"]){
+        f.change("presentation",view);
+        for(const visible of [true,false]){
+          h.checked=visible;h.dispatchEvent(new Event("input"));
+          for(const style of ["curls","claire"]){
+            f.change("hairstyle",style);
+            if(view!=="facemesh")for(const framing of ["head-neck","full"]){
+              f.change("framing",framing);
+              if(framing==="head-neck")for(const depth of [0,6,1.7])f.change("neck-depth",String(depth));
+            }
+            const error=r.gl.getError();if(error)errors.push(error);
+          }
+        }
+      }
+    }
+    return {before,cleared,after:resourceProbe(),unlitSlots,litSlots,returnedSlots,
+      unlitCpuMotion,restoredMotion,returnedCpuMotion,errors};
+  })()`);
+  assert.equal(report.resourceLifecycle.unlitSlots,0);
+  assert.equal(report.resourceLifecycle.litSlots,2);
+  assert.equal(report.resourceLifecycle.returnedSlots,0);
+  assert.equal(report.resourceLifecycle.unlitCpuMotion,false);
+  assert.equal(report.resourceLifecycle.restoredMotion,true);
+  assert.equal(report.resourceLifecycle.returnedCpuMotion,false);
+  assert.equal(report.resourceLifecycle.before.bytes,report.resourceLifecycle.cleared.bytes);
+  assert.equal(report.resourceLifecycle.before.bytes,report.resourceLifecycle.after.bytes);
+  assert.deepEqual(report.resourceLifecycle.errors,[]);
   await cdp("Page.navigate",{url:`${origin}/native#fixture`});
   await waitFor('window.mpfbPlayer?.ready');
   assert.equal(await evaluate("document.title"),"Verona | fixture | mpfb");
@@ -229,12 +326,20 @@ try{
     for(const key of keys){
       a.apply({[key]:"#00FF00"});changes[key]=ids.map((id,i)=>difference(before[i],pixels(id)));a.apply({[key]:null});
     }
-    return {changes,reset:ids.map((id,i)=>difference(before[i],pixels(id))),
+    const uploads=ids.map(id=>{
+      const gl=document.getElementById(id).getContext("webgl2"),original=gl.bufferSubData;
+      let count=0;gl.bufferSubData=function(...args){count++;return original.apply(this,args);};
+      return {gl,original,count:()=>count};
+    });
+    window.mpfbPlayer.renderAt();
+    const uploadCounts=uploads.map(item=>{item.gl.bufferSubData=item.original;return item.count();});
+    return {changes,uploadCounts,reset:ids.map((id,i)=>difference(before[i],pixels(id))),
       note:document.getElementById("appearance-note").textContent};
   })()`);
   for(const [key,counts]of Object.entries(report.native.changes))
     assert(counts.every(n=>n>0),`native/${key}: ${JSON.stringify(counts)}`);
   assert.deepEqual(report.native.reset,[0,0]);assert.match(report.native.note,/no hair/);
+  assert.deepEqual(report.native.uploadCounts,[1,2],"Unlit MPFB must not upload unused normals.");
   if(baseline){
     const hashNative=()=>evaluate(`(async()=>{
       window.mpfbPlayer.renderAt();
@@ -262,6 +367,10 @@ try{
   if(ws?.readyState===WebSocket.OPEN){
     await cdp("Browser.close").catch(()=>{});ws.close();
   }
-  if(edge.exitCode===null)edge.kill();
+  if(edge.exitCode===null){
+    const exited=new Promise(resolve=>edge.once("exit",resolve));
+    edge.kill();await exited;
+  }
+  await fs.rm(profile,{recursive:true,force:true,maxRetries:10,retryDelay:200});
   await new Promise(resolve=>server.close(resolve));
 }

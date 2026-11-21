@@ -1,6 +1,8 @@
 import json
 import http.client
 import os
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import threading
@@ -15,6 +17,17 @@ from verona.session_config import appearance, colors_patch
 
 
 class SessionTests(unittest.TestCase):
+    def test_manager_import_does_not_load_numerical_models_or_adapters(self):
+        result = subprocess.run([sys.executable, "-c", """
+import sys
+from verona.manager import SessionManager
+assert not SessionManager().children
+assert not any(name in sys.modules for name in (
+    'numpy', 'onnxruntime', 'verona.engine',
+    'scripts.mpfb_motion_transfer', 'scripts.claire_reference_study'))
+"""], capture_output=True, text=True, timeout=15)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_partial_colors_are_validated_without_mutation_and_default_is_explicit(self):
         source = {"hair": " #f0c ", "lips": None}
         self.assertEqual(colors_patch(source), {"hair": "#FF00CC", "lips": None})

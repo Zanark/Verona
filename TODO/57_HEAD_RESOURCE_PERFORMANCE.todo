@@ -1,0 +1,60 @@
+ID: vr-57
+Title: Selected-head resource ownership and performance
+
+Status: DONE
+Milestone: Post-M1 runtime efficiency
+Dependencies: vr-08, vr-20, vr-44, vr-45, vr-55
+
+Purpose:
+  Audit actual model/view ownership and remove demonstrated unnecessary loading,
+  retained geometry and rendering work without reducing motion or visual quality.
+
+Tasks:
+  Trace manager, host, variants, inference, speech/cache, browser and Electron.
+  Measure isolated baseline/candidate process memory, startup, idle and motion.
+  Fix proven loading/resource work and add focused regression checks.
+  Qualify retained pixels, native variants, cancellation and ownership.
+  Document precise scope, measurements, tradeoffs and remaining costs.
+  Reconcile the original issue/Project and publish a verified source milestone.
+
+Acceptance criteria:
+  Manager creates no model and avoids importing inference/numerical libraries.
+  Each named head uses only its selected adapter over required Claire motion.
+  Inactive view resources are bounded/released; pixels and audio-clock semantics
+    remain unchanged. No speculative quality, threading or cache-policy changes.
+  Retain before/after receipts and failures. Protect existing manager processes
+    and their profiles/descriptors; use synthetic input and owned test lanes.
+  Distinguish measured local performance from universal or human acceptance.
+
+Completion evidence:
+  Original issue: https://github.com/Zanark/Verona/issues/56
+  Original Project15 item: PVTI_lAHOAe2wCs4BsFbFzhKorvY.
+  Fresh-process baseline/candidate: manager private68.69-70.04 ->18.82-18.95MiB;
+    engine startup peak386.78-387.74 ->288.11-288.46MiB, not steady RAM savings.
+  Final performance-final-01 probe reproduces exact mesh/neutral/happy hashes,
+    one network.onnx/no optional adapters and static actual-mesh fixture output.
+  Actual Claire repeated-view FaceMesh hair-off buffers3,055,342 ->754,894bytes
+    (75.3%), not total VRAM. All four human/two MPFB defaults exact old pixels;
+    repeated hairstyle/crop/view lifecycle stable; unlit normal slots0/lit2.
+    Unlit CPU motion absent; lit GPU recovery exact, released on return.
+  Full82CPU cases and focused JS/player/desktop suites pass. Real hardware
+    browser color/playback02 passes; three Electron DOM/layout fixtures pass.
+  Native performance-sessions-03 passes all five actual variants, concurrent
+    independent speech/cancel, CLI flow, external survival and parent death.
+  Failed full-browser crop gate also fails against unchanged4c5a8dd; software
+    iris-spoke failure retained. Native02 close timeout retained, cause unproven;
+    same close threshold passes03, not a universal shutdown reliability claim.
+  Chapter07/10, guide, reading index, contributor contract and operating skill
+    explain owners, measurements, lazy-resource/readback tradeoffs and limits.
+  No new model/dependency/device/cache policy/frame-rate reduction or release.
+  Earlier55tracking mappings and protected managers preserved.
+
+Completion log:
+  2026-11-21 - Owner requests a comprehensive loading/performance audit.
+    Existing manager PIDs199804/135300 protected; no head compositor observed.
+    Test lanes use disposable derived caches, appdata and browser profiles.
+    GitHub semantic index returned404; traced actual local runtime sources.
+  2026-11-21 - Removed eager manager numerical imports, released temporary PCA
+    before ORT, made view/hair/normal resources selected-only, removed MPFB wire
+    normal work and dropped unlit retained CPU motion. Exact bytes/pixels and
+    owned five-head lifecycle qualified; failures and boundaries documented.
