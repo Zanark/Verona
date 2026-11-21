@@ -2,6 +2,22 @@
 
 ## Current deliverable
 
+The latest separate continuation is **Finding Different Voices**, anchored to
+implementation `d2585f3`:
+`book\editions\Verona-Local-Voices-Journal-v1\Verona-Local-Voices-Journal.pdf`.
+Its 24 pages, two dated entries and two occurrences of one actual qualification
+image cover the offline-voice decision, controls and corrected full-worker-tree
+memory measurement. Source is `local-voices\manifest.json` plus
+`local-voices\journal.json`; the same explicit-manifest build command applies.
+All 24 layouts, both figure occurrences and full-resolution pages 5/6/7 were
+agent-reviewed. Native checks, isolated offline reader (24 pages/2 images/6 links),
+nine production tests and a 24-page portable rebuild pass. No owner listening/
+visual approval or PDF byte-identical rebuild claim. Frozen PDF SHA-256:
+`2cdfbb9b06939594ede36f8ac8ca797ae6c1bb098f0526158aba72aefb8c1138`.
+The final all-style allocator run and owned live promotion are later evidence
+in the living ledger, not retroactively completed events at the source cutoff.
+Prior M1v2 and native-head PDFs remain untouched; no PDF upload.
+
 The journal now also has a separate **post-M1 continuation**, not a silently
 rewritten first milestone:
 `book\editions\Verona-Post-M1-Native-Heads-Journal-v1\Verona-Post-M1-Native-Heads-Journal.pdf`.

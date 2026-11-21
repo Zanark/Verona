@@ -62,6 +62,8 @@ inside each requesting head, not 28 loaded models. Windows voices remain
 available. Neural voices add CPU/memory and cold-start delay; pitch/emphasis
 are explicitly unavailable for Kokoro, while speed, bass and treble work.
 [Research, rights and actual measurements](docs/research/local-voices.md).
+Voice support is a source-main addition after v0.2.0; its existing release ZIP
+and frozen tag remain unchanged.
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
 lip sync or a production-ready assistant.** The six model overviews below are

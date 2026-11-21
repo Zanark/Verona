@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "editionId": "Verona-Local-Voices-Journal-v1",
+  "pdfName": "Verona-Local-Voices-Journal.pdf",
+  "title": "Verona - Finding Different Voices",
+  "subtitle": "A development journal / Offline voices continuation",
+  "period": "21 November 2026",
+  "timeZone": "Asia/Kolkata",
+  "volume": "VOL 3",
+  "coverLines": ["Finding", "different voices"],
+  "coverDateLines": ["21", "NOVEMBER", "2026"],
+  "coverTagline": "28 optional local styles / one bounded CPU model per head",
+  "footer": "VERONA / LOCAL VOICES DEVELOPMENT JOURNAL",
+  "acceptanceTitle": "Working voices, honest boundaries",
+  "registerNote": "Implementation cutoff d2585f3. Final all-style allocator qualification and live promotion follow separately; no listening acceptance is implied.",
+  "historicalRevision": "d2585f3e048de3672364bcf03b0064e4946b78d6",
+  "releaseRevision": "0e04064b8273566756bba9c204226629c447ecc4",
+  "content": "book/local-voices/journal.json",
+  "sourcePolicy": "Separate dated continuation; explicit committed references and one reviewed synthetic qualification screenshot. Preserve frozen M1/native-head editions.",
+  "references": [
+    "TODO/68_LOCAL_VOICES.todo",
+    "TODO/04_DEVELOPMENT_LEDGER.todo",
+    "docs/research/local-voices.md",
+    "docs/chapters/07-hazel-claire-and-performance.md",
+    "docs/prototype-guide.md",
+    "THIRD_PARTY.md"
+  ],
+  "localImageRoot": ".local/qualification",
+  "coverFigure": {
+    "path": "local-voices-native-01/local-voice-manager.png",
+    "caption": "Actual isolated manager qualification: Claire with Emma and Mark with Bella. A cancellation is still visible in the asynchronously refreshed rail; this is not an idle-state or listening-acceptance plate."
+  },
+  "fonts": {"body": "georgia.ttf", "bold": "georgiab.ttf", "italic": "georgiai.ttf", "mono": "consola.ttf"},
+  "fontPolicy": "Locally installed Windows Georgia/Consolas; checked embedding flags and document subsets only.",
+  "publication": "local-edition-only; no PDF upload or deployment",
+  "excluded": [".agent-context", ".env", "raw conversations", "runtime capabilities", "profiles", "recordings and synthesized sound", "model binaries", "Maya scenes", "withdrawn character imagery"]
+}

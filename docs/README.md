@@ -5,6 +5,9 @@ selects the optional28-style Kokoro CPU pack while retaining Windows voices.
 [Chapter07](chapters/07-hazel-claire-and-performance.md#distinct-offline-voices-and-session-allocation-vr-68)
 explains lazy ownership, resampling, controls, cancellation, allocation and
 measured costs; [setup](prototype-guide.md#optional-28-voice-offline-pack) is explicit.
+The separately frozen 24-page **Finding Different Voices** journal lives under
+`book\editions\Verona-Local-Voices-Journal-v1`; its two dated entries preserve the
+research decision and corrected resource measurements without rewriting M1.
 
 **v0.2.0 native-head source release:** [release notes](releases/v0.2.0.md)
 describe shared controls, selected loading, qualification and unresolved limits.

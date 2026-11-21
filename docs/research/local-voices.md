@@ -105,8 +105,17 @@ took 8.081 seconds; subsequent median was 5.107 seconds, range
 and run on a shared working machine, not a controlled comparison or real-time
 guarantee. Different PCM hashes do not prove perceptual speaker separation.
 
-Native-head, cancellation and regression receipts are recorded in the workstream
-after completion. Human listening, preferred-style selection, clean-machine
+Final `local-voices-final-01` repeats all 28 styles with the shipped arena-off
+configuration: every PCM hash matches its initial counterpart, one child is
+reused, the whole owned tree exits, and retained tree-private memory stays
+190.15..191.37 MiB. First synthesis 7.970 seconds; subsequent median 5.685 seconds,
+range 4.494..24.474 seconds. The 1.5-second idle sample uses zero process-CPU
+seconds. Process ancestry queries run between cases and are excluded from
+synthesis wall times; this is still a shared-machine observation, not an
+isolated speed comparison.
+
+Actual native-head, cancellation and regression receipts are recorded in the
+workstream. Human listening, preferred-style selection, clean-machine
 installation, multilingual quality and an eight-head throughput guarantee
 remain separate, unaccepted claims.
 

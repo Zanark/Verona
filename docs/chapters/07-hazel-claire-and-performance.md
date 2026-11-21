@@ -641,3 +641,12 @@ collision warnings. CLI creation/configuration/speech/close, external-owner
 survival, manager death cleanup and descriptor removal also pass. All audio
 is muted; this is environmental technical qualification, not human listening,
 phonetic accuracy, subjective preference or an eight-head throughput guarantee.
+
+Final `local-voices-final-01` repeats all 28 voices with the shipped arena-off
+configuration. Every PCM hash matches the initial run; retained tree-private
+memory stays 190.15..191.37 MiB, one worker is reused and its complete tree exits.
+First synthesis 7.970 seconds; later median 5.685 seconds, range 4.494..24.474 seconds.
+Between-case process-tree queries are outside these wall times. The final
+1.5-second idle sample uses zero process-CPU seconds. These remain bounded
+shared-machine observations, not universal latency, physical RAM or human
+listening claims.

@@ -1,7 +1,7 @@
 ID: vr-68
 Title: Distinct offline voices for independent sessions
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Recognizable local speaking personalities
 Dependencies: vr-67
 
@@ -29,21 +29,32 @@ Acceptance criteria:
 
 Completion evidence:
   Authored primary-source comparison: docs/research/local-voices.md.
-  Optional pinned115MiB pack installed here;28 actual English styles produce
+  Optional pinned 115 MiB pack installed here; 28 actual English styles produce
     distinct bounded PCM through one reused child; Windows remains functional.
-  98CPU regressions pass. Real manager DOM and actual isolated Claire/Mark
+  98 CPU regressions pass. Real manager DOM and actual isolated Claire/Mark
     native controls, local audio-to-face, cancellation, CLI and owned cleanup
     pass; no independent listening or preferred-style acceptance is implied.
-  Corrected full-worker-tree two-style memory samples190.05/189.97MiB with
+  Corrected full-worker-tree two-style memory samples 190.05/189.97 MiB with
     arena disabled; entire owned tree exits on Windows synthesis. Preserve
     invalid launcher-only receipt and default-arena baseline, not false savings.
   Source/library/personal Verona skill copies hash-identical.
-  Final all-style allocator qualification, dated journal continuation, verified
-    source publication and owned live-head catalog promotion remain pending.
+  Final shipped-allocator run local-voices-final-01 passes all 28 styles with
+    identical PCM to initial results, 190.15..191.37 MiB tree-private memory,
+    bounded latency, idle sample and complete exact-handle teardown.
+  Runtime d2585f3 pushed with verified Zanark identities/trailers.
+  Separate 24-page/two-entry local journal frozen, all-page/figure review,
+    native/offline-reader/portable qualification; old editions unchanged.
+  Updated sole-owned manager/head ready with 31 voices. Exact saved Claire,
+    Hazel, colors, makeup, cursor, blinks and every control preserved.
+    No old speech replay or sibling-head interruption. Private live receipt:
+    .local/qualification/live-local-voices-01/receipt.json.
 
 Completion log:
   2026-11-21 - Owner requests deep research, selection and implementation of
     multiple new entirely local voices; no questions while away. Stable live
     head Verona remains Claire/Hazel while isolated candidate work proceeds.
   2026-11-21 - Technical implementation and above candidate qualifications
-    complete. Keep workstream IN_PROGRESS through journal/live delivery.
+    complete; final allocator and journal/live delivery subsequently pass.
+  2026-11-21 - Delivered working 31-voice catalog to the live owned head,
+    preserving all choices. Journal, source/installed skill and documentation
+    complete; no new release, PDF upload or subjective listening acceptance.

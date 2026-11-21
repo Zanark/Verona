@@ -1,0 +1,63 @@
+{
+  "editorialNote": "A dated continuation after the frozen M1 and native-head journals. The implementation cutoff is d2585f3, not a moving release. Later final-pack qualification and live promotion remain separate events. Technical audio checks are not independent listening.",
+  "benchNotes": {
+    "opening": [
+      ["The next useful distinction", "Different-colored heads are not enough when several chats speak in the same Hazel voice. The next slice adds actual speaker styles, not cosmetic pitch presets."],
+      ["Keep the old notebooks", "M1v2 and the native-head continuation stay frozen. This smaller volume records one new implementation milestone, with actual commit dates and a deliberately narrow evidence allowlist."],
+      ["A screenshot is not a listening test", "The plate is the real manager during isolated qualification. It shows named voices and ownership, not accepted pronunciation, perfect expressions or an audio-quality comparison."]
+    ],
+    "mechanism": [
+      ["Catalog before inference", "Standard-library metadata lists 28 English styles without loading a neural model. Explicit optional setup pins one INT8 model and a shared style bundle; runtime never downloads missing files."],
+      ["One waveform, one owner", "A lazy CPU child reuses the same model across styles. Checked 24-kHz mono becomes the existing 16-kHz PCM, EQ and silence padding, then drives both selected-face motion and playback."],
+      ["Reserve; do not steal", "The manager reserves unused startup voices, including heads still preparing their controls. Later deliberate duplicates remain visible. Omitted CLI voice follows the actual current selection."],
+      ["Failure is not a voice choice", "Unsupported pitch/emphasis settings fail rather than pretending to work. A local synthesis failure never substitutes Hazel. Cancellation discards output but cannot instantly interrupt synchronous inference."]
+    ],
+    "acceptance": [
+      ["Implemented at the cutoff", "28 optional English Kokoro styles, existing Windows compatibility, distinct session defaults, visible provider limits, current-selection CLI behavior and explicit resource ownership."],
+      ["Actually exercised", "98 CPU regressions, all 28 initial style syntheses, a final-allocator two-style resource probe and real Claire/Mark controls, motion, cancellation, CLI and owned cleanup. Audio is muted and never persisted."],
+      ["Later delivery is separate", "The final all-style allocator run, this journal's rendering and the owned live-head update occur after the source cutoff. The v0.2.0 tag is not moved and no new release or PDF upload is implied."],
+      ["Not certified", "Perceptual uniqueness of every pair, preferred voices, pronunciation, human articulation, multilingual use, instant synthesis and eight-head throughput remain unaccepted."]
+    ]
+  },
+  "entries": [
+    {
+      "id": "V01",
+      "title": "Different chats should not all sound like Hazel",
+      "commit": "d2585f3",
+      "workstreams": "vr-68",
+      "chapter": "07",
+      "status": "IMPLEMENTED / CANDIDATE QUALIFIED",
+      "body": [
+        "The owner asked for several entirely local voices and left the choice and implementation to the agent while away. Windows voice packs, maintained Piper, Kokoro and sherpa-onnx were compared using primary sources rather than generic best-engine rankings.",
+        "Kokoro's one-model, many-style packaging fits this slice without adding Torch, a GPU or a service. The optional pinned pack exposes 28 US/British English styles and retains Hazel, David and Zira on this machine. That is not 28 resident neural models or a promise that every voice is equally good.",
+        "Real Claire and Mark heads receive different defaults. Native controls visibly reset and disable unsupported pitch/emphasis while preserving speed and EQ. Actual local speech drives the existing face/audio clock; current-selection CLI requests, cancellation and ownership cleanup are exercised."
+      ],
+      "mechanism": "Metadata -> unused-voice reservation -> lazy CPU child -> selected style -> 24-to-16-kHz conversion -> shared motion/audio pipeline.",
+      "failure": "An API or setup failure must not quietly substitute another voice. The optional phonemizer/eSpeak licenses are GPL, not covered by the weights' Apache license.",
+      "boundary": "The real UI plate and PCM checks do not establish independent listening, subjective preference or phonetic accuracy.",
+      "figures": [
+        {
+          "path": "local-voices-native-01/local-voice-manager.png",
+          "caption": "Actual isolated manager: Claire uses Emma and Mark uses Bella. The rail still displays an asynchronous cancellation; the plate is not a claim of idle-state completion or listening acceptance."
+        }
+      ]
+    },
+    {
+      "id": "V02",
+      "title": "Measure the model, not its tiny launcher",
+      "commit": "d2585f3",
+      "workstreams": "vr-68",
+      "chapter": "07",
+      "status": "MEASURED / CORRECTED",
+      "body": [
+        "The first resource probe returned only a few megabytes after neural synthesis. That was the Windows virtual-environment launcher, not the Python process doing inference. The receipt is retained with an explicit invalid-scope correction rather than turned into an impressive but false memory claim.",
+        "The corrected complete-worker-tree baseline measured 311.92 then 444.07 MiB private bytes after two styles. Disabling ONNX Runtime's CPU arena measured 190.05 then 189.97 MiB in that sequence. Cold/warm wall times of 17.517 and 7.119 seconds are not a speed improvement; the change trades retained workspaces for lower warm memory.",
+        "Exact handles confirm that the entire local worker tree exits when Windows synthesis resumes. A short idle sample uses no process CPU. These observations exclude the face engine, Windows worker, Chromium and manager, and do not become a whole-machine or multi-head guarantee."
+      ],
+      "mechanism": "Follow owned process ancestry, sum the relevant private bytes, and retain exact process handles to distinguish launcher exit from complete worker teardown.",
+      "failure": "Missing SystemDrive/ProgramData environment created a literal-path Windows cache under the checkout. The environment is corrected; generated evidence is retained under ignored qualification rather than committed.",
+      "boundary": "One bounded memory/idle sequence is not universal performance certification. Keep final-pack, live delivery and listening acceptance separate.",
+      "figures": []
+    }
+  ]
+}

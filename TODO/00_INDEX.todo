@@ -67,7 +67,7 @@ vr-64 | 64_NATIVE_SHUTDOWN_DIAGNOSTICS.todo | NOT_STARTED | Diagnose retained in
 vr-65 | 65_NATIVE_MODEL_PRESENTATION.todo | DONE | Shared renderer/native MPFB controls and post-fit exaggeration, actual-model qualified
 vr-66 | 66_NATIVE_MARK_HEAD.todo | DONE | Actual Mark network/native geometry and consistent controls, actual-model qualified
 vr-67 | 67_MODEL_PARITY_DELIVERY.todo | DONE | Six-model GIFs/docs/installed skill, frozen continuation, verified v0.2.0 and owned live-head restoration
-vr-68 | 68_LOCAL_VOICES.todo | IN_PROGRESS | Research and implement distinct offline voices and independent-session defaults
+vr-68 | 68_LOCAL_VOICES.todo | DONE | 28 optional offline voices, unused session defaults, bounded CPU ownership, dated journal and owned live update
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.
