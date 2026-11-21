@@ -1,0 +1,69 @@
+ID: vr-53
+Title: Illustrated Milestone 1 development-journal book
+GitHub issue: https://github.com/Zanark/Verona/issues/52
+
+Status: DONE
+Milestone: M1 retrospective edition, produced after the source release
+Dependencies: vr-52
+
+Purpose:
+  Produce the explicitly requested dated development-journal PDF about M1,
+  using the public causal ledger and reviewed local qualification images.
+  Preserve the difference between historical evidence and fresh qualification.
+  This is a local book edition, not authorization to modify release assets.
+
+Tasks:
+  Review historical commits, canonical chapters, ledger and local image scope.
+  Author a chronological journal with decisions, mechanisms and failed paths.
+  Curate explicit screenshot/sample inputs, captions and provenance.
+  Build an editable offline reader and native searchable PDF with navigation.
+  Inspect actual PDF pages, validate layout/text/links, freeze edition hashes.
+  Update book/index/ledger/tracking and preserve owned session continuity.
+
+Acceptance criteria:
+  Dated entries/timelines use recorded history, not guessed capture times.
+  Broad meaningful coverage of local development images; legible captions.
+  Rejected, superseded, implemented, qualified and accepted stay distinct.
+  No raw conversation/private context, capability, recordings, model or scene.
+  Explicit source/asset allowlist and hashes, tool versions, page/figure maps.
+  Searchable native PDF, working contents/bookmarks, offline HTML and images.
+  Explicit overflow/missing-input failures; no silent shrunken text or fallback.
+  Preserve older editions; no owner/sibling runtime, release or tag changes.
+
+Completion evidence:
+  book\editions\Verona-M1-Development-Journal-v1 contains the native searchable
+  PDF, offline reader, 109 allowlisted figure occurrences, reviewed journal
+  sources, exact input/asset/tool hashes, 84-page map, 41 bookmarks, review
+  and SHA256SUMS.txt. 31 dated entries cover 18-21 November2026.
+  PDF SHA256: 5be1ce931883c9064f8b3e73c47e2cbe076b780703b7a41db3a7b9f806a3aab7.
+  All84 pages visually reviewed in actual layouts, representative pages at
+  native resolution; corrected final pages34/61 inspected individually.
+  Other82 final native-page PNGs exactly match the reviewed preceding draft.
+  Seven focused tests pass. Reopened PDF retains exact authored text,
+  in-page/non-overlapping text, valid local links and complete bookmarks.
+  Actual isolated Edge157 reader:84pages/109decoded images/35local links,
+  no missing targets, detected overflow or external page requests.
+  Portable frozen builder ran without Git:84page PNGs/109assets match;
+  exact native text/HTML identical, PDF bytes not identical.
+  All120 frozen checksums verified. Detailed generated receipts remain under
+  book\output\m1-journal-05; failed candidates01..03 preserved.
+  Agent visual/editorial review, not owner approval or fresh app qualification.
+  Local edition only: no PDF upload, release/tag/deployment/runtime changes.
+
+Completion log:
+  2026-11-21 - Owner explicitly requests an illustrated M1 development-journal
+    PDF, with dates/timelines and extensive useful evidence from .local.
+    Historical cutoff is the immutable v0.1.0 source and its release closeout.
+    Choose a separate journal allowlist, not unrestricted .local ingestion or
+    a silent change to the canonical engineering-manuscript manifest.
+  2026-11-21 - Authored chronology and reviewed broad historical evidence.
+    Corrected missing source spelling and captions; preserve loading captures
+    and rejected studies without calling them successful model qualification.
+  2026-11-21 - Rejected overflowing register, font Unicode aliases/cover
+    contrast and wrapped-plate overlap in successive candidates. Correct
+    geometry/ToUnicode mapping and add exact native-text/collision regressions;
+    do not normalize away lost text or shrink type to hide overflow.
+  2026-11-21 - Final candidate05 frozen locally as v1 after actual review.
+    Portable rebuild and complete checksum readback verified. Book/index/
+    chapter02/rights/causal ledger updated. Original issue52/Project15 item
+    retained; no historical M1 scope or parked/open work is closed by this task.

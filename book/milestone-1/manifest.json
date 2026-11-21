@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "editionId": "Verona-M1-Development-Journal-v1",
+  "title": "Verona - The First Speaking Face",
+  "subtitle": "A development journal / Milestone 1",
+  "period": "18-21 November 2026",
+  "timeZone": "Asia/Kolkata",
+  "historicalRevision": "c953ae7a078673f1cc423401a887b437ea25cb91",
+  "releaseRevision": "f892d423f923bdd043ebe6aab7647f0993679251",
+  "content": "book/milestone-1/journal.json",
+  "sourcePolicy": "Explicit historical references and individual reviewed image samples only. This journal is separate from the engineering-book manifest.",
+  "references": [
+    "TODO/04_DEVELOPMENT_LEDGER.todo",
+    "TODO/00_INDEX.todo",
+    "docs/product-brief.md",
+    "docs/chapters/01-project-foundation.md",
+    "docs/chapters/02-development-workflow.md",
+    "docs/chapters/03-face-mesh-reference.md",
+    "docs/chapters/04-speech-driven-face-research.md",
+    "docs/chapters/05-local-cpu-feasibility.md",
+    "docs/chapters/06-text-to-face-prototype.md",
+    "docs/chapters/07-hazel-claire-and-performance.md",
+    "docs/chapters/08-facial-definition-and-fluidity.md",
+    "docs/chapters/09-verona-character-and-waves.md",
+    "docs/chapters/10-desktop-overlay-and-gaze.md",
+    "docs/research/speech-face-sources.md",
+    "docs/research/female-identity-study.md",
+    "THIRD_PARTY.md",
+    "docs/releases/v0.1.0.md",
+    "CHANGELOG.md"
+  ],
+  "localImageRoot": ".local/qualification",
+  "fonts": {
+    "body": "georgia.ttf",
+    "bold": "georgiab.ttf",
+    "italic": "georgiai.ttf",
+    "mono": "consola.ttf"
+  },
+  "fontPolicy": "Use locally installed Windows Georgia/Consolas after checking embedding permissions. Embed document subsets, never copy font files into the edition.",
+  "publication": "local-edition-only; no release upload or deployment",
+  "excluded": [
+    ".agent-context",
+    ".env",
+    "raw conversations",
+    "runtime descriptors and capability URLs",
+    "browser profiles",
+    "recordings and synthesized sound",
+    "model binaries and Maya scenes",
+    "private reference artwork"
+  ]
+}

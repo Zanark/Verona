@@ -1,0 +1,672 @@
+{
+  "editorialNote": "An authored retrospective assembled after the M1 source release. Dates and times identify repository commits in IST; they are not guessed screenshot timestamps or a transcript of private conversations. Historical captures are reused, not rerun. Technical delivery, environment qualification and human acceptance are different claims.",
+  "entries": [
+    {
+      "id": "J01",
+      "title": "Before a face existed",
+      "commit": "b9c3891",
+      "workstreams": "vr-01..06",
+      "chapter": "01, 03, 04, 05",
+      "status": "RESEARCH / CPU PROBE",
+      "body": [
+        "Verona began with a distinction that determined the architecture: tracking a face that already exists is not the same problem as generating a face performance from speech. The earlier VTuber application's mesh was useful prior art, not a scaffold to copy. Research therefore preceded the graphical application.",
+        "The owner chose free, local operation on the existing AMD machine. The reviewed Audio2Face SDK expected CUDA, but that did not prove its released ONNX network required CUDA. A bounded experiment ran Mark's network with ONNX Runtime's CPU provider, using the real conditioning layout and reconstructing skin from the released PCA basis.",
+        "Thirty synthetic frames produced finite outputs, and one 61,520-vertex skin reconstruction succeeded. That changed CPU feasibility from a proposal into a narrow observed result. It did not create a visible face or test speech accuracy. The next missing contract was matching connectivity: numbers alone do not describe which lip vertices are neighbors."
+      ],
+      "mechanism": "skin = neutral + coefficients @ basis. Preserve the signed deltas and the actual identity condition.",
+      "failure": "Assuming SDK requirements and network requirements were identical would have rejected the chosen local route without testing it.",
+      "boundary": "Synthetic silence/tone only. The recorded 20.26 ms median network call excludes the rest of the application.",
+      "flow": ["Research and rights", "CPU-only ONNX", "PCA skin reconstruction", "Matching topology still needed"],
+      "figures": []
+    },
+    {
+      "id": "J02",
+      "title": "A sentence becomes a complete clip",
+      "commit": "abd94b2",
+      "workstreams": "vr-07",
+      "chapter": "06",
+      "status": "BACKEND EXISTS",
+      "body": [
+        "The first real line was deliberately ordinary: Hey, how are you? Installed Windows System.Speech voices supplied local PCM, avoiding another speech model or a cloud endpoint. Text traveled as data to a fixed PowerShell program, not as executable command fragments.",
+        "A matching Maya-ACE sample supplied native topology. Verona read only bounded numerical mesh attributes; it never executed the scene. The parser initially lost polygons because Maya writes the polygon type only on the first chunk. Supporting continuation chunks fixed an actual data-contract error rather than hiding it with a fabricated neighbor graph.",
+        "The original reduction contracted only connected native edges inside spatial cells. Touching upper and lower lips therefore could not be sewn together merely because they were close. The greeting generated 83 complete neural frames over 2.745 seconds. A visible player was still the next task, not something implied by successful binary files."
+      ],
+      "mechanism": "Native-edge union-find -> original representative indices -> selected PCA basis -> packed complete motion.",
+      "failure": "Typed-array alignment also mattered: neutral position bytes needed padding before Uint32 topology.",
+      "boundary": "Historical Mark baseline: 10,349 sampled vertices and 5,153,802 motion bytes, not the current Claire topology.",
+      "flow": ["Text as JSON", "Windows PCM", "30 Hz neural poses", "Packed motion + matching indices"],
+      "figures": [
+        {"path": "browser-v2/01-neutral.png", "caption": "The subsequent browser prototype makes the Mark-era connected surface visible. This is a later player capture, not a screenshot of the command-line generation step."},
+        {"path": "browser-v2/02-speaking.png", "caption": "A speech pose from the early browser qualification. The coarse native-derived surface is historical; later chapters replace its rendering topology."}
+      ]
+    },
+    {
+      "id": "J03",
+      "title": "One clock, finally a moving face",
+      "commit": "af797df",
+      "workstreams": "vr-07",
+      "chapter": "06",
+      "status": "INTERACTIVE PROTOTYPE",
+      "body": [
+        "The first window added a dependency-free WebGL2 player and a capability-protected loopback API. Generating a clip did not start playback automatically. The application served an explicit static allowlist and binary buffers, not arbitrary local files.",
+        "The important timing choice was audio.currentTime. The renderer interpolated adjacent 30 Hz poses from the audio position, rather than advancing an independent mouth-animation timer. Pause, seek, restart and the end of playback consequently shared one time owner.",
+        "The first browser harness lacked a trusted audio gesture; bypassing autoplay would have tested the wrong application. Actual pointer activation corrected the harness. A later inspector assertion also needed the observed blockedReason rather than an assumed errorText. The final browser-v3 run passed twelve real scenarios, including failure/retry and reload. These historical screenshots show why the project could now be called runnable, while muted playback still could not establish listening or lip-contact acceptance."
+      ],
+      "mechanism": "frame = audio time * 30; interpolate its neighbors on the display requestAnimationFrame.",
+      "failure": "Browser-v1 failed trusted audio activation; browser-v2 retained a diagnostic assertion failure. Neither became passing evidence.",
+      "boundary": "The application worked locally. Independent teeth, tongue, eye joints and SDK contact/smoothing remained omitted.",
+      "figures": [
+        {"path": "browser-v3/01-neutral.png", "caption": "The first qualified browser player's neutral state."},
+        {"path": "browser-v3/03-seek.png", "caption": "Seeking addresses the same complete clip, rather than generating a new animation."},
+        {"path": "browser-v3/04-happy.png", "caption": "Explicit model conditioning demonstrated an expression control, not automatic emotion understanding."},
+        {"path": "browser-v3/06-mobile.png", "caption": "The early narrow layout. Historical usability evidence, not the final M1 workspace."}
+      ]
+    },
+    {
+      "id": "J04",
+      "title": "Hazel meets the matching Claire",
+      "commit": "ea85a11",
+      "workstreams": "vr-08",
+      "chapter": "07",
+      "status": "IDENTITY / VOICE / CACHES",
+      "body": [
+        "The next feedback asked for Hazel, editable voice characteristics and a female mesh with optional hair. Relabeling or warping Mark would have broken the identity/basis contract. The implementation adopted Claire's matching model, PCA basis and topology instead: 140 skin coefficients and 169 outputs, not Mark's 272 and 301.",
+        "Voice edits became a bounded data contract. Application-owned escaped SSML handled prosody, while local bass/treble shaping preserved sample count. The final shaped PCM drove both inference and playback. A voice-only preview did not replace the prepared face clip.",
+        "Performance work removed repeated work rather than promising that a larger network was faster. A persistent cache held only derived topology. RAM retained one latest speech object and one latest successful clip. Expression-only changes could reuse speech; a genuinely new line still needed Claire inference. The new procedural bob also required actual image review: the first attempts intersected the scalp, then hid the eyes."
+      ],
+      "mechanism": "Validate -> synthesize/shape once -> use the identical PCM for motion and audio. Cache ownership stays explicit.",
+      "failure": "A wider mouth sampling region densified the chin. Hair geometry counts did not reveal the obstructed eyes; screenshots did.",
+      "boundary": "The 37% smaller motion payload belongs to this reduced-topology stage; chapter 08 supersedes that payload.",
+      "figures": [
+        {"path": "claire-browser-04/01-neutral.png", "caption": "Matching Claire and the early procedural bob."},
+        {"path": "claire-browser-04/01c-turned-hair.png", "caption": "A turned view exposes depth and hair placement that a frontal image can conceal."},
+        {"path": "claire-browser-04/04b-voice-controls.png", "caption": "Bounded local voice edits and a separate preview path."},
+        {"path": "claire-browser-04/02-speaking.png", "caption": "The shaped waveform and the face now belong to one generated clip."}
+      ]
+    },
+    {
+      "id": "J05",
+      "title": "Recover the face, not just more dots",
+      "commit": "2c4a13a",
+      "workstreams": "vr-09, vr-10",
+      "chapter": "08",
+      "status": "FACIAL DEFINITION",
+      "body": [
+        "The owner could not clearly identify the eyes, nose and mouth. The response was not to increase point count blindly. Recovering one native subdivision layer retained actual contour loops and original PCA indices while giving lighting a coherent surface.",
+        "The result used 15,375 original indices and 30,746 triangles, with smooth-normal directional lighting, restrained contours and original static cosmetic eyes. Diagnostic points became optional rather than the default picture. Those eyes improved readability, but were not independent eye-joint animation.",
+        "The final browser run at one- and two-times density recorded a roughly 16.7 ms mean display callback interval on this machine. That was a bounded environment result, not a guarantee of physical display scanout or universal 60 fps. The first visual source prerelease froze this stage, leaving older Mark/voxel measurements as history instead of presenting incompatible payloads as current."
+      ],
+      "mechanism": "Inverse native subdivision preserves meaningful connectivity; directional lighting reveals planes without inventing motion.",
+      "failure": "The early voxel-era surface was functional but did not satisfy facial readability. That feedback changed the representation.",
+      "boundary": "Static eyes, sampled silent screenshots and callback cadence do not prove articulation, listening or physical display performance.",
+      "figures": [
+        {"path": "face-browser-final/01-neutral.png", "caption": "The recovered native facial structure in the qualified browser."},
+        {"path": "face-browser-final/01b-skin-only.png", "caption": "Hair off: facial planes and contour definition can be judged without hairstyle distraction."},
+        {"path": "face-browser-final/01c-turned-hair.png", "caption": "The turned face reveals the new coherent surface."},
+        {"path": "face-browser-final/02-speaking.png", "caption": "A speaking state retains the original learned skin motion."}
+      ]
+    },
+    {
+      "id": "J06",
+      "title": "An original character, then a correction",
+      "commit": "9f90f64",
+      "workstreams": "vr-11",
+      "chapter": "09",
+      "status": "APPEARANCE STUDY",
+      "body": [
+        "The first original character pass added a bounded rest-surface sculpt, warm cosmetics, hazel eyes and layered chestnut waves. Twenty-six swept S-wave locks replaced a straight-wig impression. Motion remained the original Claire PCA deformation, not a newly trained identity.",
+        "Actual rendering exposed a stepped forehead clamp and an unconvincing crown. A continuous hairline and revised sweeps addressed those visible problems. Geometry tests and numerical bounds were necessary, but they could not decide whether the character looked right.",
+        "This pass also made warm shading the default. The owner rejected both the structure and that unintended default change in the next feedback. Keeping the record matters: a technically qualified candidate and a pushed source commit did not mean the appearance had been accepted. The following entry restores the liked polygon-first direction instead of rewriting this study as a success in taste."
+      ],
+      "mechanism": "Original rest offsets plus unchanged neural deltas; static swept hair shares the existing rendering path.",
+      "failure": "The warm solid default was not the requested visual direction. The owner rejected the candidate despite passing technical checks.",
+      "boundary": "This is a historical appearance study, not the final M1 default or a claim of subjective attractiveness.",
+      "figures": [
+        {"path": "verona-character-final-03/01-neutral.png", "caption": "The historical warm-shaded character candidate that preceded the polygon-default correction."},
+        {"path": "verona-character-final-03/01c-turned-hair.png", "caption": "The original layered waves, reviewed in depth rather than only from the front."},
+        {"path": "verona-character-media-03/skin-only.png", "caption": "Hair removed to separate rest-shape changes from styling."},
+        {"path": "verona-character-media-03/decoded-speaking-20.png", "caption": "A retained decoded speaking-GIF sample. It documents the study, not approval of it."}
+      ]
+    },
+    {
+      "id": "J07",
+      "title": "Make the liked polygon view default",
+      "commit": "e2f10b5",
+      "workstreams": "vr-12",
+      "chapter": "09",
+      "status": "OWNER-DIRECTED CORRECTION",
+      "body": [
+        "The owner supplied the earlier cool polygon look and explicitly wanted it as the default. A View selector restored that path while retaining warm shading as an option. The correction also strengthened the lower-face taper, chin and cheek structure instead of changing cosmetics alone.",
+        "Exact same-pose roundtrips checked that switching presentation did not alter the clip, voice, time or motion. An initial pixel comparison read a cleared WebGL backbuffer. Redrawing before readback fixed the fixture without weakening equality.",
+        "The measured callback means met the bounded budget, but twenty-four intervals exceeded 25 ms across six cases. Their cause was not established. The ledger kept those outliers rather than converting a mean/p95 pass into a locked-frame-rate claim. This became a recurring rule: name the measured layer and retain the evidence that does not fit the happy summary."
+      ],
+      "mechanism": "A presentation selector changes rendering, not the complete speech clip or its audio-clock position.",
+      "failure": "Cleared-backbuffer readback was a test-order error. It was not a reason to loosen production or roundtrip assertions.",
+      "boundary": "Default restoration is implemented and checked. Beauty approval and universal performance remain different questions.",
+      "figures": [
+        {"path": "polygon-correction-03/01-neutral.png", "caption": "The restored polygon-first default."},
+        {"path": "polygon-correction-03/02b-restored-polygons.png", "caption": "Returning to polygons preserves the current clip and pose."},
+        {"path": "polygon-media-01/shaded.png", "caption": "Warm shading remains optional rather than being silently removed."},
+        {"path": "polygon-media-01/decoded-turntable-12.png", "caption": "A decoded historical turntable sample shows the revised face structure."}
+      ]
+    },
+    {
+      "id": "J08",
+      "title": "The face leaves the browser frame",
+      "commit": "f05747c",
+      "workstreams": "vr-13",
+      "chapter": "10",
+      "status": "NATIVE OVERLAY / GAZE / XYZ",
+      "body": [
+        "Desktop use introduced an optional pinned Electron runtime around the same WebContents, WebGL buffers and audio owner. Switching between controls and a transparent head did not create a second independently ticking face.",
+        "Cursor coordinates became bounded procedural gaze, transformed into the rotated head's local space and smoothed over time. Full signed X/Y/Z orientation composed around the existing pivot. This was an authored interaction model, not camera capture or calibrated three-dimensional eye tracking.",
+        "The first native candidate exited on GUI stdin EOF before producing useful evidence. Later checks required named receipts and real saved images, not merely exit code zero. Rendering work also stopped allocating recurring normal arrays and GPU storage during playback. Native pinning needed an explicit above-taskbar window level; ordinary always-on-top was not enough for the observed Windows behavior."
+      ],
+      "mechanism": "One compositor owner, one audio clock, typed isolated IPC and coalesced rendering. No renderer Node bridge.",
+      "failure": "A successful process exit did not establish a visible native window. A native-looking fixture could not replace actual saved pixels.",
+      "boundary": "Transparency and native pinning are Windows-qualified behavior, not priority over secure desktops or every fullscreen application.",
+      "figures": [
+        {"path": "desktop-overlay-10/desktop-controls.png", "caption": "The original native controls surface in an owned qualification window."},
+        {"path": "desktop-overlay-10/desktop-overlay.png", "caption": "The same renderer in transparent desktop mode. Qualification backgrounds are synthetic, not a captured personal desktop."}
+      ]
+    },
+    {
+      "id": "J09",
+      "title": "Hide shoulders without hiding the cost",
+      "commit": "e4e503e",
+      "workstreams": "vr-14",
+      "chapter": "10",
+      "status": "FRAMING / LESS DRAW WORK",
+      "body": [
+        "The owner wanted an optional head and some neck, while preserving the larger bust for later use. A screen-space mask would have hidden pixels without reducing submitted geometry. The implementation instead built derived rest-space index sets and used fragment clipping only for primitives crossing the boundary.",
+        "The original positions, motion frames and audio stayed unchanged. Retained triangles reduced animated-normal work; returning to Full bust restored the original extent. This deliberately open boundary was not a newly closed anatomical mesh.",
+        "An early browser cadence case failed. A later native run also passed its overall test while retaining fifteen slow intervals. The final cleaner run did not erase those receipts. One rotated screenshot initially showed an older compositor frame; waiting for actual presentation corrected the capture, not the geometry. The distinction between rendering, presentation and saving pixels would return during the final UI work."
+      ],
+      "mechanism": "Cull wholly hidden native primitives before drawing; recompute normals only for the retained surface.",
+      "failure": "An immediately captured rotated window contained an older compositor image despite correct internal state.",
+      "boundary": "Reduced draw/normal work does not reduce neural inference, complete motion storage or transmitted full-motion payloads.",
+      "figures": [
+        {"path": "head-neck-native-03/desktop-controls.png", "caption": "The framing choice is independent of speech generation."},
+        {"path": "head-neck-native-03/desktop-overlay.png", "caption": "Head-and-neck framing removes shoulders in the native window."},
+        {"path": "head-neck-native-03/head-neck-turned.png", "caption": "The boundary rotates with the head; it is not a stationary screen crop."}
+      ]
+    },
+    {
+      "id": "J10",
+      "title": "A reference is not likeness acceptance",
+      "commit": "f097d8c",
+      "workstreams": "vr-15..19",
+      "chapter": "09",
+      "status": "STUDY / PARKED ROADMAP",
+      "body": [
+        "A supplied character sheet prompted softer original rest geometry and an olive, rosewood and bronze material study. The source artwork was not copied into textures or redistributed. Frontal, turned and speaking captures tested the actual result.",
+        "Two high-density color runs failed the unchanged cadence budget. The prototype deliberately capped optional color raster density at 1.5 times while polygons retained 2 times. Less raster work was a defensible constraint, not proof of what caused every outlier or a measured percentage speedup.",
+        "The owner still rejected the likeness. A later supplied static GLB was inspected but explicitly parked. Four dependent workstreams recorded feasibility, an animation-ready asset, retargeting and qualification; they did not authorize implementation. Their open status survived the eventual milestone celebration. A useful journal keeps that unfinished branch visible rather than quietly closing it to make M1 look complete."
+      ],
+      "mechanism": "Keep identity, original learned motion, materials and rendering density as separate decisions.",
+      "failure": "Technical study completion and a source prerelease did not establish the requested likeness.",
+      "boundary": "Private reference artwork and GLB previews are intentionally absent. Realistic/vr-16..19 remains parked at M1.",
+      "figures": [
+        {"path": "reference-media-01/neutral-color.png", "caption": "The rendered color study, not the supplied reference artwork."},
+        {"path": "reference-media-01/color-turned.png", "caption": "A turned view separates the surface shape from a flattering frontal camera."},
+        {"path": "reference-media-01/polygon.png", "caption": "The polygon path remains available and default."},
+        {"path": "reference-media-01/skin-only.png", "caption": "The study without hair: a numerical change is not automatically a convincing identity."}
+      ]
+    },
+    {
+      "id": "J11",
+      "title": "One performance, several visual languages",
+      "commit": "b4b85b3",
+      "workstreams": "vr-20",
+      "chapter": "09, 10",
+      "status": "PRESENTATION REGISTRY",
+      "body": [
+        "The owner liked Claire's lip and expressive motion and wanted additional presentations without replacing it. A small explicit registry added FaceMesh, FaceDot and UniformPolygons around the same learned performance.",
+        "FaceMesh selected connected rest-topology detail with protected mouth, lid and nose regions. FaceDot used depth-tested points. UniformPolygons drew a surface-anchored rectangular pattern: it was not a new quad rig. Unlit modes skipped unused animated normals.",
+        "A numerical low-detail audit found normals opposed to native averages. That diagnostic was not automatically an inversion proof, but it justified winding/shared-neighbor guards and a synthetic fold regression. Exact Claire restoration, bounded buffer replacement and same-clock playback were stronger evidence than merely seeing four differently colored screenshots. The parked GLB direction gained the name Realistic, not a disguised partial implementation."
+      ],
+      "mechanism": "Shared motion/audio below a small presentation registry; lazy derived resources above it.",
+      "failure": "Simplifying detail can change local orientation. Preserve protected loops and inspect incident geometry, not only triangle counts.",
+      "boundary": "The surface grid is a shader pattern, not quad topology; none of these modes proves human accuracy.",
+      "figures": [
+        {"path": "presentation-views-native-01/view-facemesh.png", "caption": "Connected FaceMesh is a rendering of the existing performance."},
+        {"path": "presentation-views-native-01/view-facedot.png", "caption": "Depth-tested FaceDot retains the same speech owner."},
+        {"path": "presentation-views-native-01/view-uniform.png", "caption": "UniformPolygons is a surface pattern, not a remeshed animation rig."},
+        {"path": "presentation-views-native-01/reference-color-overlay.png", "caption": "The preserved colored Claire presentation remains a separate option."}
+      ]
+    },
+    {
+      "id": "J12",
+      "title": "Follow the jaw, not a horizontal ruler",
+      "commit": "2bf9dba",
+      "workstreams": "vr-21",
+      "chapter": "10",
+      "status": "VISUAL BOUNDARY CORRECTION",
+      "body": [
+        "The first neck crop looked like a horizontal chop. The owner drew a jaw-following boundary and wanted to choose visibility visually. A shared curved rest-space boundary replaced the plane, with one live neck-length control across skin, hair, edges and points.",
+        "Conservative primitive bounds retained curved interiors even when all corners appeared clipped. Exact fragment discard completed the boundary. Changing the slider replaced the latest derived buffers without regenerating speech or accumulating a history of cropped meshes.",
+        "The first native automation pass was not enough: its actual 8 cm screenshot exposed the lower-neck base seam. The prototype range was intentionally limited to 0-6 cm while retaining Full bust. This is a particularly useful journal failure: a green test receipt did not overrule visible evidence. The final 0, 1.7 and 6 cm captures showed the accepted technical bound, without claiming anatomical reconstruction."
+      ],
+      "mechanism": "Conservative curved-boundary primitive retention plus exact fragment clipping; one reusable crop state.",
+      "failure": "An 8 cm image revealed a seam after automation had passed. The visible product constraint changed to 6 cm.",
+      "boundary": "The curve is a presentation crop, not a closed neck model or owner contour/beauty acceptance.",
+      "figures": [
+        {"path": "jawline-framing-native-02/jaw-neck-0.png", "caption": "0 cm: the curved jaw boundary with minimal visible neck."},
+        {"path": "jawline-framing-native-02/jaw-neck-1.7.png", "caption": "1.7 cm: the default intermediate extent in the historical native qualification."},
+        {"path": "jawline-framing-native-02/jaw-neck-6.png", "caption": "6 cm: the intentional maximum before the exposed-base problem."},
+        {"path": "jawline-framing-native-02/head-neck-turned.png", "caption": "A turned head tests the actual rest-space curve rather than a frontal illusion."}
+      ]
+    },
+    {
+      "id": "J13",
+      "title": "Hair, cursor modes and a tiny glass tab",
+      "commit": "f1aea4d",
+      "workstreams": "vr-22..25",
+      "chapter": "09, 10",
+      "status": "HISTORICAL CONTROL EXPANSION",
+      "body": [
+        "This iteration briefly offered eleven procedural hairstyles: the original waves and ten alternatives. Only the original and latest alternative/crop resources were retained. Actual front and turned renders caught clipped long hair, a rear ponytail intersection and an oversized curl candidate.",
+        "Cursor tracking split into exclusive eye and head modes. Head mode composed manual orientation offsets around the eye midpoint. A browser check caught smoothing stopping just before the exact final snap; a post-step snap fixed the real settling bug.",
+        "The floating controls then collapsed into a small translucent tab. Projected support points, cached when resources changed, anchored it above the actual silhouette. Native images drove crown clearance and headroom changes. The bun and twin-tail images on the opposite page are intentionally historical: later feedback removes nine choices and keeps only waves and denser spiral curls. A development journal must not accidentally advertise retired controls as current."
+      ],
+      "mechanism": "Selection-time procedural geometry; bounded resource ownership; cached silhouette supports instead of per-frame mesh scans.",
+      "failure": "Native screenshots exposed anchor gaps and crown overlap after technical passes. The images changed the layout.",
+      "boundary": "CSS glass is not Windows acrylic. These historical hair options are not all available in M1.",
+      "figures": [
+        {"path": "hair-controls-native-06/hairstyle-bun.png", "caption": "Historical bun: useful evidence of the wider experiment, removed before M1."},
+        {"path": "hair-controls-native-06/hairstyle-twins.png", "caption": "Historical twin tails: a retained development record, not a current selector option."},
+        {"path": "hair-controls-native-06/cursor-head.png", "caption": "Head-follow mode uses procedural cursor response, not a captured person."},
+        {"path": "hair-controls-native-06/overlay-controls-expanded.png", "caption": "The expanded native options before the later calmer UI redesign."}
+      ]
+    },
+    {
+      "id": "J14",
+      "title": "The gallery becomes evidence",
+      "commit": "0ba9669",
+      "workstreams": "vr-26, vr-27",
+      "chapter": "09, 10",
+      "status": "PROTOTYPE.3 / MEDIA",
+      "body": [
+        "The next source prerelease needed real GIF coverage, not another feature list. Production rendering supplied speech, presentation, cursor, framing and every then-current hairstyle. The first full-bust gallery clipped a bun; the final gallery used a bounded fit rather than claiming that any camera choice was safe.",
+        "Encoding was checked independently: decoded alpha, dimensions, delays, changing content and full-frame disposal mattered. A transparent face should not acquire a black keyed outline or ghosts from previous frames.",
+        "The README still failed visually. A long-layers loop squeezed beside curls, and a narrow title wrapped differently. Equal cells and separate heading rows fixed the actual GitHub Markdown layout. Every solo GIF became centered. The resulting transparent FaceMesh hero was a native-alpha render, not black-background removal. The preserved historical gallery sheets show how media production itself became a tested engineering surface."
+      ],
+      "mechanism": "Real capture -> explicit GIF palette/transparency -> independent decode -> actual GitHub-CSS layout.",
+      "failure": "Correct GIF bytes did not guarantee equal gallery columns or safe hair framing.",
+      "boundary": "Sampled GIFs are silent visual records, not live inference speed or independent listening evidence.",
+      "figures": [
+        {"path": "gallery-prototype3-02/decoded-review-1.png", "caption": "Decoded prototype.3 gallery evidence. Hairstyles shown here belong to that historical edition."},
+        {"path": "gallery-prototype3-02/decoded-review-2.png", "caption": "More sampled historical feature loops, checked after encoding rather than only before it."},
+        {"path": "gallery-prototype3-02/decoded-review-3.png", "caption": "Historical presentation and surface-pattern samples from the original gallery production."},
+        {"path": "gallery-prototype3-02/decoded-review-4.png", "caption": "Cursor, jawline, zoom and native-menu samples from the original gallery production."}
+      ]
+    },
+    {
+      "id": "J15",
+      "title": "Let the hair speak the same language",
+      "commit": "1553ea9",
+      "workstreams": "vr-28",
+      "chapter": "09, 10",
+      "status": "MATCHING PRESENTATIONS",
+      "body": [
+        "Hair had been a colored cosmetic object even when the head used another visual language. The owner asked for matching hair across presentations, initially off outside Claire, and reversible grayscale for Claire itself.",
+        "The implementation reused actual hair triangle edges for wire presentation and surface patterns for dots/grid. Lazy buffers and a small bounded fit set avoided treating every style/view combination as an unlimited cache. Grayscale altered final RGB while retaining alpha and tonal lighting.",
+        "An exact wire hash failed because repeated identical draws could differ in one RGB pixel by a few channel levels. The final probe kept exact fit and coverage assertions and documented only that measured wire-specific envelope. It did not weaken colored Claire, other presentations or performance gates. The visible lesson is larger than monochrome: preserve restoration and resource ownership when adding another axis of customization."
+      ],
+      "mechanism": "One shared hairstyle, per-view visibility/format, lazy topology and reversible final-color transform.",
+      "failure": "A fixture changed a Hair DOM value without dispatching its actual input event; the test was corrected.",
+      "boundary": "RAM presentation choices reset on reload. Technical restoration is not human approval of every style.",
+      "figures": [
+        {"path": "matching-hair-native-01/claire-monochrome.png", "caption": "Claire grayscale preserves lighting and transparency."},
+        {"path": "matching-hair-native-01/matching-hair-facemesh.png", "caption": "Wire-format hair follows FaceMesh rather than remaining a colored solid."},
+        {"path": "matching-hair-native-01/matching-hair-facedot.png", "caption": "Surface-sampled hair follows the FaceDot presentation."},
+        {"path": "matching-hair-native-01/matching-hair-uniform.png", "caption": "The grid format is shared between head and hair."}
+      ]
+    },
+    {
+      "id": "J16",
+      "title": "Fewer hairstyles, stronger eyes",
+      "commit": "29883e6",
+      "workstreams": "vr-29",
+      "chapter": "09, 10",
+      "status": "TWO STYLES / OPTICAL STUDY",
+      "body": [
+        "The owner narrowed the hairstyle choice to original waves and spiral curls, asking for denser curls. Nine alternatives were removed and curls became forty-eight separately swept locks. Keeping historical images did not mean keeping their retired implementations.",
+        "FaceMesh eyes gained an original analytic red optical treatment: rings and spokes inside the existing depth-tested eye geometry. It reused gaze and orientation without fullscreen bloom or another animation owner.",
+        "The owner paused new media until an in-app review. That pause mattered more than a desire to refresh screenshots immediately. Early native probes therefore established pixels and behavior in memory without producing a new public gallery. The plate uses clearly labeled later documentation of the delivered two-style/eye direction; it must not be mistaken for media captured while the pause was in force."
+      ],
+      "mechanism": "Analytic eye structure in existing triangles; derivative antialiasing and depth preserve eyelid occlusion.",
+      "failure": "One cadence run missed the unchanged mean budget and a hidden attempt timed out. Neither supplied fresh performance proof.",
+      "boundary": "The plate is later post-review documentation. Only waves and 48-lock spiral curls are current at M1.",
+      "figures": [
+        {"path": "two-styles-red-mesh-desktop-01/hairstyle-claire.png", "caption": "Original waves, documented after the media pause was lifted."},
+        {"path": "two-styles-red-mesh-desktop-01/hairstyle-curls.png", "caption": "The retained denser spiral curls; other historical hairstyles are retired."},
+        {"path": "two-styles-red-mesh-desktop-01/view-facemesh.png", "caption": "Later native documentation of red mechanical FaceMesh eyes."},
+        {"path": "two-styles-red-mesh-desktop-01/overlay-controls-collapsed.png", "caption": "The small collapsed tab leaves the face as the primary desktop content."}
+      ]
+    },
+    {
+      "id": "J17",
+      "title": "An original robot shares the voice",
+      "commit": "9d2ca4c",
+      "workstreams": "vr-30, vr-29",
+      "chapter": "09, 10",
+      "status": "PROCEDURAL ROBOT",
+      "body": [
+        "The robot was an original articulated presentation, not a copied movie asset. Closed beveled helmet pieces, fins, cheek plates and a rigid mouth/jaw/brow mechanism mapped a small set of existing facial landmarks into mechanical motion.",
+        "It retained the same speech interpolation, audio clock, cursor behavior and manual orientation. Vertex-shader transforms moved pieces without rebuilding their meshes every frame. Selected-only resources were deleted when leaving robot mode, while returning to Claire restored the exact prior pose.",
+        "Qualification found a real shader linker error: integer precision differed across stages. Other failed probes confused retained speech storage with robot leaks or read a discarded backbuffer after an asynchronous boundary. Correcting those distinct causes was better than forcing a production preserveDrawingBuffer workaround. The gallery was updated only after the owner resumed media work; these later real-renderer samples document that delivered state."
+      ],
+      "mechanism": "Sparse landmark retargeting -> bounded rigid part transforms -> shared audio-clock draw.",
+      "failure": "The cross-stage integer-precision mismatch was an actual shader bug; later readback and leak-count errors belonged to fixtures.",
+      "boundary": "Stylized mechanical interpretation, not anatomical calibration or an official character/model/voice.",
+      "figures": [
+        {"path": "two-styles-red-mesh-media-05/gallery-robot-overview.png", "caption": "The original articulated robot in the post-review feature gallery."},
+        {"path": "two-styles-red-mesh-media-05/robot/decoded-light-dark-review.png", "caption": "Decoded robot samples against light and dark backgrounds."},
+        {"path": "two-styles-red-mesh-media-05/gallery-overview.png", "caption": "The robot joins a shared speaking workspace rather than becoming a second application."}
+      ]
+    },
+    {
+      "id": "J18",
+      "title": "Exaggerate expression, not all speech",
+      "commit": "2a4f407",
+      "workstreams": "vr-31",
+      "chapter": "09",
+      "status": "NEUTRAL-RELATIVE GAIN",
+      "body": [
+        "Doubling every displacement would exaggerate ordinary speech as well as emotion. Doubling a nonlinear conditioning input would not prove double structure. The implementation instead compared an expressive prediction E with neutral N for the same audio and implicit style.",
+        "The reconstruction N + 2(E - N) amplified the explicit expressive contribution while preserving ordinary neutral speech. Paired bounded CPU batches validated both predictions and checked cancellation between passes. Neutral remained the original one-pass trajectory.",
+        "FaceMesh also gained a hot pupil center and a bounded red corona, retaining the already dimmed outer eye structure. A first capture clipped surprise because its neutral fit was too tight. A wider fit kept the full expression inside frame. The actual recorded gain was approximately two after packing, but that mathematical result did not establish that observers would name every expression correctly."
+      ],
+      "mechanism": "Neutral-relative reconstruction: N + g(E - N). Two/ four are structural gains, not larger emotion-input weights.",
+      "failure": "A tightly fitted neutral face clipped the stronger surprised pose. Qualification recaptured all states with headroom.",
+      "boundary": "Extra neural passes cost generation time. No new per-playback inference, contact proof or semantic accuracy follows.",
+      "figures": [
+        {"path": "expression-glow-media-02/decoded-neutral.png", "caption": "Neutral remains the one-pass reference, not a doubled speaking face."},
+        {"path": "expression-glow-media-02/decoded-eye-detail.png", "caption": "The hot center is local eye geometry/shading, not fullscreen bloom."},
+        {"path": "expression-glow-media-02/decoded-light-dark-review.png", "caption": "Decoded 2x expression samples reveal framing and transparency on both backgrounds."}
+      ]
+    },
+    {
+      "id": "J19",
+      "title": "Keep the glowing center in both choices",
+      "commit": "2120752",
+      "workstreams": "vr-32, vr-33",
+      "chapter": "09",
+      "status": "4X / OPTICAL CORRECTION",
+      "body": [
+        "The owner wanted still stronger expression and separate spokes/rings comparisons. The same neutral-relative formula gained a bounded 4x option; its complete-clip key included the gain so an older 2x clip could not be reused incorrectly.",
+        "The first isolated optical interpretation removed the core and halo. The owner clarified that both choices must retain glowing centers while the selected spokes or rings become brighter. The correction restored the original center and raised only the selected structure.",
+        "Two matched 4x GIFs then used the same audio, motion, camera and timeline. Independent decoding checked all frames, delays, alpha and changing states. Naturally closed eyelids still hid centers in some expressions; the shader did not paint emission through the lids to satisfy a superficial brightness count. This is a small but important example of preserving the actual geometry when making a comparison more dramatic."
+      ],
+      "mechanism": "One live optical uniform selects structure; regenerated motion gain and optical brightness remain independent.",
+      "failure": "The centerless comparison was a misunderstood visual requirement and was superseded, not relabeled as the intended result.",
+      "boundary": "Matched 4x comparisons are qualified media, not a claim that every exaggerated pose is physically plausible.",
+      "figures": [
+        {"path": "bright-center-media-01/decoded-optical-details.png", "caption": "Corrected selected-structure detail: both alternatives retain glowing centers."},
+        {"path": "bright-center-media-01/decoded-comparison-review.png", "caption": "Matched corrected 4x samples, preserving audio, camera and timing."},
+        {"path": "bright-center-media-01/eyes-rings/decoded-neutral.png", "caption": "The rings alternative remains a live rendering choice rather than a different model."}
+      ]
+    },
+    {
+      "id": "J20",
+      "title": "Ten controls, not every possible feeling",
+      "commit": "7735e0f",
+      "workstreams": "vr-34..36",
+      "chapter": "09",
+      "status": "UNIQUE EMOTIONS",
+      "body": [
+        "Research found ten explicit model controls after sixteen implicit style values. A bounded local probe checked neutral, ten singles, forty-five pairs and one ten-way condition. Joint predictions differed from simple averages of single emotions, so any future blending would need true joint conditioning.",
+        "A finite gallery could not exhaust continuous expression space. Equal subsets alone would create 1,024 cases. The owner chose unique named emotions only, preserving combinations as a future surprise. The delivered gallery therefore exposed all ten singles plus neutral, not a hidden mixture API.",
+        "The same fixed Hazel line, camera and gain made comparisons meaningful. The later full README refresh captured every active feature while retaining the just-qualified emotion media unchanged. Long captioned hero loops and natural-aspect paired GIFs were reviewed in actual GitHub-CSS layouts, not only in a locally invented Markdown renderer."
+      ],
+      "mechanism": "Explicit single-channel conditioning; common audio/style/camera; independent full-timeline GIF decode.",
+      "failure": "Calling a 56-loop proposal 'all combinations' would have confused a selected finite sample with continuous coverage.",
+      "boundary": "The ten names are model controls, not a recognized emotional diagnosis or human semantic acceptance.",
+      "figures": [
+        {"path": "unique-emotions-media-01/emotion-joy/expression-glow-preview.gif", "sampleMs": 1100, "caption": "Happy/joy, sampled from its actual 4x single-emotion GIF."},
+        {"path": "unique-emotions-media-01/emotion-cheekiness/expression-glow-preview.gif", "sampleMs": 1100, "caption": "Cheekiness before the later sideways-smirk report."},
+        {"path": "unique-emotions-media-01/emotion-pain/expression-glow-preview.gif", "sampleMs": 1100, "caption": "Pain can naturally occlude glowing pupil centers; the eye shader respects the lids."},
+        {"path": "unique-emotions-media-01/emotion-amazement/expression-glow-preview.gif", "sampleMs": 1100, "caption": "Amazement/surprised, sampled at the same requested GIF time for comparison."}
+      ]
+    },
+    {
+      "id": "J21",
+      "title": "Speak from a warm host, color it live",
+      "commit": "b3c3632",
+      "workstreams": "vr-37, vr-38",
+      "chapter": "09, 10",
+      "status": "OPT-IN AGENT CLI / COLORS",
+      "body": [
+        "Selected agent sessions could now address a named warm host through a bounded stdin/JSON CLI. The host retained its model and local speech worker. There was no global narration hook or automatic speech from every chat.",
+        "Generation and playback acknowledgements were kept distinct. A cached or voice-only operation could start quickly, but cold readiness and new neural motion still took seconds. Native Windows GUI stdin EOF proved unsuitable as a persistent renderer transport; capability-authenticated loopback push replaced it. Cancellation, busy responses and latest-ID no-replay rules made retries explicit.",
+        "Live mesh and eye colors were a separate rendering change. Validated hex/picker edits updated uniforms, not speech, geometry buffers or network state. The first listener placement risked accumulating handlers after repeated presentation switches; moving setup to one place and counting actual draws caught that coupling. A narrow-layout review also grouped each swatch with its own hex value."
+      ],
+      "mechanism": "Warm model/speech ownership for opt-in clients; renderer-only uniforms for live colors.",
+      "failure": "Forty milliseconds of host work was not forty milliseconds command-to-audible-playback. The journal preserves the measured layer.",
+      "boundary": "Colors are RAM-only. A muted playback acknowledgment is not independent listening or an automatic narrator.",
+      "figures": [
+        {"path": "facemesh-colors-03/colors-controls-default.png", "caption": "Original mesh/eye colors and their explicit reset controls."},
+        {"path": "facemesh-colors-03/colors-green-mesh-blue-eyes.png", "caption": "Independent vivid green mesh and blue eyes, without regenerating motion."},
+        {"path": "facemesh-colors-03/colors-controls-mobile.png", "caption": "The corrected narrow color grouping keeps swatch, label and hex together."}
+      ]
+    },
+    {
+      "id": "J22",
+      "title": "A rejected identity gets an honest name",
+      "commit": "446cd77",
+      "workstreams": "vr-39, vr-40",
+      "chapter": "09",
+      "status": "REVIEW-FIRST SCULPT",
+      "body": [
+        "The owner wanted a visibly different female identity, not another material edit. Research separated model identity, rest geometry, complete neural poses, licensing and eventual voice/selector policy. The first authorized study used existing local tools and assets only.",
+        "A bounded complete-pose lower-face map preserved native indices and the existing motion/audio baseline. Matched cameras were essential: an initial auto-fit difference could make one face look changed simply by reframing it. The comparison was recaptured against the exact baseline fit.",
+        "Numerical checks found finite geometry and no introduced collapse under the chosen diagnostics. Those results did not make the face read as female. The owner rejected that interpretation and named the preserved result Male-SharpJawline. The study remained useful as a distinct optional identity later, without rewriting the rejection or treating a tapered jaw as a demographic classifier."
+      ],
+      "mechanism": "Map rest and complete poses consistently; hold baseline camera, underlying audio and motion fixed.",
+      "failure": "The sculpt failed the owner's requested identity direction. A passing numerical bound did not overturn that judgment.",
+      "boundary": "Male-SharpJawline is the owner's label for a preserved study, not an anatomical or gender inference.",
+      "figures": [
+        {"path": "female-sculpt-02/baseline/rest-front.png", "caption": "The unchanged Claire baseline, using the study's matched fit."},
+        {"path": "female-sculpt-02/study/rest-front.png", "caption": "The sculpt candidate later preserved as Male-SharpJawline."},
+        {"path": "female-sculpt-02/study/rest-left-profile.png", "caption": "Its side profile makes the structural change easier to inspect."},
+        {"path": "female-sculpt-02/emotion-cheekiness.gif", "sampleMs": 1100, "caption": "A real paired emotion sample from the rejected identity study, not new runtime acceptance."}
+      ]
+    },
+    {
+      "id": "J23",
+      "title": "Author a genuinely separate native head",
+      "commit": "1e5ac1d",
+      "workstreams": "vr-41",
+      "chapter": "09",
+      "status": "MPFB / ACCEPTANCE OPEN",
+      "body": [
+        "After rejecting the sculpt, the owner explicitly authorized the distinct MPFB route. A pinned portable Blender and MPFB source were used in an owned offline/factory profile, with auto-execution disabled. The head and expression-unit rights were reviewed separately from the tool's code license.",
+        "The native result had 4,461 vertices, 4,434 polygons and fifty-one head-active face controls. It did not share Claire's indices or PCA basis. The first review used ten authored native pose recipes, so it was a pose study rather than neural speech transfer.",
+        "The selected images show why this branch mattered to the later cheekiness request: a lateral native mouth stretch had a different character from Claire's original cheekiness channel. At the M1 cutoff, the broader vr-41 identity/selector acceptance work remained open even though this bounded authored report existed. The report's technical delivery was not permission to close every future task attached to it."
+      ],
+      "mechanism": "Distinct native topology and source face-unit deltas; explicit authored recipes before attempting neural transfer.",
+      "failure": "An upstream gender example was misleading; the actual macro stack was verified rather than trusting its label.",
+      "boundary": "The first MPFB report did not speak. Native pose recipes are not equivalent to Claire's 4x neural gain.",
+      "figures": [
+        {"path": "mpfb-head-04/check-rest-front.png", "caption": "The actual separately authored MPFB native head at rest."},
+        {"path": "mpfb-head-04/check-rest-left-three-quarter.png", "caption": "Three-quarter native structure, not a Claire rest-shape relabel."},
+        {"path": "mpfb-head-04/check-speech-162.png", "caption": "The retained lateral mouth-stretch pose that later motivated the sideways-cheekiness direction. This early 'speech' filename belongs to an authored pose sequence, not neural speech."},
+        {"path": "mpfb-head-04/check-speech-342.png", "caption": "Another original native pose sample; the filename alone does not establish spoken articulation."}
+      ]
+    },
+    {
+      "id": "J24",
+      "title": "Refit the whole head, not a subtle shell",
+      "commit": "68399a0",
+      "workstreams": "vr-42, vr-43",
+      "chapter": "09",
+      "status": "TWO REFERENCE FITS",
+      "body": [
+        "The owner preferred Claire's reactions but wanted the new head's structure. The first speaking-reference study used a conservative shell map with protected lip/lid regions and a separate shape weight. Rest-only deformation distorted strong expressions, so the complete-pose path had to be mapped.",
+        "That first result still looked too similar to Claire to the owner. The next fit used actual triangle-plane head sections, ordered height guides and additional front-surface constraints. A once-built three-dimensional lattice evaluated the final map; it was not a nearest-vertex claim or a fresh fit every playback frame.",
+        "Failed hard masks, holes and chin shear were kept. Smoothing resolved conditioning without weakening the geometric checks. The stronger structure fit also retained the earlier shell option, making the two manager choices meaningful. Neither numerical difference nor a shape-blink GIF established accepted identity, contacts or global injectivity."
+      ],
+      "mechanism": "Reference-shell RBF -> section/surface whole-head fit -> fixed XYZ lattice over rest and all neural poses.",
+      "failure": "The owner could not see enough difference in vr-42. The structural refit answered that feedback instead of defending tiny offsets.",
+      "boundary": "Jacobian and triangle diagnostics are local evidence, not proof of collision-free lips or globally one-to-one deformation.",
+      "figures": [
+        {"path": "claire-reference-04/study/rest-front.png", "caption": "The conservative reference-shell candidate, subsequently rejected as too subtle."},
+        {"path": "claire-structure-07/study/rest-front.png", "caption": "The stronger whole-head structural refit under the study's fixed comparison setup."},
+        {"path": "claire-structure-07/study/rest-left-profile.png", "caption": "The structural fit in profile; the edit is not only a camera zoom."},
+        {"path": "claire-structure-07/emotion-cheekiness.gif", "sampleMs": 1100, "caption": "The refit evaluates complete neural poses, retaining Claire's original audio and 4x input."}
+      ]
+    },
+    {
+      "id": "J25",
+      "title": "Neural speech on the actual MPFB head",
+      "commit": "369286c",
+      "workstreams": "vr-44",
+      "chapter": "09, 10",
+      "status": "BOUNDED NATIVE FITTING",
+      "body": [
+        "Direct geometric transfer bound each MPFB point to a closest Claire triangle with convex barycentric weights. An exact hierarchy accelerated the search. The lower neck exceeded the intended distance bound, so the unsupported rim was fixed with a smooth support transition rather than quietly raising the limit.",
+        "Actual speech then tore the lip rows. The next path fitted the real transferred trajectories into native MPFB face controls. Allowing values up to four folded brows; final native weights stayed within zero and one. That deliberate saturation lost unsupported detail and was not exact 4x equivalence.",
+        "An audio-clocked native player and actual persisted report completed the bounded study. A valid-sound recording with only four video frames was rejected. Later seek/end races exposed duplicate animation loops and received a focused regression. The final all-state report checked 913 poses and complete decoded GIF/video outputs, while still leaving independent listening, native contact and semantic accuracy open."
+      ],
+      "mechanism": "Fixed barycentric displacement binding -> bounded least-squares native unit fitting -> one audio-clock player.",
+      "failure": "Raw geometric lips tore; extrapolated native brows folded. Both rejected paths explain the final bounded fit.",
+      "boundary": "Native saturation is intentional loss, not a disguised claim of identical Claire motion or exact 4x native structure.",
+      "figures": [
+        {"path": "mpfb-speaking-01/sample-neutral.png", "caption": "Rejected direct geometric speech-transfer sample. Inspect the lip region; this is not the final fitting result."},
+        {"path": "mpfb-speaking-06/decoded-009.png", "caption": "Final bounded native-fitting report, decoded neutral sequence sample."},
+        {"path": "mpfb-speaking-06/decoded-075.png", "caption": "Final decoded angry-state sample from the same qualification sequence."},
+        {"path": "mpfb-speaking-06/decoded-all-pose-samples.png", "caption": "The all-state decoded review preserves evidence across the eleven tested sequences."}
+      ]
+    },
+    {
+      "id": "J26",
+      "title": "One manager, separate speaking heads",
+      "commit": "8be8753",
+      "workstreams": "vr-45",
+      "chapter": "10",
+      "status": "SIX CHOICES / OWNERSHIP",
+      "body": [
+        "The app's studies became a single manager with six explicit choices: Claire, robot, MPFB, reference-structure, reference-shell and Male-SharpJawline. Each named head owned its engine, speech worker, RAM, audio clock, native profile and private capability.",
+        "A central schema reused real renderer inputs for settings rather than embedding insecure control frames or copying presentation logic. Five independently editable colors covered mesh, eyes, hair, lips and brows, with honest approximate mappings on native/robot variants.",
+        "Lifecycle rules mattered as much as creation. Manager Exit closed owned heads, while discovered external hosts survived. Closing a browser tab was deliberately not Exit. The original process handle detected parent death. Actual qualification used two simultaneous clocks, all six speaking paths, cancellation isolation and abrupt-parent cleanup. The creation cap was eight heads, not a claim that eight concurrent heads had been performance-qualified."
+      ],
+      "mechanism": "Named lifecycle descriptors plus exact owner handles; acknowledged per-head mutations, not shared global face state.",
+      "failure": "A stripped Windows environment created an unintended relative cache. Required OS fields and owned cache paths fixed that boundary.",
+      "boundary": "Cold readiness measured seconds and each head used substantial RAM. More heads are not free or universally qualified.",
+      "figures": [
+        {"path": "named-heads-06/unified-manager.png", "caption": "The historical unified manager in qualification; this mid-controls view predates the final calmer workspace."},
+        {"path": "control-groups-02/manager-controls.png", "caption": "A subsequent qualification image clarifies the actual per-head settings boundary."}
+      ]
+    },
+    {
+      "id": "J27",
+      "title": "Pin by default; keep identity in the menu",
+      "commit": "8d07341",
+      "workstreams": "vr-46..48",
+      "chapter": "10",
+      "status": "DEFAULTS / CONTROL TRUTH / SKILL",
+      "body": [
+        "The owner wanted every floating head always on top by default, but did not want a permanent checkbox and name below the face. Both moved into the collapsible native menu. Pinning remained independent per window, with genuine Windows flags checked on both Claire and MPFB.",
+        "Settings split into Editable now and Read-only. The second group explicitly distinguished creation-time identity/model choices from temporarily unavailable live controls. A disabled control was not falsely described as immutable, and readiness loss could not leave a focused stale input editable.",
+        "A self-contained Verona operating skill then explained ownership, startup, CLI acknowledgments, cancellation, performance limits and customization. Its color policy kept freedom of choice while asking agents to inventory existing heads and pick clearly different vivid hue families, not a lighter copy of an occupied color. This is cooperative collision avoidance, not a mathematical guarantee or an atomic color reservation service."
+      ],
+      "mechanism": "One real input/listener per setting; availability and selected identity belong to the render signature.",
+      "failure": "Preserving focus without checking head identity/readiness could preserve an editable control on the wrong state.",
+      "boundary": "Closing a head does not magically recreate it; a session must inspect current lifecycle state before deciding what to reopen.",
+      "figures": [
+        {"path": "control-groups-02/manager-controls.png", "caption": "Editable and read-only sections distinguish fixed creation fields from temporary unavailability."},
+        {"path": "ui-live-01/native/overlay-controls-collapsed.png", "caption": "Later native documentation: collapsed chrome leaves name and pin hidden inside the menu."},
+        {"path": "ui-player-layouts-09/mpfb-native-expanded.png", "caption": "The final native MPFB menu retains pin and identity inside its expanded section."}
+      ]
+    },
+    {
+      "id": "J28",
+      "title": "The sideways smirk stays a proposal",
+      "commit": "d527fe4",
+      "workstreams": "vr-49",
+      "chapter": "09",
+      "status": "REPORT, NOT RUNTIME",
+      "body": [
+        "The owner singled out the lateral mouth stretch in an older native MPFB pose and wanted that vocabulary everywhere. Before changing the app, a matched Claire report compared the current 4x performance with one shared rest-space mouth/cheek displacement field.",
+        "The owner approved the first proposed look and also asked for more exaggeration. A separate third run increased the field to 1.65/1.05 cm while preserving the earlier approved report. Production motion and application defaults stayed unchanged.",
+        "The report kept original rendering, exact outside-field vertices and deterministic frame samples. A recording that lost encoded frames was rejected, and an earlier first-animation-timestamp regression was fixed explicitly. Local geometric diagnostics did not prove lip contact or absence of self-intersection. Most importantly, approval of the first proposal did not mean the unseen stronger revision or all-variant runtime integration was accepted. M1 ships neither that integration nor a claim that it did."
+      ],
+      "mechanism": "A shared rest-space field over the existing Claire performance; no new identity, painted lips or copied MPFB rig.",
+      "failure": "The first video lost frames. Deterministic PNG sampling replaced that rejected capture path, not its acceptance requirement.",
+      "boundary": "Run02 proposed look approved; stronger run03 reviewed by the agent only. Runtime integration remains future work.",
+      "figures": [
+        {"path": "cheekiness-claire-02/comparison.png", "caption": "The first matched current/proposed Claire look that received owner approval."},
+        {"path": "cheekiness-claire-03/comparison.png", "caption": "The separate stronger proposal. This is report output, not the shipped runtime."},
+        {"path": "cheekiness-claire-03/mouth-detail.png", "caption": "The exaggerated lateral/diagonal mouth field shown at useful detail."},
+        {"path": "cheekiness-claire-03/reference.png", "caption": "The preserved native MPFB pose reference. It is an app-rendered study, not private supplied artwork."}
+      ]
+    },
+    {
+      "id": "J29",
+      "title": "A calmer UI needs truthful state",
+      "commit": "15a50d9",
+      "workstreams": "vr-50",
+      "chapter": "10",
+      "status": "BROWSER + ELECTRON REDESIGN",
+      "body": [
+        "The design cleanup made sessions and speech primary, settings progressive and Exit secondary. It was not merely new spacing. Per-head RAM drafts retained unsent text and invalid intermediate colors; keyed buttons preserved focus without preserving the wrong selected head.",
+        "Pending gates prevented duplicate actions. Speech clearing belonged to the submitted text and target. Confirmed native edits advanced revisions so an older inventory response could not overwrite fresh state. Empty, stale, pending and failed states stayed visibly different.",
+        "Managed MPFB transparency required WebGL context, clear and blending changes, not CSS alone. It also avoided building an invisible second renderer. The qualification history caught stale/empty compositor captures and a narrow-layout mesh below the fold. Final screenshots tested decoded content and separately captured the scrolled preview rather than weakening a misplaced pixel gate. The implementation-grounded learning was posted back to the original design discussion after delivery."
+      ],
+      "mechanism": "Per-head draft ownership + mutation revisions + explicit pending/error/stale states; one visible managed renderer.",
+      "failure": "A ready DOM and successful screenshot API call could still save empty or stale pixels. Final receipts check the image itself.",
+      "boundary": "Fixtures and native qualification support the UI behavior. They do not establish owner visual approval or new human lip-sync accuracy.",
+      "figures": [
+        {"path": "ui-controls-04/manager_controls/manager-workspace.png", "caption": "The redesigned session/speech hierarchy in its qualified fixture workspace."},
+        {"path": "ui-controls-04/manager_controls/manager-controls.png", "caption": "Progressive selected-head controls keep editing secondary to speaking."},
+        {"path": "ui-player-layouts-09/index-1280.png", "caption": "The cleaned browser controls in a loading-state capture. This image is layout evidence, not proof of a ready face."},
+        {"path": "ui-player-layouts-09/mpfb-1280.png", "caption": "The standalone MPFB browser study puts speech beside the preview while preserving its distinct renderer contract."}
+      ]
+    },
+    {
+      "id": "J30",
+      "title": "Return to the original Mark",
+      "commit": "d789763",
+      "workstreams": "vr-51",
+      "chapter": "05",
+      "status": "ACTUAL MODEL REPORT",
+      "body": [
+        "The owner asked what the already installed Mark model actually was. This report returned to Mark's own mean, 272-component skin basis and neural network. It did not retarget Claire, rename Male-SharpJawline or add a seventh manager variant.",
+        "A generic geometry renderer supplied gray lighting, wire and static cosmetic eyes rather than original textures or a complete SDK character. Twelve paired GIFs covered a rest turntable, neutral greeting and all ten native single controls at strength 0.60, without 2x/4x structural gain.",
+        "Every encoded sample was checked against its expected GIF timeline. The reader exposed optional sound without autoplay, but independent GIF loops were not presented as synchronized listening evidence. An early direct Windows GUI invocation returned before the renderer had finished; the wrapper refused a missing receipt and awaited the same owned process instead of launching duplicate work. That lifecycle correction is part of the record, not an invisible footnote."
+      ],
+      "mechanism": "Mark mean + Mark PCA predictions, original native indices, generic paired shaded/wire visualization.",
+      "failure": "Process launch return was not capture completion. The actual receipt and saved media determined completion.",
+      "boundary": "Mark remains a review-only report, with omitted SDK contact/smoothing and independent teeth/tongue/eye joints.",
+      "figures": [
+        {"path": "mark-model-01/turntable.gif", "sampleMs": 600, "caption": "Actual Mark rest geometry, sampled from the paired shaded/wire turntable."},
+        {"path": "mark-model-01/neutral.gif", "sampleMs": 1100, "caption": "Native neutral speech: no Claire retarget and no structural expression gain."},
+        {"path": "mark-model-01/cheekiness.gif", "sampleMs": 1100, "caption": "Mark's own cheekiness control, not the proposed Claire sideways field."},
+        {"path": "mark-model-01/surprised.gif", "sampleMs": 1100, "caption": "Native surprised control from the same fixed Hazel greeting."}
+      ]
+    },
+    {
+      "id": "J31",
+      "title": "M1 is a release, not the finish line",
+      "commit": "c953ae7",
+      "workstreams": "vr-52",
+      "chapter": "10 / release notes",
+      "status": "V0.1.0 RELEASED",
+      "body": [
+        "The owner declared the first milestone. Six fresh current-model greetings, two exact Mark-study excerpts and a current menu loop brought the README to forty GIFs and one PNG while preserving the huge hero and one closed disclosure. A connected empty-manager screenshot replaced an initially stale first paint.",
+        "The immutable v0.1.0 source is f892d423, not the later closeout commit. A custom source ZIP contained 302 allowlisted tracked members. The first archive failed exact-byte verification because Windows autocrlf changed canonical LF to CRLF. Per-command LF settings fixed the archive without changing global Git settings; the rejected ZIP was retained.",
+        "All three release assets were downloaded and hash-verified. The bounded M1 milestone closed with twelve scoped issues, while parked Realistic work and open MPFB acceptance stayed open. The actual social celebration followed verified publication. This journal is produced afterward as a distinct local edition: it does not move the tag, alter old release assets, deploy the app or certify accurate human articulation."
+      ],
+      "mechanism": "Exact source revision -> allowlisted archive -> Git-blob equality -> uploaded/downloaded SHA-256 equality.",
+      "failure": "DOM readiness did not guarantee the first manager PNG was painted; archive creation did not guarantee canonical source bytes.",
+      "boundary": "A functional experimental source milestone, not an installer, clean-machine certification, full SDK parity or accuracy acceptance.",
+      "figures": [
+        {"path": "milestone-gallery-01/contact-sheet.png", "caption": "The six actual current production-renderer greetings prepared for the M1 release."},
+        {"path": "milestone-gallery-01/manager/manager.png", "caption": "REJECTED first manager paint: stale Connecting state despite readiness metadata."},
+        {"path": "milestone-gallery-01/manager-02/manager.png", "caption": "Accepted connected empty-manager capture after connection, fonts and presentation waits."},
+        {"path": "milestone-gallery-01/layout/closed-390.png", "caption": "The actual GitHub-CSS narrow README keeps the hero first and the gallery default-closed."}
+      ]
+    }
+  ]
+}

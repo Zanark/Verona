@@ -44,6 +44,23 @@ sample scene or Windows voice is bundled in this repository.
   README screenshots/GIFs show the actual renderer using native-derived Claire
   geometry and a synthetic greeting; the model/sample terms above still apply.
 
+## Local journal-production tools
+
+The separately pinned `book/requirements-journal.txt` uses installed
+PyMuPDF 1.28.0 and Pillow 12.2.0. Installed distribution metadata declares
+PyMuPDF **"Dual Licensed - GNU AFFERO GPL 3.0 or Artifex Commercial License"**
+and Pillow **MIT-CMU**. These are book tools, not newly bundled application
+dependencies. Use under the applicable upstream terms; this notice does not
+grant commercial rights or settle a future distribution's compliance.
+
+The journal uses locally installed Microsoft Georgia/Consolas. Its builder checks
+TTF embedding/subsetting flags and embeds document subsets only; no font files,
+tool binaries or dependency environments enter the local edition. Font flags
+are a technical check, not a replacement for applicable license terms.
+Model imagery retains the underlying NVIDIA/sample rights above. The edition
+is local only; uploads and a separate binary/tool distribution need their own
+permission and rights review.
+
 ## NVIDIA/Maya-ACE sample license
 
 MIT License

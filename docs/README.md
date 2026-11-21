@@ -3,8 +3,17 @@
 **M1 / v0.1.0** freezes the functional local speaking-face workspace.
 [Release notes](releases/v0.1.0.md) separate delivered features, experimental
 identities and remaining accuracy/listening gates. Chapter10 explains the
-source/media/checksum boundary; this remains a living manuscript, not a newly
-rendered or published book edition.
+source/media/checksum boundary. These engineering chapters remain a living
+manuscript, distinct from the separate locally rendered journal below.
+
+**M1 development-journal PDF:** the local
+`book\editions\Verona-M1-Development-Journal-v1` contains
+`Verona-M1-Development-Journal.pdf` and an offline `reading.html`.
+The 84-page journal has 31 dated entries, timelines and 109 figure occurrences
+curated from the actual development captures. It preserves failed experiments,
+owner corrections and acceptance limits rather than exporting private chats.
+[Book production](../book/README.md) explains the exact source cutoff,
+reproduction, review and local-only delivery. The PDF is not uploaded to GitHub.
 
 The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
 (`VeronaDesktop.cmd` is an alias). Chapter10 describes isolated warm engines,
@@ -58,8 +67,9 @@ actual reference-surface correction, retaining Claire's neural speech and4x
 inputs. `VeronaReference.cmd` selects this candidate; `--fit shell` retains the
 rejected baseline. The separate MPFB rig and normal production app remain intact.
 
-**Status:** foundation and research manuscript, not a finished product book or
-rendered PDF. The speech-driven-face idea is recorded; proposed architecture
+**Engineering-manuscript status:** foundation and research chapters, not a
+finished product textbook. The separate M1 journal is rendered locally.
+The speech-driven-face idea is recorded; proposed architecture
 and technology choices are distinguished from implemented behavior. A bounded
 numerical CPU inference tool, complete local text-to-motion generator and
 audio-clocked browser player exist. Chapter 06 records their actual mechanisms,
@@ -172,7 +182,8 @@ and accuracy-qualification reading path.
 [Primary-source register](research/speech-face-sources.md) pins the reviewed code.
 [Product brief](product-brief.md) records requirements and remaining choices.
 [GitHub tracking](github-tracking.md) defines the issue/Project mapping.
-[Book production contract](../book/README.md) defines future edition gates.
+[Book production contract](../book/README.md) documents the local M1 journal
+and future engineering-edition gates.
 
 ## How this becomes a book
 

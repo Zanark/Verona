@@ -63,3 +63,49 @@ Check affected docs, links and code together using existing tooling once it
 exists. Install dependencies only when required. Commit, push, publish,
 dispatch and deploy are distinct permissions. No scheduler or hosted sync is
 enabled by writing this workflow.
+
+## An illustrated M1 journal, not a private-chat export
+
+The owner requested a dated journal after the first functional release.
+`book/milestone-1/manifest.json` therefore defines a separate retrospective
+allowlist; `book/manifest.json` still orders the engineering manuscript.
+`book/milestone-1/journal.json` authors 31 chronological entries with the problem,
+mechanism, correction and remaining limit. Dates come from recorded commit
+author timestamps in IST, not file modification times or guessed photo dates.
+
+`book/build_journal.py:prepare` pins historical references at c953ae7, selects
+individual reviewed local images and samples GIFs on their actual encoded
+timelines. Full-canvas PNG derivatives strip container metadata without changing
+the originals. This keeps synthetic app evidence separate from raw conversation,
+private continuity, profiles, recordings, model binaries and supplied artwork.
+`JournalPDF` renders warm-paper pages with dated gutters, evidence plates,
+searchable prose and native navigation, with matching offline HTML.
+
+Successful rendering did not establish a good book. Early candidates exposed
+an overflowing commit register, a low-contrast cover caption and overlapping
+wrapped plate headings. The final implementation changes row capacity/geometry,
+not type-size gates, and uses tall gallery columns where nested sheets needed
+more space. `check_text_overlap` supplements page-bound checks: text can remain
+inside a page while colliding with other text.
+
+Font glyph aliases caused a subtler error: native PDF extraction returned
+NBSP/soft-hyphen/Greek-question-mark aliases for authored ASCII. Merely normalizing
+the extracted text would hide broken copying/search. `JournalPDF.restore_unicode`
+instead maps used glyph IDs back to exact source characters before subsetting,
+rejects ambiguous mappings and checks every authored line after reopening the
+PDF. The focused regression preserves exact paths, spaces and punctuation.
+
+`qualify` produces native renders and structural receipts; actual visual review
+is a separate recorded action. `freeze` requires the exact reviewed PDF hash,
+every page/figure and representative native-resolution pages before copying a
+distinct edition and SHA-256 inventory. The local v1 has 84 pages/109 figure
+occurrences. An isolated headless reader check and a frozen-builder rebuild with
+Git absent passed; all rebuilt native page images matched, not the PDF bytes.
+No app process or owner head was driven for this work.
+
+An interrupted build leaves partial, non-delivered output; retry in a new named
+candidate and preserve failures. Frozen editions are never overwritten.
+See ../../book/README.md for exact commands, dependency/font rights and the
+portable rebuild boundary. Local delivery, agent review, owner acceptance and
+public distribution remain separate; this retrospective does not reopen M1,
+alter v0.1.0 assets or certify articulation/listening accuracy.

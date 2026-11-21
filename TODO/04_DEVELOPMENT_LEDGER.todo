@@ -1,6 +1,46 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-53 illustrated M1 development-journal edition
+Cause: owner requests a journal-like PDF with dates/timelines and extensive
+useful screenshots/records from .local after declaring the first milestone.
+Action: author31causal entries over18-21November2026, two timelines, mechanism/
+boundary/source notes and complete historical commit/workstream registers.
+Separate book/milestone-1 allowlist pins18references to c953ae7; release source
+remainsf892d423. Curate109figure occurrences,108fromlocal progress captures and
+one current public-media cover. No arbitrary .local scan into the edition.
+Mechanism: standalone book/build_journal.py uses already-installed exact
+PyMuPDF1.28.0/Pillow12.2.0, installed font embedding checks, full-canvas sampled
+PNG derivatives, original warm-paper/date-gutter design, searchable PDF and
+matching offline HTML. No packages installed, app/inference/voice/device driven
+or owner/sibling profile/window touched. Canonical engineering manifest unchanged.
+Failures retained: initial source-name correction; candidate01commit-register
+overflow;02font alias/cover contrast;03wrapped-plate subtitle collisions.
+Default TTF ToUnicode aliases changed ASCII spaces/hyphens/semicolons despite
+correct-looking glyphs. Map actual used glyph IDs to authored Unicode before
+subsetting, reject ambiguity, reopen and compare every source line exactly;
+do not hide the defect with extraction normalization. Adjust row capacity,
+measured heading spacing and gallery columns instead of shrinking type.
+Final05corrects actual figure captions and approval-sequence wording; pages34/61
+reviewed individually, other82page PNGs match the fully reviewed04draft exactly.
+Evidence: local frozen book/editions/Verona-M1-Development-Journal-v1:
+84nativepages/31datedentries/109figures/107imageobjects/41bookmarks.
+Allpage layouts/source samples reviewed; representative native pages inspected.
+Sevenfocusedtests pass; reopened exacttext/bounds/textcollision/navigation gates
+pass. Isolated headless Edge157 file reader:84pages/109decodedimages/35local
+links/no missing targets, detected overflow or external page requests; owned
+browser exited and disposable profile removed. This is not app qualification.
+Portable copied-builder rebuild with Git absent:84page PNGs/109assets and exact
+native text/HTML match. PDF bytes differ; no binary-reproducibility claim.
+All120frozen checksum entries verified; PDF20122869bytes/SHA256:
+5be1ce931883c9064f8b3e73c47e2cbe076b780703b7a41db3a7b9f806a3aab7.
+Receipts/rejected drafts remain under ignored book/output. Chapter02/index/
+bookguide/rights/TODO updated; vr53 retains original issue52/Project15 mapping.
+Boundary: local retrospective, not raw-chat export, owner book approval,
+PDF upload, engineering textbook completion, runtime integration or deployment.
+No recordings/models/scenes/profiles/capabilities/private artwork/continuity
+included. Historical M1 remains closed; parkedvr16..19/activevr41 unchanged.
+
 2026-11-21 - vr-52 M1 published, downloaded and celebrated
 Outcome: source f892d423f923bdd043ebe6aab7647f0993679251 committed/pushed
 with both linked Zanark identities and required trailers. Published immutable
