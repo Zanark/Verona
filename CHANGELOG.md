@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.3.0 - Offline voices and living heads
+
+Adds optional28-style offline Kokoro voices, unused-voice session defaults,
+unclipped floating zoom and preserved ear/hair tips. All six heads share30
+tool-owned idle gestures with coordinated eyes and compound facial motion.
+Performance-only sleep is an unchecked creation-time opt-in; normal heads
+remain the default. Idle audio is capped at20%; automatic yawn sound has10%
+chance and a ten-minute minimum gap. Yawns open around a dark cosmetic cavity.
+
+The refreshed operating skill is installed separately from the source release.
+Supplied yawn recordings, optional model packs and private editions are not
+distributed. [Release notes](docs/releases/v0.3.0.md) distinguish inherited
+qualification, measured CPU savings, retained memory and unaccepted accuracy.
+Earlier release tags/assets remain unchanged.
+
 ## v0.2.0 - Consistent native speaking heads
 
 Native MPFB and actual Mark share all four presentations and the applicable

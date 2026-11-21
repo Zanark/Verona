@@ -1,6 +1,6 @@
 ---
 name: verona
-description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers setup, distinct offline voices, one-manager/multiple-head ownership, six models including native MPFB and actual Mark, shared controls, cancellation, warm-host performance and inventory-checked vivid colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
+description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers distinct offline voices, six models, shared controls, thirty tool-owned idle actions, rare quiet local effects, creation-only performance sleep, cancellation and inventory-checked colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
 ---
 
 # Verona: a separate, recognizable speaking head for this session
@@ -63,6 +63,9 @@ scene. No camera, microphone, admin rights or cloud speech is required.
 2. Record your head's exact name, model, five colors and current request ID in
    this chat's permitted private context when available. Do not create a
    cross-project context store or public transcript to do this.
+   On resume, reuse that recorded name, including an owner-approved social
+   persona name. Do not reconstruct the old UUID-derived descriptor after a
+   rename or create a duplicate merely because that obsolete name is absent.
 3. Inventory the manager:
 
    ```powershell
@@ -173,6 +176,13 @@ Automatic yawn audio is rare:10%chance with a minimum ten-minute gap.
 Most visual yawns are silent; explicit previews bypass rarity. Missing local
 files produce a visible error, never a synthesized-yawn fallback or download.
 Keep recordings/derived clips ignored, never push or package them.
+The ten-minute interval starts only after successful audio start; explicit
+previews also advance it. The history is RAM-only and resets on reload.
+Source releases contain no supplied yawn recordings. On a fresh checkout,
+leave idle sound muted until explicitly authorized local files are prepared
+using `scripts\prepare-idle-yawns.cjs` and the prototype guide. Idle motion
+does not require those files. Do not silently replace missing clips or infer
+redistribution permission from permission to play/trim them locally.
 Do not poll or trigger gestures from the session.
 Visual yawn has3x eligible weight, not a guaranteed wall-clock frequency. Performance
 sleep suppresses both idle motion and sound; ordinary heads remain the default.
@@ -508,13 +518,17 @@ unique name, ready head/model, five confirmed inventory-checked colors,
 same-head actual controls, own job ID and successful terminal result.
 Report color conflicts, unverified preview or failed speech honestly.
 
-**Source baseline:** authored against Verona main through vr-47,
-`fea2a9898ef85df044739a391bf123ecf99a60d9`. Recheck current checkout behavior
+**Runtime baseline:** reviewed through vr-76,
+`f2c7c835409ccac3909aa12fbc8b705900154551`; v0.3.0 adds this instruction and
+documentation delivery without changing runtime behavior. Recheck current checkout behavior
 before assuming commands/defaults stayed unchanged. Authoritative mechanisms:
 `verona\agent.py:main`, `SessionManager.create/list/command` in
 `verona\manager.py`, `MODELS/COLOR_KEYS/colors_patch` in
 `verona\session_config.py`, `manager.js:showControls`, `agent-player.mjs:startAgent`
 and `session-controls.mjs:attachSessionControls` under `verona\web`,
 `desktop\main.cjs`, `docs\prototype-guide.md` and chapter10 under `docs\chapters`.
+Idle behavior and sound are owned by `idle-life.mjs:createIdleClock`,
+`idle-sound.mjs:createIdleSound`, `performance-mode.mjs` and the authenticated
+routes backed by `verona\idle_audio.py`; chapter11 explains their boundaries.
 This instruction file adds no runtime color lock, global narration hook,
 model, reservation service, installer, release or deployment.

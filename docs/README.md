@@ -1,5 +1,12 @@
 # Verona engineering book
 
+**v0.3.0 source delivery:** [release notes](releases/v0.3.0.md) collect the
+offline-voice, viewport/crop, thirty-gesture, creation-only sleep and quiet-yawn
+changes since v0.2.0. The updated [operating skill](../.github/skills/verona/SKILL.md)
+describes current ownership, defaults and fresh-checkout audio preparation.
+This publication does not include supplied recordings, optional voice weights,
+local PDF editions or a new runtime benchmark.
+
 **Quiet supplied yawns and open lips (vr-76):**
 [Chapter11](chapters/11-autonomous-idle-life.md) explains the separate jaw/lip
 field, dark cosmetic cavity, local voice-matched recordings, hard20% gain cap

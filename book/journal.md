@@ -5,6 +5,32 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Release the current behavior, not private recordings (vr-77)
+
+The owner asks to update instructions, documentation, release and pushed source.
+The new v0.3.0 boundary collects the implemented changes since native-head
+parity: optional offline voices, viewport/crop corrections, thirty autonomous
+gestures, creation-only performance sleep and the corrected quiet rare yawn.
+The existing runtime qualification remains its evidence; publishing notes is
+not another performance test or independent listening acceptance.
+
+The operating skill now records the actual vr-76 runtime baseline and tells a
+resumed chat to reuse its recorded head name rather than reconstructing an
+obsolete pre-rename descriptor. Fresh source has no supplied yawn recordings:
+mute idle audio until authorized local files are prepared. Permission to trim
+and play recordings locally is not permission to redistribute them.
+
+Source delivery uses an exact committed tree, a member/hash manifest and
+download verification. Installation updates only the Verona library/personal
+skill copies; unrelated dirty library work is not staged or published.
+Frozen release tags/assets and journal editions stay intact. The running head
+does not need to restart merely because its documentation was published.
+Source/library/personal instruction bytes agree; enabled personal discovery is
+verified outside the project. The first discovery check was still inside the
+repository and correctly found its inherited project skill, so the external
+check was repeated from an actually external directory. Nine existing book
+checks and71affected documentation file links pass.
+
 ## 2026-11-22 - A yawn needs an opening, not a protruding lip (vr-76)
 
 The owner supplies two local recordings, asks for a20%maximum, and shows why

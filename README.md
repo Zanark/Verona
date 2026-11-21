@@ -17,8 +17,9 @@ Windows voices plus **28 optional offline neural voices**, CPU neural motion and
 microphone or cloud runtime.** This gallery shows the actual prototype, not
 reference artwork or a photorealistic reconstruction.
 
-[**Native head parity - v0.2.0**](https://github.com/Zanark/Verona/releases/tag/v0.2.0)
-&middot; [Release notes and boundaries](docs/releases/v0.2.0.md)
+[**Offline voices and living heads - v0.3.0**](https://github.com/Zanark/Verona/releases/tag/v0.3.0)
+&middot; [Release notes and boundaries](docs/releases/v0.3.0.md)
+&middot; [Native head parity](https://github.com/Zanark/Verona/releases/tag/v0.2.0)
 &middot; [Milestone 1](https://github.com/Zanark/Verona/releases/tag/v0.1.0)
 &middot; [Setup and controls](docs/prototype-guide.md)
 &middot; [All emotions](#all-ten-emotions---4x-and-bright-spokes)
@@ -62,8 +63,8 @@ inside each requesting head, not 28 loaded models. Windows voices remain
 available. Neural voices add CPU/memory and cold-start delay; pitch/emphasis
 are explicitly unavailable for Kokoro, while speed, bass and treble work.
 [Research, rights and actual measurements](docs/research/local-voices.md).
-Voice support is a source-main addition after v0.2.0; its existing release ZIP
-and frozen tag remain unchanged.
+Voice support is included in v0.3.0 source. The optional voice pack is installed
+separately; the v0.2.0 ZIP and frozen tag remain unchanged.
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
 lip sync or a production-ready assistant.** The six model overviews below are
@@ -107,6 +108,8 @@ at least ten minutes between automatic sounds; most yawns stay silent.
 The visual yawn retains **3x the selection weight** of another eligible action.
 Yawning separates the lips around a dark cosmetic mouth cavity, not a pucker.
 The supplied recordings stay local/ignored and are not included in this repository.
+On a fresh checkout, mute idle sound until your authorized local clips are
+prepared; missing files produce a visible error, not a downloaded replacement.
 Verona waits 12-28 seconds between actions, avoids recent repeats
 and stops them for speech or direct interaction. **The chat schedules nothing
 and spends no model tokens on idle behavior.** Use the manager's **Idle life**

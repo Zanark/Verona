@@ -1,0 +1,40 @@
+ID: vr-77
+Title: Current skills, documentation and living-head source release
+
+Status: IN_PROGRESS
+Milestone: Offline voices and living heads
+Dependencies: vr-68, vr-69, vr-70, vr-71, vr-74, vr-75, vr-76
+
+Purpose:
+  Publish the current verified behavior and operating instructions without
+  rewriting previous releases or exporting private recordings and context.
+
+Tasks:
+  Reconcile README, changelog, release notes, operating skill and living journal.
+  Update only the Verona library/personal skill copies and verify exact bytes.
+  Commit/push reviewed source using the approved Zanark credential runner.
+  Publish immutable v0.3.0 with exact-source archive, manifest and checksums.
+  Download assets, verify hashes/tree and preserve previous releases/tags.
+  Reconcile this workstream's original issue/Project item and owned continuity.
+
+Acceptance criteria:
+  Instructions match normal defaults, optional voice setup, creation-only sleep,
+    thirty tool-owned actions,20%idle cap and10%/600s automatic yawn audio.
+  Fresh-checkout missing effects and local-only recording rights are explicit.
+  Source/library/personal skill bytes agree; installation starts no runtime.
+  Release points at its exact reviewed source; all archive members match Git.
+  Published assets are read back/downloaded and previous releases unchanged.
+  No private audio/context, local models/environments/PDFs or unrelated edits.
+  The current owned head and sibling sessions remain running unchanged.
+
+Completion evidence:
+  Runtime baseline f2c7c835409ccac3909aa12fbc8b705900154551 is already qualified.
+  Source/library/personal skill SHA-256 agrees:
+    a0fba0ddd4d3f76dfeee84ea4e10995fe7c60058efcc534ced1ac56afbee816e.
+    Enabled personal discovery verified outside the repository; no runtime starts.
+  Nine existing book checks and71affected documentation file links pass.
+  Release upload/download checks pending; local preparation is not publication.
+
+Completion log:
+  2026-11-22 - Owner explicitly authorizes skills/docs/release update and push.
+    New version v0.3.0 preserves v0.2.0 and all earlier immutable releases.
