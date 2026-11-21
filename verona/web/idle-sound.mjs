@@ -1,31 +1,8 @@
-const durations = {sneeze: 2.7};
-const smooth = value => { const t = Math.max(0, Math.min(1, value)); return t*t*(3-2*t); };
-const pulse = (t, a, b, c, d) => smooth((t-a)/(b-a))*(1-smooth((t-c)/(d-c)));
-
-// The sneeze remains original synthesis; yawns come only from prepared local effects.
-export function synthesizeIdleSound(kind, sampleRate = 24000) {
-  if (!Object.hasOwn(durations, kind)) throw new Error(`Unknown idle sound: ${kind}`);
-  const samples = new Float32Array(Math.round(durations[kind]*sampleRate));
-  let seed = 19371, phase = 0, breath = 0, peak = 0;
-  for (let i = 0; i < samples.length; i++) {
-    const t = i/sampleRate, unit = t/durations[kind];
-    seed = (1664525*seed+1013904223) >>> 0;
-    const noise = seed/2147483648-1;
-    breath = .88*breath+.12*noise;
-    phase += 2*Math.PI*(150-35*unit)/sampleRate;
-    const voice = Math.sin(phase)+.35*Math.sin(3*phase)+.18*Math.sin(5*phase)+.1*Math.sin(7*phase);
-    const value = .35*breath*pulse(unit, .01, .20, .27, .37)
-        +.9*(noise-breath)*pulse(unit, .31, .37, .44, .62)
-        +.25*voice*pulse(unit, .40, .47, .55, .74);
-    samples[i] = value; peak = Math.max(peak, Math.abs(value));
-  }
-  for (let i = 0; i < samples.length; i++) samples[i] *= .9/peak;
-  return samples;
-}
+const durations = {yawn: 4.2, sneeze: 2.7};
 
 export function createIdleSound({
-  enabled, volume, report, yawnStyle = () => "female",
-  loadYawn = () => { throw Error("Prepare local yawn effects first."); },
+  enabled, volume, report, effectStyle = () => "female",
+  loadEffect = () => { throw Error("Prepare local idle effects first."); },
   createContext = () => new AudioContext({sampleRate: 24000}),
   now = () => performance.now(), random = Math.random,
 }) {
@@ -74,25 +51,20 @@ export function createIdleSound({
           return;
         }
         if (context.state !== "running") throw new Error("Audio output is not running.");
-        const key = action.sound === "yawn" ? `yawn-${yawnStyle()}` : action.sound;
+        if (!Object.hasOwn(durations, action.sound)) throw Error("Unknown local idle effect.");
+        const style = effectStyle();
+        if (!["male", "female"].includes(style)) throw Error("Unknown local idle-effect style.");
+        const key = `${action.sound}-${style}`;
         if (cached?.kind !== key) {
-          let buffer;
-          if (action.sound === "yawn") {
-            if (!["yawn-male", "yawn-female"].includes(key)) throw Error("Unknown local yawn style.");
-            const request = controller = new AbortController();
-            const bytes = await loadYawn(key.slice(5), request.signal);
-            if (version !== revision) return;
-            if (bytes.byteLength > 202000) throw Error("Local yawn exceeds its audio size limit.");
-            buffer = await context.decodeAudioData(bytes);
-            if (version !== revision) return;
-            if (buffer.numberOfChannels !== 1 || buffer.duration > 4.201 || buffer.duration <= 0)
-              throw Error("Local yawn must be short mono audio.");
-            controller = null;
-          } else {
-            const samples = synthesizeIdleSound(action.sound);
-            buffer = context.createBuffer(1, samples.length, 24000);
-            buffer.copyToChannel(samples, 0);
-          }
+          const request = controller = new AbortController();
+          const bytes = await loadEffect(action.sound, style, request.signal);
+          if (version !== revision) return;
+          if (bytes.byteLength > 202000) throw Error("Local idle effect exceeds its audio size limit.");
+          const buffer = await context.decodeAudioData(bytes);
+          if (version !== revision) return;
+          if (buffer.numberOfChannels !== 1 || buffer.duration > durations[action.sound]+.001 || buffer.duration <= 0)
+            throw Error("Local idle effect must be bounded mono audio.");
+          controller = null;
           cached = {kind: key, buffer};
         }
         pending = null;

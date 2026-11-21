@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.1 - Recorded local idle effects
+
+Supplied female/male sneeze recordings replace synthesis and share the yawn's
+voice-style selection, authenticated loader and one-latest-buffer ownership.
+Explicit offline preparation accepts `--kind=sneeze` with a2.7s bound; originals
+stay unchanged and recordings remain excluded from source/releases.
+The20%gain cap, normal default, speech priority and rare-yawn rules are unchanged.
+See [release notes](docs/releases/v0.3.1.md) for qualification and setup.
+
 ## v0.3.0 - Offline voices and living heads
 
 Adds optional28-style offline Kokoro voices, unused-voice session defaults,

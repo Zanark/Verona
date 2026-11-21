@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**v0.3.1 supplied sneeze effects:** [release notes](releases/v0.3.1.md) and
+[chapter11](chapters/11-autonomous-idle-life.md) explain the shared voice-style
+loader, four exact private routes and2.7s sneeze bound. Both yawn and sneeze
+recordings remain local; the20%cap and rare-yawn rules are unchanged.
+
 **v0.3.0 source delivery:** [release notes](releases/v0.3.0.md) collect the
 offline-voice, viewport/crop, thirty-gesture, creation-only sleep and quiet-yawn
 changes since v0.2.0. The updated [operating skill](../.github/skills/verona/SKILL.md)

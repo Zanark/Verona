@@ -158,10 +158,10 @@ movements. Looking around moves eyes in both cursor modes without changing
 your tracking preference.
 
 **Yawn and sneeze sounds** and **Idle sound level** are independent manager
-controls, initially on/**20%, with a hard20% maximum**. Yawns use explicitly
+controls, initially on/**20%, with a hard20% maximum**. Both effects use explicitly
 prepared local recordings matched to the selected voice's male/female style;
-unknown styles fall back to the head's documented presentation. Sneeze remains
-synthesized. Automatic yawn audio has a10%chance and a minimum ten-minute gap;
+unknown styles fall back to the head's documented presentation. There is no
+synthesized fallback. Automatic yawn audio has a10%chance and a minimum ten-minute gap;
 most yawns stay silent, while an explicit preview bypasses rarity.
 The yawn opens the lower jaw and separates lips around a dark cosmetic cavity,
 without teeth/tongue anatomy. Mute or set0% to retain silent gestures;
@@ -172,17 +172,23 @@ Native managed heads allow playback; browser autoplay may require opening
 fallbacks. Waiting and performance-only sleep do not start a sound.
 [Catalog, research, mechanisms and qualification](chapters/11-autonomous-idle-life.md).
 
-Supplied yawn recordings are ignored local assets, **not shipped or downloaded**.
+Supplied yawn/sneeze recordings are ignored local assets, **not shipped or downloaded**.
 After desktop setup, explicitly prepare your own permitted source files:
 
 ```powershell
 .\desktop\node_modules\electron\dist\electron.exe .\scripts\prepare-idle-yawns.cjs "--male=C:\audio\male.mp3" "--female=C:\audio\female.mp3" "--output=C:\devdesk\homedesk\Verona\.local\idle-sounds"
+.\desktop\node_modules\electron\dist\electron.exe .\scripts\prepare-idle-yawns.cjs --kind=sneeze "--male=C:\audio\male-sneeze.mp3" "--female=C:\audio\female-sneeze.mp3" "--output=C:\devdesk\homedesk\Verona\.local\prepared-sneezes"
 ```
 
 Choose a new output directory; existing output is never overwritten. The local
-decoder trims near-silence, keeps at most4.2seconds, fades25ms boundaries and
+decoder trims near-silence, keeps at most4.2seconds for yawn or2.7for sneeze,
+fades25ms boundaries and
 never boosts a quiet input. Original files remain unchanged. Its private receipt
 records trim positions/hashes; its decoder profile is confined to that output.
+After the second command finishes, copy only `sneeze-male.wav` and
+`sneeze-female.wav` from `.local\prepared-sneezes` into `.local\idle-sounds`,
+without replacing the existing yawn files. Inspect before copying and stop if
+either destination sneeze file already exists; do not overwrite local edits.
 For another checkout, use that checkout's `.local\idle-sounds` output location.
 Missing/invalid effects show an explicit audio error while motion remains
 available. Obtain redistribution rights separately; do not commit recordings.

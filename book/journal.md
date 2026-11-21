@@ -5,6 +5,34 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Use the supplied sneezes, not synthetic substitutes (vr-78)
+
+The owner supplies female and male sneeze recordings after v0.3.0 delivery.
+The existing offline helper now accepts `--kind=sneeze`, with a2.7s limit
+matching the gesture. Mono conversion, silence trimming and25ms fades yield
+0.93s male and2.7s female clips without modifying originals. The female tail
+is shortened, not time-stretched; its measured main RMS peak remains inside
+the kept interval. No independent listening acceptance is implied.
+
+One shared kind/style loader replaces separate recorded-yawn/synthetic-sneeze
+paths. Four exact authenticated routes validate per-kind frame limits; one
+latest decoded buffer still replaces its predecessor. Missing files fail
+visibly rather than invoking a synthetic or cloud substitute. Selected voice
+metadata chooses both effects;20%cap and rare audible yawns stay unchanged.
+
+Actual Claire playback passes120action/view cases and both fixed creation
+policies pass. Native David/Hazel selection verifies the male/female buffers,
+with cap, mute/cancel/error and speech preemption. Seven Node/twelve Python
+cases pass; an obsolete static-file check expecting the removed synthesis
+export was corrected. Previous six-model geometry qualification remains prior
+evidence, not a new all-model rerun for this audio-only update.
+
+At01:57:47IST only this session's head is replaced, keeping manager306384,
+exact other controls/appearance, normal creation policy and other sessions.
+Nine promoted source/test files and all four private effects match hashes.
+Documentation/skill updates and a separate v0.3.1 source patch preserve the
+earlier release tags and keep every supplied recording out of publication.
+
 ## 2026-11-22 - Release the current behavior, not private recordings (vr-77)
 
 The owner asks to update instructions, documentation, release and pushed source.

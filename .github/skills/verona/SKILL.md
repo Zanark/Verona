@@ -169,7 +169,8 @@ Idle life now owns thirty local actions, including five eye-focused actions
 and ten multi-feature composites. The tool chooses/times them, never the chat.
 Look-around moves eyes in either cursor mode. Yawns open lips around a dark
 cosmetic cavity and use explicitly prepared ignored local effects selected by
-voice style (head fallback if unknown); sneeze remains synthesized.
+voice style (head fallback if unknown). Sneezes use supplied recordings too;
+neither effect falls back to synthesis.
 Manager `idle-sounds`/`idle-volume` controls mute/level independently of speech
 (defaults true/"20", maximum"20"); never raise idle audio above20%.
 Automatic yawn audio is rare:10%chance with a minimum ten-minute gap.
@@ -178,9 +179,11 @@ files produce a visible error, never a synthesized-yawn fallback or download.
 Keep recordings/derived clips ignored, never push or package them.
 The ten-minute interval starts only after successful audio start; explicit
 previews also advance it. The history is RAM-only and resets on reload.
-Source releases contain no supplied yawn recordings. On a fresh checkout,
+Source releases contain no supplied yawn or sneeze recordings. On a fresh checkout,
 leave idle sound muted until explicitly authorized local files are prepared
-using `scripts\prepare-idle-yawns.cjs` and the prototype guide. Idle motion
+using `scripts\prepare-idle-yawns.cjs` and the prototype guide. The helper
+defaults to yawn (at most4.2s); `--kind=sneeze` uses a2.7s bound. Keep existing
+yawns intact when adding the two prepared sneeze files. Idle motion
 does not require those files. Do not silently replace missing clips or infer
 redistribution permission from permission to play/trim them locally.
 Do not poll or trigger gestures from the session.
@@ -518,9 +521,9 @@ unique name, ready head/model, five confirmed inventory-checked colors,
 same-head actual controls, own job ID and successful terminal result.
 Report color conflicts, unverified preview or failed speech honestly.
 
-**Runtime baseline:** reviewed through vr-76,
-`f2c7c835409ccac3909aa12fbc8b705900154551`; v0.3.0 adds this instruction and
-documentation delivery without changing runtime behavior. Recheck current checkout behavior
+**Runtime baseline:** reviewed through vr-78's supplied-sneeze update over
+`39e5270692820f7a996a7bc4d2f99a2195e7207b`, released as v0.3.1.
+Recheck current checkout behavior
 before assuming commands/defaults stayed unchanged. Authoritative mechanisms:
 `verona\agent.py:main`, `SessionManager.create/list/command` in
 `verona\manager.py`, `MODELS/COLOR_KEYS/colors_patch` in

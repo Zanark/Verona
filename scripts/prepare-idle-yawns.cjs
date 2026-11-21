@@ -2,7 +2,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const crypto = require("node:crypto");
 
-function trimSamples(input, rate = 24000) {
+function trimSamples(input, rate = 24000, maxSeconds = 4.2) {
   const block = Math.round(rate*.01), energy = [];
   for (let i=0; i<input.length; i+=block) {
     let sum=0;
@@ -12,9 +12,9 @@ function trimSamples(input, rate = 24000) {
   const threshold = Math.max(.002, Math.max(...energy)*.018);
   const first = energy.findIndex(value => value >= threshold);
   const last = energy.findLastIndex(value => value >= threshold);
-  if (first < 0) throw Error("No usable yawn above the silence threshold.");
+  if (first < 0) throw Error("No usable idle effect above the silence threshold.");
   const start = Math.max(0, first*block-Math.round(.04*rate));
-  const end = Math.min(input.length,(last+1)*block+Math.round(.04*rate),start+Math.round(4.2*rate));
+  const end = Math.min(input.length,(last+1)*block+Math.round(.04*rate),start+Math.round(maxSeconds*rate));
   const samples = Float32Array.from(input.subarray(start,end));
   let peak=0;
   for (const value of samples) {
@@ -24,7 +24,9 @@ function trimSamples(input, rate = 24000) {
   const fade=Math.min(Math.round(rate*.025),Math.floor(samples.length/2));
   for(let i=0;i<samples.length;i++)
     samples[i]*=Math.min(1,.9/peak)*Math.min(1,i/fade,(samples.length-1-i)/fade);
-  return {samples,startSeconds:start/rate,endSeconds:end/rate,sourceSeconds:input.length/rate};
+  return {samples,startSeconds:start/rate,endSeconds:end/rate,sourceSeconds:input.length/rate,
+    activeEndSeconds:Math.min(input.length,(last+1)*block)/rate,
+    peakSeconds:energy.indexOf(Math.max(...energy))*block/rate};
 }
 
 function wav(samples) {
@@ -40,11 +42,17 @@ function wav(samples) {
 
 async function main() {
   const {app,BrowserWindow}=require("electron");
-  const arg=name=>{
+  const arg=(name,fallback)=>{
     const value=process.argv.find(value=>value.startsWith(`--${name}=`));
-    if(!value)throw Error(`Missing --${name}=...`);
+    if(!value) {
+      if(fallback!==undefined)return fallback;
+      throw Error(`Missing --${name}=...`);
+    }
     return value.slice(name.length+3);
   };
+  const kind=arg("kind","yawn");
+  if(!["yawn","sneeze"].includes(kind))throw Error("Kind must be yawn or sneeze.");
+  const maxSeconds=kind==="sneeze"?2.7:4.2;
   const output=path.resolve(arg("output"));
   await fs.mkdir(output,{recursive:false});
   app.setPath("userData",path.join(output,"decoder-profile"));
@@ -53,10 +61,10 @@ async function main() {
   window.webContents.setAudioMuted(true);
   try {
     await window.loadURL("about:blank");
-    const receipt={decoder:"Installed Electron OfflineAudioContext; no playback, network or microphone.",clips:{}};
+    const receipt={kind,decoder:"Installed Electron OfflineAudioContext; no playback, network or microphone.",clips:{}};
     for(const style of ["male","female"]) {
       const source=path.resolve(arg(style)),stat=await fs.stat(source);
-      if(stat.size>5000000)throw Error("Yawn input exceeds five MB.");
+      if(stat.size>5000000)throw Error("Idle-effect input exceeds five MB.");
       const original=await fs.readFile(source);
       const decoded=await window.webContents.executeJavaScript(`(async()=>{
         const context=new OfflineAudioContext(1,1,24000);
@@ -70,9 +78,9 @@ async function main() {
         }
         return Array.from(mono);
       })()`);
-      const {samples,...timing}=trimSamples(Float32Array.from(decoded));
+      const {samples,...timing}=trimSamples(Float32Array.from(decoded),24000,maxSeconds);
       const bytes=wav(samples);
-      await fs.writeFile(path.join(output,`yawn-${style}.wav`),bytes,{flag:"wx"});
+      await fs.writeFile(path.join(output,`${kind}-${style}.wav`),bytes,{flag:"wx"});
       receipt.clips[style]={...timing,duration:samples.length/24000,bytes:bytes.length,
         sourceSha256:crypto.createHash("sha256").update(original).digest("hex"),
         sha256:crypto.createHash("sha256").update(bytes).digest("hex")};

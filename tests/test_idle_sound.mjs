@@ -1,20 +1,6 @@
 import assert from "node:assert/strict";
-import {createIdleSound, synthesizeIdleSound} from "../verona/web/idle-sound.mjs";
+import {createIdleSound} from "../verona/web/idle-sound.mjs";
 import {createIdleClock} from "../verona/web/idle-life.mjs";
-
-for (const [kind, duration] of [["sneeze",2.7]]) {
-  const data = synthesizeIdleSound(kind);
-  assert.equal(data.length, Math.round(duration*24000));
-  let energy = 0, peak = 0;
-  for (const value of data) {
-    assert(Number.isFinite(value));
-    peak = Math.max(peak, Math.abs(value)); energy += value*value;
-  }
-  assert(peak > .89 && peak <= .901, "Full-amplitude normalized cue without digital clipping.");
-  assert(Math.sqrt(energy/data.length) > .05);
-  assert.equal(Math.abs(data[0]), 0); assert.equal(Math.abs(data.at(-1)), 0);
-}
-assert.throws(() => synthesizeIdleSound("unknown"), /Unknown/);
 
 let enabled = true, level = .75, time = 0, contexts = 0, buffers = 0, stops = 0, starts = [];
 let resume, failure = false;
@@ -28,8 +14,7 @@ const context = {
     if (resume) await new Promise(resolve => { resume.resolve = resolve; });
     context.state = "running";
   },
-  createBuffer: () => { buffers++; return {duration:2.7,copyToChannel() {}}; },
-  decodeAudioData: async () => { buffers++; return {duration:4.2,numberOfChannels:1}; },
+  decodeAudioData: async bytes => { buffers++; return {duration:bytes.byteLength===17?2.7:4.2,numberOfChannels:1}; },
   createGain: () => { const gain={gain: {},connect(){},disconnect(){}};gains.push(gain);return gain; },
   createBufferSource: () => {
     const source = {buffer: null, connect() {}, disconnect() {}, stop() { stops++; },
@@ -38,7 +23,9 @@ const context = {
   },
 };
 const sound = createIdleSound({enabled: () => enabled, volume: () => level, now: () => time,
-  yawnStyle: () => style, loadYawn: async value => { loads.push(value);return new ArrayBuffer(16); },
+  effectStyle: () => style, loadEffect: async (kind,value) => {
+    loads.push(`${kind}-${value}`);return new ArrayBuffer(kind==="sneeze"?17:16);
+  },
   createContext: () => { contexts++; return context; }, report: text => messages.push(text)});
 const yawn = {id: "yawn", sound: "yawn", duration: 4200};
 const sneeze = {id: "sneeze", sound: "sneeze", duration: 2700};
@@ -49,10 +36,11 @@ enabled = true; level = 0; await sound.start(yawn,{preview:true}); assert.equal(
 level = .75; await sound.start(yawn,{preview:true});
 assert.equal(starts.length,1); assert.equal(contexts,1); assert.equal(buffers,1);
 assert.equal(gains.at(-1).gain.value,.2,"Even stale75% or direct callers cannot exceed20%.");
-assert.deepEqual(loads,["female"]);
+assert.deepEqual(loads,["yawn-female"]);
 await sound.start(yawn,{preview:true});
 assert.equal(stops,1); assert.equal(buffers,1,"Only latest buffer retained/reused.");
 await sound.start(sneeze); assert.equal(buffers,2);
+assert.equal(loads.at(-1),"sneeze-female","Sneeze uses the supplied voice-matched asset, not synthesis.");
 sources.at(-1).onended();
 assert.equal(context.state,"suspended","Finished output suspends its audio clock.");
 assert(messages.at(-1).includes("ready"));
@@ -71,16 +59,22 @@ failure = true; await sound.start(yawn,{preview:true});
 assert(messages.at(-1).includes("Output unavailable"),"Device/resume failure is explicit.");
 failure = false;
 style="male";await sound.start(yawn,{preview:true});
-assert.equal(loads.at(-1),"male","Voice style switches the actual loaded effect.");
+assert.equal(loads.at(-1),"yawn-male","Voice style switches the actual loaded effect.");
 level=.03;await sound.start(yawn,{preview:true});assert.equal(gains.at(-1).gain.value,.03);
+sound.stop();
+await sound.start(sneeze);
+assert.equal(loads.at(-1),"sneeze-male");
+const sameSneezeLoads=loads.length;
+await sound.start(sneeze);assert.equal(loads.length,sameSneezeLoads,"Same kind/style reuses only the latest buffer.");
+style="female";await sound.start(sneeze);assert.equal(loads.at(-1),"sneeze-female");
 sound.stop();
 
 let finishLoad, aborted;
 const fetching=createIdleSound({enabled:()=>true,volume:()=>.2,createContext:()=>context,
-  loadYawn:(_style,signal)=>new Promise(resolve=>{finishLoad=resolve;aborted=signal;}),
+  loadEffect:(_kind,_style,signal)=>new Promise(resolve=>{finishLoad=resolve;aborted=signal;}),
   report:text=>messages.push(text)});
 await fetching.unlock();
-const fetchStart=fetching.start(yawn,{preview:true});
+const fetchStart=fetching.start(sneeze,{preview:true});
 await Promise.resolve();
 const beforeFetch=starts.length;
 fetching.stop();assert(aborted.aborted);
@@ -90,7 +84,7 @@ assert.equal(starts.length,beforeFetch,"Cancelled asset loading never starts sou
 const lockedContext = {...context, state:"suspended",
   async resume() { this.state = "running"; }, async suspend() { this.state = "suspended"; }};
 const locked = createIdleSound({enabled: () => true, volume: () => .75,
-  loadYawn:async()=>new ArrayBuffer(16),
+  loadEffect:async()=>new ArrayBuffer(16),
   createContext: () => lockedContext, report: text => messages.push(text)});
 await locked.start(yawn,{preview:true});
 assert(messages.at(-1).includes("autoplay"),"Browser autoplay blocking is not silent success.");
@@ -101,7 +95,7 @@ assert.equal(lockedContext.state,"running","Explicit browser gesture permits fut
 locked.stop();
 let chance=.5, rareLoads=0;
 const rare=createIdleSound({enabled:()=>true,volume:()=>.2,now:()=>time,random:()=>chance,
-  createContext:()=>context,loadYawn:async()=>{rareLoads++;return new ArrayBuffer(16);},
+  createContext:()=>context,loadEffect:async()=>{rareLoads++;return new ArrayBuffer(16);},
   report:()=>{}});
 await rare.start(yawn);assert.equal(rareLoads,0,"Most yawns are silent without loading audio.");
 chance=.01;await rare.unlock();await rare.start(yawn);
@@ -110,6 +104,18 @@ assert.equal(starts.length,audibleStarts,"Automatic audio waits at least ten min
 time+=2;await rare.start(yawn);
 assert.equal(starts.length,audibleStarts+1,"Eligible rare draw can play after the minimum gap.");
 rare.stop();
+const bad=createIdleSound({enabled:()=>true,volume:()=>.2,createContext:()=>context,
+  loadEffect:async()=>new ArrayBuffer(16),report:text=>messages.push(text)});
+await bad.unlock();
+const beforeInvalid=starts.length;
+await bad.start(sneeze);
+assert(messages.at(-1).includes("bounded mono"),"Sneeze rejects a decoded clip longer than2.7s.");
+assert.equal(starts.length,beforeInvalid);
+const missing=createIdleSound({enabled:()=>true,volume:()=>.2,createContext:()=>context,
+  loadEffect:async()=>{throw Error("Prepared sneeze missing");},report:text=>messages.push(text)});
+await missing.unlock();await missing.start(sneeze);
+assert(messages.at(-1).includes("Prepared sneeze missing"),"Missing supplied sneeze is explicit, never synthesized.");
+assert.equal(starts.length,beforeInvalid);
 
 let startCount = 0, stopCount = 0, current = 0;
 const clock = createIdleClock(() => {}, {now: () => current, random: () => .5,
@@ -128,5 +134,8 @@ assert.equal(trimmed.samples.length,100800);
 assert.equal(Math.abs(trimmed.samples[0]),0);
 assert.equal(Math.abs(trimmed.samples.at(-1)),0);
 assert.equal(wav(trimmed.samples).length,201644);
+const sneezeTrimmed=trimSamples(raw,24000,2.7);
+assert.equal(sneezeTrimmed.samples.length,64800);
+assert.equal(Math.abs(sneezeTrimmed.samples.at(-1)),0);
 assert.throws(()=>trimSamples(new Float32Array(24000)),/No usable/);
-console.log("Bounded local audio waveforms, latest-buffer ownership, mute/zero level, completion, cancellation/resume races, late starts and explicit errors passed.");
+console.log("Prepared yawn/sneeze kind/style selection, latest-buffer ownership, bounds, cap, cancellation, rarity and explicit missing errors passed.");

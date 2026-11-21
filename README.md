@@ -17,8 +17,8 @@ Windows voices plus **28 optional offline neural voices**, CPU neural motion and
 microphone or cloud runtime.** This gallery shows the actual prototype, not
 reference artwork or a photorealistic reconstruction.
 
-[**Offline voices and living heads - v0.3.0**](https://github.com/Zanark/Verona/releases/tag/v0.3.0)
-&middot; [Release notes and boundaries](docs/releases/v0.3.0.md)
+[**Recorded local idle effects - v0.3.1**](https://github.com/Zanark/Verona/releases/tag/v0.3.1)
+&middot; [Release notes and boundaries](docs/releases/v0.3.1.md)
 &middot; [Native head parity](https://github.com/Zanark/Verona/releases/tag/v0.2.0)
 &middot; [Milestone 1](https://github.com/Zanark/Verona/releases/tag/v0.1.0)
 &middot; [Setup and controls](docs/prototype-guide.md)
@@ -101,8 +101,8 @@ animations** locally: smiles, smirks, brows, nose/lip/cheek movements,
 jaw loosening, yawns, sneezes, looking around, double nods, neck stretches and
 eye squeezes, **five eye-focused actions** and **ten new multi-feature expressions**.
 Look-around moves the eyes horizontally and vertically in either cursor mode.
-Yawns use **prepared local male/female effects matched to the selected voice**;
-sneeze remains synthesized. Independent mute/level controls default to **20%,
+Yawns and sneezes use **prepared local male/female effects matched to the selected voice**.
+Neither falls back to synthesis. Independent mute/level controls default to **20%,
 also the hard maximum**. **Audible yawns are rare**: a 10% chance per yawn and
 at least ten minutes between automatic sounds; most yawns stay silent.
 The visual yawn retains **3x the selection weight** of another eligible action.

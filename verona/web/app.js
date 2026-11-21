@@ -1604,13 +1604,13 @@ try {
   const idleSound = createIdleSound({
     enabled: () => $("idle-sounds").checked,
     volume: () => Number($("idle-volume").value)/100,
-    yawnStyle: () => {
+    effectStyle: () => {
       const voice = installedVoiceMetadata.find(voice => voice.name === $("voice").value);
       return ["male", "female"].includes(voice?.style) ? voice.style
         : ["mark", "male-sharp"].includes(session.appearance?.model) ? "male" : "female";
     },
-    loadYawn: async (style, signal) =>
-      (await request(`/api/idle-sound/yawn-${style}`, {signal})).arrayBuffer(),
+    loadEffect: async (kind, style, signal) =>
+      (await request(`/api/idle-sound/${kind}-${style}`, {signal})).arrayBuffer(),
     report: (text, failed) => {
       $("idle-sound-status").textContent = text;
       if (failed) { idleAudioError = text; failure(new Error(text)); }

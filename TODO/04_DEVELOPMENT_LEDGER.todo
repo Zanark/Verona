@@ -1,6 +1,19 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr-78 replaces synthesized sneeze with supplied local effects
+Cause: owner supplies female/male sneeze recordings after v0.3.0 publication.
+Action: shared kind/style loader, four exact authenticated routes, per-kind
+duration validation and offline --kind=sneeze preparation. Remove synthesis;
+retain20%cap, one buffer/context/source and all cancellation/rarity rules.
+Evidence: prepared male0.93s/female2.7s, originals unchanged. Actual Claire
+120native action/view cases and both fixed policies pass; actual David/Hazel
+buffers, native cap, mute/cancel/error and speech preemption tested.
+Seven Node/twelve Python cases pass; corrected obsolete synthesis-export test.
+At01:57:47IST owned311676 becomes314428, manager306384 retained; all settings/
+appearance/normal policy and other sessions preserved, nine files/effects match.
+No independent listening, six-model rerun, new CPU saving or public audio.
+
 2026-11-22 - vr-77 brings release and installed instructions up to current source
 Cause: owner explicitly requests updated skills, documentation, release and push.
 Action: reconcile current operating defaults, exact resumed head names, private

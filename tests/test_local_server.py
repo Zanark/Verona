@@ -106,7 +106,7 @@ class LocalServerTests(unittest.TestCase):
         self.assertIn(b"export function attachIdleLife", body)
         status, headers, body = self.request("GET", "/idle-sound.mjs")
         self.assertEqual(status, 200)
-        self.assertIn(b"synthesizeIdleSound", body)
+        self.assertIn(b"createIdleSound", body)
         status, headers, body = self.request("GET", "/performance-mode.mjs")
         self.assertEqual(status, 200)
         self.assertIn("javascript", headers["Content-Type"])
@@ -147,18 +147,20 @@ class LocalServerTests(unittest.TestCase):
         self.assertIsNone(self.state.clip)
 
     def test_private_idle_effects_require_capability_and_report_missing_assets(self):
-        route = "/api/idle-sound/yawn-male"
-        with patch("verona.server.read_yawn", return_value=b"fixture-wave") as read:
-            headers = dict(self.headers, **{"X-Verona-Token": "wrong"})
-            self.assertEqual(self.request("GET", route, headers=headers)[0], 403)
-            read.assert_not_called()
-            status, headers, body = self.request("GET", route)
-            self.assertEqual((status, headers["Content-Type"], body), (200, "audio/wav", b"fixture-wave"))
-            read.assert_called_once_with(route)
-        with patch("verona.server.read_yawn", side_effect=RuntimeError("Prepare local effects first.")):
-            status, _, body = self.request("GET", route)
-            self.assertEqual(status, 503)
-            self.assertIn(b"Prepare local effects", body)
+        for kind in ("yawn", "sneeze"):
+            for style in ("male", "female"):
+                route = f"/api/idle-sound/{kind}-{style}"
+                with patch("verona.server.read_effect", return_value=b"fixture-wave") as read:
+                    headers = dict(self.headers, **{"X-Verona-Token": "wrong"})
+                    self.assertEqual(self.request("GET", route, headers=headers)[0], 403)
+                    read.assert_not_called()
+                    status, headers, body = self.request("GET", route)
+                    self.assertEqual((status, headers["Content-Type"], body), (200, "audio/wav", b"fixture-wave"))
+                    read.assert_called_once_with(route)
+                with patch("verona.server.read_effect", side_effect=RuntimeError("Prepare local effects first.")):
+                    status, _, body = self.request("GET", route)
+                    self.assertEqual(status, 503)
+                    self.assertIn(b"Prepare local effects", body)
         self.assertEqual(self.request("GET", "/api/idle-sound/anything.wav")[0], 404)
 
     def test_local_branding_and_blink_module_keep_exact_route_guards(self):

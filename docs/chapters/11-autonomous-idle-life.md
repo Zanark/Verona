@@ -123,13 +123,15 @@ rendered frames and shader arithmetic; it is not free GPU work or a promise of
 unchanged whole-machine CPU. There is no session-side polling, server
 animation request, inference, model download or new process.
 
-## Quiet supplied yawn and synthesized sneeze (vr-76)
+## Quiet supplied yawn and sneeze (vr-76/78)
 
-The owner supplies two local yawn effects and rejects the synthesized yawn.
+The owner supplies local female/male effects for both yawns and sneezes,
+replacing the earlier synthesized cues.
 `scripts/prepare-idle-yawns.cjs` uses the already-installed Electron decoder
 offline, with no audible playback, microphone or network. It averages channels
 to mono24kHz, finds active10ms RMS blocks above a relative/absolute silence
-threshold, retains40ms edge room and at most4.2seconds, and fades25ms boundaries.
+threshold, retains40ms edge room and fades25ms boundaries. The default
+`--kind=yawn` keeps at most4.2seconds; explicit `--kind=sneeze` keeps at most2.7.
 Only excessive sample peaks are attenuated; quiet source is never boosted.
 The original files are untouched. A longer active recording is cropped rather
 than pitch-shifted; no independent listening/naturalness claim follows.
@@ -137,10 +139,10 @@ than pitch-shifted; no independent listening/naturalness claim follows.
 The prepared PCM16 WAVs and private trim/hash receipt remain in ignored
 `.local/idle-sounds`; recordings are neither committed nor packaged, and
 redistribution rights have not been independently established.
-`idle_audio.py:read_yawn` serves only two exact authenticated effect routes,
+`idle_audio.py:read_effect` serves only four exact authenticated effect routes,
 with bounded bytes, channels, rate and frame-count checks. There is no arbitrary
 path serving or runtime download. Missing/unreadable/invalid audio returns an
-explicit503 error; motion still works, but no synthetic yawn silently replaces
+explicit503 error; motion still works, but no synthetic effect silently replaces
 the requested recording. Fresh checkouts need explicit permitted local input.
 
 Voice metadata supplies male/female style for Windows and optional neural
@@ -148,8 +150,9 @@ voices. `app.js` uses the selected voice, not an inference about the user.
 Only unknown voice styles fall back to Mark/Male-SharpJawline's male
 presentation and the other heads' female presentation. These labels choose
 effects, not anatomical or personal identity. Changing voice stops any old cue.
-`idle-sound.mjs:synthesizeIdleSound` now produces **only the sneeze** from
-original voiced harmonics and deterministic breath/noise envelopes.
+Both effects use the same style selection. The old synthesized sneeze path is
+removed; changing kind/style replaces the single latest decoded buffer rather
+than retaining all four clips.
 
 **Yawn and sneeze sounds** defaults on; **Idle sound level** starts at20% and
 is adjustable0-20% independently of speech. Both the actual control range and
@@ -168,9 +171,9 @@ Reload resets this RAM-only history. No extra timer or session decision is added
 
 `createIdleSound` lazily creates one Web Audio context, one playing source/gain
 and one latest mono 24-kHz buffer (at most 403,200 retained PCM sample bytes,
-plus browser objects/temporary decode/synthesis copy). Repeated matching cues reuse
+plus browser objects/temporary decode copy). Repeated matching cues reuse
 that buffer; switching kind or male/female effect replaces it. Only an uncached
-audible yawn fetches its bounded exact local route. End/cancel disconnects the source and
+audible effect fetches its bounded exact local route. End/cancel disconnects the source and
 gain and suspends the context, rather than processing silence forever.
 Ordinary silent gestures and waiting create no audio context.
 
@@ -223,6 +226,26 @@ reload error. Reload starts fresh without persisting gesture history.
 An ineligible preview reports an error, never a successful-looking no-op.
 
 ## What was actually qualified
+
+### Supplied-sneeze update (vr-78)
+
+The supplied male clip becomes0.93s and the female2.7s after bounded trimming,
+mono24kHz conversion and25ms fades. The female's active tail extends beyond
+the bound and is shortened; its main RMS peak remains inside the selected
+window. These are preparation measurements, not independent listening.
+Source files stay unchanged and private, as do the derived clips/receipts.
+
+`supplied-sneeze-claire-01` passes120 real-native action/view cases. Actual
+David/Hazel switches load the respective male/female yawn and sneeze buffers;
+gain/range cap, mute/cancel/output failure and speech preemption pass.
+`supplied-sneeze-policies-01` checks both creation policies in four views each.
+The six-head geometry qualification remains the earlier vr-76 result, not a
+new claim that every model was rerun for an audio-only change.
+Seven focused Node runner cases and twelve Python server/audio cases cover
+four authenticated routes, per-kind frame bounds, style/cache replacement,
+missing-file errors and cancelled fetches. An old static-file assertion still
+expected the removed synthesis export; it was corrected to the actual public
+controller export. No new CPU saving, acoustic quality or anatomical claim.
 
 ### Supplied-yawn correction (vr-76)
 

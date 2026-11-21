@@ -1,0 +1,49 @@
+ID: vr-78
+Title: Private voice-matched supplied sneeze effects
+
+Status: IN_PROGRESS
+Milestone: Recorded local idle effects
+Dependencies: vr-76, vr-77
+
+Purpose:
+  Replace synthesized sneezes with the owner's supplied local recordings while
+  preserving voice selection, cancellation, bounded ownership and20%volume cap.
+
+Tasks:
+  Extend explicit offline preparation and authenticated exact-route loading.
+  Keep supplied originals unchanged and all recordings/derived files private.
+  Use the selected voice style for both yawn and sneeze, with no silent fallback.
+  Add focused kind/style/cache/route/bounds/cancellation tests.
+  Qualify isolated actual native playback before replacing only the owned head.
+  Update docs/skill copies/journal/tracking, push and publish a patch release.
+
+Acceptance criteria:
+  Actual female/male sneeze buffers match prepared supplied files.
+  Sneeze clips are at most2.7s, yawns4.2s; gain never exceeds20%.
+  One latest buffer/context/source remains; speech/input/mute/sleep cancel.
+  Yawn10%chance/600s minimum and existing visual timing remain unchanged.
+  Missing/invalid files fail visibly; no synthesis/cloud/download fallback.
+  Settings/sibling sessions remain intact; no private audio in source/releases.
+
+Completion evidence:
+  GitHub: https://github.com/Zanark/Verona/issues/77
+  Prepared private PCM16/24kHz effects: male0.93s/female2.7s,25ms fades;
+    originals unchanged. Actual peak/trim/hash receipts retained privately.
+  Claire native120action/view cases and both creation policies pass.
+    Actual David/Hazel buffers, cap, mute/cancel/error and speech preemption.
+    Seven Node/twelve Python focused cases, nine book checks and99affected
+    documentation file links pass.
+  Source/library/personal skill SHA-256 agrees:
+    9f099ae0ec4dd8d7ffa4cdabdc3f7a75f09b06fef5e45a0d7403b2754d485e4c.
+    Personal discovery verified outside the project; installation starts no host.
+  At01:57:47IST owned311676 becomes314428, same manager306384.
+    Exact saved controls/appearance/normal policy and other sessions preserved;
+    nine source/test hashes and all four private effects match.
+  Source publication pending; recordings remain ignored/private.
+
+Completion log:
+  2026-11-22 - Owner supplies two local sneeze recordings after v0.3.0 delivery.
+    Isolated idle-sneeze-78 worktree protects manager306384/head311676.
+  2026-11-22 - Native candidate and both policies qualify; only the owned head
+    replaced with exact settings restoration. Updated shared loader, docs and
+    installed instructions preserve20%cap and existing rare-yawn behavior.

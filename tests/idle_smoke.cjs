@@ -201,12 +201,12 @@ async function run(window) {
       assert.equal(after[key]-before[key],0,`${view}: gestures do not change ${key}`);
     }
     const soundRequests=after.requests-before.requests;
-    assert(soundRequests<=1,"Only one bounded supplied-yawn request per view; no motion polling.");
+    assert(soundRequests<=2,"Only two bounded kind/style requests per view; no motion polling.");
     assert((await evaluate("__idleTest.requestPaths")).slice(before.requests)
-      .every(value=>/^\/api\/idle-sound\/yawn-(male|female)$/.test(value)));
+      .every(value=>/^\/api\/idle-sound\/(yawn|sneeze)-(male|female)$/.test(value)));
     report.views.push({view,neutralVariation,actions:poses,gestureBufferAllocations:0,gestureUploads:0,gestureRequests:soundRequests});
   }
-  report.checks.push("All30actions change real pixels in four views; neutral restoration, no gesture buffers/uploads, only bounded local supplied-yawn fetches.");
+  report.checks.push("All30actions change real pixels in four views; neutral restoration, no gesture buffers/uploads, only bounded local effect fetches.");
   await evaluate(`__idleTest.change("presentation","claire");__idleTest.change("cursor-mode","eyes");`);
   report.eyeDirections=[];
   for(const cursorMode of ["eyes","head"]) {
@@ -260,8 +260,20 @@ async function run(window) {
     assert.equal(await evaluate("__idleTest.lastSource.buffer.duration"),1.24);
     assert((await evaluate('document.getElementById("idle-sound-status").textContent')).includes("yawn-male"));
     await evaluate('__idleTest.capture(5000)');
+    const maleSneezeStarts=await evaluate("__idleTest.stats.audioStarts");
+    await evaluate('__idleTest.preview("sneeze")');
+    await wait(`__idleTest.stats.audioStarts>${maleSneezeStarts}`);
+    assert.equal(await evaluate("__idleTest.lastSource.buffer.duration"),.93);
+    assert((await evaluate('document.getElementById("idle-sound-status").textContent')).includes("sneeze-male"));
+    await evaluate('__idleTest.capture(5000)');
     await command({action:"configure",settings:{voice:originalVoice}});
-    report.checks.push("Supplied female/male effect switches with real voice selection; native gain and slider cap20%.");
+    const femaleSneezeStarts=await evaluate("__idleTest.stats.audioStarts");
+    await evaluate('__idleTest.preview("sneeze")');
+    await wait(`__idleTest.stats.audioStarts>${femaleSneezeStarts}`);
+    assert.equal(await evaluate("__idleTest.lastSource.buffer.duration"),2.7);
+    assert((await evaluate('document.getElementById("idle-sound-status").textContent')).includes("sneeze-female"));
+    await evaluate('__idleTest.capture(5000)');
+    report.checks.push("Supplied yawn/sneeze female/male effects switch with real voice selection; native gain and slider cap20%.");
     await evaluate(`__idleTest.resume=__idleTest.context.resume.bind(__idleTest.context);
       __idleTest.context.resume=()=>Promise.reject(Error("Fixture audio output unavailable"));
       __idleTest.preview("sneeze");`);
