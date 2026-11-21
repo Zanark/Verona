@@ -1,8 +1,10 @@
 import importlib.util
+import json
 from pathlib import Path
 import struct
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from PIL import Image
 import fitz
@@ -15,6 +17,44 @@ SPEC.loader.exec_module(journal)
 
 
 class JournalTests(unittest.TestCase):
+    def test_freeze_returns_the_custom_pdf_hash_and_preserves_existing_edition(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "candidate"
+            output.mkdir()
+            name = "Continuation.pdf"
+            for filename in (name, "reading.html", "journal.json", "manifest-input.json",
+                             "expected-text.json", "prepared.json", "qualification.json"):
+                (output / filename).write_bytes(filename.encode())
+            (output / "assets").mkdir()
+            journal.write(output / "edition.json", {
+                "pdfName": name, "editionId": "Continuation", "pages": [{}], "assets": []})
+            journal.write(output / "review.json", {
+                "pdfSha256": journal.sha(output / name), "layoutReviewedPages": [1],
+                "reviewedFigures": [], "fullResolutionPages": [1], "unresolved": []})
+            with patch.object(journal, "ROOT", root), patch.object(journal, "qualify"):
+                result = journal.freeze(output, output / "review.json")
+                self.assertEqual(result["pdfSha256"], journal.sha(output / name))
+                self.assertEqual((Path(result["frozenEdition"]) / name).read_bytes(),
+                                 (output / name).read_bytes())
+                with self.assertRaises(FileExistsError):
+                    journal.freeze(output, output / "review.json")
+
+    def test_continuation_inputs_and_pdf_names_cannot_escape_the_book(self):
+        for value in ("../outside.pdf", "C:\\outside.pdf", ".agent-context.pdf", "book.html"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                journal.pdf_name({"pdfName": value})
+        with tempfile.TemporaryDirectory(dir=journal.ROOT / "book") as temporary:
+            root = Path(temporary)
+            source = root / "manifest.json"
+            source.write_text(json.dumps({"content": "../outside.json"}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "content must be inside book"):
+                journal.prepare(root / "candidate", source)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with self.assertRaisesRegex(ValueError, "manifests must be inside book"):
+                journal.prepare(root / "candidate", root / "manifest.json")
+
     def test_explicit_image_allowlist_rejects_escape_and_private_input(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

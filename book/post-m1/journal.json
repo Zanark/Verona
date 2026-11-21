@@ -1,0 +1,121 @@
+{
+  "editorialNote": "A separate continuation of the frozen Milestone 1 journal, not a rewritten first milestone. Entries follow real commits on 21 November 2026 in IST. Current implementation cutoff: cab23cc. Its later source release and delivery closeout are separate events. Actual capture plates, fixture checks, environmental qualification and human acceptance are deliberately distinguished.",
+  "benchNotes": {
+    "opening": [
+      ["After the first milestone", "The 83-page M1v2 notebook remains intact. This smaller volume follows the next corrections: a useful Claire export, withdrawal of an unwanted character, bounded resources, occasional blinks and genuinely shared native-head controls."],
+      ["What the dates mean", "The gutter and timeline use repository commit author times converted to IST, not inferred screenshot timestamps. Later capture plates illustrate the stated mechanism; captions do not turn reused images into freshly rerun benchmarks."],
+      ["A source cutoff, not a moving release", "The historical source cutoff is cab23cc73a22ac699184f114db2d3535bb2f9428. The baseline v0.1.0 release remains f892d423f923bdd043ebe6aab7647f0993679251. The native-head release is still a delivery task at this cutoff. No tag or frozen prior PDF is moved."],
+      ["Read the pictures honestly", "Every plate is explicitly allowlisted and hashed. Silent GIFs become timed stills; there is no sound, autoplay, private conversation, model weight or runtime credential in this edition. New native renders show the actual implementation, not anatomical or likeness approval."]
+    ],
+    "mechanism": [
+      ["Identity before loading", "The selected Mark head chooses Mark's network, 272-component skin PCA and native conditioning before inference starts. Claire-family heads use Claire; native MPFB adds only its own transfer adapter. A lightweight model catalog is not six resident networks."],
+      ["Fit, then exaggerate", "For native MPFB, map conditioned and same-audio neutral trajectories separately through the bounded faceunit fit. Form the final native geometry as N + gain * (E - N). Four-frame batches avoid retaining a complete extra source trajectory."],
+      ["Presentation is not a second model", "Surface, FaceMesh, FaceDot and UniformPolygons share one selected mesh and audio clock. Native eye-span similarity alignment preserves shape. Cosmetic anchors, hair, lid closure and sideways cheekiness are approximations, not recovered native joints."],
+      ["Resource ownership stays explicit", "Inactive GPU views/hair and unlit normal slots are released; one successful clip remains in RAM. Blinking and sideways pull use the existing render clock/shader. The one-time upper-skull hair fit changes decoration, not speech vertices."],
+      ["Failure remains a result", "A later passing lifecycle run does not explain an earlier CLI startup/cleanup timeout. Failed receipts remain and vr-64 stays planned. A software draw sample or process-private memory number is not total machine performance or human accuracy."]
+    ],
+    "acceptance": [
+      ["Implemented and source-pushed", "Native MPFB and actual Mark share all four presentations and the applicable Claire controls: neck/crop, zoom, XYZ, cursor, five colors, waves/curls, blinking, emotion exaggeration and reversible sideways cheekiness. The source cutoff is cab23cc."],
+      ["Technically exercised here", "88 CPU regressions and focused hairstyle checks pass. Actual six-model native sessions03 passes existing lifecycle gates. Final actual MPFB/Mark software-WebGL checks cover colors, blinks, cheekiness restoration and stable resources after the native hair correction. Six GIFs independently match every source sample."],
+      ["Delivery remains separate at this cutoff", "Updated skill source/library/personal copies match and personal discovery is verified. This journal's rendering and the new source release follow the implementation commit. The frozen M1v2 PDF and v0.1.0 release remain historical; no PDF upload is implied."],
+      ["Still not certified", "Accurate phonetics, anatomical contact, full SDK smoothing, independent teeth/tongue/eye joints, universal 60 fps, instant response, eight-head capacity, independent listening, clean-machine installation and human likeness approval remain unclaimed. The intermittent startup/shutdown cause is unresolved."]
+    ]
+  },
+  "entries": [
+    {
+      "id": "P01", "title": "Let the owner work on Claire", "commit": "c1de854",
+      "workstreams": "vr-54", "chapter": "09", "status": "LOCAL AUTHORING HANDOFF",
+      "body": [
+        "After the first milestone, the owner wanted an editable Claire GLB for Blender rather than another automatically designed face. A useful handoff had to preserve which geometry belonged to the skin, optics and hair, and explain the relationship visually.",
+        "The export and illustrated workshop were local authoring artifacts, not a new runtime GLB importer. Source mapping, a Blender round trip and an image-heavy guide separated editable assets from claims about animation-ready integration.",
+        "The subsequent withdrawal removed the unwanted armored character and its depictions. The surviving plates here show only original Claire and her region map. The original source images are copied byte-for-byte into the explicit qualification allowlist; no removed character is recovered for historical color."
+      ],
+      "mechanism": "A geometry handoff needs source/region mapping and round-trip evidence, not just a filename ending in .glb.",
+      "failure": "The owner's rejection of the proposed armored appearance was real feedback, not something numerical validation could overrule.",
+      "boundary": "Local Blender authoring does not implement the parked Realistic runtime view.",
+      "figures": [
+        {"path": "native-parity-journal-images-01/claire-front.png", "caption": "Preserved original Claire export, front view. No withdrawn armor is included."},
+        {"path": "native-parity-journal-images-01/claire-regions.png", "caption": "The preserved Claire region map from the illustrated local handoff; color identifies geometry regions rather than learned emotion channels."}
+      ]
+    },
+    {
+      "id": "P02", "title": "Withdrawal is a product decision", "commit": "4c5a8dd",
+      "workstreams": "vr-55, vr-56", "chapter": "09, 10", "status": "CORRECTION / PRESERVATION",
+      "body": [
+        "The unwanted armored character was removed from active runtime and inspected artifact copies. The M1 journal became v2 with those depictions removed, while original Claire remained available. Ordinary edition preservation did not justify keeping explicitly withdrawn images.",
+        "The README then became full-width and borderless without changing the existing motion gallery. This was presentation work, not new model behavior. It established a useful invariant for subsequent documentation: preserve the approved hero and demonstrations while improving model discovery.",
+        "This continuation retains the causal decision without reproducing the withdrawn pictures. Describing a rejected experiment does not require making the owner look at it again."
+      ],
+      "mechanism": "Preserve approved source and useful audit facts; remove explicitly withdrawn visual artifacts.",
+      "failure": "Keeping rejected imagery in a frozen reader would have contradicted the withdrawal even if the application menu was already clean.",
+      "boundary": "Historical workstream completion is not renewed acceptance of the removed character.",
+      "figures": []
+    },
+    {
+      "id": "P03", "title": "One selected head must mean one selected head", "commit": "3e83ba5",
+      "workstreams": "vr-57", "chapter": "07", "status": "MEASURED RESOURCE OWNERSHIP",
+      "body": [
+        "The owner asked whether every head model was loaded while using FaceMesh. The response needed measurements at the right boundary, not a reassuring catalog count. The empty manager was made independent of the numerical inference stack; selected heads kept their own engine.",
+        "Releasing the full temporary PCA before inference-session creation reduced the measured startup peak. The renderer released inactive geometry and hidden hair, and unlit views stopped retaining a second JavaScript motion array. Switching back to lit rendering reads the existing GPU motion once and can incur a stall.",
+        "Earlier isolated manager private-memory samples fell from 68.69-70.04 to 18.82-18.95 MiB. Actual Claire hair-off FaceMesh geometry buffers fell from 3,055,342 to 754,894 bytes. These are different measured layers, not a claim that the entire running app or machine became 75 percent smaller."
+      ],
+      "mechanism": "Release data when its owner no longer needs it; rebuild on selection rather than retaining every possible presentation.",
+      "failure": "Some pre-existing pixel/lifecycle harness gates also failed on untouched baseline source. Their receipts were preserved instead of weakening thresholds.",
+      "boundary": "Synthetic engine probes exclude Chromium, TTS, whole-host memory and multi-head capacity.",
+      "figures": []
+    },
+    {
+      "id": "P04", "title": "A blink, a recognizable app, and a real chat", "commit": "53b3370",
+      "workstreams": "vr-58..64", "chapter": "07, 09, 10", "status": "LIVELINESS / OBSERVATION",
+      "body": [
+        "Occasional blinks made the head feel less static without loading an eyelid model. One bounded blink envelope deformed the cosmetic eye region and aperture through the existing draw path, honoring reduced motion and ownership/cancellation states.",
+        "Original Verona branding replaced the generic app identity. Five dedicated model GIFs clarified which shape and presentations were actually available. Those first galleries still described native MPFB's reduced renderer and report-only Mark honestly.",
+        "The owner also used this chat's live head during work. Bounded observation found meaningful uncached animated-reply delay and complete-process-tree memory cost. Those findings became separate latency, memory and shutdown-diagnosis TODOs rather than a fabricated claim that everything was already optimized."
+      ],
+      "mechanism": "Liveliness should reuse the existing clock; real-use observations should produce bounded follow-up work.",
+      "failure": "An intermittent native close timeout remained unexplained despite a later pass at the unchanged gate.",
+      "boundary": "Natural-looking procedural motion is not physiological blink fidelity or independent listening acceptance.",
+      "figures": [
+        {"path": "branding-01/native-icon.png", "caption": "The original Verona native icon as decoded during branding qualification, not a replacement Electron executable."},
+        {"path": "docs/media/model-vr60-claire.gif", "sampleMs": 800, "caption": "The earlier five-model gallery's Claire presentation. Its historical receipt remains distinct from the new native-parity gallery."}
+      ]
+    },
+    {
+      "id": "P05", "title": "Native heads stop being second-class controls", "commit": "cab23cc",
+      "workstreams": "vr-65, vr-66", "chapter": "07, 09, 10", "status": "IMPLEMENTED / ENVIRONMENT-QUALIFIED",
+      "body": [
+        "Native MPFB and actual Mark now use the same packed player as Claire. Four presentations, neck cut, zoom, XYZ, whole-head or eye cursor tracking, five colors, waves/curls and blinks share one selected geometry and audio clock. Mark chooses its own network/PCA/conditioning before loading; Male-SharpJawline remains a different Claire-derived sculpt.",
+        "MPFB's intermediate native faceunit fit remains bounded, but exaggeration now acts on the final fitted neutral-relative geometry. Fitting the conditioned and same-audio neutral batches separately prevents a bounded projection from silently swallowing the requested 2x/4x gain. A live sideways-cheekiness strength is explicitly cosmetic and reversible.",
+        "The first native gallery exposed scalp through Claire-sized hair. A one-time upper-skull ellipsoid fit now scales both procedural hairstyles without changing skin or learned motion. Fresh corrected galleries, actual final native WebGL checks and the six-model lifecycle lane qualify the implementation; they do not prove anatomy, likeness or universal reliability."
+      ],
+      "mechanism": "Native output = fitted neutral + gain * (fitted expression - fitted neutral). Presentation is shared; native identity is not substituted.",
+      "failure": "Native sessions02 timed out later on CLI startup/cleanup. Sessions03 passes the same gates; the cause remains unproven and vr-64 stays open.",
+      "boundary": "Every native cosmetic feature remains approximate. Full SDK contact/smoothing and independent teeth/tongue/eye joints are omitted.",
+      "flow": ["Select native identity", "Generate/fitted neutral-relative motion", "Pack one native skin", "Choose one shared presentation"],
+      "figures": [
+        {"path": "docs/media/model-vr67-mpfb.gif", "sampleMs": 800, "caption": "Corrected native MPFB, neutral speech, all four shared presentations. Surface uses procedural color/makeup and fitted original waves."},
+        {"path": "docs/media/model-vr67-mark.gif", "sampleMs": 800, "caption": "Actual Mark v2.3, neutral speech. The four panels share native geometry, not four loaded networks."},
+        {"path": "native-parity-gallery-02-mpfb/frames/cheekiness-008.png", "caption": "Native MPFB cheekiness with the explicit cosmetic sideways lip pull; extreme expression is not anatomical contact acceptance."},
+        {"path": "native-parity-gallery-02-mark/frames/cheekiness-008.png", "caption": "Actual Mark cheekiness through the same shared controls, with native identity preserved."}
+      ]
+    },
+    {
+      "id": "P06", "title": "Deliver evidence, not a victory-shaped blur", "commit": "cab23cc",
+      "workstreams": "vr-67", "chapter": "02, 07, 09", "status": "DELIVERY IN PROGRESS AT CUTOFF",
+      "body": [
+        "Six new 960 by 1080 model GIFs now show neutral and all ten single emotions in four presentations. Every one of 1,848 source samples matches its decoded timeline; lossless deltas merge holds into 1,483 encoded frames. The approved hero and complete motion section remain unchanged.",
+        "The media still costs 111,123,289 bytes. A closed disclosure does not make large animated media free to transfer or decode. Actual GitHub-rendered layout checks cover desktop and narrow widths, no borders/tables and one dedicated full-width GIF per model; sampled previews are not runtime FPS measurements.",
+        "The requested skill copies are identical and personally discoverable outside this checkout. Rendering this local continuation, verifying the new source release and restoring this chat's saved Claire/Hazel head follow the source cutoff. None requires moving v0.1.0, uploading private media, claiming dormant chats adopted the skill, or declaring human approval."
+      ],
+      "mechanism": "Keep source, qualification, publication, installed instructions and private continuity as separate verifiable boundaries.",
+      "failure": "The local-file skill installer refused overwrite. Hash-guarded exact-copy replacement updated only the two explicitly requested existing copies.",
+      "boundary": "This PDF records the implementation cutoff. Subsequent release/closeout receipts are later evidence, not retroactively completed events.",
+      "figures": [
+        {"path": "docs/media/model-vr67-claire.gif", "sampleMs": 3550, "caption": "Original Claire remains available; this happy sample uses the updated shared rendering contract."},
+        {"path": "docs/media/model-vr67-reference-structure.gif", "sampleMs": 3550, "caption": "Structural-reference Claire remains experimental, not the native MPFB mesh or an accepted likeness."},
+        {"path": "docs/media/model-vr67-reference-shell.gif", "sampleMs": 3550, "caption": "The historical subtle-reference candidate remains explicitly rejected rather than being relabeled accepted."},
+        {"path": "docs/media/model-vr67-male-sharp.gif", "sampleMs": 3550, "caption": "Male-SharpJawline retains Claire motion. Actual Mark is a separate selectable neural identity."}
+      ]
+    }
+  ]
+}

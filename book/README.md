@@ -2,6 +2,36 @@
 
 ## Current deliverable
 
+The journal now also has a separate **post-M1 continuation**, not a silently
+rewritten first milestone:
+`book\editions\Verona-Post-M1-Native-Heads-Journal-v1\Verona-Post-M1-Native-Heads-Journal.pdf`.
+Its31pages, six dated entries and13figure occurrences cover Claire's local
+export, withdrawal, resource ownership, blinks and actual native-head parity.
+The source cutoff is `cab23cc`; later release closeout is deliberately separate.
+The frozen M1v2 below remains unchanged. Both are local ignored editions.
+
+Continuation sources are `post-m1\manifest.json` and `post-m1\journal.json`.
+The same bounded builder accepts an explicit in-book manifest and contained
+PDF filename; without it, the historical M1 manifest remains the default:
+
+```powershell
+python book\build_journal.py --manifest book\post-m1\manifest.json --output book\output\post-m1-next
+```
+
+Final review covers all31pages and13allowlisted figures, representative
+full-resolution text/plate pages, native PDF checks and an isolated offline
+reader with31pages/13images/10valid navigation links and no overflow or external
+page requests. First preparation retains the unsupported eight-image-plate
+failure; figures are split into explicit four-image plates. A wrapped cover
+badge was corrected. A focused regression also prevents freeze from returning
+the last copied receipt's hash instead of the selected PDF's hash.
+Nine journal-tool tests pass. This is agent review, not owner approval.
+
+Frozen PDF SHA-256:
+`a0e20dd0b773ddc51b8afc67e3aee080f07237f838aca4d5a2e057318fa58dd5`.
+Frozen checksums and a Git-free 31-page portable rebuild pass with identical
+prepared figure hashes; this does not promise byte-identical regenerated PDFs.
+
 The canonical engineering manuscript is docs/README.md plus the ordered chapters
 in manifest.json. It remains a living manuscript, not a fully rendered engineering
 textbook. The product brief and tracking guide are maintainer references, not

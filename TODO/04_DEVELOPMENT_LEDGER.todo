@@ -1,6 +1,21 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-67 dated post-M1 journal continuation frozen
+Cause: ongoing journal maintenance must record native parity without rewriting
+the historical M1 edition or restoring withdrawn character imagery.
+Action: six dated entries and explicit allowlisted local evidence form a
+31-page continuation with13figure occurrences, pinned to cab23cc. Generalize
+only manifest/PDF labels and actual timeline dates in the existing builder.
+Fix the freeze loop's filename shadowing so its returned hash names the PDF,
+not the last copied receipt. A custom-name regression protects this boundary.
+Evidence: nine book tests, all-page/figure agent review, native PDF checks,
+isolated offline reader and Git-free portable rebuild pass. Frozen checksums
+verified; no promise of byte-identical regenerated PDF or owner acceptance.
+Retain rejected eight-image plate and wrapped-badge candidates as causal
+evidence. M1v2 unchanged; no PDF/private-source upload. Release and saved
+live-head restoration remain pending, distinct from this local frozen edition.
+
 2026-11-21 - vr-65..67 native models share the full presentation contract
 Cause: native MPFB's reduced renderer and report-only Mark did not meet the
 requested consistency. Source amplification before constrained MPFB fitting

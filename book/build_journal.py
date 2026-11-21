@@ -1,4 +1,4 @@
-"""Build Verona's explicitly allowlisted, local M1 journal; never start the app."""
+"""Build Verona's explicitly allowlisted local journals; never start the app."""
 from __future__ import annotations
 
 import argparse
@@ -43,6 +43,13 @@ def write(path, value):
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def pdf_name(manifest):
+    name = manifest.get("pdfName", PDF_NAME)
+    if not isinstance(name, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,100}\.pdf", name):
+        raise ValueError("Journal PDF name must be a contained ASCII PDF filename.")
+    return name
 
 
 def git(*args):
@@ -221,15 +228,23 @@ def source_sheets(output, assets):
         sheet.save(review / f"source-{offset // 12 + 1:02}.jpg", quality=94)
 
 
-def prepare(output):
+def prepare(output, input_manifest=INPUT):
     if output.exists():
         raise FileExistsError(f"Use a new output directory; preserve previous runs: {output}")
-    manifest = load(INPUT)
-    journal = load(ROOT / manifest["content"])
+    input_manifest = Path(input_manifest).resolve()
+    if not input_manifest.is_relative_to((ROOT / "book").resolve()):
+        raise ValueError("Journal manifests must be inside book.")
+    manifest = load(input_manifest)
+    pdf_name(manifest)
+    content = (ROOT / manifest["content"]).resolve()
+    if not content.is_relative_to((ROOT / "book").resolve()):
+        raise ValueError("Journal content must be inside book.")
+    journal = load(content)
     historical = historical_data(manifest, journal)
     tools = tool_versions()
-    definitions = [{"entry": "COVER", "path": "docs/media/milestone-v0.1.0-claire.gif",
-                    "sampleMs": 1100, "caption": "Actual current Claire production-renderer greeting, M1."}]
+    definitions = [{"entry": "COVER", **manifest.get("coverFigure", {
+        "path": "docs/media/milestone-v0.1.0-claire.gif", "sampleMs": 1100,
+        "caption": "Actual current Claire production-renderer greeting, M1."})}]
     for entry in journal["entries"]:
         for figure in entry["figures"]:
             definitions.append({"entry": entry["id"], **figure})
@@ -252,8 +267,8 @@ def prepare(output):
     write(output / "journal.json", journal)
     write(output / "manifest-input.json", manifest)
     write(output / "prepared.json", {"historical": historical, "assets": assets,
-          "tools": tools, "inputSha256": sha(INPUT),
-          "journalSourceSha256": sha(ROOT / manifest["content"])})
+          "tools": tools, "inputSha256": sha(input_manifest),
+          "journalSourceSha256": sha(content)})
     source_sheets(output, assets)
     return len(assets)
 
@@ -457,8 +472,9 @@ class JournalPDF:
         self.text("Figure IDs resolve to exact source paths, hashes and GIF times in the edition manifest.", 48, 772, 499, 7.5, "mono", MUTED)
 
     def note_page(self, label, title, paragraphs):
+        paragraphs = getattr(self, "bench_notes", {}).get(label, paragraphs)
         self.page_new(title, "reference", label)
-        y = self.heading(title, "BENCH NOTES / M1") + 21
+        y = self.heading(title, f"BENCH NOTES / {getattr(self, 'volume', 'M1')}") + 21
         for subheading, text in paragraphs:
             y = self.text(subheading, 48, y, 499, 12, "bold") + 8
             y = self.text(text, 48, y, 499, 10.7, bottom=768) + 22
@@ -468,7 +484,8 @@ class JournalPDF:
         for index in range(total):
             self.page = self.doc[index]
             self.line(45, 795, 550, 795)
-            self.text("M1 / 18-21 NOV 2026 / LOCAL EDITION", 45, 806, 435, 7.7, "mono", MUTED, bottom=835)
+            self.text(manifest.get("footer", "M1 / 18-21 NOV 2026 / LOCAL EDITION"),
+                      45, 806, 435, 7.7, "mono", MUTED, bottom=835)
             self.text(f"{index+1:02} / {total:02}", 495, 806, 60, 7.7, "mono", MUTED, bottom=835)
         contents = next(i for i, p in enumerate(self.pages) if p["section"] == "contents")
         self.page = self.doc[contents]
@@ -483,7 +500,7 @@ class JournalPDF:
             y += 17
         self.text("The timeline precedes the journal. Bench notes and historical registers follow it.", 48, 703, 499, 8.4, "italic", MUTED)
         y = 728
-        for label, title in (("mechanism", "Mechanism"), ("acceptance", "M1 boundary"), ("sources", "Source notebook")):
+        for label, title in (("mechanism", "Mechanism"), ("acceptance", f"{self.volume} boundary"), ("sources", "Source notebook")):
             destination = self.destinations[label]
             self.text(f"{title} / {destination}", 48, y, 499, 8.8, "mono")
             self.link((45, y, 550, y+13), destination)
@@ -502,13 +519,14 @@ class JournalPDF:
         for label in ("mechanism", "acceptance", "records", "sources", "glossary", "commits", "workstreams"):
             outline.append([1, self.pages[self.destinations[label]-1]["title"], self.destinations[label]])
         self.doc.set_toc(outline)
-        self.doc.set_metadata({"title": manifest["title"] + " / M1 Development Journal",
-            "author": "Zanark / Copilot", "subject": "Dated, illustrated development retrospective; 18-21 November 2026",
-            "keywords": "Verona, M1, development journal, speech, face mesh, local CPU",
+        self.doc.set_metadata({"title": manifest["title"] + " / " + manifest["subtitle"],
+            "author": "Zanark / Copilot", "subject": "Dated, illustrated development retrospective; " + manifest["period"],
+            "keywords": "Verona, development journal, speech, face mesh, local CPU",
             "creator": "Verona book/build_journal.py / PyMuPDF"})
         self.restore_unicode()
         self.doc.subset_fonts()
-        self.doc.save(self.output / PDF_NAME, garbage=4, deflate=True)
+        name = pdf_name(manifest)
+        self.doc.save(self.output / name, garbage=4, deflate=True)
         self.doc.close()
         articles = []
         for index, page in enumerate(self.pages, 1):
@@ -527,7 +545,7 @@ nav a{color:#fff;margin-right:20px}.reading-note{max-width:760px;margin:20px aut
         reader = '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
         reader += '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src \'self\' data:; style-src \'unsafe-inline\'; base-uri \'none\'">'
         reader += f'<title>{html.escape(manifest["title"])}</title><style>{css}</style><nav>'
-        reader += f'<a href="{PDF_NAME}">Open PDF</a><a href="#page-3">Contents</a><a href="edition.json">Edition manifest</a></nav>'
+        reader += f'<a href="{name}">Open PDF</a><a href="#page-3">Contents</a><a href="edition.json">Edition manifest</a></nav>'
         reader += '<p class="reading-note">An offline, fixed-page reading companion. Click any image for its full-resolution PNG. '
         reader += 'Use the native PDF for bookmarks and page navigation. Static GIF samples do not animate or play sound. '
         reader += 'This reader makes no network requests and contains no application capability or runtime connection.</p>'
@@ -539,10 +557,11 @@ nav a{color:#fff;margin-right:20px}.reading-note{max-width:760px;margin:20px aut
 
 
 def render(output):
-    if (output / PDF_NAME).exists():
-        raise FileExistsError("Preserve the existing PDF; use a new run/from-edition output.")
     prepared = load(output / "prepared.json")
     journal, manifest = load(output / "journal.json"), load(output / "manifest-input.json")
+    name = pdf_name(manifest)
+    if (output / name).exists():
+        raise FileExistsError("Preserve the existing PDF; use a new run/from-edition output.")
     tools = tool_versions()
     assets, historical = prepared["assets"], prepared["historical"]
     for record in assets:
@@ -551,22 +570,27 @@ def render(output):
             raise ValueError(f"Prepared image changed or escaped its root: {record['id']}")
     fonts = fonts_for(manifest)
     book = JournalPDF(fonts, assets, output)
-    book.page_new("The first speaking face", "cover", "cover")
+    book.volume = manifest.get("volume", "M1")
+    book.bench_notes = journal.get("benchNotes", {})
+    cover = manifest.get("coverLines", ["The first", "speaking face"])
+    dates = manifest.get("coverDateLines", ["18-21", "NOVEMBER", "2026"])
+    book.page_new(manifest["title"], "cover", "cover")
     book.text("VERONA", 49, 75, 490, 14, "mono", ACCENT)
-    book.text("The first", 46, 118, 503, 47, "bold")
-    book.text("speaking face", 46, 183, 503, 47, "bold")
+    book.text(cover[0], 46, 118, 503, 47, "bold")
+    book.text(cover[1], 46, 183, 503, 47, "bold")
     book.text("A DEVELOPMENT JOURNAL", 49, 263, 493, 12, "mono")
     book.rect((193, 312, 547, 716), DARK)
     book.figure(assets[0], (201, 321, 539, 700), caption_ink=(.78, .84, .84))
-    book.text("M1", 49, 335, 130, 53, "bold", ACCENT)
-    book.text("18-21", 50, 424, 125, 22, "bold")
-    book.text("NOVEMBER", 50, 459, 125, 12, "mono")
-    book.text("2026", 50, 481, 125, 22, "bold")
+    book.text(book.volume, 49, 335, 130, 30 if len(book.volume) > 3 else 53, "bold", ACCENT)
+    book.text(dates[0], 50, 424, 125, 22, "bold")
+    book.text(dates[1], 50, 459, 125, 12, "mono")
+    book.text(dates[2], 50, 481, 125, 22, "bold")
     book.text("Research.\n", 50, 548, 130, 11, "italic")
     book.text("Experiments.", 50, 570, 130, 11, "italic")
     book.text("Corrections.", 50, 592, 130, 11, "italic")
     book.text("A local voice.", 50, 614, 130, 11, "italic")
-    book.text("v0.1.0 / functional experimental source milestone", 49, 748, 498, 9, "mono")
+    book.text(manifest.get("coverTagline", "v0.1.0 / functional experimental source milestone"),
+              49, 748, 498, 9, "mono")
     book.note_page("opening", "Open the notebook", [
         ("A journal, not a victory list", journal["editorialNote"]),
         ("The question", "Could a sentence become local speech and a connected animated face, with expressive motion and no paid/cloud inference? The owner prioritized making it exist, then kept correcting the face, controls and interaction. This book follows those changes rather than pretending the final workspace was planned in one step."),
@@ -576,13 +600,16 @@ def render(output):
     ])
     book.page_new("Contents", "contents", "contents")
     book.heading("Find an entry", "CONTENTS / CLICKABLE IN PDF")
-    for days in (("18", "19"), ("20", "21")):
-        book.page_new(f"Timeline / {days[0]}-{days[1]} November", "timeline")
-        y = book.heading(f"{days[0]}-{days[1]} November 2026", "DATED TIMELINE / COMMIT TIMES, IST") + 25
+    dates = list(dict.fromkeys(entry["record"]["date"] for entry in journal["entries"]))
+    for offset in range(0, len(dates), 2):
+        days = dates[offset:offset+2]
+        title = " - ".join(days)
+        book.page_new(f"Timeline / {title}", "timeline")
+        y = book.heading(title, "DATED TIMELINE / COMMIT TIMES, IST") + 25
         current = None
         for entry in journal["entries"]:
             record = entry["record"]
-            if record["day"] not in days:
+            if record["date"] not in days:
                 continue
             if current != record["day"]:
                 current = record["day"]
@@ -600,7 +627,8 @@ def render(output):
         ("5 / Keep only what has an owner", "One latest clip and latest speech live in RAM; persistent caches hold only derived topology. Every named head owns its profile, private capability and workers. Replacement, cancellation, stale IDs, manager death and external-host survival are explicit states."),
         ("6 / Performance is layered", "Inference timing, PCA, generation, host acknowledgment, browser callback cadence, GPU completion and audible response are different measurements. This journal quotes historical runs at their measured layer, never a universal latency or 60 fps promise.")
     ])
-    book.note_page("acceptance", "M1: present, limited, unfinished", [
+    acceptance_title = manifest.get("acceptanceTitle", "M1: present, limited, unfinished")
+    book.note_page("acceptance", acceptance_title, [
         ("Delivered at the source milestone", "A local browser/Windows desktop speaking-face workspace, six explicit manager choices, independently owned named heads, editable speech/presentation controls and five free feature colors. The separate default-on topmost option and identity live inside each collapsed menu. Current hair choices are original waves and 48-lock spiral curls."),
         ("Technically exercised on this machine", "The released runtime inherits its qualified browser/native model paths. The M1 packaging work reran 76 CPU regressions and checked fresh renderer media and actual GitHub layouts. This retrospective reuses those receipts; writing the book did not rerun inference, listen to speech or drive the owner's windows."),
         ("Not delivered by declaring M1", "Strong sideways cheekiness remains a matched report rather than all-variant runtime integration. Mark remains a separate raw-model report. The Realistic/GLB branch is parked. The broader MPFB identity/selector acceptance work remains open. Eight is a creation cap, not eight-head performance acceptance."),
@@ -637,15 +665,17 @@ def render(output):
             y = book.text(record["title"], 48, y+14, 499, 9, bottom=772) + 13
     for offset in range(0, len(historical["workstreams"]), 10):
         book.page_new("Historical workstream register", "register", "workstreams" if not offset else None)
-        y = book.heading("Workstream register", "STATUS AT THE M1 CLOSEOUT / NOT A NEW STATUS UPDATE") + 21
+        y = book.heading("Workstream register", "STATUS AT SOURCE CUTOFF / NOT A NEW STATUS UPDATE") + 21
         for row in historical["workstreams"][offset:offset+10]:
             book.text(f"{row['id']} / {row['status']}", 48, y, 499, 8.2, "mono", ACCENT)
             y = book.text(row["title"], 48, y+14, 499, 9, bottom=772) + 13
-        book.text("vr-04 is the perpetual ledger, not a finite issue. vr-16..19 are parked; vr-41 remains open. These records are historical, not freshly closed by the journal.", 48, 737, 499, 8.5, "italic", MUTED)
+        book.text(manifest.get("registerNote", "vr-04 is the perpetual ledger, not a finite issue. vr-16..19 are parked; vr-41 remains open. These records are historical, not freshly closed by the journal."),
+                  48, 737, 499, 8.5, "italic", MUTED)
     pages = book.finish(journal, manifest, historical)
     font_receipt = {role: {k: (str(v) if k == "path" else v) for k, v in spec.items() if k != "font"}
                     for role, spec in fonts.items()}
     receipt = {"schemaVersion": 1, "editionId": manifest["editionId"], "status": "candidate-awaiting-review",
+        "pdfName": name, "acceptanceTitle": acceptance_title,
         "generatedAt": datetime.now(IST).isoformat(timespec="seconds"),
         "historicalRevision": manifest["historicalRevision"], "releaseRevision": manifest["releaseRevision"],
         "publication": manifest["publication"], "tools": tools, "fonts": font_receipt,
@@ -655,16 +685,17 @@ def render(output):
         "inputManifestSha256": sha(output / "manifest-input.json"), "assets": assets, "pages": pages,
         "sources": historical["references"], "commits": historical["commits"],
         "workstreams": historical["workstreams"],
-        "outputs": {name: {"sha256": sha(output / name), "bytes": (output / name).stat().st_size}
-                    for name in (PDF_NAME, "reading.html")}}
+        "outputs": {filename: {"sha256": sha(output / filename), "bytes": (output / filename).stat().st_size}
+                    for filename in (name, "reading.html")}}
     write(output / "edition.json", receipt)
     return qualify(output)
 
 
 def qualify(output):
     edition = load(output / "edition.json")
-    pdf = output / PDF_NAME
-    if sha(pdf) != edition["outputs"][PDF_NAME]["sha256"]:
+    name = pdf_name(edition)
+    pdf = output / name
+    if sha(pdf) != edition["outputs"][name]["sha256"]:
         raise ValueError("PDF bytes differ from the edition manifest.")
     if sha(output / "expected-text.json") != edition["expectedTextSha256"]:
         raise ValueError("Expected text inventory differs from the edition manifest.")
@@ -704,7 +735,8 @@ def qualify(output):
                                 "links": len(page.get_links()), "spans": len(spans)})
         if len(doc.get_toc()) != 3 + len(load(output / "journal.json")["entries"]) + 7:
             raise ValueError("Native bookmark inventory is incomplete.")
-        if not all(name in "\n".join(fulltext) for name in ("Source notebook", "Commit register", "M1: present")):
+        if not all(name in "\n".join(fulltext) for name in (
+                "Source notebook", "Commit register", edition.get("acceptanceTitle", "M1: present"))):
             raise ValueError("Expected journal sections are missing from native text.")
         (output / "review" / "native-text.txt").write_text("\n\f\n".join(fulltext), encoding="utf-8")
         for offset in range(0, doc.page_count, 4):
@@ -725,8 +757,9 @@ def qualify(output):
 
 def freeze(output, review_file):
     edition = load(output / "edition.json")
+    name = pdf_name(edition)
     review = load(review_file)
-    if review["pdfSha256"] != sha(output / PDF_NAME):
+    if review["pdfSha256"] != sha(output / name):
         raise ValueError("Visual review does not name this exact PDF.")
     if set(review["layoutReviewedPages"]) != set(range(1, len(edition["pages"])+1)):
         raise ValueError("Visual review does not account for every native page.")
@@ -739,10 +772,10 @@ def freeze(output, review_file):
     if target.exists():
         raise FileExistsError(f"Never overwrite a frozen edition: {target}")
     target.mkdir(parents=True)
-    names = [PDF_NAME, "reading.html", "journal.json", "manifest-input.json", "expected-text.json",
+    names = [name, "reading.html", "journal.json", "manifest-input.json", "expected-text.json",
              "prepared.json", "qualification.json"]
-    for name in names:
-        shutil.copyfile(output / name, target / name)
+    for filename in names:
+        shutil.copyfile(output / filename, target / filename)
     shutil.copytree(output / "assets", target / "assets")
     shutil.copyfile(review_file, target / "review.json")
     shutil.copyfile(Path(__file__), target / "build_journal.py")
@@ -754,7 +787,7 @@ def freeze(output, review_file):
     checksums = [f"{sha(p)}  {p.relative_to(target).as_posix()}"
                  for p in sorted(target.rglob("*")) if p.is_file()]
     (target / "SHA256SUMS.txt").write_text("\n".join(checksums)+"\n", encoding="utf-8")
-    return {"frozenEdition": str(target), "pdfSha256": sha(target / PDF_NAME)}
+    return {"frozenEdition": str(target), "pdfSha256": sha(target / name)}
 
 
 def copy_prepared(source, output):
@@ -785,6 +818,8 @@ def copy_prepared(source, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--manifest", type=Path, default=INPUT,
+                        help="Explicit journal manifest inside book; default is historical M1.")
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--render", action="store_true")
     parser.add_argument("--qualify", action="store_true")
@@ -807,9 +842,9 @@ def main():
     elif args.render:
         result = render(output)
     elif args.prepare:
-        result = {"preparedFigures": prepare(output), "output": str(output)}
+        result = {"preparedFigures": prepare(output, args.manifest), "output": str(output)}
     else:
-        prepare(output)
+        prepare(output, args.manifest)
         result = render(output)
     print(json.dumps(result, indent=2))
 

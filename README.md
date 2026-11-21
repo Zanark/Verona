@@ -17,8 +17,9 @@ Windows voices, CPU neural motion and an animated 3D face. **No camera,
 microphone or cloud runtime.** This gallery shows the actual prototype, not
 reference artwork or a photorealistic reconstruction.
 
-[**Milestone 1 - v0.1.0**](https://github.com/Zanark/Verona/releases/tag/v0.1.0)
-&middot; [Release notes and boundaries](docs/releases/v0.1.0.md)
+[**Native head parity - v0.2.0**](https://github.com/Zanark/Verona/releases/tag/v0.2.0)
+&middot; [Release notes and boundaries](docs/releases/v0.2.0.md)
+&middot; [Milestone 1](https://github.com/Zanark/Verona/releases/tag/v0.1.0)
 &middot; [Setup and controls](docs/prototype-guide.md)
 &middot; [All emotions](#all-ten-emotions---4x-and-bright-spokes)
 &middot; [Both hairstyles](#every-hairstyle-in-motion)

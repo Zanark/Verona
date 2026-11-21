@@ -1,5 +1,13 @@
 # Verona engineering book
 
+**v0.2.0 native-head source release:** [release notes](releases/v0.2.0.md)
+describe shared controls, selected loading, qualification and unresolved limits.
+The separate local **post-M1 journal continuation** has31pages, six dated
+entries and13figure occurrences, anchored to implementation commit `cab23cc`.
+Its PDF/offline reader live under
+`book\editions\Verona-Post-M1-Native-Heads-Journal-v1`; see
+[production and reproduction](../book/README.md). Frozen M1v2 stays unchanged.
+
 **Current native-model contract (vr-65/66):** all six choices, including native
 MPFB and actual Mark, use the same four presentations and applicable controls.
 [Chapter07](chapters/07-hazel-claire-and-performance.md#native-model-selection-and-bounded-transfer-batches-vr-6566)
