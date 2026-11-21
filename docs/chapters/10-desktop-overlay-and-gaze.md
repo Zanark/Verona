@@ -1,5 +1,13 @@
 # 10 - A transparent desktop without a second speech system
 
+**Coordinated idle eyes (vr-75):** cursor-head mode still centers its cursor
+gaze, but authored idle eye movement now works in either cursor mode.
+Look-around scans horizontally/vertically; unilateral lids share skin and
+optical clipping. [Chapter11](11-autonomous-idle-life.md) documents thirty
+actions, the five eye additions, ten composites and bounded local yawn/sneeze
+sound. Speech/interaction removes those temporary contributions without
+changing the user's cursor preferences.
+
 **Idle warm sleep (vr-73, creation policy corrected in vr-74):** choose the
 unchecked **Performance-only head** option at creation, never a live toggle.
 Normal heads retain their usual behavior. The floating menu contains

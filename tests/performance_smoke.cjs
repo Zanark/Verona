@@ -10,6 +10,7 @@ const report = {model, performanceMode:enabled, checks:[], views:[],
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 let cursorPolls = 0, realCursor;
 app.once("browser-window-created", (_event, window) => {
+  window.webContents.setAudioMuted(true);
   realCursor = screen.getCursorScreenPoint.bind(screen);
   screen.getCursorScreenPoint = () => {
     cursorPolls++;
@@ -123,6 +124,15 @@ async function run(window) {
     assert.equal((await snapshot()).opacity,silent);
     await wait(`!document.getElementById("clear-speech").disabled`);
     await evaluate(`document.getElementById("clear-speech").click()`);
+  }
+  if(enabled) {
+    await evaluate(`__perf.change("idle-sounds",true)`);
+    assert(await evaluate(`document.getElementById("idle-preview").disabled`));
+    const before=await snapshot();
+    await pause(13000);
+    assert.equal((await snapshot()).frames,before.frames,"Sleeping heads do not start an idle gesture or sound.");
+    assert(await evaluate(`!document.getElementById("face").dataset.idleAction`));
+    report.checks.push("Performance-only idle remains asleep with idle sounds enabled beyond the minimum scheduling interval.");
   }
   assert.equal(window.webContents.getLastWebPreferences().sandbox,true);
   assert(await evaluate(`document.getElementById("error").hidden`),

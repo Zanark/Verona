@@ -58,22 +58,29 @@ export function attachBlinking(input, wake, available = () => true) {
 // Model-space cosmetic lid field, shared by skin and optical aperture clipping.
 export const BLINK_GLSL = `
   uniform float blink;
+  uniform vec2 idleLids;
   uniform vec3 blinkCenterA, blinkCenterB, blinkRadius;
   vec3 blinkCenter(vec3 p) {
     return abs(p.x-blinkCenterA.x) < abs(p.x-blinkCenterB.x) ? blinkCenterA : blinkCenterB;
   }
+  float blinkAmount(vec3 p) {
+    bool first = abs(p.x-blinkCenterA.x) < abs(p.x-blinkCenterB.x);
+    return max(blink, first ? idleLids.x : idleLids.y);
+  }
   vec3 blinkOffset(vec3 rest) {
-    if (blink <= 0.0) return vec3(0.0);
+    float amount = blinkAmount(rest);
+    if (amount <= 0.0) return vec3(0.0);
     vec3 local = (rest-blinkCenter(rest))/blinkRadius;
     float influence = (1.0-smoothstep(1.05,1.9,length(local.xy)))
       * smoothstep(0.15,0.65,local.z);
     return vec3(0.0, -local.y*blinkRadius.y,
-      max(0.0, 1.04-local.z)*blinkRadius.z)*influence*blink;
+      max(0.0, 1.04-local.z)*blinkRadius.z)*influence*amount;
   }
   bool blinkOccludes(vec3 rest) {
-    if (blink <= 0.0) return false;
+    float amount = blinkAmount(rest);
+    if (amount <= 0.0) return false;
     vec3 local = (rest-blinkCenter(rest))/blinkRadius;
-    return blink >= 0.999 || abs(local.y) > 1.05*(1.0-blink);
+    return amount >= 0.999 || abs(local.y) > 1.05*(1.0-amount);
   }
 `;
 

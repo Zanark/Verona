@@ -6,6 +6,7 @@ import { startAgent } from "/agent-player.mjs";
 import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
 import { attachBlinking, BLINK_GLSL, CLAIRE_BLINK } from "/blinking.mjs";
 import { attachIdleLife, IDLE_ACTIONS, IDLE_GLSL, idlePose } from "/idle-life.mjs";
+import { createIdleSound } from "/idle-sound.mjs";
 import { attachPerformanceMode } from "/performance-mode.mjs";
 
 const $ = (id) => document.getElementById(id);
@@ -384,7 +385,7 @@ class FaceRenderer {
       ["blink", "blinkCenterA", "blinkCenterB", "blinkRadius", "mouthAnchor", "cheekiness", "blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
-    for (const name of ["idleFaceA", "idleFaceB", "idleFaceC"]) this.uniforms[name] = gl.getUniformLocation(program, name);
+    for (const name of ["idleFaceA", "idleFaceB", "idleFaceC", "idleLids"]) this.uniforms[name] = gl.getUniformLocation(program, name);
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
       throw new Error("Face mesh byte count/alignment does not match its contract.");
     }
@@ -865,6 +866,7 @@ class FaceRenderer {
     this.attribute("normalB",this.view.style || resting ? this.neutralNormals : this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
     gl.uniform1f(u.blink, Math.max(blink, idle.squeeze));
+    gl.uniform2f(u.idleLids, idle.winkLeft, idle.winkRight);
     gl.uniform4f(u.idleFaceA, idle.smile, idle.smirk, idle.brow, idle.furrow);
     gl.uniform4f(u.idleFaceB, idle.nose, idle.press, idle.purse, idle.puff);
     gl.uniform4f(u.idleFaceC, idle.jaw, idle.shift, idle.squeeze, idle.moving ? idle.side : 0);
@@ -922,8 +924,8 @@ class FaceRenderer {
     this.placeOverlayTools(pose, fitScale, zoom, rect);
     gl.uniformMatrix3fv(u.rotation, false, pose.rotation);
     gl.uniform3fv(u.rotationOffset, pose.offset);
-    gl.uniform2f(u.gaze, headMode ? 0 : Math.max(-.42, Math.min(.42, this.gaze[0]+idle.gazeX)),
-      headMode ? 0 : Math.max(-.24, Math.min(.24, this.gaze[1]+idle.gazeY)));
+    gl.uniform2f(u.gaze, Math.max(-.42, Math.min(.42, this.gaze[0]*(1-idle.gazeWeight)+idle.gazeX)),
+      Math.max(-.24, Math.min(.24, this.gaze[1]*(1-idle.gazeWeight)+idle.gazeY)));
     this.canvas.dataset.gaze = this.gaze.join(",");
     this.canvas.dataset.headAngles = this.headAngles.join(",");
     gl.uniform1f(u.zoom, zoom * 0.91);
@@ -1022,7 +1024,7 @@ function draw() {
     if (renderer.canvas.dataset.idleAction !== (idle.id || "")) renderer.canvas.dataset.idleAction = idle.id || "";
   }
   const status = performanceSleeping ? "Performance mode: idle life and blinking suspended until speech."
-    : idle.moving ? `${IDLE_ACTIONS.find(action => action.id === idle.id).label} (silent)`
+    : idle.moving ? IDLE_ACTIONS.find(action => action.id === idle.id).label
     : !$("idle-life").checked ? "Idle life off."
     : idleAvailable() ? "Idle life ready: occasional local actions; no session decisions."
     : "Idle life waiting: finish speech, preview or paused inspection; Clear speech returns to idle.";
@@ -1588,7 +1590,22 @@ try {
     output: $("head-opacity-value"), quickOutput: $("quick-opacity-value")});
   blinking = attachBlinking($("natural-blink"), draw,
     () => !performanceSleeping && !renderer.gl.isContextLost());
-  idleLife = attachIdleLife($("idle-life"), draw, idleAvailable);
+  let idleAudioError = "";
+  const idleSound = createIdleSound({
+    enabled: () => $("idle-sounds").checked,
+    volume: () => Number($("idle-volume").value)/100,
+    report: (text, failed) => {
+      $("idle-sound-status").textContent = text;
+      if (failed) { idleAudioError = text; failure(new Error(text)); }
+      else if (idleAudioError && $("error").textContent === idleAudioError) {
+        $("error").hidden = $("overlay-error").hidden = true; idleAudioError = "";
+      }
+    },
+  });
+  idleLife = attachIdleLife($("idle-life"), draw, idleAvailable, idleSound);
+  $("idle-sounds").addEventListener("input", () => idleSound.changed());
+  $("idle-volume").addEventListener("input", () => idleSound.changed());
+  $("idle-sound-enable").addEventListener("click", () => idleSound.unlock());
   refreshIdleLife();
   draw();
   if (desktop?.agentEnabled) {

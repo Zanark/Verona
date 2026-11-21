@@ -8,6 +8,8 @@ const report = {model, checks: [], views: [],
   limits: "Actual owned native canvas pixels, not OS-composition capture or human acceptance. Audio muted."};
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 app.once("browser-window-created", (_event, window) => {
+  window.setOpacity(0);
+  window.webContents.setAudioMuted(true);
   window.show = () => window.showInactive();
   window.webContents.once("did-finish-load", () => run(window).then(async () => {
     await fs.writeFile(path.join(output, "idle-report.json"), JSON.stringify(report, null, 2));
@@ -53,8 +55,22 @@ async function run(window) {
       $(id).checked=false;$(id).dispatchEvent(new Event("input",{bubbles:true}));
     }
     $("audio").muted=$("voice-preview").muted=true;
-    window.__idleTest={offset:0, stats:{frames:0,create:0,remove:0,storage:0,uploads:0,requests:0}};
+    window.__idleTest={offset:0, stats:{frames:0,create:0,remove:0,storage:0,uploads:0,requests:0,
+      audioContexts:0,audioBuffers:0,audioStarts:0,audioStops:0}};
     const test=window.__idleTest, realNow=performance.now.bind(performance);
+    const OriginalContext=window.AudioContext;
+    window.AudioContext=function(...args){
+      const context=new OriginalContext(...args);test.context=context;test.stats.audioContexts++;
+      const buffer=context.createBuffer.bind(context),source=context.createBufferSource.bind(context);
+      context.createBuffer=(...values)=>{test.stats.audioBuffers++;return buffer(...values);};
+      context.createBufferSource=()=>{
+        const node=source(),start=node.start.bind(node),stop=node.stop.bind(node);
+        node.start=(...values)=>{test.stats.audioStarts++;test.lastSource=node;return start(...values);};
+        node.stop=(...values)=>{test.stats.audioStops++;return stop(...values);};
+        return node;
+      };
+      return context;
+    };
     test.realNow=realNow;
     performance.now=()=>realNow()+test.offset;
     const gl=$("face").getContext("webgl2");
@@ -86,7 +102,9 @@ async function run(window) {
       return {id:canvas.dataset.idleAction,hash,visible,error:gl.getError(),width:canvas.width,height:canvas.height,
         difference:{changed,alphaChanged,coverageChanged,maxDelta,outsideNeutral},
         image:canvas.toDataURL("image/png").split(",")[1],
-        uniforms:["idleFaceA","idleFaceB","idleFaceC"].map(name=>
+        gaze:Array.from(gl.getUniform(program,gl.getUniformLocation(program,"gaze"))),
+        lids:Array.from(gl.getUniform(program,gl.getUniformLocation(program,"idleLids"))),
+        uniforms:["idleFaceA","idleFaceB","idleFaceC","idleLids"].map(name=>
           Array.from(gl.getUniform(program,gl.getUniformLocation(program,name))))};
     };
     test.preview=id=>{$("idle-action").value=id;$("idle-preview").click();};
@@ -97,6 +115,8 @@ async function run(window) {
   const waitingAfter = await evaluate(`({...__idleTest.stats})`);
   assert.equal(waitingAfter.frames-waitingBefore.frames, 0, "Waiting adds zero frames with blink/follow disabled.");
   assert.equal(waitingAfter.requests-waitingBefore.requests, 0);
+  assert.equal(waitingAfter.audioContexts-waitingBefore.audioContexts,0);
+  assert.equal(waitingAfter.audioStarts-waitingBefore.audioStarts,0);
   report.waiting = {seconds: .9, frames: 0, requests: 0, note: "Blink/follow disabled to isolate this feature."};
   report.checks.push("Real per-head manager toggle; sandbox intact; no waiting redraw or request.");
   if (model === "claire") {
@@ -106,7 +126,7 @@ async function run(window) {
     report.checks.push("Unprompted timeout selects, plays and finishes a real action without session choice.");
   }
   const catalog = await evaluate(`Array.from(document.getElementById("idle-action").options,o=>({id:o.value,label:o.textContent}))`);
-  assert.equal(catalog.length,15);
+  assert.equal(catalog.length,30);
   const {IDLE_ACTIONS} = await import("../verona/web/idle-life.mjs");
   const durations = Object.fromEntries(IDLE_ACTIONS.map(action=>[action.id,action.duration]));
   for (const view of ["claire","facemesh","facedot","uniform"]) {
@@ -142,13 +162,21 @@ async function run(window) {
     const poses=[];
     for (const action of catalog) {
       await evaluate(`__idleTest.preview(${JSON.stringify(action.id)})`);
-      const fraction = action.id === "nod" ? .2 : ["jaw","look","stretch"].includes(action.id) ? .27 : .43;
+      const fraction = ["nod","alternate-wink"].includes(action.id) ? .2
+        : ["jaw","look","stretch"].includes(action.id) ? .27 : .43;
       const pose = await evaluate(`__idleTest.capture(${durations[action.id]*fraction})`);
       assert.equal(pose.id,action.id,`${view}/${action.id} is actually running`);
       assert.equal(pose.error,0);
       assert(pose.visible>1000);
       assert.notEqual(pose.hash,baseline.hash,`${model}/${view}/${action.id} changes real pixels`);
       assert(pose.difference.changed>50,`${model}/${view}/${action.id} changes more than isolated color readback noise`);
+      if(["look","eye-scan","eye-roll","reading"].includes(action.id)) {
+        assert(pose.gaze.some(value=>Math.abs(value)>.05),`${action.id} has actual shader gaze in head cursor mode`);
+      }
+      if(["wink","alternate-wink"].includes(action.id)) {
+        assert(pose.lids.some(value=>value>.5) && pose.lids.some(value=>value===0),
+          `${action.id} closes only the intended eye, including optical aperture`);
+      }
       if(view === "claire" || view === "facemesh") {
         await fs.writeFile(path.join(output,`${view}-${action.id}.png`),Buffer.from(pose.image,"base64"));
       }
@@ -162,7 +190,7 @@ async function run(window) {
       assert.equal(restored.difference.outsideNeutral,0,`${view}/${action.id} restores the measured per-channel neutral envelope`);
       if(view==="claire") assert.equal(restored.hash,baseline.hash,`${action.id} restores exact filled-surface pixels`);
       assert(restored.uniforms.flat().every(value=>value===0));
-      poses.push({id:action.id,hash:pose.hash,visible:pose.visible,
+      poses.push({id:action.id,hash:pose.hash,visible:pose.visible,gaze:pose.gaze,lids:pose.lids,
         changedBytes:pose.difference.changed,restoredDifference:restored.difference});
     }
     const after = await evaluate(`({...__idleTest.stats})`);
@@ -171,7 +199,59 @@ async function run(window) {
     }
     report.views.push({view,neutralVariation,actions:poses,gestureBufferAllocations:0,gestureUploads:0,gestureRequests:0});
   }
-  report.checks.push("All 15 actions change real pixels in four views; exact filled-surface pixels/other-view measured neutral envelope restore, zero uniforms; no gesture buffers/uploads/requests.");
+  report.checks.push("All 30 actions change real pixels in four views, including actual eye/lid uniforms in head cursor mode; neutral restoration and no gesture buffers/uploads/requests.");
+  await evaluate(`__idleTest.change("presentation","claire");__idleTest.change("cursor-mode","eyes");`);
+  report.eyeDirections=[];
+  for(const cursorMode of ["eyes","head"]) {
+    await evaluate(`__idleTest.change("cursor-mode",${JSON.stringify(cursorMode)});__idleTest.preview("look")`);
+    const first=await evaluate("__idleTest.capture(800)");
+    const second=await evaluate("__idleTest.capture(1300)");
+    assert(first.gaze[0]*second.gaze[0]<0 && first.gaze[1]*second.gaze[1]<0,
+      "Look-around changes actual horizontal and vertical eye direction in either cursor mode.");
+    await evaluate("__idleTest.capture(4000)");
+    await evaluate(`__idleTest.preview("alternate-wink")`);
+    const a=await evaluate("__idleTest.capture(580)");
+    const b=await evaluate("__idleTest.capture(1400)");
+    assert(a.lids[0]*b.lids[0]===0 && a.lids[1]*b.lids[1]===0);
+    assert(a.lids.some(v=>v>.5)&&b.lids.some(v=>v>.5));
+    await evaluate("__idleTest.capture(4000)");
+    report.eyeDirections.push({cursorMode,first:first.gaze,second:second.gaze,winks:[a.lids,b.lids]});
+  }
+  const starts=await evaluate("__idleTest.stats.audioStarts");
+  await evaluate(`__idleTest.preview("yawn")`);
+  await wait(`__idleTest.stats.audioStarts>${starts}`);
+  const soundBefore=await evaluate("__idleTest.context.currentTime");
+  await pause(120);
+  const sound=await evaluate(`(() => {
+    const data=__idleTest.lastSource.buffer.getChannelData(0);let peak=0,energy=0;
+    for(const value of data){peak=Math.max(peak,Math.abs(value));energy+=value*value;}
+    return {duration:__idleTest.lastSource.buffer.duration,peak,rms:Math.sqrt(energy/data.length),
+      time:__idleTest.context.currentTime,contexts:__idleTest.stats.audioContexts};
+  })()`);
+  assert(sound.time>soundBefore && sound.peak>.89 && sound.peak<.901 && sound.rms>.05);
+  assert.equal(sound.duration,4.2);assert.equal(sound.contexts,1);
+  await command({action:"configure",settings:{"idle-sounds":false}});
+  await wait(`__idleTest.context.state==="suspended"`);
+  assert.equal((await evaluate("__idleTest.capture(0)")).id,"");
+  const mutedStarts=await evaluate("__idleTest.stats.audioStarts");
+  await evaluate(`__idleTest.preview("sneeze")`);
+  await pause(50);
+  assert.equal(await evaluate("__idleTest.stats.audioStarts"),mutedStarts);
+  await evaluate("__idleTest.capture(4000)");
+  await command({action:"configure",settings:{"idle-sounds":true}});
+  report.sound={...sound,mutedPreviewStarts:0,contextSuspendedAfterCancel:true};
+  report.checks.push("Real local audio buffer/clock, bounded peak and one context; manager mute cancels immediately and suppresses future sounds.");
+  if(model==="claire") {
+    await evaluate(`__idleTest.resume=__idleTest.context.resume.bind(__idleTest.context);
+      __idleTest.context.resume=()=>Promise.reject(Error("Fixture audio output unavailable"));
+      __idleTest.preview("sneeze");`);
+    await wait(`!document.getElementById("overlay-error").hidden`);
+    assert((await evaluate(`document.getElementById("overlay-error").textContent`)).includes("Fixture audio output unavailable"));
+    await evaluate(`__idleTest.capture(4000);__idleTest.context.resume=__idleTest.resume;
+      document.getElementById("idle-sound-enable").click();`);
+    await wait(`document.getElementById("error").hidden && document.getElementById("overlay-error").hidden`);
+    report.checks.push("Audio output failure is visible on the actual overlay; explicit retry recovers and clears only its own error.");
+  }
   await evaluate(`__idleTest.change("presentation","claire");__idleTest.change("hairstyle","curls");
     __idleTest.preview("stretch");`);
   await evaluate("__idleTest.capture(1300)");
@@ -192,6 +272,7 @@ async function run(window) {
       expression:"neutral",intensity:.35,gain:4,mode:"face"});
     await wait(`document.getElementById("idle-preview").disabled`);
     assert.equal((await evaluate("__idleTest.capture(0)")).id,"");
+    await wait(`!__idleTest.context || __idleTest.context.state==="suspended"`);
     const until=Date.now()+60000;
     let playing=false;
     while(Date.now()<until) {

@@ -1,6 +1,27 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr-75 coordinates eyes and audible multi-feature idle behavior
+Cause: owner wants moving eyes during look-around, five new eye actions, loud
+yawn/sneeze with3x yawn choice weight and ten new3+ facial-field composites.
+Action: extend one existing clock to30actions; temporary gaze blend works in
+both cursor modes, unilateral lids share skin/optical closure. Weight3/1 with
+recent-four exclusion; remove extra yawn cooldown, retain sneeze120s. Original
+local harmonic/noise cues, one lazy suspended audio context/latest buffer,
+75%default level, independent mute and explicit visible error/retry.
+Speech/input/hide/loss/sleep cancel sound plus motion, including pending resume.
+Evidence: idle-eyes-native-01 passes720action/view cases, six actual models,
+both eye directions/modes, opposite lids, neutral restoration and zero gesture
+GPU allocations/uploads/fetches. Actual PCM/clock/mute qualify on every head.
+Final Claire adds output-failure/retry/real speech preemption; both creation
+policies pass. Node9/HTTP9/book9 pass; host-muted audio is not listening proof.
+Two compact real-frame sheets reviewed; original15GIF report stays historical.
+Retain signed-zero/float-rounding assertion failures, fix tests not sound.
+Delivery: at01:01IST only owned head305416 becomes309252, same manager306384.
+Normal policy/all old appearance/controls preserved; new sound enabled/75%.
+Other sessions unchanged; eleven qualified hashes verified in live-idle-eyes-01.
+README/guide/chapters10/11/docs index/skill contract/living journal updated.
+
 2026-11-22 - vr-74 makes performance-only behavior an immutable creation choice
 Cause: owner clarifies normal heads must not have performance mode, and opt-in
 must occur when the head is created. Immediately disable it on current head.

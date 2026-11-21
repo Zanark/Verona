@@ -141,7 +141,7 @@ restart existing windows; apply them on the next normally requested launch.
 ### Autonomous idle life
 
 Every model and face type supports **Idle life**, enabled unless reduced motion
-is requested. Verona itself chooses fifteen silent face/head actions after
+is requested. Verona itself chooses thirty face/head actions after
 12-28 quiet seconds, avoiding its last four choices. No chat prompts, extra
 models or neural inference are involved. Speech, generation, seeking and
 direct interaction interrupt the gestures. A paused unfinished manual clip
@@ -152,7 +152,19 @@ Use the selected head's **Idle life** checkbox in the manager. Standalone
 players also have **Preview idle action** and **Clear speech**; clearing
 discards the current speech/preview and restores idle eligibility. Natural
 blinking is independent. Hidden pages cancel work; resuming waits anew.
-Sneeze/yawn are stylized silent cues, not anatomical simulation.
+Five new eye actions include scans, an upward arc, unilateral/alternating winks
+and reading glances. Ten further composites combine at least three facial
+movements. Looking around moves eyes in both cursor modes without changing
+your tracking preference.
+
+**Yawn and sneeze sounds** and **Idle sound level** are independent manager
+controls, initially on/75%. These original local synthesized cues are not
+human recordings or anatomical simulation. Mute or set 0% to retain silent
+gestures; speech and interaction stop both motion and sound. Yawn's choice
+weight is 3x each other eligible action, still subject to recent-repeat exclusion.
+Native managed heads allow playback; browser autoplay may require opening
+**Controls > Enable / retry idle sound**. Failures are visible, never cloud
+fallbacks. Waiting and performance-only sleep do not start a sound.
 [Catalog, research, mechanisms and qualification](chapters/11-autonomous-idle-life.md).
 
 ### Natural blinking and current model previews
@@ -244,7 +256,8 @@ the owned desktop. No startup service is installed.
 **Follow cursor** starts enabled on desktop and follows outside the window
 without recording input. **Cursor mode** chooses **Eyes follow cursor** (default)
 or **Head follows cursor (eyes centered)**. The latter turns the entire model
-around its eye midpoint while iris masks stay centered. Head aiming is smoothed
+around its eye midpoint while cursor iris masks stay centered. Deliberate idle
+eye gestures can temporarily move those irises in either mode. Head aiming is smoothed
 and bounded, not calibrated physical gaze; manual X/Y/Z remain offsets.
 Disable following to settle back to the manual pose/neutral irises. In the
 browser, leaving the page also settles tracking. Mode changes clear old tracking

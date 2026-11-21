@@ -162,6 +162,15 @@ live performance toggle or settings mutation. Normal opacity remains a quick
 setting, overridden by an opted-in head's10%/100%policy. Do not close somebody
 else's head to switch models or policy.
 
+Idle life now owns thirty local actions, including five eye-focused actions
+and ten multi-feature composites. The tool chooses/times them, never the chat.
+Look-around moves eyes in either cursor mode. Yawn/sneeze use original local
+synthesized non-speech cues, not human recordings or another TTS model.
+Manager `idle-sounds`/`idle-volume` controls mute/level independently of speech
+(defaults true/"75"); do not poll or trigger gestures from the session.
+Yawn has3x eligible weight, not a guaranteed wall-clock frequency. Performance
+sleep suppresses both idle motion and sound; ordinary heads remain the default.
+
 The owner withdrew the old armored character and its Blender study. Do not
 recreate it, select its retired ID or restore it from an old release or chat.
 Claire and the Claire-only Blender export remain available.

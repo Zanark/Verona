@@ -19,7 +19,39 @@ for (const action of IDLE_ACTIONS) {
   assert.deepEqual(sampleIdleAction(action.id, action.duration+60000), idlePose());
   signatures.add(JSON.stringify(trajectory));
 }
-assert.equal(signatures.size, 15, "Fifteen different complete numeric trajectories, not labels alone.");
+assert.equal(signatures.size, 30, "Thirty different complete numeric trajectories, not labels alone.");
+const facial = ["smile","smirk","brow","furrow","nose","press","purse","puff","jaw","shift",
+  "squeeze","winkLeft","winkRight"];
+const composites = ["delight","skeptic","distaste","surprise","ponder","chuckle","chew","kiss","wince","resolve"];
+for (const id of composites) {
+  const action = IDLE_ACTIONS.find(item => item.id === id);
+  let maximum = 0;
+  for (let elapsed = 0; elapsed < action.duration; elapsed += 20) {
+    const pose = sampleIdleAction(id, elapsed);
+    maximum = Math.max(maximum, facial.filter(key => Math.abs(pose[key]) > .05).length);
+  }
+  assert(maximum >= 3, `${id} overlaps at least three actual facial fields, excluding rigid pose/gaze.`);
+}
+for (const id of ["eye-scan","eye-roll","wink","alternate-wink","reading"]) {
+  const action = IDLE_ACTIONS.find(item => item.id === id);
+  assert(Array.from({length: 50}, (_, i) => sampleIdleAction(id, action.duration*i/50))
+    .some(pose => Math.abs(pose.gazeX)+Math.abs(pose.gazeY)+pose.winkLeft+pose.winkRight > .2));
+}
+const yawn = IDLE_ACTIONS.find(action => action.id === "yawn");
+assert(IDLE_ACTIONS.filter(action => action !== yawn).every(action => yawn.weight === 3*action.weight));
+assert(!yawn.cooldown, "Recent-history exclusion still applies; no extra rarity cooldown fights the requested weighting.");
+const lottery = new Map();
+for (let cell = 0; cell < 32; cell++) {
+  let timestamp = 0, callback;
+  const values = [.5, (cell+.5)/32, .5];
+  const probe = createIdleClock(() => {}, {now: () => timestamp, random: () => values.shift(),
+    schedule: fn => { callback = fn; return 1; }, cancel() {}});
+  probe.setActive(true); timestamp = 20000; callback();
+  const id = probe.sample().id;
+  lottery.set(id, (lottery.get(id) || 0)+1); probe.setActive(false);
+}
+assert.equal(lottery.get("yawn"),3,"Actual selection assigns three equal-probability cells to yawn.");
+assert(IDLE_ACTIONS.filter(action => action.id !== "yawn").every(action => lottery.get(action.id)===1));
 assert.throws(() => sampleIdleAction("missing", 0), /Unknown idle action/);
 const left = sampleIdleAction("look", 700, -1), right = sampleIdleAction("look", 700, 1);
 assert.equal(left.yaw, -right.yaw);
@@ -62,7 +94,7 @@ for (let run = 0; run < 400; run++) {
   assert.equal(clock.sample().moving, false);
   assert.equal(timers.size, 1);
 }
-assert.equal(seen.size, 15, "All fifteen actions are reachable by automatic weighted selection.");
+assert.equal(seen.size, 30, "All thirty actions are reachable by automatic weighted selection.");
 clock.preview("sneeze"); time += 1100;
 assert(clock.sample().squeeze > .9);
 clock.interrupt();
@@ -87,7 +119,7 @@ assert.equal(timers.size, 1);
 clock.setActive(false);
 assert.equal(timers.size, 0);
 assert.deepEqual(clock.sample(), idlePose());
-console.log("15 distinct/reachable bounded trajectories; timing, history, rare cooldowns, stale callbacks and immediate interruption passed.");
+console.log("30 distinct/reachable bounded trajectories, five eye actions, ten 3+ facial-field composites and weighted yawn passed.");
 
 const saved = Object.fromEntries(["window", "document", "matchMedia", "setTimeout", "clearTimeout"]
   .map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));

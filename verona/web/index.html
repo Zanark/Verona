@@ -202,7 +202,13 @@
         <button id="reset-view" type="button">Reset orientation</button>
         <label><input id="follow-eyes" type="checkbox"> Follow cursor</label>
         <label><input id="natural-blink" type="checkbox" checked> Natural blinking</label>
-        <label><input id="idle-life" type="checkbox" checked> Idle life (15 silent actions)</label>
+        <label><input id="idle-life" type="checkbox" checked> Idle life (30 actions)</label>
+        <label><input id="idle-sounds" type="checkbox" checked> Yawn and sneeze sounds</label>
+        <label for="idle-volume">Idle sound level
+          <input id="idle-volume" type="range" min="0" max="100" step="5" value="75"></label>
+        <button id="idle-sound-enable" type="button">Enable / retry idle sound</button>
+        <p id="idle-sound-status" class="hint" aria-live="polite">Local stylized yawn/sneeze; level 75% by default.
+          No recording, microphone or speech model. Mute independently of speech.</p>
         <label for="idle-action">Preview idle action <select id="idle-action" aria-label="Preview idle action"></select></label>
         <button id="idle-preview" type="button" disabled>Preview once</button>
         <button id="clear-speech" type="button" disabled>Clear speech / return to idle</button>
@@ -224,7 +230,8 @@
         enable Hair for this view, then choose a shared hairstyle. Hair matches the head's polygons, wire, dots or grid.
         Full bust reveals the complete hair;
         Head and neck trims hair to the same jaw curve.
-        Eyes mode moves only irises; Head mode keeps them centered and turns the whole head.
+        Eyes mode moves only irises; Head mode turns the whole head with centered cursor gaze.
+        Deliberate idle eye gestures temporarily move eyes in either mode.
         Follow cursor enables either mode; manual XYZ remains an offset. Tracking is bounded, not calibrated 3D gaze.</p>
       <p class="hint">Head and neck follows the jaw instead of a horizontal plane.
         Drag Visible neck to preview the cut live: 0 is jawline-only, 6 shows more neck.

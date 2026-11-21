@@ -1,6 +1,6 @@
 # 11. A face that can wait without freezing
 
-Verona chooses and plays fifteen occasional silent gestures locally. A chat
+Verona chooses and plays thirty occasional gestures locally. A chat
 does not select an animation, send an idle prompt, run a timer or spend model
 tokens on this behavior. The same layer serves all six heads and Surface,
 FaceMesh, FaceDot and UniformPolygons. Natural blinking remains independent.
@@ -10,7 +10,7 @@ non-repeating procedural motion fits this prototype better than random
 per-frame movement, more neural models or a general behavior engine.
 The timing below is an authored product choice, not a measured human rhythm.
 
-## One clock, fifteen actions
+## One clock, thirty actions (vr-75)
 
 `verona/web/idle-life.mjs:IDLE_ACTIONS` defines the complete catalog.
 `sampleIdleAction` turns elapsed time into a bounded reusable pose. Smooth
@@ -28,23 +28,43 @@ chosen once, never randomized each frame.
 | Lip purse | Lips narrow and project | 2.2 s |
 | Cheek puff | Cheeks expand outward and forward | 2.4 s |
 | Jaw loosen | Lower face opens slightly and shifts sideways | 3.0 s |
-| Silent yawn | Slower opening, narrowing eyes, upward head tilt | 4.2 s |
-| Silent sneeze | Anticipation, eye closure, forward dip, recovery | 2.7 s |
-| Look around | Two-sided head scan; eye-leading in eyes-only mode | 3.4 s |
+| Loud yawn | Slower opening, narrowing eyes, upward tilt and voiced/breath cue | 4.2 s |
+| Loud sneeze | Anticipation, eye closure, forward dip and noisy burst/recovery | 2.7 s |
+| Look around | Head scan with left/right and up/down eye-leading in both cursor modes | 3.4 s |
 | Double nod | Two diminishing pitch pulses | 1.9 s |
 | Neck stretch | Opposite side rolls and return | 3.9 s |
 | Eye squeeze | Sustained closure, cheeks and slight smile | 1.8 s |
+| Horizon eye scan | Eyes scan horizontally, then inspect higher/lower directions | 3.1 s |
+| Thoughtful eye arc | Smooth upward iris arc with sideways travel | 2.8 s |
+| Playful wink | One eyelid closes, with a small smile and glance | 1.8 s |
+| Alternating winks | First eye closes/reopens, then the opposite eye | 2.9 s |
+| Reading glances | Three stepped sideways glances over two lower eye levels | 3.3 s |
+| Delighted recognition | Smile, brow rise, jaw opening and cheek lift/puff | 3.1 s |
+| Skeptical appraisal | One brow, smirk and lip press with sideways eyes/roll | 3.2 s |
+| Fleeting distaste | Nose scrunch, brow furrow, pressed lips and small jaw opening | 2.3 s |
+| Startled realization | Brow rise, open jaw and rounded/pursed mouth, eyes upward | 2.4 s |
+| Pensive lip shift | Pursed/pressed lips, sideways lower face and raised brow | 3.6 s |
+| Silent chuckle | Smiling corners, bouncing jaw, cheeks and narrowing eyes | 3.0 s |
+| Thoughtful chew | Alternating jaw/side shift, lip compression and cheek puff | 3.4 s |
+| Air kiss and wink | Pursed lips, cheeks, one lid and a recovering smile | 2.7 s |
+| Brief wince | Nose, lip press, brow furrow and eye squeeze | 2.1 s |
+| Resolute reset | Furrow/pressed lips relax into brow lift and a small smile | 3.5 s |
 
-These are fifteen spatial/temporal composites, not fifteen speeds or mirrors
-of one action. Yawns and sneezes are deliberately silent stylized cues, not
+The five eye-focused additions and ten new composites extend the original
+fifteen, rather than relabelling mirrors or speed variants. Each new composite
+overlaps at least three facial deformation/lid fields; head rotation and
+gaze alone do not count toward that requirement. These are stylized cues, not
 respiratory simulation. Contact correction and independent teeth/tongue joints
 remain absent; passing pixel checks does not make the expressions anatomically
 accurate or human-accepted.
 
 `createIdleClock` waits **12-28 seconds** after an action or interruption,
-then makes a weighted local choice excluding the last four actions. The yawn
-has a 90-second cooldown; the sneeze has 120 seconds, both counted from their
-planned end. Ordinary actions are more likely. A small fixed catalog, four-ID
+then makes a weighted local choice excluding the last four actions. **Yawn has
+weight 3; every other action has weight 1.** That is three times the chance of
+each other currently eligible action, not an exact threefold observed frequency:
+recent exclusions and availability still matter. The old additional 90-second
+yawn cooldown is removed; sneeze retains 120 seconds from its planned end.
+A small fixed catalog, four-ID
 history, bounded cooldown map and one reusable pose bound scheduler state.
 
 ```mermaid
@@ -73,22 +93,65 @@ a late animation sample finishes without replaying missed frames.
 `idle-life.mjs:IDLE_GLSL` supplies three `vec4` uniforms to the shared vertex
 shader in `app.js:FaceRenderer`. Smooth, front-gated mouth, cheek, nose and brow
 fields use the existing calibrated feature frame. Zero uniforms skip the
-extra field math. No vertex buffer, topology, model, voice or clip is created
-for an idle action. Normals retain the renderer's cosmetic approximation.
+extra field math. A separate `idleLids` `vec2` drives unilateral closures.
+No vertex buffer, topology, model, TTS voice or speech clip is created for
+an idle action. Normals retain the renderer's cosmetic approximation.
 
 `FaceRenderer.draw` combines the existing blink amount with the gesture's eye
-squeeze using a maximum, keeping eyelid and optical aperture behavior together.
+squeeze using a maximum. `blinking.mjs:blinkAmount` then takes the maximum with
+that eye's individual wink value, keeping eyelid skin and optical aperture together.
 Rigid pitch/yaw/roll act on the whole selected head, including eyes and hair.
 `orientation.mjs:trackedHeadPose` composes that pose with manual/cursor
 rotation about the same eye-midpoint pivot. Nothing writes the user's sliders
-or tracked-angle state. Head-following mode keeps the irises centered; bounded
-idle gaze is added only in eyes-only mode.
+or tracked-angle state. Head-following **cursor** gaze remains centered, but
+deliberate idle gaze works in either mode. A smooth `gazeWeight` temporarily
+reduces the cursor contribution while the authored eye motion looks around;
+the original tracker state/preferences are never overwritten. Interruption
+removes the idle contribution immediately; ordinary tracking resumes.
 
 The existing selected-only ownership remains: one chosen head/hairstyle and
 one speech engine, not every model in the catalog. An active gesture costs
 rendered frames and shader arithmetic; it is not free GPU work or a promise of
 unchanged whole-machine CPU. There is no session-side polling, server
 animation request, inference, model download or new process.
+
+## Audible yawn and sneeze, without another voice model
+
+`idle-sound.mjs:synthesizeIdleSound` authors original non-speech cues from
+voiced harmonics and deterministic breath/noise envelopes. Yawn builds and
+releases a sustained vowel-like sound; sneeze adds an inhale, short noisy burst
+and voiced tail. They follow their gesture's 4.2/2.7-second timelines.
+These are synthesized stylizations, **not human recordings or accepted
+naturalistic yawns/sneezes**. No text, microphone, capture, network asset,
+neural inference or filesystem audio is involved.
+
+**Yawn and sneeze sounds** defaults on; **Idle sound level** starts at 75% and
+is adjustable 0-100% independently of speech. Disabling the sound checkbox or
+setting zero keeps the gestures silent. Full-scale cues normalize to roughly
+0.9 sample peak, with a clamped 0-1 output gain: no over-unity volume boost.
+Actual loudness still depends on the system mixer and speakers.
+
+`createIdleSound` lazily creates one Web Audio context, one playing source/gain
+and one latest mono 24-kHz buffer (at most 403,200 retained PCM sample bytes,
+plus browser objects/temporary synthesis copy). Repeated matching cues reuse
+that buffer; switching kind replaces it. End/cancel disconnects the source and
+gain and suspends the context, rather than processing silence forever.
+Ordinary silent gestures and waiting create no audio context.
+
+The existing clock calls sound start/stop alongside motion. There is no second
+scheduler. Speech/generation, direct input, hide, graphics loss, idle-off and
+performance sleep cancel the source and invalidate pending resume work.
+An asynchronous start uses the elapsed gesture offset; an already finished
+gesture is never replayed late. Normal and performance-only creation semantics
+are unchanged: a sleeping performance head never starts an idle sound or wakes
+itself because of a yawn.
+
+Managed native heads permit existing local agent autoplay. A browser can
+require an explicit gesture: **Controls > Enable / retry idle sound** unlocks
+output. Device/resume/autoplay errors appear both in the controls and existing
+overlay error banner, not as silent success. Retry or mute clears only that
+audio-owned banner, never a later unrelated error. Motion remains available;
+this is an optional sound error, not a fallback to cloud speech.
 
 ## Speech, inspection and lifecycle priority
 
@@ -123,6 +186,35 @@ reload error. Reload starts fresh without persisting gesture history.
 An ineligible preview reports an error, never a successful-looking no-op.
 
 ## What was actually qualified
+
+### Eye/audio expansion (vr-75)
+
+Focused cases cover thirty finite/distinct/reachable trajectories, exact neutral
+endpoints, five real eye-field paths and ten composites with at least three
+simultaneous facial fields above their numerical activity threshold. History,
+cooldowns, input/lifecycle/reduced-motion gates and the one waiting timer remain
+covered. Sound cases exercise finite non-clipping PCM, quiet boundaries,
+mute/zero gain, latest-buffer reuse, end/cancel, delayed/cancelled resume and
+visible failure handling. They do not prove perceptual naturalness.
+
+Private `idle-eyes-native-01` qualifies **720 action/view cases: six real heads
+x four views x thirty actions**. All change actual pixels and restore their
+neutral envelope, with exact filled-Surface restoration and zero gesture-created
+GPU buffers/uploads/fetches. Native shader gaze changes both horizontal and
+vertical signs in both cursor modes; alternating lid uniforms close opposite
+eyes. Actual yawn PCM has approximately 0.9 peak, 0.468 RMS and a running audio
+clock; manager mute cancels and suppresses future output, with one context.
+The host output is muted during qualification; this is not independent listening.
+Two compact contact sheets were reviewed, not every full animation by eye.
+
+The later Claire-only `idle-eyes-audio-final-02` receipt additionally exercises
+the visible overlay audio error and explicit recovery.
+`idle-eyes-policy-01` checks normal and performance-only creation with sound
+controls present, including a 13-second sleeping sample with no new frames.
+The earlier fifteen-GIF report below stays a historical vr-72 artifact; it has
+not been regenerated to pretend it contains the new catalog.
+
+### Original fifteen-action qualification (vr-71, historical)
 
 `tests/test_idle_life.mjs` verifies finite distinct trajectories, exact neutral
 endpoints, all fifteen reachable in 400 deterministic automatic choices,

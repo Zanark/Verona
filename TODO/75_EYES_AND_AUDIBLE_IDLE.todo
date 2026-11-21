@@ -1,0 +1,54 @@
+ID: vr-75
+Title: Coordinated eye gestures, audible yawn and sneeze, and ten composite idle actions
+Status: DONE
+Milestone: Thirty tool-owned idle actions with coordinated eyes and bounded local sound
+Dependencies: vr-71, vr-74
+Purpose:
+  Owner feedback asks for eye movement during looking around, five new eye
+  actions, audible loud yawn/sneeze, a three-times yawn choice weight and ten
+  genuinely distinct composites using at least three facial movements.
+Tasks:
+  Extend the existing catalog/pose/one-clock layer, not a session scheduler.
+  Compose deliberate idle eyes with either cursor mode; restore baseline.
+  Add local bounded yawn/sneeze sound with level/mute controls and explicit
+  audio-start errors. Speech, interaction, hide, sleep and cancellation stop it.
+  Preserve default normal/immutable performance-only creation policy.
+  Qualify isolated actual heads, document mechanisms/limits, sync tracking,
+  preserve current settings during owned live promotion and commit/push.
+Acceptance criteria:
+  Thirty unique complete actions: original fifteen, five eye-focused and ten
+  new composites with at least three independently animated facial fields.
+  Looking around moves eyes in horizontal/vertical directions even when head
+  cursor mode is selected, without changing user cursor preferences.
+  Yawn/sneeze have synchronized local sound; yawn weight is three times the
+  standard action weight, not a promise of exact wall-clock frequency.
+  No new idle poller/model/inference/download; at most one short sound playing.
+  Existing speech owns priority; mute/level and failure states remain visible.
+  Waiting/performance sleep does no new automatic motion/audio work.
+Completion evidence:
+  idle-eyes-native-01:720real action/view cases, six models/four views/thirty
+  actions. Actual shader gaze changes horizontal/vertical directions in both
+  cursor modes, opposite lids close, neutral restores. No gesture GPU buffer/
+  storage/upload/fetch changes; isolated waiting adds no frames/requests/audio.
+  Actual local yawn PCM peak~0.9/RMS~0.468, advancing audio clock, one context
+  and manager mute/cancel pass on every head. Two compact frame sheets reviewed.
+  idle-eyes-audio-final-02: final Claire120cases, visible output failure/retry,
+  actual face/voice preemption/cancel/neutral and manual inspection ownership.
+  idle-eyes-policy-01: normal and performance-only Claire/four views each;
+  performance sleep remains inactive with sounds enabled. All owned test
+  resources stopped. Host-muted audio is not independent listening acceptance.
+  Node9runner cases/HTTP9/book9 pass; extra actual lottery-cell regression
+  verifies yawn takes three equal probability cells, each other action one.
+  live-idle-eyes-01: at01:01IST only owned head305416 becomes309252, same
+  manager306384. Normal policy/all old controls/appearance preserved, other
+  sessions unchanged and eleven promoted source/test hashes match candidate.
+  New sound controls default enabled/75%; no source media/CPU saving claim.
+  Candidate idle-eyes-75 at e188149; shared pinned model/runtime junctions
+  are not OS-enforced read-only. Separate profiles/caches/backends used.
+Completion log:
+  2026-11-22 - Register bounded owner feedback; protect normal live head while
+    developing and qualifying the candidate. Existing GIF report is historical.
+  2026-11-22 - All gestures qualified and owned live head updated. New sounds
+    are original local synthesis, not recordings/TTS/model downloads. Keep
+    signed-zero/float-rounding assertion failures; fix tests, not waveforms.
+    Docs/chapters/skill contract/causal ledger/living journal updated.

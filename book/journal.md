@@ -5,6 +5,44 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Eyes participate, and a yawn can be heard (vr-75)
+
+The owner asks look-around to move the eyes too, five new eye actions, loud
+sneeze/yawn, more frequent yawns and ten genuinely new facial composites.
+The existing clock grows from fifteen to thirty actions rather than delegating
+behavior to a chat. Deliberate gaze temporarily blends out cursor gaze in
+either cursor mode. Two lid values select individual eyelids while reusing
+the same skin/optical closure field. Ten composites each overlap three or more
+facial fields, not just rigid turns or different speeds.
+
+Yawn receives three equal lottery cells for every other eligible action's one;
+recent-four exclusion remains, the old yawn rarity cooldown does not.
+Sneeze retains its longer cooldown. New sounds are original deterministic
+harmonic/breath/noise synthesis, not recordings, another neural voice or a
+download. One lazy Web Audio context and latest short mono buffer bound
+ownership. Level starts at75%, with independent mute. End/cancel suspends the
+audio clock; speech/input/hide/sleep invalidates pending resume and stops output.
+Autoplay/output errors use the visible overlay error path with explicit retry.
+These are stylized cues; physical loudness and naturalness are not accepted.
+
+Six real heads, four views and thirty actions pass720 native pixel cases.
+Horizontal/vertical eyes reverse in both cursor modes, opposite lids close,
+and zero gesture geometry uploads/buffer allocations/fetches are observed.
+Actual local PCM/audio-clock and manager mute pass on each head. Final Claire
+adds visible output-failure/retry and real face/voice preemption; both immutable
+creation policies remain qualified. All test sound is host-muted, not listened
+to independently. Two compact actual-frame sheets were visually reviewed.
+Initial sound-test assertions mistook signed zero and decimal sample rounding
+for bad audio; correct numeric silence/integer frame assertions fix the tests,
+not the generated waveform. Historical fifteen-GIF report/frozen editions stay
+unchanged. No new CPU, whole-machine saving or human-accuracy claim is made.
+
+At01:01IST only this session's idle head is replaced with the qualified
+source; the same manager remains running. Normal policy and every prior
+control/appearance choice are restored. New sound controls start enabled at
+75%; all eleven promoted source/test hashes match and other sessions are
+unchanged. This is source/live delivery, not a new release or frozen edition.
+
 ## 2026-11-22 - Performance belongs to creation, not every head (vr-74)
 
 The owner corrects the previous delivery: performance-only behavior must be

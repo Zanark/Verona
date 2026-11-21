@@ -74,6 +74,7 @@ vr-71 | 71_AUTONOMOUS_IDLE_LIFE.todo | DONE | Fifteen tool-owned idle actions; s
 vr-72 | 72_IDLE_ANIMATION_REPORT.todo | DONE | Private local report with fifteen verified complete Surface/FaceMesh GIFs and bounded playback
 vr-73 | 73_IDLE_PERFORMANCE_MODE.todo | DONE | Idle 10% sleep, quick opacity; six-head qualified, measured CPU reduction and owned live delivery
 vr-74 | 74_CREATION_TIME_PERFORMANCE.todo | DONE | Normal default; creation-only performance opt-in, qualified and live
+vr-75 | 75_EYES_AND_AUDIBLE_IDLE.todo | DONE | Thirty tool-owned actions, coordinated eyes, ten composites and local yawn/sneeze sound; qualified and live
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

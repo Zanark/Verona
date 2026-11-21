@@ -7,11 +7,13 @@ explains event-driven warm sleep, native cursor suspension, fixed idle/speech
 opacity and quick opacity controls. Chapter07 records the earlier vr-73 owned-process measurements,
 separating reduced computation from retained model memory.
 
-**Autonomous idle life (vr-71):** [chapter11](chapters/11-autonomous-idle-life.md)
-explains fifteen tool-owned gestures, non-repeating local timing, speech/
-inspection priority and bounded rendering. [Research](research/idle-life.md)
+**Expanded autonomous idle life (vr-75):** [chapter11](chapters/11-autonomous-idle-life.md)
+explains thirty tool-owned gestures, five eye-focused actions, ten composites,
+coordinated look-around and local yawn/sneeze sound with independent mute/level.
+Non-repeating timing, 3x eligible yawn weight, speech/inspection priority and
+bounded renderer/audio ownership remain local. [Research](research/idle-life.md)
 separates behavioral evidence from authored defaults; final real-native
-qualification covers all six heads, four views and fifteen actions.
+qualification covers all six heads, four views and thirty actions.
 
 **Intact ears and hair tips (vr-70):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#preserve-ears-and-complete-hair-vr-70)
 bounds the skin's jaw mask and preserves complete selected hairstyles, with a

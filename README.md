@@ -95,14 +95,19 @@ cheekiness strength. Surface has the two materials; FaceMesh has mesh detail/
 optics; FaceDot and UniformPolygons have density/gap controls. Switching views
 preserves each view's settings without loading another speech model.
 
-**Idle life:** all six heads and four face types now choose among **15 occasional
-silent animations** locally: smiles, smirks, brows, nose/lip/cheek movements,
+**Idle life:** all six heads and four face types now choose among **30 occasional
+animations** locally: smiles, smirks, brows, nose/lip/cheek movements,
 jaw loosening, yawns, sneezes, looking around, double nods, neck stretches and
-eye squeezes. Verona waits 12-28 seconds between actions, avoids recent repeats
+eye squeezes, **five eye-focused actions** and **ten new multi-feature expressions**.
+Look-around moves the eyes horizontally and vertically in either cursor mode.
+Yawns/sneezes have **local synthesized sound**, with independent mute/level
+controls (75% initially); these are stylized cues, not human recordings.
+Yawn has **3x the selection weight** of another eligible action.
+Verona waits 12-28 seconds between actions, avoids recent repeats
 and stops them for speech or direct interaction. **The chat schedules nothing
 and spends no model tokens on idle behavior.** Use the manager's **Idle life**
 checkbox to disable it; reduced-motion preference defaults it off.
-[All fifteen actions, controls, research and limits](docs/chapters/11-autonomous-idle-life.md).
+[All thirty actions, controls, research and limits](docs/chapters/11-autonomous-idle-life.md).
 Existing model/motion GIFs below retain their original provenance.
 
 **Optional performance-only heads:** select **Performance-only head** when
