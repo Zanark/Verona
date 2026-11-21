@@ -1,6 +1,28 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr-73 separates dimming from actually suspending unused animation
+Cause: owner wants silent heads at10%opacity, no cursor reaction/expensive idle
+work, full opacity for speech, plus quick transparency controls and measurements.
+Action: event-driven media-state controller; cancel/gate existing RAF and
+blink/idle timers, native sleep boolean clears33mscursor polling without
+changing follow preference. Canvas-only alpha leaves menus/errors accessible.
+Normal0-100%opacity is saved separately; performance overrides10%/100%.
+Evidence: final idle-performance-final-01 covers6actual heads/4views; no sleep
+draw/upload/storage/cursor samples. Native61103pixel alpha comparison, quick/
+manager values and real face/voice prep/play/cancel/mode changes qualify.
+Eight16s counterbalanced windows show one-core owned-Electron CPU stationary
+2.786%/0.305%, moving28.856%/0.368% off/on. Moving working set755.68/754.61MiB;
+warm engine/clip retained, no substantial RAM or whole-machine/GPU-energy claim.
+Keep earlier harness/readiness/transaction/audio-delay and missing-input
+attempts. Exact local pinned reference supplied; no application fallback.
+Delivery: only idle owned head289864 replaced by306520, same manager293308,
+all fresh old controls/appearance preserved, performance enabled. Twelve
+source/test files match candidate. No replay/sibling change. Live receipt
+live-performance-01; test profiles/backends/descriptors stopped/removed.
+README/guide/chapters07/10/11/index/living journal/tracking updated; frozen
+editions/releases/skills unchanged. Naturalness/listening acceptance separate.
+
 2026-11-21 - vr-72 illustrates every complete idle action without touching live use
 Cause: the owner wants a report with GIFs of all fifteen actions, not static
 names or only peak images. Capture a separate selected Claire renderer with

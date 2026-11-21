@@ -90,6 +90,9 @@ html.overlay, .overlay body { background: transparent; padding: 0; margin: 0; ma
 #overlay-options { display:flex;flex-wrap:wrap;width:max-content;max-width:calc(100vw - 16px);max-height:calc(100vh - 48px);overflow-y:auto;gap:8px;align-items:center;padding:10px;margin-top:6px;border-radius:12px;background-color:#131b25eb; }
 .overlay-tools:has(#overlay-options:not([hidden])) { left: 50%; }
 #overlay-options button { background: #19333a73; }
+#overlay-options label { margin:0;display:flex;align-items:center;gap:6px;font-size:12px;-webkit-app-region:no-drag; }
+#overlay-options .quick-opacity input { width:90px; }
+#overlay-options .quick-opacity output { min-width:36px;font-variant-numeric:tabular-nums; }
 .drag-handle { cursor: move; -webkit-app-region: drag; padding: 5px 12px; }
 .overlay #overlay-error { display: block; position: fixed; bottom: 10px; left: 10px; right: 10px; padding: 10px; background: #301a18; color: #ffb6a5; z-index: 5; }
 @media (max-width: 760px) {

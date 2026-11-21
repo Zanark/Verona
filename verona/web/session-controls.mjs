@@ -44,7 +44,8 @@ export function attachSessionControls(desktop, failure) {
   pinLabel.className = "session-pin";
   pinLabel.append(pin, document.createTextNode("Always on top"));
   options.append(pinLabel);
-  const excluded = new Set(["text", "seek", "preview", "generate", "idle-action"]);
+  const excluded = new Set(["text", "seek", "preview", "generate", "idle-action",
+    "quick-performance", "quick-opacity"]);
   const elements = () => [...document.querySelectorAll("input,select")].filter(element =>
     element.id && !excluded.has(element.id) && !/(?:-color|-hex)$/.test(element.id)
     && ["checkbox", "range", "number", "select-one"].includes(element.type));

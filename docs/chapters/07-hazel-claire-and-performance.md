@@ -8,6 +8,69 @@ audits the earlier five-head runtime; [vr-65/66 below](#native-model-selection-a
 extend its ownership contract to six choices and four shared views. The vr-08 measurements that
 follow remain historical, not current latency or memory promises.
 
+**Idle warm sleep (vr-73):** [chapter11](11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)
+adds fixed 10% idle / 100% speaking opacity and event-driven suspension.
+The measurements below are new, separate from the older startup/latency probes.
+
+## Measured idle performance mode (vr-73)
+
+The final local `idle-performance-final-01` qualification compares the same
+warm Claire Surface/makeup head, original waves, head/neck framing and 120%
+zoom, with blinking, idle life and head-follow choices retained. Eight
+16-second windows use off/on/on/off ordering for each of two cursor workloads.
+One second settles each transition. The cursor fixture changes only the
+isolated Electron process's cursor-read function; it never moves the owner's
+cursor or drives their live head. The native window is unfocused/invisible,
+so these are renderer/process measurements, not OS-composition benchmarks.
+
+`tests/performance_smoke.cjs:metrics` takes actual cumulative CPU seconds from
+all five stable owned Electron processes and divides deltas by measured wall
+time. **100% here means one CPU core**, not Task Manager's whole-machine scale.
+Each table cell aggregates two windows, about 32 seconds per condition.
+
+| Cursor workload | Mode off, one-core CPU | Mode on, one-core CPU | Draws off / on | Cursor polls off / on |
+|---|---:|---:|---:|---:|
+| Stationary | 2.786% | 0.305% | 145 / 0 | 751 / 0 |
+| Continuously moving synthetic cursor | 28.856% | 0.368% | 1,930 / 0 | 806 / 0 |
+
+This run removes about **89.1%** of the measured stationary Electron CPU and
+**98.7%** under moving-cursor tracking. The stationary result depends on which
+occasional gestures/blinks happen in short windows; it is not a universal
+reduction. Sleep has zero measured automatic draws and cursor samples in both
+workloads, rather than a promise that every remaining process uses zero CPU.
+The required parent watch, audio/control bridge and server stay responsive.
+
+Memory does **not** show substantial steady-state savings. Under moving
+cursor, aggregate Electron working set averages **755.68 MiB off / 754.61 MiB
+on**, and private bytes **400.02 / 399.06 MiB**. Stationary windows average
+768.96 / 751.91 MiB working set, but the normal-mode endpoint also falls as
+startup/transient memory settles; that difference cannot be attributed
+confidently to this feature. These sums exclude the separate Python inference
+host, manager and speech worker, and shared working-set pages may be counted
+in more than one process. The model, selected GPU buffers and latest speech
+remain warm. This is a demonstrated idle-work reduction, **not model unloading,
+a whole-head RAM total, a GPU-energy measure or a machine-wide speedup**.
+
+Final native checks cover **six actual heads x four views**, including MPFB and
+Mark. No sleeping redraws, uploads, storage calls or cursor polls occur in
+the bounded samples. A native composited-alpha comparison checks 61,103 opaque
+source pixels: idle alpha is one tenth within two 8-bit levels, while menus
+stay opaque. Every head plays/ends a decoded synthetic WAV; Claire also uses
+actual local face and voice jobs, advancing audio time, cancellation and mode
+changes during speech. Preparation stays dim; playback becomes opaque.
+The additional controls preserve their normal value and other saved choices.
+
+`tests/run_performance_smoke.py` reuses the existing isolated-engine/native
+fixture with separate profiles, derived cache and speech root. `--model all`
+includes measurements; `--checks-only` skips those eight long windows.
+Unit/media/controller, nine HTTP and nine existing book checks pass. Initial
+harness attempts remain: screen API called before native readiness, an invalid
+two-control transaction and a fixed startup-delay assumption were corrected.
+A missing authored reference input stopped the first remaining-model run
+after Claire passed; the exact pinned local input was supplied, not fetched.
+No application failure was hidden or accuracy gate weakened. Muted native
+playback and owned snapshots are not human listening or owner acceptance.
+
 Presentation note: [chapter 08](08-facial-definition-and-fluidity.md) supersedes
 this slice's voxel topology and payload measurements with native contour loops,
 shading and static cosmetic eyes. This chapter preserves the vr-08 baseline.

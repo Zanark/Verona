@@ -1,5 +1,12 @@
 # 10 - A transparent desktop without a second speech system
 
+**Idle warm sleep (vr-73):** the collapsed floating menu now also contains
+**Performance** and **Normal opacity**. Only the canvas fades, not its controls.
+The trusted `sleep` command pauses the existing native cursor timer without
+changing the user's follow choice. [Chapter11](11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)
+explains state/ownership; [chapter07](07-hazel-claire-and-performance.md#measured-idle-performance-mode-vr-73)
+records actual CPU/memory measurements and their limits.
+
 **Native parity update (vr-65/66):** the catalog now has six choices again
 because actual **Mark**, not the withdrawn character, joins the five retained
 heads. Native MPFB and Mark publish the full shared player's controls through

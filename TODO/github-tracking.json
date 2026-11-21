@@ -931,7 +931,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-73": {
+      "source": "TODO/73_IDLE_PERFORMANCE_MODE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhWGjGw",
+      "number": 72,
+      "url": "https://github.com/Zanark/Verona/issues/72",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKwhHc",
+      "title": "Idle performance mode and quick head opacity",
+      "managedBody": "\n<!-- verona-workstream:vr-73 -->\nWorkstream source: `TODO/73_IDLE_PERFORMANCE_MODE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-73\nTitle: Idle performance mode and quick head opacity\nGitHub: https://github.com/Zanark/Verona/issues/72\n\nStatus: DONE\nMilestone: Silent heads sleep visibly and resume on actual playback\nDependencies: vr-71\n\nPurpose:\n  Opt into 10% idle / 100% speaking opacity and suspend unnecessary idle work.\n  Add normal opacity plus quick settings above every supported head.\n\nTasks:\n  Isolate candidate source/profile/cache/backend from the protected live head.\n  Gate RAF, blink/idle clocks and native cursor polling without losing choices.\n  Keep menus usable; synchronize main/quick/manager controls.\n  Exercise speech/pause/end/cancel/error and mode changes on real runtimes.\n  Measure owned-process CPU and memory on/off, without moving the real cursor.\n  Update authored docs, journal, tracking and owned continuity; deliver candidate.\n\nAcceptance criteria:\n  Enabled silent head is 10% opaque, speaking face/voice is 100%.\n  Silent head ignores cursor and has no periodic gesture/blink/render work.\n  Normal opacity is adjustable 0-100%; mode overrides it, never deletes it.\n  Quick controls remain readable/recoverable even at zero head opacity.\n  Speech clock/model/clip/control choices survive; disable restores normal use.\n  Actual bounded A/B receipts distinguish CPU changes from retained warm memory.\n  No camera/mic/cloud/download, unrelated runtime mutation or claimed accuracy.\n\nCompletion evidence:\n  Final .local/qualification/idle-performance-final-01: six actual heads,\n    four views each. Zero sleeping draws/uploads/storage/native cursor reads.\n    Actual native alpha: 61,103 sampled pixels match 10% within two byte levels;\n    menu remains opaque. Quick/manager controls and saved choices qualify.\n  All six use decoded synthetic WAV playback/end. Real Claire face/voice agent\n    preparation, advancing audio, mode changes during playback and cancellation\n    qualify. Unit/media/controller, nine HTTP and nine book checks pass.\n  Eight counterbalanced 16s windows, owned Electron CPU only, one-core scale:\n    stationary 2.786% off / 0.305% on; moving 28.856% / 0.368%.\n    Moving working-set mean 755.68 / 754.61 MiB; no substantial RAM claim.\n    Model/clip remain warm. Not whole-machine/GPU-energy/listening acceptance.\n  Candidate .local/worktrees/performance-73 shares pinned model/node_modules\n    inputs (not OS-enforced read-only); fresh derived cache/profile/backend.\n    Exact pinned authored MPFB reference copied locally; no download.\n  .local/qualification/live-performance-01 saves fresh old settings. At\n    2026-11-22T00:15:46+05:30, replace only old owned head289864 with306520;\n    same manager293308, every old control/appearance preserved, performance\n    enabled, normal opacity100. No replay or sibling restart. Twelve promoted\n    files match qualified candidate. Owned test resources stopped.\n\nCompletion log:\n  2026-11-21 - Owner explicitly requests autonomous implementation and measured\n    idle savings. Choose opt-in default, immediate sleep while not playing,\n    no polling wakeup or idle CSS fade. Menus are not dimmed with the head.\n  2026-11-22 - Implemented and environment-qualified; source/docs/journal\n    updated. Retain initial harness failures (early screen API, multi-control\n    transaction, fixed audio-start delay), missing authored-input attempt and\n    their successful corrected runs. No weakened gate or guaranteed RAM saving.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T18:16:26.266654+00:00"
+  "verifiedAt": "2026-11-21T18:47:36.453952+00:00"
 }

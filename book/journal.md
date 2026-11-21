@@ -5,6 +5,49 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Make an unused head genuinely stop moving (vr-73)
+
+The owner asked for more than a dimmer: an idle performance mode that becomes
+90% transparent, stops following the cursor and avoids expensive waiting
+behavior, then becomes fully opaque when it speaks. Lowering alpha alone
+would still animate and poll, so the implementation separates visibility from
+activity. One event-driven controller observes existing face/voice audio;
+preparation stays asleep, playback wakes, pause/end/cancel/error sleeps.
+
+Sleeping cancels the existing RAF and blink/idle clocks and clears the native
+33-ms cursor interval. It keeps the user's follow/blink/gesture choices.
+The menu's Performance switch and Normal opacity slider mirror canonical
+manager settings. Only the canvas fades, so even 0% normal opacity leaves
+controls readable. Performance overrides that saved value with 10%/100%;
+turning it off restores it. No model or geometry is rebuilt on waking.
+
+Six real heads and four presentations qualify. Native composited alpha
+confirms one-tenth opacity across 61,103 sampled pixels, not merely an input
+value. Actual decoded audio wakes each selected head; Claire additionally
+prepares/plays/cancels real face and voice jobs and changes mode during speech.
+The model, clip, audio clock and prior choices remain intact.
+
+Eight counterbalanced 16-second windows measure the owned Electron processes.
+Stationary-cursor CPU averages 2.786% of one core normally and 0.305% asleep;
+moving-cursor CPU is 28.856% versus 0.368%. Sleep produces zero automatic
+draws/cursor reads. The moving workload's working set is nearly unchanged:
+755.68 versus 754.61 MiB. Retaining a warm neural engine deliberately gives
+no substantial memory saving. These are isolated invisible-window process
+measurements, not whole-machine load, GPU energy or human listening acceptance.
+
+Initial harness mistakes remain in receipts: native screen access before
+readiness, a forbidden multi-setting transaction and a premature fixed-delay
+audio assertion. A missing pinned authored reference interrupted the next
+model after Claire; supplying that existing input allows all six to pass.
+No cloud fetch, hidden fallback or relaxed accuracy assertion fixes these.
+Focused runtime/HTTP and the existing book checks pass in their own prepared
+environments.
+
+At 00:15:46 IST only this session's idle Verona head is replaced with the
+qualified source. Fresh old appearance/controls are restored and Performance
+enabled; its manager and other apps remain running. This adds source/book
+chapters, not a rewritten frozen PDF or release package.
+
 ## 2026-11-21 - Put every idle action in a GIF report (vr-72)
 
 The owner next asked to see all fifteen animations, not just read their names.

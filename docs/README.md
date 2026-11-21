@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Idle performance mode (vr-73):** [chapter11](chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)
+explains event-driven warm sleep, native cursor suspension, fixed idle/speech
+opacity and quick controls. Chapter07 records owned-process measurements,
+separating reduced computation from retained model memory.
+
 **Autonomous idle life (vr-71):** [chapter11](chapters/11-autonomous-idle-life.md)
 explains fifteen tool-owned gestures, non-repeating local timing, speech/
 inspection priority and bounded rendering. [Research](research/idle-life.md)

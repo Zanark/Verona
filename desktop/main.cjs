@@ -13,6 +13,7 @@ app.commandLine.appendSwitch("host-resolver-rules", "MAP * ~NOTFOUND, EXCLUDE 12
 let window, timer, parentWatch, overlay = false, pinned = true, follow = true, controlBounds, overlayBounds;
 let agentSocket;
 let headZoom = 1, overlayAreaKey = "";
+let dormant = false;
 const endpoint = process.env.VERONA_LOCAL_URL;
 const agentEnabled = process.env.VERONA_AGENT_MODE === "1";
 const agentPort = Number(process.env.VERONA_AGENT_PORT);
@@ -194,14 +195,16 @@ async function start(config) {
       window.setAlwaysOnTop(overlay && pinned, "pop-up-menu");
     } else if (action === "follow" && typeof value === "boolean") {
       follow = value; previous = ""; syncCursorTimer();
+    } else if (action === "sleep" && typeof value === "boolean") {
+      dormant = value; previous = ""; syncCursorTimer();
     }
     else if (action === "minimize") window.minimize();
     else if (action === "close") window.close();
     else throw new Error("Unknown or invalid desktop command.");
-    return { overlay, pinned, follow };
+    return { overlay, pinned, follow, dormant };
   });
   function pollCursor() {
-    if (!follow || window.isDestroyed() || !window.isVisible() || window.isMinimized()) return;
+    if (!follow || dormant || window.isDestroyed() || !window.isVisible() || window.isMinimized()) return;
     const point = screen.getCursorScreenPoint(), bounds = window.getContentBounds();
     const key = `${point.x},${point.y},${bounds.x},${bounds.y}`;
     if (key !== previous) {
@@ -210,7 +213,7 @@ async function start(config) {
     }
   }
   function syncCursorTimer() {
-    if (!follow) { clearInterval(timer); timer = null; }
+    if (!follow || dormant) { clearInterval(timer); timer = null; }
     else if (!timer) timer = setInterval(pollCursor, 33);
   }
   syncCursorTimer();

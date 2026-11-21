@@ -182,3 +182,51 @@ sandboxed browser decodes all fifteen, checks controls and wide/narrow layout,
 and makes no external requests. This illustrates two views of one model,
 not another all-six-head acceptance claim. Source runtime is `77e3951`.
 The report, GIFs and raw captures stay ignored/local, not published media.
+
+## Let a silent head sleep (vr-73)
+
+**Performance mode** is a separate opt-in control. It does not erase the user's
+Follow cursor, Natural blinking or Idle life choices. While neither face speech
+nor voice-preview audio is playing, the canvas is **10% opaque / 90% transparent**.
+Both audio paths wake it to **100% opacity**. Preparation alone does not wake
+the renderer; pause, cancellation, completion and playback failure return it
+to sleep. Muted playback still counts as playback, not acoustic detection.
+
+`performance-mode.mjs:attachPerformanceMode` derives this state from the two
+existing media elements' events. There is no inactivity timer or polling loop.
+Duplicate state notifications do not call the rendering/native update again.
+`app.js` cancels its pending RAF, gates automatic redraws and cursor events,
+centers the procedural gaze/head offset, and refreshes the existing blink/idle
+controllers with unavailable status. Their waiting timers are cancelled rather
+than allowed to fire invisibly. No catch-up motion runs after waking.
+
+`desktop/main.cjs` receives the existing trusted command channel's `sleep`
+boolean and clears its 33-ms cursor interval. This is different from discarding
+cursor packets after continuously sampling them. The saved `follow` preference
+remains separate from `dormant`; waking starts the interval only if following
+is still selected and requests a fresh position. Manual settings, resizing,
+dragging and error recovery can still cause a single explicit draw.
+
+The floating menu has **Performance** and **Normal opacity** quick controls.
+The normal opacity slider is 0-100%, independent of audio volume and surface
+material. Performance mode overrides it with fixed 10%/100% values; turning
+the mode off restores the chosen normal value. Only the canvas is faded,
+never the dock/menu or error message. Even 0% normal opacity is recoverable.
+`attachSessionControls` exposes the two canonical settings to the manager,
+excluding their quick mirrors to avoid conflicting duplicate control values.
+
+This is **warm sleep**, not unloading or shutting down a head. The existing
+model, selected GPU resources and retained clip stay available; opacity alone
+would not release them. The required host watch, authenticated speech socket,
+server and manager metadata handling remain alive. No voice/clip regeneration,
+audio-clock reset, quality reduction, renderer restart or extra dependency
+occurs on a wake. Closing a head remains the way to release its full model and
+process memory. Controls remain RAM-only and reset on head restart.
+
+The native qualification uses a separate selected engine, disposable profile,
+derived cache and backend, with an invisible/unfocused owned window. Synthetic
+cursor coordinates replace only that process's cursor-read function: the real
+desktop cursor and live head are not driven. Counterbalanced off/on/on/off
+windows compare owned Electron cumulative CPU and process memory, not total
+machine load or energy. A stationary-cursor case distinguishes occasional
+gestures from continuous cursor-follow work. See chapter07 for measured results.

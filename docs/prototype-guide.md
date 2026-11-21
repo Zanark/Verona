@@ -56,6 +56,21 @@ Closing the browser tab leaves the manager running. Ctrl+C its console also
 requests owned cleanup. A managed head watches its original manager's process
 handle and closes if that manager exits unexpectedly.
 
+### Idle performance and head opacity
+
+Expand the tiny floating tab above a head and select **Performance**. While
+silent, it is 10% opaque and suspends cursor tracking, blinking, idle gestures
+and their automatic redraws. Face or voice playback restores 100%; pause,
+completion or cancellation sleeps again. Generating a line does not wake
+the head before playback. Existing blink/follow/idle choices are preserved.
+
+The same tab offers **Normal opacity**, also available in the manager as
+`head-opacity` beside `performance-mode`. This normal 0-100% setting applies
+with performance mode off; the mode overrides it with 10% idle / 100% speaking.
+Only the head canvas fades, so its controls remain accessible even at 0%.
+Settings are RAM-only. The model/clip remain warm; close an unused head to
+release its full process memory. [Details](chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73).
+
 ### Optional 28-voice offline pack
 
 The prepared checkout exposes 28 Kokoro English styles in addition to its

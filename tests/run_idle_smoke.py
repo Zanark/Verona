@@ -41,7 +41,7 @@ def main():
     run(args.model, output)
 
 
-def run(model, output):
+def run(model, output, name="idle", extra_args=()):
     from verona.agent_host import AgentBridge
     from verona.agent_speech import SpeechWorker
     from verona.engine import FaceEngine
@@ -75,18 +75,18 @@ def run(model, output):
             with tempfile.TemporaryDirectory(prefix="owned-idle-", dir=output) as profile:
                 with (output / "native.log").open("w", encoding="utf-8") as log:
                     child = subprocess.Popen([
-                        str(ELECTRON), str(ROOT / "tests" / "idle_smoke.cjs"),
+                        str(ELECTRON), str(ROOT / "tests" / f"{name}_smoke.cjs"),
                         f"--user-data-dir={profile}", f"--qualification-output={output}",
-                        f"--qualification-model={model}"], cwd=ROOT, env=environment,
+                        f"--qualification-model={model}", *extra_args], cwd=ROOT, env=environment,
                         stdout=log, stderr=log)
                     bridge.attach(child, server)
                     try:
-                        code = child.wait(timeout=210)
+                        code = child.wait(timeout=300 if name == "performance" else 210)
                         if code:
-                            raise RuntimeError(f"Owned {model} qualification failed ({code}); retain idle-report.json/native.log.")
+                            raise RuntimeError(f"Owned {model} qualification failed ({code}); retain {name}-report.json/native.log.")
                     finally:
                         stop_desktop(child)
-            report = json.loads((output / "idle-report.json").read_text())
+            report = json.loads((output / f"{name}-report.json").read_text())
             if report.get("error") or len(report.get("views", [])) != 4:
                 raise RuntimeError("Idle qualification did not produce all four view receipts.")
         finally:
@@ -105,7 +105,7 @@ def run(model, output):
                     raise RuntimeError("Owned idle server did not stop.")
     print(json.dumps({"model": model, "serverStopped": True, "nativeStopped": True,
                       "descriptorRemoved": not (output / "owned-agent.json").exists(),
-                      "profileRemoved": True, "report": str(output / "idle-report.json")}))
+                      "profileRemoved": True, "report": str(output / f"{name}-report.json")}))
 
 
 if __name__ == "__main__":

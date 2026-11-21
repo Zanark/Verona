@@ -6,6 +6,7 @@ import { startAgent } from "/agent-player.mjs";
 import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
 import { attachBlinking, BLINK_GLSL, CLAIRE_BLINK } from "/blinking.mjs";
 import { attachIdleLife, IDLE_ACTIONS, IDLE_GLSL, idlePose } from "/idle-life.mjs";
+import { attachPerformanceMode } from "/performance-mode.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -20,6 +21,7 @@ const preview = $("voice-preview");
 let token = window.location.hash.slice(1);
 let renderer, clip, audioUrl, previewUrl, defaultVoice, raf = 0, busy = false;
 let blinking, idleLife, agentLocked = false, agentOutput = false;
+let performanceSleeping = false;
 const restingIdle = idlePose();
 for (const action of IDLE_ACTIONS) $("idle-action").add(new Option(action.label, action.id));
 const appearance = createAppearance(colors => {
@@ -887,7 +889,8 @@ class FaceRenderer {
       gl.uniform3fv(u[`${name.toLowerCase()}Color`], this.rgbColors[key] || [0,0,0]);
     }
     gl.uniform3fv(u.viewCenter, this.fit.center);
-    const headMode = $("cursor-mode").value === "head", following = $("follow-eyes").checked && cursor;
+    const headMode = $("cursor-mode").value === "head";
+    const following = !performanceSleeping && $("follow-eyes").checked && cursor;
     const overlayMode = document.documentElement.classList.contains("overlay");
     const fitScale = this.fit.scale * (headMode ? .8 : 1) * (overlayMode ? .9 : 1);
     gl.uniform1f(u.viewScale, fitScale);
@@ -910,10 +913,10 @@ class FaceRenderer {
       const next = value + (desired[i] - value) * smoothing;
       return Math.abs(desired[i] - next) < .0001 ? desired[i] : next;
     });
-    this.headAngles = settle(this.headAngles, headTarget);
-    this.gaze = headMode ? [0, 0] : settle(this.gaze, target);
-    this.gazeMoving = this.gaze.some((value, i) => Math.abs(target[i] - value) >= .0001)
-      || this.headAngles.some((value, i) => Math.abs(headTarget[i] - value) >= .0001);
+    this.headAngles = performanceSleeping ? [0, 0] : settle(this.headAngles, headTarget);
+    this.gaze = headMode || performanceSleeping ? [0, 0] : settle(this.gaze, target);
+    this.gazeMoving = !performanceSleeping && (this.gaze.some((value, i) => Math.abs(target[i] - value) >= .0001)
+      || this.headAngles.some((value, i) => Math.abs(headTarget[i] - value) >= .0001));
     const pose = trackedHeadPose([this.headAngles[0]+idle.pitch, this.headAngles[1]+idle.yaw],
       manual, center, scale, idle.roll);
     this.placeOverlayTools(pose, fitScale, zoom, rect);
@@ -1018,7 +1021,8 @@ function draw() {
       agentOutput && !agentLocked && audio.paused && preview.paused);
     if (renderer.canvas.dataset.idleAction !== (idle.id || "")) renderer.canvas.dataset.idleAction = idle.id || "";
   }
-  const status = idle.moving ? `${IDLE_ACTIONS.find(action => action.id === idle.id).label} (silent)`
+  const status = performanceSleeping ? "Performance mode: idle life and blinking suspended until speech."
+    : idle.moving ? `${IDLE_ACTIONS.find(action => action.id === idle.id).label} (silent)`
     : !$("idle-life").checked ? "Idle life off."
     : idleAvailable() ? "Idle life ready: occasional local actions; no session decisions."
     : "Idle life waiting: finish speech, preview or paused inspection; Clear speech returns to idle.";
@@ -1026,11 +1030,11 @@ function draw() {
   const duration = clip ? clip.duration : 0;
   $("time").textContent = `${audio.currentTime.toFixed(2)} / ${duration.toFixed(2)} s`;
   $("seek").value = String(audio.currentTime);
-  if ((!audio.paused && !audio.ended || renderer?.gazeMoving || blink?.moving || idle.moving) && !raf) raf = requestAnimationFrame(animate);
+  if (!performanceSleeping && (!audio.paused && !audio.ended || renderer?.gazeMoving || blink?.moving || idle.moving) && !raf) raf = requestAnimationFrame(animate);
 }
 
 function idleAvailable() {
-  return Boolean(renderer && !renderer.gl.isContextLost() && !busy && !agentLocked
+  return Boolean(renderer && !performanceSleeping && !renderer.gl.isContextLost() && !busy && !agentLocked
     && (!clip || audio.ended || agentOutput && audio.paused)
     && (!previewUrl || preview.ended || agentOutput && preview.paused)
     && !audio.seeking && !preview.seeking);
@@ -1440,12 +1444,12 @@ $("follow-eyes").addEventListener("input", async () => {
   draw();
 });
 window.addEventListener("mousemove", (event) => {
-  if (!$("follow-eyes").checked || desktop) return;
+  if (performanceSleeping || !$("follow-eyes").checked || desktop) return;
   cursor = { x: event.clientX, y: event.clientY };
   if (!raf) raf = requestAnimationFrame(animate);
 });
 document.documentElement.addEventListener("mouseleave", () => {
-  if (!desktop) { cursor = null; draw(); }
+  if (!desktop) { cursor = null; if (!performanceSleeping) draw(); }
 });
 if (desktop) {
   document.documentElement.classList.add("desktop");
@@ -1453,6 +1457,7 @@ if (desktop) {
   $("desktop-actions").hidden = false;
   $("follow-eyes").checked = true;
   desktop.onCursor((position) => {
+    if (performanceSleeping || !$("follow-eyes").checked) return;
     cursor = position;
     if (!raf) raf = requestAnimationFrame(animate);
   });
@@ -1562,7 +1567,24 @@ try {
   $("preview").disabled = false;
   $("reset-voice").disabled = false;
   $("status").textContent = `Ready. Verona styling / ${session.mesh.identity} motion; ${session.mesh.vertices.toLocaleString()} connected face points.`;
-  blinking = attachBlinking($("natural-blink"), draw, () => !renderer.gl.isContextLost());
+  attachPerformanceMode($("performance-mode"), $("head-opacity"), [audio, preview], state => {
+    const changed = performanceSleeping !== state.sleeping;
+    performanceSleeping = state.sleeping;
+    $("face").style.opacity = String(state.opacity);
+    $("face").dataset.performanceState = state.enabled ? state.sleeping ? "sleeping" : "speaking" : "off";
+    $("performance-status").textContent = state.enabled
+      ? state.sleeping ? "Sleeping at 10% opacity. Cursor tracking, blinks and idle actions stop; speech wakes the head at 100%."
+        : "Speaking at 100% opacity. Sleep resumes automatically after playback."
+      : `Performance mode off. Head opacity ${Math.round(state.opacity * 100)}%.`;
+    if (performanceSleeping) { cancelAnimationFrame(raf); raf = 0; cursor = null; }
+    if (desktop && changed) desktop.command("sleep", performanceSleeping).catch(failure);
+    blinking?.refresh();
+    refreshIdleLife();
+    draw();
+  }, {quickInput: $("quick-performance"), quickOpacity: $("quick-opacity"),
+    output: $("head-opacity-value"), quickOutput: $("quick-opacity-value")});
+  blinking = attachBlinking($("natural-blink"), draw,
+    () => !performanceSleeping && !renderer.gl.isContextLost());
   idleLife = attachIdleLife($("idle-life"), draw, idleAvailable);
   refreshIdleLife();
   draw();

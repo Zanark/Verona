@@ -105,6 +105,16 @@ checkbox to disable it; reduced-motion preference defaults it off.
 [All fifteen actions, controls, research and limits](docs/chapters/11-autonomous-idle-life.md).
 Existing model/motion GIFs below retain their original provenance.
 
+**Performance mode:** the floating menu now offers **Performance** and quick
+**Normal opacity** controls. When enabled, a silent head becomes **10% opaque**,
+stops cursor following, blinking, idle gestures and automatic redraws, then
+returns to **100% while speaking**. Normal opacity is independently adjustable
+0-100% and restored when the mode is off; the menu always stays readable.
+The speech model stays warm, so this targets idle CPU/GPU work rather than
+promising model-memory savings.
+[Mechanism and limits](docs/chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73).
+[Actual CPU and memory measurements](docs/chapters/07-hazel-claire-and-performance.md#measured-idle-performance-mode-vr-73).
+
 **Floating-head zoom:** above 100%, the transparent window now grows with the
 head instead of cutting through its edges. The maximum adapts to your monitor's
 usable area; **Fit** restores 100%. [Mechanism and actual 140% images](docs/chapters/10-desktop-overlay-and-gaze.md#zoom-without-cutting-the-head-at-the-window-edge-vr-69).
