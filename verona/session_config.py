@@ -5,7 +5,6 @@ import re
 
 MODELS = {
     "claire": "Original Claire",
-    "robot": "Optimus-inspired procedural robot",
     "mpfb": "Native MPFB / bounded neural transfer",
     "reference-structure": "Claire / MPFB structural fit",
     "reference-shell": "Claire / historical subtle fit",

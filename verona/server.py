@@ -25,7 +25,6 @@ STATIC = {
     "/framing.mjs": ("framing.mjs", "text/javascript; charset=utf-8"),
     "/presentations.mjs": ("presentations.mjs", "text/javascript; charset=utf-8"),
     "/hairstyles.mjs": ("hairstyles.mjs", "text/javascript; charset=utf-8"),
-    "/robot.mjs": ("robot.mjs", "text/javascript; charset=utf-8"),
     "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
     "/face-colors.mjs": ("face-colors.mjs", "text/javascript; charset=utf-8"),
     "/session-controls.mjs": ("session-controls.mjs", "text/javascript; charset=utf-8"),

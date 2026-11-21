@@ -1,5 +1,10 @@
 # 10 - A transparent desktop without a second speech system
 
+**Current vr-55 boundary:** the owner withdrew the armored character and Blender
+study after M1. Five named variants and four human views remain. Older six-model
+qualification below describes its original revision, not today's selector.
+No live manager/head is restarted to apply source work.
+
 ## Freezing a functional milestone without changing a live workspace (vr-52)
 
 M1/v0.1.0 packages the existing runtime, not a new inference or UI implementation.

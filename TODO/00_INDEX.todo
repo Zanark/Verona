@@ -54,6 +54,7 @@ vr-51 | 51_MARK_MODEL_REPORT.todo | DONE | Actual pinned Mark head, neutral and 
 vr-52 | 52_FIRST_MILESTONE_RELEASE.todo | DONE | First milestone: current gallery, verified v0.1.0 source release, project closeout and celebration
 vr-53 | 53_M1_DEVELOPMENT_JOURNAL.todo | DONE | Local M1 journal:84native pages/31dated entries/109figures, offline reader and verified portable frozen edition
 vr-54 | 54_CLAIRE_BLENDER_WORKSHOP.todo | DONE | Local Claire/PCA GLB, 55-piece editable armor workshop and 15-page illustrated Blender guide
+vr-55 | 55_RETIRE_ARMORED_VARIANT.todo | DONE | Removed rejected app/Blender characters and inspected copies; preserved Claire export and replaced journal pictures
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

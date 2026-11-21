@@ -43,6 +43,6 @@ def prepare_variant(engine, model):
                 "generationSeconds": clip.metadata["generationSeconds"] + time.perf_counter() - started,
             })
         engine.generate = mapped
-    elif model not in ("claire", "robot"):
+    elif model != "claire":
         raise ValueError("Unknown named head variant.")
     return {}

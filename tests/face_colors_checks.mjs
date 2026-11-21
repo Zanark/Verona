@@ -73,7 +73,7 @@ export async function checkFaceColors({ evaluate, check, generate, waitFor, clic
       c.change("mesh-color","#00ff00");
       c.change("eyes-color","#000000");const black=c.counts();
       c.change("eyes-color","#ffffff");const white=c.counts();
-      for(const view of ["claire","facedot","uniform","robot"]){
+      for(const view of ["claire","facedot","uniform"]){
         c.change("presentation",view);const before=c.pixels();
         c.change("mesh-color","#ff00ff");c.change("eyes-color","#00ff00");
         result.push({view,hidden:$("mesh-colors-control").hidden,difference:c.difference(before,c.pixels())});

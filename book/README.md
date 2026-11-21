@@ -8,12 +8,20 @@ textbook. The product brief and tracking guide are maintainer references, not
 automatically included chapters.
 
 A separate **Milestone 1 development journal** is complete as a local edition:
-`book\editions\Verona-M1-Development-Journal-v1\Verona-M1-Development-Journal.pdf`.
-Its **84 pages, 31 dated entries and 109 figure occurrences** trace 18-21 November
+`book\editions\Verona-M1-Development-Journal-v2\Verona-M1-Development-Journal.pdf`.
+Its **83 pages, 31 dated entries and 105 figure occurrences** trace 18-21 November
 2026 through research, experiments, corrections and v0.1.0. Warm-paper typography,
 dated gutters, timelines and evidence plates make this an authored journal, not
 a raw ledger export. `reading.html` beside it opens offline; click an image for
 its retained full-resolution PNG. These ignored local files are not on GitHub.
+
+**Owner-requested withdrawal (vr-55):** v2 removes four depictions of the rejected
+armored character and labels its historical entry withdrawn. The old v1/candidate
+PDFs, readers, four copied figures and robot-bearing review sheets are explicitly
+deleted, rather than preserving unwanted images inside an otherwise frozen book.
+Other journal content and historical audit receipts are retained. The v1 folder
+is now an incomplete, withdrawn record, not a usable edition or valid checksum
+inventory. This explicit deletion is an exception to ordinary edition preservation.
 
 The journal's historical cutoff is
 `c953ae7a078673f1cc423401a887b437ea25cb91`; the immutable release source remains
@@ -66,8 +74,8 @@ internal UI label. The offline reader supplies full-image access.
 
 Freeze only after writing an honest review JSON naming the exact `pdfSha256`,
 all actually `layoutReviewedPages`, all `reviewedFigures`, representative
-`fullResolutionPages` and an empty `unresolved` list. The v1 review also records
-the actual isolated headless Edge reader check: 84 pages, 109 decoded images,
+`fullResolutionPages` and an empty `unresolved` list. The v2 review also records
+the actual isolated headless Edge reader check: 83 pages, 105 decoded images,
 35 valid local navigation links, no detected overflow or external page requests.
 This is agent review, not owner approval.
 
@@ -75,7 +83,7 @@ This is agent review, not owner approval.
 python book\build_journal.py --freeze book\output\m1-journal-next\manual-review.json --output book\output\m1-journal-next
 ```
 
-The target derives from `editionId`. **Never overwrite v1**: a new edition needs
+The target derives from `editionId`. **Never overwrite an edition**: a new edition needs
 a new identifier and new candidate. The freeze copies only explicit deliverables,
 prepared inputs/assets, review/qualification, builder and requirements; records
 their SHA-256 inventory; and refuses an existing edition directory.
@@ -83,20 +91,20 @@ The portable copied builder can rebuild from those frozen inputs without Git
 or the original `.local` captures:
 
 ```powershell
-python book\editions\Verona-M1-Development-Journal-v1\build_journal.py --from-edition book\editions\Verona-M1-Development-Journal-v1 --output book\output\m1-journal-portable-next
+python book\editions\Verona-M1-Development-Journal-v2\build_journal.py --from-edition book\editions\Verona-M1-Development-Journal-v2 --output book\output\m1-journal-portable-next
 ```
 
-The actual v1 portability check used a PATH without Git: all 84 rendered page
-PNGs and 109 assets matched, and native text/offline HTML were identical.
-PDF bytes differed between builds; byte-for-byte PDF reproducibility is not
-claimed. The frozen v1 PDF SHA-256 is
-`5be1ce931883c9064f8b3e73c47e2cbe076b780703b7a41db3a7b9f806a3aab7`.
+The original v1 portability check used a PATH without Git; it is historical,
+not a repeated v2 qualification. V2 retains all 105 remaining figure bytes
+identically, with a fresh all-page layout review and reader check. Byte-for-byte
+PDF reproducibility is not claimed. The v2 PDF SHA-256 is
+`fcccc6449e8c0fc230f9f49e1c8531ba594116727016690b74cc2352d0b53721`.
 
 Missing inputs, incompatible versions/fonts, invalid samples, overflow and
 changed frozen inputs fail explicitly. Ctrl+C cancels the local build; partial
 output is not an edition. Preserve failed receipts, retry in a new directory
-and never silently reuse a partial frozen target. Originals and prior editions
-remain untouched. The HTML has no script/network dependency, is fixed-page
+and never silently reuse a partial frozen target. Ordinary builds leave originals
+and prior editions untouched; the explicit vr-55 withdrawal is documented above. The HTML has no script/network dependency, is fixed-page
 rather than mobile-reflowing, and needs its sibling assets directory.
 
 ## Authoring-to-edition path

@@ -1,0 +1,65 @@
+ID: vr-55
+Title: Remove the rejected armored character
+
+Status: DONE
+Milestone: Owner-requested post-M1 retirement
+Dependencies: vr-30, vr-54
+
+Purpose:
+  Remove the owner-rejected Optimus-inspired character from current runtime,
+  authoring assets, previews and instructions without removing Claire.
+
+Tasks:
+  Remove the named variant, presentation, geometry, shaders and static route.
+  Remove character-specific tests, generated studies and current gallery media.
+  Preserve the actual Claire GLB and Claire-only export/reimport capability.
+  Update active guides, skill copies and relevant chapters/index/ledger.
+  Reject stale retired model/presentation IDs rather than silently substituting.
+  Qualify surviving rendering and model choices in an isolated fixture lane.
+  Reconcile one issue/Project item and persist owned continuity/source.
+
+Acceptance criteria:
+  No selectable/current implementation, character GLB, mixed workshop or preview.
+  Original Claire GLB remains byte-identical and imports correctly.
+  Remaining five named variants and four presentations retain their behavior.
+  No live owner/sibling head or protected manager is restarted or driven.
+  Exact targeted deletion only; no broad/root deletion or Git history rewrite.
+  Historical audit records are explicitly superseded, not false current guidance.
+
+Completion evidence:
+  Five named models/four human views remain. Retired model/presentation IDs
+    fail explicitly; the retired module route returns404. A stale host errors
+    before requesting a mesh. FaceMesh red optical styling remains supported.
+  Full CPU suite80passed; four retained geometry/presentation JS suites pass.
+    All four default human renderer pixels and both MPFB canvases match the
+    pre-removal source exactly; feature-color/reset/atomicity checks also pass.
+  Actual isolated retirement-sessions-01 qualifies all five native models,
+    two-head isolation, cancellation, GUI/CLI lifecycle, parent death and
+    external ownership. Muted speech is not independent listening acceptance.
+  Reviewed exact-path purge removed968files/374853063bytes. No remaining
+    generated robot/Optimus/armored image, GLB, blend, PDF or module paths in
+    the inspected qualification/export/media roots. Three stale bytecode
+    files also removed. Git/tag/published-release history is not rewritten.
+  Original Claire.glb remains26804876bytes, SHA256
+    8e4b525ff7ec04e86dead34c3bb4a2e5529c71f885129b730dc5ec710abc4402.
+    Clean handoff .local\exports\claire-only-01; actual factory import
+    preserves all141native key arrays within7.4505464853213965e-9meters.
+    New Claire-only generator also builds/reimports GLB and editable.blend.
+  M1 journal v2 replaces the withdrawn robot-bearing local v1/candidates:
+    83pages/31datedentries/105figure occurrences/41bookmarks. All83PDFpages
+    reviewed; all105retained source images byte-identical to reviewed inputs.
+    Actual Edge reader decodes all105images; local links/fonts/layout pass.
+    No visual/human/phonetic acceptance of a replacement character is claimed.
+  Active README38GIFs/onePNG, guide/chapter/index and Verona skill updated;
+    requested library and installed skill copies match the repository source.
+
+Completion log:
+  2026-11-21 - Owner explicitly rejects the created character and requests
+    deletion everywhere. Covers both procedural app variant and Blender study.
+    Existing manager199804/135300 is protected; no character head or background
+    Blender process was present. Current worktree clean at c1de854.
+  2026-11-21 - Removed both rejected creations and their inspected generated
+    copies. Preserved original Claire, desired red FaceMesh eyes and live
+    owner/sibling applications. Updated historical withdrawal boundaries,
+    replaced journal edition and completed isolated surviving-model checks.
+    Original vr-55 issue/Project reconciliation preserves53older mappings.

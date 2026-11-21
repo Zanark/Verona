@@ -3,7 +3,6 @@ export const PRESENTATIONS = Object.freeze({
   facemesh: Object.freeze({ name: "FaceMesh", style: 1, framing: "front" }),
   facedot: Object.freeze({ name: "FaceDot", style: 2, framing: "head-neck" }),
   uniform: Object.freeze({ name: "UniformPolygons", style: 3, framing: "head-neck" }),
-  robot: Object.freeze({ name: "Optimus-inspired robot", style: 4, framing: "robot" }),
 });
 
 export function presentation(id) {

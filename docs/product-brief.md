@@ -98,6 +98,9 @@ the rejected baseline. A matched shape blink, all-emotion GIFs and real sound
 videos support review, not female-identity, anatomy or contact acceptance.
 
 The owner's November20 request adds an **Optimus-inspired robot** presentation.
+**Superseded by vr-55:** the owner later withdrew this character and the separate
+Blender study. Their active implementation, generated assets and pictures are
+removed. This paragraph records the earlier request, not the current offering.
 They selected original procedural armor instead of sourcing a rigged asset:
 blue/silver helmet/fins, cyan optics and articulated mouth/jaw/brows over the
 existing speech clock. vr-30 implements that bounded stylized interpretation,

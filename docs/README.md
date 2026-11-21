@@ -7,23 +7,25 @@ source/media/checksum boundary. These engineering chapters remain a living
 manuscript, distinct from the separate locally rendered journal below.
 
 **M1 development-journal PDF:** the local
-`book\editions\Verona-M1-Development-Journal-v1` contains
+`book\editions\Verona-M1-Development-Journal-v2` contains
 `Verona-M1-Development-Journal.pdf` and an offline `reading.html`.
-The 84-page journal has 31 dated entries, timelines and 109 figure occurrences
+The 83-page journal has 31 dated entries, timelines and 105 figure occurrences
 curated from the actual development captures. It preserves failed experiments,
 owner corrections and acceptance limits rather than exporting private chats.
 [Book production](../book/README.md) explains the exact source cutoff,
 reproduction, review and local-only delivery. The PDF is not uploaded to GitHub.
+V2 removes the owner-withdrawn character's pictures; old local PDF/reader copies
+containing those pictures are deliberately withdrawn, not retained as editions.
 
-**Claire Blender workshop (vr-54):** [the asset-authoring guide](claire-blender-workshop.md)
-locates the local Claire GLB, editable Optimus-inspired `.blend`/GLB and
-15-page illustrated PDF/HTML placement guide. Chapter09 explains the native
-PCA/reference versus mechanical-armor boundary; no app model is replaced.
+**Claire-only Blender export (vr-55):** [the asset guide](claire-blender-export.md)
+locates the preserved Claire GLB and Claire-only visual reference. The owner
+withdrew both armored characters; the mixed workshop and placement guide are
+removed, not current deliverables.
 
 The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
 (`VeronaDesktop.cmd` is an alias). Chapter10 describes isolated warm engines,
 native control forwarding and owned lifecycle; chapter09 describes independent
-feature colors. All six authored variants, including original Claire, remain
+feature colors. All five retained variants, including original Claire, remain
 selectable. Earlier study launchers/reports are preserved, not required.
 Its **vr-46** extension keeps each head's name and independent **Always on top**
 checkbox inside its collapsed floating menu. Pinning is enabled by default;
@@ -118,15 +120,13 @@ conditioning. After the owner's appearance approval, its20-GIF/two-screenshot
 gallery includes current48-lock curls, captioned reader-facing red eyes,
 a separate XYZ loop, matching hair and monochrome previews. Only the huge
 centered hero sits outside the single default-closed README section.
-Chapter09's vr-30 adds a separate original procedural armored robot, sparse
-speech-clock retargeting and selected-only rigid geometry. It records no-image
-native qualification and limits, plus the requested 30% FaceMesh eye dimming.
-The later approved gallery includes its real speaking/turning loop and native
-interface screenshot; no official model, voice or new accuracy claim.
+Chapter09 records the historical vr-30 armored experiment, explicitly withdrawn
+by the owner in vr-55. Its character implementation and media are removed.
+The separately requested 30% FaceMesh red-eye dimming remains.
 Chapter09's vr-31 doubles the explicit-emotion difference relative to identical
 neutral-conditioned speech, retaining neutral motion and bounded inputs. It
 adds only a FaceMesh hot pupil center/red corona, preserving dimmed outer rings
-and robot cyan. Extra CPU inference is confined to expressive generation,
+as originally qualified. Extra CPU inference is confined to expressive generation,
 not playback; existing captured gallery snapshots retain their own provenance.
 Its vr-32 comparison slice adds bounded2x/4x emotion selection and live
 FaceMesh spokes-only/rings-only eye choices while retaining2x/combined defaults.

@@ -13,6 +13,8 @@ await fs.mkdir(profile,{recursive:true});
 const baselineRef=process.argv.find(arg=>arg.startsWith("--baseline="))?.slice(11);
 const baseline=baselineRef?Object.fromEntries(["app.js","mpfb.js","mpfb-renderer.mjs"].map(name=>
   [name,execFileSync("git",["show",`${baselineRef}:verona/web/${name}`],{encoding:"utf8"})])):null;
+// Retained-view comparisons do not restore the retired module's dead import.
+if(baseline)baseline["app.js"]=baseline["app.js"].replace(/^import .* from "\/robot\.mjs";\r?\n/m,"");
 const meta={center:[0,146,0],scale:12,quantization:10000,identity:"Synthetic fixture"};
 const positions=[],triangles=[],edges=[];
 const columns=49,rows=85;
@@ -53,7 +55,7 @@ meta.eyes={vertices:8,positionOffset:append(quantize(eyes)),
   triangleOffset:append(Uint32Array.from([0,1,2,0,2,3,4,5,6,4,6,7])),triangles:4};
 meta.bytes=length;
 const binary=Buffer.concat(chunks);
-let nativeMode=false;
+let nativeMode=false,retiredMode=false,retiredMeshRequests=0;
 const server=http.createServer(async(req,res)=>{
   try{
     const url=new URL(req.url,"http://127.0.0.1");
@@ -61,14 +63,16 @@ const server=http.createServer(async(req,res)=>{
     if(url.pathname==="/api/session"){
       res.setHeader("Content-Type","application/json");
       res.end(JSON.stringify({mesh:meta,voices:[{name:"Fixture",culture:"en-US"}],defaultVoice:"Fixture",
-        limits:{characters:280},appearance:{model:nativeMode?"mpfb":"claire",session:"fixture",colors:{}}}));
+        limits:{characters:280},appearance:{model:retiredMode?"robot":nativeMode?"mpfb":"claire",session:"fixture",colors:{}}}));
       return;
     }
     if(url.pathname==="/api/mesh"){
+      if(retiredMode)retiredMeshRequests++;
       res.setHeader("Content-Type",nativeMode?"application/json":"application/octet-stream");
       res.end(nativeMode?JSON.stringify(native):binary);return;
     }
     let name=url.pathname.slice(1)||"index.html";
+    if(name==="retired"){retiredMode=true;nativeMode=false;name="index.html";}
     if(name==="native"){nativeMode=true;name="mpfb.html";}
     if(name==="legacy-native"){nativeMode=true;name="mpfb.html";}
     if(name==="legacy"){nativeMode=false;name="index.html";}
@@ -134,12 +138,10 @@ try{
   if(baseline){
     await cdp("Page.navigate",{url:`${origin}/legacy#${"a".repeat(43)}`});
     await waitFor('document.getElementById("generate") && !document.getElementById("generate").disabled');
-    for(const view of ["claire","facemesh","facedot","uniform","robot"]){
+    for(const view of ["claire","facemesh","facedot","uniform"]){
       await evaluate(`(()=>{
         const p=document.getElementById("presentation");p.value=${JSON.stringify(view)};p.dispatchEvent(new Event("input"));
-        if(${JSON.stringify(view)}!=="robot"){
-          const h=document.getElementById("hair");h.checked=true;h.dispatchEvent(new Event("input"));
-        }
+        const h=document.getElementById("hair");h.checked=true;h.dispatchEvent(new Event("input"));
       })()`);
       // Capture immediately after a synchronous draw; production canvas intentionally has no preserved backbuffer.
       legacyHashes[view]=await evaluate(`(async()=>{
@@ -160,13 +162,11 @@ try{
       if(a[i]!==b[i]||a[i+1]!==b[i+1]||a[i+2]!==b[i+2])count++;return count;}
   };`);
   assert.equal(await evaluate("document.title"),"Verona | fixture | claire");
-  for(const view of ["claire","facemesh","facedot","uniform","robot"]){
+  for(const view of ["claire","facemesh","facedot","uniform"]){
     const result=await evaluate(`(()=>{
       const f=pixelFixture,a=veronaAppearance,keys=["mesh","eyes","hair","lips","eyebrows"];
       f.change("presentation",${JSON.stringify(view)});
-      if(${JSON.stringify(view)}!=="robot"){
-        const h=document.getElementById("hair");h.checked=true;h.dispatchEvent(new Event("input"));
-      }
+      const h=document.getElementById("hair");h.checked=true;h.dispatchEvent(new Event("input"));
       a.apply(Object.fromEntries(keys.map(k=>[k,null])));
       const original=f.pixels(),changes={};
       const g=document.getElementById("face").getContext("webgl2");
@@ -251,6 +251,10 @@ try{
     assert.deepEqual(current,legacy,"Native original default pixels changed.");
     report.legacyDefaultPixels.nativeSha256=legacy;
   }
+  await cdp("Page.navigate",{url:`${origin}/retired#${"a".repeat(43)}`});
+  await waitFor('!document.getElementById("error").hidden && document.getElementById("error").textContent.includes("retired by its owner")');
+  assert.equal(retiredMeshRequests,0,"A retired host must fail before loading a substitute mesh.");
+  report.retiredHostRejectedBeforeMesh=true;
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify(report));
 }finally{

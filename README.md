@@ -3,7 +3,7 @@
 </p>
 
 <details>
-<summary><strong>Explore Verona M1: six heads, all 10 emotions, hairstyles and controls</strong></summary>
+<summary><strong>Explore Verona: five heads, all 10 emotions, hairstyles and controls</strong></summary>
 
 # Verona
 
@@ -32,39 +32,35 @@ prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. `VeronaDesktop.cmd` opens this same manager;
 different launchers are not needed.
 
-All six choices are here: **original Claire, procedural robot, native MPFB,
+All five choices are here: **original Claire, native MPFB,
 structural-reference Claire, historical subtle-reference Claire and
 Male-SharpJawline**. Claire is preserved. These are experimental identities,
 not accepted Female profiles or anatomical-accuracy claims.
 Independent **mesh, eyes, hair, lips and eyebrows** accept swatches or RGB hex.
-Native MPFB hair is an optional static cap; robot hair colors its helmet/crest.
+Native MPFB hair is an optional static cap.
 Each head has its own model, capability, speech RAM and audio clock.
 **Exit manager and its heads** closes only heads this manager created;
 closing the browser tab alone does not stop them.
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
-lip sync or a production-ready assistant.** The current six-head gallery below
-uses the milestone runtime. The preserved hero, emotion, hair and presentation
+lip sync or a production-ready assistant.** The gallery below retains the
+milestone captures of the five remaining choices. The preserved hero, emotion, hair and presentation
 loops record the vr-36 visual runtime; their unchanged visuals remain relevant,
 but their old interfaces are not the current manager.
 **4x expressions, glowing centers and bright spokes** are the selected
-FaceMesh look throughout, including the opening talking hero. Robot optics
-stay cyan. The emotion gallery shows all ten available single model controls
+FaceMesh look throughout, including the opening talking hero. The emotion gallery shows all ten available single model controls
 plus neutral; it does not preview combinations.
 
-## Six heads, one local workspace
+## Five heads, one local workspace
 
-Fresh actual-renderer GIFs use the same synthetic **"Hey, how are you?"**
+These actual-renderer GIFs use the same synthetic **"Hey, how are you?"**
 greeting, Happy0.6/4x source and small authored turns. Distinct solid mesh tints
 make the choices legible; other feature colors stay original. MPFB fits bounded
 native controls, so 4x source is not4x native deformation.
 
 <table width="100%">
-  <tr><th width="50%">Original Claire</th><th width="50%">Procedural robot</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-claire.gif" alt="Current original neural Claire speaking with a cyan mesh" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-robot.gif" alt="Current blue procedural robot speaking through mechanical plates" width="360"></td>
-  </tr>
+  <tr><th colspan="2">Original Claire</th></tr>
+  <tr><td colspan="2" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-claire.gif" alt="Original neural Claire speaking with a cyan mesh" width="360"></td></tr>
   <tr><th width="50%">Native MPFB</th><th width="50%">Structural-reference Claire</th></tr>
   <tr>
     <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mpfb.gif" alt="Current magenta native MPFB head with bounded speech transfer" width="360"><br>Independent native topology; transferred speech, not a new neural model.</td>
@@ -79,7 +75,7 @@ native controls, so 4x source is not4x native deformation.
 
 ### A separate look at the actual Mark model
 
-Mark v2.3 is **report-only, not a seventh manager choice**. These paired
+Mark v2.3 is **report-only, not a manager choice**. These paired
 shaded/wire studies show its own native-derived topology, rest turntable and
 neutral speech at native1x. They do not replace Claire or Male-SharpJawline.
 
@@ -217,19 +213,6 @@ Earlier comparisons remain available as history:
 [original center-glow preview](docs/media/expression-glow-preview.gif).
 They are not the current feature demos.
 
-## Meet the armored voice
-
-<p align="center">
-  <img src="docs/media/gallery-vr36-robot-speaking.gif" alt="Current original blue and silver Optimus-inspired armored head speaking with 4x expression input, articulated mouth plates, cyan optics and gentle XYZ turns" width="720">
-</p>
-
-Choose **View -> Optimus-inspired robot**. Original blue/silver armor, tall
-helmet fins, cyan mechanical eyes and articulated jaw, mouth and brow plates.
-It follows the same speech clock, cursor modes, orientation and zoom as the
-human presentations. No extra model or voice download.
-This is our stylized procedural interpretation, not an official movie model,
-transformation or character voice.
-
 ## FaceMesh in every direction
 
 <p align="center">
@@ -275,7 +258,7 @@ These are manual view turntables at 10 sampled frames/second, not hair physics
 or head motion inferred from speech. Only the selected alternative is built;
 switching back restores the original Claire geometry.
 
-## Five presentations. One speech session.
+## Four presentations. One speech session.
 
 Change **View** without restarting or regenerating the current clip.
 
@@ -292,9 +275,8 @@ Change **View** without restarting or regenerating the current clip.
   </tr>
 </table>
 
-These previews manually turn a paused generated pose. The four human views share
-the same Claire skin; the robot retargets that motion to rigid armor plates.
-All five share one audio clock. Grid cells follow the curved
+These previews manually turn a paused generated pose. All four views share
+the same Claire skin and one audio clock. Grid cells follow the curved
 face: this is **not quad retopology**. **Realistic**, the future supplied-GLB
 identity, remains parked and is not an implemented view.
 The FaceDot previews select **0.75x density / 20% gap** for readable dots;
@@ -312,8 +294,8 @@ the app's unchanged defaults are **1x / 0%**.
   <tr><td colspan="2" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-uniform.gif" alt="Current optional Spiral curls following UniformPolygons' curved rectangular grid format" width="360"></td></tr>
 </table>
 
-Hair is **off by default outside Claire**. Enable it when you want it; the robot
-uses armor instead. The same shared hairstyle follows each human view's wire,
+Hair is **off by default outside Claire**. Enable it when you want it.
+The same shared hairstyle follows each view's wire,
 dots or grid without regenerating the speech.
 
 ### More dots. More cells. More space.

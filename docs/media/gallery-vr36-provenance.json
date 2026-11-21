@@ -1,5 +1,10 @@
 {
   "schemaVersion": 1,
+  "retirement": {
+    "workstream": "vr-55",
+    "removedAssets": ["gallery-vr36-robot-overview.png", "gallery-vr36-robot-speaking.gif"],
+    "reason": "Owner withdrew the armored character; remaining capture facts are historical."
+  },
   "sourceBaseCommit": "7735e0f436190cb9ef4ca2b05b2ab949362b0fd5",
   "sourceState": "Exact committed runtime; README/documentation-only work follows this source snapshot.",
   "sourceSha256": {

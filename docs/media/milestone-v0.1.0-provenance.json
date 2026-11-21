@@ -1,5 +1,11 @@
 {
   "schemaVersion": 1,
+  "retirement": {
+    "workstream": "vr-55",
+    "reason": "Owner withdrew the armored character after M1.",
+    "removedAsset": "milestone-v0.1.0-robot.gif",
+    "historicalReceiptUnchanged": true
+  },
   "milestone": "M1",
   "release": "v0.1.0",
   "runtimeSourceCommit": "d7897633ea0994817a2c3008e60a9fe2ab90df6c",

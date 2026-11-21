@@ -63,7 +63,7 @@ def main():
             if code:
                 raise RuntimeError(f"Unified GUI qualification failed ({code}); retain its receipt.")
             report = json.loads((output / "session-report.json").read_text())
-            if report.get("error") or len(report.get("models", [])) != 6:
+            if report.get("error") or len(report.get("models", [])) != 5:
                 raise RuntimeError("Incomplete unified session qualification.")
 
             def cli(*arguments, text=None):
@@ -73,7 +73,7 @@ def main():
                     raise RuntimeError(f"CLI qualification failed: {result.stderr[:400]}")
                 return json.loads(result.stdout)
 
-            created = cli("create","--session","qual-cli","--model","robot",
+            created = cli("create","--session","qual-cli","--model","claire",
                           "--hair-color","#123456","--lips-color","#ABC",
                           "--eyebrows-color","#778899")
             if created["state"] != "starting":
@@ -93,7 +93,7 @@ def main():
             cli("close","--session","qual-cli")
             report["cliCreateConfigureListSpeechClose"] = True
             external = subprocess.Popen([sys.executable, "-m", "verona.agent", "host",
-                "--session", "external", "--model", "robot"], cwd=ROOT, env=environment,
+                "--session", "external", "--model", "claire"], cwd=ROOT, env=environment,
                 stdout=log, stderr=log)
             external_path, external_descriptor = wait_session("external", external)
             call(descriptor, {"action":"shutdown"})
@@ -115,7 +115,7 @@ def main():
                     raise RuntimeError("Owned second manager did not start.")
                 time.sleep(.05)
             descriptor = read_descriptor(descriptor_path)
-            call(descriptor, {"action":"create","session":"parent-crash","model":"robot","colors":{}})
+            call(descriptor, {"action":"create","session":"parent-crash","model":"claire","colors":{}})
             head_path, head = wait_session("parent-crash", manager)
             kernel = ctypes.WinDLL("kernel32", use_last_error=True)
             kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]

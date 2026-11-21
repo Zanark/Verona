@@ -1,6 +1,15 @@
 # Prototype media receipt
 
-## M1 current six-head gallery and controls (vr-52)
+## Current retirement boundary (vr-55)
+
+The owner withdrew the armored character. Its five tracked image/GIF files,
+dedicated captures and mixed robot-bearing overview images are deleted.
+The current README retains five model choices, four presentations and
+38 GIFs/one PNG. Original capture receipts below remain historical, including
+their counts/hashes; their retirement metadata explains intentionally absent
+assets. They are not instructions to restore the removed character.
+
+## Historical M1 six-head gallery and controls (vr-52)
 
 [Milestone provenance](milestone-v0.1.0-provenance.json) records six fresh
 actual-renderer greeting loops from runtime

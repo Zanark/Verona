@@ -72,8 +72,8 @@ replaced. The report is offline after generation, not a live runtime monitor.
 
 Future consistency needs model-specific adaptation: Claire-based shape maps
 must preserve the cue on each final shape; native MPFB needs speech blended
-with its selected smile/dimple character; the rigid robot needs a one-sided
-mouth-plate smirk rather than soft lip deformation. Those integrations and
+with its selected smile/dimple character. The withdrawn armored character
+is no longer an adaptation target. Those integrations and
 approval of this exact candidate are **not implemented by vr-49**.
 
 ## Independent feature colors across named variants (vr-45)
@@ -1044,6 +1044,11 @@ joins the other content inside its single default-closed disclosure.
 
 ## Original articulated armored robot (vr-30)
 
+**Historical, withdrawn in vr-55.** The owner rejected this character and the
+later Blender study. The following explains the former experiment, not available
+controls or permission to restore it. Runtime geometry, selection, generators
+and pictures are removed; the separate FaceMesh red-eye styling is retained.
+
 **View -> Optimus-inspired robot** selects an independently authored blue/silver
 helmet, tall side fins, layered cheek armor, mechanical cyan optics and segmented
 mouth/jaw. The owner selected procedural armor over finding a rigged asset.
@@ -1958,19 +1963,19 @@ use actual isolated synthetic captures. Silent GIFs sample the timeline at
 The source milestone is distinct from the original frozen prerelease,
 an installer, a book edition or deployment.
 
-## Claire interchange and a separate Blender armor study (vr-54)
+## Claire interchange; withdrawn armor study (vr-54, vr-55)
 
 The owner now rejects the earlier app robot and wants Claire exported for their
 own Optimus-inspired Blender modeling. That changes the direction of asset
 authoring, not the historical record of earlier feedback or the running app.
-The [illustrated workshop handbook](../claire-blender-workshop.md) locates two
-actual local GLBs, native `.blend` source and a 15-page PDF/offline HTML guide.
+The former workshop delivered two local GLBs, native `.blend` source and a
+15-page PDF/offline HTML guide, all withdrawn except Claire in vr-55.
 It explains every reference region with saturated distinct colors, matches
 armor labels to those regions, and shows equal-scale registration, profile,
 back, optics, manual jaw motion and exploded layers. Approximate colored
 teaching masks are not independently separated muscles or calibrated anatomy.
 
-`scripts/claire_blender_workshop.py:prepare_claire` verifies pinned Claire
+The retained `scripts/claire_blender_export.py:prepare_claire` verifies pinned Claire
 v2.3.1 hashes, numerically parses the Maya scene and reuses `native_control_mesh`
 and `verona_rest_shape`. It exports the existing 15,375 selected skin vertices,
 30,746 triangles and all 140 matching PCA deltas as named shape keys, plus Basis.
@@ -1980,7 +1985,7 @@ eye-height origin. Standard Y-up GLB is the interchange format. The saved
 native-index map establishes this export's correspondence, not a guarantee
 that arbitrary edited/reimported geometry will retain vertex identity.
 
-`build_robot` authors 55 original separate volumetric armor meshes: wrapped
+The removed `build_robot` authored 55 original separate volumetric armor meshes: wrapped
 crown, crest, tall antennae, ear housings, optics, bridge, cheek/vent assemblies,
 split faceplate and neck ribs. `create_rig` assigns each rigid mesh to Head, Jaw,
 Brow.L or Brow.R. The two-second `MANUAL_JawInspection_NOT_Speech` action is a
@@ -1995,9 +2000,9 @@ Claire key-coordinate arrays match within 7.45e-9 m; the imported robot jaw move
 Blender's generated Icosphere bone widget as an unrigged asset. The correction
 matches exact GLB mesh names and admits only extras actually used as pose-bone
 custom shapes, without relaxing attachment checks. Candidate 02 also corrects
-a real static iris occlusion and flat guide colors; candidate 01 remains.
+a real static iris occlusion and flat guide colors; candidate 01 was subsequently deleted by the owner's explicit vr-55 request.
 
-`scripts/claire_blender_guide.py` composes actual renders into searchable native
+The removed `scripts/claire_blender_guide.py` composed actual renders into searchable native
 PDF headings/captions and image-heavy plates, with a matching offline reader.
 Agent layout/geometry review is not owner approval or full collision testing.
 The isolated background/factory Blender lane uses disposable configuration,
@@ -2008,3 +2013,41 @@ the handbook documents preserving receipts before another verification.
 All model-derived assets stay ignored/local, with underlying rights notices.
 No automatic runtime import, model download, publication or release mutation
 follows from producing this authoring kit.
+
+### Owner-directed retirement (vr-55)
+
+The next owner instruction rejects both created armored versions, not Claire.
+`session_config.MODELS`, `variants.prepare_variant`, `web/presentations.mjs` and
+the server static allowlist no longer accept/serve the old model or module.
+`web/app.js` removes its shader paths, geometry ownership, controls and startup
+selection. An old host identifying itself with the retired model fails visibly
+instead of silently displaying Claire. Five named variants and four human views
+remain; the desired FaceMesh red mechanical eyes are not the rejected head.
+
+The [Claire-only handoff](../claire-blender-export.md) preserves the actual
+verified GLB, native-index map and five Claire reference renders in a clean
+directory. Both mixed export candidates, dedicated robot qualification/media,
+current gallery images and directly copied local journal depictions are removed.
+The journal's v2 source omits those four figures and explicitly labels the
+historical experiment withdrawn. This does not rewrite earlier commits, tags
+or the published v0.1.0 release. Historical audit text records the decision;
+it must not be interpreted as current runtime or regeneration instructions.
+
+The removal was qualified at the surviving boundaries, not only by searching
+names. Eighty CPU tests and four retained JavaScript suites pass.
+`tests/test_appearance_rendering.mjs` verifies byte-identical default pixels
+against the pre-removal source for all four human views and both MPFB canvases,
+feature-color/reset behavior, and a retired-host error before any mesh request.
+`tests.run_session_smoke` in `retirement-sessions-01` initializes all five actual
+native models and exercises independent heads, cancellation, manager/CLI
+lifecycle, external ownership and parent death without driving the owner's
+existing manager. Muted playback is not independent listening acceptance.
+
+The reviewed purge removed 968 files / 374,853,063 bytes, plus three obsolete
+bytecode files. The original 26,804,876-byte Claire GLB is unchanged; actual
+factory reimport compares all 141 native rest/PCA arrays within 7.45055e-9 m.
+The new Claire-only generator separately builds and reimports an editable
+`.blend` and self-contained GLB. The replacement local journal has 83 pages,
+31 dated entries and 105 figure occurrences; every PDF page was reviewed and
+the actual Edge reader decoded all 105 images with working local navigation.
+These are technical/environmental checks, not approval of a new character.

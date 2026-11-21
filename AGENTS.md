@@ -70,16 +70,11 @@ and depth occlusion, using existing eyes and one extra draw, not bloom targets
 or new geometry. The owner selected red, not the references' blue.
 Its final RGB intensity is now multiplied by0.70 at the owner's request;
 alpha/structure/occlusion are unchanged, not calibrated luminance.
-vr-30 adds View->Optimus-inspired robot: original selected-only blue/silver
-rigid armor, cyan optics and seven-landmark Claire-to-plate motion transfer on
-the same audio clock. robot.mjs builds2154triangles/33groups;66buffers/34draws
-are deleted on exit, with no frame geometry/normal rebuilding. Fixed Armored
-head framing, existing gaze/XYZ/zoom/desktop owners, no hair/skin controls,
-no official model/artwork/voice or Realistic resumption. Chapter09 records
-mechanisms and no-image native qualification; phonetic/cadence acceptance
-remains separate. The owner subsequently approved the current appearance and
-authorized updated GIFs/screenshots, including the robot, and a source push.
-That media-only delivery does not authorize a release or user-runtime restart.
+vr-55 retires the owner-rejected armored character from vr-30 and the vr-54
+Blender study. Do not restore either from historical records or Git.
+Five named variants and four human presentations remain. Keep Claire and the
+Claire-only GLB export; do not confuse FaceMesh's desired red mechanical irises
+with the retired character. No owner/sibling runtime restart is authorized.
 Do not invent its
 audience, stack, runtime, camera requirements or deployment plan. KardboardCode-VTuber is
 read-only prior art, not a scaffold to copy.
@@ -138,9 +133,9 @@ it, not in the hero. The fictional horror dialogue uses explicit bounded neural 
 including Angry channel1, and cyan phrase captions burned into the same GIF
 below the face. No inferred emotion, real-time subtitle alignment, audio-in-GIF,
 face capture or realistic-expression acceptance claim.
-The current gallery has20GIFs/two interface PNGs, both48-frame hair turntables
-and original robot media, with exact source/capture hashes and decoded alpha/
-timing evidence in docs/media/two-styles-red-mesh-provenance.json.
+Historical gallery counts/hashes remain provenance, not today's inventory.
+vr-55 removes rejected character media; retain the remaining hair/FaceMesh/
+emotion captures without presenting old robot receipts as current support.
 
 Never include .agent-context, raw conversation, credentials, camera endpoints,
 personal calibration, recordings or private sibling material in issues,

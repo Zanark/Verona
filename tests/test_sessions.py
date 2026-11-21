@@ -24,6 +24,8 @@ class SessionTests(unittest.TestCase):
                 colors_patch(value)
         with self.assertRaises(ValueError):
             appearance("missing")
+        with self.assertRaises(ValueError):
+            appearance("robot")
 
     def test_named_heads_and_confirmed_live_colors_do_not_cross_or_regenerate(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -106,9 +108,9 @@ class SessionTests(unittest.TestCase):
             private_descriptor(session_path("external"), data)
             manager = SessionManager()
             with patch("verona.manager.call", return_value={"ready":True,"state":"idle",
-                       "appearance":appearance("robot", {"eyes":"#00f"}, "external")}):
+                       "appearance":appearance("claire", {"eyes":"#00f"}, "external")}):
                 sessions = manager.list()
-                self.assertEqual(sessions[0]["appearance"]["model"], "robot")
+                self.assertEqual(sessions[0]["appearance"]["model"], "claire")
                 self.assertFalse(sessions[0]["owned"])
                 self.assertNotIn(data["token"], json.dumps(sessions))
             with patch("verona.manager.call", side_effect=RuntimeError("stale")):
@@ -122,6 +124,7 @@ class SessionTests(unittest.TestCase):
             for value in (
                 {"action":"create","session":"../other","model":"claire","colors":{}},
                 {"action":"create","session":"test","model":"unknown","colors":{}},
+                {"action":"create","session":"test","model":"robot","colors":{}},
                 {"action":"create","session":"test","model":"claire","colors":{"hair":"bad!"}},
                 {"action":"shutdown","other":True},
             ):

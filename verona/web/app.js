@@ -2,7 +2,6 @@ import { rotationMatrix, cursorGaze, cursorHeadAngles, trackedHeadPose } from "/
 import { JAW_CROP, trimJawTopology } from "/framing.mjs";
 import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presentationFit } from "/presentations.mjs";
 import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
-import { createRobot, bindRobot, sampleRobot } from "/robot.mjs";
 import { startAgent } from "/agent-player.mjs";
 import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
 
@@ -98,37 +97,10 @@ class FaceRenderer {
       uniform vec3 center;
       uniform float scale, viewScale;
       uniform vec3 viewCenter, rotationOffset;
-      uniform int presentationStyle, robotPart;
-      uniform vec4 robotMouth;
-      uniform vec2 robotBrows;
       out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
         vec3 normal = mix(normalA, normalB, blend);
-        if (presentationStyle == 4) {
-          vec3 world = p * scale + center;
-          if (robotPart == 1 || robotPart >= 30) {
-            float c = cos(robotMouth.x), s = sin(robotMouth.x);
-            mat3 jaw = mat3(1,0,0, 0,c,s, 0,-s,c);
-            world = jaw * (world - vec3(0,141,-1)) + vec3(0,141,-1);
-            normal = jaw * normal;
-          }
-          if (robotPart >= 20) {
-            float side = float(robotPart % 10 - 1);
-            world.x += side * robotMouth.z;
-            world.y += robotMouth.w + (robotPart < 30 ? robotMouth.y : -robotMouth.y);
-          }
-          if (robotPart == 4 || robotPart == 5) {
-            float side = robotPart == 4 ? -1.0 : 1.0;
-            float lift = robotPart == 4 ? robotBrows.x : robotBrows.y;
-            float c = cos(lift*side*0.1), s = sin(lift*side*0.1);
-            mat3 brow = mat3(c,s,0, -s,c,0, 0,0,1);
-            vec3 pivot = vec3(side*3.1,148.5,4);
-            world = brow * (world-pivot) + pivot + vec3(0,lift,0);
-            normal = brow * normal;
-          }
-          p = (world-center)/scale;
-        }
         p = rotation * ((p - viewCenter) * viewScale) + rotationOffset;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
         gl_PointSize = pointSize;
@@ -170,21 +142,9 @@ class FaceRenderer {
           + ${JAW_CROP.rearRise.toFixed(1)} * clamp((${JAW_CROP.rearStart.toFixed(1)} - rest.z)
             / ${JAW_CROP.rearSpan.toFixed(1)}, 0.0, 1.0) - neckDepth) discard;
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
-        if (presentationStyle == 4 && pass != 3) {
-          vec3 n = normalize(viewNormal);
-          vec3 key = normalize(vec3(-0.55,0.8,1.3));
-          float diffuse = max(dot(n,key),0.0);
-          float fill = max(dot(n,normalize(vec3(0.8,0.2,0.5))),0.0);
-          float specular = pow(max(dot(n,normalize(key+vec3(0,0,1))),0.0),48.0);
-          float rim = pow(1.0-abs(n.z),3.0);
-          vec3 metal = color*(0.25+diffuse*0.75+fill*0.22)
-            + vec3(0.62,0.78,0.94)*specular*0.65 + vec3(0.06,0.12,0.19)*rim;
-          outputColor = vec4(material == 2 ? vec3(0.008,0.038,0.065) : metal,1.0);
-          return;
-        }
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
-          if ((presentationStyle == 1 || presentationStyle == 4) && material == 2 && pass == 3) {
+          if (presentationStyle == 1 && material == 2 && pass == 3) {
             vec3 eyeCenter = rest.x < 0.0 ? vec3(-2.9485,147.5517,2.2364) : vec3(3.1021,147.4944,2.2830);
             vec3 local = rest - eyeCenter;
             vec2 iris = local.xy - gaze;
@@ -207,10 +167,8 @@ class FaceRenderer {
             float alpha = max(1.0 - smoothstep(0.58, 0.65, radius), halo)
               * smoothstep(0.9, 1.2, local.z);
             if (alpha < 0.01) discard;
-            vec3 emission = presentationStyle == 4
-              ? mix(vec3(0.001,0.015,0.035),vec3(0.015,0.58,1.0),glow)
-              : mix(vec3(0.035,0.001,0.003), vec3(1.0,0.015,0.025), glow);
-            vec3 irisColor = mix(emission, presentationStyle == 4 ? vec3(0.60,0.95,1.0) : vec3(1.0,0.38,0.28), core);
+            vec3 emission = mix(vec3(0.035,0.001,0.003), vec3(1.0,0.015,0.025), glow);
+            vec3 irisColor = mix(emission, vec3(1.0,0.38,0.28), core);
             irisColor *= presentationStyle == 1 ? 0.70 : 1.0;
             if (presentationStyle == 1) {
               if (eyeGlow != 0) irisColor += vec3(1.0,0.015,0.025) * glow * 0.30;
@@ -223,7 +181,6 @@ class FaceRenderer {
                 irisColor = eyeColor * (irisColor.r - irisColor.b) + vec3(irisColor.b * peak);
               }
             }
-            if (presentationStyle == 4 && customEyeColor) irisColor = eyeColor * (0.12 + glow * 0.88);
             outputColor = vec4(irisColor, alpha);
             return;
           }
@@ -384,7 +341,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale", "robotPart", "robotMouth", "robotBrows"]
+      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -512,7 +469,6 @@ class FaceRenderer {
   }
 
   setHairStyle(id) {
-    if (this.view.style === 4) throw new Error("The robot uses armor, not a hairstyle.");
     hairstyle(id);
     if (id === this.hairStyle) return;
     const data = id === "claire" ? this.originalHair : createHairstyle(id, this.meta);
@@ -546,7 +502,6 @@ class FaceRenderer {
   }
 
   setHairVisible(visible) {
-    if (this.view.style === 4) throw new Error("The robot uses armor, not a hairstyle.");
     this.hairVisible[this.presentationId] = visible;
     this.updateFit();
   }
@@ -558,8 +513,7 @@ class FaceRenderer {
   }
 
   updateFit() {
-    if (this.view.style === 4) this.fit = this.robot.fit;
-    else if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: hairstyle(this.hairStyle).fit };
+    if (this.view.style === 0) this.fit = { center: [0, 0, 0], scale: hairstyle(this.hairStyle).fit };
     else {
       let vertices, key;
       if (this.view.style === 1) {
@@ -611,11 +565,7 @@ class FaceRenderer {
 
   setPresentation(id) {
     const view = presentation(id);
-    if (view.style === 4) {
-      this.createRobot();
-      this.headOnly = false;
-      this.skin = this.fullSkin;
-    } else if (view.style === 1) {
+    if (view.style === 1) {
       this.setDetail(this.detail);
       this.skin = this.front;
       this.headOnly = false;
@@ -624,66 +574,7 @@ class FaceRenderer {
     this.presentationId = id;
     this.view = view;
     this.updateFit();
-    if (view.style !== 4) this.deleteRobot();
     for (const slot of this.normalSlots) slot.frame = -1;
-  }
-
-  createRobot() {
-    if (this.robot) return;
-    const data = createRobot(this.meta), gl = this.gl;
-    const rig = bindRobot(this.neutralData, this.meta);
-    const fit = presentationFit(data.positions, null, this.meta.quantization);
-    const groups = [];
-    try {
-      for (const group of data.groups) {
-        const surface = { material: group.material, part: group.part, color: group.color, count: group.count };
-        groups.push(surface);
-        surface.positions = this.buffer(gl.ARRAY_BUFFER, group.positions);
-        surface.normals = this.buffer(gl.ARRAY_BUFFER, group.normals);
-        if (!surface.positions || !surface.normals) throw new Error("Cannot allocate robot graphics buffers.");
-      }
-    } catch (error) {
-      for (const group of groups) for (const key of ["positions","normals"]) if (group[key]) gl.deleteBuffer(group[key]);
-      throw error;
-    }
-    const pose = new Float32Array(6);
-    this.robot = { groups, rig, fit, bounds: data.positions, pose, mouth: pose.subarray(0,4), brows: pose.subarray(4,6) };
-  }
-
-  deleteRobot() {
-    if (!this.robot) return;
-    for (const group of this.robot.groups) for (const key of ["positions","normals"]) this.gl.deleteBuffer(group[key]);
-    this.robot = null;
-    this.overlayBoundsKey = null;
-  }
-
-  drawRobot() {
-    const gl = this.gl, u = this.uniforms, robot = this.robot;
-    sampleRobot(robot.rig,this.neutralData,this.motionData,this.leftFrame,this.rightFrame,this.frameBlend,robot.pose);
-    gl.uniform4fv(u.robotMouth,robot.mouth);
-    gl.uniform2fv(u.robotBrows,robot.brows);
-    gl.uniform1i(u.points,0);
-    gl.uniform1f(u.neckDepth,-1);
-    for (const group of robot.groups) {
-      this.staticSurface(group);
-      gl.uniform1i(u.pass,0);
-      gl.uniform1i(u.robotPart,group.part);
-      gl.uniform1i(u.material,group.material);
-      const key = group.part >= 20 ? "lips" : [4,5].includes(group.part) ? "eyebrows"
-        : group.material === 1 ? "hair" : "mesh";
-      gl.uniform3fv(u.color,this.rgbColors[key] || group.color);
-      gl.drawArrays(gl.TRIANGLES,0,group.count);
-      if (group.material === 2) {
-        gl.enable(gl.BLEND);
-        gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
-        gl.depthMask(false);
-        gl.uniform1i(u.pass,3);
-        gl.drawArrays(gl.TRIANGLES,0,group.count);
-        gl.disable(gl.BLEND);
-        gl.depthMask(true);
-      }
-    }
-    this.canvas.dataset.robotPose = robot.pose.join(",");
   }
 
   drawPresentation(ratio) {
@@ -815,7 +706,7 @@ class FaceRenderer {
   placeOverlayTools(pose, fitScale, zoom, rect) {
     if (!desktop || !document.documentElement.classList.contains("overlay")) return;
     const showHair = this.hairVisible[this.presentationId];
-    const key = [this.robot || this.skin, showHair ? this.hairData : null];
+    const key = [this.skin, showHair ? this.hairData : null];
     if (!this.overlayBoundsKey || key.some((value, i) => value !== this.overlayBoundsKey[i])) {
       const supports = [];
       for (let x = -2; x <= 2; x++) for (let y = -2; y <= 2; y++) for (let z = -2; z <= 2; z++) {
@@ -832,11 +723,8 @@ class FaceRenderer {
           }
         }
       };
-      if (this.robot) include(this.robot.bounds, null);
-      else {
-        include(this.neutralData, this.skin.vertices);
-        if (showHair) include(this.hairData, this.activeHair.vertices);
-      }
+      include(this.neutralData, this.skin.vertices);
+      if (showHair) include(this.hairData, this.activeHair.vertices);
       const unique = new Map();
       for (const support of supports) {
         const point = [0,1,2].map(axis => support.data[support.index+axis] / this.meta.quantization);
@@ -934,15 +822,6 @@ class FaceRenderer {
     gl.uniform1f(u.zoom, Number($("zoom").value) * 0.91);
     gl.uniform1f(u.pointSize, 1.15 * ratio);
     $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
-    if (this.view.style === 4) {
-      this.drawRobot();
-      const description = `Original procedural armored robot: ${this.robot.groups.reduce((n,g)=>n+g.count/3,0).toLocaleString()} rigid triangles. `
-        + "Sparse Claire mouth/jaw/brow retargeting on the same audio clock; cyan optics. Not a movie model or new voice.";
-      if ($("geometry-details").textContent !== description) $("geometry-details").textContent = description;
-      this.canvas.dataset.presentation = "robot";
-      this.geometryKey = null;
-      return;
-    }
     if (this.view.style) {
       this.drawPresentation(ratio);
       const description = `${this.view.name}: ${skin.triangleCount.toLocaleString()} skin depth triangles; `
@@ -1263,28 +1142,23 @@ $("framing").addEventListener("input", () => {
   }
 });
 function syncPresentationControls() {
-  const claire = renderer.view.style === 0, mesh = renderer.view.style === 1, robot = renderer.view.style === 4;
+  const claire = renderer.view.style === 0, mesh = renderer.view.style === 1;
   for (const label of document.querySelectorAll("[data-claire-control]")) label.hidden = !claire;
   $("mesh-detail-control").hidden = !mesh;
   $("eye-glow-control").hidden = !mesh;
   $("mesh-colors-control").hidden = false;
-  $("appearance-mapping").textContent = robot
-    ? "Robot: mesh = armor; hair = blue helmet/crest and armor group; lips = mouth plates; eyebrows = brow plates."
-    : `Mesh colors skin / wire; eyes color irises / optics. Hair ${renderer.hairVisible[renderer.presentationId] ? "shown" : "is off — enable Hair to see its color"}. Original restores this presentation's styling.`;
+  $("appearance-mapping").textContent = `Mesh colors skin / wire; eyes color irises / optics. Hair ${renderer.hairVisible[renderer.presentationId] ? "shown" : "is off — enable Hair to see its color"}. Original restores this presentation's styling.`;
   $("mesh-detail").value = String(renderer.detail);
   $("mesh-detail-value").value = `${renderer.detail} / 5`;
-  $("framing").value = robot ? "robot" : mesh ? "front" : renderer.framings[renderer.presentationId];
-  $("framing").disabled = mesh || robot;
+  $("framing").value = mesh ? "front" : renderer.framings[renderer.presentationId];
+  $("framing").disabled = mesh;
   $("neck-depth-control").hidden = !renderer.headOnly || mesh;
   $("neck-depth").value = String(renderer.neckDepths[renderer.presentationId]);
   $("neck-depth-value").value = `${renderer.neckDepths[renderer.presentationId].toFixed(1)} cm`;
   $("presentation").value = renderer.presentationId;
   $("hairstyle").value = renderer.hairStyle;
   $("hair").checked = renderer.hairVisible[renderer.presentationId];
-  $("hair").disabled = robot;
-  $("hair").closest("label").hidden = robot;
-  $("hairstyle").closest("label").hidden = robot;
-  $("hairstyle").disabled = robot || !$("hair").checked;
+  $("hairstyle").disabled = !$("hair").checked;
   const pattern = renderer.patterns[renderer.presentationId];
   for (const id of ["pattern-density-control", "pattern-gap-control"]) $(id).hidden = !pattern;
   if (pattern) {
@@ -1452,6 +1326,9 @@ try {
     throw new Error("Open the full local URL printed by the Verona terminal, including its #session part.");
   }
   const session = await (await request("/api/session")).json();
+  if (session.appearance?.model === "robot") {
+    throw new Error("This character was retired by its owner. Close this head and create a supported model.");
+  }
   if (session.appearance?.session) document.title = `Verona | ${session.appearance.session} | ${session.appearance.model}`;
   $("face").dataset.appearanceModel = session.appearance?.model || "claire";
   $("face").dataset.appearanceSession = session.appearance?.session || "";
@@ -1480,7 +1357,6 @@ try {
     $("presentation").append(option);
   }
   $("presentation").disabled = false;
-  if (session.appearance?.model === "robot") renderer.setPresentation("robot");
   syncPresentationControls();
   new ResizeObserver(draw).observe($("face"));
   $("voice").disabled = false;
@@ -1492,7 +1368,7 @@ try {
   if (desktop?.agentEnabled) {
     $("follow-eyes").checked = false;
     $("pin-overlay").checked = true;
-    renderer.setPresentation(session.appearance?.model === "robot" ? "robot" : "facemesh");
+    renderer.setPresentation("facemesh");
     $("eye-glow").value = "1";
     $("expression-gain").value = "4";
     syncPresentationControls();

@@ -1,5 +1,10 @@
 {
   "schemaVersion": 1,
+  "retirement": {
+    "workstream": "vr-55",
+    "removedAssets": ["gallery-robot-overview.png", "gallery-robot-speaking.gif"],
+    "reason": "Owner withdrew the armored character; remaining capture facts are historical."
+  },
   "sourceBaseCommit": "f4bcdca27b54ac068d77135f6f0c0f5bb5c46236",
   "sourceState": "Current working-tree source identified by exact raw-byte hashes and Git-normalized object IDs; not a claim that the parent commit contains these changes.",
   "sourceSha256": {

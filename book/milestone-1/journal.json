@@ -347,24 +347,20 @@
     },
     {
       "id": "J17",
-      "title": "An original robot shares the voice",
+      "title": "A character experiment, later withdrawn",
       "commit": "9d2ca4c",
       "workstreams": "vr-30, vr-29",
       "chapter": "09, 10",
-      "status": "PROCEDURAL ROBOT",
+      "status": "HISTORICAL / WITHDRAWN",
       "body": [
         "The robot was an original articulated presentation, not a copied movie asset. Closed beveled helmet pieces, fins, cheek plates and a rigid mouth/jaw/brow mechanism mapped a small set of existing facial landmarks into mechanical motion.",
         "It retained the same speech interpolation, audio clock, cursor behavior and manual orientation. Vertex-shader transforms moved pieces without rebuilding their meshes every frame. Selected-only resources were deleted when leaving robot mode, while returning to Claire restored the exact prior pose.",
-        "Qualification found a real shader linker error: integer precision differed across stages. Other failed probes confused retained speech storage with robot leaks or read a discarded backbuffer after an asynchronous boundary. Correcting those distinct causes was better than forcing a production preserveDrawingBuffer workaround. The gallery was updated only after the owner resumed media work; these later real-renderer samples document that delivered state."
+        "Qualification found a real shader linker error: integer precision differed across stages. Other failed probes confused retained speech storage with robot leaks or read a discarded backbuffer after an asynchronous boundary. Correcting those distinct causes was better than forcing a production preserveDrawingBuffer workaround. Post-M1, the owner explicitly withdrew this character and the separate Blender study in vr-55. Their implementation, assets and pictures are removed; this text preserves chronology, not restoration instructions."
       ],
       "mechanism": "Sparse landmark retargeting -> bounded rigid part transforms -> shared audio-clock draw.",
       "failure": "The cross-stage integer-precision mismatch was an actual shader bug; later readback and leak-count errors belonged to fixtures.",
       "boundary": "Stylized mechanical interpretation, not anatomical calibration or an official character/model/voice.",
-      "figures": [
-        {"path": "two-styles-red-mesh-media-05/gallery-robot-overview.png", "caption": "The original articulated robot in the post-review feature gallery."},
-        {"path": "two-styles-red-mesh-media-05/robot/decoded-light-dark-review.png", "caption": "Decoded robot samples against light and dark backgrounds."},
-        {"path": "two-styles-red-mesh-media-05/gallery-overview.png", "caption": "The robot joins a shared speaking workspace rather than becoming a second application."}
-      ]
+      "figures": []
     },
     {
       "id": "J18",
@@ -662,7 +658,6 @@
       "failure": "DOM readiness did not guarantee the first manager PNG was painted; archive creation did not guarantee canonical source bytes.",
       "boundary": "A functional experimental source milestone, not an installer, clean-machine certification, full SDK parity or accuracy acceptance.",
       "figures": [
-        {"path": "milestone-gallery-01/contact-sheet.png", "caption": "The six actual current production-renderer greetings prepared for the M1 release."},
         {"path": "milestone-gallery-01/manager/manager.png", "caption": "REJECTED first manager paint: stale Connecting state despite readiness metadata."},
         {"path": "milestone-gallery-01/manager-02/manager.png", "caption": "Accepted connected empty-manager capture after connection, fonts and presentation waits."},
         {"path": "milestone-gallery-01/layout/closed-390.png", "caption": "The actual GitHub-CSS narrow README keeps the hero first and the gallery default-closed."}

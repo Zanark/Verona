@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from scripts.claire_blender_workshop import ORIGIN_CM, glb_document, region_ids, to_blender
+from scripts.claire_blender_export import ORIGIN_CM, glb_document, to_blender
 
 
 class BlenderWorkshopTests(unittest.TestCase):
@@ -15,11 +15,6 @@ class BlenderWorkshopTests(unittest.TestCase):
         np.testing.assert_allclose(axes, [[1,0,0],[0,0,1],[0,-1,0]])
         self.assertAlmostEqual(float(np.linalg.det(axes)),1)
         np.testing.assert_array_equal(to_blender(ORIGIN_CM),[0,0,0])
-
-    def test_teaching_regions_keep_lips_eyes_nose_jaw_and_neck_distinct(self):
-        points = [[0,132,0],[0,137,4],[4,143,3],[0,145,5],
-                  [0,140.2,5],[3,147.5,3],[0,153,3],[8,149,-3]]
-        np.testing.assert_array_equal(region_ids(points),np.arange(8))
 
     def write_glb(self, root, doc, magic=b"glTF", kind=0x4E4F534A):
         content = json.dumps(doc).encode()

@@ -19,7 +19,7 @@ This checkout is already prepared:
 ```
 
 This is the **one manager GUI**, also opened by `VeronaDesktop.cmd`. Create a
-named head, choose any of six models and set its five optional colors.
+named head, choose any of five models and set its five optional colors.
 Selecting its session shows confirmed colors and its actual native controls:
 voice, expression, volume and the view/orientation options that model supports.
 Use **Speak**, **Stop this speech** and **Close this head** centrally.
@@ -45,7 +45,7 @@ Two chats can create independent heads through the same GUI, or:
 
 `--mesh-color`, `--eyes-color`, `--hair-color`, `--lips-color` and
 `--eyebrows-color` accept RGB hex; `default` restores an original feature.
-The model IDs are `claire`, `robot`, `mpfb`, `reference-structure`,
+The model IDs are `claire`, `mpfb`, `reference-structure`,
 `reference-shell` and `male-sharp`. The last is the preserved owner-named
 sculpt, now selectable, not a new accepted Female model.
 Manager-owned heads share no speech jobs/audio clocks or mutable caches.
@@ -163,15 +163,15 @@ same-audio neutral-relative difference, not all speech motion.4x is100% more
 than the previous2x. Neutral and zero strength stay unchanged at either setting.
 Uncached non-neutral clips need an additional local inference pass; exact
 repeats can still reuse the completed clip. Change strength/expression, then
-**Generate face** again. The same amplification reaches every human view;
-robot armor retains its existing mechanical limits. In FaceMesh, the center
+**Generate face** again. The same amplification reaches every human view.
+In FaceMesh, the center
 dot now has a hot core/red corona while the outer rings remain dimmed.
 **FaceMesh eye glow** offers the current combined look, **Center + bright
 spokes** and **Center + bright concentric rings**. Both alternatives retain
 the same glowing center/corona, brighten the selected structure from about
 170 to243 red peak, and leave the other structure unlit. The comparison GIFs
 use **4x** emotions; the app's default remains2x. This is a live render choice: no new
-speech or model run. Other views, including robot cyan, ignore it; returning
+speech or model run. Other views ignore it; returning
 to FaceMesh restores the selection. Reload/restart restores the original
 2x/combined defaults; no new preference persistence is introduced.
 
@@ -184,7 +184,7 @@ Invalid input shows an error and keeps the last valid color until corrected
 or reset. Mesh wire, including optional matching hair, and mechanical eye glow
 are independent. Glow patterns and eyelid occlusion stay intact; hot centers
 retain pale highlights, while black turns off colored optical emission.
-Other views, including robot cyan, keep their original colors.
+Other views keep their original colors.
 Live edits preserve the current speech, play position and generated motion:
 no synthesis, model run or geometry rebuild. Colors stay in this page's RAM
 across view changes and desktop Controls/pop-out. **Reset colors** restores the
@@ -388,15 +388,6 @@ the same: switching views does not generate, reload, seek or replace audio.
 - **UniformPolygons:** a rectangular surface-coordinate grid over animated skin,
   including ears/eyes/neck, not a flat screen overlay. Cells curve/stretch over
   anatomy and expressions. This is a grid presentation, not a new quad mesh.
-- **Optimus-inspired robot:** an original stylized blue/silver armored head with
-  cyan mechanical eyes, tall fins and speech-driven rigid mouth/jaw/brow plates.
-  Select it before or after generating a sentence, then use **Play** normally;
-  no extra model, voice or download is required. Cursor eyes/head tracking,
-  XYZ, zoom and transparent pop-out still work. Framing is fixed to Armored head;
-  human skin/material/hair/crop/pattern controls are unavailable and restore
-  when returning to their views. This is a procedural interpretation, not a
-  movie model or calibrated phoneme-accurate robot rig. It uses the same speech,
-  expression motion and playback clock, not a separate mouth-loop timer.
 
 In FaceDot and UniformPolygons, **Pattern density** scales both surface axes
 from 0.5x to 3x: higher means more dots/cells in the same area, roughly proportional
@@ -439,8 +430,7 @@ Claire material changes immediately, not the clip, voice or playback position.
 **Colors** starts enabled in Claire. Disable it for neutral grayscale skin,
 eyes, cosmetics, edges/points and hair in either material; enable to restore
 their hues. Lighting and tonal cosmetic detail remain, not a bare unstyled face.
-The option is hidden outside Claire; human alternatives retain cyan ink, while
-the robot retains its blue/silver armor and cyan optics.
+The option is hidden outside Claire; human alternatives retain cyan ink.
 **Hairstyle** selects only **Claire waves (original)** or **Spiral curls**.
 Curls have48 independently swept locks, twice the previous24, with unchanged
 per-lock detail. The other nine styles and their generators/gallery files are

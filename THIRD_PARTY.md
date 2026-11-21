@@ -63,19 +63,15 @@ permission and rights review.
 
 ## Local Blender authoring handoff
 
-The ignored vr-54 workshop uses the already installed Blender 4.5.16 LTS and
+The ignored Claire-only export uses the already installed Blender 4.5.16 LTS and
 the same document tools above; no Blender, font or library binary is bundled.
 Claire GLB geometry/PCA modes derive from the pinned NVIDIA sources and retain
 their separate model/sample terms. Local assets carry `ASSET-RIGHTS.md`;
 redistribution requires the applicable full agreement and attribution notice,
 not merely treating this source repository as permission to publish weights.
 
-The blue/silver/cyan robot is original procedural geometry authored for an
-Optimus-inspired editing study, not copied official artwork, a downloaded
-character mesh or licensed official merchandise. Character references and
-trademarks remain with their owners. No likeness approval or unrestricted
-character-distribution right is claimed. Its assets and illustrated guide
-remain local; the published source scripts are separate from binary delivery.
+The separate armored study was withdrawn at the owner's request in vr-55.
+Its former existence is not permission to restore or redistribute it.
 
 ## NVIDIA/Maya-ACE sample license
 

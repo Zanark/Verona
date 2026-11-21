@@ -1,6 +1,6 @@
 ---
 name: verona
-description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers what Verona is, setup checks, one-manager/multiple-head ownership, all six models, CLI speech and cancellation, live customization, warm-host performance, and vivid visually distinct colors with active-head inventory and concurrent collision reconciliation. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
+description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers what Verona is, setup checks, one-manager/multiple-head ownership, all five models, CLI speech and cancellation, live customization, warm-host performance, and vivid visually distinct colors with active-head inventory and concurrent collision reconciliation. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
 ---
 
 # Verona: a separate, recognizable speaking head for this session
@@ -102,18 +102,21 @@ Avoid this route just to bypass the manager's resource cap or a busy head.
 | Model ID | Actual choice and limits |
 |---|---|
 | `claire` | Original Claire; preserved CPU neural speech face. |
-| `robot` | Procedural articulated robot using the existing motion path. |
 | `mpfb` | Separate native MPFB head with transferred Claire motion and bounded native controls. |
 | `reference-structure` | Strong MPFB-reference structural fit over Claire motion/topology. |
 | `reference-shell` | Historical subtle reference fit, preserved after visual rejection. |
 | `male-sharp` | Owner-named Male-SharpJawline, preserved complete-pose sculpt. |
 
-These are not six independently trained speech models or six accepted gender
+These are not five independently trained speech models or five accepted gender
 identities. Original Claire remains available. MPFB starts with Claire's 4x
 source, then bounds native faceunits to 0..1: **not lossless/final 4x parity**.
 Do not invent a Female/Male selector or gender-dependent voice policy.
 The session name and head variant are fixed at creation; create a new owned
 head to change them. Do not close somebody else's head to switch models.
+
+The owner withdrew the old armored character and its Blender study. Do not
+recreate it, select its retired ID or restore it from an old release or chat.
+Claire and the Claire-only Blender export remain available.
 
 ## 5. Mandatory color identity policy for agents
 
@@ -137,8 +140,8 @@ It applies across all active heads, even when their underlying models differ.
   accents as well as the dominant mesh. Within your own head, use clearly
   contrasting feature colors instead of five shades of the same family.
 - A `null` color means original/model-specific rendering, **not an unused or
-  transparent color**. Original Claire's cyan mesh/red optics and robot's cyan
-  optics can already collide with your proposal. Do not treat unknown original
+  transparent color**. Original Claire's cyan mesh/red optics
+  can already collide with your proposal. Do not treat unknown original
   colors as safe; inspect the actual head/source defaults or mark the choice
   unverified. Hidden hair, covered lips or tiny eyes are not reliable identifiers.
 - Make mesh the strongest identity cue. Then contrast the eyes and visible

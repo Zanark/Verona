@@ -51,6 +51,7 @@ assert.throws(() => frontFaceTopology(positions, edges, triangles, meta, 0), /ma
 assert.throws(() => frontFaceTopology(positions, edges, [...triangles,0,1,999999], meta, 5), /bounds/);
 assert.throws(() => frontFaceTopology(positions, edges, [frontCount,frontCount+1,frontCount+2], meta, 5), /entire front/);
 assert.throws(() => presentation("realistic"), /supported/);
+assert.throws(() => presentation("robot"), /supported/);
 assert.throws(() => presentationFit(positions, [], 1), /empty/);
 assert.equal(presentation("claire").framing, "full");
 console.log(JSON.stringify({ frontOnly: true, protectedLipsAndLids: true, triangleCountsByDetail: counts,
