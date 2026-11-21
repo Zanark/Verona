@@ -879,7 +879,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-69": {
+      "source": "TODO/69_OVERLAY_ZOOM_CLIPPING.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhU16TQ",
+      "number": 68,
+      "url": "https://github.com/Zanark/Verona/issues/68",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKvT1Y",
+      "title": "Enlarge the transparent viewport with the zoomed head",
+      "managedBody": "\n<!-- verona-workstream:vr-69 -->\nWorkstream source: `TODO/69_OVERLAY_ZOOM_CLIPPING.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-69\nTitle: Enlarge the transparent viewport with the zoomed head\n\nStatus: DONE\nMilestone: Unclipped enlarged floating heads\nDependencies: vr-24, vr-65, vr-66\nGitHub: https://github.com/Zanark/Verona/issues/68\n\nPurpose:\n  Fix the owner's straight-edge hair/head clipping above 100% overlay zoom,\n  including the reported 140% case, without shrinking away the requested zoom.\n\nTasks:\n  Grow the owned native viewport with zoom and compensate the shared projection.\n  Keep the model, cursor mapping and floating controls in the same coordinates.\n  Bound enlargement to the current monitor and expose the actual zoom limit.\n  Preserve one renderer, audio clock, controls, pinning and placement.\n  Qualify native pixels, enlarged size, clipping margins and unchanged playback.\n  Update the chapter, living journal, issue/Project tracking and owned continuity.\n\nAcceptance criteria:\n  Above-100% zoom visibly enlarges the head and its viewport together.\n  Actual supported enlarged poses retain clear canvas-edge margins.\n  Both hairstyles and all shared face presentations use the same correction.\n  Screen limits clamp the confirmed percentage, never silently clip the head.\n  No per-frame native resizing, model loading, mesh rebuild or audio replay.\n  Existing live/sibling heads remain untouched during isolated qualification.\n  Errors, restart and technical-versus-human acceptance remain explicit.\n\nCompletion evidence:\n  Final overlay-zoom-03: ten actual native checks; 48 edge-margin cases at\n    100/140/190%, four presentations, both hairstyles, front/turned poses.\n    Minimum observed transparent margin34px; same audio clock advances during\n    rapid zoom; menu, clip and return-to-Controls state remain intact.\n  Focused host bounds tests and JS syntax pass; all five promoted source/test\n    files match the isolated qualified candidate byte for byte.\n  docs/chapters/10-desktop-overlay-and-gaze.md explains the shared correction,\n    screen limits and constraints; actual100/140% images are reviewed.\n  Living book/journal.md updated; frozen PDFs are unchanged.\n  Development lane: ignored detached overlay-zoom-69 worktree, reusable model\n    and Electron inputs; disposable qualification profiles/cache/speech output.\n  Stable lane: existing owned Verona manager/head and all sibling applications.\n  Owned live promotion: same manager293308; head199480 replaces282240.\n    Every freshly saved control/appearance restored, including120%zoom/Hazel.\n    Confirmed native screen maximum190%; no speech replay or sibling changes.\n  Full01 desktop-composition fixture failed safely after zoom checks; retain\n    that receipt. Focused02/03 do not claim the separate screenshot gate.\n  Technical qualification is not owner approval or an all-rotation fit proof.\n\nCompletion log:\n  2026-11-21 - Owner reports clipping above 100%, supplies 140% examples.\n    Trace confirms fixed native bounds and independently multiplied projection.\n    Prepare isolated development; no live head reload or interruption.\n  2026-11-21 - Qualify native candidate, review actual images and promote only\n    the authorized owned head. Shared manager and all fresh settings preserved.\n    Update the living chapter, index and journal without rewriting editions.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T16:11:53.014196+00:00"
+  "verifiedAt": "2026-11-21T16:42:54.146921+00:00"
 }

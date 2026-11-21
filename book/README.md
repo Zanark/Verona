@@ -2,6 +2,11 @@
 
 ## Current deliverable
 
+The [living development journal](journal.md) now records vr-69's floating-zoom
+correction, including real 100/140% owned-window images and the retained
+composition-gate failure. This short dated source continuation is not another
+rendered edition. All frozen PDFs and their source cutoffs below stay unchanged.
+
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:
 `book\editions\Verona-Local-Voices-Journal-v1\Verona-Local-Voices-Journal.pdf`.

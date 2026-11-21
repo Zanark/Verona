@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Unclipped floating zoom (vr-69):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#zoom-without-cutting-the-head-at-the-window-edge-vr-69)
+explains coordinated native bounds/projection, truthful monitor limits and
+audio/menu continuity, with actual 100/140% images. The [living journal](../book/journal.md)
+records this correction without rewriting any frozen PDF edition.
+
 **Distinct offline voices (vr-68):** [the primary-source comparison](research/local-voices.md)
 selects the optional28-style Kokoro CPU pack while retaining Windows voices.
 [Chapter07](chapters/07-hazel-claire-and-performance.md#distinct-offline-voices-and-session-allocation-vr-68)

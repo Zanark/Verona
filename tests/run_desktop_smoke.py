@@ -18,6 +18,7 @@ from verona.server import LocalServer, create_state
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--zoom-only", action="store_true", help="Qualify zoom and same-owner playback without desktop capture.")
     args = parser.parse_args()
     if args.output.exists() or not ELECTRON.is_file():
         parser.error("Choose a NEW receipt directory and explicitly set up the desktop runtime first.")
@@ -43,7 +44,8 @@ def run(args) -> None:
                 child = subprocess.Popen(
                     [str(ELECTRON), str(ROOT / "tests" / "desktop_smoke.cjs"),
                      f"--user-data-dir={Path(directory).resolve()}",
-                     f"--qualification-output={args.output.resolve()}"],
+                     f"--qualification-output={args.output.resolve()}",
+                     *(["--zoom-only"] if args.zoom_only else [])],
                     text=True, cwd=ROOT, env=environment,
                     stdout=log, stderr=log,
                 )

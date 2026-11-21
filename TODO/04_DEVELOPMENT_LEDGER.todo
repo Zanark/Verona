@@ -1,6 +1,30 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-69 floating zoom candidate qualified in an isolated native lane
+Cause: the owner's 140% screenshots show straight hair/head cuts; fixed480x600
+native bounds clip a separately enlarged projection. Merely growing the window
+would double-magnify without compensating the renderer.
+Action: add screen-bounded overlayLayout/resize acknowledgements; normalize
+shared projection, cursor and toolbar by base-height/current-height. Preserve
+center, actual percentage, small/negative-origin monitors, menu and audio.
+Native resizing occurs on control/mode/display changes, not animation frames.
+Evidence: host regressions/syntax and final native zoom-only03 pass.48pixel
+cases cover4views/2hairstyles/2poses/100,140,190percent; minimum34pixel clearance.
+Rapid requests keep latest value; same audio clock advances and menu stays.
+Actual100/140screenshots and eight140percent view/style panels reviewed.
+Failure retained: full01 passes zoom pixels then fails the separate final owned
+desktop-background composition gate; unsafe screenshot not saved. Focused
+02/03 explicitly omit that scope, keeping full-command safety assertions.
+Boundary: no new model, audio replay, performance speedup, arbitrary-rotation
+fit proof, independent six-model visual qualification or owner acceptance.
+The existing live head remains protected during candidate work. Promote the
+exact qualified source only after saving fresh controls and closing this chat's
+idle head. Same manager293308 stays running; replacement199480 confirms every
+saved control/appearance,120%zoom/Hazel and the new190%screen limit. No speech
+replay or sibling-head changes. Updated README/chapter/index and living dated
+book/journal.md preserve all frozen PDFs; no new rendered edition is claimed.
+
 2026-11-21 - vr-68 final pack, dated journal and owned live delivery complete
 Cause: a candidate, installed pack and existing live process are different
 delivery boundaries; close the work only after verifying all of them.

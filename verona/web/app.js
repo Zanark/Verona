@@ -9,6 +9,7 @@ import { attachBlinking, BLINK_GLSL, CLAIRE_BLINK } from "/blinking.mjs";
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
 let cursor = null;
+let overlayReferenceHeight = 600, overlayHeadZoom = 1, applyingDesktopZoom = false;
 const audio = $("audio");
 const controls = ["play", "restart", "seek"];
 const settingNames = ["pitch", "rate", "bass", "treble"];
@@ -902,7 +903,9 @@ class FaceRenderer {
     const manual = rotationMatrix(Number($("tilt").value), Number($("yaw").value), Number($("roll").value));
     const center = this.meta.center.map((value, i) => value + this.fit.center[i] * this.meta.scale), scale = this.meta.scale / fitScale;
     gl.uniform2fv(u.patternSettings, this.patterns[this.presentationId] || [1, 0]);
-    const rect = this.canvas.getBoundingClientRect(), zoom = Number($("zoom").value);
+    const rect = this.canvas.getBoundingClientRect();
+    const requestedZoom = Number($("zoom").value);
+    const zoom = desktop && overlayMode ? Math.min(requestedZoom, overlayHeadZoom) * overlayReferenceHeight / rect.height : requestedZoom;
     const headTarget = following && headMode ? cursorHeadAngles(cursor.x, cursor.y, rect, manual, zoom, center, scale) : [0, 0];
     const target = following && !headMode ? cursorGaze(cursor.x, cursor.y, rect, manual, zoom, center, scale) : [0, 0];
     const now = performance.now(), smoothing = 1 - Math.exp(-Math.min(.1, (now - this.lastDraw) / 1000) / .075);
@@ -922,7 +925,7 @@ class FaceRenderer {
     gl.uniform2fv(u.gaze, this.gaze);
     this.canvas.dataset.gaze = this.gaze.join(",");
     this.canvas.dataset.headAngles = this.headAngles.join(",");
-    gl.uniform1f(u.zoom, Number($("zoom").value) * 0.91);
+    gl.uniform1f(u.zoom, zoom * 0.91);
     gl.uniform1f(u.pointSize, 1.15 * ratio);
     $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
     if (this.view.style) {
@@ -1222,7 +1225,7 @@ $("seek").addEventListener("input", () => {
 });
 $("volume").addEventListener("input", () => { audio.volume = preview.volume = Number($("volume").value); });
 $("intensity").addEventListener("input", () => { $("strength").textContent = Number($("intensity").value).toFixed(2); });
-for (const id of ["appearance", "colors", "edges", "points", "eye-glow", "yaw", "tilt", "roll", "zoom",
+for (const id of ["appearance", "colors", "edges", "points", "eye-glow", "yaw", "tilt", "roll",
   "sideways-cheekiness", "cheekiness-pull"]) {
   $(id).addEventListener("input", () => { updateAngles(); syncZoom(); draw(); });
 }
@@ -1232,6 +1235,11 @@ function syncZoom() {
   document.querySelector('[data-zoom="out"]').disabled = value <= Number(zoom.min);
   document.querySelector('[data-zoom="in"]').disabled = value >= Number(zoom.max);
 }
+$("zoom").addEventListener("input", () => {
+  syncZoom();
+  if (desktop && !applyingDesktopZoom) desktop.command("zoom", Number($("zoom").value)).catch(failure);
+  draw();
+});
 for (const button of document.querySelectorAll("[data-zoom]")) button.addEventListener("click", () => {
   const zoom = $("zoom"), delta = button.dataset.zoom === "in" ? .1 : -.1;
   zoom.value = String(button.dataset.zoom === "reset" ? 1 : Math.max(Number(zoom.min), Math.min(Number(zoom.max), Number(zoom.value) + delta)));
@@ -1375,7 +1383,7 @@ function updateAngles() {
 $("reset-view").addEventListener("click", () => {
   for (const id of ["tilt", "yaw", "roll"]) $(id).value = "0";
   $("zoom").value = "1";
-  syncZoom();
+  $("zoom").dispatchEvent(new Event("input"));
   updateAngles();
   draw();
 });
@@ -1401,11 +1409,22 @@ if (desktop) {
     cursor = position;
     if (!raf) raf = requestAnimationFrame(animate);
   });
-  desktop.onMode(({ overlay }) => {
+  desktop.onMode(({ overlay, referenceHeight, zoom, requestedZoom, maxZoom }) => {
+    const changed = document.documentElement.classList.contains("overlay") !== overlay;
     document.documentElement.classList.toggle("overlay", overlay);
-    collapseOverlayTools();
-    draw();
+    if (changed) collapseOverlayTools();
+    if (overlay) {
+      overlayReferenceHeight = referenceHeight;
+      overlayHeadZoom = zoom;
+    }
+    const input = $("zoom"), current = Number(input.value);
+    input.max = String(maxZoom);
+    if (changed || current === requestedZoom) input.value = String(zoom);
+    applyingDesktopZoom = true;
+    try { input.dispatchEvent(new Event("input")); }
+    finally { applyingDesktopZoom = false; }
   });
+  window.addEventListener("resize", draw);
   for (const button of document.querySelectorAll("[data-desktop]")) {
     button.addEventListener("click", async () => {
       try { await desktop.command(button.dataset.desktop); }

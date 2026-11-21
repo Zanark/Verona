@@ -8,6 +8,7 @@ const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const report = { checks: [], audio: "Muted native playback; not independent listening acceptance." };
 let fixture;
 app.once("browser-window-created", (_event, window) => {
+  window.show = () => window.showInactive();
   report.nativeEvents = [];
   for (const name of ["show", "hide", "always-on-top-changed"]) {
     window.on(name, () => report.nativeEvents.push({ event: name,
@@ -120,23 +121,64 @@ async function run(window) {
   await pause(100);
   assert(await evaluate(`document.getElementById("overlay-options").getBoundingClientRect().width>300`));
   await fs.writeFile(path.join(output,"overlay-controls-expanded.png"),(await window.webContents.capturePage()).toPNG());
-  report.overlayZoom=await evaluate(`(() => {
-    const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2"),source=$("audio").src,time=$("audio").currentTime;
-    const click=direction=>document.querySelector('[data-zoom="'+direction+'"]').click();
-    const size=()=>{$("zoom").dispatchEvent(new Event("input"));
-      const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
-      let n=0;for(let i=3;i<p.length;i+=4)if(p[i])n++;return n;};
-    const original=size();click("in");click("in");const larger=size(),value=$("zoom").value;
-    for(let i=0;i<40;i++)click("out");const minimum=$("zoom").value,smaller=size(),outDisabled=document.querySelector('[data-zoom="out"]').disabled;
-    for(let i=0;i<40;i++)click("in");const maximum=$("zoom").value,inDisabled=document.querySelector('[data-zoom="in"]').disabled;
-    click("reset");return {original,larger,smaller,value,minimum,maximum,outDisabled,inDisabled,reset:$("zoom").value,
-      sourceUnchanged:source===$("audio").src,timeUnchanged:time===$("audio").currentTime,error:g.getError()};
+  const baseOverlay = window.getBounds(), zoomLimit = await evaluate(`Number(document.getElementById("zoom").max)`);
+  async function waitForZoom(value) {
+    await waitNative(() => window.getBounds().height === Math.round(baseOverlay.height * Math.max(1, value)), "zoomed native height");
+    await wait(`Number(document.getElementById("zoom").value)===${value}`);
+    await evaluate(`new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
+  }
+  async function setZoom(value) {
+    await evaluate(`document.getElementById("zoom").value="${value}";
+      document.getElementById("zoom").dispatchEvent(new Event("input"));`);
+    await waitForZoom(value);
+  }
+  const coverage = () => evaluate(`(() => {
+    const $=id=>document.getElementById(id),c=$("face"),g=c.getContext("webgl2");
+    $("yaw").dispatchEvent(new Event("input"));
+    const p=new Uint8Array(c.width*c.height*4);g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);
+    let n=0;for(let i=3;i<p.length;i+=4)if(p[i])n++;return n;
   })()`);
+  const originalCoverage = await coverage();
+  for (const value of [1.1, 1.2]) {
+    await evaluate(`document.querySelector('[data-zoom="in"]').click()`);
+    await waitForZoom(value);
+  }
+  const largerCoverage = await coverage();
+  const menuBeforeZoom = await evaluate(`document.getElementById("overlay-toggle").getAttribute("aria-expanded")`);
+  const clockBeforeZoom = await evaluate(`(async()=>{
+    const a=document.getElementById("audio");await a.play();return a.currentTime;
+  })()`);
+  await evaluate(`for(const value of [1.4,1.1,1.4]){
+    document.getElementById("zoom").value=String(value);
+    document.getElementById("zoom").dispatchEvent(new Event("input"));
+  }`);
+  await evaluate(`window.veronaDesktop.command("zoom",1.4)`);
+  await waitForZoom(1.4);
+  await pause(200);
+  assert(await evaluate(`document.getElementById("audio").currentTime>${clockBeforeZoom}`));
+  assert.equal(await evaluate(`document.getElementById("overlay-toggle").getAttribute("aria-expanded")`),menuBeforeZoom);
+  await evaluate(`document.getElementById("audio").pause();document.getElementById("audio").currentTime=0`);
+  await setZoom(.35);
+  const smallerCoverage = await coverage();
+  report.overlayZoom = await evaluate(`({minimum:document.getElementById("zoom").value,
+    outDisabled:document.querySelector('[data-zoom="out"]').disabled})`);
+  await setZoom(zoomLimit);
+  Object.assign(report.overlayZoom, await evaluate(`({maximum:document.getElementById("zoom").value,
+    inDisabled:document.querySelector('[data-zoom="in"]').disabled})`));
+  await evaluate(`document.querySelector('[data-zoom="reset"]').click()`);
+  await waitForZoom(1);
+  Object.assign(report.overlayZoom, {original:originalCoverage, larger:largerCoverage, smaller:smallerCoverage, zoomLimit,
+    rapidInputAcknowledged:true, playbackAdvancedDuringZoom:true, menuPreserved:true},
+    await evaluate(`({reset:document.getElementById("zoom").value,sourceUnchanged:document.getElementById("audio").src===${JSON.stringify(before.source)},
+      timeUnchanged:document.getElementById("audio").currentTime===0,error:document.getElementById("face").getContext("webgl2").getError()})`));
   assert(report.overlayZoom.larger>report.overlayZoom.original && report.overlayZoom.smaller<report.overlayZoom.original);
-  assert.equal(report.overlayZoom.minimum,"0.35");assert.equal(report.overlayZoom.maximum,"2.3");
+  assert.equal(report.overlayZoom.minimum,"0.35");assert.equal(Number(report.overlayZoom.maximum),zoomLimit);
   assert.equal(report.overlayZoom.reset,"1");
   assert(report.overlayZoom.outDisabled && report.overlayZoom.inDisabled && report.overlayZoom.sourceUnchanged && report.overlayZoom.timeUnchanged);
   assert.equal(report.overlayZoom.error,0);
+  for (const invalid of ['"1.4"', "NaN", "Infinity", ".1", "3"]) {
+    assert(await evaluate(`window.veronaDesktop.command("zoom",${invalid}).then(()=>false,()=>true)`));
+  }
   await evaluate(`document.getElementById("overlay-toggle").click()`);
   report.checks.push("Owned native position survives Controls/pop-out; discoverable OS drag region verified without moving the system cursor. Direct zoom changes pixels and clamps/resets shared state.");
   const alpha = await evaluate(`(() => {
@@ -223,7 +265,9 @@ async function run(window) {
   assert.equal(await evaluate(`document.getElementById("framing").value`),"head-neck");
   report.checks.push("All three new views have real native overlay alpha, preserve the clip and restore Claire framing.");
   report.matchingHair=[];
-  for(const view of ["facemesh","facedot","uniform"]){
+  for(const zoom of [...new Set([1,Math.min(1.4,zoomLimit),zoomLimit])]){
+    await setZoom(zoom);
+  for(const view of ["claire","facemesh","facedot","uniform"]){
     for(const style of ["claire","curls"])for(const yaw of [0,.8]){
       const result=await evaluate(`(() => {
         const $=id=>document.getElementById(id),set=(id,value)=>{$(id).value=String(value);$(id).dispatchEvent(new Event("input"));};
@@ -244,9 +288,14 @@ async function run(window) {
       assert(result.clear>10000 && result.minX<result.maxX && result.minY<result.maxY);
       assert(result.minX>3 && result.minY>3 && result.maxX<result.width-4 && result.maxY<result.height-4,JSON.stringify({view,style,yaw,...result}));
       assert(result.tabBottom<=result.headTop+2,JSON.stringify({view,style,yaw,...result}));
-      report.matchingHair.push({view,style,yaw,...result});
-      if(style==="curls" && yaw===.8)await fs.writeFile(path.join(output,`matching-hair-${view}.png`),(await window.webContents.capturePage()).toPNG());
+      report.matchingHair.push({zoom,view,style,yaw,...result});
+      if(yaw===.8){
+        await evaluate(`new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))`);
+        await fs.writeFile(path.join(output,`matching-hair-${view}-${style}-${Math.round(zoom*100)}.png`),(await window.webContents.capturePage()).toPNG());
+      }
     }
+    }
+    await setZoom(1);
     await evaluate(`document.getElementById("hair").checked=false;document.getElementById("hair").dispatchEvent(new Event("input"));`);
   }
   await evaluate(`document.getElementById("presentation").value="claire";document.getElementById("presentation").dispatchEvent(new Event("input"));
@@ -256,6 +305,18 @@ async function run(window) {
   await evaluate(`document.getElementById("colors").checked=true;document.getElementById("colors").dispatchEvent(new Event("input"));
     document.getElementById("yaw").value="0";document.getElementById("yaw").dispatchEvent(new Event("input"));`);
   report.checks.push("Matching hair retains transparent native bounds and floating-tab headroom in all formats for original waves and doubled curls, front and turned.");
+  if (process.argv.includes("--zoom-only")) {
+    await evaluate(`window.veronaDesktop.command("controls")`);
+    await wait(`!document.documentElement.classList.contains("overlay")`);
+    await waitNative(() => !window.isAlwaysOnTop(), "controls no longer always-on-top");
+    const restored = await evaluate(`({source:document.getElementById("audio").src,
+      text:document.getElementById("text").value,voice:document.getElementById("voice").value})`);
+    assert.deepEqual(restored, before);
+    report.checks.push("Zoom-only qualification restores controls and clears topmost without replacing audio or capturing the desktop.");
+    report.scope = "Focused zoom qualification; no desktop-composition or unrelated cadence claim.";
+    await fs.writeFile(path.join(output,"desktop-report.json"),JSON.stringify(report,null,2));
+    return;
+  }
   for (const id of ["tilt", "yaw", "roll"]) {
     for (const value of [-Math.PI, Math.PI / 2, Math.PI]) {
       const state = await evaluate(`(() => {const e=document.getElementById("${id}");e.value="${value}";

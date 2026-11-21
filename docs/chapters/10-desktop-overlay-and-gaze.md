@@ -511,7 +511,8 @@ initial automated checks passing. Head mode now uses a fixed0.8 fitting margin
 for both shader projection and cursor/pivot math, independent of changing
 tracking angles (no automatic zoom breathing). It applies even with Follow
 cursor off; selecting eyes mode restores original fitting exactly. Manual
-rotations and deliberate high zoom can still clip by design.
+rotations can still clip. Floating high-zoom window clipping is corrected by
+vr-69 below; ordinary browser/Controls zoom retains its original projection.
 
 ## Floating controls, placement and glass tab (vr-24)
 
@@ -537,7 +538,8 @@ and wrap instead of escaping narrow viewports. No geometry scan occurs each
 speech frame; the bounded support projection shares the existing draw loop.
 The native overlay reserves an additional fixed10% fitting margin so a default
 crown at the old top edge leaves room for the tab; browser fitting is unchanged.
-Explicit high zoom/manual rotation can consume this clearance.
+Extreme manual rotation can consume this clearance. Floating zoom now grows
+the viewport as described below, rather than consuming the default fit margin.
 
 CSS translucent gradients, a fine highlight, shadow and
 `backdrop-filter: blur(14px) saturate(1.35)` provide the glass treatment.
@@ -547,17 +549,75 @@ transparent background. Genuine background transparency remains unchanged.
 
 Floating zoom buttons reuse the existing range/input event:35-230%,0.1 steps,
 Fit1. Controls displays the identical value; Reset orientation also restores1.
-Only view projection changes, never window size, prepared audio/time or motion.
+This was originally projection-only, allowing large zoom to exceed the canvas.
+vr-69 supersedes that floating-window behavior: projection and native bounds
+now grow together; prepared audio/time and motion remain unchanged.
 Bounds disable the appropriate button. Restart/reload restores1.
-Large zoom can intentionally exceed the canvas.
 
 `desktop/main.cjs` retains `overlayBounds` in RAM when returning to Controls,
 restoring the last moved placement on the next pop-out. It selects the saved
-rectangle's available display and clamps the fixed480x600-or-smaller window
+rectangle's available display and clamps the zoom-sized window
 inside that work area; monitor removal cannot restore unreachable coordinates.
 Restart forgets placement. The existing `-webkit-app-region: drag` moves the
 native window; interactive buttons remain `no-drag`. No position/file IPC,
 system cursor warping, global hook, speech persistence or profile change.
+
+### Zoom without cutting the head at the window edge (vr-69)
+
+The reported 140% head had a hard cut because `desktop/main.cjs` kept a
+480x600 transparent window while `FaceRenderer.draw` enlarged geometry inside
+it. Enlarging only the native window would also be wrong: its taller canvas
+would magnify the already-zoomed projection again.
+
+`overlayLayout` now grows both dimensions above 100%, preserving the previous
+window center where screen bounds permit. At 140%, a normal-size base becomes
+672x840. Below 100%, the base viewport stays fixed and the head shrinks.
+`resizeOverlay` selects the current monitor work area, reserves 40 pixels of
+space and limits zoom to a screen-fitting 5-percentage-point step, never above
+230%. Small screens receive a uniformly reduced base first. The actual slider
+maximum and confirmed value reflect that limit; monitor changes revalidate it.
+Moving back to a bigger screen does not silently re-enlarge a clamped head.
+
+The native mode acknowledgement carries the base reference height and accepted
+zoom. The shared renderer compensates by multiplying requested zoom by
+`referenceHeight / viewportHeight`; shader projection, cursor inverse mapping
+and floating-tab placement all use this same effective zoom. Until enlargement
+is acknowledged, rendering stays bounded by the previous accepted zoom.
+Old acknowledgements cannot overwrite newer requested input. Reset uses the
+same input/IPC path, and a geometry acknowledgement does not close an open menu.
+Browser-only and Controls rendering retain their original projection.
+
+![Actual owned native windows at 100% and 140%](../media/overlay-zoom-140.png)
+
+*Same turned Claire, same waves and material, shown at their native relative
+pixel sizes over an authored solid background. At 140% the head is genuinely
+larger, with transparent clearance around the entire enlarged window.
+The images capture Verona's own web contents, not the owner's desktop.*
+
+This is one shared viewport correction for all heads/presentations, not another
+model, per-frame geometry fit, native resize timer or audio restart.
+Larger windows necessarily draw more pixels and occupy more desktop pointer
+area; this is not a GPU-cost reduction or new click-through behavior.
+No new files or settings are persisted. Restart forgets placement/zoom as
+before. IPC accepts only finite numeric zoom from .35 through 2.3; errors use
+the existing visible recovery path rather than silently dropping the request.
+
+Final focused native qualification `overlay-zoom-03` passes ten checks,
+including rapid queued zoom input, unchanged open-menu state, audio-clock
+advancement while zooming and return to Controls with the same clip/voice/text.
+Forty-eight native pixel cases cover four presentations, both hairstyles,
+front/turned poses and 100/140/190% on the test display; all retain clear edges
+(minimum observed margin 34 pixels). Actual 100/140% images were reviewed.
+Host tests additionally exercise centered growth, screen limits and a small
+negative-origin monitor. The shared fix is not a new independent six-model
+visual qualification, all-rotation fit proof or owner acceptance.
+
+The earlier full run `overlay-zoom-01` passed the zoom pixels but failed its
+separate final OS-composition fixture gate; its cause was not established.
+The safety check saved no unsafe screenshot; its failure receipt remains.
+`--zoom-only` is a separately labelled
+scope using owned-window captures, not a bypass or claimed pass of that gate.
+The full smoke command retains its desktop-composition assertions.
 
 ### vr-23/24 qualification
 

@@ -12,6 +12,7 @@ app.commandLine.appendSwitch("host-resolver-rules", "MAP * ~NOTFOUND, EXCLUDE 12
 
 let window, timer, parentWatch, overlay = false, pinned = true, follow = true, controlBounds, overlayBounds;
 let agentSocket;
+let headZoom = 1, overlayAreaKey = "";
 const endpoint = process.env.VERONA_LOCAL_URL;
 const agentEnabled = process.env.VERONA_AGENT_MODE === "1";
 const agentPort = Number(process.env.VERONA_AGENT_PORT);
@@ -27,6 +28,24 @@ function fatal(error) {
   dialog.showErrorBox("Verona desktop failed", `${message}\nInspect the Verona terminal, then restart VeronaDesktop.cmd.`);
   console.error(message);
   app.exit(1);
+}
+
+function overlayLayout(area, previous, requestedZoom, slot = 0) {
+  const availableWidth = Math.max(1, area.width - 40), availableHeight = Math.max(1, area.height - 40);
+  const baseScale = Math.min(1, availableWidth / 480, availableHeight / 600);
+  const baseWidth = Math.max(1, Math.floor(480 * baseScale)), referenceHeight = Math.max(1, Math.floor(600 * baseScale));
+  const maxZoom = Math.min(2.3, Math.floor(Math.min(availableWidth / baseWidth, availableHeight / referenceHeight) * 20) / 20);
+  const zoom = Math.min(requestedZoom, maxZoom), growth = Math.max(1, zoom);
+  const width = Math.round(baseWidth * growth), height = Math.round(referenceHeight * growth);
+  const columns = Math.max(1, Math.floor((area.width - 20) / (width + 12)));
+  const x = previous ? previous.x + (previous.width - width) / 2
+    : area.x + area.width - width - 20 - (slot % columns) * (width + 12);
+  const y = previous ? previous.y + (previous.height - height) / 2
+    : area.y + 20 + Math.floor(slot / columns) * (height + 12);
+  return { zoom, requestedZoom, maxZoom, referenceHeight, bounds: {
+    x: Math.round(Math.max(area.x, Math.min(x, area.x + area.width - width))),
+    y: Math.round(Math.max(area.y, Math.min(y, area.y + area.height - height))), width, height,
+  } };
 }
 
 async function start(config) {
@@ -77,6 +96,23 @@ async function start(config) {
     if (event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame
         || new URL(event.senderFrame.url).origin !== url.origin) throw new Error("Untrusted desktop command.");
   }
+  function resizeOverlay(previous) {
+    const area = screen.getDisplayMatching(previous || window.getBounds()).workArea;
+    const slot = agentEnabled && Number.isInteger(headSlot) && headSlot >= 0 && headSlot < 8 ? headSlot : 0;
+    const layout = overlayLayout(area, previous, headZoom, slot);
+    overlayAreaKey = JSON.stringify(area);
+    headZoom = layout.zoom;
+    window.setBounds(layout.bounds);
+    return layout;
+  }
+  window.on("moved", () => {
+    if (overlay && JSON.stringify(screen.getDisplayMatching(window.getBounds()).workArea) !== overlayAreaKey) {
+      window.webContents.send("verona:mode", { overlay, ...resizeOverlay(window.getBounds()) });
+    }
+  });
+  screen.on("display-metrics-changed", () => {
+    if (overlay) window.webContents.send("verona:mode", { overlay, ...resizeOverlay(window.getBounds()) });
+  });
   if (agentEnabled) {
     if (!Number.isInteger(agentPort) || agentPort < 1 || agentPort > 65535) {
       throw new Error("Invalid owned agent control endpoint.");
@@ -141,21 +177,18 @@ async function start(config) {
     if (action === "overlay" || action === "controls") {
       const next = action === "overlay";
       if (next !== overlay) {
+        overlay = next;
+        let layout;
         if (next) {
           controlBounds = window.getBounds();
-          const bounds = screen.getDisplayMatching(overlayBounds || controlBounds).workArea;
-          const width = Math.min(480, bounds.width - 40), height = Math.min(600, bounds.height - 40);
-          const columns = Math.max(1, Math.floor((bounds.width - 20) / (width + 12)));
-          const slot = agentEnabled && Number.isInteger(headSlot) && headSlot >= 0 && headSlot < 8 ? headSlot : 0;
-          const x = overlayBounds?.x ?? bounds.x + bounds.width - width - 20 - (slot % columns) * (width + 12);
-          const y = overlayBounds?.y ?? bounds.y + 20 + Math.floor(slot / columns) * (height + 12);
-          window.setBounds({ x: Math.max(bounds.x, Math.min(x, bounds.x + bounds.width - width)),
-            y: Math.max(bounds.y, Math.min(y, bounds.y + bounds.height - height)), width, height });
+          layout = resizeOverlay(overlayBounds);
         } else { overlayBounds = window.getBounds(); window.setBounds(controlBounds); }
-        overlay = next;
         window.setAlwaysOnTop(overlay && pinned, "pop-up-menu");
-        window.webContents.send("verona:mode", { overlay });
+        window.webContents.send("verona:mode", { overlay, zoom: headZoom, maxZoom: 2.3, ...layout });
       }
+    } else if (action === "zoom" && typeof value === "number" && Number.isFinite(value) && value >= .35 && value <= 2.3) {
+      headZoom = value;
+      if (overlay) window.webContents.send("verona:mode", { overlay, ...resizeOverlay(window.getBounds()) });
     } else if (action === "pin" && typeof value === "boolean") {
       pinned = value;
       window.setAlwaysOnTop(overlay && pinned, "pop-up-menu");

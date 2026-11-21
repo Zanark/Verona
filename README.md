@@ -95,6 +95,10 @@ cheekiness strength. Surface has the two materials; FaceMesh has mesh detail/
 optics; FaceDot and UniformPolygons have density/gap controls. Switching views
 preserves each view's settings without loading another speech model.
 
+**Floating-head zoom:** above 100%, the transparent window now grows with the
+head instead of cutting through its edges. The maximum adapts to your monitor's
+usable area; **Fit** restores 100%. [Mechanism and actual 140% images](docs/chapters/10-desktop-overlay-and-gaze.md#zoom-without-cutting-the-head-at-the-window-edge-vr-69).
+
 ### Original Claire
 
 The preserved neural head, with original waves in the Claire panel. All four

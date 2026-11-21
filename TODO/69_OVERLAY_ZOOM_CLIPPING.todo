@@ -1,0 +1,56 @@
+ID: vr-69
+Title: Enlarge the transparent viewport with the zoomed head
+
+Status: DONE
+Milestone: Unclipped enlarged floating heads
+Dependencies: vr-24, vr-65, vr-66
+GitHub: https://github.com/Zanark/Verona/issues/68
+
+Purpose:
+  Fix the owner's straight-edge hair/head clipping above 100% overlay zoom,
+  including the reported 140% case, without shrinking away the requested zoom.
+
+Tasks:
+  Grow the owned native viewport with zoom and compensate the shared projection.
+  Keep the model, cursor mapping and floating controls in the same coordinates.
+  Bound enlargement to the current monitor and expose the actual zoom limit.
+  Preserve one renderer, audio clock, controls, pinning and placement.
+  Qualify native pixels, enlarged size, clipping margins and unchanged playback.
+  Update the chapter, living journal, issue/Project tracking and owned continuity.
+
+Acceptance criteria:
+  Above-100% zoom visibly enlarges the head and its viewport together.
+  Actual supported enlarged poses retain clear canvas-edge margins.
+  Both hairstyles and all shared face presentations use the same correction.
+  Screen limits clamp the confirmed percentage, never silently clip the head.
+  No per-frame native resizing, model loading, mesh rebuild or audio replay.
+  Existing live/sibling heads remain untouched during isolated qualification.
+  Errors, restart and technical-versus-human acceptance remain explicit.
+
+Completion evidence:
+  Final overlay-zoom-03: ten actual native checks; 48 edge-margin cases at
+    100/140/190%, four presentations, both hairstyles, front/turned poses.
+    Minimum observed transparent margin34px; same audio clock advances during
+    rapid zoom; menu, clip and return-to-Controls state remain intact.
+  Focused host bounds tests and JS syntax pass; all five promoted source/test
+    files match the isolated qualified candidate byte for byte.
+  docs/chapters/10-desktop-overlay-and-gaze.md explains the shared correction,
+    screen limits and constraints; actual100/140% images are reviewed.
+  Living book/journal.md updated; frozen PDFs are unchanged.
+  Development lane: ignored detached overlay-zoom-69 worktree, reusable model
+    and Electron inputs; disposable qualification profiles/cache/speech output.
+  Stable lane: existing owned Verona manager/head and all sibling applications.
+  Owned live promotion: same manager293308; head199480 replaces282240.
+    Every freshly saved control/appearance restored, including120%zoom/Hazel.
+    Confirmed native screen maximum190%; no speech replay or sibling changes.
+  Full01 desktop-composition fixture failed safely after zoom checks; retain
+    that receipt. Focused02/03 do not claim the separate screenshot gate.
+  Technical qualification is not owner approval or an all-rotation fit proof.
+
+Completion log:
+  2026-11-21 - Owner reports clipping above 100%, supplies 140% examples.
+    Trace confirms fixed native bounds and independently multiplied projection.
+    Prepare isolated development; no live head reload or interruption.
+  2026-11-21 - Qualify native candidate, review actual images and promote only
+    the authorized owned head. Shared manager and all fresh settings preserved.
+    Update the living chapter, index and journal without rewriting editions.
