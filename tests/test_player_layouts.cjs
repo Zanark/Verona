@@ -2,6 +2,7 @@ const {app, BrowserWindow, nativeImage} = require("electron");
 const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const {pathToFileURL} = require("node:url");
 const argument = prefix => process.argv.find(value=>value.startsWith(prefix)).slice(prefix.length);
 const output=path.resolve(argument("--qualification-output="));
 app.setPath("userData",path.resolve(argument("--user-data-dir=")));
@@ -58,7 +59,10 @@ app.whenReady().then(async()=>{
     await fs.writeFile(path.join(output,name),png);
   }
   const model=JSON.parse(await fs.readFile(path.join(__dirname,"..",".local","qualification","mpfb-head-04","authored","head.json"),"utf8"));
-  const renderer=(await fs.readFile(path.join(web,"mpfb-renderer.mjs"),"utf8")).replace("export function","function");
+  const {BLINK_GLSL}=await import(pathToFileURL(path.join(web,"blinking.mjs")).href);
+  const renderer=`const BLINK_GLSL=${JSON.stringify(BLINK_GLSL)};\n`+
+    (await fs.readFile(path.join(web,"mpfb-renderer.mjs"),"utf8"))
+      .replace(/^import .* from ".*";$/gm,"").replace("export function","function");
   const sessionSource=(await fs.readFile(path.join(web,"session-controls.mjs"),"utf8")).replace("export function","function");
   for(const name of ["index","mpfb"]){
     const [html,css]=await Promise.all([

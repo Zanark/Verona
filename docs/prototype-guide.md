@@ -77,6 +77,29 @@ costs. Reuse a warm head, keep sentences short and close unused **owned** heads;
 voice-only skips inference but is not moving-lip speech. Source updates do not
 restart existing windows; apply them on the next normally requested launch.
 
+### Natural blinking and current model previews
+
+All five head choices support **Natural blinking** at rest and during speech.
+It is a live checkbox in the manager's actual controls and in each standalone
+page. Reduced-motion preference defaults it off; an explicit choice wins for
+that page. Hiding the page/loss of the renderer cancels its bounded timer;
+resuming waits anew. It adds no neural inference and shares the existing
+animation loop. This is procedural cosmetic eyelid motion, not accepted
+anatomy or guaranteed visible phases under a severely stalled renderer.
+
+The README gives each selectable head one large silent GIF through all ten
+emotions plus neutral. Original Claire, both reference fits and Male-SharpJawline
+support Claire/FaceMesh/FaceDot/UniformPolygons; native MPFB uses its native
+wire view. Claire's polygon and makeup materials are not separate speech
+models. The separate MPFB study's shaded comparison is not another manager
+face-type option. [Chapter09](chapters/09-verona-character-and-waves.md)
+explains captures, exact source-sample decoding and limitations.
+
+The original cyan/coral logo appears in the manager, README, source-launched
+Electron windows and all browser favicons. Existing loaded windows need a
+deliberate restart to pick up source changes. The downloaded Electron
+executable and existing shell shortcuts are not rewritten.
+
 ### Preserved standalone studies and reports
 
 The manager selects all variants; the following legacy study commands are

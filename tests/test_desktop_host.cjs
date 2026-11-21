@@ -26,7 +26,34 @@ async function run() {
     assert.equal(calls.at(-1)[1], 1);
     assert.match(calls[0][2], /restart VeronaDesktop\.cmd/);
   }
+  let windowOptions, appId;
+  const app = {
+    setPath() {}, on() {}, commandLine: { appendSwitch() {} },
+    whenReady: async () => {},
+    setAppUserModelId: value => { appId = value; },
+    exit() {},
+  };
+  const isolated = {
+    setPermissionRequestHandler() {}, setPermissionCheckHandler() {}, on() {},
+    webRequest: {onBeforeRequest() {}},
+  };
+  vm.runInNewContext(source, {
+    require: name => name === "electron" ? {
+      app, dialog: {showErrorBox() {}},
+      session: {fromPartition: () => isolated},
+      screen: {getPrimaryDisplay: () => ({workArea: {width:1600,height:1200}})},
+      BrowserWindow: class {constructor(options) {windowOptions=options;throw Error("Stop after native construction.");}},
+    } : require(name),
+    process: {argv:["electron","--user-data-dir=fixture-profile"],platform:"win32",
+      env:{VERONA_LOCAL_URL:`http://127.0.0.1:1234/#${"A".repeat(43)}`}},
+    __dirname:path.join(__dirname,"..","desktop"),URL,console:{error() {}},
+  });
+  await new Promise(setImmediate);
+  assert.equal(appId,"Zanark.Verona");
+  assert.equal(windowOptions.icon,path.join(__dirname,"..","verona","web","verona.ico"));
+  assert(fs.statSync(windowOptions.icon).size>0);
   console.log("Desktop startup failures surface recovery, remove the endpoint and exit unsuccessfully.");
+  console.log("Successful Windows startup supplies the original Verona native icon and application identity.");
 }
 
 run().catch((error) => { console.error(error); process.exitCode = 1; });

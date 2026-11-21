@@ -21,7 +21,13 @@ from .speech import (
 
 
 WEB = Path(__file__).with_name("web")
+BRANDING_STATIC = {
+    "/favicon.ico": ("verona.ico", "image/x-icon"),
+    "/favicon-32.png": ("favicon-32.png", "image/png"),
+    "/verona-logo.png": ("verona-logo.png", "image/png"),
+}
 STATIC = {
+    **BRANDING_STATIC,
     "/": ("index.html", "text/html; charset=utf-8"),
     "/app.js": ("app.js", "text/javascript; charset=utf-8"),
     "/style.css": ("style.css", "text/css; charset=utf-8"),
@@ -31,6 +37,7 @@ STATIC = {
     "/hairstyles.mjs": ("hairstyles.mjs", "text/javascript; charset=utf-8"),
     "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
     "/face-colors.mjs": ("face-colors.mjs", "text/javascript; charset=utf-8"),
+    "/blinking.mjs": ("blinking.mjs", "text/javascript; charset=utf-8"),
     "/session-controls.mjs": ("session-controls.mjs", "text/javascript; charset=utf-8"),
     "/session-controls.css": ("session-controls.css", "text/css; charset=utf-8"),
 }
@@ -160,8 +167,6 @@ class Handler(BaseHTTPRequestHandler):
         if self.path in self.server.state.static or self.path in STATIC:
             name, kind = self.server.state.static.get(self.path, STATIC.get(self.path))
             self.reply(200, (WEB / name).read_bytes(), kind)
-        elif self.path == "/favicon.ico":
-            self.reply(204, b"", "image/x-icon")
         elif self.path == "/api/session":
             if self.guard(authenticated=True):
                 self.json_reply(200, {

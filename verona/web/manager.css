@@ -41,7 +41,7 @@ input[type="color"] { width: 48px; height: 42px; padding: 4px; flex-shrink: 0; c
 [aria-invalid="true"] { border-color: var(--danger); }
 .app-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 32px; border-bottom: 1px solid var(--line); }
 .brand, .manager-actions, .section-heading, .action-row, .composer-options, .head-footer { display: flex; align-items: center; gap: 12px; }
-.brand-mark { display: grid; place-items: center; width: 40px; height: 44px; color: var(--accent); border: 1px solid #4b736e; border-radius: 12px; font-size: 25px; }
+.brand-mark { display: block; width: 44px; height: 44px; border-radius: 12px; }
 .brand p, .hint, small, .sidebar-note, #status, #connection { color: var(--muted); font-size: 13px; }
 #connection { max-width: 270px; }
 #connection[data-state="stale"] { color: #ffd39c; }

@@ -12,6 +12,7 @@ const profile=path.join(output,"edge-profile");
 await fs.mkdir(profile,{recursive:true});
 const baselineRef=process.argv.find(arg=>arg.startsWith("--baseline="))?.slice(11);
 const realMesh=process.argv.find(arg=>arg.startsWith("--real-mesh="))?.slice(12);
+const nativeMesh=process.argv.find(arg=>arg.startsWith("--native-mesh="))?.slice(14);
 const baseline=baselineRef?Object.fromEntries(["app.js","mpfb.js","mpfb-renderer.mjs"].map(name=>
   [name,execFileSync("git",["show",`${baselineRef}:verona/web/${name}`],{encoding:"utf8"})])):null;
 // Retained-view comparisons do not restore the retired module's dead import.
@@ -26,7 +27,7 @@ for(let y=0;y<rows;y++) for(let x=0;x<columns;x++){
   if(y+1<rows)edges.push(a,a+columns);
   if(x+1<columns&&y+1<rows)triangles.push(a,a+1,a+columns+1,a,a+columns+1,a+columns);
 }
-const native={rest:positions,polygons:[],eyeCenters:[[-2.9485,147.5517,2.2364],[3.1021,147.4944,2.283]],
+let native={rest:positions,polygons:[],eyeCenters:[[-2.9485,147.5517,2.2364],[3.1021,147.4944,2.283]],
   eyeRadii:[[1.3,1.3,1.3],[1.3,1.3,1.3]]};
 for(let i=0;i<triangles.length;i+=3){
   const face=triangles.slice(i,i+3);
@@ -35,6 +36,7 @@ for(let i=0;i<triangles.length;i+=3){
   if(!native.eyeCenters.some(center=>Math.hypot((x-center[0])/1.5,(y-center[1])/1.3)<1))
     native.polygons.push(face);
 }
+if(nativeMesh)native=JSON.parse(await fs.readFile(nativeMesh,"utf8"));
 const chunks=[];
 let length=0;
 const append=array=>{
@@ -122,6 +124,76 @@ async function waitFor(expression){
   }
   throw new Error(`Fixture timed out: ${expression}; ${await evaluate('document.getElementById("error")?.textContent')}`);
 }
+  async function disableBlinking(){
+    await evaluate(`(()=>{
+      const b=document.getElementById("natural-blink");
+      if(b){b.checked=false;b.dispatchEvent(new Event("input"));}
+    })()`);
+  }
+  async function qualifyBlink(label, nativeView=false){
+    const result=await evaluate(`(()=>{
+      const native=${nativeView},label=${JSON.stringify(label)};
+      const ids=native?["wire","surface"]:["face"];
+      veronaAppearance.apply({mesh:"#00FFFF",eyes:"#FF0000",hair:"#000000",lips:"#00FFFF",eyebrows:"#00FFFF"});
+      const before=resourceProbe(),images=[],pixels=[];
+      for(const amount of [0,.5,1,0]){
+        if(native)mpfbPlayer.renderAt(null,0,amount);else rendererFixture.draw(0,amount);
+        images.push(ids.map(id=>document.getElementById(id).toDataURL("image/png")));
+        pixels.push(ids.map(id=>{
+          const c=document.getElementById(id),g=c.getContext("webgl2"),p=new Uint8Array(c.width*c.height*4);
+          g.readPixels(0,0,c.width,c.height,g.RGBA,g.UNSIGNED_BYTE,p);return p;
+        }));
+      }
+      const difference=(a,b)=>{let n=0;for(let i=0;i<a.length;i+=4)
+        if(a[i]!==b[i]||a[i+1]!==b[i+1]||a[i+2]!==b[i+2])n++;return n;};
+      const red=p=>{let n=0;for(let i=0;i<p.length;i+=4)if(p[i]-Math.max(p[i+1],p[i+2])>30)n++;return n;};
+      return {label,images,before,after:resourceProbe(),
+        closing:ids.map((_,i)=>difference(pixels[0][i],pixels[1][i])),
+        closed:ids.map((_,i)=>difference(pixels[0][i],pixels[2][i])),
+        reopened:ids.map((_,i)=>difference(pixels[0][i],pixels[3][i])),
+        opticalPixels:pixels.map(row=>row.map(red)),
+        gl:ids.map(id=>document.getElementById(id).getContext("webgl2").getError())};
+    })()`);
+    for(let stage=0;stage<4;stage++)for(let view=0;view<result.images[stage].length;view++)
+      await fs.writeFile(path.join(output,`${label}-${view}-${stage}.png`),
+        Buffer.from(result.images[stage][view].split(",")[1],"base64"));
+    delete result.images;
+    assert(result.closing.every(n=>n>0),`${label}: half closure must visibly move the lids.`);
+    assert(result.closed.every(n=>n>0),`${label}: closure must be visible.`);
+    assert(result.reopened.every(n=>n===0),`${label}: open state must restore exactly.`);
+    assert(result.opticalPixels[0].every(n=>n>0),`${label}: original eyes must be visible.`);
+    assert(result.opticalPixels[2].every(n=>n===0),`${label}: closed lids cannot retain glowing optics.`);
+    assert.equal(result.before.bytes,result.after.bytes);
+    assert.deepEqual(result.gl,result.gl.map(()=>0));
+    if(!nativeView)assert.equal(result.before.uploads,result.after.uploads,"A procedural blink cannot upload geometry.");
+    return result;
+  }
+  async function qualifyCadence(nativeView=false){
+    const result=await evaluate(`(async()=>{
+      const input=document.getElementById("natural-blink"),id=${nativeView}?"wire":"face";
+      const samples=[],before=resourceProbe();
+      input.checked=true;input.dispatchEvent(new Event("input"));
+      const start=performance.now();let began=false,ended=false;
+      while(performance.now()-start<8500){
+        await new Promise(requestAnimationFrame);
+        const amount=Number(document.getElementById(id).dataset.blink);
+        if(amount>0)began=true;
+        samples.push(amount);
+        if(began&&amount===0){ended=true;break;}
+      }
+      input.checked=false;input.dispatchEvent(new Event("input"));
+      const stopped=resourceProbe();
+      await new Promise(resolve=>setTimeout(resolve,450));
+      return {began,ended,maximum:Math.max(...samples),samples:samples.length,
+        before,stopped,after:resourceProbe(),error:document.getElementById("error").textContent};
+    })()`);
+    assert(result.began&&result.ended,`Natural blink must close/reopen without speech: ${JSON.stringify(result)}`);
+    assert(result.maximum>0&&result.maximum<=1,"Live cadence must produce a bounded visible blink; deterministic frames verify full closure.");
+    assert.equal(result.after.draws,result.stopped.draws,"Disabled blinking must leave no idle RAF.");
+    assert.equal(result.before.bytes,result.after.bytes);
+    if(!nativeView)assert.equal(result.before.uploads,result.after.uploads);
+    return result;
+  }
 try{
   let endpoint;
   for(let i=0;i<200;i++){
@@ -190,6 +262,7 @@ try{
   }
   await cdp("Page.navigate",{url:`${origin}/#${"a".repeat(43)}`});
   await waitFor('window.veronaAppearance && !document.getElementById("generate").disabled');
+  await disableBlinking();
   report.resources=await sweep();
   for(const sample of report.resources){
     const first=report.resources.find(value=>value.view===sample.view&&value.hair===sample.hair);
@@ -314,8 +387,16 @@ try{
   assert.equal(report.resourceLifecycle.before.bytes,report.resourceLifecycle.cleared.bytes);
   assert.equal(report.resourceLifecycle.before.bytes,report.resourceLifecycle.after.bytes);
   assert.deepEqual(report.resourceLifecycle.errors,[]);
+  report.blinks=[];
+  for(const view of ["claire","facemesh","facedot","uniform"]){
+    await evaluate(`pixelFixture.change("presentation",${JSON.stringify(view)})`);
+    report.blinks.push(await qualifyBlink(view));
+  }
+  await evaluate('pixelFixture.change("presentation","facemesh")');
+  report.blinkCadence=await qualifyCadence();
   await cdp("Page.navigate",{url:`${origin}/native#fixture`});
   await waitFor('window.mpfbPlayer?.ready');
+  await disableBlinking();
   assert.equal(await evaluate("document.title"),"Verona | fixture | mpfb");
   report.native=await evaluate(`(()=>{
     const ids=["wire","surface"],keys=["mesh","eyes","hair","lips","eyebrows"],a=veronaAppearance;
@@ -340,6 +421,9 @@ try{
     assert(counts.every(n=>n>0),`native/${key}: ${JSON.stringify(counts)}`);
   assert.deepEqual(report.native.reset,[0,0]);assert.match(report.native.note,/no hair/);
   assert.deepEqual(report.native.uploadCounts,[1,2],"Unlit MPFB must not upload unused normals.");
+  report.blinks.push(await qualifyBlink("native",true));
+  report.nativeBlinkCadence=await qualifyCadence(true);
+  await evaluate('veronaAppearance.apply({mesh:null,eyes:null,hair:null,lips:null,eyebrows:null})');
   if(baseline){
     const hashNative=()=>evaluate(`(async()=>{
       window.mpfbPlayer.renderAt();

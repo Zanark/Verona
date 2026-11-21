@@ -1,5 +1,107 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Occasional blinks without another model (vr-58)
+
+`verona/web/blinking.mjs:createBlinkClock` owns one timeout, not a permanent
+animation loop. A fresh wait is uniformly selected between 3.5 and 7.5 seconds.
+The 290ms envelope closes with a smoothstep over 90ms, holds for 30ms and opens
+over 170ms. Completion rearms the timeout. The existing speech/gaze RAF samples
+that clock; an idle blink wakes that same rendering path only while moving.
+Elapsed wall time wins over frame count: a delayed frame may skip a phase,
+never replay a queue of missed blinks or stretch animation indefinitely.
+
+The shared `BLINK_GLSL` uses each vertex's **rest** position to select the
+nearest eye and normalize it by an eye-local radius. A smooth radial/front
+weight moves upper/lower skin toward the eye-center height and forward over
+the optical surface, multiplied by the current closure amount. Rest-space
+selection avoids frame-to-frame nearest-vertex searches. Claire uses calibrated
+eye centers; `createStudyRenderer` derives native MPFB centers/radii from its
+actual mesh. The field is local to skin: hair and mouth receive no blink
+offset. Eye fragments outside the shrinking aperture are discarded in every
+optical presentation, including dots, grids and bright spokes.
+
+This is a **cosmetic field**, not an anatomical eyelid rig, contact solver or
+new neural expression. Original speech normals remain the shading approximation;
+no separate lid-normal reconstruction or human-accuracy acceptance is claimed.
+`FaceRenderer.draw(seconds, blink)` and native `renderAt(..., blink)` retain
+explicit amounts for deterministic qualification; normal playback supplies the
+shared clock's amount. No speech bytes, inference model or geometry buffer is
+created for a blink. Native MPFB retains its existing pose-buffer uploads.
+
+`attachBlinking` defaults the **Natural blinking** checkbox off for reduced
+motion. An explicit choice overrides subsequent OS-preference changes for that
+page. Hidden pages, pagehide and unavailable/lost renderers cancel the timeout
+and reset closure. Resume waits anew. Choices are not persisted across reloads;
+WebGL loss remains an explicit reload/restart condition. Native errors stop
+the clock without recursive failure; an explicit new generation refreshes it.
+Both human and native players initialize that preference before publishing
+their first manager-control snapshot; markup's checked default must not leak
+through as a false reduced-motion setting.
+
+Deterministic clock/lifecycle tests and actual Claire/native MPFB software
+WebGL qualification retain open/half/closed/reopened PNGs. All four human
+presentations and native wire/surface restore exact open pixels, hide closed
+optics and retain GPU allocation. Human blinks upload no geometry; disabled
+idle rendering stops. The open/closed Claire and native contact-sheet samples
+were visually reviewed. This is not every-frame, every-angle owner approval.
+Under the slow software fixture the natural RAF samples can miss the brief
+closed hold; deterministic endpoint renders verify closure separately rather
+than treating a sampled peak as a frame-rate guarantee.
+Actual isolated manager qualification also exercises off/on control round trips
+and muted speech for all five selected models. An intermittent native close
+timeout remains separately tracked as vr-64; a later unchanged-gate pass does
+not establish its cause or repair it.
+
+## One speaking overview per head, not a wall of duplicate GIFs (vr-60)
+
+The README separates a **model** from its **presentation**. Original Claire,
+the structural/subtle reference fits and Male-SharpJawline share four view
+choices; native MPFB has a separate native wire renderer. Mark remains a
+report-only model, and Realistic remains parked. Neither becomes selectable
+because a screenshot exists.
+
+`scripts/model_gallery.py:capture` creates one selected real CPU engine/adapter
+at a time, synthesizes the fixed Hazel greeting and generates neutral plus all
+ten single expressions at strength .6/4x source. MPFB retains its 0..1 native
+control bounds. A private, exact-route fixture exposes those synthetic clips
+to the production renderers; no live manager/head is driven. Only the fixture
+adds read-only renderer access and native clip installation in served memory.
+Its capability, cache, temporary files and offscreen desktop profile are owned.
+
+`model_gallery.cjs` renders matching timestamps into one labelled 960x1080
+composition per model. The Claire-family compositions show four simultaneous
+views; the Claire panel alternates materials across emotions. Native MPFB shows
+only the actual manager face type, not a fictitious four-view selector.
+Views are sampled sequentially from the same clip, not four loaded speech
+networks. At most forty composite canvases exist for one short greeting;
+they are released before the next emotion. A deterministic shared-clock blink
+is included, without sound playback.
+
+`model_gallery.py:encode` uses a palette sampled across all eleven emotions
+and transparent delta-frame compression. It then independently decodes the
+entire GIF timeline and compares every palette-converted source sample,
+including total duration, dimensions, looping and changing pixels. This is
+10fps publishing media, not a live FPS or listening test. Source hashes and
+private receipts distinguish capture-time implementation from later edits.
+Historical media files and the existing motion demonstrations remain unchanged.
+
+## An original identity across the local shell (vr-59)
+
+The cyan polygon face and coral mouth are original generated branding, not a
+model screenshot or an imported character. `scripts/build_branding.py` builds
+the 512px PNG, 32px favicon and seven-size Windows ICO from the preserved master.
+`desktop/main.cjs:start` supplies that ICO to `BrowserWindow` and sets Windows
+application identity `Zanark.Verona`. This brands source-launched windows; it
+does not patch the downloaded Electron executable or create an installer.
+
+`server.BRANDING_STATIC` is an explicit shared allowlist for the manager,
+normal head and standalone MPFB study. Their same-origin favicon links and the
+manager's visible brand image require no external request or new runtime
+dependency. HTTP tests exercise real guarded responses; a disposable Electron
+test decodes the ICO/PNG and constructs a native window using the icon.
+These checks do not claim manual Windows taskbar acceptance. Existing windows
+must be deliberately restarted before they can display newly loaded branding.
+
 ## Cheekiness as a sideways lip pull: review before rollout (vr-49)
 
 The owner selects the visibly tilted mouth in the retained

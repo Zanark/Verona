@@ -1,0 +1,34 @@
+ID: vr-63
+Title: Attribute and bound a complete live head's memory cost
+
+Status: NOT_STARTED
+Milestone: Post-M1 measured resource ownership
+Dependencies: vr-61
+
+Purpose:
+  Explain and, where causal evidence supports it, reduce the full warm
+  Claire/Hazel/Electron process tree's substantial private committed memory.
+
+Tasks:
+  Attribute host, voice worker, Electron main/renderer/GPU/helper costs.
+  Distinguish model, current speech, CPU/GPU geometry and Chromium allocations.
+  Compare bounded post-speech settling/replacement/cancellation cycles.
+  Fix only demonstrated avoidable retention and prove selected-only ownership.
+
+Acceptance criteria:
+  Use private commit, unique/working-set and GPU measurements with correct names.
+  Retain comparable before/after scenarios and explicit shared-process limits.
+  Do not call ordinary latest-clip/cache retention a leak without evidence.
+  Preserve current quality, cancellation, audio-clock behavior and RAM-only data.
+  Any saving must be measured over complete process trees, not engine-only numbers.
+
+Completion evidence:
+  .local\qualification\live-use-01\receipt.json: same eight-process tree throughout.
+    Mean private commit 887.04MiB before speech, peak 963.82MiB during generation,
+    and mean 940.72MiB over the eight-second post-speech window.
+    This is not unique physical RAM, a proved leak, or a controlled steady-state
+    off/on comparison. Shared manager and unrelated apps are excluded.
+
+Completion log:
+  2026-11-21 - Opened from real session observation at the owner's request;
+    component attribution and further memory improvement remain planned.

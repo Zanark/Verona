@@ -133,6 +133,36 @@ class LocalServerTests(unittest.TestCase):
             self.assertEqual(status, 400, payload[:40])
         self.assertIsNone(self.state.clip)
 
+    def test_local_branding_and_blink_module_keep_exact_route_guards(self):
+        from verona.manager import ManagerHandler
+        from verona.server import Handler
+
+        head_assets = {}
+        for handler in (Handler, ManagerHandler):
+            self.server.RequestHandlerClass = handler
+            for path, kind, signature in (
+                ("/favicon.ico", "image/x-icon", b"\x00\x00\x01\x00"),
+                ("/favicon-32.png", "image/png", b"\x89PNG\r\n\x1a\n"),
+                ("/verona-logo.png", "image/png", b"\x89PNG\r\n\x1a\n"),
+            ):
+                status, headers, body = self.request("GET", path)
+                self.assertEqual(status, 200)
+                self.assertEqual(headers["Content-Type"], kind)
+                self.assertTrue(body.startswith(signature))
+                self.assertEqual(headers["Cross-Origin-Resource-Policy"], "same-origin")
+                if handler is Handler:
+                    head_assets[path] = body
+                else:
+                    self.assertEqual(body, head_assets[path])
+                blocked = dict(self.headers, Origin="https://outside.invalid")
+                self.assertEqual(self.request("GET", path, headers=blocked)[0], 403)
+            self.assertEqual(self.request("GET", "/verona.ico")[0], 404)
+        self.server.RequestHandlerClass = Handler
+        status, headers, body = self.request("GET", "/blinking.mjs")
+        self.assertEqual(status, 200)
+        self.assertIn("javascript", headers["Content-Type"])
+        self.assertIn(b"export function attachBlinking", body)
+
     def test_single_generation_slot_fails_busy_without_queue(self):
         self.state.busy.acquire()
         try:

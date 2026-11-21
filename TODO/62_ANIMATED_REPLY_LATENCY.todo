@@ -1,0 +1,34 @@
+ID: vr-62
+Title: Reduce real-chat animated reply preparation latency
+
+Status: NOT_STARTED
+Milestone: Post-M1 measured responsiveness
+Dependencies: vr-61
+
+Purpose:
+  Address measured delay before an uncached animated reply speaks, without
+  silently substituting voice-only output or degrading the requested face.
+
+Tasks:
+  Attribute warm synthesis, neutral/emotional inference, packing/delivery and
+    player preparation with bounded phase timings on short synthetic replies.
+  Compare matching workloads with fixed source/settings and report contention.
+  Implement only source-traced bottleneck fixes, retaining latest-only ownership.
+  Compare final audio/motion, cancellation and repeated/novel-text latency.
+
+Acceptance criteria:
+  Reproduce the delay and identify its dominant phase before choosing a fix.
+  Preserve voice, expressions, full-head cursor behavior and requested quality.
+  No new cloud service, retained transcripts, unbounded cache or global tuning.
+  Report matched latency distributions and retained failures, not an SLA inferred
+    from one interactive sample or a cache hit on repeated benchmark text.
+
+Completion evidence:
+  .local\qualification\live-use-01\receipt.json: real owned warm Claire/Hazel
+    summary, both caches false, playback start 21.412s and total 30.220s.
+    Generating-labelled intervals average 11.73% of 16-logical-CPU machine;
+    whole-machine load 52.31%, so this is not isolated causal attribution.
+
+Completion log:
+  2026-11-21 - Opened from real session use at the owner's request. Investigation
+    and optimization are planned, not implemented or measured improvements.

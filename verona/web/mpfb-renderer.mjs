@@ -1,28 +1,36 @@
+import {BLINK_GLSL} from "/blinking.mjs";
+
 export function createStudyRenderer(canvas, model, shaded, finish = true, transparent = false) {
   const gl = canvas.getContext("webgl2", {alpha: transparent, antialias: true, preserveDrawingBuffer: true});
   if (!gl) throw new Error("WebGL2 is required for the local head study.");
   const vertex = `#version 300 es
     in vec3 position; in vec3 normal; in vec3 restPosition;
     uniform vec3 center; uniform vec2 angle; uniform float scale; uniform float bias;
+    uniform int feature;
+    ${BLINK_GLSL}
     out vec3 n; out vec3 rest;
     void main(){
       float c=cos(angle.x),s=sin(angle.x),a=cos(angle.y),b=sin(angle.y);
       mat3 yaw=mat3(c,0.,-s,0.,1.,0.,s,0.,c);
       mat3 pitch=mat3(1.,0.,0.,0.,a,b,0.,-b,a);
       mat3 rotation=pitch*yaw;
-      vec3 p=rotation*(position-center)*scale;
+      vec3 animated=position;
+      if(feature==0) animated+=blinkOffset(restPosition);
+      vec3 p=rotation*(animated-center)*scale;
       n=rotation*normal;
       rest=restPosition;
       gl_Position=vec4(p.x,p.y,-p.z*.4+bias,1.);
       gl_PointSize=8.;
     }`;
   const fragment = `#version 300 es
-    precision highp float; in vec3 n; in vec3 rest;
+    precision highp float; precision highp int; in vec3 n; in vec3 rest;
     uniform vec3 color, lipColor, browColor, faceOrigin;
     uniform float eyeSpan;
     uniform bool customLips, customBrows;
     uniform int mode, feature; out vec4 pixel;
+    ${BLINK_GLSL}
     void main(){
+      if(feature==2 && blinkOccludes(rest)) discard;
       if(mode==2){
         float r=length(gl_PointCoord-.5)*2.;
         if(r>1.) discard;
@@ -55,7 +63,8 @@ export function createStudyRenderer(canvas, model, shaded, finish = true, transp
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
   gl.useProgram(program);
   const uniforms = Object.fromEntries(["center","angle","scale","bias","color","mode",
-    "lipColor","browColor","faceOrigin","eyeSpan","customLips","customBrows","feature"]
+    "lipColor","browColor","faceOrigin","eyeSpan","customLips","customBrows","feature",
+    "blink","blinkCenterA","blinkCenterB","blinkRadius"]
     .map(name => [name, gl.getUniformLocation(program, name)]));
   const triangles = [], lines = [], seen = new Set();
   for (const face of model.polygons) {
@@ -91,6 +100,10 @@ export function createStudyRenderer(canvas, model, shaded, finish = true, transp
   const origin=[0,1,2].map(axis=>(model.eyeCenters[0][axis]+model.eyeCenters[1][axis])/2);
   const span=Math.abs(model.eyeCenters[1][0]-model.eyeCenters[0][0]);
   gl.uniform3fv(uniforms.faceOrigin,origin);gl.uniform1f(uniforms.eyeSpan,span);
+  gl.uniform3fv(uniforms.blinkCenterA,model.eyeCenters[0]);
+  gl.uniform3fv(uniforms.blinkCenterB,model.eyeCenters[1]);
+  gl.uniform3fv(uniforms.blinkRadius,[0,1,2].map(axis =>
+    (model.eyeRadii[0][axis]+model.eyeRadii[1][axis])*.5*[1.22,.65,1][axis]));
 
   const eyeVao=gl.createVertexArray();gl.bindVertexArray(eyeVao);
   const eyes=[],spokes=[],centers=[];
@@ -131,17 +144,20 @@ export function createStudyRenderer(canvas, model, shaded, finish = true, transp
   gl.bufferData(gl.ARRAY_BUFFER,Float32Array.from([...eyes,...spokes,...centers,...hair]),gl.STATIC_DRAW);
   const attribute=gl.getAttribLocation(program,"position");
   gl.enableVertexAttribArray(attribute);gl.vertexAttribPointer(attribute,3,gl.FLOAT,false,0,0);
+  gl.enableVertexAttribArray(restAttribute);gl.vertexAttribPointer(restAttribute,3,gl.FLOAT,false,0,0);
   gl.disableVertexAttribArray(gl.getAttribLocation(program,"normal"));
   gl.bindVertexArray(vao);
   const normalData=shaded ? new Float32Array(model.rest.length) : null;
   const keys=["mesh","eyes","hair","lips","eyebrows"];
   let colors=Object.fromEntries(keys.map(key=>[key,null])),rgb={};
 
-  const draw = (pose,yaw) => {
+  const draw = (pose,yaw,blink=0) => {
     if(transparent)gl.clearColor(0,0,0,0);
     else gl.clearColor(.031,.063,.094,1);
     gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
     gl.useProgram(program);gl.uniform2f(uniforms.angle,yaw*Math.PI/180,-.035);
+    gl.uniform1f(uniforms.blink,blink);
+    canvas.dataset.blink=String(blink);
     gl.uniform1f(uniforms.bias,0);gl.bindVertexArray(vao);
     gl.uniform1i(uniforms.feature,0);
     gl.uniform1i(uniforms.customLips,colors.lips!==null);

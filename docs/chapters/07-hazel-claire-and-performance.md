@@ -237,6 +237,49 @@ capability boundaries and omitted SDK/contact/teeth/tongue/eye-joint processing
 remain as described in chapter 06. No listening or phonetic accuracy acceptance,
 book rendering, release, installer or deployment is implied.
 
+## Real chat use: separate head cost from a busy machine (vr-61)
+
+The owner's opted-in chat uses one existing original Claire head, Hazel,
+reference color/makeup, original hair and whole-head cursor following. The
+first bounded observation leaves that loaded vr-57-era window unchanged:
+one-second samples cover twelve idle seconds, one useful animated summary and
+eight post-speech seconds. All eight owned process IDs remain the same.
+No development capture runs during this window. This is interactive use, not
+an isolated off/on benchmark; cursor movement and other applications remain
+uncontrolled. The shared manager is outside the measured head tree.
+
+On this 16-logical-processor machine, the tree averages **0.065% of machine
+CPU** during the 12.008s idle window and **887.04MiB private committed memory**.
+Generation-labelled intervals average 11.73% CPU; playing-labelled intervals
+average 2.674%. The uncached animated reply starts at **21.412s** and completes
+at **30.220s**, including playback. Both latest-only caches miss. One-second
+state labels are observations near transitions, not exact phase attribution.
+
+Private commit peaks at 963.82MiB and averages 940.72MiB over the eight-second
+post-speech window. That is not unique physical RAM, GPU memory, a proved leak
+or a fully settled steady-state result. Whole-machine CPU is already 42.17%
+in the idle lane and 52.31% during generation: attributing that entire load to
+Verona would be wrong. The private receipt is
+`.local/qualification/live-use-01/receipt.json`; it contains metrics/settings,
+not captured conversations, audio or descriptors.
+
+Two **planned**, independently tracked follow-ups result:
+[vr-62](../../TODO/62_ANIMATED_REPLY_LATENCY.todo) attributes synthesis,
+inference, packing/delivery and player preparation before choosing latency
+fixes; [vr-63](../../TODO/63_LIVE_HEAD_MEMORY.todo) attributes the complete
+host/voice/Chromium/GPU-helper memory cost before diagnosing avoidable retention.
+Neither is an implemented improvement or authority to lower the requested
+visual quality, silently switch to voice-only, add a permanent profiler or
+retain an unbounded speech cache. Further observations belong at real use
+checkpoints, labelled separately from development-test contention.
+
+A separate qualification finding becomes planned
+[vr-64](../../TODO/64_NATIVE_SHUTDOWN_DIAGNOSTICS.todo): intermittent native
+close delays can postpone resource release. A native MPFB 20-second close gate
+failed once and passed unchanged in a separate run; an earlier pre-blink
+qualification also retained a close timeout. No causal attribution, larger
+timeout or claim of a fixed shutdown bug follows from that passing retry.
+
 ## Selected-head resource ownership (vr-57)
 
 November 21, 2026. The owner's question was whether using FaceMesh secretly

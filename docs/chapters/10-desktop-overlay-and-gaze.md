@@ -1,5 +1,13 @@
 # 10 - A transparent desktop without a second speech system
 
+**Post-M1 additions (vr-58/59):** [chapter09](09-verona-character-and-waves.md#occasional-blinks-without-another-model-vr-58)
+explains the shared idle/speech blink clock, lifecycle cancellation and local
+eyelid shader. Both controllers share their existing RAF rather than adding a
+second playback clock. Natural blinking is a live checkbox, not another model.
+The same chapter documents the original native icon, Windows AppUserModelID
+and same-origin browser/manager branding. Source-launched window branding is
+distinct from rewriting `electron.exe` or packaging a release.
+
 **Current vr-55 boundary:** the owner withdrew the armored character and Blender
 study after M1. Five named variants and four human views remain. Older six-model
 qualification below describes its original revision, not today's selector.

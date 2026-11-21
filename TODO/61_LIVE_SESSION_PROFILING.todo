@@ -1,0 +1,49 @@
+ID: vr-61
+Title: Evidence-led profiling during real use of this chat's head
+
+Status: DONE
+Milestone: Post-M1 live-use observation
+Dependencies: vr-57
+
+Purpose:
+  Measure this chat's explicitly opted-in live Claire/Hazel instance without
+  confusing development captures, other apps or total-machine load with its cost.
+
+Tasks:
+  Retain exact owned process-tree identity and current visual/voice settings.
+  Sample private committed memory, working set and CPU in bounded idle/speech lanes.
+  Record actual playback preparation/completion timing and cache outcomes.
+  Keep receipts private, separate test contention and create evidence-backed
+    finite improvement workstreams without silently lowering requested quality.
+  Deliver concise findings through this session's speaking head and written docs.
+
+Acceptance criteria:
+  No new head/restart, user-profile automation, recording, transcript persistence,
+    scheduler or always-running profiler required for observation.
+  Distinguish process-tree CPU from total-machine CPU and private commit from RAM.
+  Record measurement interval, source/runtime identity and concurrency limitations.
+  Only measured or source-traced opportunities become TODOs; no fabricated gains.
+
+Completion evidence:
+  Prior five-second observation: eight owned processes, 887.3 MiB private commit
+    and approximately 0.97% machine-normalized CPU. Not a controlled comparison.
+  .local\qualification\live-use-01\receipt.json: same eight-process tree, one-second
+    samples; idle12.008s/0.065% machine-normalized head CPU/887.04MiB private mean.
+    Uncached useful animated summary: start21.412s/total30.220s, completed.
+    Generation-labelled22.220s/11.73% CPU; playing-labelled8.034s/2.674% CPU.
+    Whole-machine CPU42.17% idle/52.31% generation; other machine work is real
+    uncontrolled contention, not attributed to Verona. No development capture
+    ran during measurement; shared manager excluded. Not a controlled benchmark.
+    New bounded vr62 latency/vr63 complete-tree-memory investigations retain
+    exact limitations rather than claiming improvements or a proved leak.
+  Concise findings actually spoken through the existing head and completed.
+    Follow-up narration during gallery capture is labelled contention, not
+    comparable clean evidence. Chapter07 records observations/interpretation.
+    vr-62/#61 and vr-63/#62 are independently tracked Open/Todo investigations;
+    neither is an implemented latency/memory improvement.
+
+Completion log:
+  2026-11-21 - Owner explicitly requests real-session performance observation and
+    a growing evidence-backed TODO backlog, with findings spoken through Verona.
+  2026-11-21 - Bounded observation and spoken/documented findings complete.
+    No permanent monitor, recorded conversation or silent quality reduction.

@@ -35,6 +35,7 @@ async function start(config) {
       || url.pathname !== "/" || url.search || !/^#[A-Za-z0-9_-]{43}$/.test(url.hash)
       || url.username || url.password) throw new Error("Invalid private Verona endpoint.");
   await app.whenReady();
+  if (process.platform === "win32") app.setAppUserModelId("Zanark.Verona");
   // An in-memory partition, never the owner's browser profile or a persisted Electron session.
   const isolated = session.fromPartition(`verona-${process.pid}`, { cache: false });
   isolated.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
@@ -50,6 +51,7 @@ async function start(config) {
     frame: false, transparent: true, backgroundColor: "#00000000",
     resizable: false, maximizable: false, fullscreenable: false, show: false,
     title: "Verona",
+    icon: path.join(__dirname, "..", "verona", "web", "verona.ico"),
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"), session: isolated,
       nodeIntegration: false, contextIsolation: true, sandbox: true,

@@ -13,7 +13,7 @@ import uuid
 import webbrowser
 
 from .agent import call, manager_path, private_descriptor, read_descriptor, session_path
-from .server import Handler, LocalServer, MAX_BODY, State, WEB
+from .server import BRANDING_STATIC, Handler, LocalServer, MAX_BODY, State, WEB
 from .session_config import MODELS, appearance, colors_patch
 
 
@@ -160,14 +160,12 @@ class ManagerHandler(Handler):
     def do_GET(self):
         if not self.guard():
             return
-        static = {"/": ("manager.html", "text/html; charset=utf-8"),
+        static = {**BRANDING_STATIC, "/": ("manager.html", "text/html; charset=utf-8"),
                   "/manager.js": ("manager.js", "text/javascript; charset=utf-8"),
                   "/manager.css": ("manager.css", "text/css; charset=utf-8")}
         if self.path in static:
             name, kind = static[self.path]
             self.reply(200, (WEB / name).read_bytes(), kind)
-        elif self.path == "/favicon.ico":
-            self.reply(204, b"", "image/x-icon")
         else:
             self.json_reply(404, {"error": "Manager route not found."})
 

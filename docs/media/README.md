@@ -1,10 +1,42 @@
 # Prototype media receipt
 
-## Current retirement boundary (vr-55)
+## Current one-GIF-per-model gallery (vr-60)
+
+[Five-model provenance](model-vr60-provenance.json) records five new
+960x1080, 30.25-second production-renderer GIFs. Each speaks the fixed synthetic
+Hazel greeting through neutral and all ten single emotions. The four
+Claire-family models show Claire, FaceMesh, FaceDot and UniformPolygons at
+matching timestamps; Claire's material alternates across emotions. Native
+MPFB shows only its actual manager-selectable wire view, with bounded 0..1
+transferred controls. Mark remains report-only.
+
+Every palette-converted source sample independently matches the decoded GIF
+timeline, including duration, looping and motion. Lossless transparent delta
+encoding retains all samples while avoiding full-canvas replacement frames.
+Representative happy frames for all five models and wide/narrow final README
+captures were visually reviewed, not every frame or independent listening.
+Capture-time source hashes remain exact; a later native startup-order correction
+only initializes the reduced-motion checkbox before publishing agent controls.
+
+The five files total **86,856,944 bytes** (about 82.8 MiB), individually
+10.7-19.4 MB. They are intentionally large, silent 10-fps publishing previews,
+not live FPS or memory benchmarks. Opening a README can transfer/decode media
+even inside a closed disclosure; its collapsed appearance is not lazy-loading
+or a memory-saving guarantee. Historical GIF files are retained unchanged.
+
+The current README embeds **24 GIFs and two PNGs**, including the new original
+logo and unchanged talking hero. The complete motion-demo section remains
+byte-for-byte unchanged. Actual authenticated GitHub GFM plus retained public
+GitHub CSS in an isolated browser passes 1200/768/390px layout checks: five
+dedicated full-width model GIFs, natural aspect ratios, no tables/borders or
+horizontal overflow. This is a representative 980px content container, not
+signed-in GitHub chrome. Capture/layout servers and profiles are agent-owned.
+
+## Historical retirement boundary (vr-55)
 
 The owner withdrew the armored character. Its five tracked image/GIF files,
 dedicated captures and mixed robot-bearing overview images are deleted.
-The current README retains five model choices, four presentations and
+The then-current README retained five model choices, four presentations and
 38 GIFs/one PNG. Original capture receipts below remain historical, including
 their counts/hashes; their retirement metadata explains intentionally absent
 assets. They are not instructions to restore the removed character.

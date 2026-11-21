@@ -1,0 +1,36 @@
+ID: vr-64
+Title: Diagnose intermittent native head shutdown delays
+
+Status: NOT_STARTED
+Milestone: Post-M1 reliable resource release
+Dependencies: vr-45, vr-58
+
+Purpose:
+  Explain intermittent owned-head shutdown stalls before claiming reliable
+  prompt process, descriptor and memory release during repeated real use.
+
+Tasks:
+  Retain exact owned host/compositor/worker identities and phase timestamps.
+  Reproduce bounded create/speech/cancel/close cycles with synthetic fixtures.
+  Attribute renderer, speech worker, server and desktop cleanup waits.
+  Fix only a demonstrated cause and retain unchanged ownership boundaries.
+
+Acceptance criteria:
+  Preserve failed receipts; no masking through larger timeouts or blind retries.
+  Distinguish an unavailable API from a terminated owned process.
+  Verify descriptors, descendants and mutable profile cleanup on success/failure.
+  Do not drive or terminate user/sibling apps or call an unknown cause fixed.
+  Compare the same close threshold before/after any causal correction.
+
+Completion evidence:
+  Prior vr-57 native sessions02 retained an unexplained structural-head close
+    timeout; unchanged sessions03 passed. During vr-58 qualification,
+    .local\qualification\blink-sessions-01\session-report.json retained a
+    20-second native MPFB close timeout and unavailable descriptor inventory.
+    Separate blink-sessions-02 passed the unchanged gate for every head, CLI,
+    manager exit and parent death. This is intermittent, not a proved blink
+    regression, solved failure or permission to change shutdown semantics.
+
+Completion log:
+  2026-11-21 - Recorded from actual retained qualification failures. Diagnostic
+    attribution and any lifecycle correction remain planned.

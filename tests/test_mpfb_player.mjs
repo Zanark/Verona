@@ -26,11 +26,20 @@ const motion = new Float32Array(18).fill(1);
 const window = {addEventListener() {}, veronaDesktop:{agentEnabled:true}};
 const source = (await fs.readFile(new URL("../verona/web/mpfb.js", import.meta.url), "utf8"))
   .replace(/^import .* from ".*";$/gm, "");
+element("natural-blink").checked = true;
 await vm.runInNewContext(`(async()=>{${source}})()`, {
   window, location: {hash: "#fixture"}, Float32Array,
   document: {getElementById: element, querySelectorAll: () => [element("wire"), element("surface")]},
   APPEARANCE_KEYS,COLOR_SWATCHES,createAppearance,parseFaceColor,
-  startAgent: async (desktop,prepare,lock) => {prepareAgent=prepare;lockAgent=lock;},
+  attachBlinking: input => {
+    input.checked = false;
+    return {sample: () => ({amount: 0, moving: false}), setActive() {}, refresh() {}};
+  },
+  startAgent: async (desktop,prepare,lock) => {
+    assert.equal(element("natural-blink").checked, false,
+      "Publish the initialized reduced-motion preference, not the markup's checked default.");
+    prepareAgent=prepare;lockAgent=lock;
+  },
   createStudyRenderer: () => Object.assign(pose => { rendered = [...pose]; },{setColors(){}}),
   requestAnimationFrame: fn => { pending.set(++sequence, fn); return sequence; },
   cancelAnimationFrame: id => pending.delete(id),

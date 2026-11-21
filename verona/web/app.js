@@ -4,6 +4,7 @@ import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presenta
 import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
 import { startAgent } from "/agent-player.mjs";
 import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
+import { attachBlinking, BLINK_GLSL, CLAIRE_BLINK } from "/blinking.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -16,6 +17,7 @@ const editing = ["generate", "preview", "reset-voice", "text", "voice", "express
 const preview = $("voice-preview");
 let token = window.location.hash.slice(1);
 let renderer, clip, audioUrl, previewUrl, defaultVoice, raf = 0, busy = false;
+let blinking;
 const appearance = createAppearance(colors => {
   renderer?.setAppearance(colors);
   for (const key of APPEARANCE_KEYS) {
@@ -97,9 +99,13 @@ class FaceRenderer {
       uniform vec3 center;
       uniform float scale, viewScale;
       uniform vec3 viewCenter, rotationOffset;
+      uniform int material;
+      ${BLINK_GLSL}
       out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
+        vec3 worldRest = restPosition / quantization * scale + center;
+        if (material == 0) p += blinkOffset(worldRest) / scale;
         vec3 normal = mix(normalA, normalB, blend);
         p = rotation * ((p - viewCenter) * viewScale) + rotationOffset;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
@@ -115,6 +121,7 @@ class FaceRenderer {
       uniform float neckDepth;
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle, eyeGlow;
+      ${BLINK_GLSL}
       in vec3 viewNormal, rest;
       out vec4 outputColor;
       float square(float value) { return value*value; }
@@ -137,6 +144,7 @@ class FaceRenderer {
         return monochrome ? vec3(dot(value, vec3(0.2126, 0.7152, 0.0722))) : value;
       }
       void main() {
+        if (material == 2 && blinkOccludes(rest)) discard;
         if (neckDepth >= 0.0 && rest.y < ${JAW_CROP.chin}
           + ${JAW_CROP.curve} * rest.x * rest.x
           + ${JAW_CROP.rearRise.toFixed(1)} * clamp((${JAW_CROP.rearStart.toFixed(1)} - rest.z)
@@ -341,7 +349,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
+      ["blink", "blinkCenterA", "blinkCenterB", "blinkRadius", "blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
@@ -400,6 +408,7 @@ class FaceRenderer {
       event.preventDefault();
       audio.pause();
       preview.pause();
+      blinking?.setActive(false);
       failure(new Error("Graphics context was lost. Reload Verona to rebuild the face."));
     });
     canvas.addEventListener("webglcontextrestored", () => {
@@ -805,7 +814,7 @@ class FaceRenderer {
     if (toolbar.style.getPropertyValue("--head-tools-left") !== leftValue) toolbar.style.setProperty("--head-tools-left", leftValue);
   }
 
-  draw(seconds) {
+  draw(seconds, blink = 0) {
     const gl = this.gl;
     if (gl.isContextLost()) { this.gazeMoving = false; return; }
     const polygonView = this.view.style > 0 || $("appearance").value === "polygon";
@@ -831,6 +840,11 @@ class FaceRenderer {
     this.attribute("normalA",this.view.style ? this.neutralNormals : this.normalBuffer(left),gl.FLOAT);
     this.attribute("normalB",this.view.style ? this.neutralNormals : this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
+    gl.uniform1f(u.blink, blink);
+    gl.uniform3fv(u.blinkCenterA, CLAIRE_BLINK.centers[0]);
+    gl.uniform3fv(u.blinkCenterB, CLAIRE_BLINK.centers[1]);
+    gl.uniform3fv(u.blinkRadius, CLAIRE_BLINK.radius);
+    this.canvas.dataset.blink = String(blink);
     const skin = this.skin, hair = this.activeHair;
     gl.uniform1f(u.neckDepth, this.headOnly ? this.neck.depth : -1);
     gl.uniform1i(u.polygonView,polygonView);
@@ -964,11 +978,12 @@ class FaceRenderer {
 }
 
 function draw() {
-  if (renderer) renderer.draw(audio.currentTime);
+  const blink = blinking?.sample();
+  if (renderer) renderer.draw(audio.currentTime, blink?.amount || 0);
   const duration = clip ? clip.duration : 0;
   $("time").textContent = `${audio.currentTime.toFixed(2)} / ${duration.toFixed(2)} s`;
   $("seek").value = String(audio.currentTime);
-  if ((!audio.paused && !audio.ended || renderer?.gazeMoving) && !raf) raf = requestAnimationFrame(animate);
+  if ((!audio.paused && !audio.ended || renderer?.gazeMoving || blink?.moving) && !raf) raf = requestAnimationFrame(animate);
 }
 
 function animate() {
@@ -1421,6 +1436,7 @@ try {
   $("preview").disabled = false;
   $("reset-voice").disabled = false;
   $("status").textContent = `Ready. Verona styling / ${session.mesh.identity} motion; ${session.mesh.vertices.toLocaleString()} connected face points.`;
+  blinking = attachBlinking($("natural-blink"), draw, () => !renderer.gl.isContextLost());
   draw();
   if (desktop?.agentEnabled) {
     $("follow-eyes").checked = false;

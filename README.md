@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="verona/web/verona-logo.png" alt="Verona logo: a cyan polygon face with a coral speaking mouth" width="112" height="112">
+</p>
+
+<p align="center">
   <img src="docs/media/gallery-vr36-facemesh-transparent.gif" alt="Verona speaks directly to you with 4x expressions, glowing centers, bright red spokes and synchronized cyan dialogue captions on a transparent background" width="900">
 </p>
 
@@ -43,48 +47,90 @@ Each head has its own model, capability, speech RAM and audio clock.
 closing the browser tab alone does not stop them.
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
-lip sync or a production-ready assistant.** The gallery below retains the
-milestone captures of the five remaining choices. The preserved hero, emotion, hair and presentation
-loops record the vr-36 visual runtime; their unchanged visuals remain relevant,
-but their old interfaces are not the current manager.
+lip sync or a production-ready assistant.** The five model overviews below are
+newer captures of the current renderers, including procedural blinks. The
+preserved hero, hair, rotation and control demonstrations retain their earlier
+provenance; their old interfaces are not the current manager.
 **4x expressions, glowing centers and bright spokes** are the selected
-FaceMesh look throughout, including the opening talking hero. The emotion gallery shows all ten available single model controls
-plus neutral; it does not preview combinations.
+FaceMesh look, including the opening talking hero. Each new model GIF shows
+all ten available single emotions plus neutral, not emotion combinations.
 
 ## Five heads, one local workspace
 
-These actual-renderer GIFs use the same synthetic **"Hey, how are you?"**
-greeting, Happy0.6/4x source and small authored turns. Distinct solid mesh tints
-make the choices legible; other feature colors stay original. MPFB fits bounded
-native controls, so 4x source is not4x native deformation.
+**Choose a head model first, then its face type.** A model is the head's
+geometry/identity; a face type is how that head is drawn. FaceMesh is not a
+second neural model loaded alongside Claire.
+
+Each large, dedicated GIF speaks **"Hey, how are you?"** through **neutral and
+all ten emotions**. The four Claire-family heads show their four face types
+together at matching speech timestamps: **Claire, FaceMesh, FaceDot and
+UniformPolygons**. The Claire panel alternates between **Transparent polygons**
+and **Reference color + makeup** across emotions; its caption names the material.
+Native MPFB has its own **native wire** face type instead of that four-view
+selector. These are silent, 10-fps sampled previews, not live performance tests.
+
+### Original Claire
+
+The preserved neural head, with original waves in the Claire panel. All four
+face types are available; hair, framing, colors and the two Claire materials
+remain separate controls.
 
 <p align="center">
-  <strong>Original Claire</strong><br>
-  <img src="docs/media/milestone-v0.1.0-claire.gif" alt="Original neural Claire speaking with a cyan mesh" width="100%">
+  <img src="docs/media/model-vr60-claire.gif" alt="Original Claire speaking through neutral and all ten emotions in Claire polygons or makeup, FaceMesh, FaceDot and UniformPolygons" width="100%">
 </p>
+
+### Native MPFB
+
+Independent native topology with **native wire rendering** and bounded
+Claire-to-native speech transfer. It does **not** offer the four Claire-family
+face types. Its separate research launcher also has a shaded comparison, not
+another manager-selectable face type. Original hair is absent; a custom hair
+color can add an optional static scalp cap.
 
 <p align="center">
-  <strong>Native MPFB &middot; Structural-reference Claire</strong><br>
-  <img src="docs/media/milestone-v0.1.0-mpfb.gif" alt="Current magenta native MPFB head with bounded speech transfer" width="50%"><img src="docs/media/milestone-v0.1.0-reference-structure.gif" alt="Current orange structural-reference fit of Claire, experimental" width="50%"><br>
-  <sub>MPFB: independent native topology; transferred speech, not a new neural model.<br>Structural reference: experimental geometric fit, not an accepted likeness.</sub>
+  <img src="docs/media/model-vr60-mpfb.gif" alt="Native MPFB wire head speaking through neutral and all ten emotions using bounded native controls" width="100%">
 </p>
+
+### Structural-reference Claire
+
+A stronger experimental MPFB-reference geometric fit over Claire's speech
+and topology, not the native MPFB head or an accepted likeness. Supports
+**Claire, FaceMesh, FaceDot and UniformPolygons**, including both Claire materials.
 
 <p align="center">
-  <strong>Historical subtle-reference &middot; Male-SharpJawline</strong><br>
-  <img src="docs/media/milestone-v0.1.0-reference-shell.gif" alt="Preserved green subtle-reference Claire fit, historically rejected by the owner" width="50%"><img src="docs/media/milestone-v0.1.0-male-sharp.gif" alt="Current violet Male-SharpJawline sculpt speaking" width="50%"><br>
-  <sub>Subtle reference: historically rejected fit, retained for comparison.<br>Male-SharpJawline: preserved sculpt over Claire motion, not the native Mark identity.</sub>
+  <img src="docs/media/model-vr60-reference-structure.gif" alt="Structural-reference Claire speaking through every single emotion in all four supported face types" width="100%">
 </p>
 
-### A separate look at the actual Mark model
+### Historical subtle-reference Claire
 
-Mark v2.3 is **report-only, not a manager choice**. These paired
-shaded/wire studies show its own native-derived topology, rest turntable and
-neutral speech at native1x. They do not replace Claire or Male-SharpJawline.
+The earlier subtle fit, historically rejected and retained for comparison.
+Supports **Claire, FaceMesh, FaceDot and UniformPolygons** with the same
+material choices; keeping it available is not renewed approval.
 
 <p align="center">
-  <strong>Mark rest turntable &middot; Mark neutral greeting</strong><br>
-  <img src="docs/media/milestone-v0.1.0-mark-turntable.gif" alt="Actual native Mark rest head rotating in shaded and wire views" width="50%"><img src="docs/media/milestone-v0.1.0-mark-neutral.gif" alt="Actual native Mark neutral speech in shaded and wire views" width="50%">
+  <img src="docs/media/model-vr60-reference-shell.gif" alt="Historical subtle-reference Claire speaking through every single emotion in all four supported face types" width="100%">
 </p>
+
+### Male-SharpJawline
+
+The preserved owner-named sculpt over Claire motion, **not the Mark neural
+identity**. Supports **Claire, FaceMesh, FaceDot and UniformPolygons**, including
+the two Claire materials and shared hairstyle choices.
+
+<p align="center">
+  <img src="docs/media/model-vr60-male-sharp.gif" alt="Male-SharpJawline speaking through neutral and every emotion in all four supported face types" width="100%">
+</p>
+
+All previews use strength **0.6 / 4x source**; neutral is not amplified.
+MPFB's transferred native controls are bounded to **0..1**, not lossless
+4x native deformation. Expressions are explicit controls, not detected feelings
+or accepted anatomy. Colors do not imply gender or a different speech network.
+[Capture receipts and limitations](docs/media/README.md).
+
+**Not selectable:** Mark v2.3 remains report-only
+([native rest turntable](docs/media/milestone-v0.1.0-mark-turntable.gif),
+[native neutral speech](docs/media/milestone-v0.1.0-mark-neutral.gif)).
+The future supplied-GLB **Realistic** view is parked, not implemented.
 
 ## Let a selected local agent session speak
 
@@ -137,54 +183,18 @@ checkout and an explicitly opted-in local session are still required.
 
 ## All ten emotions - 4x and bright spokes
 
-**Glowing centers, bright red spokes, 4x emotion.** All ten named model emotions
-plus neutral, one at a time: same Hazel greeting, camera and timing.
-No combinations are previewed.
+Each dedicated model GIF above covers the complete set: **Joy/Happy,
+Sadness, Amazement/Surprised, Anger, Cheekiness, Disgust, Fear, Grief,
+Out of breath and Pain**, plus the neutral speech baseline. Labels are
+embedded in the same GIF frames; no separate caption animation can drift.
 
-<p align="center">
-  <img src="docs/media/emotions-all.gif" alt="All ten unique FaceMesh emotions plus neutral, with cyan dialogue captions, glowing centers and bright red spokes" width="720">
-</p>
-
-The overview loops through **neutral, amazement, anger, cheekiness, disgust,
-fear, grief, joy, out of breath, pain and sadness** in 30.25 seconds.
-Each individual loop below is 2.75 seconds.
-
-<p align="center">
-  <img src="docs/media/emotion-neutral.gif" alt="Neutral speech baseline with glowing centers and bright red spokes" width="720">
-</p>
-
-<p align="center">
-  <strong>Amazement &middot; Anger</strong><br>
-  <img src="docs/media/emotion-amazement.gif" alt="4x amazement" width="50%"><img src="docs/media/emotion-anger.gif" alt="4x anger" width="50%">
-</p>
-
-<p align="center">
-  <strong>Cheekiness &middot; Disgust</strong><br>
-  <img src="docs/media/emotion-cheekiness.gif" alt="4x cheekiness" width="50%"><img src="docs/media/emotion-disgust.gif" alt="4x disgust" width="50%">
-</p>
-
-<p align="center">
-  <strong>Fear &middot; Grief</strong><br>
-  <img src="docs/media/emotion-fear.gif" alt="4x fear" width="50%"><img src="docs/media/emotion-grief.gif" alt="4x grief" width="50%">
-</p>
-
-<p align="center">
-  <strong>Joy &middot; Out of breath</strong><br>
-  <img src="docs/media/emotion-joy.gif" alt="4x joy" width="50%"><img src="docs/media/emotion-outofbreath.gif" alt="4x out-of-breath facial conditioning" width="50%">
-</p>
-
-<p align="center">
-  <strong>Pain &middot; Sadness</strong><br>
-  <img src="docs/media/emotion-pain.gif" alt="4x pain" width="50%"><img src="docs/media/emotion-sadness.gif" alt="4x sadness" width="50%">
-</p>
-
-Neutral speech is not amplified; the ten emotions use strength **0.6**.
-Strong anger/pain lids naturally cover the pupil centers; light does not shine
-through skin. These are explicit model controls, not detected emotions or a
-human-accuracy guarantee. Out of breath changes the face, not the voice.
-All ten single controls are now available in the app; Happy/Joy,
-Surprised/Amazement and Sad/Sadness retain their existing selector names.
-[Capture receipts and limits](docs/media/README.md).
+Choose one **Emotion**, strength **0..0.6**, and **2x or 4x** exaggeration.
+These controls change the face, not the voice's emotion. Strong lids hide
+covered optics; **Natural blinking** adds occasional procedural closure at
+rest or during speech. It defaults off under reduced motion and can be
+explicitly toggled. No combination or perfect human accuracy is implied.
+The older individual emotion GIFs remain historical files rather than
+repeating the model gallery here.
 
 ## Use this look in the app
 

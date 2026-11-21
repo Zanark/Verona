@@ -1,12 +1,14 @@
 import {createStudyRenderer} from "/mpfb-renderer.mjs";
 import {startAgent} from "/agent-player.mjs";
 import {APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor} from "/face-colors.mjs";
+import {attachBlinking} from "/blinking.mjs";
 
 const $ = id => document.getElementById(id);
 const audio = $("audio"), token = location.hash.slice(1);
 let model, draw, frames, metadata, pose, animation = 0, url = null, lost = false;
 let loading = false, resting = true;
 let owned = false;
+let blinking, failed = false;
 const desktop = window.veronaDesktop;
 const appearance = createAppearance(colors => {
   draw?.forEach(fn => fn.setColors(colors));
@@ -18,7 +20,7 @@ const appearance = createAppearance(colors => {
   $("appearance-note").textContent = colors.hair === null
     ? "Original native study: no hair. Choose a hair color to show an optional static procedural scalp cap."
     : "Hair: optional static procedural scalp cap, not imported MPFB hair. Lips/brows: approximate rest-coordinate color masks, not new anatomy.";
-  if (model && !lost) renderAt(frames && !resting ? audio.currentTime : null);
+  if (model && !lost) tick();
 });
 window.veronaAppearance = appearance;
 const editable = ["generate", "stop", "text", "voice", "expression", "intensity", "expression-gain", "yaw",
@@ -67,7 +69,7 @@ async function request(path, body) {
   return response;
 }
 
-function renderAt(seconds = null, yaw = Number($("yaw").value)) {
+function renderAt(seconds = null, yaw = Number($("yaw").value), blink = 0) {
   if (lost) throw new Error("WebGL context lost. Reload this study to restart.");
   if (seconds === null || !frames) pose.set(model.rest);
   else {
@@ -77,13 +79,16 @@ function renderAt(seconds = null, yaw = Number($("yaw").value)) {
       pose[i] = frames[a * pose.length + i] * (1 - blend) + frames[b * pose.length + i] * blend;
     }
   }
-  draw.forEach(fn => fn(pose, yaw));
+  draw.forEach(fn => fn(pose, yaw, blink));
   $("caption").textContent = `${seconds === null ? "Original native rest" : `${metadata.expression} | ${seconds.toFixed(2)}s`} | ${metadata?.expressionGainSetting ?? Number($("expression-gain").value)}x source / native rig | ${yaw} deg`;
 }
 
 function fail(error) {
+  failed = true;
   audio.pause();
   cancelAnimationFrame(animation);
+  animation = 0;
+  blinking?.setActive(false);
   $("error").textContent = error.message;
 }
 
@@ -92,20 +97,27 @@ function stop() {
   audio.pause();
   audio.currentTime = 0;
   cancelAnimationFrame(animation);
-  if (model && !lost) renderAt();
+  animation = 0;
+  if (model && !lost) tick();
 }
 
 function tick() {
+  cancelAnimationFrame(animation);
+  animation = 0;
+  if (!model || lost || failed) return;
   try {
-    if (resting) { renderAt(); return; }
-    renderAt(audio.currentTime);
-    if (!audio.paused && !audio.ended) animation = requestAnimationFrame(tick);
+    const blink = blinking?.sample();
+    renderAt(resting ? null : audio.currentTime, Number($("yaw").value), blink?.amount || 0);
+    if ((!resting && !audio.paused && !audio.ended) || blink?.moving)
+      animation = requestAnimationFrame(tick);
   } catch (error) { fail(error); }
 }
 
 async function generate(options = {}) {
   if (loading || lost) throw new Error("Wait for generation, or reload a lost WebGL context.");
   loading = true;
+  failed = false;
+  blinking?.refresh();
   lockControls();
   $("error").textContent = "";
   stop();
@@ -149,6 +161,8 @@ async function generate(options = {}) {
 
 async function prepareAgent(message) {
   if (loading || lost) throw new Error("Native study is busy or its WebGL context is lost.");
+  failed = false;
+  blinking?.refresh();
   $("text").value=message.text; $("voice").value=message.voice;
   $("expression").value=message.expression; $("intensity").value=String(message.intensity);
   $("expression-gain").value=String(message.gain);
@@ -173,7 +187,7 @@ async function prepareAgent(message) {
 }
 
 audio.addEventListener("play", () => { resting = !frames; cancelAnimationFrame(animation); tick(); });
-audio.addEventListener("pause", () => cancelAnimationFrame(animation));
+audio.addEventListener("pause", tick);
 audio.addEventListener("seeked", () => {
   cancelAnimationFrame(animation);
   if (frames && !lost && (!resting || audio.currentTime > 0)) { resting = false; tick(); }
@@ -181,7 +195,7 @@ audio.addEventListener("seeked", () => {
 audio.addEventListener("ended", () => { stop(); $("status").textContent = "Playback ended. Native rest restored."; });
 audio.addEventListener("error", () => fail(new Error("Audio failed to load or decode. Generate again, or reload an expired session.")));
 $("yaw").addEventListener("input", () => {
-  if (model && !lost) renderAt(frames && !resting ? audio.currentTime : null);
+  if (model && !lost) tick();
 });
 audio.volume = Number($("volume").value);
 $("volume").addEventListener("input", () => { audio.volume = Number($("volume").value); });
@@ -211,6 +225,7 @@ try {
   $("text").maxLength = session.limits.characters;
   appearance.apply(session.appearance?.colors || {});
   $("generate").disabled = false;
+  blinking = attachBlinking($("natural-blink"), tick, () => !lost && !failed);
   if (desktop?.agentEnabled) await startAgent(desktop, prepareAgent, locked => {
     owned=locked;lockControls();
   }, fail);

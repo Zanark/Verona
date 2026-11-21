@@ -43,9 +43,17 @@ app.whenReady().then(async()=>{
     },model+" native ready");
     const volume=state.controls.find(control=>control.id==="volume");
     assert(volume && !volume.disabled,model+" has centrally configurable volume");
+    const blink=state.controls.find(control=>control.id==="natural-blink");
+    assert(blink && !blink.disabled && typeof blink.value==="boolean",
+      model+" publishes its initialized natural-blink control");
+    for (const value of [false,true]) {
+      await command({action:"settings",session:name,settings:{"natural-blink":value}});
+      assert.equal((await inspect(name)).controls.find(control=>control.id==="natural-blink").value,value,
+        model+" confirms central blink preference changes");
+    }
     await command({action:"settings",session:name,settings:{volume:"0"}});
     report.models.push({model,session:name,readySeconds:(Date.now()-started)/1000,
-      appearance:state.appearance,controlCount:state.controls.length});
+      appearance:state.appearance,controlCount:state.controls.length,naturalBlinkRoundTrip:true});
     await refresh();
     return state;
   }
@@ -119,6 +127,7 @@ app.whenReady().then(async()=>{
     await wait(()=>closed(name),model+" close",20);
   }
   report.checks.push("Every selectable variant initialized its real native renderer and completed actual muted speech.");
+  report.checks.push("All five real models publish natural blinking and confirm manager opt-out/opt-in.");
   await save();
   window.destroy();app.quit();
 }).catch(async error=>{

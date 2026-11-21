@@ -1,5 +1,13 @@
 # Verona engineering book
 
+**Post-M1 character and discovery:** [chapter09](chapters/09-verona-character-and-waves.md)
+explains occasional procedural blinks, the original desktop/browser logo and
+one dedicated all-emotion/four-view overview per Claire-family head (native
+MPFB keeps its own wire view). Existing motion demonstrations remain unchanged.
+[Chapter07's live-use observation](chapters/07-hazel-claire-and-performance.md#real-chat-use-separate-head-cost-from-a-busy-machine-vr-61)
+records actual idle/speech cost and the planned latency/memory follow-ups,
+without mistaking whole-machine load for Verona's own CPU.
+
 **Current runtime efficiency (vr-57):** [chapter07's resource audit](chapters/07-hazel-claire-and-performance.md#selected-head-resource-ownership-vr-57)
 traces selected-head loading, manager imports, peak PCA lifetime, lazy GPU
 geometry/motion and measured limits. FaceMesh still needs Claire's speech

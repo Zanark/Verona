@@ -1,0 +1,50 @@
+ID: vr-58
+Title: Occasional procedural blinking across supported heads
+
+Status: DONE
+Milestone: Post-M1 character liveliness
+Dependencies: vr-20, vr-44, vr-45, vr-57
+
+Purpose:
+  Add occasional eyelid closure at rest and during speech across all five
+  supported heads and their presentations without additional neural inference.
+
+Tasks:
+  Add one bounded randomized blink scheduler and shared eye-space deformation.
+  Integrate Claire-family and native MPFB renderers and a live opt-out control.
+  Preserve audio clocks, cursor tracking, selected-only resources and originals.
+  Qualify open/closing/closed/reopened output and lifecycle in isolated fixtures.
+  Update the source-backed book, guide, ledger and original issue/Project item.
+
+Acceptance criteria:
+  Both eyelids close and reopen, including wire/dot/grid optics, without
+    changing speech data or deforming mouth/hair/other facial regions.
+  Idle rendering sleeps between blinks; speech/gaze share their existing RAF.
+  Hidden pages, disabled blinking and lost contexts cancel blink work.
+  Reduced-motion preference defaults blinking off, with explicit user override.
+  No new model, dependency, persistent speech data or automatic live-head reload.
+  Retain numerical/rendered evidence and distinguish procedural cosmetics from
+    anatomical accuracy, visual acceptance and universal performance guarantees.
+
+Completion evidence:
+  Shared blinking.mjs clock/lifecycle/GLSL; app.js and native mpfb.js/renderer
+    integration, opt-out and initialized reduced-motion controls.
+  Actual Claire/native appearance qualification04: all four human views and
+    native wire/surface close/reopen with exact restored pixels and allocations.
+    Open/closed/contact samples visually reviewed, not every frame/angle.
+  Deterministic clock/lifecycle, native RAF/startup and 83 CPU tests pass.
+    Player/manager/session DOM fixtures pass; native blink-sessions-02 qualifies
+    all five real models, manager blink toggles, muted speech and owned cleanup.
+    Keep sessions01's intermittent MPFB close timeout; vr-64 tracks its unknown
+    cause. No universal frame-rate/shutdown or human-accuracy claim.
+  Explicitly requested live owned-head replacement completed; preserved settings,
+    current source and natural-blink=true read back. No sibling head restarted.
+
+Completion log:
+  2026-11-21 - Owner requests occasional blinks across all possible model/views.
+    Existing live Claire/Hazel head stays loaded and is not automated/reloaded.
+    Candidate browser fixtures own their server/profile/data and synthetic motion.
+  2026-11-21 - Implemented and environment-qualified; late software frames may
+    miss the brief closed hold, so endpoints and sampled cadence are distinct.
+    Native initial-control publication now follows reduced-motion initialization.
+    Owner separately authorized and received the live replacement.

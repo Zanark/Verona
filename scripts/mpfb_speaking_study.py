@@ -15,15 +15,17 @@ from scripts.mpfb_motion_transfer import apply_transfer
 def native_session(port=0):
     from verona.engine import FaceEngine
     from verona.mesh import claire_topology
-    from verona.server import LocalServer, State
+    from verona.server import BRANDING_STATIC, LocalServer, State
     from verona.speech import installed_voices
 
     static = {
+        **BRANDING_STATIC,
         "/": ("mpfb.html", "text/html; charset=utf-8"),
         "/app.js": ("mpfb.js", "text/javascript; charset=utf-8"),
         "/style.css": ("mpfb.css", "text/css; charset=utf-8"),
         "/mpfb-renderer.mjs": ("mpfb-renderer.mjs", "text/javascript; charset=utf-8"),
         "/face-colors.mjs": ("face-colors.mjs", "text/javascript; charset=utf-8"),
+        "/blinking.mjs": ("blinking.mjs", "text/javascript; charset=utf-8"),
         "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
         "/session-controls.mjs": ("session-controls.mjs", "text/javascript; charset=utf-8"),
         "/session-controls.css": ("session-controls.css", "text/css; charset=utf-8"),

@@ -57,6 +57,13 @@ vr-54 | 54_CLAIRE_BLENDER_WORKSHOP.todo | DONE | Local Claire/PCA GLB, 55-piece 
 vr-55 | 55_RETIRE_ARMORED_VARIANT.todo | DONE | Removed rejected app/Blender characters and inspected copies; preserved Claire export and replaced journal pictures
 vr-56 | 56_BORDERLESS_README.todo | DONE | Full-width borderless README rows; 15 equal pairs/two full-width solos, all media and collapsed gallery preserved
 vr-57 | 57_HEAD_RESOURCE_PERFORMANCE.todo | DONE | Selected-only GPU resources, lightweight manager and lower measured startup peak; exact motion/default pixels preserved
+vr-58 | 58_NATURAL_BLINKING.todo | DONE | Qualified procedural eyelid closure/all-five-model controls; explicitly requested live owned-head replacement
+vr-59 | 59_VISUAL_BRANDING.todo | DONE | Original face-mesh native icon, guarded browser favicons and README logo
+vr-60 | 60_MODEL_GALLERY.todo | DONE | Five large all-emotion speech GIFs, exact decoding/provenance and full-width README layout
+vr-61 | 61_LIVE_SESSION_PROFILING.todo | DONE | Bounded real-session observation and spoken findings; latency/memory work separately planned
+vr-62 | 62_ANIMATED_REPLY_LATENCY.todo | NOT_STARTED | Attribute and reduce measured uncached animated reply preparation delay
+vr-63 | 63_LIVE_HEAD_MEMORY.todo | NOT_STARTED | Attribute complete live-head memory and fix only proved avoidable retention
+vr-64 | 64_NATIVE_SHUTDOWN_DIAGNOSTICS.todo | NOT_STARTED | Diagnose retained intermittent native close delays without hiding failures or extending gates
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

@@ -1,0 +1,44 @@
+ID: vr-60
+Title: One large all-emotion GIF per selectable head
+
+Status: DONE
+Milestone: Post-M1 model discovery
+Dependencies: vr-35, vr-45, vr-58
+
+Purpose:
+  Make the README explain every selectable head and its real face-type choices
+  in one reading, using a single large dedicated speech/emotion GIF per model.
+
+Tasks:
+  Render original Claire, native MPFB, both reference fits and Male-SharpJawline.
+  Show supported face presentations and all ten single emotions plus neutral.
+  Replace redundant model/emotion galleries with five large labelled GIFs.
+  Preserve the existing motion demonstrations and original historical media.
+  Independently decode results and qualify the updated README layouts.
+
+Acceptance criteria:
+  Exactly one dedicated current overview GIF for each of five selectable heads.
+  Every overview shows speech and every single emotion with readable labels.
+  Explain model versus face view, material options and native MPFB's limits.
+  No invented accuracy/identity approval, report-only Mark as app choice, or
+    lost motion-demo bytes. Keep full-width borderless centered GIF presentation.
+
+Completion evidence:
+  scripts/model_gallery.py/.cjs capture one real selected engine/adapter at a
+    time; five docs/media/model-vr60-*.gif files and public provenance retained.
+    Each is 960x1080/30.25s, all eleven states; every source sample matches its
+    independently decoded palette-converted timeline.
+  Representative actual frames for all five models and final wide/narrow README
+    screenshots visually reviewed. 26 inline images/24 GIFs; exactly five new
+    dedicated model GIFs. GitHub GFM/CSS at 1200/768/390px: full-width model
+    rows, natural aspect, no tables/borders/overflow. Original motion section
+    and historical media unchanged. Total new GIF bytes86,856,944 disclosed.
+    These are silent 10-fps publishing captures, not live performance evidence.
+
+Completion log:
+  2026-11-21 - Owner requests a simpler model section with bigger dedicated GIFs,
+    leaving the existing motion demonstrations alone.
+  2026-11-21 - Delivered five labelled current overviews, model/view/material
+    explanation, exact decode/source provenance and responsive README gallery.
+    Lossless delta encoding reduces Claire31,280,891 ->19,377,055bytes without
+    dropping samples. Preserved the rejected trial and capture-time source hashes.

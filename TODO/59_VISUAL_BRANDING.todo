@@ -1,0 +1,39 @@
+ID: vr-59
+Title: Original Verona desktop and browser identity
+
+Status: DONE
+Milestone: Post-M1 visual identity
+Dependencies: vr-13, vr-45
+
+Purpose:
+  Give Verona an original face-mesh logo, native window/taskbar icon, browser
+  favicons and visible README branding without repackaging the Electron runtime.
+
+Tasks:
+  Create original artwork and reproducible size/ICO derivatives.
+  Update native BrowserWindow and all three supported web entrypoints.
+  Verify actual asset responses, native icon and README presentation.
+  Coordinate an authorized current-head restart after the complete candidate.
+
+Acceptance criteria:
+  Electron window and taskbar use the Verona icon, not default Electron artwork.
+  Manager, Claire and native MPFB pages serve their declared local favicons.
+  README includes the actual same logo without replacing its talking hero.
+  No new network dependency, installer, retired character or sibling app change.
+
+Completion evidence:
+  Preserved docs/branding/verona-master.png and reproducible PNG/ICO generator.
+    Electron BrowserWindow receives the ICO and Windows Zanark.Verona identity.
+    Manager, Claire and native MPFB use explicit guarded branding routes.
+  Actual guarded HTTP and native icon/window qualification pass; ICO decodes
+    at 256px, favicon at 32px. README logo/hero and narrow/wide GFM layout pass.
+  This chat's explicitly authorized replacement head loads current branding;
+    its prior voice/appearance settings remain. Shared manager not restarted.
+    Source-window branding is implemented; independent taskbar visual approval
+    and changing the downloaded Electron executable/installer are not claimed.
+
+Completion log:
+  2026-11-21 - Owner explicitly requests original logo, app/favicon/README
+    integration and permits closing heads when needed to apply the updates.
+  2026-11-21 - Completed artwork/integration, native and browser qualification,
+    README display and the explicitly requested owned-head replacement.
