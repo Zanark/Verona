@@ -1957,3 +1957,54 @@ use actual isolated synthetic captures. Silent GIFs sample the timeline at
 12 fps; yaw changes are camera/view controls, not predicted head motion.
 The source milestone is distinct from the original frozen prerelease,
 an installer, a book edition or deployment.
+
+## Claire interchange and a separate Blender armor study (vr-54)
+
+The owner now rejects the earlier app robot and wants Claire exported for their
+own Optimus-inspired Blender modeling. That changes the direction of asset
+authoring, not the historical record of earlier feedback or the running app.
+The [illustrated workshop handbook](../claire-blender-workshop.md) locates two
+actual local GLBs, native `.blend` source and a 15-page PDF/offline HTML guide.
+It explains every reference region with saturated distinct colors, matches
+armor labels to those regions, and shows equal-scale registration, profile,
+back, optics, manual jaw motion and exploded layers. Approximate colored
+teaching masks are not independently separated muscles or calibrated anatomy.
+
+`scripts/claire_blender_workshop.py:prepare_claire` verifies pinned Claire
+v2.3.1 hashes, numerically parses the Maya scene and reuses `native_control_mesh`
+and `verona_rest_shape`. It exports the existing 15,375 selected skin vertices,
+30,746 triangles and all 140 matching PCA deltas as named shape keys, plus Basis.
+It never starts inference, speech or Maya. `to_blender` changes centimeters to
+meters and source Y-up/Z-front to Blender Z-up/-Y-front around the source
+eye-height origin. Standard Y-up GLB is the interchange format. The saved
+native-index map establishes this export's correspondence, not a guarantee
+that arbitrary edited/reimported geometry will retain vertex identity.
+
+`build_robot` authors 55 original separate volumetric armor meshes: wrapped
+crown, crest, tall antennae, ear housings, optics, bridge, cheek/vent assemblies,
+split faceplate and neck ribs. `create_rig` assigns each rigid mesh to Head, Jaw,
+Brow.L or Brow.R. The two-second `MANUAL_JawInspection_NOT_Speech` action is a
+manual inspection pose, not speech, gaze, a voice or an accepted final likeness.
+The old runtime robot is neither copied nor replaced. Claire's eye/hair meshes
+remain static; learned PCA modes are not semantic viseme controls. The export
+does not contain a full teeth/tongue/eye rig, networks, audio or WebGL cosmetics.
+
+`verify_exports` performs a factory reset before each actual GLB import. All 141
+Claire key-coordinate arrays match within 7.45e-9 m; the imported robot jaw moves
+0.01665 m with zero sampled helmet motion. An initial checker wrongly counted
+Blender's generated Icosphere bone widget as an unrigged asset. The correction
+matches exact GLB mesh names and admits only extras actually used as pose-bone
+custom shapes, without relaxing attachment checks. Candidate 02 also corrects
+a real static iris occlusion and flat guide colors; candidate 01 remains.
+
+`scripts/claire_blender_guide.py` composes actual renders into searchable native
+PDF headings/captions and image-heavy plates, with a matching offline reader.
+Agent layout/geometry review is not owner approval or full collision testing.
+The isolated background/factory Blender lane uses disposable configuration,
+disabled autoexec, CPU rendering and two threads. Existing live heads, profiles
+and sibling apps are not driven. New-output refusal, explicit pinned-input/
+topology/import failures and retained partial runs support cancellation/restart;
+the handbook documents preserving receipts before another verification.
+All model-derived assets stay ignored/local, with underlying rights notices.
+No automatic runtime import, model download, publication or release mutation
+follows from producing this authoring kit.

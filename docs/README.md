@@ -15,6 +15,11 @@ owner corrections and acceptance limits rather than exporting private chats.
 [Book production](../book/README.md) explains the exact source cutoff,
 reproduction, review and local-only delivery. The PDF is not uploaded to GitHub.
 
+**Claire Blender workshop (vr-54):** [the asset-authoring guide](claire-blender-workshop.md)
+locates the local Claire GLB, editable Optimus-inspired `.blend`/GLB and
+15-page illustrated PDF/HTML placement guide. Chapter09 explains the native
+PCA/reference versus mechanical-armor boundary; no app model is replaced.
+
 The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
 (`VeronaDesktop.cmd` is an alias). Chapter10 describes isolated warm engines,
 native control forwarding and owned lifecycle; chapter09 describes independent

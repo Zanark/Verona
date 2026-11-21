@@ -1,0 +1,68 @@
+ID: vr-54
+Title: Claire GLB and illustrated Blender robot workshop
+GitHub issue: https://github.com/Zanark/Verona/issues/53
+
+Status: DONE
+Milestone: Post-M1 local asset-authoring handoff
+Dependencies: vr-08, vr-30, vr-53
+
+Purpose:
+  Export the existing Claire for the owner's Blender work and provide an
+  editable Optimus-inspired armor study plus an image-heavy placement guide.
+  The owner now dislikes the earlier procedural robot; historical approval
+  does not establish approval of this or any later design.
+
+Tasks:
+  Verify pinned numerical Claire inputs and isolate a background Blender lane.
+  Export named Claire skin/eyes/hair with matching PCA shape-key data.
+  Build a separate editable helmet, optics, faceplate and mechanical-jaw study.
+  Render actual orthographic, profile, exploded and annotated placement views.
+  Deliver GLBs, native Blender source, illustrated PDF/HTML and provenance.
+  Reimport exports into a fresh Blender process and verify their geometry/rig.
+  Update chapters/index/ledger/tracking and preserve owned session context.
+
+Acceptance criteria:
+  Actual Blender-importable self-contained GLB; explicit scale/axes/origin.
+  Claire preserves existing selected native vertices and matching PCA motion.
+  Separate named editable armor pieces, not a reskinned copy of old robot.mjs.
+  Guide prioritizes real model images with clear part labels and placement.
+  Distinguish reference skin, static cosmetics, modal keys and mechanical rig.
+  Never promise an automatic GLB roundtrip or speech/runtime integration.
+  No live head/profile/device driven, new asset download or existing file overwrite.
+  Keep model-derived binaries local/ignored with source and license notices.
+
+Completion evidence:
+  Actual Claire.glb, Optimus-inspired.glb and native workshop are local under
+  .local\exports\claire-optimus-02; both actual factory imports pass.
+  Claire preserves all141native key arrays within7.45e-9m; robot has55meshes,
+  fourbones/one manual action, moving jaw and fixed sampled helmet.
+  Illustrated15page PDF/HTML built from12actual renders; all page layouts
+  inspected, placement/registration and representative views inspected large.
+  Fivefocused CPU regressions pass. Actual isolated Edge157 file reader at
+  1400/600/390px:15decoded plates/19links/no detected horizontal/image overflow,
+  no missing targets or external page requests. All34local link/image targets
+  resolve; owned browser processes exited and disposable profiles removed.
+  PDF15native pages/bookmarks; SHA256:
+  c33e518d8aacd99f37bc40d8f2313bfd3af7a6fae855974f27d4d45b9f9d14fd.
+  ClaireGLB SHA256:
+  8e4b525ff7ec04e86dead34c3bb4a2e5529c71f885129b730dc5ec710abc4402.
+  RobotGLB SHA256:
+  745a246bdbf1086264342c3acdb4ecd93ccc9f2061e0fde3bb4877024381c89f.
+  Native.blend SHA256:
+  2cea678f0aad289eedd57f83e15b1757cd45b2bcfc5ec036c503892e1bc9a7aa.
+
+Completion log:
+  2026-11-21 - Owner requests Claire GLB for Blender, a better Optimus-inspired
+    modeling direction and an image-heavy part/armor placement guide.
+    Installed portable Blender4.5.16 LTS is available. Own background/factory
+    startup lane, disposable configuration, two CPU render threads; existing
+    manager199804/135300 remains untouched. No Blender GUI process was present.
+  2026-11-21 - Delivered actual selected native Claire plus140PCA modes,
+    separate55piece rigid armor/4bone manual rig, native editing scene and
+    image-heavy15pagePDF/offlineHTML. Kept candidate01/checker failures;
+    candidate02 fixes static iris occlusion and flat distinct guide colors.
+    Corrected verifier's non-asset bone-widget classification, checked all
+    native key arrays by name, and verified real independent jaw animation.
+    Source handbook/chapter09/rights/index/causal ledger updated. No model/
+    speech/device download/use, live app change, owner likeness approval,
+    runtime import, asset upload, release mutation or deployment.

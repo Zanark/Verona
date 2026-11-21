@@ -1,6 +1,45 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-54 Claire GLB and illustrated Blender armor workshop
+Cause: owner wants Claire in Blender to author a better Optimus-inspired head,
+rejects the earlier app robot, and prefers images explaining parts/placement.
+Action: use existing Blender4.5.16LTS in a disposable background/factory lane,
+disabled autoexec/two CPUthreads. No newmodel/tool download or app/device driven.
+Export actual styled15375vertex/30746triangle Claire skin with all140PCA modes
+plus Basis, static original eyes/irises/pupils/hair; not all61520source vertices.
+Mechanism: reuse pinnednumeric inputs/native_control_mesh/verona_rest_shape;
+sourcecm-to-meter axis conversion around eye-height origin; selectednative map
+recorded. No Maya execution, ONNX, speech, audio or semantically namedvisemes.
+Build55original separate volumetric armor meshes with4rigid bones, not copied
+old robot.mjs/official mesh. Saved.blend includes both assets, false-color guide,
+named parts, original materials and manual2second jaw inspection, not speech.
+Failures: initial static iris partially occluded; candidate02 positions each
+relative to its own eyeball. Unlit solid guide colors replace washed rendering.
+Initial checker counted importer-generated Icosphere bone widget as unrigged
+asset. Inspect actual GLB skin/JOINTS/WEIGHTS and custom-shape ownership; require
+exact asset names and allow only actually referenced widget extras. Retain01.
+Evidence: two actual fresh-factory imports preserve all141Clairekey arrays by
+name within7.4505464853213965e-9m. Robot55meshes/1skin/1manualaction; jaw moves
+.016649450653907185m, sampledhelmet0. Fivefocused CPU regressions pass.
+Twelve actual CPUrenders feed15illustrated landscape PDFpages/searchable
+headings/captions/bookmarks and offlineHTML. Alllayouts/inputviews reviewed
+via actualPDFcontactsheet; anatomy/armor/registration/profile/exploded views
+inspected large. Menu roadmap labelled diagram, not a fictional UI capture.
+Actual isolated Edge157 reader1400/600/390px:15decodedplates/19links/no detected
+horizontal/imageoverflow or externalpage requests;34localtargets resolve.
+Owned browsers exit/disposableprofiles removed. App managers199804/135300
+remain untouched. Failed candidates/receipts retained, M1edition unchanged.
+Localdelivery .local/exports/claire-optimus-02:Claire.glb26804876bytes,
+Optimus-inspired.glb672480bytes,workshop.blend31687661bytes and guidePDF:
+c33e518d8aacd99f37bc40d8f2313bfd3af7a6fae855974f27d4d45b9f9d14fd.
+Handbook/chapter09/index/rights/TODO record axes, regions, PCA versus rigid
+motion, customization, errors/cancel/retry, correspondence loss and ownership.
+Boundary: no runtime integration, automatic GLB reimport/nativeID guarantee,
+collision/likeness/phonetic acceptance, owner approval, binary upload or release
+change. Derived binaries stay ignored with underlying model/sample notices.
+vr54 retains originalissue53/Project15itemPVTI_lAHOAe2wCs4BsFbFzhKn9Mg.
+
 2026-11-21 - vr-53 illustrated M1 development-journal edition
 Cause: owner requests a journal-like PDF with dates/timelines and extensive
 useful screenshots/records from .local after declaring the first milestone.
