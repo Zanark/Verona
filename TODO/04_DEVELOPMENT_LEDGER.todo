@@ -1,6 +1,23 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr-74 makes performance-only behavior an immutable creation choice
+Cause: owner clarifies normal heads must not have performance mode, and opt-in
+must occur when the head is created. Immediately disable it on current head.
+Action: unchecked creation checkbox/CLI flag, strict boolean appearance policy,
+child-host forwarding and read-only manager identity. Remove mutable native
+and quick performance toggles; reject live policy changes even with stale
+controls. Preserve normal opacity and all sleep/media mechanisms.
+Evidence: actual manager DOM covers default/explicit/reset creation; focused
+session/HTTP/media cases and separate real normal/performance Claire heads
+cover4views each, actual WAV and face/voice prep/play/cancel. Only opted-in
+heads have zero sampled automatic redraws/native cursor reads while silent.
+Keep earlier vr-73 measurements historical, not a new speedup claim.
+Delivery: at00:36IST owned manager293308/head306520 becomes306384/305416.
+Normal policy, all remaining controls/appearance preserved, other sessions
+unchanged and sixteen source/test hashes verified in live-creation-performance-01.
+README/guide/chapters07/10/11/skill contract/index/living journal updated.
+
 2026-11-22 - vr-73 separates dimming from actually suspending unused animation
 Cause: owner wants silent heads at10%opacity, no cursor reaction/expensive idle
 work, full opacity for speech, plus quick transparency controls and measurements.

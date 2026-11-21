@@ -1,7 +1,10 @@
 # 10 - A transparent desktop without a second speech system
 
-**Idle warm sleep (vr-73):** the collapsed floating menu now also contains
-**Performance** and **Normal opacity**. Only the canvas fades, not its controls.
+**Idle warm sleep (vr-73, creation policy corrected in vr-74):** choose the
+unchecked **Performance-only head** option at creation, never a live toggle.
+Normal heads retain their usual behavior. The floating menu contains
+**Normal opacity**, plus a badge only for performance-only heads.
+Only the canvas fades, not its controls.
 The trusted `sleep` command pauses the existing native cursor timer without
 changing the user's follow choice. [Chapter11](11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)
 explains state/ownership; [chapter07](07-hazel-claire-and-performance.md#measured-idle-performance-mode-vr-73)

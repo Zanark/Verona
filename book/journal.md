@@ -5,6 +5,34 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Performance belongs to creation, not every head (vr-74)
+
+The owner corrects the previous delivery: performance-only behavior must be
+chosen when creating a head, never enabled by default on a normal one.
+The session head is immediately returned to normal. The corrected manager
+adds an unchecked New session checkbox; CLI create/host use an explicit flag.
+A strict boolean travels with immutable appearance metadata to the shared
+renderer. The child process receives the flag only when selected.
+
+Normal heads retain ordinary idle animation/tracking and the opacity slider.
+Performance-only heads retain10%idle/100%speaking sleep with no mutable toggle;
+the floating menu shows a badge, and the manager labels policy read-only.
+Live policy changes fail explicitly, including requests using stale control
+metadata. Successful creation resets the next choice to unchecked.
+
+Focused session/HTTP/media cases pass. The actual manager DOM verifies both
+creation choices and immutable display. Two real Claire native heads cover
+both policies across four views, real decoded audio and local face/voice
+generation/play/cancel. Only opted-in heads suspend cursor reads/redraws.
+Separate disposable profiles/caches/backends preserve the live normal head
+during candidate qualification. Historical vr-73 CPU numbers are not rerun
+or generalized; no release or frozen edition is rewritten.
+
+At 00:36 IST the qualified source replaces only the owned manager and head.
+The reopened Verona is normal, with all prior appearance/control choices
+preserved except the removed live performance toggle. The delivery receipt
+verifies all sixteen promoted source/test files and unchanged other sessions.
+
 ## 2026-11-22 - Make an unused head genuinely stop moving (vr-73)
 
 The owner asked for more than a dimmer: an idle performance mode that becomes

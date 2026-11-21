@@ -41,7 +41,7 @@ def main():
     run(args.model, output)
 
 
-def run(model, output, name="idle", extra_args=()):
+def run(model, output, name="idle", extra_args=(), performance_mode=False):
     from verona.agent_host import AgentBridge
     from verona.agent_speech import SpeechWorker
     from verona.engine import FaceEngine
@@ -58,7 +58,7 @@ def run(model, output, name="idle", extra_args=()):
         try:
             state = State(FaceEngine("mark" if model == "mark" else "claire"), speech.voices)
             state.static = prepare_variant(state.engine, model)
-            state.appearance = appearance(model, {}, "idle-qualification")
+            state.appearance = appearance(model, {}, "idle-qualification", performance_mode=performance_mode)
             state.synthesizer = speech.synthesize
             bridge = AgentBridge(state, output / "owned-agent.json", speech)
             state.agent = bridge

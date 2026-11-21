@@ -105,11 +105,14 @@ checkbox to disable it; reduced-motion preference defaults it off.
 [All fifteen actions, controls, research and limits](docs/chapters/11-autonomous-idle-life.md).
 Existing model/motion GIFs below retain their original provenance.
 
-**Performance mode:** the floating menu now offers **Performance** and quick
-**Normal opacity** controls. When enabled, a silent head becomes **10% opaque**,
+**Optional performance-only heads:** select **Performance-only head** when
+creating a head, or pass `create --performance-mode`. It is **unchecked by
+default and fixed for that head's lifetime**; normal heads have no performance
+switch and keep their usual idle behavior. An opted-in silent head becomes **10% opaque**,
 stops cursor following, blinking, idle gestures and automatic redraws, then
 returns to **100% while speaking**. Normal opacity is independently adjustable
-0-100% and restored when the mode is off; the menu always stays readable.
+0-100% from **Normal opacity** in the floating menu on normal heads; performance-only
+heads override that setting with 10%/100%. The menu always stays readable.
 The speech model stays warm, so this targets idle CPU/GPU work rather than
 promising model-memory savings.
 [Mechanism and limits](docs/chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73).

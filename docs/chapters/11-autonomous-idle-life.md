@@ -185,7 +185,17 @@ The report, GIFs and raw captures stay ignored/local, not published media.
 
 ## Let a silent head sleep (vr-73)
 
-**Performance mode** is a separate opt-in control. It does not erase the user's
+**vr-74 supersedes vr-73's live toggle:** performance-only mode is an explicit,
+unchecked **creation-time** option. Ordinary heads do not dim automatically or
+expose a performance switch. The manager's New session checkbox and CLI
+`create --performance-mode` / `host --performance-mode` select this immutable
+policy; changing it requires a new head. `SessionManager.create` passes the
+validated boolean to the child CLI, and `appearance.performanceMode` carries
+it to the common player. Omitted values mean false, including old configuration.
+Non-boolean values and live `performance-mode` settings are rejected, not
+silently coerced or accepted. The manager displays the policy read-only.
+
+On an opted-in head it does not erase the user's
 Follow cursor, Natural blinking or Idle life choices. While neither face speech
 nor voice-preview audio is playing, the canvas is **10% opaque / 90% transparent**.
 Both audio paths wake it to **100% opacity**. Preparation alone does not wake
@@ -207,13 +217,13 @@ remains separate from `dormant`; waking starts the interval only if following
 is still selected and requests a fresh position. Manual settings, resizing,
 dragging and error recovery can still cause a single explicit draw.
 
-The floating menu has **Performance** and **Normal opacity** quick controls.
+The floating menu has a **Normal opacity** quick control.
 The normal opacity slider is 0-100%, independent of audio volume and surface
-material. Performance mode overrides it with fixed 10%/100% values; turning
-the mode off restores the chosen normal value. Only the canvas is faded,
+material. Performance-only heads override it with fixed 10%/100% values.
+Their badge is informational, not a toggle. Only the canvas is faded,
 never the dock/menu or error message. Even 0% normal opacity is recoverable.
-`attachSessionControls` exposes the two canonical settings to the manager,
-excluding their quick mirrors to avoid conflicting duplicate control values.
+`attachSessionControls` exposes canonical `head-opacity` to the manager,
+excluding its quick mirror. Performance is not a mutable native control.
 
 This is **warm sleep**, not unloading or shutting down a head. The existing
 model, selected GPU resources and retained clip stay available; opacity alone
@@ -226,7 +236,18 @@ process memory. Controls remain RAM-only and reset on head restart.
 The native qualification uses a separate selected engine, disposable profile,
 derived cache and backend, with an invisible/unfocused owned window. Synthetic
 cursor coordinates replace only that process's cursor-read function: the real
-desktop cursor and live head are not driven. Counterbalanced off/on/on/off
+desktop cursor and live head are not driven. Historical vr-73 counterbalanced off/on/on/off
 windows compare owned Electron cumulative CPU and process memory, not total
 machine load or energy. A stationary-cursor case distinguishes occasional
-gestures from continuous cursor-follow work. See chapter07 for measured results.
+gestures from continuous cursor-follow work. See chapter07 for those measured results;
+they were collected before replacing the toggle with creation-only policy.
+
+vr-74 separately qualifies a normal and a performance-only actual Claire head
+across all four presentations. Normal heads stay opaque and continue native
+cursor sampling/rendering; opted-in silent heads have zero sampled automatic
+draws/uploads/cursor reads. Both retain opacity controls, reject live policy
+changes, and complete real decoded WAV plus local face/voice preparation,
+playback and cancellation under their selected policy. The actual manager DOM
+qualifies unchecked creation, explicit opt-in forwarding, resetting the next
+creation to unchecked and read-only identity. These cases do not rerun or
+extend the historical CPU percentages or establish human acceptance.

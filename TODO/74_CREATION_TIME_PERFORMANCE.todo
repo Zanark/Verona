@@ -1,0 +1,42 @@
+ID: vr-74
+Title: Make performance-only behavior an immutable creation-time opt-in
+Status: DONE
+Milestone: Creation-time performance-only opt-in, normal heads unchanged
+Dependencies: vr-73
+Purpose:
+  Owner clarifies that performance-only behavior must be explicitly selected
+  when creating a head, not enabled on a normal head or offered as its toggle.
+Tasks:
+  Add default-off creation checkbox and CLI flag, strict immutable startup
+  configuration, read-only manager identity and no live performance toggle.
+  Keep opacity customization and existing sleep implementation. Qualify normal
+  and opted-in heads, creation forwarding and rejected live policy changes.
+  Update authored docs/journal/tracking and only owned live runtime.
+Acceptance criteria:
+  Omitted flag creates a normal head with no performance switch/dimming.
+  Explicit creation opt-in sleeps at10% and speaks at100%; mode cannot be
+  changed through live settings. Both preserve normal opacity controls.
+  Existing current head is normal; sibling processes/state remain untouched.
+Completion evidence:
+  .local/qualification/creation-performance-ui-01: twelve actual manager DOM
+  checks, including unchecked default, explicit forwarding, next-creation
+  reset and read-only identity. Twenty focused session/HTTP cases plus one
+  CLI create/host regression, seven Node runner cases and nine book tests pass.
+  creation-performance-native-01: actual normal and performance-only Claire,
+  four presentations each. Normal retains cursor polling/redraws and selected
+  opacity; performance-only has zero sampled sleeping draws/uploads/polls.
+  Both reject live policy changes and exercise actual decoded WAV plus real
+  face/voice preparation/playback/cancellation. Not a new CPU/listening claim.
+  live-creation-performance-01: old owned manager293308/head306520 gracefully
+  replaced by306384/305416, normal mode. All controls except the intentionally
+  removed performance toggle and all appearance choices preserved. No other
+  sessions changed; sixteen promoted source/test files match qualification.
+  Candidate .local/worktrees/performance-optin-74 atc6ae6d9.
+  Shared pinned model/node_modules inputs are not OS-enforced read-only.
+  Qualification uses synthetic input and separate profile/cache/backend.
+Completion log:
+  2026-11-22 - Owner corrects prior live enablement and defines creation-time
+    opt-in. Turn off only the current head's prior performance setting.
+  2026-11-22 - Qualified both policies and delivered updated manager/current
+    normal head. Docs/skill contract/ledger/living journal updated. Corrected
+    missing Title in initial tracking preparation; no duplicate identity.

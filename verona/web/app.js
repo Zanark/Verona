@@ -1567,7 +1567,10 @@ try {
   $("preview").disabled = false;
   $("reset-voice").disabled = false;
   $("status").textContent = `Ready. Verona styling / ${session.mesh.identity} motion; ${session.mesh.vertices.toLocaleString()} connected face points.`;
-  attachPerformanceMode($("performance-mode"), $("head-opacity"), [audio, preview], state => {
+  const performanceOnly = session.appearance?.performanceMode === true;
+  $("performance-badge").hidden = !performanceOnly;
+  $("performance-status").hidden = !performanceOnly;
+  attachPerformanceMode(performanceOnly, $("head-opacity"), [audio, preview], state => {
     const changed = performanceSleeping !== state.sleeping;
     performanceSleeping = state.sleeping;
     $("face").style.opacity = String(state.opacity);
@@ -1581,7 +1584,7 @@ try {
     blinking?.refresh();
     refreshIdleLife();
     draw();
-  }, {quickInput: $("quick-performance"), quickOpacity: $("quick-opacity"),
+  }, {quickOpacity: $("quick-opacity"),
     output: $("head-opacity-value"), quickOutput: $("quick-opacity-value")});
   blinking = attachBlinking($("natural-blink"), draw,
     () => !performanceSleeping && !renderer.gl.isContextLost());

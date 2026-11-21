@@ -14,6 +14,12 @@ The measurements below are new, separate from the older startup/latency probes.
 
 ## Measured idle performance mode (vr-73)
 
+These are historical vr-73 measurements. vr-74 keeps the same sleep/render
+mechanism but makes it immutable and opt-in at head creation; normal heads
+never acquire a performance toggle. The updated native fixture tests both
+creation policies, not the old within-head benchmark transitions. Reproducing
+the exact eight-window protocol requires the vr-73 source snapshot `c6ae6d9`.
+
 The final local `idle-performance-final-01` qualification compares the same
 warm Claire Surface/makeup head, original waves, head/neck framing and 120%
 zoom, with blinking, idle life and head-follow choices retained. Eight

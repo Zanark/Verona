@@ -70,7 +70,7 @@ function syncColors(value={}) {
 }
 function showControls(session) {
   const controls=session.controls||[];
-  const signature=JSON.stringify([session.session,session.appearance?.model,Boolean(session.ready),controls]);
+  const signature=JSON.stringify([session.session,session.appearance,Boolean(session.ready),controls]);
   const availability=JSON.stringify([Boolean(session.ready),controls.map(spec=>[spec.id,Boolean(spec.disabled)])]);
   const editing=$("controls").contains(document.activeElement)
     && $("controls").dataset.session===session.session
@@ -82,7 +82,8 @@ function showControls(session) {
   $("controls").replaceChildren();$("readonly-controls").replaceChildren();
   const model=session.appearance?.model;
   const variant=[...$("model").options].find(option=>option.value===model)?.textContent||model||"Unknown";
-  for(const [name,value] of [["Session name",session.session],["Head variant",variant]]) {
+  for(const [name,value] of [["Session name",session.session],["Head variant",variant],
+    ["Performance-only mode",session.appearance?.performanceMode ? "On" : "Off (normal head)"]]) {
     const label=document.createElement("label"), title=document.createElement("span");
     const input=document.createElement("input"), hint=document.createElement("small");
     title.textContent=name;input.value=value;input.readOnly=true;
@@ -212,7 +213,9 @@ $("new").addEventListener("click",()=>{choose(null);$("name").focus();});
 $("create").addEventListener("submit",async event=>{
   event.preventDefault();
   await act("create-head","Creating head...",async()=>{
-    const result=await request({action:"create",session:$("name").value,model:$("model").value,colors:colors()});
+    const result=await request({action:"create",session:$("name").value,model:$("model").value,colors:colors(),
+      ...($("create-performance").checked ? {performanceMode:true} : {})});
+    $("create-performance").checked=false;
     revision++;sessions.push({...result,ready:false});choose(result.session);await refresh();
   });
 });

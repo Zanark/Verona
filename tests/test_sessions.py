@@ -40,6 +40,54 @@ assert not any(name in sys.modules for name in (
         with self.assertRaises(ValueError):
             appearance("robot")
 
+    def test_creation_policy_is_strict_default_off_and_forwarded_to_host(self):
+        self.assertFalse(appearance()["performanceMode"])
+        self.assertTrue(appearance(performance_mode=True)["performanceMode"])
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"LOCALAPPDATA": directory}), patch(
+                "verona.manager.subprocess.Popen") as spawn:
+            spawn.return_value.poll.return_value = None
+            manager = SessionManager()
+            manager.voices = [{"name": "Windows", "culture": "en-US"}]
+            for value in ("true", 1, None):
+                with self.assertRaises(ValueError):
+                    manager.command({"action": "create", "session": "bad", "model": "claire",
+                                     "colors": {}, "performanceMode": value})
+            spawn.assert_not_called()
+            for index, value in enumerate((None, False, True)):
+                manager.children.clear()
+                request = {"action": "create", "session": f"case{index}", "model": "claire", "colors": {}}
+                if value is not None:
+                    request["performanceMode"] = value
+                result = manager.command(request)
+                self.assertEqual(result["appearance"]["performanceMode"], value is True)
+                self.assertEqual("--performance-mode" in spawn.call_args.args[0], value is True)
+
+    def test_live_performance_policy_change_is_rejected_even_with_stale_control_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            bridge = AgentBridge(State(Mock(), []), Path(directory) / "head.json", Mock())
+            bridge.ready = True
+            bridge.controls = [{"id": "performance-mode"}]
+            bridge._send = Mock()
+            with self.assertRaisesRegex(ValueError, "fixed at creation"):
+                bridge.command({"action": "configure", "settings": {"performance-mode": True}})
+            bridge._send.assert_not_called()
+            bridge.close()
+
+    def test_cli_creation_policy_requires_explicit_flag(self):
+        from verona.agent import main
+        for enabled in (False, True):
+            args = ["agent", "create", "--session", "cli-choice"]
+            if enabled:
+                args.append("--performance-mode")
+            with patch.object(sys, "argv", args), patch("verona.agent.read_descriptor", return_value={}), patch(
+                    "verona.agent.call", return_value={}) as send, patch("builtins.print"):
+                main()
+            self.assertEqual(send.call_args.args[1].get("performanceMode", False), enabled)
+            args[1] = "host"
+            with patch.object(sys, "argv", args), patch("verona.agent_host.host") as host:
+                main()
+            self.assertEqual(host.call_args.kwargs["performance_mode"], enabled)
+
     def test_named_heads_and_confirmed_live_colors_do_not_cross_or_regenerate(self):
         with tempfile.TemporaryDirectory() as directory:
             states = [State(Mock(), []) for _ in range(2)]

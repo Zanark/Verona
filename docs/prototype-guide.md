@@ -58,15 +58,20 @@ handle and closes if that manager exits unexpectedly.
 
 ### Idle performance and head opacity
 
-Expand the tiny floating tab above a head and select **Performance**. While
+In **New session**, optionally check **Performance-only head** before creating.
+It is unchecked by default; ordinary heads have no performance switch and keep
+their normal idle movement. CLI `create` and independent `host` accept
+`--performance-mode` for the same explicit opt-in. This choice is immutable:
+create a new head to change it, not a live settings update. While
 silent, it is 10% opaque and suspends cursor tracking, blinking, idle gestures
 and their automatic redraws. Face or voice playback restores 100%; pause,
 completion or cancellation sleeps again. Generating a line does not wake
 the head before playback. Existing blink/follow/idle choices are preserved.
 
-The same tab offers **Normal opacity**, also available in the manager as
-`head-opacity` beside `performance-mode`. This normal 0-100% setting applies
-with performance mode off; the mode overrides it with 10% idle / 100% speaking.
+The tiny floating tab offers **Normal opacity**, also available in the manager
+as `head-opacity`. This normal 0-100% setting applies to normal heads;
+performance-only heads override it with 10% idle / 100% speaking. Their tab
+shows a read-only Performance head badge, not a toggle.
 Only the head canvas fades, so its controls remain accessible even at 0%.
 Settings are RAM-only. The model/clip remain warm; close an unused head to
 release its full process memory. [Details](chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73).
@@ -355,7 +360,7 @@ distinct-color policy. Installing that passive skill does not start speech,
 replace this checkout's setup or add a runtime color reservation service.
 
 The selected head's settings have two sections: **Editable now** and
-**Read-only settings**. Session name and head variant are fixed at creation;
+**Read-only settings**. Session name, head variant and performance-only mode are fixed at creation;
 create a new head to change them. Disabled live controls are labeled
 **Currently unavailable**, not permanently fixed: changing mode or finishing
 speech may make them editable. The sections update from the head's actual

@@ -23,7 +23,7 @@
     <output id="overlay-zoom" aria-label="Model zoom">100%</output>
     <button data-zoom="in" type="button" aria-label="Zoom in">+</button>
     <button data-zoom="reset" type="button" title="Reset model zoom">Fit</button>
-    <label class="quick-performance" title="10% opacity while silent, 100% while speaking; overrides normal opacity."><input id="quick-performance" type="checkbox"> Performance</label>
+    <span id="performance-badge" hidden>Performance head</span>
     <label class="quick-opacity" for="quick-opacity">Normal opacity
       <input id="quick-opacity" type="range" min="0" max="100" step="5" value="100"
         title="Normal head opacity. Performance mode overrides this with 10% idle / 100% speaking.">
@@ -193,11 +193,10 @@
         <details class="settings-group"><summary>Pose &amp; cursor <span>Orientation, tracking and zoom</span></summary>
         <div class="settings-grid">
         <label for="tilt">X <input id="tilt" aria-label="X rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="tilt-angle">0 deg</output></label>
-        <label><input id="performance-mode" type="checkbox"> Performance mode (sleep when silent)</label>
         <label for="head-opacity">Head opacity (normal) <output id="head-opacity-value">100%</output>
           <input id="head-opacity" type="range" min="0" max="100" step="5" value="100"></label>
-        <p id="performance-status" class="hint">Normal opacity applies with performance mode off.
-          Performance mode overrides it: 10% idle, 100% speaking. Menus stay readable.</p>
+        <p id="performance-status" class="hint" hidden>Performance-only mode is fixed at creation:
+          10% idle, 100% speaking. Menus stay readable.</p>
         <label for="yaw">Y <input id="yaw" aria-label="Y rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="yaw-angle">0 deg</output></label>
         <label for="roll">Z <input id="roll" aria-label="Z rotation" type="range" min="-3.141593" max="3.141593" step="0.001" value="0"><output id="roll-angle">0 deg</output></label>
         <button id="reset-view" type="button">Reset orientation</button>

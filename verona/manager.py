@@ -29,9 +29,9 @@ class SessionManager:
         self.closing = False
         self.voices = None
 
-    def create(self, name, model, colors, voice=None):
+    def create(self, name, model, colors, voice=None, *, performance_mode=False):
         path = session_path(name)
-        config = appearance(model, colors, name)
+        config = appearance(model, colors, name, performance_mode=performance_mode)
         with self.lock:
             if self.closing:
                 raise RuntimeError("Manager is closing; no head was created.")
@@ -66,6 +66,8 @@ class SessionManager:
             voice = choose_session_voice(self.voices, used_voices, voice)
             args = [sys.executable, "-m", "verona.agent", "host", "--session", name, "--model", model]
             args.extend(["--voice", voice])
+            if performance_mode:
+                args.append("--performance-mode")
             for key, value in config["colors"].items():
                 if value is not None:
                     args.extend([f"--{key}-color", value])
@@ -140,8 +142,9 @@ class SessionManager:
                    "settings": {"action","session","settings"}, "close": {"action","session"},
                    "cancel": {"action","session","id"},
                    "say": {"action","session","text","voice","expression","intensity","gain","mode"}}
-        if action not in allowed or (set(value) != allowed[action] and not (
-                action == "create" and set(value) == allowed[action] | {"voice"})):
+        required = allowed.get(action)
+        optional = {"voice", "performanceMode"} if action == "create" else set()
+        if required is None or not required <= set(value) or set(value) - required - optional:
             raise ValueError("Invalid manager action fields.")
         if action == "status":
             return {"ready": True, "manager": True}
@@ -150,7 +153,8 @@ class SessionManager:
         if action == "inspect":
             return self.inspect(value["session"])
         if action == "create":
-            return self.create(value["session"], value["model"], colors_patch(value["colors"]), value.get("voice"))
+            return self.create(value["session"], value["model"], colors_patch(value["colors"]),
+                               value.get("voice"), performance_mode=value.get("performanceMode", False))
         if action == "shutdown":
             return {"state": "closing"}
         descriptor = read_descriptor(session_path(value["session"]))

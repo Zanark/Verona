@@ -39,6 +39,10 @@
           <small id="name-hint">1-48 letters, numbers, underscores or hyphens; start with a letter or number.</small></label>
         <label for="model">Head variant<select id="model"></select><small>Name and variant are fixed at creation.</small></label>
       </div>
+      <label class="check-label"><input id="create-performance" type="checkbox">
+        Performance-only head (optional)</label>
+      <p class="hint">Off by default. Choose now: 10% opacity and no automatic idle movement
+        while silent, 100% while speaking. Fixed for this head's lifetime; create a new head to change.</p>
       <button id="create-head" class="primary" type="submit">Create separate head</button>
     </form>
     <div id="selected" hidden>
@@ -73,7 +77,7 @@
       </section>
       <section class="control-section surface readonly-section" aria-labelledby="readonly-heading">
         <h3 id="readonly-heading">Read-only settings</h3>
-        <p class="hint">Name and variant are set at creation. Other unavailable controls are marked separately;
+        <p class="hint">Name, variant and performance-only mode are set at creation. Other unavailable controls are marked separately;
           they may become editable in another mode or after speech finishes.</p>
         <div id="readonly-controls"></div>
       </section>

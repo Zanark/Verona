@@ -944,7 +944,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-74": {
+      "source": "TODO/74_CREATION_TIME_PERFORMANCE.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhWc8Xg",
+      "number": 73,
+      "url": "https://github.com/Zanark/Verona/issues/73",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKw1Lw",
+      "title": "Make performance-only behavior an immutable creation-time opt-in",
+      "managedBody": "\n<!-- verona-workstream:vr-74 -->\nWorkstream source: `TODO/74_CREATION_TIME_PERFORMANCE.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-74\nTitle: Make performance-only behavior an immutable creation-time opt-in\nStatus: DONE\nMilestone: Creation-time performance-only opt-in, normal heads unchanged\nDependencies: vr-73\nPurpose:\n  Owner clarifies that performance-only behavior must be explicitly selected\n  when creating a head, not enabled on a normal head or offered as its toggle.\nTasks:\n  Add default-off creation checkbox and CLI flag, strict immutable startup\n  configuration, read-only manager identity and no live performance toggle.\n  Keep opacity customization and existing sleep implementation. Qualify normal\n  and opted-in heads, creation forwarding and rejected live policy changes.\n  Update authored docs/journal/tracking and only owned live runtime.\nAcceptance criteria:\n  Omitted flag creates a normal head with no performance switch/dimming.\n  Explicit creation opt-in sleeps at10% and speaks at100%; mode cannot be\n  changed through live settings. Both preserve normal opacity controls.\n  Existing current head is normal; sibling processes/state remain untouched.\nCompletion evidence:\n  .local/qualification/creation-performance-ui-01: twelve actual manager DOM\n  checks, including unchecked default, explicit forwarding, next-creation\n  reset and read-only identity. Twenty focused session/HTTP cases plus one\n  CLI create/host regression, seven Node runner cases and nine book tests pass.\n  creation-performance-native-01: actual normal and performance-only Claire,\n  four presentations each. Normal retains cursor polling/redraws and selected\n  opacity; performance-only has zero sampled sleeping draws/uploads/polls.\n  Both reject live policy changes and exercise actual decoded WAV plus real\n  face/voice preparation/playback/cancellation. Not a new CPU/listening claim.\n  live-creation-performance-01: old owned manager293308/head306520 gracefully\n  replaced by306384/305416, normal mode. All controls except the intentionally\n  removed performance toggle and all appearance choices preserved. No other\n  sessions changed; sixteen promoted source/test files match qualification.\n  Candidate .local/worktrees/performance-optin-74 atc6ae6d9.\n  Shared pinned model/node_modules inputs are not OS-enforced read-only.\n  Qualification uses synthetic input and separate profile/cache/backend.\nCompletion log:\n  2026-11-22 - Owner corrects prior live enablement and defines creation-time\n    opt-in. Turn off only the current head's prior performance setting.\n  2026-11-22 - Qualified both policies and delivered updated manager/current\n    normal head. Docs/skill contract/ledger/living journal updated. Corrected\n    missing Title in initial tracking preparation; no duplicate identity.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T18:47:36.453952+00:00"
+  "verifiedAt": "2026-11-21T19:07:30.497691+00:00"
 }

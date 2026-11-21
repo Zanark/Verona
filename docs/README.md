@@ -1,8 +1,10 @@
 # Verona engineering book
 
-**Idle performance mode (vr-73):** [chapter11](chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)
+**Creation-time performance-only opt-in (vr-74):** ordinary heads stay normal.
+The optional New session checkbox defaults off and cannot be changed after
+creation. [Chapter11](chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)
 explains event-driven warm sleep, native cursor suspension, fixed idle/speech
-opacity and quick controls. Chapter07 records owned-process measurements,
+opacity and quick opacity controls. Chapter07 records the earlier vr-73 owned-process measurements,
 separating reduced computation from retained model memory.
 
 **Autonomous idle life (vr-71):** [chapter11](chapters/11-autonomous-idle-life.md)

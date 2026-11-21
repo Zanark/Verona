@@ -152,8 +152,15 @@ Claire heads never load Mark. Sideways cheekiness adds a procedural asymmetric
 lip pull only on cheekiness clips. Its live checkbox/strength slider can disable
 the cue or restore it without inference/uploads; Stop clears it.
 Do not invent a Female/Male selector or gender-dependent voice policy.
-The session name and head variant are fixed at creation; create a new owned
-head to change them. Do not close somebody else's head to switch models.
+The session name, head variant and performance-only policy are fixed at creation;
+create a new owned head to change them. Normal heads are the default. Do not
+enable performance sleep automatically: only an explicit user choice at
+creation permits `create --performance-mode` or `host --performance-mode`.
+The New session checkbox starts unchecked. Opted-in heads become10%opaque
+while silent and100%while playing; cursor/blink/idle work sleeps. There is no
+live performance toggle or settings mutation. Normal opacity remains a quick
+setting, overridden by an opted-in head's10%/100%policy. Do not close somebody
+else's head to switch models or policy.
 
 The owner withdrew the old armored character and its Blender study. Do not
 recreate it, select its retired ID or restore it from an old release or chat.
