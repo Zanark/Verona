@@ -1,6 +1,25 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-67 native-head release delivered and owned live use restored
+Cause: qualified implementation, illustrated discovery and journal need an
+immutable delivery boundary, not a local-only completion claim.
+Action: push runtime cab23cc, then journal/release source0e04064 as verified
+Zanark author/committer with required trailers. Publish v0.2.0 without moving
+prior tags. GitHub reports public visibility; the old private-only publisher
+guard stopped before writes. Confirm actual visibility, leave it unchanged and
+retain the explicit public-safe source allowlist.
+Evidence: all344remote source blobs match canonical LF archive members;
+three assets downloaded/hash-verified, four prior releases/tags unchanged.
+Source ZIP428572238bytes contains no models, recordings, local PDF editions,
+profiles, credentials or private context. Release is not an installer/deploy.
+After heavy qualification/package work, start a fresh lightweight manager and
+restore only the authorized paused Claire/Hazel head. Six-model catalog and
+saved makeup/colors, neck/zoom, whole-head cursor, blinks/pin/voice read back
+ready; new cheekiness defaults confirmed. No replay or sibling-head change.
+Frozen post-M1 journal deliberately ends atcab23cc; this later closeout stays
+in the living ledger. Native shutdown timeout cause/vr64 remains unresolved.
+
 2026-11-21 - vr-67 dated post-M1 journal continuation frozen
 Cause: ongoing journal maintenance must record native parity without rewriting
 the historical M1 edition or restoring withdrawn character imagery.

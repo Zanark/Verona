@@ -66,7 +66,7 @@ vr-63 | 63_LIVE_HEAD_MEMORY.todo | NOT_STARTED | Attribute complete live-head me
 vr-64 | 64_NATIVE_SHUTDOWN_DIAGNOSTICS.todo | NOT_STARTED | Diagnose retained intermittent native close delays without hiding failures or extending gates
 vr-65 | 65_NATIVE_MODEL_PRESENTATION.todo | DONE | Shared renderer/native MPFB controls and post-fit exaggeration, actual-model qualified
 vr-66 | 66_NATIVE_MARK_HEAD.todo | DONE | Actual Mark network/native geometry and consistent controls, actual-model qualified
-vr-67 | 67_MODEL_PARITY_DELIVERY.todo | IN_PROGRESS | Qualified six-model GIFs/docs/installed skill; journal and release closeout underway
+vr-67 | 67_MODEL_PARITY_DELIVERY.todo | DONE | Six-model GIFs/docs/installed skill, frozen continuation, verified v0.2.0 and owned live-head restoration
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

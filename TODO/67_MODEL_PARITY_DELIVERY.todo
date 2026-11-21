@@ -1,7 +1,7 @@
 ID: vr-67
 Title: Native-model qualification, visual documentation, skill and release
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Consistent native speaking heads
 Dependencies: vr-65, vr-66
 
@@ -41,7 +41,14 @@ Completion evidence:
     13 figure occurrences; all layouts/figures reviewed, offline reader and
     Git-free portable rebuild pass. Historical M1v2 remains unchanged.
   Nine journal-tool regressions pass, including the selected-PDF freeze hash.
-  Release delivery, remote closeout and saved live-head restart remain pending.
+  v0.2.0 is published at source 0e04064b8273566756bba9c204226629c447ecc4.
+    All 344 remote source blobs match the canonical archive; three uploaded
+    assets downloaded and SHA-256 verified. Four prior releases/tags unchanged.
+    https://github.com/Zanark/Verona/releases/tag/v0.2.0
+  Fresh manager advertises exactly six current models. Only the explicitly
+    paused owned Claire/Hazel head was restored; saved controls/colors, head
+    cursor, natural blinks and new cheekiness defaults read back ready.
+    No old speech replay or sibling-head change.
   GitHub: https://github.com/Zanark/Verona/issues/66
 
 Completion log:
@@ -55,3 +62,8 @@ Completion log:
   2026-11-21 - Runtime/media milestone cab23cc pushed. New continuation PDF
     SHA-256 a0e20dd0b773ddc51b8afc67e3aee080f07237f838aca4d5a2e057318fa58dd5.
     Agent review is not owner approval or independent listening acceptance.
+  2026-11-21 - Journal/release source 0e04064 pushed; immutable v0.2.0 published
+    and downloaded assets verified. GitHub reports the repository public;
+    publication retains the explicit tracked-source allowlist and excludes
+    local models, recordings, profiles, context and PDF editions. Repository
+    visibility was not changed. Saved owned live head restored after delivery.
