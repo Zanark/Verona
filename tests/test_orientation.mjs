@@ -30,3 +30,7 @@ close(rotate(m,eye),rotate(pose.rotation,eye).map((v,i)=>v+pose.offset[i]));
 close(rotate(pose.rotation,[0,0,1]),rotate(rotationMatrix(-.3,.5,0),rotate(m,[0,0,1])));
 assert.equal(trackedHeadPose([0,0],m,center,15).rotation,m);
 console.log("Head cursor signs/bounds, manual XYZ composition and fixed eye-midpoint pivot pass.");
+const idleRoll = trackedHeadPose([-.2,.4],m,offsetCenter,15,.12);
+close(rotate(m,eye),rotate(idleRoll.rotation,eye).map((v,i)=>v+idleRoll.offset[i]));
+close(rotate(idleRoll.rotation,[0,0,1]),rotate(rotationMatrix(-.2,.4,.12),rotate(m,[0,0,1])));
+console.log("Idle roll composes with tracking/manual pose while preserving the same eye pivot.");

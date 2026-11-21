@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Autonomous idle life (vr-71):** [chapter11](chapters/11-autonomous-idle-life.md)
+explains fifteen tool-owned gestures, non-repeating local timing, speech/
+inspection priority and bounded rendering. [Research](research/idle-life.md)
+separates behavioral evidence from authored defaults; final real-native
+qualification covers all six heads, four views and fifteen actions.
+
 **Intact ears and hair tips (vr-70):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#preserve-ears-and-complete-hair-vr-70)
 bounds the skin's jaw mask and preserves complete selected hairstyles, with a
 real before/after image, explicit extra draw cost and focused qualification.

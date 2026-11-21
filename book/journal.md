@@ -5,6 +5,51 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-21 - Let the face wait without asking the chat (vr-71)
+
+The owner asked for fifteen different occasional gestures, including a sneeze,
+but made the ownership boundary explicit: the tool should choose and time
+them, not the conversation. Research supported restraint and variation, not
+the claim that random movement is automatically natural. The resulting catalog
+mixes small lip, cheek, nose and brow movements with nods, scans, stretches,
+an eye squeeze, a silent yawn and a silent sneeze.
+
+One local timeout waits 12-28 seconds, then a weighted draw avoids the last four
+actions. The conspicuous yawn and sneeze have longer cooldowns. A finite smooth
+trajectory supplies one pose to the existing renderer and animation loop;
+waiting adds no loop. Every model uses the same calibrated cosmetic layer,
+without loading another model, rebuilding mesh buffers or asking a chat.
+
+Speech and interaction take priority. A useful edge case emerged during the
+real agent checks: cancelled speech retains a paused clip, but idle gestures
+must not animate a mouth frozen halfway through a word. Terminal agent output
+now uses the existing neutral buffers without deleting the clip or altering
+its audio time. Manual replay returns to inspection ownership, and an
+unfinished paused manual face/voice clip blocks idle until cleared.
+
+The first exact-pixel checks failed on a few wireframe channels. Repeating an
+unchanged neutral frame also varied, so calling that a gesture-restoration bug
+would have been premature. Final qualification samples 65 unchanged frames per
+view, demands exact filled-Surface pixels, and checks other restored channels
+against their own measured neutral range. This preserves the failed receipts
+and does not invent an explanation for the line-readback variation. A second
+fixture correction samples the actual nod pulse, not its quiet inter-pulse gap.
+
+The final native run covers 360 action/view cases across six heads, four views
+and fifteen actions. Gestures allocate/upload no geometry and make no fetches;
+six isolated 0.9-second waiting samples add zero frames or requests. A real
+unprompted action starts and finishes. Actual face/voice playback, cancellation,
+manual inspection, typing/held controls, the second hairstyle and disabling
+idle life also pass. Compact real captures were inspected, but neither a
+pixel difference nor a still image proves anatomical naturalness or owner
+approval. The sneeze/yawn remain silent stylized cues.
+
+The stable head stayed untouched until qualification. Only this chat's idle
+head was then replaced, preserving its manager and every freshly read setting,
+with Idle life enabled. Existing model GIFs, frozen PDFs and release assets
+are unchanged. [Chapter11](../docs/chapters/11-autonomous-idle-life.md) contains
+the catalog, mechanisms, controls, research and exact qualification limits.
+
 ## 2026-11-21 - A jaw mask should not cut the hair (vr-70)
 
 The next image showed a cut near the ear, inside the enlarged window. This was

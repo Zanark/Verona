@@ -29,9 +29,9 @@ export function cursorHeadAngles(x, y, rect, rotation, zoom, center, scale) {
     Math.max(-.65, Math.min(.65, Math.atan2(dx, 2)))];
 }
 
-export function trackedHeadPose(angles, manual, center, scale) {
-  if (angles[0] === 0 && angles[1] === 0) return { rotation: manual, offset: [0, 0, 0] };
-  const follow = rotationMatrix(angles[0], angles[1], 0);
+export function trackedHeadPose(angles, manual, center, scale, roll = 0) {
+  if (angles[0] === 0 && angles[1] === 0 && roll === 0) return { rotation: manual, offset: [0, 0, 0] };
+  const follow = rotationMatrix(angles[0], angles[1], roll);
   const rotation = new Float32Array(9);
   for (let column = 0; column < 3; column++) rotation.set(transform(follow, Array.from(manual.slice(column*3,column*3+3))), column*3);
   const eye = [(0.08-center[0])/scale, (147.52-center[1])/scale, (2.26-center[2])/scale];

@@ -4,7 +4,8 @@
 
 The [living development journal](journal.md) now records vr-69's floating-zoom
 and vr-70's separate internal ear/hair corrections, including actual owned-window
-images, retained failures and their scope. This short dated source continuation is not another
+images, retained failures and their scope. Its vr-71 entry adds tool-owned idle
+gestures, speech/inspection ownership and six-head qualification. This dated source continuation is not another
 rendered edition. All frozen PDFs and their source cutoffs below stay unchanged.
 
 The latest separate continuation is **Finding Different Voices**, anchored to

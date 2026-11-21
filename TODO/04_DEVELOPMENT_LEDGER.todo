@@ -1,6 +1,33 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-71 makes waiting behavior tool-owned, not session work
+Cause: the owner wants 15 distinct occasional idle actions on every head, with
+no chat selecting gestures or scheduling blinks. Research distinguishes
+non-repeating procedural behavior from per-frame randomness and human proof.
+Action: one 12-28 second timer, weighted choice excluding the last four, rare cooldowns,
+bounded smooth fields and rigid motion in the existing renderer/RAF. Speech,
+manual inspection, held controls, typing, visibility and graphics loss cancel.
+Agent terminal output binds true neutral while retaining its clip/time;
+manual face/voice replay takes inspection ownership back. No neural idle calls,
+new assets/processes, per-frame mesh rebuilding or extra clip cache.
+Evidence: final native07 passes 360 cases (6 heads/4 views/15 actions), zero gesture
+buffer/storage/upload/fetch changes and six isolated 0.9-second waits with zero
+frames/requests. Actual automatic selection/finish, face/voice speech priority,
+cancellation, neutral restoration, manual paused inspection and off switch pass.
+Focused Node/HTTP/syntax checks pass. Fifteen Claire poses and sampled other-head
+Surface/mesh captures reviewed. Not human naturalness/listening/FPS acceptance.
+Failures retained: strict01-05 pixel comparisons, and nod sampling between
+pulses. Unchanged-neutral 65-frame baselines show 12-20 varying mesh channels and
+zero Surface/dot/grid channels. Require exact filled Surface and restored channels
+within their own measured neutral envelope; cause of line variation remains
+unknown, no arbitrary global tolerance. Older iris-artwork gate is not fixed.
+At 23:24 only the owned idle Verona head is replaced after saving fresh controls;
+same manager and every old setting/appearance preserved, new Idle life enabled,
+no replay or sibling change. Eleven promoted files match qualified source.
+README/guide/research/chapter11/index/manifest and living dated journal updated;
+frozen PDFs and existing release remain unchanged.
+
 2026-11-21 - vr-70 separates an internal jaw cut from viewport clipping
 Cause: unbounded x*x side/rear rise intersects actual lateral ears and hair.
 The first capped candidate still cuts hair tips: skin anatomy is not a valid

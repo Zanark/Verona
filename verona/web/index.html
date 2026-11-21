@@ -193,6 +193,11 @@
         <button id="reset-view" type="button">Reset orientation</button>
         <label><input id="follow-eyes" type="checkbox"> Follow cursor</label>
         <label><input id="natural-blink" type="checkbox" checked> Natural blinking</label>
+        <label><input id="idle-life" type="checkbox" checked> Idle life (15 silent actions)</label>
+        <label for="idle-action">Preview idle action <select id="idle-action" aria-label="Preview idle action"></select></label>
+        <button id="idle-preview" type="button" disabled>Preview once</button>
+        <button id="clear-speech" type="button" disabled>Clear speech / return to idle</button>
+        <p id="idle-status" class="hint">Idle life waits while the head is busy. No chat or model chooses its actions.</p>
         <label><input id="sideways-cheekiness" type="checkbox" checked> Sideways cheekiness</label>
         <label for="cheekiness-pull">Cheekiness pull
           <input id="cheekiness-pull" type="range" min="0" max="1" step="0.05" value="1"

@@ -118,6 +118,23 @@ costs. Reuse a warm head, keep sentences short and close unused **owned** heads;
 voice-only skips inference but is not moving-lip speech. Source updates do not
 restart existing windows; apply them on the next normally requested launch.
 
+### Autonomous idle life
+
+Every model and face type supports **Idle life**, enabled unless reduced motion
+is requested. Verona itself chooses fifteen silent face/head actions after
+12-28 quiet seconds, avoiding its last four choices. No chat prompts, extra
+models or neural inference are involved. Speech, generation, seeking and
+direct interaction interrupt the gestures. A paused unfinished manual clip
+blocks them so that inspection stays still; completed/cancelled agent output
+returns to neutral while keeping its clip available.
+
+Use the selected head's **Idle life** checkbox in the manager. Standalone
+players also have **Preview idle action** and **Clear speech**; clearing
+discards the current speech/preview and restores idle eligibility. Natural
+blinking is independent. Hidden pages cancel work; resuming waits anew.
+Sneeze/yawn are stylized silent cues, not anatomical simulation.
+[Catalog, research, mechanisms and qualification](chapters/11-autonomous-idle-life.md).
+
 ### Natural blinking and current model previews
 
 All six head choices support **Natural blinking** at rest and during speech.

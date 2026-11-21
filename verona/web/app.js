@@ -5,6 +5,7 @@ import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
 import { startAgent } from "/agent-player.mjs";
 import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
 import { attachBlinking, BLINK_GLSL, CLAIRE_BLINK } from "/blinking.mjs";
+import { attachIdleLife, IDLE_ACTIONS, IDLE_GLSL, idlePose } from "/idle-life.mjs";
 
 const $ = (id) => document.getElementById(id);
 const desktop = window.veronaDesktop;
@@ -18,7 +19,9 @@ const editing = ["generate", "preview", "reset-voice", "text", "voice", "express
 const preview = $("voice-preview");
 let token = window.location.hash.slice(1);
 let renderer, clip, audioUrl, previewUrl, defaultVoice, raf = 0, busy = false;
-let blinking;
+let blinking, idleLife, agentLocked = false, agentOutput = false;
+const restingIdle = idlePose();
+for (const action of IDLE_ACTIONS) $("idle-action").add(new Option(action.label, action.id));
 const appearance = createAppearance(colors => {
   renderer?.setAppearance(colors);
   for (const key of APPEARANCE_KEYS) {
@@ -117,11 +120,12 @@ class FaceRenderer {
           *(1.0-smoothstep(.9,2.9,abs(p.y-140.15)))*smoothstep(1.0,3.8,p.z);
         return vec3(1.65,1.05,0.0)*weight*cheekiness;
       }
+      ${IDLE_GLSL}
       out vec3 viewNormal, rest;
       void main() {
         vec3 p = mix(positionA, positionB, blend) / quantization;
         vec3 worldRest = restPosition / quantization * scale + center;
-        if (material == 0) p += (blinkOffset(worldRest)+cheekinessOffset(worldRest)) / scale;
+        if (material == 0) p += (blinkOffset(worldRest)+cheekinessOffset(worldRest)+idleOffset(worldRest)) / scale;
         vec3 normal = mix(normalA, normalB, blend);
         p = rotation * ((p - viewCenter) * viewScale) + rotationOffset;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
@@ -378,6 +382,7 @@ class FaceRenderer {
       ["blink", "blinkCenterA", "blinkCenterB", "blinkRadius", "mouthAnchor", "cheekiness", "blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
+    for (const name of ["idleFaceA", "idleFaceB", "idleFaceC"]) this.uniforms[name] = gl.getUniformLocation(program, name);
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
       throw new Error("Face mesh byte count/alignment does not match its contract.");
     }
@@ -435,6 +440,7 @@ class FaceRenderer {
       audio.pause();
       preview.pause();
       blinking?.setActive(false);
+      idleLife?.setActive(false);
       failure(new Error("Graphics context was lost. Reload Verona to rebuild the face."));
     });
     canvas.addEventListener("webglcontextrestored", () => {
@@ -690,8 +696,8 @@ class FaceRenderer {
       }
     };
     for (const name of ["positionA", "positionB"]) {
-      this.attribute(name, this.motion || this.neutral, gl.SHORT,
-        this.motion ? (name === "positionA" ? this.leftFrame : this.rightFrame) * this.meta.vertices * 6 : 0);
+      this.attribute(name, this.drawMotion || this.neutral, gl.SHORT,
+        this.drawMotion ? (name === "positionA" ? this.leftFrame : this.rightFrame) * this.meta.vertices * 6 : 0);
     }
     this.attribute("restPosition", this.neutral, gl.SHORT);
     for (const name of ["normalA", "normalB"]) this.attribute(name, this.neutralNormals, gl.FLOAT);
@@ -828,7 +834,7 @@ class FaceRenderer {
     if (toolbar.style.getPropertyValue("--head-tools-left") !== leftValue) toolbar.style.setProperty("--head-tools-left", leftValue);
   }
 
-  draw(seconds, blink = 0) {
+  draw(seconds, blink = 0, idle = restingIdle, resting = false) {
     const gl = this.gl;
     if (gl.isContextLost()) { this.gazeMoving = false; return; }
     const polygonView = this.view.style > 0 || $("appearance").value === "polygon";
@@ -844,23 +850,28 @@ class FaceRenderer {
     else gl.clearColor(0.016, 0.025, 0.038, 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.useProgram(this.program);
-    const frame = this.frames ? Math.min(this.frames - 1, Math.max(0, seconds * 30)) : 0;
+    const frames = resting ? 0 : this.frames;
+    const motion = this.drawMotion = resting ? null : this.motion;
+    const frame = frames ? Math.min(frames - 1, Math.max(0, seconds * 30)) : 0;
     const left = Math.floor(frame);
-    const right = this.frames ? Math.min(this.frames - 1, left + 1) : 0;
+    const right = frames ? Math.min(frames - 1, left + 1) : 0;
     this.leftFrame = left; this.rightFrame = right; this.frameBlend = frame - left;
-    this.attribute("positionA",this.motion||this.neutral,gl.SHORT,this.motion?left*this.meta.vertices*6:0);
-    this.attribute("positionB",this.motion||this.neutral,gl.SHORT,this.motion?right*this.meta.vertices*6:0);
+    this.attribute("positionA",motion||this.neutral,gl.SHORT,motion?left*this.meta.vertices*6:0);
+    this.attribute("positionB",motion||this.neutral,gl.SHORT,motion?right*this.meta.vertices*6:0);
     this.attribute("restPosition",this.neutral,gl.SHORT);
-    this.attribute("normalA",this.view.style ? this.neutralNormals : this.normalBuffer(left),gl.FLOAT);
-    this.attribute("normalB",this.view.style ? this.neutralNormals : this.normalBuffer(right),gl.FLOAT);
+    this.attribute("normalA",this.view.style || resting ? this.neutralNormals : this.normalBuffer(left),gl.FLOAT);
+    this.attribute("normalB",this.view.style || resting ? this.neutralNormals : this.normalBuffer(right),gl.FLOAT);
     const u = this.uniforms;
-    gl.uniform1f(u.blink, blink);
+    gl.uniform1f(u.blink, Math.max(blink, idle.squeeze));
+    gl.uniform4f(u.idleFaceA, idle.smile, idle.smirk, idle.brow, idle.furrow);
+    gl.uniform4f(u.idleFaceB, idle.nose, idle.press, idle.purse, idle.puff);
+    gl.uniform4f(u.idleFaceC, idle.jaw, idle.shift, idle.squeeze, idle.moving ? idle.side : 0);
     const rig = this.meta.rig || CLAIRE_BLINK;
     gl.uniform3fv(u.blinkCenterA, rig.centers[0]);
     gl.uniform3fv(u.blinkCenterB, rig.centers[1]);
     gl.uniform3fv(u.blinkRadius, rig.radius);
     gl.uniform3fv(u.mouthAnchor, rig.mouth || [.08, 140.15, 3.8]);
-    gl.uniform1f(u.cheekiness, $("sideways-cheekiness").checked
+    gl.uniform1f(u.cheekiness, !resting && $("sideways-cheekiness").checked
       ? (this.cheekinessExpression || 0) * Number($("cheekiness-pull").value) : 0);
     this.canvas.dataset.blink = String(blink);
     const skin = this.skin, hair = this.activeHair;
@@ -903,16 +914,18 @@ class FaceRenderer {
     this.gaze = headMode ? [0, 0] : settle(this.gaze, target);
     this.gazeMoving = this.gaze.some((value, i) => Math.abs(target[i] - value) >= .0001)
       || this.headAngles.some((value, i) => Math.abs(headTarget[i] - value) >= .0001);
-    const pose = trackedHeadPose(this.headAngles, manual, center, scale);
+    const pose = trackedHeadPose([this.headAngles[0]+idle.pitch, this.headAngles[1]+idle.yaw],
+      manual, center, scale, idle.roll);
     this.placeOverlayTools(pose, fitScale, zoom, rect);
     gl.uniformMatrix3fv(u.rotation, false, pose.rotation);
     gl.uniform3fv(u.rotationOffset, pose.offset);
-    gl.uniform2fv(u.gaze, this.gaze);
+    gl.uniform2f(u.gaze, headMode ? 0 : Math.max(-.42, Math.min(.42, this.gaze[0]+idle.gazeX)),
+      headMode ? 0 : Math.max(-.24, Math.min(.24, this.gaze[1]+idle.gazeY)));
     this.canvas.dataset.gaze = this.gaze.join(",");
     this.canvas.dataset.headAngles = this.headAngles.join(",");
     gl.uniform1f(u.zoom, zoom * 0.91);
     gl.uniform1f(u.pointSize, 1.15 * ratio);
-    $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
+    $("frame").textContent = frames ? `FRAME ${left + 1} / ${frames}` : "NEUTRAL";
     if (this.view.style) {
       this.drawPresentation(ratio);
       const description = `${this.view.name}: ${skin.triangleCount.toLocaleString()} skin depth triangles; `
@@ -984,7 +997,7 @@ class FaceRenderer {
       gl.disable(gl.BLEND);
       gl.depthMask(true);
     }
-    $("frame").textContent = this.frames ? `FRAME ${left + 1} / ${this.frames}` : "NEUTRAL";
+    $("frame").textContent = frames ? `FRAME ${left + 1} / ${frames}` : "NEUTRAL";
     const geometryKey = `${this.headOnly}:${this.neck?.depth}:${$("hair").checked}`;
     if (geometryKey !== this.geometryKey) {
       this.geometryKey = geometryKey;
@@ -999,11 +1012,46 @@ class FaceRenderer {
 
 function draw() {
   const blink = blinking?.sample();
-  if (renderer) renderer.draw(audio.currentTime, blink?.amount || 0);
+  const idle = idleLife?.sample() || restingIdle;
+  if (renderer) {
+    renderer.draw(audio.currentTime, blink?.amount || 0, idle,
+      agentOutput && !agentLocked && audio.paused && preview.paused);
+    if (renderer.canvas.dataset.idleAction !== (idle.id || "")) renderer.canvas.dataset.idleAction = idle.id || "";
+  }
+  const status = idle.moving ? `${IDLE_ACTIONS.find(action => action.id === idle.id).label} (silent)`
+    : !$("idle-life").checked ? "Idle life off."
+    : idleAvailable() ? "Idle life ready: occasional local actions; no session decisions."
+    : "Idle life waiting: finish speech, preview or paused inspection; Clear speech returns to idle.";
+  if ($("idle-status").textContent !== status) $("idle-status").textContent = status;
   const duration = clip ? clip.duration : 0;
   $("time").textContent = `${audio.currentTime.toFixed(2)} / ${duration.toFixed(2)} s`;
   $("seek").value = String(audio.currentTime);
-  if ((!audio.paused && !audio.ended || renderer?.gazeMoving || blink?.moving) && !raf) raf = requestAnimationFrame(animate);
+  if ((!audio.paused && !audio.ended || renderer?.gazeMoving || blink?.moving || idle.moving) && !raf) raf = requestAnimationFrame(animate);
+}
+
+function idleAvailable() {
+  return Boolean(renderer && !renderer.gl.isContextLost() && !busy && !agentLocked
+    && (!clip || audio.ended || agentOutput && audio.paused)
+    && (!previewUrl || preview.ended || agentOutput && preview.paused)
+    && !audio.seeking && !preview.seeking);
+}
+
+function refreshIdleLife() {
+  idleLife?.refresh();
+  $("idle-preview").disabled = !$("idle-life").checked || !idleAvailable() || document.hidden;
+  $("clear-speech").disabled = busy || agentLocked || (!clip && !previewUrl);
+}
+
+$("idle-preview").addEventListener("click", () => {
+  try { idleLife.preview($("idle-action").value); } catch (error) { failure(error); }
+});
+$("idle-life").addEventListener("input", () => { refreshIdleLife(); draw(); });
+$("clear-speech").addEventListener("click", () => {
+  if (busy || agentLocked) return;
+  clearPreview(); clearClip(); refreshIdleLife(); draw();
+});
+for (const media of [audio, preview]) for (const event of ["play", "pause", "ended", "seeking", "seeked", "emptied", "error"]) {
+  media.addEventListener(event, refreshIdleLife);
 }
 
 function animate() {
@@ -1055,6 +1103,7 @@ function clearPreview() {
   preview.hidden = true;
   if (previewUrl) URL.revokeObjectURL(previewUrl);
   previewUrl = null;
+  refreshIdleLife();
 }
 
 function refreshSettings() {
@@ -1068,11 +1117,13 @@ function refreshSettings() {
 
 async function previewVoice(options = {}) {
   if (busy) return;
+  if (!options.agentRequestId) agentOutput = false;
   $("error").hidden = true;
   $("overlay-error").hidden = true;
   const text = $("text").value.trim();
   if (!text || text.length > 280) { failure(new Error("Enter 1-280 characters of plain text.")); return; }
   busy = true;
+  refreshIdleLife();
   audio.pause();
   clearPreview();
   for (const id of editing) $(id).disabled = true;
@@ -1094,6 +1145,7 @@ async function previewVoice(options = {}) {
     failure(error);
   } finally {
     busy = false;
+    refreshIdleLife();
     for (const id of editing) $(id).disabled = false;
     syncVoiceControls();
   }
@@ -1101,6 +1153,7 @@ async function previewVoice(options = {}) {
 
 async function generate(options = {}) {
   if (busy) return;
+  if (!options.agentRequestId) agentOutput = false;
   $("error").hidden = true;
   $("overlay-error").hidden = true;
   const text = $("text").value.trim();
@@ -1109,6 +1162,7 @@ async function generate(options = {}) {
     return;
   }
   busy = true;
+  refreshIdleLife();
   clearPreview();
   clearClip();
   const started = performance.now();
@@ -1172,6 +1226,7 @@ async function generate(options = {}) {
     failure(error);
   } finally {
     busy = false;
+    refreshIdleLife();
     for (const id of editing) $(id).disabled = false;
     syncVoiceControls();
   }
@@ -1189,8 +1244,12 @@ $("reset-voice").addEventListener("click", () => {
 for (const name of settingNames) $(name).addEventListener("input", refreshSettings);
 for (const id of ["text", "voice", "emphasis"]) $(id).addEventListener("input", clearPreview);
 $("voice").addEventListener("input", syncVoiceControls.bind(null, false));
-preview.addEventListener("play", () => audio.pause());
+preview.addEventListener("play", () => {
+  if (!agentLocked) agentOutput = false;
+  audio.pause();
+});
 $("play").addEventListener("click", async () => {
+  agentOutput = false;
   $("error").hidden = true;
   $("overlay-error").hidden = true;
   if (!clip) return;
@@ -1200,11 +1259,14 @@ $("play").addEventListener("click", async () => {
   try { await audio.play(); } catch (error) { failure(error); }
 });
 $("restart").addEventListener("click", () => {
+  agentOutput = false;
   audio.pause();
   audio.currentTime = 0;
   draw();
 });
 $("seek").addEventListener("input", () => {
+  agentOutput = false;
+  refreshIdleLife();
   audio.currentTime = Number($("seek").value);
   draw();
 });
@@ -1428,6 +1490,7 @@ for (const button of document.querySelectorAll("[data-example]")) {
 }
 audio.volume = preview.volume = Number($("volume").value);
 audio.addEventListener("play", () => {
+  if (!agentLocked) agentOutput = false;
   cancelAnimationFrame(raf);
   raf = 0;
   $("play").textContent = "Pause";
@@ -1500,6 +1563,8 @@ try {
   $("reset-voice").disabled = false;
   $("status").textContent = `Ready. Verona styling / ${session.mesh.identity} motion; ${session.mesh.vertices.toLocaleString()} connected face points.`;
   blinking = attachBlinking($("natural-blink"), draw, () => !renderer.gl.isContextLost());
+  idleLife = attachIdleLife($("idle-life"), draw, idleAvailable);
+  refreshIdleLife();
   draw();
   if (desktop?.agentEnabled) {
     $("follow-eyes").checked = false;
@@ -1525,6 +1590,9 @@ try {
           cacheHit: metadata.cacheHit, speechCacheHit: metadata.speechCacheHit === true,
         } };
     }, (locked) => {
+      agentLocked = locked;
+      if (locked) agentOutput = true;
+      refreshIdleLife();
       for (const id of editing) $(id).disabled = locked || busy;
       syncVoiceControls(locked);
       for (const id of controls) $(id).disabled = locked || busy || !clip;

@@ -95,6 +95,16 @@ cheekiness strength. Surface has the two materials; FaceMesh has mesh detail/
 optics; FaceDot and UniformPolygons have density/gap controls. Switching views
 preserves each view's settings without loading another speech model.
 
+**Idle life:** all six heads and four face types now choose among **15 occasional
+silent animations** locally: smiles, smirks, brows, nose/lip/cheek movements,
+jaw loosening, yawns, sneezes, looking around, double nods, neck stretches and
+eye squeezes. Verona waits 12-28 seconds between actions, avoids recent repeats
+and stops them for speech or direct interaction. **The chat schedules nothing
+and spends no model tokens on idle behavior.** Use the manager's **Idle life**
+checkbox to disable it; reduced-motion preference defaults it off.
+[All fifteen actions, controls, research and limits](docs/chapters/11-autonomous-idle-life.md).
+Existing model/motion GIFs below retain their original provenance.
+
 **Floating-head zoom:** above 100%, the transparent window now grows with the
 head instead of cutting through its edges. The maximum adapts to your monitor's
 usable area; **Fit** restores 100%. [Mechanism and actual 140% images](docs/chapters/10-desktop-overlay-and-gaze.md#zoom-without-cutting-the-head-at-the-window-edge-vr-69).
