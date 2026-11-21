@@ -33,6 +33,22 @@ Nine promoted source/test files and all four private effects match hashes.
 Documentation/skill updates and a separate v0.3.1 source patch preserve the
 earlier release tags and keep every supplied recording out of publication.
 
+Published [v0.3.1](https://github.com/Zanark/Verona/releases/tag/v0.3.1) pins
+source `6c9ec5ad9d6a38a97b32629ac7d3b93a72859fec`. All385remote source blobs
+match the canonical archive, three uploaded assets were downloaded/hash-checked
+and six older releases/tags/assets remain unchanged. Installed source/library/
+personal skill bytes agree and external personal discovery passes. The large
+source archive contains existing public previews, never the supplied sounds.
+
+The owner then reports an unwanted ending and clarifies that it is the female
+sneeze. Exactly one second is removed from that prepared clip,2.7s to1.7s,
+with a new25ms fade to zero. Male sneeze, both yawns and the original MP3 stay
+unchanged. Another120Claire native cases pass; the smoke fixture now reads the
+actual prepared WAV duration rather than freezing a private trim length.
+At02:08:11IST only the owned head is recreated with all settings restored to
+discard the previously cached buffer. Published v0.3.1 is not rewritten, and
+neither an independent listening verdict nor owner acceptance is claimed.
+
 ## 2026-11-22 - Release the current behavior, not private recordings (vr-77)
 
 The owner asks to update instructions, documentation, release and pushed source.

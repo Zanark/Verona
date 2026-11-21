@@ -235,6 +235,17 @@ the bound and is shortened; its main RMS peak remains inside the selected
 window. These are preparation measurements, not independent listening.
 Source files stay unchanged and private, as do the derived clips/receipts.
 
+After the owner reports an unwanted ending and specifies the female recording,
+exactly one second is removed from that prepared clip:2.7s becomes1.7s.
+A new25ms fade reaches zero at its endpoint. The original MP3, male sneeze
+and both yawns remain unchanged. `female-sneeze-tail-native-01` repeats the120
+Claire action/view cases with actual1.7s female playback; the smoke check reads
+the prepared WAV's duration instead of assuming every private trim is2.7s.
+Only the owned head is recreated with saved settings to discard its previous
+RAM buffer; the shared manager and other sessions remain intact. This is a
+private asset correction, not a replacement of the published v0.3.1 archive
+or independent listening approval.
+
 `supplied-sneeze-claire-01` passes120 real-native action/view cases. Actual
 David/Hazel switches load the respective male/female yawn and sneeze buffers;
 gain/range cap, mute/cancel/output failure and speech preemption pass.

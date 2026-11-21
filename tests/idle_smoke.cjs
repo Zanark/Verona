@@ -270,7 +270,8 @@ async function run(window) {
     const femaleSneezeStarts=await evaluate("__idleTest.stats.audioStarts");
     await evaluate('__idleTest.preview("sneeze")');
     await wait(`__idleTest.stats.audioStarts>${femaleSneezeStarts}`);
-    assert.equal(await evaluate("__idleTest.lastSource.buffer.duration"),2.7);
+    const preparedFemaleSneeze=await fs.readFile(path.join(__dirname,"..",".local","idle-sounds","sneeze-female.wav"));
+    assert.equal(await evaluate("__idleTest.lastSource.buffer.duration"),preparedFemaleSneeze.readUInt32LE(40)/48000);
     assert((await evaluate('document.getElementById("idle-sound-status").textContent')).includes("sneeze-female"));
     await evaluate('__idleTest.capture(5000)');
     report.checks.push("Supplied yawn/sneeze female/male effects switch with real voice selection; native gain and slider cap20%.");

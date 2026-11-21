@@ -1,7 +1,7 @@
 ID: vr-78
 Title: Private voice-matched supplied sneeze effects
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Recorded local idle effects
 Dependencies: vr-76, vr-77
 
@@ -27,8 +27,9 @@ Acceptance criteria:
 
 Completion evidence:
   GitHub: https://github.com/Zanark/Verona/issues/77
-  Prepared private PCM16/24kHz effects: male0.93s/female2.7s,25ms fades;
-    originals unchanged. Actual peak/trim/hash receipts retained privately.
+  Prepared private PCM16/24kHz effects: male0.93s/female initially2.7s;
+    owner-requested female-only final-second removal yields1.7s with a new25ms
+    ending fade. Originals unchanged; trim/hash receipts retained privately.
   Claire native120action/view cases and both creation policies pass.
     Actual David/Hazel buffers, cap, mute/cancel/error and speech preemption.
     Seven Node/twelve Python focused cases, nine book checks and99affected
@@ -39,7 +40,17 @@ Completion evidence:
   At01:57:47IST owned311676 becomes314428, same manager306384.
     Exact saved controls/appearance/normal policy and other sessions preserved;
     nine source/test hashes and all four private effects match.
-  Source publication pending; recordings remain ignored/private.
+  Published v0.3.1 at source6c9ec5ad9d6a38a97b32629ac7d3b93a72859fec,
+    tree693ee6f0115f16fb476dc706565a4cd2eb22fcc0.
+    All385remote source blobs match canonical archive members; three uploaded
+    assets downloaded/SHA-256 checked, six previous releases/tags unchanged.
+    https://github.com/Zanark/Verona/releases/tag/v0.3.1
+    Recordings remain ignored/private; no audio or model bundle is distributed.
+  Female trim follow-up: another120Claire native action/view cases pass.
+    At02:08:11IST owned314428 becomes310488 to discard the cached old buffer;
+    manager306384, exact controls/appearance, normal policy, other sessions,
+    male sneeze and both yawns remain unchanged. Private delivery receipt:
+    .local\qualification\female-sneeze-tail-01\delivery.json.
 
 Completion log:
   2026-11-22 - Owner supplies two local sneeze recordings after v0.3.0 delivery.
@@ -47,3 +58,8 @@ Completion log:
   2026-11-22 - Native candidate and both policies qualify; only the owned head
     replaced with exact settings restoration. Updated shared loader, docs and
     installed instructions preserve20%cap and existing rare-yawn behavior.
+  2026-11-22 - Source6c9ec5a pushed, v0.3.1 published and exact assets/source
+    verified. Original issue/Project identity retained through completion.
+  2026-11-22 - Owner specifies female-only correction: remove the final second.
+    Delivered1.7s faded private clip after isolated native playback checks;
+    published archive/tag stays immutable. No independent listening claim.
