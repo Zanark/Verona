@@ -38,6 +38,9 @@ for (const id of ["eye-scan","eye-roll","wink","alternate-wink","reading"]) {
     .some(pose => Math.abs(pose.gazeX)+Math.abs(pose.gazeY)+pose.winkLeft+pose.winkRight > .2));
 }
 const yawn = IDLE_ACTIONS.find(action => action.id === "yawn");
+const openYawn=sampleIdleAction("yawn",2100);
+assert(openYawn.yawn>.9&&openYawn.squeeze>.7);
+assert.equal(openYawn.purse,0,"Yawning separates lips rather than pushing a puckered lip forward.");
 assert(IDLE_ACTIONS.filter(action => action !== yawn).every(action => yawn.weight === 3*action.weight));
 assert(!yawn.cooldown, "Recent-history exclusion still applies; no extra rarity cooldown fights the requested weighting.");
 const lottery = new Map();

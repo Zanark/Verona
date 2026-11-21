@@ -19,6 +19,7 @@ from .speech import (
     MAX_SECONDS, MAX_TEXT, VoiceSettings, installed_voices, preferred_voice, synthesize, validate_text,
 )
 from .local_voices import voice_pack_status
+from .idle_audio import ROUTES as IDLE_SOUND_ROUTES, read_yawn
 
 
 WEB = Path(__file__).with_name("web")
@@ -172,6 +173,12 @@ class Handler(BaseHTTPRequestHandler):
         if self.path in self.server.state.static or self.path in STATIC:
             name, kind = self.server.state.static.get(self.path, STATIC.get(self.path))
             self.reply(200, (WEB / name).read_bytes(), kind)
+        elif self.path in IDLE_SOUND_ROUTES:
+            if self.guard(authenticated=True):
+                try:
+                    self.reply(200, read_yawn(self.path), "audio/wav")
+                except RuntimeError as error:
+                    self.json_reply(503, {"error": str(error)})
         elif self.path == "/api/session":
             if self.guard(authenticated=True):
                 self.json_reply(200, {

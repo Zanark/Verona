@@ -62,6 +62,8 @@ async function run(window) {
     window.AudioContext=function(...args){
       const context=new OriginalContext(...args);test.context=context;test.stats.audioContexts++;
       const buffer=context.createBuffer.bind(context),source=context.createBufferSource.bind(context);
+      const gain=context.createGain.bind(context);
+      context.createGain=()=>{test.lastGain=gain();return test.lastGain;};
       context.createBuffer=(...values)=>{test.stats.audioBuffers++;return buffer(...values);};
       context.createBufferSource=()=>{
         const node=source(),start=node.start.bind(node),stop=node.stop.bind(node);
@@ -79,7 +81,8 @@ async function run(window) {
       const original=gl[method].bind(gl);gl[method]=(...args)=>{test.stats[key]++;return original(...args);};
     }
     const fetchOriginal=window.fetch.bind(window);
-    window.fetch=(...args)=>{test.stats.requests++;return fetchOriginal(...args);};
+    test.requestPaths=[];
+    window.fetch=(...args)=>{test.stats.requests++;test.requestPaths.push(String(args[0]));return fetchOriginal(...args);};
     test.change=(id,value)=>{const input=$(id);
       if(input.type==="checkbox")input.checked=value;else input.value=value;
       input.dispatchEvent(new Event("input",{bubbles:true}));};
@@ -194,12 +197,16 @@ async function run(window) {
         changedBytes:pose.difference.changed,restoredDifference:restored.difference});
     }
     const after = await evaluate(`({...__idleTest.stats})`);
-    for(const key of ["create","remove","storage","uploads","requests"]) {
+    for(const key of ["create","remove","storage","uploads"]) {
       assert.equal(after[key]-before[key],0,`${view}: gestures do not change ${key}`);
     }
-    report.views.push({view,neutralVariation,actions:poses,gestureBufferAllocations:0,gestureUploads:0,gestureRequests:0});
+    const soundRequests=after.requests-before.requests;
+    assert(soundRequests<=1,"Only one bounded supplied-yawn request per view; no motion polling.");
+    assert((await evaluate("__idleTest.requestPaths")).slice(before.requests)
+      .every(value=>/^\/api\/idle-sound\/yawn-(male|female)$/.test(value)));
+    report.views.push({view,neutralVariation,actions:poses,gestureBufferAllocations:0,gestureUploads:0,gestureRequests:soundRequests});
   }
-  report.checks.push("All 30 actions change real pixels in four views, including actual eye/lid uniforms in head cursor mode; neutral restoration and no gesture buffers/uploads/requests.");
+  report.checks.push("All30actions change real pixels in four views; neutral restoration, no gesture buffers/uploads, only bounded local supplied-yawn fetches.");
   await evaluate(`__idleTest.change("presentation","claire");__idleTest.change("cursor-mode","eyes");`);
   report.eyeDirections=[];
   for(const cursorMode of ["eyes","head"]) {
@@ -228,8 +235,10 @@ async function run(window) {
     return {duration:__idleTest.lastSource.buffer.duration,peak,rms:Math.sqrt(energy/data.length),
       time:__idleTest.context.currentTime,contexts:__idleTest.stats.audioContexts};
   })()`);
-  assert(sound.time>soundBefore && sound.peak>.89 && sound.peak<.901 && sound.rms>.05);
-  assert.equal(sound.duration,4.2);assert.equal(sound.contexts,1);
+  assert(sound.time>soundBefore && sound.peak>.01 && sound.peak<.901 && sound.rms>.005);
+  assert(sound.duration>0&&sound.duration<=4.2);assert.equal(sound.contexts,1);
+  assert(Math.abs((await evaluate("__idleTest.lastGain.gain.value"))-.2)<1e-6);
+  assert.equal(await evaluate('document.getElementById("idle-volume").max'),"20");
   await command({action:"configure",settings:{"idle-sounds":false}});
   await wait(`__idleTest.context.state==="suspended"`);
   assert.equal((await evaluate("__idleTest.capture(0)")).id,"");
@@ -242,6 +251,17 @@ async function run(window) {
   report.sound={...sound,mutedPreviewStarts:0,contextSuspendedAfterCancel:true};
   report.checks.push("Real local audio buffer/clock, bounded peak and one context; manager mute cancels immediately and suppresses future sounds.");
   if(model==="claire") {
+    const originalVoice=(await command({action:"status"})).controls.find(row=>row.id==="voice").value;
+    await evaluate('__idleTest.capture(5000)');
+    await command({action:"configure",settings:{voice:"Microsoft David Desktop"}});
+    const previousStarts=await evaluate("__idleTest.stats.audioStarts");
+    await evaluate('__idleTest.preview("yawn")');
+    await wait(`__idleTest.stats.audioStarts>${previousStarts}`);
+    assert.equal(await evaluate("__idleTest.lastSource.buffer.duration"),1.24);
+    assert((await evaluate('document.getElementById("idle-sound-status").textContent')).includes("yawn-male"));
+    await evaluate('__idleTest.capture(5000)');
+    await command({action:"configure",settings:{voice:originalVoice}});
+    report.checks.push("Supplied female/male effect switches with real voice selection; native gain and slider cap20%.");
     await evaluate(`__idleTest.resume=__idleTest.context.resume.bind(__idleTest.context);
       __idleTest.context.resume=()=>Promise.reject(Error("Fixture audio output unavailable"));
       __idleTest.preview("sneeze");`);

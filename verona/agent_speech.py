@@ -30,7 +30,8 @@ try {
                 $voices = @($synth.GetInstalledVoices() | Where-Object {
                     $_.Enabled -and $_.VoiceInfo.Culture.TwoLetterISOLanguageName -eq 'en'
                 } | ForEach-Object {
-                    @{ name = $_.VoiceInfo.Name; culture = $_.VoiceInfo.Culture.Name }
+                    @{ name = $_.VoiceInfo.Name; culture = $_.VoiceInfo.Culture.Name;
+                       style = $_.VoiceInfo.Gender.ToString().ToLowerInvariant() }
                 })
                 $result = @{ voices = $voices }
             } elseif ($request.action -eq 'speak') {

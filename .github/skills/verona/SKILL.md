@@ -164,11 +164,17 @@ else's head to switch models or policy.
 
 Idle life now owns thirty local actions, including five eye-focused actions
 and ten multi-feature composites. The tool chooses/times them, never the chat.
-Look-around moves eyes in either cursor mode. Yawn/sneeze use original local
-synthesized non-speech cues, not human recordings or another TTS model.
+Look-around moves eyes in either cursor mode. Yawns open lips around a dark
+cosmetic cavity and use explicitly prepared ignored local effects selected by
+voice style (head fallback if unknown); sneeze remains synthesized.
 Manager `idle-sounds`/`idle-volume` controls mute/level independently of speech
-(defaults true/"75"); do not poll or trigger gestures from the session.
-Yawn has3x eligible weight, not a guaranteed wall-clock frequency. Performance
+(defaults true/"20", maximum"20"); never raise idle audio above20%.
+Automatic yawn audio is rare:10%chance with a minimum ten-minute gap.
+Most visual yawns are silent; explicit previews bypass rarity. Missing local
+files produce a visible error, never a synthesized-yawn fallback or download.
+Keep recordings/derived clips ignored, never push or package them.
+Do not poll or trigger gestures from the session.
+Visual yawn has3x eligible weight, not a guaranteed wall-clock frequency. Performance
 sleep suppresses both idle motion and sound; ordinary heads remain the default.
 
 The owner withdrew the old armored character and its Blender study. Do not

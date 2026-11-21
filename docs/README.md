@@ -1,5 +1,12 @@
 # Verona engineering book
 
+**Quiet supplied yawns and open lips (vr-76):**
+[Chapter11](chapters/11-autonomous-idle-life.md) explains the separate jaw/lip
+field, dark cosmetic cavity, local voice-matched recordings, hard20% gain cap
+and rare automatic yawn audio. Silent visual yawns keep their existing timing.
+The [guide](prototype-guide.md#autonomous-idle-life) covers explicit local
+preparation; no recordings are included in source or frozen editions.
+
 **Creation-time performance-only opt-in (vr-74):** ordinary heads stay normal.
 The optional New session checkbox defaults off and cannot be changed after
 creation. [Chapter11](chapters/11-autonomous-idle-life.md#let-a-silent-head-sleep-vr-73)

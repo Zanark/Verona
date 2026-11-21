@@ -205,9 +205,9 @@
         <label><input id="idle-life" type="checkbox" checked> Idle life (30 actions)</label>
         <label><input id="idle-sounds" type="checkbox" checked> Yawn and sneeze sounds</label>
         <label for="idle-volume">Idle sound level
-          <input id="idle-volume" type="range" min="0" max="100" step="5" value="75"></label>
+          <input id="idle-volume" type="range" min="0" max="20" step="1" value="20"></label>
         <button id="idle-sound-enable" type="button">Enable / retry idle sound</button>
-        <p id="idle-sound-status" class="hint" aria-live="polite">Local stylized yawn/sneeze; level 75% by default.
+        <p id="idle-sound-status" class="hint" aria-live="polite">Local voice-matched yawn and stylized sneeze; maximum level 20%.
           No recording, microphone or speech model. Mute independently of speech.</p>
         <label for="idle-action">Preview idle action <select id="idle-action" aria-label="Preview idle action"></select></label>
         <button id="idle-preview" type="button" disabled>Preview once</button>

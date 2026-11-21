@@ -100,9 +100,13 @@ animations** locally: smiles, smirks, brows, nose/lip/cheek movements,
 jaw loosening, yawns, sneezes, looking around, double nods, neck stretches and
 eye squeezes, **five eye-focused actions** and **ten new multi-feature expressions**.
 Look-around moves the eyes horizontally and vertically in either cursor mode.
-Yawns/sneezes have **local synthesized sound**, with independent mute/level
-controls (75% initially); these are stylized cues, not human recordings.
-Yawn has **3x the selection weight** of another eligible action.
+Yawns use **prepared local male/female effects matched to the selected voice**;
+sneeze remains synthesized. Independent mute/level controls default to **20%,
+also the hard maximum**. **Audible yawns are rare**: a 10% chance per yawn and
+at least ten minutes between automatic sounds; most yawns stay silent.
+The visual yawn retains **3x the selection weight** of another eligible action.
+Yawning separates the lips around a dark cosmetic mouth cavity, not a pucker.
+The supplied recordings stay local/ignored and are not included in this repository.
 Verona waits 12-28 seconds between actions, avoids recent repeats
 and stops them for speech or direct interaction. **The chat schedules nothing
 and spends no model tokens on idle behavior.** Use the manager's **Idle life**

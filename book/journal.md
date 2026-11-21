@@ -5,6 +5,47 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - A yawn needs an opening, not a protruding lip (vr-76)
+
+The owner supplies two local recordings, asks for a20%maximum, and shows why
+the first gesture is wrong: the lips bulge instead of separating. The revised
+yawn has its own scalar field. Upper lip lifts, lower jaw drops with an oval
+width envelope and gentler chin transition, eyes close and recovery remains
+smooth. A dark inner-mouth band replaces the apparent protrusion across all
+views. It is a cosmetic empty cavity, not teeth/tongue anatomy or a contact rig.
+An initial overly uniform drop looked rectangular in actual rendered frames;
+the oval envelope is a visual correction, not an inference from passing tests.
+
+Already-installed Electron decodes the supplied sources offline without playing
+them. Silence trimming, a4.2sbound and25ms fades yield1.24s male/4.2s female
+effects; originals remain unchanged. Prepared files and provenance stay ignored.
+Two exact authenticated routes validate bounded mono24kHzPCM16. Voice metadata
+chooses the effect. The first native check finds that only the standalone
+Windows inventory supplied style; the warm worker needs the same field.
+This fixes real David/Hazel selection rather than guessing from head geometry.
+Unknown styles retain an explicit model-presentation fallback.
+
+The owner's later request is to make the sound rare. Visual yawn weighting
+stays3x, but automatic sound has only a10%chance and at least ten minutes
+between successful yawns. Most yawns are silent without creating an audio
+context or loading a file. Explicit previews bypass rarity, not mute or the
+hard20%gain cap. Speech still wins; fetch/resume/decode cancellation cannot
+resurrect an old cue. Sneeze stays synthesized and obeys the same volume cap.
+
+Six real heads/four views/thirty actions pass720native cases; both immutable
+creation policies pass. Real supplied buffers, voice switching, actual gain/
+range limits and speech/mute/cancel/error paths are qualified. Focused cases
+cover rarity, minimum gap, trimming and pending fetch cancellation. The compact
+all-six Surface sheet and Claire FaceMesh frames were reviewed, not every full
+animation or independent listening. Failed receipts remain. Source publication
+does not publish the recordings or establish redistribution rights.
+
+At01:26IST only this session's head is replaced, retaining its manager, normal
+policy and other latest settings. Sounds return enabled at20% with rare
+automatic yawns. Other sessions are unchanged; fourteen promoted source/test
+files and private-effect hashes match. Frozen editions/releases/GIFs stay
+unchanged; no new CPU-saving or naturalness claim is made.
+
 ## 2026-11-22 - Eyes participate, and a yawn can be heard (vr-75)
 
 The owner asks look-around to move the eyes too, five new eye actions, loud

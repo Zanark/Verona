@@ -142,6 +142,7 @@ class FaceRenderer {
       uniform vec3 color, eyeColor, meshColor, hairColor, lipColor, browColor;
       uniform bool points, polygonView, monochrome, customEyeColor, customMeshColor, customHairColor, customLipColor, customBrowColor;
       uniform float neckDepth;
+      uniform float idleYawn;
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle, eyeGlow;
       ${BLINK_GLSL}
@@ -181,6 +182,14 @@ class FaceRenderer {
           + ${JAW_CROP.rearRise.toFixed(1)} * clamp((${JAW_CROP.rearStart.toFixed(1)} - rest.z)
             / ${JAW_CROP.rearSpan.toFixed(1)}, 0.0, 1.0)) - neckDepth) discard;
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
+        if (material == 0 && idleYawn > 0.0) {
+          vec3 mouth = featurePosition(rest);
+          float interior = square((mouth.x-.08)/2.15)+square((mouth.y-140.15)/.33);
+          if (interior < .85 && mouth.z > .6) {
+            outputColor = vec4(vec3(.006,.003,.004),smoothstep(0.0,.25,idleYawn));
+            return;
+          }
+        }
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
           if (presentationStyle == 1 && material == 2 && pass == 3) {
@@ -382,7 +391,7 @@ class FaceRenderer {
       ["positionA", "positionB", "normalA", "normalB", "restPosition"].map(name => [name,gl.getAttribLocation(program,name)]),
     );
     this.uniforms = Object.fromEntries(
-      ["blink", "blinkCenterA", "blinkCenterB", "blinkRadius", "mouthAnchor", "cheekiness", "blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
+      ["idleYawn", "blink", "blinkCenterA", "blinkCenterB", "blinkRadius", "mouthAnchor", "cheekiness", "blend", "quantization", "aspect", "rotation", "rotationOffset", "gaze", "patternSettings", "zoom", "pointSize", "color", "eyeColor", "customEyeColor", "meshColor", "hairColor", "lipColor", "browColor", "customMeshColor", "customHairColor", "customLipColor", "customBrowColor", "points", "center", "scale", "material", "pass", "polygonView", "monochrome", "neckDepth", "presentationStyle", "eyeGlow", "viewCenter", "viewScale"]
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     for (const name of ["idleFaceA", "idleFaceB", "idleFaceC", "idleLids"]) this.uniforms[name] = gl.getUniformLocation(program, name);
@@ -870,6 +879,7 @@ class FaceRenderer {
     gl.uniform4f(u.idleFaceA, idle.smile, idle.smirk, idle.brow, idle.furrow);
     gl.uniform4f(u.idleFaceB, idle.nose, idle.press, idle.purse, idle.puff);
     gl.uniform4f(u.idleFaceC, idle.jaw, idle.shift, idle.squeeze, idle.moving ? idle.side : 0);
+    gl.uniform1f(u.idleYawn, idle.yawn);
     const rig = this.meta.rig || CLAIRE_BLINK;
     gl.uniform3fv(u.blinkCenterA, rig.centers[0]);
     gl.uniform3fv(u.blinkCenterB, rig.centers[1]);
@@ -1594,6 +1604,13 @@ try {
   const idleSound = createIdleSound({
     enabled: () => $("idle-sounds").checked,
     volume: () => Number($("idle-volume").value)/100,
+    yawnStyle: () => {
+      const voice = installedVoiceMetadata.find(voice => voice.name === $("voice").value);
+      return ["male", "female"].includes(voice?.style) ? voice.style
+        : ["mark", "male-sharp"].includes(session.appearance?.model) ? "male" : "female";
+    },
+    loadYawn: async (style, signal) =>
+      (await request(`/api/idle-sound/yawn-${style}`, {signal})).arrayBuffer(),
     report: (text, failed) => {
       $("idle-sound-status").textContent = text;
       if (failed) { idleAudioError = text; failure(new Error(text)); }
@@ -1605,6 +1622,7 @@ try {
   idleLife = attachIdleLife($("idle-life"), draw, idleAvailable, idleSound);
   $("idle-sounds").addEventListener("input", () => idleSound.changed());
   $("idle-volume").addEventListener("input", () => idleSound.changed());
+  $("voice").addEventListener("input", () => idleSound.changed());
   $("idle-sound-enable").addEventListener("click", () => idleSound.unlock());
   refreshIdleLife();
   draw();

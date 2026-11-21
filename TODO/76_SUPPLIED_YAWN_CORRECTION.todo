@@ -1,0 +1,54 @@
+ID: vr-76
+Title: Open-mouth yawn and quiet supplied male/female effects
+Status: DONE
+Milestone: Correct yawn appearance and replace synthesized yawn with supplied local effects
+Dependencies: vr-75
+Purpose:
+  Owner rejects bulging closed lips and supplies male/female yawn effects.
+  Show separated lips around a dark mouth void; maximum idle sound level20%.
+  Later feedback asks for rare audible yawns, not frequent yawn sounds.
+Tasks:
+  Protect current manager/head while developing a separate candidate.
+  Trim silence and bound the supplied effects without changing originals.
+  Keep recordings ignored/local; authenticated exact routes, no runtime download.
+  Match yawn to voice metadata, with model fallback for unknown voice style.
+  Separate lower jaw/upper lip, remove pursing and darken cosmetic cavity.
+  Enforce20% UI and audio gain cap; preserve speech priority and normal policy.
+  Automatic yawn audio has10%chance and at least ten minutes between sounds;
+  silent yawns retain the existing visual choice, explicit previews bypass rarity.
+  Qualify actual native pixels/audio, document journal/limits, sync tracking,
+  preserve other controls during owned live replacement and commit/push.
+Acceptance criteria:
+  Supplied effects replace synthesized yawns; originals remain unchanged.
+  Leading/trailing silence trimmed, playback at most4.2seconds with fades.
+  Female/male selection follows voice; unsupported/missing files report errors.
+  Lips visibly separate around a dark void, not another enlarged lip bulge.
+  Idle output gain never exceeds0.2; speech volume remains independent.
+  No new scheduler/inference, no private recording published, cancellation wins.
+Completion evidence:
+  Final local preparation produces male1.24s/female4.2s PCM16 effects with
+  original hashes unchanged and identical repeated derived hashes. Source
+  files/derived recordings remain ignored, not published or packaged.
+  supplied-yawn-claire-02 plus supplied-yawn-native-03 qualify720actual
+  model/view/action cases, six heads/four views/thirty actions, both creation
+  policies, real voice-selected buffers and actual native gain/range cap.
+  Actual all-six-head Surface sheet and Claire FaceMesh frames reviewed:
+  open oval cavity, lip rim, closed eyes; no full-animation/listening acceptance.
+  Seven focused Node runner cases, eleven Python server/audio cases and nine
+  existing engineering-book checks pass.
+  Rarity/minimum gap, preview, pending-fetch cancellation and trim tested.
+  First native failure exposed missing warm-worker Windows voice style;
+  both inventories corrected. Earlier rectangular cavity refined after viewing.
+  live-supplied-yawn-01: at01:26IST only owned309252 becomes311676, same
+  manager306384. Normal policy/all other latest appearance/controls preserved;
+  sounds restored enabled at20%, rare automatic yawn rules active. Other
+  sessions unchanged; fourteen source/test and private-effect hashes match.
+  This is implementation/qualification, not user approval, anatomical realism,
+  independent listening or rights clearance for redistribution.
+Completion log:
+  2026-11-22 - Register supplied-audio and visual feedback as one bounded
+    correction. Original vr75 source is pushed at0cac9f0.
+  2026-11-22 - Qualified and delivered locally with supplied effects; original
+    synthesized yawn removed, sneeze retained, both capped20%. Later request
+    makes audio rare while preserving visual weighting. Keep failed receipts.
+    Public source/docs/ledger/living journal updated; recordings stay private.

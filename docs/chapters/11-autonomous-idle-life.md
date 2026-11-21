@@ -28,7 +28,7 @@ chosen once, never randomized each frame.
 | Lip purse | Lips narrow and project | 2.2 s |
 | Cheek puff | Cheeks expand outward and forward | 2.4 s |
 | Jaw loosen | Lower face opens slightly and shifts sideways | 3.0 s |
-| Loud yawn | Slower opening, narrowing eyes, upward tilt and voiced/breath cue | 4.2 s |
+| Yawn | Oval open lips, lowered jaw, closed eyes and rare optional recorded cue | 4.2 s |
 | Loud sneeze | Anticipation, eye closure, forward dip and noisy burst/recovery | 2.7 s |
 | Look around | Head scan with left/right and up/down eye-leading in both cursor modes | 3.4 s |
 | Double nod | Two diminishing pitch pulses | 1.9 s |
@@ -94,6 +94,14 @@ a late animation sample finishes without replaying missed frames.
 shader in `app.js:FaceRenderer`. Smooth, front-gated mouth, cheek, nose and brow
 fields use the existing calibrated feature frame. Zero uniforms skip the
 extra field math. A separate `idleLids` `vec2` drives unilateral closures.
+The vr-76 yawn adds one `idleYawn` scalar shared by vertex and fragment stages.
+It replaces the old small jaw/purse combination: upper lip rises while the
+lower jaw descends, with an elliptical width envelope and a gentler chin
+transition. A rest-space inner-mouth band becomes dark across all four views.
+This keeps a visible lip rim around a cosmetic empty cavity rather than
+pushing closed lips forward. It is not a new oral mesh, physical jaw joint,
+teeth/tongue rig or contact solver. At zero, the extra displacement/cavity
+branch has no effect; interrupted/completed yawns restore the original surface.
 No vertex buffer, topology, model, TTS voice or speech clip is created for
 an idle action. Normals retain the renderer's cosmetic approximation.
 
@@ -115,33 +123,62 @@ rendered frames and shader arithmetic; it is not free GPU work or a promise of
 unchanged whole-machine CPU. There is no session-side polling, server
 animation request, inference, model download or new process.
 
-## Audible yawn and sneeze, without another voice model
+## Quiet supplied yawn and synthesized sneeze (vr-76)
 
-`idle-sound.mjs:synthesizeIdleSound` authors original non-speech cues from
-voiced harmonics and deterministic breath/noise envelopes. Yawn builds and
-releases a sustained vowel-like sound; sneeze adds an inhale, short noisy burst
-and voiced tail. They follow their gesture's 4.2/2.7-second timelines.
-These are synthesized stylizations, **not human recordings or accepted
-naturalistic yawns/sneezes**. No text, microphone, capture, network asset,
-neural inference or filesystem audio is involved.
+The owner supplies two local yawn effects and rejects the synthesized yawn.
+`scripts/prepare-idle-yawns.cjs` uses the already-installed Electron decoder
+offline, with no audible playback, microphone or network. It averages channels
+to mono24kHz, finds active10ms RMS blocks above a relative/absolute silence
+threshold, retains40ms edge room and at most4.2seconds, and fades25ms boundaries.
+Only excessive sample peaks are attenuated; quiet source is never boosted.
+The original files are untouched. A longer active recording is cropped rather
+than pitch-shifted; no independent listening/naturalness claim follows.
 
-**Yawn and sneeze sounds** defaults on; **Idle sound level** starts at 75% and
-is adjustable 0-100% independently of speech. Disabling the sound checkbox or
-setting zero keeps the gestures silent. Full-scale cues normalize to roughly
-0.9 sample peak, with a clamped 0-1 output gain: no over-unity volume boost.
-Actual loudness still depends on the system mixer and speakers.
+The prepared PCM16 WAVs and private trim/hash receipt remain in ignored
+`.local/idle-sounds`; recordings are neither committed nor packaged, and
+redistribution rights have not been independently established.
+`idle_audio.py:read_yawn` serves only two exact authenticated effect routes,
+with bounded bytes, channels, rate and frame-count checks. There is no arbitrary
+path serving or runtime download. Missing/unreadable/invalid audio returns an
+explicit503 error; motion still works, but no synthetic yawn silently replaces
+the requested recording. Fresh checkouts need explicit permitted local input.
+
+Voice metadata supplies male/female style for Windows and optional neural
+voices. `app.js` uses the selected voice, not an inference about the user.
+Only unknown voice styles fall back to Mark/Male-SharpJawline's male
+presentation and the other heads' female presentation. These labels choose
+effects, not anatomical or personal identity. Changing voice stops any old cue.
+`idle-sound.mjs:synthesizeIdleSound` now produces **only the sneeze** from
+original voiced harmonics and deterministic breath/noise envelopes.
+
+**Yawn and sneeze sounds** defaults on; **Idle sound level** starts at20% and
+is adjustable0-20% independently of speech. Both the actual control range and
+the WebAudio output gain enforce the20%maximum, including stale callers.
+Mute/zero keeps gestures silent. Actual loudness still depends on the recording,
+system mixer and speakers;20% is a gain limit, not a calibrated sound-pressure
+level or a limit on speech playback.
+
+The owner's later rarity request applies to **audible** yawns. Each automatic
+visual yawn has only a10%chance of sound, and a successful yawn sound suppresses
+further automatic yawn audio for at least ten minutes. Most yawns therefore
+stay silent without loading audio or creating a context. Visual3x weighting
+and other gesture timing stay unchanged. Explicit local previews bypass rarity
+for inspection, still honor mute/20% and update the next automatic sound time.
+Reload resets this RAM-only history. No extra timer or session decision is added.
 
 `createIdleSound` lazily creates one Web Audio context, one playing source/gain
 and one latest mono 24-kHz buffer (at most 403,200 retained PCM sample bytes,
-plus browser objects/temporary synthesis copy). Repeated matching cues reuse
-that buffer; switching kind replaces it. End/cancel disconnects the source and
+plus browser objects/temporary decode/synthesis copy). Repeated matching cues reuse
+that buffer; switching kind or male/female effect replaces it. Only an uncached
+audible yawn fetches its bounded exact local route. End/cancel disconnects the source and
 gain and suspends the context, rather than processing silence forever.
 Ordinary silent gestures and waiting create no audio context.
 
 The existing clock calls sound start/stop alongside motion. There is no second
 scheduler. Speech/generation, direct input, hide, graphics loss, idle-off and
-performance sleep cancel the source and invalidate pending resume work.
-An asynchronous start uses the elapsed gesture offset; an already finished
+performance sleep cancel the source, abort pending asset fetch and invalidate
+pending resume/decode work. An asynchronous start uses the elapsed gesture
+offset after decoding; an already finished
 gesture is never replayed late. Normal and performance-only creation semantics
 are unchanged: a sleeping performance head never starts an idle sound or wakes
 itself because of a yawn.
@@ -187,7 +224,28 @@ An ineligible preview reports an error, never a successful-looking no-op.
 
 ## What was actually qualified
 
+### Supplied-yawn correction (vr-76)
+
+The first native pass exposed missing voice style in the warm Windows worker,
+despite the standalone inventory already exposing it. Updating both inventories
+fixes actual David-versus-Hazel selection; the failed receipt is retained.
+An initial overly uniform jaw drop produced a rectangular cavity. Real rendered
+frames motivated the elliptical opening envelope/gentler chin transition,
+not a claim that a numeric pose alone proves a natural yawn.
+
+`supplied-yawn-claire-02` and the remaining-model native03 receipts cover
+six heads/four views/thirty actions, real voice-matched supplied buffers,
+the native gain/range cap and speech/mute/cancel/error behavior. Surface and
+FaceMesh yawn frames were visually inspected; this is not full animation,
+independent listening, anatomical acceptance or user approval. Existing buffer
+ownership is unchanged; bounded local effect fetches replace the old no-fetch
+audio claim. Both fixed creation policies remain covered. Focused sound cases
+also exercise rare selection, ten-minute exclusion, explicit preview, pending
+fetch cancellation and non-overwriting bounded trim behavior.
+
 ### Eye/audio expansion (vr-75)
+
+Historical synthesis/75% defaults below are superseded by vr-76 above.
 
 Focused cases cover thirty finite/distinct/reachable trajectories, exact neutral
 endpoints, five real eye-field paths and ten composites with at least three

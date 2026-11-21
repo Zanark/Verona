@@ -36,7 +36,7 @@ const smooth = value => { const t = Math.max(0, Math.min(1, value)); return t*t*
 const pulse = (t, a, b, c, d) => smooth((t-a)/(b-a)) * (1-smooth((t-c)/(d-c)));
 const fields = ["pitch", "yaw", "roll", "gazeX", "gazeY", "gazeWeight", "smile", "smirk",
   "brow", "furrow", "nose", "press", "purse", "puff", "jaw", "shift", "squeeze",
-  "winkLeft", "winkRight"];
+  "winkLeft", "winkRight", "yawn"];
 
 export function idlePose() {
   return reset({id: null, moving: false, side: 1});
@@ -70,8 +70,8 @@ export function sampleIdleAction(id, elapsed, side = 1, pose = idlePose()) {
       pose.shift = .45*Math.sin(t*2*Math.PI)*e;
       break;
     case "yawn":
-      pose.jaw = 1.3*e; pose.purse = .3*e;
-      pose.squeeze = .65*e; pose.pitch = -.09*e;
+      pose.yawn = pulse(t, 0, .34, .64, 1);
+      pose.squeeze = .98*pose.yawn; pose.pitch = -.05*pose.yawn;
       break;
     case "sneeze": {
       const inhale = pulse(t, 0, .22, .30, .45);
@@ -186,12 +186,12 @@ export function createIdleClock(wake, {
     if (timer !== null) cancel(timer);
     timer = null; action = null; onStop();
   };
-  const begin = selected => {
+  const begin = (selected, preview = false) => {
     action = selected; started = now(); side = random() < .5 ? -1 : 1;
     recent.push(action.id);
     if (recent.length > 4) recent.shift();
     cooldowns.set(action.id, started + action.duration + (action.cooldown || 0));
-    onStart(action);
+    onStart(action, {preview});
     wake();
   };
   const arm = () => {
@@ -227,7 +227,7 @@ export function createIdleClock(wake, {
       const selected = byId.get(id);
       if (!selected) throw new Error(`Unknown idle action: ${id}`);
       if (!active || !allowed()) throw new Error("Idle previews require an enabled, visible, idle head. Finish playback or clear its paused clip first.");
-      clear(); begin(selected);
+      clear(); begin(selected, true);
     },
     sample() {
       if (!allowed()) { clear(); active = false; }
@@ -273,6 +273,7 @@ export function attachIdleLife(input, wake, available = () => true, sound = {}) 
 // Bounded cosmetic fields; speech geometry, topology and optical joints stay unchanged.
 export const IDLE_GLSL = `
   uniform vec4 idleFaceA, idleFaceB, idleFaceC;
+  uniform float idleYawn;
   float idleField(vec2 p, vec2 radius) {
     return 1.0-smoothstep(0.35,1.0,length(p/radius));
   }
@@ -302,6 +303,13 @@ export const IDLE_GLSL = `
     offset.y -= jaw*idleFaceC.x;
     offset.x += jaw*idleFaceC.y;
     offset.y += cheek*.18*idleFaceC.z;
+    float lower = (1.0-smoothstep(-.10,.10,y))
+      *(1.0-smoothstep(2.8,6.0,abs(x)));
+    float opening = sqrt(max(0.0,1.0-(x/2.2)*(x/2.2)));
+    float mouthBand = 1.0-smoothstep(.8,2.4,abs(y));
+    offset.y += idleYawn*(.5*lip*smoothstep(0.0,.3,y)
+      -3.4*lower*mix(.55,opening,mouthBand));
+    offset.z -= idleYawn*.5*lower;
     return offset*front;
   }
 `;
