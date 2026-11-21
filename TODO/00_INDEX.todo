@@ -51,7 +51,7 @@ vr-48 | 48_VERONA_AGENT_SKILL.todo | DONE | Installed/copied in-depth agent skil
 vr-49 | 49_CHEEKINESS_LIP_STRETCH_REPORT.todo | DONE | Matched current/proposed Claire sideways-smirk report; shared visual direction recorded, runtime unchanged
 vr-50 | 50_UI_CLARITY.todo | DONE | Calm session/speech workspace, grouped player settings and fitted native head menus; design-thread case study published
 vr-51 | 51_MARK_MODEL_REPORT.todo | DONE | Actual pinned Mark head, neutral and ten native emotions in twelve verified local GIFs; runtime unchanged
-vr-52 | 52_FIRST_MILESTONE_RELEASE.todo | IN_PROGRESS | First milestone: current gallery, verified v0.1.0 source release, project closeout and celebration
+vr-52 | 52_FIRST_MILESTONE_RELEASE.todo | DONE | First milestone: current gallery, verified v0.1.0 source release, project closeout and celebration
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

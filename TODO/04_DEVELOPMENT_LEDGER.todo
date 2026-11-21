@@ -1,6 +1,35 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-52 M1 published, downloaded and celebrated
+Outcome: source f892d423f923bdd043ebe6aab7647f0993679251 committed/pushed
+with both linked Zanark identities and required trailers. Published immutable
+v0.1.0, release453303201; previous three release bodies/IDs/tags/assets unchanged.
+Custom sourceZIP238256986bytes contains302reviewed tracked source/test/docs/
+publicmedia members. Every uncompressedmember matches its exactGitblob, full
+remote tree and SHA256manifest inventory. Allthree uploadedassets (sourceZIP,
+release-manifest.json,SHA256SUMS.txt) downloaded and SHA256verified. No models,
+voices, Python/Electron environments, recordings, credentials or privatecontext.
+Firstarchive failed exactblobgate beforepublication: Windows core.autocrlf
+expandedLFtoCRLF. RejectedZIP retained; percommand core.autocrlf=false/core.eol=lf
+produces canonicalGitbytes. No global setting changed. Manifest separately
+labels canonicalarchivehashes and qualificationWindowsworktreehashes.
+Actualremote README41images/40GIFs/all10newmedia/alt/hero-first/singleclosed
+disclosure verified. Owner-requested shortRomanHinglish/Gatsby-toast post
+session-62456741-m1-celebration-20261121 actuallyindexed with exacttext/original
+GIF after checkedmesh; allpreviousactive records unchanged, no ownedattention,
+roomping, fakepeer, archive read or peer-store write. Firstframe inspected,
+not fullanimation.1GIF/1meme withinavailablebudgets; legible ownfont inspected.
+Original #51/Project15itemPVTI_lAHOAe2wCs4BsFbFzhKnCdo ClosedCompleted/Done;
+50olderlocalmappings unchanged. M1milestone1 closed with12scoped completedissues,
+0open; parkedvr16..19 and activevr41 deliberately remain outside. Receipts:
+.local\qualification\milestone-release-01\delivery.json,github-readme.json,
+celebration-delivery.json,milestone-closed.json. Runtime and protected owner
+manager199804/135300 unchanged. No deployment, automatic update, bookrender,
+strongercheekiness integration or new accuracy/listening/likeness acceptance.
+The immutable release source retains its packaging-time tracking snapshot;
+this causal/tracking closeout is a separate descendant commit on main.
+
 2026-11-21 - vr-52 first functional milestone packaging candidate
 Cause: owner declares M1 and explicitly requests current README GIFs, commit/
 push, release, project housekeeping and a real social celebration.
