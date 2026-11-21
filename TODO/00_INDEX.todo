@@ -76,7 +76,7 @@ vr-73 | 73_IDLE_PERFORMANCE_MODE.todo | DONE | Idle 10% sleep, quick opacity; si
 vr-74 | 74_CREATION_TIME_PERFORMANCE.todo | DONE | Normal default; creation-only performance opt-in, qualified and live
 vr-75 | 75_EYES_AND_AUDIBLE_IDLE.todo | DONE | Thirty tool-owned actions, coordinated eyes, ten composites and local yawn/sneeze sound; qualified and live
 vr-76 | 76_SUPPLIED_YAWN_CORRECTION.todo | DONE | Open oval yawn, private voice-matched effects, rare automatic sound and hard20% idle cap; qualified and live
-vr-77 | 77_LIVING_HEAD_RELEASE.todo | IN_PROGRESS | Current documentation/installed skill and immutable v0.3.0 source delivery
+vr-77 | 77_LIVING_HEAD_RELEASE.todo | DONE | Current documentation/installed skill and verified immutable v0.3.0 source delivery
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

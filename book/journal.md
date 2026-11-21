@@ -31,6 +31,14 @@ repository and correctly found its inherited project skill, so the external
 check was repeated from an actually external directory. Nine existing book
 checks and71affected documentation file links pass.
 
+Published [v0.3.0](https://github.com/Zanark/Verona/releases/tag/v0.3.0) points
+at source `98b962f4131352e86d6281134e81a290f6c0300e`. All383remote source
+blobs match the canonical archive, and the three uploaded assets were downloaded
+and SHA-256 checked. The source ZIP is429,316,606bytes because it includes the
+existing public preview media; it is not an environment or model bundle.
+All five prior releases and their tags/assets remain unchanged. The source,
+manifest and checksums exclude the supplied recordings and local editions.
+
 ## 2026-11-22 - A yawn needs an opening, not a protruding lip (vr-76)
 
 The owner supplies two local recordings, asks for a20%maximum, and shows why

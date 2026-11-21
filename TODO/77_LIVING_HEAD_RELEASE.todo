@@ -1,7 +1,7 @@
 ID: vr-77
 Title: Current skills, documentation and living-head source release
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Offline voices and living heads
 Dependencies: vr-68, vr-69, vr-70, vr-71, vr-74, vr-75, vr-76
 
@@ -29,12 +29,24 @@ Acceptance criteria:
 
 Completion evidence:
   Runtime baseline f2c7c835409ccac3909aa12fbc8b705900154551 is already qualified.
+  GitHub: https://github.com/Zanark/Verona/issues/76
   Source/library/personal skill SHA-256 agrees:
     a0fba0ddd4d3f76dfeee84ea4e10995fe7c60058efcc534ced1ac56afbee816e.
     Enabled personal discovery verified outside the repository; no runtime starts.
   Nine existing book checks and71affected documentation file links pass.
-  Release upload/download checks pending; local preparation is not publication.
+  Published v0.3.0 at source98b962f4131352e86d6281134e81a290f6c0300e,
+    tree76832ae75f5dfd765e24fea68e9325d039b3fb73.
+    All383remote source blobs match canonical archive members.
+    Three uploaded assets downloaded and SHA-256 verified; archive429316606bytes.
+    All five previous release bodies/assets/tags remain unchanged.
+    https://github.com/Zanark/Verona/releases/tag/v0.3.0
+    Receipts: .local/qualification/living-head-release-01/delivery.json and
+    .local/qualification/living-head-skill-01/installation.json.
 
 Completion log:
   2026-11-22 - Owner explicitly authorizes skills/docs/release update and push.
     New version v0.3.0 preserves v0.2.0 and all earlier immutable releases.
+  2026-11-22 - Source98b962f pushed with Zanark author/committer and required
+    trailers. Exact tag/tree/source members and downloaded asset hashes verified.
+    No supplied recordings, local models/PDFs/context or unrelated library work
+    published; installation did not start or restart any runtime.
