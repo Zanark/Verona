@@ -5,6 +5,36 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-21 - Put every idle action in a GIF report (vr-72)
+
+The owner next asked to see all fifteen animations, not just read their names.
+A separate invisible, unfocused native head sampled each complete action in
+Surface and FaceMesh, with the same clock, phase and mirror direction.
+The live head kept running with every setting unchanged. No speech, desktop
+capture or new model download was needed.
+
+The local report contains fifteen labelled paired GIFs, a short description
+for each action and a clickable index. It starts with still posters and plays
+one selected GIF at a time; Pause restores the poster. This avoids fifteen
+simultaneous animations simply to browse a report. Everything loads from local
+files, without remote scripts, fonts or images.
+
+The 814 source captures become 407 encoded frames. Every decoded GIF timeline
+matches its quantized source, including half-second neutral holds at both
+ends. Switching from full-frame disposal to retaining/delta encoding reduces
+the GIF set from about 58 MB to 19 MB without changing those decoded timelines.
+These are deliberately resized, color-quantized 10-fps previews, not live
+frame-rate measurements or a claim that the stylized sneeze is anatomical.
+
+All fifteen GIFs decode in the local sandboxed browser. The paired contact
+sheet, several decoded phases of sneeze/nod/stretch and wide/narrow report
+layouts were inspected. The first hidden-window review had stale painted
+snapshots despite correct DOM checks; its replacement waits for actual size
+and paint in an invisible, unfocused owned window. Both attempts remain.
+Only public-safe documentation/tracking is pushed: the report and its GIFs
+remain local under `.local\reports\idle-animations`, not a new public gallery
+or rewritten PDF edition.
+
 ## 2026-11-21 - Let the face wait without asking the chat (vr-71)
 
 The owner asked for fifteen different occasional gestures, including a sneeze,

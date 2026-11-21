@@ -165,3 +165,20 @@ Surface/wireframe poses of the five other heads. Static captures and
 time-offset automated sampling do not prove continuous naturalness, universal
 frame rate, OS composition, independent listening or owner acceptance.
 The earlier broad-suite iris-artwork failure is not claimed fixed by this work.
+
+## Inspect all fifteen complete loops (vr-72)
+
+The owner-requested private report lives at
+`.local\reports\idle-animations\index.html` in the prepared checkout. Each action
+has one labelled GIF pairing Surface and FaceMesh on original Claire at
+matching phases. All fifteen are present, including full anticipation/recovery
+and half-second neutral holds. It starts paused and plays only one selection
+at a time; the other cards retain static posters.
+
+814 native captures produce 407 encoded frames. Complete decoded timelines
+match their resized, quantized sources; delta encoding reduces the set from
+57,727,158 to 18,761,888 bytes without changing those timelines. A local
+sandboxed browser decodes all fifteen, checks controls and wide/narrow layout,
+and makes no external requests. This illustrates two views of one model,
+not another all-six-head acceptance claim. Source runtime is `77e3951`.
+The report, GIFs and raw captures stay ignored/local, not published media.

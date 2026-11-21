@@ -918,7 +918,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-72": {
+      "source": "TODO/72_IDLE_ANIMATION_REPORT.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhV5nMA",
+      "number": 71,
+      "url": "https://github.com/Zanark/Verona/issues/71",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKwTko",
+      "title": "Local GIF report for all fifteen idle animations",
+      "managedBody": "\n<!-- verona-workstream:vr-72 -->\nWorkstream source: `TODO/72_IDLE_ANIMATION_REPORT.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-72\nTitle: Local GIF report for all fifteen idle animations\nGitHub: https://github.com/Zanark/Verona/issues/71\n\nStatus: DONE\nMilestone: Inspect every complete gesture in a private local report\nDependencies: vr-71\n\nPurpose:\n  Give the owner one labelled looping GIF for each of the fifteen implemented\n  idle actions, showing actual Surface and FaceMesh output side by side.\n\nTasks:\n  Capture the delivered renderer in an isolated owned native test head.\n  Sample complete trajectories, including return to neutral, without audio.\n  Encode fifteen GIFs with matching samples, labels and explicit provenance.\n  Build a local self-contained HTML report with play/pause and reduced motion.\n  Review representative actual frames, all GIF timelines and report layout.\n  Preserve the active head/settings and keep captures/report local.\n\nAcceptance criteria:\n  Exactly fifteen named actions, each with a distinct real rendered GIF.\n  Both views show the same action, phase and mirror direction.\n  No invented footage, live desktop capture, speech, model download or cloud.\n  Report explains sampled cadence, cosmetic limits and tool-owned selection.\n  Every encoded frame/timeline matches its quantized captured source.\n  All links/assets load locally; no external report dependencies.\n  Owned test resources stop; active runtime and every saved setting survive.\n\nCompletion evidence:\n  Local report: .local/reports/idle-animations/index.html.\n  Fifteen labelled GIFs, each pairing actual Surface/FaceMesh phases on Claire.\n  814 native source frames; 407 encoded frames; every complete encoded timeline\n    matches its quantized source. Each GIF includes 0.5-second neutral holds.\n  Constant test clock/mirror, original waves, 120% zoom, no speech or cursor/\n    independent blink motion. Real canvas capture, not desktop recording.\n  GIF bytes reduced from 57,727,158 to 18,761,888 using disposal/delta encoding,\n    retaining every verified decoded timeline. No added application dependency.\n  Fifteen actual GIFs decode locally in sandboxed Electron; one active at a\n    time, paused posters by default, Pause restores them, no external requests.\n    Final browser-02 checks wide/narrow layout without horizontal overflow.\n  Reviewed all-action paired contact sheet, decoded sneeze/nod/stretch phase\n    samples, wide report and narrow cards. Not continuous human acceptance.\n  Capture/test native processes, servers, profiles and descriptors stopped;\n    live manager/head and every setting/appearance preserved.\n  Private evidence: .local/qualification/idle-animation-report-01.\n  Only public-safe tracking/journal/documentation is committed. Report/GIFs,\n    raw frames, profiles and receipts remain ignored and local; no publication.\n  Runtime source: delivered 77e3951; no application change is requested.\n\nCompletion log:\n  2026-11-21 - Owner requests a report showing GIFs of all created animations.\n    Keep the already-delivered live head running; use a separate test profile\n    and fresh output directory, not the user's session.\n  2026-11-21 - Capture/encode/verify complete. Preserve initial full-frame GIF\n    variant and first hidden-window review snapshots: DOM checks passed, but\n    paint was stale. Final invisible unfocused window waits for actual viewport\n    and paint before taking its own report snapshots; no OS capture.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T17:57:51.901584+00:00"
+  "verifiedAt": "2026-11-21T18:16:26.266654+00:00"
 }

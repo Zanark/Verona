@@ -71,6 +71,7 @@ vr-68 | 68_LOCAL_VOICES.todo | DONE | 28 optional offline voices, unused session
 vr-69 | 69_OVERLAY_ZOOM_CLIPPING.todo | DONE | Screen-bound enlarged native viewport; 140% qualified, same audio and owned live settings preserved
 vr-70 | 70_EAR_HAIR_CROP.todo | DONE | Bounded skin-only jaw crop; complete hair tips, native/browser qualified and owned head updated
 vr-71 | 71_AUTONOMOUS_IDLE_LIFE.todo | DONE | Fifteen tool-owned idle actions; six-head/four-view qualification and settings-preserving live delivery
+vr-72 | 72_IDLE_ANIMATION_REPORT.todo | DONE | Private local report with fifteen verified complete Surface/FaceMesh GIFs and bounded playback
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

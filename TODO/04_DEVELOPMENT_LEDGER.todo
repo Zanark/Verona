@@ -1,6 +1,27 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-72 illustrates every complete idle action without touching live use
+Cause: the owner wants a report with GIFs of all fifteen actions, not static
+names or only peak images. Capture a separate selected Claire renderer with
+deterministic test clock/mirror and matching Surface/FaceMesh phase samples.
+Action: private local HTML with fifteen paired GIFs, descriptions/index,
+paused posters and one active animation at a time. No external dependencies,
+speech or desktop capture. Runtime implementation stays at 77e3951.
+Evidence: 814 actual native samples, 407 encoded frames; complete decoded
+timelines match quantized sources. Delta/disposal optimization preserves those
+timelines while reducing GIF bytes from 57,727,158 to 18,761,888.
+Final browser-02 decodes all fifteen locally, checks playback/pause/sandbox,
+zero external requests and wide/narrow no-overflow. Review all-action contact,
+complex decoded phases and actual report layouts. First hidden-window DOM
+checks passed but screenshots were stale; retain them, wait for real size/
+paint in an invisible unfocused owned window for final review.
+Boundary: silent resized 10-fps cosmetic previews, not live FPS/anatomical
+acceptance; one head/two illustrated views, not six-head gallery recapture.
+Live manager/head/settings all preserved; owned capture/test resources stop.
+Report .local/reports/idle-animations/index.html and raw receipts stay local.
+Journal/chapter/index/tracking updated; no application/release/PDF publication.
+
 2026-11-21 - vr-71 makes waiting behavior tool-owned, not session work
 Cause: the owner wants 15 distinct occasional idle actions on every head, with
 no chat selecting gestures or scheduling blinks. Research distinguishes

@@ -1,0 +1,58 @@
+ID: vr-72
+Title: Local GIF report for all fifteen idle animations
+GitHub: https://github.com/Zanark/Verona/issues/71
+
+Status: DONE
+Milestone: Inspect every complete gesture in a private local report
+Dependencies: vr-71
+
+Purpose:
+  Give the owner one labelled looping GIF for each of the fifteen implemented
+  idle actions, showing actual Surface and FaceMesh output side by side.
+
+Tasks:
+  Capture the delivered renderer in an isolated owned native test head.
+  Sample complete trajectories, including return to neutral, without audio.
+  Encode fifteen GIFs with matching samples, labels and explicit provenance.
+  Build a local self-contained HTML report with play/pause and reduced motion.
+  Review representative actual frames, all GIF timelines and report layout.
+  Preserve the active head/settings and keep captures/report local.
+
+Acceptance criteria:
+  Exactly fifteen named actions, each with a distinct real rendered GIF.
+  Both views show the same action, phase and mirror direction.
+  No invented footage, live desktop capture, speech, model download or cloud.
+  Report explains sampled cadence, cosmetic limits and tool-owned selection.
+  Every encoded frame/timeline matches its quantized captured source.
+  All links/assets load locally; no external report dependencies.
+  Owned test resources stop; active runtime and every saved setting survive.
+
+Completion evidence:
+  Local report: .local/reports/idle-animations/index.html.
+  Fifteen labelled GIFs, each pairing actual Surface/FaceMesh phases on Claire.
+  814 native source frames; 407 encoded frames; every complete encoded timeline
+    matches its quantized source. Each GIF includes 0.5-second neutral holds.
+  Constant test clock/mirror, original waves, 120% zoom, no speech or cursor/
+    independent blink motion. Real canvas capture, not desktop recording.
+  GIF bytes reduced from 57,727,158 to 18,761,888 using disposal/delta encoding,
+    retaining every verified decoded timeline. No added application dependency.
+  Fifteen actual GIFs decode locally in sandboxed Electron; one active at a
+    time, paused posters by default, Pause restores them, no external requests.
+    Final browser-02 checks wide/narrow layout without horizontal overflow.
+  Reviewed all-action paired contact sheet, decoded sneeze/nod/stretch phase
+    samples, wide report and narrow cards. Not continuous human acceptance.
+  Capture/test native processes, servers, profiles and descriptors stopped;
+    live manager/head and every setting/appearance preserved.
+  Private evidence: .local/qualification/idle-animation-report-01.
+  Only public-safe tracking/journal/documentation is committed. Report/GIFs,
+    raw frames, profiles and receipts remain ignored and local; no publication.
+  Runtime source: delivered 77e3951; no application change is requested.
+
+Completion log:
+  2026-11-21 - Owner requests a report showing GIFs of all created animations.
+    Keep the already-delivered live head running; use a separate test profile
+    and fresh output directory, not the user's session.
+  2026-11-21 - Capture/encode/verify complete. Preserve initial full-frame GIF
+    variant and first hidden-window review snapshots: DOM checks passed, but
+    paint was stale. Final invisible unfocused window waits for actual viewport
+    and paint before taking its own report snapshots; no OS capture.
