@@ -5,7 +5,8 @@ import re
 
 MODELS = {
     "claire": "Original Claire",
-    "mpfb": "Native MPFB / bounded neural transfer",
+    "mpfb": "Native MPFB / neural transfer",
+    "mark": "Original Mark",
     "reference-structure": "Claire / MPFB structural fit",
     "reference-shell": "Claire / historical subtle fit",
     "male-sharp": "Male-SharpJawline",

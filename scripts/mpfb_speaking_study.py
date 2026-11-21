@@ -12,13 +12,14 @@ from scripts.mpfb_motion_transfer import apply_transfer
 
 
 @contextmanager
-def native_session(port=0):
+def native_session(port=0, *, shared=False):
     from verona.engine import FaceEngine
     from verona.mesh import claire_topology
-    from verona.server import BRANDING_STATIC, LocalServer, State
+    from verona.server import BRANDING_STATIC, STATIC, LocalServer, State
+    from verona.session_config import appearance
     from verona.speech import installed_voices
 
-    static = {
+    static = dict(STATIC) if shared else {
         **BRANDING_STATIC,
         "/": ("mpfb.html", "text/html; charset=utf-8"),
         "/app.js": ("mpfb.js", "text/javascript; charset=utf-8"),
@@ -37,8 +38,9 @@ def native_session(port=0):
               patch("verona.speech.ROOT", owned),
               patch.dict("verona.server.STATIC", static, clear=True)):
             engine = FaceEngine()
-            receipt = apply_transfer(engine)
+            receipt = apply_transfer(engine, shared=shared)
             state = State(engine, installed_voices())
+            state.appearance = appearance("mpfb")
             server = LocalServer(port, state)
             thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": .05})
             thread.start()
@@ -57,8 +59,8 @@ def main():
     parser.add_argument("--port", type=int, default=0)
     parser.add_argument("--no-open", action="store_true")
     args = parser.parse_args()
-    with native_session(args.port) as (server, receipt):
-        print(f"Native MPFB / Claire 4x study ready ({receipt['fitSeconds']:.2f}s binding).", flush=True)
+    with native_session(args.port, shared=True) as (server, receipt):
+        print(f"Native MPFB shared player ready ({receipt['fitSeconds']:.2f}s binding).", flush=True)
         print(f"{server.url}\nKeep this console open. Ctrl+C stops it and clears speech RAM.", flush=True)
         if not args.no_open and not webbrowser.open(server.url):
             raise RuntimeError("Browser launch failed; restart with --no-open and open its printed URL.")

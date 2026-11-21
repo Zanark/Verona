@@ -17,6 +17,7 @@ SOURCES = (
     "verona/engine.py", "verona/variants.py", "verona/appearance.py",
     "verona/web/app.js", "verona/web/blinking.mjs", "verona/web/mpfb.js",
     "verona/web/mpfb-renderer.mjs", "verona/web/presentations.mjs",
+    "verona/web/hairstyles.mjs", "verona/web/framing.mjs", "scripts/mpfb_motion_transfer.py",
     "scripts/model_gallery.py", "scripts/model_gallery.cjs",
 )
 
@@ -42,7 +43,7 @@ def capture(output, model):
     with (patch("verona.engine.claire_topology", side_effect=lambda n, s, c, f:
                 claire_topology(n, s, output / "derived-cache", f)),
           patch("verona.speech.ROOT", output)):
-        engine = FaceEngine()
+        engine = FaceEngine("mark" if model == "mark" else "claire")
         static = prepare_variant(engine, model)
         voices = installed_voices()
         speech = synthesize("Hey, how are you?", preferred_voice(voices), voices)
@@ -73,11 +74,7 @@ def capture(output, model):
 
             def reply(self, status, content, kind):
                 if self.path == "/app.js" and status == 200:
-                    addition = (
-                        "\nwindow.galleryInstall=(buffer,meta)=>{"
-                        "frames=new Float32Array(buffer);metadata=meta;resting=false;};\n"
-                        if model == "mpfb" else "\nwindow.galleryRenderer=renderer;\n")
-                    content += addition.encode("utf-8")
+                    content += b"\nwindow.galleryRenderer=renderer;\n"
                 super().reply(status, content, kind)
 
         server = LocalServer(0, state)
@@ -149,7 +146,7 @@ def encode(output):
         with Image.open(output / filename) as image:
             return image.convert("RGB").quantize(palette=palette, dither=Image.Dither.NONE)
 
-    target = output / f"model-vr60-{capture['model']}.gif"
+    target = output / f"model-vr67-{capture['model']}.gif"
     first = frame(entries[0])
     first.save(target, save_all=True, append_images=(frame(name) for name in entries[1:]),
                duration=durations, loop=0, optimize=True, disposal=1)

@@ -1,0 +1,44 @@
+ID: vr-66
+Title: Actual Mark model in the shared speaking-head runtime
+
+Status: DONE
+Milestone: Consistent native speaking heads
+Dependencies: vr-51, vr-65
+
+Purpose:
+  Make the pinned actual Mark network, PCA and native head available as a
+  first-class model with the shared presentation and interaction controls.
+
+Tasks:
+  Select Mark before loading weights; retain its native conditioning/input.
+  Parse pinned scene numerical arrays only and retain Mark's native identity.
+  Calibrate shared framing, features, optics and optional procedural hair.
+  Add Mark to lightweight catalogs, manager, CLI and agent-facing contracts.
+  Qualify generation, all emotions/controls, cancellation and selected loading.
+
+Acceptance criteria:
+  Selecting Mark loads Mark's network and 272-component PCA, not Claire's
+    network or the preserved Male-SharpJawline sculpt.
+  Mark supports the shared face views, neck/crop, zoom/orientation/cursor,
+    colors, optional hair, natural blinking and emotion/cheekiness controls.
+  Original geometry and learned motion are preserved up to the documented
+    similarity transform and finite packing error.
+  Existing models and idle-manager lightweight loading remain correct.
+  No downloads, scene execution, devices or changes to protected sessions.
+
+Completion evidence:
+  Actual Mark v2.3 network,272-component skin PCA and native conditioning are
+    selected before loading. Native geometry is similarity-aligned, not Claire.
+  88 CPU regressions, actual six-model native sessions03 and final actual Mark
+    WebGL all-view colors/blinks/cheekiness/resources pass. Exact original
+    source motion is separate from approximate procedural cosmetics.
+  Mark-only network/adapters verified in fresh-process probes. Corrected
+    four-view/all-emotion GIF and retained failed first capture document fit.
+  GitHub: https://github.com/Zanark/Verona/issues/65
+
+Completion log:
+  2026-11-21 - Owner requests native Mark runtime support beyond its existing
+    report-only study. Reuse verified asset/conditioning evidence, not labels.
+  2026-11-21 - Implemented/environment-qualified; shared controls and one-time
+    waves/curls clearance work without additional loaded neural identities.
+    Human appearance/listening/phonetic acceptance remains unclaimed.

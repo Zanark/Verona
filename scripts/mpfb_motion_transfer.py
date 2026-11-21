@@ -166,7 +166,7 @@ def bind_motion(source_rest, source_faces, target_rest, *, warp=lambda points: p
     }
 
 
-def apply_transfer(engine, path=REFERENCE):
+def apply_transfer(engine, path=REFERENCE, *, shared=False):
     from verona.engine import Clip, QUANTIZATION
 
     started = time.perf_counter()
@@ -188,6 +188,51 @@ def apply_transfer(engine, path=REFERENCE):
                    assetSha256=REFERENCE_SHA256, nativePolygons=len(model["polygons"]))
     fit_native = native_rig_fit(model)
     receipt["outputRig"] = "51 active native faceunits, fitted to actual transferred trajectories; no authored emotion recipes."
+    if shared:
+        from verona.engine import mesh_payload
+        from verona.appearance import native_hair_scale
+
+        render_offset = EYES.mean(0)
+        centers = (eyes - origin) * scale + render_offset
+        radii = np.asarray(model["eyeRadii"]) * scale
+        polygons = _faces(np.asarray([
+            (face[0], face[i], face[i + 1])
+            for face in model["polygons"] for i in range(1, len(face) - 1)
+        ]), len(rest))
+        edges = np.unique(np.sort(np.concatenate(
+            [polygons[:, [i, (i + 1) % 3]] for i in range(3)]), axis=1), axis=0)
+        render_rest = (rest - origin) * scale + render_offset
+        engine.mesh_bytes, geometry = mesh_payload(
+            render_rest, edges, polygons, engine.center, engine.scale,
+            eyes=(centers, radii), hair_scale=native_hair_scale(render_rest))
+        engine.identity = "Original MPFB head 1, driven by Claire neural motion"
+        engine.appearance = "Original native MPFB rest and polygons; optional procedural cosmetics/hair."
+        receipt["exaggeration"] = (
+            "Fit conditioned and same-audio neutral trajectories separately with weights 0..1; "
+            "apply 2x/4x to their native geometric difference after fitting. "
+            "Exaggerated geometry is not constrained to native control bounds.")
+        engine.mesh_metadata = {
+            **engine.mesh_metadata, **geometry, "identity": engine.identity,
+            "appearance": engine.appearance, "transfer": receipt,
+            "topology": "Original MPFB polygons triangulated without a Claire rest substitution.",
+            "renderTransform": {"scale": float(scale), "origin": origin.tolist(),
+                                "offset": render_offset.tolist()},
+            "rig": {"centers": centers.tolist(),
+                    "radius": (radii.mean(0) * [1.22, .65, 1]).tolist(),
+                    "mouth": [.08, 140.24, 5.16]},
+        }
+
+        def map_batch(positions, stop):
+            native = []
+            for frame in positions:
+                if stop is not None and stop.is_set():
+                    raise RuntimeError("MPFB motion transfer stopped with its owned session.")
+                native.append((transfer(frame) - offset) / scale + origin)
+            fitted, _ = fit_native(np.asarray(native), stop)
+            return (fitted - origin) * scale + render_offset
+
+        engine.motion_mapper = map_batch
+        return receipt
     generate = engine.generate
     native = {k: model[k] for k in ("rest", "polygons", "eyeCenters", "eyeRadii")}
     engine.mesh_bytes = json.dumps(native, allow_nan=False).encode()

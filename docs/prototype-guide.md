@@ -19,7 +19,7 @@ This checkout is already prepared:
 ```
 
 This is the **one manager GUI**, also opened by `VeronaDesktop.cmd`. Create a
-named head, choose any of five models and set its five optional colors.
+named head, choose any of six models and set its five optional colors.
 Selecting its session shows confirmed colors and its actual native controls:
 voice, expression, volume and the view/orientation options that model supports.
 Use **Speak**, **Stop this speech** and **Close this head** centrally.
@@ -45,7 +45,7 @@ Two chats can create independent heads through the same GUI, or:
 
 `--mesh-color`, `--eyes-color`, `--hair-color`, `--lips-color` and
 `--eyebrows-color` accept RGB hex; `default` restores an original feature.
-The model IDs are `claire`, `mpfb`, `reference-structure`,
+The model IDs are `claire`, `mpfb`, `mark`, `reference-structure`,
 `reference-shell` and `male-sharp`. The last is the preserved owner-named
 sculpt, now selectable, not a new accepted Female model.
 Manager-owned heads share no speech jobs/audio clocks or mutable caches.
@@ -58,8 +58,9 @@ handle and closes if that manager exits unexpectedly.
 
 ### What a head actually loads
 
-FaceMesh is a view over Claire's neural speech motion, not another trained
-model. It does not load every available character or Mark's separate weights.
+FaceMesh is a presentation of the selected head, not another trained model.
+Mark selects its own network/PCA before loading; all other choices use Claire's
+network, with only their selected adapter. A Claire head does not load Mark.
 Only the selected reference/MPFB adapter loads when that variant needs it.
 The empty manager now avoids numerical/inference libraries entirely.
 Each warm head still owns one substantial CPU engine and one Chromium shell.
@@ -79,7 +80,7 @@ restart existing windows; apply them on the next normally requested launch.
 
 ### Natural blinking and current model previews
 
-All five head choices support **Natural blinking** at rest and during speech.
+All six head choices support **Natural blinking** at rest and during speech.
 It is a live checkbox in the manager's actual controls and in each standalone
 page. Reduced-motion preference defaults it off; an explicit choice wins for
 that page. Hiding the page/loss of the renderer cancels its bounded timer;
@@ -88,12 +89,24 @@ animation loop. This is procedural cosmetic eyelid motion, not accepted
 anatomy or guaranteed visible phases under a severely stalled renderer.
 
 The README gives each selectable head one large silent GIF through all ten
-emotions plus neutral. Original Claire, both reference fits and Male-SharpJawline
-support Claire/FaceMesh/FaceDot/UniformPolygons; native MPFB uses its native
-wire view. Claire's polygon and makeup materials are not separate speech
-models. The separate MPFB study's shaded comparison is not another manager
-face-type option. [Chapter09](chapters/09-verona-character-and-waves.md)
+emotions plus neutral. Every head supports **Surface, FaceMesh, FaceDot and
+UniformPolygons** over its own geometry. Surface offers transparent polygons or
+shaded color/makeup; the internal legacy view ID is still `claire`.
+Native MPFB and actual Mark now share neck cut/depth, full-head framing,
+XYZ/cursor motion, zoom, colors, both optional procedural hairstyles and blinks.
+Hair and makeup are approximate shared decorations, not native hair assets.
+[Chapter09](chapters/09-verona-character-and-waves.md)
 explains captures, exact source-sample decoding and limitations.
+
+**Exaggeration and cheekiness:** native MPFB fits conditioned and same-audio
+neutral motion into bounded faceunits separately, then applies 2x/4x to their
+native geometric difference. Final exaggerated geometry is not constrained to
+the native 0..1 rig envelope and is not contact-corrected. Mark uses its own
+neural conditioning. **Sideways cheekiness** and its strength slider add a
+procedural asymmetric lip pull only during cheekiness clips, with no extra
+inference or geometry upload. Disable it or set strength zero for model-only
+motion. Stopping resets the cue. Single emotions are explicit, not detected
+feelings, combinations or human-accepted articulation.
 
 The original cyan/coral logo appears in the manager, README, source-launched
 Electron windows and all browser favicons. Existing loaded windows need a
@@ -105,17 +118,17 @@ executable and existing shell shortcuts are not rewritten.
 The manager selects all variants; the following legacy study commands are
 optional compatibility/research routes, not required for normal use.
 
-**Actual imported MPFB head with speech:** `.\VeronaMpfb.cmd` starts a separate
-capability-protected browser study. Generate your sentence, then press the
-audio player's Play. Claire's original **4x source** drives the new head's
-51 native faceunits, bounded to0..1; this is not lossless4x output or an
-accepted Female mode. Stop resets the head; keep the console open and use
+**Actual imported MPFB head with speech:** `.\VeronaMpfb.cmd` now starts the
+same shared player in a separate capability-protected browser session.
+Generate your sentence, then press Play. Its 51 native faceunits are fitted
+before neutral-relative 2x/4x geometric exaggeration, as described above.
+Stop resets the head; keep the console open and use
 Ctrl+C to cancel/stop it and clear speech RAM. Closing the tab alone does not
 stop the console. Reload after WebGL loss or an expired session.
-The new GIF/sound report is
+The historical bounded-fit GIF/sound report is
 `.local\qualification\mpfb-speaking-06\review.html`: real speaking clips for
 all ten emotions plus neutral, not the old authored-pose loops.
-Native transfer/fitting measured0.66-0.81seconds per83-frame greeting, total
+That older report measured native fitting0.66-0.81seconds per83-frame greeting, total
 generation3.91-7.38seconds; binding5.08seconds is not full startup time.
 Earlier variants and their reports are preserved. The manager now selects
 the native head directly; Claire-family named heads start4x/bright-spokes.

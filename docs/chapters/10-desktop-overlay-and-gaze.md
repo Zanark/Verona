@@ -1,5 +1,15 @@
 # 10 - A transparent desktop without a second speech system
 
+**Native parity update (vr-65/66):** the catalog now has six choices again
+because actual **Mark**, not the withdrawn character, joins the five retained
+heads. Native MPFB and Mark publish the full shared player's controls through
+`attachSessionControls`; manager/agent updates remain one available control
+at a time. Presentation changes may change which framing/detail controls are
+available, so callers must wait for the confirmed snapshot before the next
+dependent edit. Model selection remains creation-time only. Mark selects its
+own neural engine before asset loading; see chapter07. Both native heads use
+the same crop/zoom/cursor/appearance path described in chapter09.
+
 **Post-M1 additions (vr-58/59):** [chapter09](09-verona-character-and-waves.md#occasional-blinks-without-another-model-vr-58)
 explains the shared idle/speech blink clock, lifecycle cancellation and local
 eyelid shader. Both controllers share their existing RAF rather than adding a

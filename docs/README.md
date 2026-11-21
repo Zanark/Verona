@@ -1,9 +1,16 @@
 # Verona engineering book
 
+**Current native-model contract (vr-65/66):** all six choices, including native
+MPFB and actual Mark, use the same four presentations and applicable controls.
+[Chapter07](chapters/07-hazel-claire-and-performance.md#native-model-selection-and-bounded-transfer-batches-vr-6566)
+explains selected-network ownership, reversible native alignment and MPFB's
+post-fit geometric exaggeration. [Chapter09](chapters/09-verona-character-and-waves.md)
+explains shared cosmetic cheekiness and native calibration. Earlier reduced
+MPFB and report-only Mark descriptions below are historical.
+
 **Post-M1 character and discovery:** [chapter09](chapters/09-verona-character-and-waves.md)
 explains occasional procedural blinks, the original desktop/browser logo and
-one dedicated all-emotion/four-view overview per Claire-family head (native
-MPFB keeps its own wire view). Existing motion demonstrations remain unchanged.
+dedicated all-emotion model overviews. Existing motion demonstrations remain unchanged.
 [Chapter07's live-use observation](chapters/07-hazel-claire-and-performance.md#real-chat-use-separate-head-cost-from-a-busy-machine-vr-61)
 records actual idle/speech cost and the planned latency/memory follow-ups,
 without mistaking whole-machine load for Verona's own CPU.
@@ -39,7 +46,8 @@ The current **vr-45** entrypoint is one named-head manager: `Verona.cmd`
 (`VeronaDesktop.cmd` is an alias). Chapter10 describes isolated warm engines,
 native control forwarding and owned lifecycle; chapter09 describes independent
 feature colors. All five retained variants, including original Claire, remain
-selectable. Earlier study launchers/reports are preserved, not required.
+selectable; vr-66 adds actual Mark as the sixth. Earlier study launchers/reports
+are preserved, not required.
 Its **vr-46** extension keeps each head's name and independent **Always on top**
 checkbox inside its collapsed floating menu. Pinning is enabled by default;
 chapter10 explains the shared

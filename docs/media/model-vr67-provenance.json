@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "53b3370fcb84cc2e63ca8e446b904cfe4925cab3",
+  "capture": "Isolated actual production renderer; synthetic Hazel greeting; no audio playback.",
+  "views": [
+    "Surface",
+    "FaceMesh",
+    "FaceDot",
+    "UniformPolygons"
+  ],
+  "states": [
+    "neutral",
+    "happy",
+    "sad",
+    "surprised",
+    "angry",
+    "cheekiness",
+    "disgust",
+    "fear",
+    "grief",
+    "outofbreath",
+    "pain"
+  ],
+  "dimensions": [
+    960,
+    1080
+  ],
+  "durationMsPerModel": 30250,
+  "review": "Representative actual happy composites and native neutral/cheekiness samples; not every frame or owner acceptance.",
+  "limits": "Silent sampled 10-fps publishing previews, not live FPS, listening or anatomical accuracy.",
+  "historicalHeroAndMotionsUnchanged": true,
+  "totalBytes": 111123289,
+  "files": [
+    {
+      "model": "claire",
+      "filename": "model-vr67-claire.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 249,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 19332673,
+      "sha256": "7de1fec251feef0766554eab674ea6c9d2c17d27557739af2c4d7a29dfec3145",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+      "sourceSha256": {
+        "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "cd13cb01699f202eb9fe24f1373599875dbeb0ce41161bc326c22cc0e779700c",
+        "verona/web/blinking.mjs": "9ab052facad9548f990c26e06c8ed72b62c65b5d37e8ef373a345a532ae004bc",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "d678bd902dccbf41f66bb4aff19fba633b13a4d07216bee3a80a726027c13bc2",
+        "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+        "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+        "scripts/model_gallery.py": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+        "scripts/model_gallery.cjs": "106ca75186cd3c8f63191683c9a96a98fe98adc7a1a2576ca5f5ecd8cd6eeb0f"
+      }
+    },
+    {
+      "model": "mpfb",
+      "filename": "model-vr67-mpfb.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 242,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 15175362,
+      "sha256": "a0d76c487531415aba79107e6d114529d72464f8d4257612e3c9896adc482a4d",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+      "sourceSha256": {
+        "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "cd13cb01699f202eb9fe24f1373599875dbeb0ce41161bc326c22cc0e779700c",
+        "verona/web/blinking.mjs": "9ab052facad9548f990c26e06c8ed72b62c65b5d37e8ef373a345a532ae004bc",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "d678bd902dccbf41f66bb4aff19fba633b13a4d07216bee3a80a726027c13bc2",
+        "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+        "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+        "scripts/model_gallery.py": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+        "scripts/model_gallery.cjs": "106ca75186cd3c8f63191683c9a96a98fe98adc7a1a2576ca5f5ecd8cd6eeb0f"
+      }
+    },
+    {
+      "model": "mark",
+      "filename": "model-vr67-mark.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 251,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 19828775,
+      "sha256": "bcf235c8d844ce65ac9481d71561f449308c70d6b9528edfa0a3b42371a25775",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+      "sourceSha256": {
+        "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "cd13cb01699f202eb9fe24f1373599875dbeb0ce41161bc326c22cc0e779700c",
+        "verona/web/blinking.mjs": "9ab052facad9548f990c26e06c8ed72b62c65b5d37e8ef373a345a532ae004bc",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "d678bd902dccbf41f66bb4aff19fba633b13a4d07216bee3a80a726027c13bc2",
+        "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+        "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+        "scripts/model_gallery.py": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+        "scripts/model_gallery.cjs": "106ca75186cd3c8f63191683c9a96a98fe98adc7a1a2576ca5f5ecd8cd6eeb0f"
+      }
+    },
+    {
+      "model": "reference-structure",
+      "filename": "model-vr67-reference-structure.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 245,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 18797655,
+      "sha256": "a1a06266e200abc7184c95ed8ca1bae72212aac2518ce77fcf834a90b5f3f763",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+      "sourceSha256": {
+        "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "cd13cb01699f202eb9fe24f1373599875dbeb0ce41161bc326c22cc0e779700c",
+        "verona/web/blinking.mjs": "9ab052facad9548f990c26e06c8ed72b62c65b5d37e8ef373a345a532ae004bc",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "d678bd902dccbf41f66bb4aff19fba633b13a4d07216bee3a80a726027c13bc2",
+        "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+        "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+        "scripts/model_gallery.py": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+        "scripts/model_gallery.cjs": "106ca75186cd3c8f63191683c9a96a98fe98adc7a1a2576ca5f5ecd8cd6eeb0f"
+      }
+    },
+    {
+      "model": "reference-shell",
+      "filename": "model-vr67-reference-shell.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 245,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 19256282,
+      "sha256": "d9dd54ed9fd14699da42e0085dd836345cd8505a812361d501376233c8beacf6",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+      "sourceSha256": {
+        "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "cd13cb01699f202eb9fe24f1373599875dbeb0ce41161bc326c22cc0e779700c",
+        "verona/web/blinking.mjs": "9ab052facad9548f990c26e06c8ed72b62c65b5d37e8ef373a345a532ae004bc",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "d678bd902dccbf41f66bb4aff19fba633b13a4d07216bee3a80a726027c13bc2",
+        "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+        "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+        "scripts/model_gallery.py": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+        "scripts/model_gallery.cjs": "106ca75186cd3c8f63191683c9a96a98fe98adc7a1a2576ca5f5ecd8cd6eeb0f"
+      }
+    },
+    {
+      "model": "male-sharp",
+      "filename": "model-vr67-male-sharp.gif",
+      "dimensions": [
+        960,
+        1080
+      ],
+      "sourceFrames": 308,
+      "encodedFrames": 251,
+      "durationMs": 30250,
+      "everySourceSampleMatchesEncodedTimeline": true,
+      "bytes": 18732542,
+      "sha256": "6ca553a70b26f328d739ec924197f69f1bb09f911fab09ab8de92d476cb817f0",
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "silent": true,
+      "encoderSourceSha256": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+      "sourceSha256": {
+        "verona/engine.py": "707b5a19d62619171ced729a6fa1e96d739f326ef2a314832f9562622ae1ca87",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "cd13cb01699f202eb9fe24f1373599875dbeb0ce41161bc326c22cc0e779700c",
+        "verona/web/blinking.mjs": "9ab052facad9548f990c26e06c8ed72b62c65b5d37e8ef373a345a532ae004bc",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "d678bd902dccbf41f66bb4aff19fba633b13a4d07216bee3a80a726027c13bc2",
+        "verona/web/framing.mjs": "1bb078a5e66d56c29ff23ad8191b621682f4acf9321cbf83d7d3b0e34b18c825",
+        "scripts/mpfb_motion_transfer.py": "60d1434b7aba7155b2597bedafa7167d155c3fece9cceb04e45f2260e95220a2",
+        "scripts/model_gallery.py": "44c5976f2531bdc448ac439b324c52b6fb8183deec7a1df3065a43243d12ddc3",
+        "scripts/model_gallery.cjs": "106ca75186cd3c8f63191683c9a96a98fe98adc7a1a2576ca5f5ecd8cd6eeb0f"
+      }
+    }
+  ]
+}

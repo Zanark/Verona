@@ -7,7 +7,7 @@
 </p>
 
 <details>
-<summary><strong>Explore Verona: five heads, all 10 emotions, hairstyles and controls</strong></summary>
+<summary><strong>Explore Verona: six heads, all 10 emotions, hairstyles and controls</strong></summary>
 
 # Verona
 
@@ -36,18 +36,18 @@ prototype, not a bundled installer. Desktop setup is explicit:
 `.\Setup-VeronaDesktop.cmd`. `VeronaDesktop.cmd` opens this same manager;
 different launchers are not needed.
 
-All five choices are here: **original Claire, native MPFB,
+All six choices are here: **original Claire, native MPFB, actual Mark,
 structural-reference Claire, historical subtle-reference Claire and
 Male-SharpJawline**. Claire is preserved. These are experimental identities,
 not accepted Female profiles or anatomical-accuracy claims.
 Independent **mesh, eyes, hair, lips and eyebrows** accept swatches or RGB hex.
-Native MPFB hair is an optional static cap.
+All six share both optional procedural hairstyles and the same live controls.
 Each head has its own model, capability, speech RAM and audio clock.
 **Exit manager and its heads** closes only heads this manager created;
 closing the browser tab alone does not stop them.
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
-lip sync or a production-ready assistant.** The five model overviews below are
+lip sync or a production-ready assistant.** The six model overviews below are
 newer captures of the current renderers, including procedural blinks. The
 preserved hero, hair, rotation and control demonstrations retain their earlier
 provenance; their old interfaces are not the current manager.
@@ -55,19 +55,26 @@ provenance; their old interfaces are not the current manager.
 FaceMesh look, including the opening talking hero. Each new model GIF shows
 all ten available single emotions plus neutral, not emotion combinations.
 
-## Five heads, one local workspace
+## Six heads, one local workspace
 
 **Choose a head model first, then its face type.** A model is the head's
 geometry/identity; a face type is how that head is drawn. FaceMesh is not a
 second neural model loaded alongside Claire.
 
 Each large, dedicated GIF speaks **"Hey, how are you?"** through **neutral and
-all ten emotions**. The four Claire-family heads show their four face types
-together at matching speech timestamps: **Claire, FaceMesh, FaceDot and
-UniformPolygons**. The Claire panel alternates between **Transparent polygons**
+all ten emotions**. Every head shows its four face types together at matching
+speech timestamps: **Surface, FaceMesh, FaceDot and UniformPolygons**.
+The Surface panel alternates between **Transparent polygons**
 and **Reference color + makeup** across emotions; its caption names the material.
-Native MPFB has its own **native wire** face type instead of that four-view
-selector. These are silent, 10-fps sampled previews, not live performance tests.
+Native MPFB keeps its own topology; actual Mark keeps its own neural identity.
+These are silent, 10-fps sampled previews, not live performance tests.
+
+**Shared across every model:** full/head-neck framing and visible-neck depth,
+zoom, XYZ rotation, eyes-only or whole-head cursor following, five feature
+colors, original waves or spiral curls, natural blinking and live sideways
+cheekiness strength. Surface has the two materials; FaceMesh has mesh detail/
+optics; FaceDot and UniformPolygons have density/gap controls. Switching views
+preserves each view's settings without loading another speech model.
 
 ### Original Claire
 
@@ -76,19 +83,28 @@ face types are available; hair, framing, colors and the two Claire materials
 remain separate controls.
 
 <p align="center">
-  <img src="docs/media/model-vr60-claire.gif" alt="Original Claire speaking through neutral and all ten emotions in Claire polygons or makeup, FaceMesh, FaceDot and UniformPolygons" width="100%">
+  <img src="docs/media/model-vr67-claire.gif" alt="Original Claire speaking through neutral and all ten emotions in Surface polygons or makeup, FaceMesh, FaceDot and UniformPolygons" width="100%">
 </p>
 
 ### Native MPFB
 
-Independent native topology with **native wire rendering** and bounded
-Claire-to-native speech transfer. It does **not** offer the four Claire-family
-face types. Its separate research launcher also has a shaded comparison, not
-another manager-selectable face type. Original hair is absent; a custom hair
-color can add an optional static scalp cap.
+Independent native topology with Claire-to-native speech transfer and **all
+four shared face types**. Native fitting precedes neutral-relative 2x/4x
+geometric exaggeration, so a bounded fit no longer silently discards the gain.
+Hair, makeup and eyelids are procedural approximations, not native rig assets.
 
 <p align="center">
-  <img src="docs/media/model-vr60-mpfb.gif" alt="Native MPFB wire head speaking through neutral and all ten emotions using bounded native controls" width="100%">
+  <img src="docs/media/model-vr67-mpfb.gif" alt="Native MPFB speaking through neutral and all ten emotions in Surface, FaceMesh, FaceDot and UniformPolygons" width="100%">
+</p>
+
+### Actual Mark
+
+The original **Mark v2.3 network, PCA, conditioning and native-derived topology**,
+not a renamed Claire or Male-SharpJawline sculpt. Uniform alignment preserves
+its native shape. All four face types and shared controls are available.
+
+<p align="center">
+  <img src="docs/media/model-vr67-mark.gif" alt="Actual Mark v2.3 speaking through neutral and all ten native emotions in all four shared face types" width="100%">
 </p>
 
 ### Structural-reference Claire
@@ -98,7 +114,7 @@ and topology, not the native MPFB head or an accepted likeness. Supports
 **Claire, FaceMesh, FaceDot and UniformPolygons**, including both Claire materials.
 
 <p align="center">
-  <img src="docs/media/model-vr60-reference-structure.gif" alt="Structural-reference Claire speaking through every single emotion in all four supported face types" width="100%">
+  <img src="docs/media/model-vr67-reference-structure.gif" alt="Structural-reference Claire speaking through every single emotion in all four supported face types" width="100%">
 </p>
 
 ### Historical subtle-reference Claire
@@ -108,7 +124,7 @@ Supports **Claire, FaceMesh, FaceDot and UniformPolygons** with the same
 material choices; keeping it available is not renewed approval.
 
 <p align="center">
-  <img src="docs/media/model-vr60-reference-shell.gif" alt="Historical subtle-reference Claire speaking through every single emotion in all four supported face types" width="100%">
+  <img src="docs/media/model-vr67-reference-shell.gif" alt="Historical subtle-reference Claire speaking through every single emotion in all four supported face types" width="100%">
 </p>
 
 ### Male-SharpJawline
@@ -118,19 +134,17 @@ identity**. Supports **Claire, FaceMesh, FaceDot and UniformPolygons**, includin
 the two Claire materials and shared hairstyle choices.
 
 <p align="center">
-  <img src="docs/media/model-vr60-male-sharp.gif" alt="Male-SharpJawline speaking through neutral and every emotion in all four supported face types" width="100%">
+  <img src="docs/media/model-vr67-male-sharp.gif" alt="Male-SharpJawline speaking through neutral and every emotion in all four supported face types" width="100%">
 </p>
 
-All previews use strength **0.6 / 4x source**; neutral is not amplified.
-MPFB's transferred native controls are bounded to **0..1**, not lossless
-4x native deformation. Expressions are explicit controls, not detected feelings
+All previews use strength **0.6 / 4x**; neutral is not amplified.
+MPFB's intermediate native fit is bounded to **0..1**, but its final exaggerated
+geometry is not. Sideways cheekiness is a reversible cosmetic lip pull, not
+another learned emotion. Expressions are explicit controls, not detected feelings
 or accepted anatomy. Colors do not imply gender or a different speech network.
 [Capture receipts and limitations](docs/media/README.md).
 
-**Not selectable:** Mark v2.3 remains report-only
-([native rest turntable](docs/media/milestone-v0.1.0-mark-turntable.gif),
-[native neutral speech](docs/media/milestone-v0.1.0-mark-neutral.gif)).
-The future supplied-GLB **Realistic** view is parked, not implemented.
+**Not implemented:** the future supplied-GLB **Realistic** view remains parked.
 
 ## Let a selected local agent session speak
 
@@ -149,7 +163,7 @@ Open the manager once. An opted-in local chat can create its own warm head:
 ```
 
 Wait for `"ready": true` before speaking. Named Claire-family heads start in
-**FaceMesh, bright spokes, 4x**; native MPFB bounds transferred controls to0..1.
+**FaceMesh, bright spokes, 4x**, including native MPFB and actual Mark.
 The host reuses its model, Windows speech worker and player. Voice-only skips
 neural motion for faster narration; new animated sentences remain precomputed,
 not instant. No global agent hook or automatic narration is installed.

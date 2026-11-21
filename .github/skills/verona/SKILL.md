@@ -1,6 +1,6 @@
 ---
 name: verona
-description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers what Verona is, setup checks, one-manager/multiple-head ownership, all five models, CLI speech and cancellation, live customization, warm-host performance, and vivid visually distinct colors with active-head inventory and concurrent collision reconciliation. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
+description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers setup, one-manager/multiple-head ownership, six models including native MPFB and actual Mark, shared presentations and controls, speech/cancellation, warm-host performance and inventory-checked vivid colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
 ---
 
 # Verona: a separate, recognizable speaking head for this session
@@ -102,14 +102,27 @@ Avoid this route just to bypass the manager's resource cap or a busy head.
 | Model ID | Actual choice and limits |
 |---|---|
 | `claire` | Original Claire; preserved CPU neural speech face. |
-| `mpfb` | Separate native MPFB head with transferred Claire motion and bounded native controls. |
+| `mpfb` | Native MPFB topology; bounded Claire-to-native fitting followed by native geometric exaggeration. |
+| `mark` | Actual Mark v2.3 topology, network, PCA and conditioning; not Male-SharpJawline. |
 | `reference-structure` | Strong MPFB-reference structural fit over Claire motion/topology. |
 | `reference-shell` | Historical subtle reference fit, preserved after visual rejection. |
 | `male-sharp` | Owner-named Male-SharpJawline, preserved complete-pose sculpt. |
 
-These are not five independently trained speech models or five accepted gender
-identities. Original Claire remains available. MPFB starts with Claire's 4x
-source, then bounds native faceunits to 0..1: **not lossless/final 4x parity**.
+These are six selectable shapes over two neural identities, not six independently
+trained speech models or accepted gender identities. Every head shares Surface
+(legacy ID `claire`), FaceMesh, FaceDot and UniformPolygons, full/head-neck
+framing, neck depth, XYZ/cursor motion, zoom, colors, both optional procedural
+hairstyles and natural blinking. Surface supports transparent polygons and
+shaded color/makeup. Native shape is uniformly aligned, not replaced by Claire.
+Hair, eyelids and makeup remain cosmetic approximations, not accepted anatomy.
+
+MPFB fits conditioned and same-audio neutral geometry separately, then applies
+2x/4x to their native difference. Final exaggerated geometry can exceed the
+native 0..1 rig envelope; it is not contact-corrected or a lossless reproduction
+of unsupported Claire detail. Mark uses only its own network/PCA/conditioning;
+Claire heads never load Mark. Sideways cheekiness adds a procedural asymmetric
+lip pull only on cheekiness clips. Its live checkbox/strength slider can disable
+the cue or restore it without inference/uploads; Stop clears it.
 Do not invent a Female/Male selector or gender-dependent voice policy.
 The session name and head variant are fixed at creation; create a new owned
 head to change them. Do not close somebody else's head to switch models.
@@ -254,10 +267,10 @@ originals, but agents must reassess collisions before restoring shared
 defaults. Color changes are atomic validated patches and do not regenerate
 motion/audio. Confirm the returned appearance, not merely your submitted hex.
 
-Feature meaning depends on the model: robot hair colors helmet/crest, lips
-color mouth plates and eyebrows color brow plates. Native MPFB custom hair
-adds a static cap; original removes it. Native lip/brow masks are approximate.
-Do not claim all variants share Claire's hairstyle/gaze/presentation features.
+Every current model shares these five feature controls and the presentation,
+neck, hairstyle, gaze, zoom and blinking inputs. Lip/brow masks and native hair
+placement remain approximate; a setting existing is not aesthetic acceptance.
+Discover each live control rather than guessing its availability.
 
 Per-utterance CLI flags include `--voice` (exact installed English voice name),
 `--expression`, `--intensity` (0..0.6), `--gain` (2 or 4), `--voice-only` and
@@ -300,11 +313,11 @@ Controls/colors are not persistent preferences across head recreation.
 
 ## 8. Best performance without pretending the face is real-time inference
 
-Current loading contract (vr-57): FaceMesh is a presentation of Claire's
-speech engine, not a second neural identity. The manager does not load a model
-or numerical/inference libraries; each actual warm head loads one required
-Claire network/PCA and only its selected adapter. Mark and other unselected
-head assets are not all loaded from the catalog. Hidden hair/inactive view
+Current loading contract (vr-57, extended by vr-65/66): FaceMesh is a
+presentation, not a second neural identity. The manager does not load a model
+or numerical/inference libraries; each warm head loads either Mark's own
+network/PCA or Claire's, plus only its selected adapter. Unselected head
+assets are not loaded from the catalog. Hidden hair/inactive view
 GPU buffers are released. Unlit views keep motion only in the GPU, without
 a CPU motion copy or normal slots; switching to lit Claire reads the same
 samples back once and can briefly stall. Do not promise zero model memory.

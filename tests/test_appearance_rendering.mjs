@@ -10,7 +10,8 @@ const root=path.resolve("verona","web");
 const output=path.resolve(".local","qualification",`appearance-${Date.now()}`);
 const profile=path.join(output,"edge-profile");
 await fs.mkdir(profile,{recursive:true});
-const baselineRef=process.argv.find(arg=>arg.startsWith("--baseline="))?.slice(11);
+const pixelBaseline=process.argv.find(arg=>arg.startsWith("--pixel-baseline="))?.slice(17);
+const baselineRef=process.argv.find(arg=>arg.startsWith("--baseline="))?.slice(11)||pixelBaseline;
 const realMesh=process.argv.find(arg=>arg.startsWith("--real-mesh="))?.slice(12);
 const nativeMesh=process.argv.find(arg=>arg.startsWith("--native-mesh="))?.slice(14);
 const baseline=baselineRef?Object.fromEntries(["app.js","mpfb.js","mpfb-renderer.mjs"].map(name=>
@@ -105,7 +106,7 @@ const edge=spawn("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.
 let browserLog="";edge.stderr.on("data",data=>browserLog+=data);
 let ws;
 const pending=new Map(),errors=[],report={fixture:"Synthetic geometry, software WebGL; no human/identity acceptance",views:[]};
-if(realMesh)report.fixture="Actual Claire mesh, synthetic motion and MPFB fixture, software WebGL; no human/identity acceptance";
+if(realMesh)report.fixture=`Actual ${meta.identity} mesh, synthetic motion and legacy MPFB fixture, software WebGL; no human/identity acceptance`;
 let sequence=0;
 function cdp(method,params={}){
   return new Promise((resolve,reject)=>{
@@ -245,6 +246,7 @@ try{
   if(baseline){
     await cdp("Page.navigate",{url:`${origin}/legacy#${"a".repeat(43)}`});
     await waitFor('document.getElementById("generate") && !document.getElementById("generate").disabled');
+    await disableBlinking();
     report.resourceBaseline=await sweep();
     for(const view of ["claire","facemesh","facedot","uniform"]){
       await evaluate(`(()=>{
@@ -270,7 +272,8 @@ try{
   }
   if(baseline)for(const sample of report.resources.filter(value=>value.cycle===2&&!value.hair)){
     const old=report.resourceBaseline.find(value=>value.cycle===2&&value.view===sample.view&&!value.hair);
-    assert(sample.bytes<old.bytes*.8,`${sample.view}: inactive geometry was not released.`);
+    if(pixelBaseline)assert(sample.bytes<=old.bytes,`${sample.view}: GPU geometry allocation regressed.`);
+    else assert(sample.bytes<old.bytes*.8,`${sample.view}: inactive geometry was not released.`);
   }
   await delay(100);
   const idle=await evaluate("resourceProbe()");
@@ -387,6 +390,42 @@ try{
   assert.equal(report.resourceLifecycle.before.bytes,report.resourceLifecycle.cleared.bytes);
   assert.equal(report.resourceLifecycle.before.bytes,report.resourceLifecycle.after.bytes);
   assert.deepEqual(report.resourceLifecycle.errors,[]);
+  report.cheekiness=[];
+  for(const view of ["claire","facemesh","facedot","uniform"]){
+    const result=await evaluate(`(()=>{
+      const f=pixelFixture,r=rendererFixture;
+      f.change("presentation",${JSON.stringify(view)});
+      const toggle=document.getElementById("sideways-cheekiness");
+      const enable=value=>{toggle.checked=value;toggle.dispatchEvent(new Event("input"));};
+      const motion=new Int16Array(r.meta.vertices*3*2);
+      motion.set(r.neutralData);motion.set(r.neutralData,r.neutralData.length);
+      r.setClip(motion.buffer,{frames:2,vertices:r.meta.vertices,
+        quantization:r.meta.quantization,fps:30,expression:"cheekiness",expressionStrength:.6});
+      enable(false);r.draw(0);
+      const original=f.pixels(),before=resourceProbe();
+      f.change("cheekiness-pull","1");enable(true);
+      const full=f.pixels(),changed=f.difference(original,full);
+      f.change("cheekiness-pull","0");
+      const zero=f.difference(original,f.pixels());
+      f.change("cheekiness-pull","0.5");
+      const half=f.pixels();
+      enable(false);
+      const disabled=f.difference(original,f.pixels());
+      f.change("cheekiness-pull","1");enable(true);
+      const restored=f.difference(full,f.pixels()),after=resourceProbe();
+      r.clearClip();
+      return {view:${JSON.stringify(view)},changed,zero,disabled,restored,
+        halfChanged:f.difference(original,half),halfDistinct:f.difference(full,half),
+        before,after,gl:r.gl.getError()};
+    })()`);
+    assert(result.changed>0&&result.halfChanged>0&&result.halfDistinct>0,
+      `${view}: native-calibrated cheekiness must visibly respond to strength: ${JSON.stringify(result)}`);
+    assert.equal(result.zero,0);assert.equal(result.disabled,0);assert.equal(result.restored,0);
+    assert.equal(result.before.bytes,result.after.bytes);
+    assert.equal(result.before.uploads,result.after.uploads);
+    assert.equal(result.gl,0);
+    report.cheekiness.push(result);
+  }
   report.blinks=[];
   for(const view of ["claire","facemesh","facedot","uniform"]){
     await evaluate(`pixelFixture.change("presentation",${JSON.stringify(view)})`);
@@ -436,6 +475,7 @@ try{
     const current=await hashNative();
     await cdp("Page.navigate",{url:`${origin}/legacy-native#fixture`});
     await waitFor('window.mpfbPlayer?.ready');
+    await disableBlinking();
     const legacy=await hashNative();
     assert.deepEqual(current,legacy,"Native original default pixels changed.");
     report.legacyDefaultPixels.nativeSha256=legacy;

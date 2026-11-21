@@ -7,13 +7,8 @@ import time
 def prepare_variant(engine, model):
     if model == "mpfb":
         from scripts.mpfb_motion_transfer import apply_transfer
-        apply_transfer(engine)
-        return {
-            "/": ("mpfb.html", "text/html; charset=utf-8"),
-            "/app.js": ("mpfb.js", "text/javascript; charset=utf-8"),
-            "/style.css": ("mpfb.css", "text/css; charset=utf-8"),
-            "/mpfb-renderer.mjs": ("mpfb-renderer.mjs", "text/javascript; charset=utf-8"),
-        }
+        apply_transfer(engine, shared=True)
+        return {}
     if model in ("reference-structure", "reference-shell"):
         from scripts.claire_reference_study import apply_reference
         apply_reference(engine, fit=model.split("-")[1])
@@ -43,6 +38,9 @@ def prepare_variant(engine, model):
                 "generationSeconds": clip.metadata["generationSeconds"] + time.perf_counter() - started,
             })
         engine.generate = mapped
+    elif model == "mark":
+        if engine.identity != "Mark v2.3":
+            raise ValueError("Mark must select its own neural engine before loading weights.")
     elif model != "claire":
         raise ValueError("Unknown named head variant.")
     return {}

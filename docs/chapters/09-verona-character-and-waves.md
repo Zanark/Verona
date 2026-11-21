@@ -1,5 +1,80 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Shared native-head presentation and sideways cheekiness (vr-65/66)
+
+Native MPFB and actual Mark now use the same `FaceRenderer` as Claire instead
+of a reduced native-only player. Every selectable head supports Surface
+(transparent polygons or shaded color/makeup), FaceMesh, FaceDot and
+UniformPolygons, plus the same applicable framing, neck, detail, pattern,
+hair, five feature colors, XYZ, cursor, zoom and blinking controls.
+The internal surface view ID remains `claire` for existing agent callers;
+native heads label it **Surface**, not a false Claire identity.
+
+`mesh_payload` and `apply_transfer(shared=True)` preserve the actual selected
+skin/topology. Mark's learned motion comes from Mark's network, not the
+Male-SharpJawline sculpt. Uniform eye-span alignment supplies a common display
+frame without a nonuniform identity warp. Model metadata supplies actual
+optical centers and local blink radii. Mouth anchors place the existing cosmetic
+fields in the native face's lip region; these approximate decoration coordinates
+do not replace speech vertices or establish anatomical calibration.
+
+Shared rendering also preserves selected-only ownership: inactive front/full/
+cropped indices, hidden hair buffers and unlit animated-normal slots are
+released. Skin and optional hair share the reversible jaw-following cutoff;
+Full bust restores the complete source. Hair remains procedural decoration,
+not part of either native trained identity. Both retained hairstyles are
+available, including on MPFB; a hair color no longer secretly creates a separate
+native-only scalp cap in the normal player.
+
+The earlier `claire_cheekiness_study.sideways_lip_pull` is now an explicit
+runtime cosmetic option, not something inferred from the learned channel.
+**Sideways cheekiness**, enabled by default, adds a smoothly weighted
+viewer-right/upward pull only when a cheekiness clip is loaded. The live
+**Cheekiness pull** slider ranges from 0 to 1; disabling it or setting zero
+restores the underlying neural/native fitted motion without regeneration.
+The envelope scales with the clip's expression strength, not the gain again.
+
+`FaceRenderer` evaluates the shared rest-space field in the skin vertex shader:
+the same field reaches both lip sheets and nearby cheek, with a maximum
+full-field vector of (1.65, 1.05, 0) display centimeters. It leaves eyes, hair
+and geometry outside the field unchanged. Blink and cheekiness offsets share
+the existing draw and create no extra model, buffers, inference pass or timer.
+The shader retains original speech normals as a lighting approximation.
+This intentionally exaggerated cue is not a new learned emotion, native rig
+control, contact solver, or proof against lip self-intersections.
+
+The old separate native renderer remains available to historical studies, not
+as evidence that the new normal player still has only wire/surface controls.
+`VeronaMpfb.cmd` now launches the shared player; legacy numerical/report callers
+can explicitly retain `native_session(shared=False)` and its original meaning.
+
+### Fit the decoration, not the native face
+
+The first real MPFB/Mark gallery exposed scalp protruding through Claire's
+procedural hair. Passing finite geometry and all control tests had not detected
+that visual defect. Those first captures remain rejected diagnostic receipts.
+
+`appearance.native_hair_scale` samples only the transformed native upper skull
+(Y at least 149), not neck/bust extremes. It measures the maximum radius in the
+shared scalp ellipsoid centered at (0, 148.2, -5.7), with axes (9.5, 11, 11.6).
+The one-time scale is `max(1, maximum radius / 0.92)`, leaving a clearance
+margin. Invalid/nonfinite or absent samples fail explicitly. MPFB/Mark need
+roughly 1.086/1.115 here; the original Claire hairstyle remains unchanged.
+
+`mesh_payload` applies that scale to original waves around the same anchor.
+`hairstyles.createHairstyle` applies the recorded `hair.scale` to generated
+curls before quantization. Skin, learned motion, hairstyle topology and
+per-frame rendering cost are unchanged; no second hair model is loaded.
+The common ellipsoid is a bounded decoration fit, not a general collision
+solver or guaranteed clearance through every extreme expression.
+
+The corrected `native-parity-gallery-02-*` captures use the actual six
+production renderers, eleven speech states and all four presentations.
+Each surface alternates transparent polygons and shaded makeup; captioned
+matching timestamps distinguish presentation from identity. Exact decoded
+GIF timeline checks are separate from representative visual review and do
+not certify human emotion recognition, phonetic accuracy or listening.
+
 ## Occasional blinks without another model (vr-58)
 
 `verona/web/blinking.mjs:createBlinkClock` owns one timeout, not a permanent

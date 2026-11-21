@@ -33,7 +33,7 @@ def memory():
             ("workingSet", "peakWorkingSet", "privateBytes", "peakPagefile")}
 
 
-def worker(kind, output=None):
+def worker(kind, output=None, model="claire"):
     started = time.perf_counter()
     result = {"scenario": kind, "initial": memory()}
     if kind == "manager":
@@ -49,20 +49,23 @@ def worker(kind, output=None):
         from unittest.mock import patch
         from verona import engine
         from verona.mesh import claire_topology
+        from verona.variants import prepare_variant
         from verona.speech import Speech, package_pcm
         loaded = []
         create = engine.create_cpu_session
 
         def session(path):
             result["beforeInferenceSession"] = memory()
-            loaded.append(path.name)
+            loaded.append(str(path.relative_to(engine.ROOT)))
             return create(path)
 
         with tempfile.TemporaryDirectory(prefix="verona-performance-") as directory:
             with (patch.object(engine, "claire_topology", side_effect=lambda n, s, c, f:
                                claire_topology(n, s, Path(directory), f)),
                   patch.object(engine, "create_cpu_session", side_effect=session)):
-                face = engine.FaceEngine()
+                face = engine.FaceEngine("mark" if model == "mark" else "claire")
+                prepare_variant(face, model)
+            result["model"] = model
             result["startupSecondsIncludingImportAndColdTopology"] = time.perf_counter() - started
             result["ready"] = memory()
             result["inferenceModels"] = loaded
@@ -96,9 +99,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--worker", choices=("manager", "engine"))
+    parser.add_argument("--model", choices=("claire", "mpfb", "mark"), default="claire")
     args = parser.parse_args()
     if args.worker:
-        print(json.dumps(worker(args.worker, args.output)))
+        print(json.dumps(worker(args.worker, args.output, args.model)))
         return
     if args.output is None:
         parser.error("--output is required")
@@ -108,7 +112,7 @@ def main():
     for kind in ("manager", "engine", "manager", "engine"):
         index = len(result["runs"])
         completed = subprocess.run(
-            [sys.executable, "-m", "tests.run_performance_probe", "--worker", kind,
+            [sys.executable, "-m", "tests.run_performance_probe", "--worker", kind, "--model", args.model,
              *(["--output", str(args.output / f"{index}-{kind}")] if kind == "engine" else [])],
             capture_output=True, text=True, timeout=120, env=environment, check=False)
         (args.output / f"{index}-{kind}.stderr.txt").write_text(completed.stderr)

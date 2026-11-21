@@ -83,6 +83,15 @@ animated-normal slots; lit Claire reads current GPU samples back once with
 explicit error handling and two bounded slots. No regeneration or quality cut.
 An empty manager imports no numerical/inference engine; each actual warm head
 still owns one required Claire speech model and only its selected adapter.
+vr-65/66 extend this contract to six choices: actual Mark selects its own
+network/PCA/conditioning before loading, not Claire; native MPFB retains
+Claire plus only its native transfer adapter. All choices share the packed
+renderer, four presentations and applicable controls. Native similarity
+alignment preserves shape; model-aware eye/mouth calibration and one-time
+upper-skull hair clearance fit affect shared cosmetics. MPFB fits neutral and
+conditioned native geometry separately before 2x/4x exaggeration; final geometry
+can exceed the native 0..1 rig envelope. Shared sideways cheekiness is a
+reversible shader cue, not another model or anatomical/contact acceptance.
 Chapter07 records measured startup peaks, GPU-buffer bytes and qualification
 limits; do not turn these into whole-app or eight-head performance guarantees.
 Do not invent its
@@ -132,6 +141,9 @@ book/manifest.json explicitly orders the book source allowlist. Follow
 book/README.md before implementing a render pipeline or producing an edition.
 Explain mechanisms and tradeoffs, not just file inventories. Keep algorithms
 and design principles identifiable as the implementation grows.
+Maintain the dated development journal for meaningful subsequent milestones.
+Preserve frozen editions; extend it through a separately versioned continuation
+with actual commit anchors, reviewed evidence and the existing withdrawal rules.
 Keep the README GIF-heavy and showcase every hairstyle. Gallery rows must fill
 the README content width without table borders: use centered paragraphs, two
 adjacent50%-width images per pair and100% for unpaired gallery entries. Do not

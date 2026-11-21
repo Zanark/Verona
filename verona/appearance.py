@@ -34,19 +34,25 @@ def verona_rest_shape(vertices: np.ndarray) -> np.ndarray:
     return result
 
 
-def claire_eyes() -> tuple[np.ndarray, np.ndarray]:
+def claire_eyes(centers=((-2.9485, 147.5517, 2.2364), (3.1021, 147.4944, 2.2830)),
+                radii=((1.35, 1.32, 1.40), (1.35, 1.32, 1.40))) -> tuple[np.ndarray, np.ndarray]:
     """Original static ellipsoids within the matching native cornea bounds."""
     vertices, triangles = [], []
     columns, rows = 32, 20
-    for x, y, z in ((-2.9485, 147.5517, 2.2364), (3.1021, 147.4944, 2.2830)):
+    centers, radii = np.asarray(centers), np.asarray(radii)
+    if (centers.shape != (2, 3) or radii.shape != (2, 3)
+            or not np.isfinite(centers).all() or not np.isfinite(radii).all()
+            or np.any(radii <= 0)):
+        raise ValueError("Cosmetic eyes require two finite centers and positive XYZ radii.")
+    for (x, y, z), (rx, ry, rz) in zip(centers, radii):
         offset = len(vertices)
         for row in range(rows + 1):
             latitude = np.pi * row / rows
             for column in range(columns):
                 angle = 2 * np.pi * column / columns
-                vertices.append((x + 1.35 * np.sin(latitude) * np.sin(angle),
-                                 y + 1.32 * np.cos(latitude),
-                                 z + 1.40 * np.sin(latitude) * np.cos(angle)))
+                vertices.append((x + rx * np.sin(latitude) * np.sin(angle),
+                                 y + ry * np.cos(latitude),
+                                 z + rz * np.sin(latitude) * np.cos(angle)))
         for row in range(rows):
             for column in range(columns):
                 a = offset + row * columns + column
@@ -57,6 +63,17 @@ def claire_eyes() -> tuple[np.ndarray, np.ndarray]:
                 if row < rows - 1:
                     triangles.append((b, c, d))
     return np.asarray(vertices, dtype=np.float32), np.asarray(triangles, dtype="<u4")
+
+
+def native_hair_scale(rest: np.ndarray) -> float:
+    """Keep the shared scalp shell outside the selected native upper skull."""
+    scalp = rest[rest[:, 1] >= 149]
+    if not len(scalp):
+        raise ValueError("Native head has no upper-skull samples for hair fitting.")
+    radius = np.linalg.norm((scalp - [0, 148.2, -5.7]) / [9.5, 11, 11.6], axis=1)
+    if not np.isfinite(radius).all():
+        raise ValueError("Native hair fitting requires finite skull coordinates.")
+    return max(1.0, float(radius.max()) / .92)
 
 
 def claire_hair() -> tuple[np.ndarray, np.ndarray, np.ndarray]:

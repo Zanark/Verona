@@ -45,4 +45,15 @@ assert.throws(()=>createHairstyle("unknown",meta),/supported/);
 assert.throws(()=>createHairstyle("claire",meta),/verified mesh/);
 assert.throws(()=>createHairstyle("curls",{...meta,scale:0}),/malformed/);
 assert.throws(()=>createHairstyle("curls",{...meta,scale:.001}),/bounds/);
+const original=createHairstyle("curls",meta);
+const fitted=createHairstyle("curls",{...meta,hair:{scale:1.12}});
+assert.deepEqual(fitted.triangles,original.triangles);
+for(let i=0;i<fitted.positions.length;i++){
+  const axis=i%3,anchor=[0,148.2,-5.7][axis];
+  const world=original.positions[i]/meta.quantization*meta.scale+meta.center[axis];
+  const expected=(world-anchor)*1.12+anchor;
+  const actual=fitted.positions[i]/meta.quantization*meta.scale+meta.center[axis];
+  assert(Math.abs(actual-expected)<=meta.scale/meta.quantization*1.12);
+}
+assert.throws(()=>createHairstyle("curls",{...meta,hair:{scale:NaN}}),/hair fit/);
 console.log(JSON.stringify({deterministicDistinctHairstyles:hashes.size,inventory}));

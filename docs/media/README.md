@@ -1,6 +1,35 @@
 # Prototype media receipt
 
-## Current one-GIF-per-model gallery (vr-60)
+## Current six-model / four-view gallery (vr-67)
+
+[Six-model provenance](model-vr67-provenance.json) records six new actual
+960x1080 production-renderer GIFs, one per selectable model. Each contains
+the same 30.25-second synthetic Hazel greeting tour: neutral and ten single
+emotions, strength0.6/4x, four presentations at matching audio timestamps.
+Surface alternates transparent polygons and shaded color/makeup. Native
+MPFB and actual Mark now show all four views, not a wire-only/report label.
+
+All 1,848 source samples match their independently decoded encoded timelines;
+lossless deltas merge holds into 1,483 encoded frames. Source hashes are
+identical across the six captures. They include the corrected native scalp
+clearance for both original waves and generated curls. The rejected first
+MPFB/Mark captures exposed scalp protrusions and remain private diagnostics.
+Representative happy composites for all six and native neutral/cheekiness
+samples were viewed, not every frame or independent listening.
+
+The six files total **111,123,289 bytes** (about106.0MiB). These silent10-fps
+publishing previews are intentionally large, not runtime FPS/memory evidence.
+A collapsed disclosure is not lazy-loading or a media-memory guarantee.
+Historical media files and their distinct receipts remain unchanged.
+
+The README embeds **25 GIFs and two PNGs**. Its approved hero and complete
+motion-demo section remain byte-for-byte unchanged. Actual authenticated
+GitHub GFM with retained public GitHub CSS passes1200/768/390px layout checks:
+six dedicated full-width model GIFs, natural aspect ratios, no tables,
+borders or horizontal overflow. This is the isolated representative980px
+content container, not a screenshot of signed-in GitHub chrome.
+
+## Historical five-model gallery (vr-60)
 
 [Five-model provenance](model-vr60-provenance.json) records five new
 960x1080, 30.25-second production-renderer GIFs. Each speaks the fixed synthetic

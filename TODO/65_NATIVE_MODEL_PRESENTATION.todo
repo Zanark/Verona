@@ -1,0 +1,49 @@
+ID: vr-65
+Title: Shared model-aware presentation and native MPFB feature parity
+
+Status: DONE
+Milestone: Consistent native speaking heads
+Dependencies: vr-44, vr-49, vr-57, vr-58
+
+Purpose:
+  Give the original native MPFB head the shared player's full presentation,
+  framing, neck, hair, colors, cursor, zoom and blinking controls without
+  substituting Claire geometry or loading inactive models.
+
+Tasks:
+  Share the packed geometry/rendering contract with explicit native calibration.
+  Preserve native MPFB rest/topology and its actual neural motion transfer.
+  Apply neutral-relative exaggeration after native fitting, with honest limits.
+  Promote the reviewed sideways-cheekiness cue into a bounded shared option.
+  Qualify actual controls, geometry restoration, cancellation and resources.
+  Update the implementation chapters, index and causal development ledger.
+
+Acceptance criteria:
+  Native MPFB exposes the same applicable live controls as Claire in browser
+    and desktop sessions; all four face presentations work.
+  Native shape remains distinct; transforms are documented and reversible.
+  Two/four-times exaggeration acts on the native output rather than merely
+    labeling an amplified source subsequently clipped to a bounded rig.
+  Cosmetic cheekiness remains distinguishable from learned emotion/accuracy.
+  Only the selected model/adapter and active presentation resources load.
+  Existing live Claire and sibling sessions remain untouched.
+
+Completion evidence:
+  Shared packed native renderer supports all four presentations and applicable
+    Claire controls. Native MPFB geometry/transfer remain distinct; final
+    neutral-relative exaggeration follows bounded intermediate fitting.
+  88 CPU regressions and focused hairstyle checks pass. Actual six-model native
+    sessions03 and final actual MPFB WebGL color/blink/cheekiness/resource
+    checks pass. Hair fit is one-time, both styles use the same calibration.
+  Selected-only engine probes and exact six-model GIF timelines are retained.
+    No anatomical/listening/identity approval or universal lifecycle claim.
+  GitHub: https://github.com/Zanark/Verona/issues/64
+
+Completion log:
+  2026-11-21 - Owner explicitly requests full native MPFB/Mark parity and a
+    performance-conscious implementation. Existing MPFB has a separate reduced
+    renderer and bounded native fit; sideways-smirk prior art is report-only.
+    Protect the currently loaded Claire/Hazel instance; use owned test lanes.
+  2026-11-21 - Implemented and environment-qualified. Owner authorized pausing
+    this chat's head/empty manager, preserving settings for updated restart.
+    Failed lifecycle/media receipts remain; delivery continues under vr-67.

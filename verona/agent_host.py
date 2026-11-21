@@ -360,7 +360,7 @@ def host(path, *, model="claire", colors=None) -> None:
             speech = SpeechWorker()
             try:
                 print("Preparing the dedicated warm CPU face and native player...", file=sys.stderr, flush=True)
-                state = State(FaceEngine(), speech.voices)
+                state = State(FaceEngine("mark" if model == "mark" else "claire"), speech.voices)
                 state.stop = stopping
                 state.static = prepare_variant(state.engine, model)
                 state.appearance = config

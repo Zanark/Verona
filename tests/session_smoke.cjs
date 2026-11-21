@@ -52,14 +52,35 @@ app.whenReady().then(async()=>{
         model+" confirms central blink preference changes");
     }
     await command({action:"settings",session:name,settings:{volume:"0"}});
+    if (model === "mpfb" || model === "mark") {
+      for (const view of ["claire","facedot","uniform","facemesh"]) {
+        await command({action:"settings",session:name,settings:{presentation:view}});
+        if (view !== "facemesh") {
+          await command({action:"settings",session:name,settings:{framing:"head-neck"}});
+          for (const depth of ["0","6","1.7"]) {
+            await command({action:"settings",session:name,settings:{"neck-depth":depth}});
+          }
+          await command({action:"settings",session:name,settings:{framing:"full"}});
+        }
+        assert.equal((await inspect(name)).controls.find(control=>control.id==="presentation").value,view);
+      }
+      for (const settings of [
+        {hair:true},{hairstyle:"curls"},{hairstyle:"claire"},{hair:false},
+        {"cursor-mode":"head","follow-eyes":true,zoom:"0.8"},
+        {"follow-eyes":false,zoom:"1"},{"sideways-cheekiness":false},
+        {"sideways-cheekiness":true,"cheekiness-pull":"0.5"},{"cheekiness-pull":"1"}
+      ]) for (const [id,value] of Object.entries(settings)) {
+        await command({action:"settings",session:name,settings:{[id]:value}});
+      }
+    }
     report.models.push({model,session:name,readySeconds:(Date.now()-started)/1000,
       appearance:state.appearance,controlCount:state.controls.length,naturalBlinkRoundTrip:true});
     await refresh();
     return state;
   }
-  await wait(()=>evaluate(`document.getElementById("model").options.length===5`),"five model choices",15);
+  await wait(()=>evaluate(`document.getElementById("model").options.length===6`),"six model choices",15);
   assert.equal(await evaluate("typeof require"),"undefined");
-  report.checks.push("One sandboxed GUI presents all five variants without separate launchers.");
+  report.checks.push("One sandboxed GUI presents all six variants without separate launchers.");
   const first=await create("claire","qual-claire",{hair:"#113355",lips:"#AA2255",eyebrows:"#CCBB77"});
   const second=await create("mpfb","qual-mpfb",{hair:"#664422",lips:"#11AA77",eyebrows:"#8833DD"});
   await wait(()=>evaluate(`[...document.querySelectorAll("#controls label")].some(
@@ -113,7 +134,7 @@ app.whenReady().then(async()=>{
     await command({action:"close",session:name});
     await wait(()=>closed(name),name+" close",20);
   }
-  for(const model of ["reference-structure","reference-shell","male-sharp"]) {
+  for(const model of ["mark","reference-structure","reference-shell","male-sharp"]) {
     const name="qual-"+model;
     await create(model,name,{hair:"#245566",lips:"#CA3377",eyebrows:"#A06020"});
     await command({action:"say",session:name,text:"Local head check.",voice:null,
@@ -127,7 +148,7 @@ app.whenReady().then(async()=>{
     await wait(()=>closed(name),model+" close",20);
   }
   report.checks.push("Every selectable variant initialized its real native renderer and completed actual muted speech.");
-  report.checks.push("All five real models publish natural blinking and confirm manager opt-out/opt-in.");
+  report.checks.push("All six real models confirm blinking; native MPFB and actual Mark round-trip all shared views, neck, hair, cursor, zoom and cheekiness controls.");
   await save();
   window.destroy();app.quit();
 }).catch(async error=>{

@@ -10,7 +10,7 @@ import weakref
 import xml.etree.ElementTree as ET
 
 from verona import speech
-from verona.appearance import claire_eyes, claire_hair, verona_rest_shape
+from verona.appearance import claire_eyes, claire_hair, native_hair_scale, verona_rest_shape
 from verona.engine import FaceEngine, expression_condition, pack_positions
 from verona.mesh import claire_topology, native_control_mesh, read_mesh, reduced_mesh
 
@@ -28,6 +28,56 @@ createNode transform -n "unrelated";
 
 
 class MeshTests(unittest.TestCase):
+    def test_mark_loads_only_its_assets_and_basis_without_claire_rest_styling(self):
+        from scripts import fetch_cpu_model as mark
+
+        mean = np.zeros((61520, 3), dtype=np.float32)
+        mean[:, 0] = np.linspace(-1, 1, len(mean))
+        mean[:, 1] = 162
+        references = {}
+
+        class Archive:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+            def __getitem__(self, key):
+                if key == "shapes_mean_skin":
+                    return mean
+                source = np.broadcast_to(np.zeros(1, dtype=np.float32), (272, 61520, 3))
+                references["source"] = weakref.ref(source)
+                return source
+
+        def session(path):
+            self.assertEqual(path, mark.DESTINATION / "network.onnx")
+            self.assertIsNone(references["source"]())
+            return object()
+
+        def eye(path, node):
+            x = -3 if node.startswith("r_") else 3
+            return np.array([[x - 1., 158, 2], [x + 1., 160, 4]]), None, None
+
+        with (patch("verona.engine.verify") as verify,
+              patch("verona.engine.np.load", return_value=Archive()) as load,
+              patch("verona.engine.read_mesh", side_effect=eye),
+              patch("verona.engine.claire_topology", return_value=(
+                  np.arange(15375), np.zeros((30759, 2), dtype="<u4"),
+                  np.zeros((30746, 3), dtype="<u4"), 0)),
+              patch("verona.engine.conditioning", return_value=np.zeros((1, 1, 26))) as condition,
+              patch("verona.engine.mesh_payload", return_value=(b"fixture", {})),
+              patch("verona.engine.verona_rest_shape") as sculpt,
+              patch("verona.engine.create_cpu_session", side_effect=session)):
+            engine = FaceEngine("mark")
+        self.assertEqual(engine.basis.shape, (272, 15375, 3))
+        self.assertEqual(engine.identity, "Mark v2.3")
+        self.assertEqual(engine.input_strength, 1.3)
+        self.assertTrue(all(call.args[0].parent == mark.DESTINATION for call in verify.call_args_list))
+        load.assert_called_once_with(mark.DESTINATION / "model_data.npz", allow_pickle=False)
+        condition.assert_called_once_with(mark.DESTINATION / "implicit_emo_db.npz", "g2a_neutral", 33)
+        sculpt.assert_not_called()
+
     def test_startup_releases_full_source_pca_before_creating_inference_session(self):
         mean = np.zeros((61520, 3), dtype=np.float32)
         mean[:, 0] = np.linspace(-1, 1, len(mean))
@@ -103,6 +153,19 @@ class MeshTests(unittest.TestCase):
         gradient = np.diff(lateral[12:])
         self.assertGreaterEqual(int(np.count_nonzero(gradient[1:] * gradient[:-1] < 0)), 2)
         self.assertGreater(float(np.ptp(lateral[12:])), .9)
+
+    def test_native_hair_fit_clears_the_upper_skull_without_using_neck_extents(self):
+        scalp = np.array([[0, 159.2, -5.7], [0, 151, 6.0]], dtype=float)
+        rest = np.concatenate((scalp, [[100, 130, 100]]))
+        original = rest.copy()
+        factor = native_hair_scale(rest)
+        self.assertGreater(factor, 1)
+        radius = np.linalg.norm((scalp - [0, 148.2, -5.7]) /
+                                (np.array([9.5, 11, 11.6]) * factor), axis=1)
+        self.assertLessEqual(float(radius.max()), .920001)
+        np.testing.assert_array_equal(rest, original)
+        with self.assertRaises(ValueError):
+            native_hair_scale(np.array([[0, 130, 0]]))
 
     def test_native_control_mesh_retains_original_cube_loops_and_winding(self):
         vertices = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
@@ -356,6 +419,35 @@ class ClipTests(unittest.TestCase):
                     self.assertEqual(clip.metadata["expressionGain"], gain)
                     self.assertEqual(clip.metadata["expressionGainSetting"], gain)
                     np.testing.assert_array_equal(engine.condition[0, 0, 16:], 0)
+
+    def test_native_mapping_precedes_exaggeration_and_keeps_batches_bounded(self):
+        engine, audio = self.expression_fixture()
+        calls = []
+
+        def nonlinear_map(positions, stop):
+            calls.append(positions.copy())
+            return np.clip(positions[:, :2], -.1, .2)
+
+        engine.motion_mapper = nonlinear_map
+        clip = engine.generate(audio, "happy", .6, expression_gain=4)
+        self.assertEqual([len(batch) for batch in calls], [4, 4, 2, 2])
+        expected = b"".join(pack_positions(
+            np.clip(baseline[:, :2], -.1, .2)
+            + 4 * (np.clip(expressive[:, :2], -.1, .2) - np.clip(baseline[:, :2], -.1, .2)),
+            engine.center, engine.scale)
+            for expressive, baseline in zip(calls[::2], calls[1::2]))
+        self.assertEqual(clip.motion, expected)
+        self.assertEqual(clip.metadata["vertices"], 2)
+        self.assertIn("native fitted geometry", clip.metadata["expressionReference"])
+        self.assertEqual(len(engine.session.calls), 4, "No extra neutral inference pass")
+
+    def test_invalid_engine_selection_fails_before_verifying_or_loading_assets(self):
+        with patch("verona.engine.verify") as verify:
+            with self.assertRaisesRegex(ValueError, "before loading"):
+                FaceEngine("missing")
+            verify.assert_not_called()
+
+    def test_neutral_or_zero_strength_does_not_add_an_exaggeration_pass(self):
         for expression, strength in (
             ("neutral", .6), *((name, 0) for name in (
                 "happy", "sad", "surprised", "angry", "cheekiness",

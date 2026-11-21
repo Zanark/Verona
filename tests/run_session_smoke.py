@@ -41,7 +41,10 @@ def main():
                     if call(value, {"action":"status"}).get("ready"):
                         return path, value
                 time.sleep(.1)
-            raise RuntimeError(f"Owned qualification head {name} did not become ready.")
+            status = call(descriptor, {"action":"inspect", "session":name}, timeout=2)
+            (output / "startup-failure.json").write_text(
+                json.dumps({"session":name, "status":status}, indent=2), encoding="utf-8")
+            raise RuntimeError(f"Owned qualification head {name} did not become ready; inspect startup-failure.json.")
 
         try:
             manager = subprocess.Popen([sys.executable, "-m", "verona.manager", "--no-open"],
@@ -63,7 +66,7 @@ def main():
             if code:
                 raise RuntimeError(f"Unified GUI qualification failed ({code}); retain its receipt.")
             report = json.loads((output / "session-report.json").read_text())
-            if report.get("error") or len(report.get("models", [])) != 5:
+            if report.get("error") or len(report.get("models", [])) != 6:
                 raise RuntimeError("Incomplete unified session qualification.")
 
             def cli(*arguments, text=None):

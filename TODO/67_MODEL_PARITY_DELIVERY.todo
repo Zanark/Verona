@@ -1,0 +1,48 @@
+ID: vr-67
+Title: Native-model qualification, visual documentation, skill and release
+
+Status: IN_PROGRESS
+Milestone: Consistent native speaking heads
+Dependencies: vr-65, vr-66
+
+Purpose:
+  Deliver the verified model-parity milestone with truthful visual discovery,
+  updated agent instructions and a new versioned development-journal edition.
+
+Tasks:
+  Run bounded isolated actual-model browser/native and performance checks.
+  Refresh dedicated model GIFs and document supported views and real limits.
+  Update README, book chapters, guides, TODOs and development journal sources.
+  Update the Verona skill and explicitly requested installed copies.
+  Render/review a new journal edition without overwriting frozen editions.
+  Commit/push coherent verified milestones and publish a new verified release.
+  Reconcile original GitHub issue/Project identities and owned continuity.
+
+Acceptance criteria:
+  Actual behavior and resource measurements support each claimed capability;
+    fixtures, visual review and human accuracy acceptance remain distinct.
+  README model imagery shows actual supported native models and face types.
+  Skill source and installed copies agree and describe the actual runtime.
+  Journal records dated decisions/evidence and preserves withdrawn imagery
+    exclusions, frozen historical editions and explicit public-safe allowlists.
+  Remote source/release identities, assets and tracking states are read back.
+  No deployment, private media/context export or mutable historical release.
+
+Completion evidence:
+  Actual six-model native qualification native-parity-sessions-03 passes;
+    native-parity-sessions-02 retains a later CLI-startup/cleanup timeout.
+  Updated source/library/personal Verona skills have identical SHA-256
+    1ff686a3f1293b26fdbae6ea76a0360728cb080d7cd1707da44d28e817662026.
+    Personal discovery is verified outside the repository. No dormant-session
+    adoption or runtime restart is implied.
+  Dedicated six-model media, journal edition and release delivery are pending.
+  GitHub: https://github.com/Zanark/Verona/issues/66
+
+Completion log:
+  2026-11-21 - Owner authorizes updated documentation, README, skill installation,
+    journal, pushed changes and release. Journal maintenance is required for
+    subsequent milestones; do not silently rewrite the frozen M1 edition.
+  2026-11-21 - Qualification and delivery underway. The local-file skill
+    installer refuses existing targets; hash-guarded exact-copy replacement
+    preserves the requested installation identity. Unrelated pre-existing
+    career-forensics discovery warning remains unchanged.

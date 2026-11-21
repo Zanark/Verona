@@ -76,7 +76,13 @@ export function createHairstyle(id, meta) {
         -5.7 + 11.8 * Math.sin(theta) * Math.cos(a) + curl * Math.sin(phase)];
     }, t => .55 * (.35 + .65 * smooth(0, .15, t)) * (1 - .6 * smooth(.85, 1, t)));
   }
+  const factor = meta.hair?.scale ?? 1, hairAnchor = [0, 148.2, -5.7];
+  if (!Number.isFinite(factor) || factor < 1) throw new Error("Malformed native hair fit.");
   const packed = Int16Array.from(positions, (value, i) => {
+    if (factor !== 1) {
+      const anchor = hairAnchor[i % 3];
+      value = (value - anchor) * factor + anchor;
+    }
     const n = Math.round((value - meta.center[i % 3]) / meta.scale * meta.quantization);
     if (!Number.isFinite(n) || n < -32768 || n > 32767) throw new Error("Hairstyle exceeds the packed mesh bounds.");
     return n;

@@ -1,7 +1,8 @@
 # 07 - Editable Hazel, matching Claire and measured performance
 
 **Current resource contract:** [vr-57 below](#selected-head-resource-ownership-vr-57)
-audits the present five-head/four-view runtime. The vr-08 measurements that
+audits the earlier five-head runtime; [vr-65/66 below](#native-model-selection-and-bounded-transfer-batches-vr-6566)
+extend its ownership contract to six choices and four shared views. The vr-08 measurements that
 follow remain historical, not current latency or memory promises.
 
 Presentation note: [chapter 08](08-facial-definition-and-fluidity.md) supersedes
@@ -420,3 +421,116 @@ node tests\test_appearance_rendering.mjs --baseline=4c5a8dd --real-mesh=.local\q
 
 The process probe writes static model-derived geometry, never speech audio or
 transcripts. It cannot establish multi-head capacity or perceptual accuracy.
+
+## Native model selection and bounded transfer batches (vr-65/66)
+
+The lightweight catalog in `verona/session_config.py:MODELS` now separates six
+selectable shapes from **two neural identities**. `agent_host.host` chooses
+`FaceEngine("mark")` before loading any weights for Mark. Other heads require
+Claire; native MPFB additionally loads only its selected transfer/faceunit data.
+Catalog strings and imported asset manifests are not resident model weights.
+The manager still imports neither NumPy nor ONNX Runtime.
+
+`FaceEngine.__init__` keeps each network paired with its actual assets:
+
+| Neural identity | Skin PCA / network outputs | Implicit conditioning | Audio input strength |
+|---|---|---|---|
+| Claire v2.3.1 | 140 / 169 | `cp1_neutral`, frame 212 | 1.0 |
+| Mark v2.3 | 272 / 301 | `g2a_neutral`, frame 33 | 1.3 |
+
+Both use the CPU provider, four-frame inference batches and their matching
+native control topology. Mark does not pass through `verona_rest_shape`.
+Its pinned scene supplies numerical skin connectivity and eye bounds; no Maya
+scene is executed. As before, the full source PCA array is released after the
+selected contiguous copy and before creating the inference session.
+
+`mesh_payload` packs one selected skin, optional procedural hair and cosmetic
+eyes into the existing Int16/Uint32 contract. Native Mark and MPFB are uniformly
+aligned to the shared eye frame:
+
+```
+render position = (native position - native eye midpoint) * eye-span scale
+                  + shared eye midpoint
+native position = (render position - shared eye midpoint) / eye-span scale
+                  + native eye midpoint
+```
+
+This similarity preserves shape and relative displacement; it does not warp a
+native identity into Claire. The factor/origin/offset are exposed in
+`mesh_metadata.renderTransform`. Display-space distances and neck settings are
+in the shared rendering scale, not a physical head-size measurement. Packing
+adds at most half a quantization step per coordinate.
+
+### Exaggeration after, rather than before, a constrained fit
+
+The historical MPFB path amplified Claire first and projected the result into
+native faceunits bounded to 0..1. Saturation could discard the requested gain.
+The shared path in `apply_transfer(..., shared=True)` instead maps each small
+conditioned batch and its same-audio neutral batch separately. Each projection
+retains the bounded 160-step native fit; the final geometry is:
+
+```
+native output = fitted neutral + gain * (fitted expression - fitted neutral)
+```
+
+Gain remains 2 or 4. **Final exaggerated geometry is no longer constrained to
+the native 0..1 rig envelope.** This is a deliberate expressive tradeoff, not
+an anatomical/contact guarantee or recovered unsupported motion detail. It
+adds a second native fit, not a third neural inference pass. Neutral or
+zero-strength clips still need only one prediction/fit per batch.
+
+`FaceEngine.generate` maps at most four source frames at once, packs the native
+result directly and checks cancellation before inference, between predictions,
+inside native fitting and before packing. It no longer needs the shared MPFB
+player's old complete Claire clip plus complete Float32 native trajectories.
+Only one successful clip remains in RAM. The legacy report path retains its
+original Float32/bounded behavior so old studies do not silently change meaning.
+Errors, invalid model selection and out-of-range packing fail explicitly.
+
+The exact-source unit checks cover post-fit rather than pre-fit exaggeration,
+unchanged inference-pass count, actual Mark-only asset selection and release
+of its full source PCA before ONNX startup. Actual-model/environment results
+remain separate from these fixtures and from human accuracy acceptance.
+
+### Actual selected-model resource samples
+
+Two fresh isolated engine processes per choice used twelve synthetic silent
+frames, a cold derived-topology cache and the same bounded thread settings.
+These are private committed bytes for one CPU process, not physical RAM,
+the complete Electron tree or a multi-head capacity result:
+
+| Selected head | Ready private MiB | Final private MiB | Neutral / happy seconds per 12 frames |
+|---|---:|---:|---:|
+| Claire | 275.03-275.08 | 375.45-375.46 | 0.434-0.476 / 0.843-0.943 |
+| Native MPFB | 327.62-332.32 | 387.27-387.34 | 0.603-0.629 / 1.210-1.276 |
+| Actual Mark | 223.91-225.92 | 320.12-320.54 | 0.387-0.418 / 0.724-0.764 |
+
+Claire and MPFB load only Claire's network; Mark loads only Mark's network
+and no MPFB/reference adapters. The empty manager uses 18.95-19.23 MiB and
+imports none of NumPy, ONNX Runtime or the engine. Repeated same-expression
+motion hashes match exactly. Two-second idle samples consume zero or
+0.015625 process-CPU seconds; that is a bounded sample, not zero lifetime cost.
+Startup varies, including Mark's 20.63-second first and 7.07-second second
+sample. No causal inference-speed improvement is claimed.
+
+Receipts are `native-parity-perf-01-claire`, `-mpfb` and `-mark` under the
+ignored qualification directory. They precede the final one-time native hair
+clearance correction, which does not change the selected neural identity.
+Do not compare these after-generation lifetime peaks with an older
+startup-only peak as though they measured the same interval.
+
+The actual six-model `native-parity-sessions-03` lane passes shared controls,
+speech, independent clocks, cancellation, CLI, external ownership, parent-death
+cleanup and descriptor removal at the existing gates. Run02 first exercises
+all six renderers but later times out waiting for a CLI-created Claire to
+become ready; its cleanup also exceeds the existing gate. The cause remains
+unproven. A later pass is not a lifecycle fix: vr-64 stays open. New timeout
+diagnostics retain named-session startup status rather than silently extending
+timeouts. Failed receipts remain alongside passing ones.
+
+Actual Claire/MPFB/Mark software-WebGL checks additionally exercise every
+presentation's cheekiness enable/half/zero/off/restored pixels, feature colors,
+blinks and bounded geometry ownership. Zero/off restores the underlying
+motion, with no new geometry uploads or retained buffer growth. Fixture,
+actual-model, silent browser and human listening/accuracy evidence remain
+separate.

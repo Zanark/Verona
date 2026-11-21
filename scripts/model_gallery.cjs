@@ -25,7 +25,7 @@ app.whenReady().then(async () => {
   });
   const ev = code => window.webContents.executeJavaScript(code, true);
   await window.loadURL(process.env.VERONA_LOCAL_URL);
-  for (let i=0; !await ev("Boolean(window.galleryRenderer || window.mpfbPlayer?.ready)"); i++) {
+  for (let i=0; !await ev("Boolean(window.galleryRenderer)"); i++) {
     assert(i < 400, "The isolated production renderer failed to become ready.");
     await pause(25);
   }
@@ -40,23 +40,22 @@ app.whenReady().then(async () => {
     window.galleryCatalog=catalog;
     return catalog;
   })()`);
-  const native = catalog.model === "mpfb";
-  const views = native ? ["Native MPFB wire"] : ["Claire", "FaceMesh", "FaceDot", "UniformPolygons"];
+  const views = ["Surface", "FaceMesh", "FaceDot", "UniformPolygons"];
   const captures = [];
   await fs.mkdir(path.join(output, "frames"));
   for (let emotion=0; emotion<catalog.clips.length; emotion++) {
     const info = catalog.clips[emotion];
     const result = await ev(`(async()=>{
       const $=id=>document.getElementById(id),info=galleryCatalog.clips[${emotion}];
-      const native=${native},fps=galleryCatalog.previewFps;
+      const fps=galleryCatalog.previewFps;
       const bytes=await(await galleryRequest(info.filename)).arrayBuffer();
-      if(native)galleryInstall(bytes,info.metadata);else galleryRenderer.setClip(bytes,info.metadata);
+      galleryRenderer.setClip(bytes,info.metadata);
       const count=Math.ceil(info.metadata.duration*fps);
       if(count<2||count>40)throw Error("Synthetic gallery clip exceeds the bounded 40-frame composite.");
       const labels={neutral:"Neutral",happy:"Joy / Happy",sad:"Sadness",surprised:"Amazement",
         angry:"Anger",cheekiness:"Cheekiness",disgust:"Disgust",fear:"Fear",grief:"Grief",
         outofbreath:"Out of breath",pain:"Pain"};
-      const names={claire:"ORIGINAL CLAIRE",mpfb:"NATIVE MPFB",
+      const names={claire:"ORIGINAL CLAIRE",mpfb:"NATIVE MPFB",mark:"ORIGINAL MARK",
         "reference-structure":"STRUCTURAL-REFERENCE CLAIRE",
         "reference-shell":"HISTORICAL SUBTLE-REFERENCE CLAIRE","male-sharp":"MALE-SHARPJAWLINE"};
       const canvases=Array.from({length:count},()=>{
@@ -68,26 +67,23 @@ app.whenReady().then(async () => {
         g.fillStyle="#edf5f5";g.font='600 23px "Segoe UI"';
         g.fillText(labels[info.name]+"  |  Hey, how are you?",480,67);
         g.fillStyle="#b7cacc";g.font='17px "Segoe UI"';
-        g.fillText(native?"Same Claire speech -> bounded native controls (0..1)":"One speech clip. Four views. Same timestamps.",480,1055);
+        g.fillText("One speech clip. Four views. Same timestamps.",480,1055);
         return c;
       });
       const set=(id,value)=>{const input=$(id);if(!input)throw Error("Missing capture control: "+id);
         if(input.type==="checkbox")input.checked=value;else input.value=String(value);
         input.dispatchEvent(new Event("input"));};
-      const viewIds=native?["wire"]:["claire","facemesh","facedot","uniform"];
-      const viewNames=native?["Native wire - manager face type"]:["Claire","FaceMesh","FaceDot","UniformPolygons"];
+      const viewIds=["claire","facemesh","facedot","uniform"];
+      const viewNames=["Surface","FaceMesh","FaceDot","UniformPolygons"];
       const {createBlinkClock}=await import("/blinking.mjs");
       for(let view=0;view<viewIds.length;view++){
         let canvas;
-        if(native){canvas=$("wire");canvas.style.cssText="position:fixed;inset:0;width:800px;height:800px";}
-        else{
           set("presentation",viewIds[view]);set("framing",viewIds[view]==="facemesh"?"front":"head-neck");
           set("hair",view===0);set("tilt",0);set("yaw",0);set("roll",0);set("zoom",.9);
           if(view===0)set("appearance",${emotion}%2?"polygon":"shaded");
           if(view===1){set("mesh-detail",5);set("eye-glow",1);}
           if(view===2){set("pattern-density",.75);set("pattern-gap",.2);}
           canvas=$("face");canvas.style.cssText="position:fixed;inset:0;width:440px;height:440px";
-        }
         let now=0,fire;const clock=createBlinkClock(()=>{},{
           now:()=>now,random:()=>0,schedule:callback=>{fire=callback;return 1;},cancel:()=>{}});
         clock.setActive(true);let begun=false;
@@ -95,15 +91,15 @@ app.whenReady().then(async () => {
           const time=i*info.metadata.duration/count;
           if(time>=1&&!begun){now=1000;fire();begun=true;}
           now=time*1000;const blink=clock.sample().amount;
-          if(native)mpfbPlayer.renderAt(time,0,blink);else galleryRenderer.draw(time,blink);
+          galleryRenderer.draw(time,blink);
           const gl=canvas.getContext("webgl2");gl.finish();
           if(gl.getError()!==0)throw Error("Gallery WebGL draw failed.");
           const ctx=canvases[i].getContext("2d");
-          const x=native?80:20+(view%2)*480,y=native?132:112+Math.floor(view/2)*484;
-          ctx.drawImage(canvas,x,y,native?800:440,native?800:440);
+          const x=20+(view%2)*480,y=112+Math.floor(view/2)*484;
+          ctx.drawImage(canvas,x,y,440,440);
           ctx.fillStyle="#b7cacc";ctx.font='600 19px "Segoe UI"';
-          const caption=viewNames[view]+(!native&&view===0?(${emotion}%2?" | transparent polygons":" | color + makeup"):"");
-          ctx.fillText(caption,native?480:x+220,y-18);
+          const caption=viewNames[view]+(view===0?(${emotion}%2?" | transparent polygons":" | color + makeup"):"");
+          ctx.fillText(caption,x+220,y-18);
         }
         clock.setActive(false);
       }
