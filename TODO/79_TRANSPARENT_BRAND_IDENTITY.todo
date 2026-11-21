@@ -1,0 +1,53 @@
+ID: vr-79
+Title: Transparent purple-haired identity and expressive Verona wordmark
+GitHub issue: https://github.com/Zanark/Verona/issues/78
+
+Status: DONE
+Milestone: Consistent local visual identity
+Dependencies: vr-59
+
+Purpose:
+  Replace the blue-backed logo with a transparent head, purple hair and pink
+  lipstick; make the README identity larger with distinctive Verona lettering.
+
+Tasks:
+  Preserve the face-mesh concept and author the requested transparent artwork.
+  Choose fitting redistributable typography and preserve its license/source.
+  Regenerate the README lockup, app logo, favicon and all existing ICO sizes.
+  Verify actual alpha, small-size legibility, local routes and native decoding.
+  Update branding documentation, chapter, journal, issue/Project and push.
+
+Acceptance criteria:
+  Only the head is visible outside the README wordmark; no blue square remains.
+  Hair is purple and lips pink; README displays large artwork beside Verona.
+  Every current app/browser icon derives from the same transparent master.
+  Wordmark does not depend on network fonts or an installed end-user typeface.
+  Existing README speech hero and gallery remain unchanged.
+  No live head/manager restart, private data publication or release/tag rewrite.
+
+Completion evidence:
+  Complete transparent1024px master; purple polygonal hair/pink lips.
+  Larger900px README lockup, light/dark1800x600sources and unmodified OFL1.1
+  Audiowide Regular; pinned upstream Git blobs/hashes and complete license.
+  Actual Electron decodes all seven ICO sizes16..256 plus both PNGs; visible
+  artwork/transparent corners/native hidden window pass. Ten guarded HTTP
+  tests and the existing desktop-host fixture pass. Opaque/empty input rejection,
+  exact derivative rebuild and byte-identical README hero/body pass.
+  GitHub's actual GFM header survives sanitization; Chromium selects correct
+  light/dark source at1100/390px with decoded/painted lettering and no overflow
+  or external requests. Representative wide-dark/narrow-light images reviewed.
+  Receipts: .local/qualification/transparent-branding-79.
+  No full GitHub-site CSS reproduction, manual taskbar acceptance, runtime
+  motion/performance rerun, independent owner approval or new edition claimed.
+
+Completion log:
+  2026-11-22 - Owner requests transparent head, purple hair, pink lipstick,
+    a larger head-and-Verona README lockup, favicon/all icons and push.
+    Protect manager306384/owned head310488 and all sibling sessions.
+  2026-11-22 - Qualified isolated candidate before canonical asset promotion.
+    First hidden browser capture preceded final painting; disabled background
+    throttling and added frame/pixel readiness after observing the partial image.
+    All four final captures pass. The runtime keeps its loaded icons; no
+    automatic head/manager restart, executable patch or release rewrite.
+    Authorized source delivery uses the verified Zanark commit/push gate;
+    its exact remote commit/tree/parent receipt is written only on success.

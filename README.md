@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="verona/web/verona-logo.png" alt="Verona logo: a cyan polygon face with a coral speaking mouth" width="112" height="112">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/branding/verona-lockup-dark.png">
+    <img src="docs/branding/verona-lockup-light.png" alt="Verona - local voice, living faces. A transparent cyan face-mesh head with purple hair and pink lips beside the geometric Audiowide wordmark." width="900">
+  </picture>
 </p>
 
 <p align="center">

@@ -1,6 +1,24 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr-79 replaces the blue-backed identity without restarting heads
+Cause: owner wants only the head visible, purple hair, pink lips, a much larger
+README logo beside distinctive Verona lettering, and every favicon/icon updated.
+Action: transparent generated master, alpha-preserving authoring pipeline,
+light/dark Audiowide lockups and every existing PNG/ICO derivative. Unmodified
+font and complete OFL1.1 license have pinned public upstream provenance.
+Evidence: all seven native ICO sizes and PNGs decode with visible artwork and
+transparent corners; ten guarded HTTP tests/desktop host pass. Opaque/empty
+masters fail, exact derivative regeneration and unchanged README body pass.
+Actual GitHub GFM markup survives; four Chromium light/dark/wide/narrow cases
+select/paint the correct image without overflow or external requests.
+First hidden wide capture was premature; require painted pixels
+after compositor readiness. Final wide-dark/narrow-light captures reviewed.
+Promote only qualified branding/docs/tests; preserve live manager306384/head
+310488, private recordings, old tags/releases and frozen book editions.
+This is source branding, not a patched Electron executable, a shell-shortcut
+installer, manual taskbar acceptance or a new runtime/performance qualification.
+
 2026-11-22 - vr-78 replaces synthesized sneeze with supplied local effects
 Cause: owner supplies female/male sneeze recordings after v0.3.0 publication.
 Action: shared kind/style loader, four exact authenticated routes, per-kind

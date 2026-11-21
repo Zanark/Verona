@@ -9,6 +9,8 @@ gestures, speech/inspection ownership and six-head qualification; vr-72 records
 the private all-action GIF report, and vr-73 adds measured idle warm sleep and
 quick opacity controls. This dated source continuation is not another
 rendered edition. All frozen PDFs and their source cutoffs below stay unchanged.
+The vr-79 entry explains the transparent purple-haired/pink-lipped identity,
+Audiowide wordmark, alpha-preserving icon generation and isolated qualification.
 
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:

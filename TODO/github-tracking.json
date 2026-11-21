@@ -1009,7 +1009,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-79": {
+      "source": "TODO/79_TRANSPARENT_BRAND_IDENTITY.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhXentg",
+      "number": 78,
+      "url": "https://github.com/Zanark/Verona/issues/78",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKxxMg",
+      "title": "Transparent purple-haired identity and expressive Verona wordmark",
+      "managedBody": "\n<!-- verona-workstream:vr-79 -->\nWorkstream source: `TODO/79_TRANSPARENT_BRAND_IDENTITY.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-79\nTitle: Transparent purple-haired identity and expressive Verona wordmark\n\nStatus: DONE\nMilestone: Consistent local visual identity\nDependencies: vr-59\n\nPurpose:\n  Replace the blue-backed logo with a transparent head, purple hair and pink\n  lipstick; make the README identity larger with distinctive Verona lettering.\n\nTasks:\n  Preserve the face-mesh concept and author the requested transparent artwork.\n  Choose fitting redistributable typography and preserve its license/source.\n  Regenerate the README lockup, app logo, favicon and all existing ICO sizes.\n  Verify actual alpha, small-size legibility, local routes and native decoding.\n  Update branding documentation, chapter, journal, issue/Project and push.\n\nAcceptance criteria:\n  Only the head is visible outside the README wordmark; no blue square remains.\n  Hair is purple and lips pink; README displays large artwork beside Verona.\n  Every current app/browser icon derives from the same transparent master.\n  Wordmark does not depend on network fonts or an installed end-user typeface.\n  Existing README speech hero and gallery remain unchanged.\n  No live head/manager restart, private data publication or release/tag rewrite.\n\nCompletion evidence:\n  Complete transparent1024px master; purple polygonal hair/pink lips.\n  Larger900px README lockup, light/dark1800x600sources and unmodified OFL1.1\n  Audiowide Regular; pinned upstream Git blobs/hashes and complete license.\n  Actual Electron decodes all seven ICO sizes16..256 plus both PNGs; visible\n  artwork/transparent corners/native hidden window pass. Ten guarded HTTP\n  tests and the existing desktop-host fixture pass. Opaque/empty input rejection,\n  exact derivative rebuild and byte-identical README hero/body pass.\n  GitHub's actual GFM header survives sanitization; Chromium selects correct\n  light/dark source at1100/390px with decoded/painted lettering and no overflow\n  or external requests. Representative wide-dark/narrow-light images reviewed.\n  Receipts: .local/qualification/transparent-branding-79.\n  No full GitHub-site CSS reproduction, manual taskbar acceptance, runtime\n  motion/performance rerun, independent owner approval or new edition claimed.\n\nCompletion log:\n  2026-11-22 - Owner requests transparent head, purple hair, pink lipstick,\n    a larger head-and-Verona README lockup, favicon/all icons and push.\n    Protect manager306384/owned head310488 and all sibling sessions.\n  2026-11-22 - Qualified isolated candidate before canonical asset promotion.\n    First hidden browser capture preceded final painting; disabled background\n    throttling and added frame/pixel readiness after observing the partial image.\n    All four final captures pass. The runtime keeps its loaded icons; no\n    automatic head/manager restart, executable patch or release rewrite.\n    Authorized source delivery uses the verified Zanark commit/push gate;\n    its exact remote commit/tree/parent receipt is written only on success.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T20:39:38.169534+00:00"
+  "verifiedAt": "2026-11-21T20:57:44.519002+00:00"
 }

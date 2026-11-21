@@ -78,6 +78,7 @@ vr-75 | 75_EYES_AND_AUDIBLE_IDLE.todo | DONE | Thirty tool-owned actions, coordi
 vr-76 | 76_SUPPLIED_YAWN_CORRECTION.todo | DONE | Open oval yawn, private voice-matched effects, rare automatic sound and hard20% idle cap; qualified and live
 vr-77 | 77_LIVING_HEAD_RELEASE.todo | DONE | Current documentation/installed skill and verified immutable v0.3.0 source delivery
 vr-78 | 78_SUPPLIED_SNEEZE_EFFECTS.todo | DONE | Private supplied sneezes/female1.7s tail correction, verified native playback and v0.3.1 source
+vr-79 | 79_TRANSPARENT_BRAND_IDENTITY.todo | DONE | Transparent purple-haired head, pink lips, Audiowide README lockup and qualified native/browser icons
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

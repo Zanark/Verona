@@ -223,8 +223,11 @@ inference or geometry upload. Disable it or set strength zero for model-only
 motion. Stopping resets the cue. Single emotions are explicit, not detected
 feelings, combinations or human-accepted articulation.
 
-The original cyan/coral logo appears in the manager, README, source-launched
-Electron windows and all browser favicons. Existing loaded windows need a
+The transparent purple-haired, pink-lipped cyan head appears in the manager,
+source-launched Electron windows and all browser favicons. The README pairs a
+larger head with the Audiowide Verona wordmark; both light/dark versions are
+pre-rendered, without external fonts. [Branding sources and rebuild](branding/README.md).
+Existing loaded windows can retain their old icons and need a
 deliberate restart to pick up source changes. The downloaded Electron
 executable and existing shell shortcuts are not rewritten.
 

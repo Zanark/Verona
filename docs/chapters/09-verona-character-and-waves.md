@@ -162,9 +162,23 @@ Historical media files and the existing motion demonstrations remain unchanged.
 
 ## An original identity across the local shell (vr-59)
 
-The cyan polygon face and coral mouth are original generated branding, not a
-model screenshot or an imported character. `scripts/build_branding.py` builds
-the 512px PNG, 32px favicon and seven-size Windows ICO from the preserved master.
+**Refreshed in vr-79.** The original cyan/coral/navy branding is superseded by the owner's
+revision: purple mesh hair, pink lips and the cyan face on real transparency.
+It is generated branding, not a model screenshot or an imported character.
+`scripts/build_branding.py:load_master` rejects opaque/empty inputs and preserves
+RGBA through the512px PNG,32px favicon and all seven Windows ICO sizes.
+Converting to RGB here would silently restore a solid rectangle, so the native
+regression decodes every ICO frame and checks visible art/transparent corners.
+
+The README adds a larger head beside **Verona** in Audiowide. Its squared
+curves connect the geometric mesh to a more fluid, voice-oriented identity;
+a waveform and short signature make that relationship explicit. The unmodified
+font and its SIL OFL1.1 license are vendored only for authoring.
+`build_branding.lockup` rasterizes it into light/dark transparent PNGs, avoiding
+GitHub font substitution, external font requests and illegible single-theme
+lettering. The actual speech hero/gallery stay unchanged.
+The [branding guide](../branding/README.md) records sources and regeneration.
+
 `desktop/main.cjs:start` supplies that ICO to `BrowserWindow` and sets Windows
 application identity `Zanark.Verona`. This brands source-launched windows; it
 does not patch the downloaded Electron executable or create an installer.

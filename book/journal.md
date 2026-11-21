@@ -5,6 +5,39 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Let the identity speak without a blue square (vr-79)
+
+The owner asks for the existing face-mesh identity to become a transparent
+head with purple hair and pink lips, and for large Verona lettering beside it.
+The revised generated artwork keeps the cyan facial topology but removes the
+navy background. Real RGBA alpha matters: converting the master to RGB during
+icon generation would silently undo the request. `load_master` now rejects
+opaque/empty artwork and filled corners before rebuilding any derivative.
+
+`scripts/build_branding.py:lockup` pairs the head with Audiowide Regular.
+Its squared curves echo geometry, while rounded forms and a small waveform
+connect the name to voice. This is an authored design choice, not an objective
+font ranking. The unmodified font, complete SIL OFL1.1 license, immutable
+upstream blobs and hashes stay together in `docs/branding/fonts`.
+Pre-rendered light/dark PNGs need no installed font or network request.
+The [branding guide](../docs/branding/README.md) shows and explains both marks.
+
+Actual Electron decodes every16..256px ICO frame plus the PNGs, preserving
+visible artwork and transparent corners. Ten guarded HTTP cases and the
+desktop-host fixture pass; derivative regeneration is exact and the README
+speech hero/gallery remain unchanged. GitHub's actual GFM-rendered header is
+checked in isolated Chromium at1100/390px in both themes: correct decoded
+source, painted lettering, no overflow and no external requests.
+The first hidden capture preceded complete painting; the observed image led
+to explicit compositor/pixel readiness rather than accepting a blank preview.
+Final wide-dark and narrow-light captures received representative visual review.
+
+The complete candidate is prepared separately before canonical asset promotion.
+Manager306384, head310488, settings and sibling sessions remain untouched.
+Existing windows may retain cached icons until a deliberate restart.
+No executable resources, releases, old book editions or private media change;
+this is not a new taskbar acceptance, runtime benchmark or owner approval.
+
 ## 2026-11-22 - Use the supplied sneezes, not synthetic substitutes (vr-78)
 
 The owner supplies female and male sneeze recordings after v0.3.0 delivery.

@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Transparent identity (vr-79):** [chapter09](chapters/09-verona-character-and-waves.md#an-original-identity-across-the-local-shell-vr-59)
+and the [branding guide](branding/README.md) explain the purple-haired,
+pink-lipped transparent head, licensed Audiowide lettering, larger light/dark
+README lockups and alpha-preserving PNG/ICO pipeline. No runtime model colors
+or already-running windows are changed.
+
 **v0.3.1 supplied sneeze effects:** [release notes](releases/v0.3.1.md) and
 [chapter11](chapters/11-autonomous-idle-life.md) explain the shared voice-style
 loader, four exact private routes and2.7s sneeze bound. Both yawn and sneeze
