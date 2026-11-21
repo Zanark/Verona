@@ -1,0 +1,47 @@
+ID: vr-56
+Title: Full-width borderless README gallery
+
+Status: DONE
+Milestone: Post-M1 gallery presentation
+Dependencies: vr-27, vr-55
+
+Purpose:
+  Fill the available GitHub README content width without table borders while
+  preserving paired previews, captions and the existing collapsed gallery.
+
+Tasks:
+  Replace all nine HTML tables with supported borderless image paragraphs.
+  Use adjacent50%-width paired images and100%-width former unpaired entries.
+  Preserve every image source, alt text, order, original file and product limit.
+  Check actual GitHub-sanitized markup and isolated responsive browser layout.
+  Update chapter/index/ledger, reconcile the original issue/Project and push.
+
+Acceptance criteria:
+  No table elements or table borders remain in the README.
+  Each former gallery row fills its content container, not the whole browser.
+  Fifteen pairs remain equally sized/top-aligned; two unpaired entries fill
+    their rows. Natural image proportions and all39images/38GIFs are retained.
+  Existing hero and one default-closed gallery disclosure remain intact.
+  No runtime/media/dependency/asset/release changes or owner-profile use.
+
+Completion evidence:
+  Actual GitHub REST GFM rendering preserves all39images/38GIFs, source order,
+    alt text and one default-closed disclosure; no table markup remains.
+  Actual isolated Edge with retained public GitHub CSS at1200/768/390px:
+    all15pairs equally sized/top-aligned and edge-to-edge within their row;
+    both former unpaired entries span100%. No image/link/paragraph borders,
+    horizontal overflow or distorted image proportions. All39images decode.
+  Wide heads/hairstyles and narrow heads/collapsed hero screenshots reviewed.
+    Fixture is a representative980px README container, not signed-in GitHub
+    chrome or permission to expand beyond GitHub's own content-column width.
+  Receipt .local\qualification\readme-borderless-01\layout-report-review.json.
+    Owned loopback allowlist server/browser stopped and disposable profile
+    removed. No runtime, model, media, dependency, release or device change.
+  Corrected README's remaining historical40-GIF count to the actual38.
+
+Completion log:
+  2026-11-21 - Owner requests full-width README tables and no visible borders.
+    GitHub strips custom CSS; actual GFM probe preserves adjacent50% images.
+  2026-11-21 - Replaced all nine bordered tables, preserved every media source
+    and caption meaning, and qualified the actual sanitized responsive layout.
+    Updated contributor contract, reading index, chapter and causal ledger.

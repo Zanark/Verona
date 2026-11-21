@@ -2051,3 +2051,24 @@ The new Claire-only generator separately builds and reimports an editable
 31 dated entries and 105 figure occurrences; every PDF page was reviewed and
 the actual Edge reader decoded all 105 images with working local navigation.
 These are technical/environmental checks, not approval of a new character.
+
+## Full-width gallery without GitHub table borders (vr-56)
+
+The owner wants the README previews to fill their content column without table
+lines. GitHub applies its own table styling and sanitizes author CSS, so adding
+`border="0"` or inline styles is not the solution. `README.md` instead uses
+centered paragraphs: adjacent `width="50%"` images occupy an entire paired row,
+and former unpaired gallery entries use `width="100%"`. Keeping each pair's
+image tags adjacent avoids an inline whitespace gap wrapping the second image.
+Labels and caption limits remain ordinary text, not baked into new media.
+
+All 39 image sources, alt texts and ordering remain unchanged: 38 GIFs and one
+PNG. The opening hero stays outside the single default-closed disclosure.
+Actual GitHub REST GFM HTML with retained public GitHub CSS qualifies all
+15 pairs and two full-width solos in isolated Edge at 1200, 768 and 390 pixels:
+equal top-aligned halves, edge-to-edge rows, natural aspect ratios, decoded
+images, no table elements, no image/link/paragraph borders and no horizontal
+overflow. Wide heads/hair and narrow heads/collapsed hero were visually reviewed.
+The fixture models a 980-pixel content container, not signed-in GitHub chrome;
+full width means the available README column, not the browser viewport.
+No application, media, model, dependency or release changes accompany this edit.

@@ -58,20 +58,22 @@ greeting, Happy0.6/4x source and small authored turns. Distinct solid mesh tints
 make the choices legible; other feature colors stay original. MPFB fits bounded
 native controls, so 4x source is not4x native deformation.
 
-<table width="100%">
-  <tr><th colspan="2">Original Claire</th></tr>
-  <tr><td colspan="2" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-claire.gif" alt="Original neural Claire speaking with a cyan mesh" width="360"></td></tr>
-  <tr><th width="50%">Native MPFB</th><th width="50%">Structural-reference Claire</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mpfb.gif" alt="Current magenta native MPFB head with bounded speech transfer" width="360"><br>Independent native topology; transferred speech, not a new neural model.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-reference-structure.gif" alt="Current orange structural-reference fit of Claire, experimental" width="360"><br>Experimental geometric fit, not an accepted likeness.</td>
-  </tr>
-  <tr><th width="50%">Historical subtle-reference</th><th width="50%">Male-SharpJawline</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-reference-shell.gif" alt="Preserved green subtle-reference Claire fit, historically rejected by the owner" width="360"><br>Historically rejected fit, retained for comparison.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-male-sharp.gif" alt="Current violet Male-SharpJawline sculpt speaking" width="360"><br>Preserved sculpt over Claire motion, not the native Mark identity.</td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Original Claire</strong><br>
+  <img src="docs/media/milestone-v0.1.0-claire.gif" alt="Original neural Claire speaking with a cyan mesh" width="100%">
+</p>
+
+<p align="center">
+  <strong>Native MPFB &middot; Structural-reference Claire</strong><br>
+  <img src="docs/media/milestone-v0.1.0-mpfb.gif" alt="Current magenta native MPFB head with bounded speech transfer" width="50%"><img src="docs/media/milestone-v0.1.0-reference-structure.gif" alt="Current orange structural-reference fit of Claire, experimental" width="50%"><br>
+  <sub>MPFB: independent native topology; transferred speech, not a new neural model.<br>Structural reference: experimental geometric fit, not an accepted likeness.</sub>
+</p>
+
+<p align="center">
+  <strong>Historical subtle-reference &middot; Male-SharpJawline</strong><br>
+  <img src="docs/media/milestone-v0.1.0-reference-shell.gif" alt="Preserved green subtle-reference Claire fit, historically rejected by the owner" width="50%"><img src="docs/media/milestone-v0.1.0-male-sharp.gif" alt="Current violet Male-SharpJawline sculpt speaking" width="50%"><br>
+  <sub>Subtle reference: historically rejected fit, retained for comparison.<br>Male-SharpJawline: preserved sculpt over Claire motion, not the native Mark identity.</sub>
+</p>
 
 ### A separate look at the actual Mark model
 
@@ -79,13 +81,10 @@ Mark v2.3 is **report-only, not a manager choice**. These paired
 shaded/wire studies show its own native-derived topology, rest turntable and
 neutral speech at native1x. They do not replace Claire or Male-SharpJawline.
 
-<table width="100%">
-  <tr><th width="50%">Mark rest turntable</th><th width="50%">Mark neutral greeting</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mark-turntable.gif" alt="Actual native Mark rest head rotating in shaded and wire views" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/milestone-v0.1.0-mark-neutral.gif" alt="Actual native Mark neutral speech in shaded and wire views" width="360"></td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Mark rest turntable &middot; Mark neutral greeting</strong><br>
+  <img src="docs/media/milestone-v0.1.0-mark-turntable.gif" alt="Actual native Mark rest head rotating in shaded and wire views" width="50%"><img src="docs/media/milestone-v0.1.0-mark-neutral.gif" alt="Actual native Mark neutral speech in shaded and wire views" width="50%">
+</p>
 
 ## Let a selected local agent session speak
 
@@ -154,33 +153,30 @@ Each individual loop below is 2.75 seconds.
   <img src="docs/media/emotion-neutral.gif" alt="Neutral speech baseline with glowing centers and bright red spokes" width="720">
 </p>
 
-<table>
-  <tr><th>Amazement</th><th>Anger</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-amazement.gif" alt="4x amazement" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-anger.gif" alt="4x anger" width="360"></td>
-  </tr>
-  <tr><th>Cheekiness</th><th>Disgust</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-cheekiness.gif" alt="4x cheekiness" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-disgust.gif" alt="4x disgust" width="360"></td>
-  </tr>
-  <tr><th>Fear</th><th>Grief</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-fear.gif" alt="4x fear" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-grief.gif" alt="4x grief" width="360"></td>
-  </tr>
-  <tr><th>Joy</th><th>Out of breath</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-joy.gif" alt="4x joy" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-outofbreath.gif" alt="4x out-of-breath facial conditioning" width="360"></td>
-  </tr>
-  <tr><th>Pain</th><th>Sadness</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-pain.gif" alt="4x pain" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/emotion-sadness.gif" alt="4x sadness" width="360"></td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Amazement &middot; Anger</strong><br>
+  <img src="docs/media/emotion-amazement.gif" alt="4x amazement" width="50%"><img src="docs/media/emotion-anger.gif" alt="4x anger" width="50%">
+</p>
+
+<p align="center">
+  <strong>Cheekiness &middot; Disgust</strong><br>
+  <img src="docs/media/emotion-cheekiness.gif" alt="4x cheekiness" width="50%"><img src="docs/media/emotion-disgust.gif" alt="4x disgust" width="50%">
+</p>
+
+<p align="center">
+  <strong>Fear &middot; Grief</strong><br>
+  <img src="docs/media/emotion-fear.gif" alt="4x fear" width="50%"><img src="docs/media/emotion-grief.gif" alt="4x grief" width="50%">
+</p>
+
+<p align="center">
+  <strong>Joy &middot; Out of breath</strong><br>
+  <img src="docs/media/emotion-joy.gif" alt="4x joy" width="50%"><img src="docs/media/emotion-outofbreath.gif" alt="4x out-of-breath facial conditioning" width="50%">
+</p>
+
+<p align="center">
+  <strong>Pain &middot; Sadness</strong><br>
+  <img src="docs/media/emotion-pain.gif" alt="4x pain" width="50%"><img src="docs/media/emotion-sadness.gif" alt="4x sadness" width="50%">
+</p>
 
 Neutral speech is not amplified; the ten emotions use strength **0.6**.
 Strong anger/pain lids naturally cover the pupil centers; light does not shine
@@ -239,13 +235,10 @@ These previews select **Reference color + makeup**, **Full bust** and **80% zoom
 to reveal the complete hair. The app still starts with the original
 waves and cool **Transparent polygons**.
 
-<table width="100%">
-  <tr><th width="50%" align="center">Claire waves (original)</th><th width="50%" align="center">Spiral curls</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-hair-claire.gif" alt="Current Claire waves original hairstyle rotating from front to both sides" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-hair-curls.gif" alt="Current Spiral curls with all 48 locks turning from the front to both sides" width="360"></td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Claire waves (original) &middot; Spiral curls</strong><br>
+  <img src="docs/media/gallery-vr36-hair-claire.gif" alt="Current Claire waves original hairstyle rotating from front to both sides" width="50%"><img src="docs/media/gallery-vr36-hair-curls.gif" alt="Current Spiral curls with all 48 locks turning from the front to both sides" width="50%">
+</p>
 
 **One speech system, two hairstyles.** Spiral curls now have **48 locks instead
 of 24**, keeping the same per-lock detail. The other nine styles and their
@@ -262,18 +255,17 @@ switching back restores the original Claire geometry.
 
 Change **View** without restarting or regenerating the current clip.
 
-<table width="100%">
-  <tr><th width="50%" align="center">Claire</th><th width="50%" align="center">FaceMesh</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-claire.gif" alt="Current Claire reference color and makeup presentation turning over a paused 4x-expression speech pose" width="360"><br>Original head, optional hair, cool contours or reference color/makeup.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-facemesh.gif" alt="Current FaceMesh triangular facial mask with glowing centers and bright red spokes turning in 3D" width="360"><br>Front face only, mechanical red eyes. Optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</td>
-  </tr>
-  <tr><th width="50%" align="center">FaceDot</th><th width="50%" align="center">UniformPolygons</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-facedot.gif" alt="Current FaceDot visible-surface dots turning with ears and jaw" width="360"><br>Dots on face, ears, eyes and neck; no connecting lines. Optional dotted hair, off here.</td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-view-uniform.gif" alt="Current UniformPolygons rectangular surface grid turning with the face" width="360"><br>Rectangular surface-grid outlines on face, ears, eyes and neck. Optional grid hair, off here.</td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Claire &middot; FaceMesh</strong><br>
+  <img src="docs/media/gallery-vr36-view-claire.gif" alt="Current Claire reference color and makeup presentation turning over a paused 4x-expression speech pose" width="50%"><img src="docs/media/gallery-vr36-view-facemesh.gif" alt="Current FaceMesh triangular facial mask with glowing centers and bright red spokes turning in 3D" width="50%"><br>
+  <sub>Claire: original head, optional hair, cool contours or reference color/makeup.<br>FaceMesh: front face only, mechanical red eyes, optional triangle-edge hair. <b>Mesh detail 1-5</b>, native face detail at 5.</sub>
+</p>
+
+<p align="center">
+  <strong>FaceDot &middot; UniformPolygons</strong><br>
+  <img src="docs/media/gallery-vr36-view-facedot.gif" alt="Current FaceDot visible-surface dots turning with ears and jaw" width="50%"><img src="docs/media/gallery-vr36-view-uniform.gif" alt="Current UniformPolygons rectangular surface grid turning with the face" width="50%"><br>
+  <sub>FaceDot: dots on face, ears, eyes and neck; no connecting lines. Optional dotted hair, off here.<br>UniformPolygons: rectangular surface-grid outlines on face, ears, eyes and neck. Optional grid hair, off here.</sub>
+</p>
 
 These previews manually turn a paused generated pose. All four views share
 the same Claire skin and one audio clock. Grid cells follow the curved
@@ -284,15 +276,15 @@ the app's unchanged defaults are **1x / 0%**.
 
 ### Hair follows the head's format
 
-<table width="100%">
-  <tr><th width="50%" align="center">Triangle-edge curls</th><th width="50%" align="center">Dotted curls</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-facemesh.gif" alt="Current optional 48-lock curls drawn as triangle edges around the bright-spokes FaceMesh mask" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-facedot.gif" alt="Current optional Spiral curls drawn as depth-occluded surface dots matching FaceDot" width="360"></td>
-  </tr>
-  <tr><th colspan="2" align="center">Surface-grid curls</th></tr>
-  <tr><td colspan="2" align="center" valign="top"><img src="docs/media/gallery-vr36-matching-uniform.gif" alt="Current optional Spiral curls following UniformPolygons' curved rectangular grid format" width="360"></td></tr>
-</table>
+<p align="center">
+  <strong>Triangle-edge curls &middot; Dotted curls</strong><br>
+  <img src="docs/media/gallery-vr36-matching-facemesh.gif" alt="Current optional 48-lock curls drawn as triangle edges around the bright-spokes FaceMesh mask" width="50%"><img src="docs/media/gallery-vr36-matching-facedot.gif" alt="Current optional Spiral curls drawn as depth-occluded surface dots matching FaceDot" width="50%">
+</p>
+
+<p align="center">
+  <strong>Surface-grid curls</strong><br>
+  <img src="docs/media/gallery-vr36-matching-uniform.gif" alt="Current optional Spiral curls following UniformPolygons' curved rectangular grid format" width="100%">
+</p>
 
 Hair is **off by default outside Claire**. Enable it when you want it.
 The same shared hairstyle follows each view's wire,
@@ -300,13 +292,10 @@ dots or grid without regenerating the speech.
 
 ### More dots. More cells. More space.
 
-<table width="100%">
-  <tr><th width="50%" align="center">FaceDot density and gap</th><th width="50%" align="center">UniformPolygons density and gap</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-pattern-facedot.gif" alt="Current FaceDot stepping through sparse and dense dots and increasing cell gaps" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-pattern-uniform.gif" alt="Current UniformPolygons stepping through sparse and dense grids and increasing cell gaps" width="360"></td>
-  </tr>
-</table>
+<p align="center">
+  <strong>FaceDot density and gap &middot; UniformPolygons density and gap</strong><br>
+  <img src="docs/media/gallery-vr36-pattern-facedot.gif" alt="Current FaceDot stepping through sparse and dense dots and increasing cell gaps" width="50%"><img src="docs/media/gallery-vr36-pattern-uniform.gif" alt="Current UniformPolygons stepping through sparse and dense grids and increasing cell gaps" width="50%">
+</p>
 
 **Pattern density: 0.5x-3x. Cell gap: 0-80%.** Density changes the spacing and
 number of surface samples; gap separates their visible marks. Each view retains
@@ -317,13 +306,10 @@ not new neural vertices, exact dot counts or performance measurements.
 
 Enable **Follow cursor**, then select **Cursor mode**.
 
-<table width="100%">
-  <tr><th width="50%" align="center">Eyes follow cursor</th><th width="50%" align="center">Head follows cursor (eyes centered)</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-cursor-eyes.gif" alt="Current glowing irises following synthetic pointer positions while the head stays oriented" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-cursor-head.gif" alt="Current bright-spokes head aiming at synthetic pointer positions while the irises remain centered" width="360"></td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Eyes follow cursor &middot; Head follows cursor (eyes centered)</strong><br>
+  <img src="docs/media/gallery-vr36-cursor-eyes.gif" alt="Current glowing irises following synthetic pointer positions while the head stays oriented" width="50%"><img src="docs/media/gallery-vr36-cursor-head.gif" alt="Current bright-spokes head aiming at synthetic pointer positions while the irises remain centered" width="50%">
+</p>
 
 X/Y/Z remain manual orientation offsets. Tracking is bounded procedural aiming,
 not calibrated 3D gaze or learned eye joints. These captures use synthetic pointer
@@ -350,13 +336,10 @@ captures over an opaque dark composite. It is not a recording of desktop
 dragging, OS pinning or speech; independent native pinning was qualified
 separately. The glass effect styles Verona's own web content.
 
-<table width="100%">
-  <tr><th width="50%" align="center">Decide how much neck is visible</th><th width="50%" align="center">Zoom in and out</th></tr>
-  <tr>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-jawline.gif" alt="Current visible neck control stepping through jawline-only and longer curved neck crops" width="360"></td>
-    <td width="50%" align="center" valign="top"><img src="docs/media/gallery-vr36-zoom.gif" alt="Current bright-spokes FaceMesh zooming between smaller and larger sizes" width="360"></td>
-  </tr>
-</table>
+<p align="center">
+  <strong>Decide how much neck is visible &middot; Zoom in and out</strong><br>
+  <img src="docs/media/gallery-vr36-jawline.gif" alt="Current visible neck control stepping through jawline-only and longer curved neck crops" width="50%"><img src="docs/media/gallery-vr36-zoom.gif" alt="Current bright-spokes FaceMesh zooming between smaller and larger sizes" width="50%">
+</p>
 
 **Framing -> Head and neck -> Visible neck** previews a curved jaw-following cut:
 **0-6 cm**, default **1.7 cm**. Full bust restores the complete original geometry.
@@ -405,7 +388,7 @@ No private transcripts, reference sheets, model assets or voice recordings are
 included in the gallery.
 The stronger sideways-cheekiness comparison remains a **report-only proposal**,
 not the expression shown throughout this release. No broader approval is implied.
-The 40 GIFs are deliberately media-heavy, especially the large captioned
+The 38 GIFs are deliberately media-heavy, especially the large captioned
 intro; loading may take a moment on slower connections.
 
 [Engineering book](docs/README.md) &middot; [Third-party terms](THIRD_PARTY.md)

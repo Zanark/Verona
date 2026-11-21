@@ -1,6 +1,26 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-21 - vr-56 full-width README gallery without table borders
+Cause: owner wants gallery tables to occupy the complete README content width
+with no visible borders. A width attribute alone cannot remove GitHub's table
+CSS; author styles are sanitized. Do not pretend border=0 is a reliable fix.
+Action: replace all9tables with centered image paragraphs. Two adjacent50%
+images fill a paired row without inline whitespace wrapping; former unpaired
+entries use100%. Preserve39sources/alts/order,38originalGIFs/onePNG, captions,
+hero and single closed disclosure; fix the stale40-GIF inventory to38.
+Evidence: actual authenticated GitHub GFM HTML plus retained public GitHub CSS
+in isolated Edge at1200/768/390px:15equal/top-aligned/edge-to-edgepairs,
+2full-widthsolos,0tableelements/0image-anchor-rowborders/nohorizontaloverflow,
+naturalaspect/all39imagesdecoded. Wide heads/hair and narrow heads/collapsed
+hero captures reviewed. Bounded settled screenshots replace an unreadable
+unbounded first closed-page capture; source media is not recaptured.
+Limits:980px representative content container, not signed-in GitHub chrome or
+authority to expand GitHub's outer page column. No runtime/media/model/tools/
+release changes or owner-profile use. Owned server/browser stopped/profile
+removed. Update contributor contract, reading index/chapter and original
+workstream tracking; Git/source publication remains independently verifiable.
+
 2026-11-21 - vr-55 retire both rejected armored creations, preserve Claire
 Cause: owner explicitly rejects the created Optimus-inspired character and
 requests deletion everywhere. Covers both procedural app head and new Blender

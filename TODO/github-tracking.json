@@ -710,7 +710,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-56": {
+      "source": "TODO/56_BORDERLESS_README.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhNSx5g",
+      "number": 55,
+      "url": "https://github.com/Zanark/Verona/issues/55",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKomZ8",
+      "title": "Full-width borderless README gallery",
+      "managedBody": "\n<!-- verona-workstream:vr-56 -->\nWorkstream source: `TODO/56_BORDERLESS_README.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-56\nTitle: Full-width borderless README gallery\n\nStatus: DONE\nMilestone: Post-M1 gallery presentation\nDependencies: vr-27, vr-55\n\nPurpose:\n  Fill the available GitHub README content width without table borders while\n  preserving paired previews, captions and the existing collapsed gallery.\n\nTasks:\n  Replace all nine HTML tables with supported borderless image paragraphs.\n  Use adjacent50%-width paired images and100%-width former unpaired entries.\n  Preserve every image source, alt text, order, original file and product limit.\n  Check actual GitHub-sanitized markup and isolated responsive browser layout.\n  Update chapter/index/ledger, reconcile the original issue/Project and push.\n\nAcceptance criteria:\n  No table elements or table borders remain in the README.\n  Each former gallery row fills its content container, not the whole browser.\n  Fifteen pairs remain equally sized/top-aligned; two unpaired entries fill\n    their rows. Natural image proportions and all39images/38GIFs are retained.\n  Existing hero and one default-closed gallery disclosure remain intact.\n  No runtime/media/dependency/asset/release changes or owner-profile use.\n\nCompletion evidence:\n  Actual GitHub REST GFM rendering preserves all39images/38GIFs, source order,\n    alt text and one default-closed disclosure; no table markup remains.\n  Actual isolated Edge with retained public GitHub CSS at1200/768/390px:\n    all15pairs equally sized/top-aligned and edge-to-edge within their row;\n    both former unpaired entries span100%. No image/link/paragraph borders,\n    horizontal overflow or distorted image proportions. All39images decode.\n  Wide heads/hairstyles and narrow heads/collapsed hero screenshots reviewed.\n    Fixture is a representative980px README container, not signed-in GitHub\n    chrome or permission to expand beyond GitHub's own content-column width.\n  Receipt .local\\qualification\\readme-borderless-01\\layout-report-review.json.\n    Owned loopback allowlist server/browser stopped and disposable profile\n    removed. No runtime, model, media, dependency, release or device change.\n  Corrected README's remaining historical40-GIF count to the actual38.\n\nCompletion log:\n  2026-11-21 - Owner requests full-width README tables and no visible borders.\n    GitHub strips custom CSS; actual GFM probe preserves adjacent50% images.\n  2026-11-21 - Replaced all nine bordered tables, preserved every media source\n    and caption meaning, and qualified the actual sanitized responsive layout.\n    Updated contributor contract, reading index, chapter and causal ledger.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-21T02:16:32.753357+00:00"
+  "verifiedAt": "2026-11-21T02:39:27.882782+00:00"
 }

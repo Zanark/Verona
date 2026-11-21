@@ -122,9 +122,11 @@ book/manifest.json explicitly orders the book source allowlist. Follow
 book/README.md before implementing a render pipeline or producing an edition.
 Explain mechanisms and tradeoffs, not just file inventories. Keep algorithms
 and design principles identifiable as the implementation grows.
-Keep the README GIF-heavy and showcase every hairstyle. Center every GIF that
-is alone on its row; an unpaired table GIF spans both columns. Paired previews
-use equal-width centered cells and the same image width, with natural aspect ratio.
+Keep the README GIF-heavy and showcase every hairstyle. Gallery rows must fill
+the README content width without table borders: use centered paragraphs, two
+adjacent50%-width images per pair and100% for unpaired gallery entries. Do not
+reintroduce HTML tables or rely on author CSS that GitHub strips. Preserve
+natural aspect ratios and center standalone GIFs.
 The owner's eye-review pause was explicitly lifted after their approval.
 The current huge front-facing red-eye speech GIF comes FIRST,
 before even the title. All other README content lives inside one details
