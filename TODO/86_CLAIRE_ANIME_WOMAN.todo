@@ -2,7 +2,7 @@ ID: vr-86
 GitHub issue: https://github.com/Zanark/Verona/issues/85
 Title: Research and implement a distinct Claire-based anime woman
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Illustrated research followed by a separate original Akari candidate
 Dependencies: vr-81, vr-84, vr-85
 
@@ -29,9 +29,27 @@ Acceptance criteria:
   Clear distinction between implemented review candidate and owner acceptance.
 
 Completion evidence:
-  Research authored with primary sources and two licensed reference images.
-  Implementation and isolated visual qualification pending.
+  Five-iteration research and two licensed reference images committed as
+    0aa5105 before implementation; docs/research/claire-anime-woman.md.
+  scripts/anime_claire.py maps complete poses and constructs original optics/
+    bob plus fitted moving detail; original skin indices remain unchanged.
+  Actual all-state comparison: .local/reports/akari-anime-review-20261122/
+    index.html; research reader: .local/reports/claire-anime-research-20261122/
+    index.html. Three silent GIFs each32500ms, all260source times verified.
+  All121CPU tests pass; sampled real-pose Jacobians0.402..0.429,1785neck
+    vertices exact. Shared GPU lip-guide symmetry <=1/255 across6profiles;
+    zero transparent neutral-mouth pixels, zero teal pixels at full blink.
+  Final-source780PNG files exact; existing Elara60PNGs byte-exact. Edge all
+    GIFs/lip image, bounded playback/reduced motion,1280/430, zero errors/network.
+  Actual images/lip crops agent-inspected, earlier iterations retained.
+  Review-only implementation, no owner selection/phonetic/listening acceptance;
+    no production manager integration. Existing catalogs/live app preserved.
 
 Completion log:
   2026-11-22 - Owner asks for deep research/document with reference images,
     then implementation, with no questions while AFK.
+  2026-11-22 - Research milestone committed before coding. First toon/lip
+    render retained; continuous lip guide and softened skin fix patchiness.
+    Relaxed steep orbital falloff; preserved exact old shader after RGB drift.
+  2026-11-22 - Owner reiterates lip symmetry; qualify actual shared GPU guide,
+    every motion sample and all-state lip close-ups. Separate review complete.

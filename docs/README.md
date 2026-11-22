@@ -2,8 +2,10 @@
 
 **Anime-woman research (vr-86):** [Akari's illustrated design investigation](research/claire-anime-woman.md)
 compares same-topology sculpting, independent rigs, eye/lash construction,
-hair guides, toon shading and rights. Research is complete; the separate
-original Claire-based candidate is being implemented, not yet accepted.
+hair guides, toon shading and rights. The separate original Claire-based
+candidate and three-GIF comparison are implemented and technically qualified;
+[chapter 09](chapters/09-verona-character-and-waves.md) records mechanisms,
+lip symmetry checks and limits. Owner acceptance remains open.
 
 **Elara eye details (vr-85):** [chapter09](chapters/09-verona-character-and-waves.md#add-eye-detail-without-refitting-the-face-vr-85)
 explains raised tapered brows, upper-lid contours and outer lashes, projected

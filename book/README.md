@@ -2,6 +2,13 @@
 
 ## Current deliverable
 
+The vr-86 [living-journal entry](journal.md) follows the illustrated
+[anime-woman research](../docs/research/claire-anime-woman.md) into the original
+Akari candidate: coordinated same-topology skin, layered eyes, bound lashes/
+brows, swept bob, continuous symmetric lipstick and a three-GIF local review.
+Research was committed before implementation. This is a separate review study,
+not a production installation or a newly rendered/frozen book edition.
+
 The vr-85 [living-journal entry](journal.md) adds Elara-only raised brows and
 upper lashes, exact original-geometry preservation and unchanged other-head
 media in the existing local GLB review. It does not update a frozen edition.

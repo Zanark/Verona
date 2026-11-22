@@ -5,6 +5,43 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Research a whole anime face before building Akari (vr-86)
+
+The request is coordinated eyes, chin, cheeks, lashes and hairstyle, not another
+Elara repaint. Five research iterations and two credited reference images
+precede implementation, preserved in research commit `0aa5105`. The selected
+same-topology route retains Claire speech correspondence without claiming a
+new trained identity or copying an external avatar.
+
+Akari combines a smooth complete-pose proportion map, original teal eye layers,
+skin-attached raised detail and a swept violet bob/fringe/face locks. The first
+render reveals fragmented toon skin shadows and coarse lip paint; soft skin
+lighting and the existing continuous rest-space lip shader replace them.
+A steep orbital falloff is also relaxed to avoid local folding. Sampled actual
+pose Jacobians remain positive; this is bounded evidence, not universal proof.
+
+The owner explicitly repeats that lipstick must stay accurate and symmetric.
+Shared-GPU guide tests cover six native profiles within 1/255 mirror difference.
+Neutral lip contact remains opaque, only wide openings clear, and actual lip
+close-ups cover every phrase. Expressions and perspective are not forcibly
+mirrored. The inner transparent rim remains visibly low-polygon, not a new
+oral rig. A complete cosmetic blink clips iris layers together; clay honestly
+reveals the inherited skin folds.
+
+Three local GIFs compare finished Akari, clay/no hair and original Claire skin
+with shared eye/detail aids. All retain 32.5 seconds and every encoded source
+time: rest/turn/blink, neutral and ten emotions. An early generic shader changes
+old clay rounding; preserving the exact legacy branch restores all 60 Elara
+PNGs byte-for-byte. Final-source captures reproduce all 780 comparison PNGs.
+All 121 CPU tests pass; Edge checks every GIF, bounded playback, reduced motion,
+mobile layout and zero errors/external requests. No independent listening.
+
+The reports stay separate from both existing catalogs. Earlier iterations,
+startup failure and rounding-regression receipts are retained; NEW outputs and
+disposable profiles isolate qualification. The live manager/head and all frozen
+editions remain unchanged. Review implementation is complete; owner visual
+selection, anatomical/phonetic acceptance and production integration are not.
+
 ## 2026-11-22 - Elara gets raised brows and upper lashes (vr-85)
 
 The owner supplies a clay-model eye reference, not a request for a new face.

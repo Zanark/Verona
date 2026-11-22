@@ -1,5 +1,123 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Build a coordinated anime identity, not just larger irises (vr-86)
+
+The owner asks for a new Claire-based anime woman across eyes, chin, cheeks,
+lashes and hairstyle, explicitly requiring deep research and an illustrated
+document first. The five-iteration [research document](../research/claire-anime-woman.md)
+compares primary VRoid face/hair/expression guidance, VRM expression conflicts,
+toon shading, alternative rigs and reuse rights. Two credited reference images
+illustrate graphic simplification and coordinated 3D stylization; neither
+supplies geometry, textures or a copied character identity. Research commit
+`0aa5105` precedes all implementation. VRoid's guidelines direct fetch returned
+403; only that source's search-index extract was available, explicitly noted.
+
+The original review identity is **Akari**, an authored adult anime-woman
+direction, not an anatomical classification or owner-approved result.
+`scripts/anime_claire.py:anime_warp` maps both rest and complete posed skin:
+the lower jaw narrows toward a rounded V chin, the lower face lifts, upper
+cheeks soften, nose projection reduces and orbital openings enlarge. The map
+keeps original skin vertex IDs/triangles; it does not retrain Claire's PCA.
+The first steep sixth-power orbital transition risks local folding. The final
+vertical Gaussian/fourth-power horizontal envelope enlarges the core while
+bounding the falloff derivative. A sampled Jacobian regression rejects folding;
+five real-pose checks find minimum determinants 0.402-0.429, not a proof over
+every possible input. Rest skin moves at most 1.722 cm. All 1,785 skin vertices
+below 132 cm remain byte-exact in the exported comparison.
+
+```mermaid
+flowchart TD
+    R["Pinned Claire rest skin and original triangles"] --> W["Smooth complete-pose anime map"]
+    C["Hash-verified same-audio neutral and ten emotions"] --> H["Neutral + half emotion-minus-neutral"]
+    H --> B["Optional explicit cosmetic blink field"]
+    R --> B
+    B --> D["Exact skin-attached brow and lash displacement"]
+    D --> W
+    E["Original ellipsoid optics, teal irises and glints"] --> W
+    P["Original swept violet bob and fringe guides"] --> W
+    W --> V["Isolated WebGL: skin-space cosmetics and optical clipping"]
+    V --> G["Finished, clay/no-hair and original-skin comparison GIFs"]
+    classDef node fill:#192a40,stroke:#ac91e0,color:#edf2ff;
+    class R,W,C,H,B,D,E,P,V,G node;
+```
+
+`eye_optics` adds curved teal irises, dark pupils and two highlights per eye
+over Claire's cosmetic ellipsoids. `assemble` reuses the fitted
+`elara_eye_details` construction on actual Claire skin: support is checked,
+maximum attachment is 0.383 cm, and convex triangle displacement precedes the
+same structural map. `anime_hair` authors a scalp shell, 24 layered bob locks,
+nine fringe locks and two face-framing locks with closed swept sections.
+Its scale fits outside the actual upper skull. This is rigid original geometry,
+not the earlier loose waves, a downloaded avatar or spring-bone simulation.
+Finished counts are 29,529 vertices / 57,850 triangles, including the unchanged
+15,375-vertex / 30,746-triangle skin correspondence.
+
+### Lip symmetry is a continuous surface guide, not coarse vertex paint
+
+The first capture exposes hard patchy skin shadows and asymmetric-looking
+per-vertex lip clipping. It is retained rather than delivered. The final
+colored branch in `scripts/capture_glb_head_review.cjs` uses original Claire
+coordinates as the skin material payload. These coordinates interpolate over
+the animated triangles; the existing `FACIAL_FEATURE_GLSL:lipstick` evaluates
+continuous mirrored upper/lower Hermite curves per fragment. A single
+conservative front plane avoids clipping one native side differently.
+Skin uses soft lighting, hair uses a simple stepped shade, and optics are
+unlit. The material tag is not output transparency or an MToon implementation.
+
+The owner reiterates accurate symmetric lipstick during this work. An actual
+GPU test of the shared shader covers all six native profiles: reflected
+rest-space coverage differs by at most 1/255 from floating-point/raster
+quantization. This verifies the symmetric guide, not perfect anatomical fit,
+mirrored expressive anatomy or symmetric projection from an angled camera.
+Actual close-ups cover rest and the widest sampled mouth in every phrase.
+The same stored skin coordinates are reused through all poses, rather than a
+screen-space oval drifting over the mouth.
+
+`mouthShape`/`sampleMouthOpening` retain the shared 0.65 cm neutral-relative
+wide-only gate. Akari has 51 wide-cutout samples in 260; the neutral inner
+mouth crop contains zero transparent pixels. The inner aperture still follows
+low-polygon native rim geometry and can show angular edges: this is a display
+approximation, not retopologized oral contact. No opaque black cavity is added.
+`blink_skin` adapts the existing cosmetic lid field before mapping; attached
+lashes follow it, while all optical layers clip together. The explicit closed
+blink has zero teal iris pixels versus 1,837 at rest in the measured crop.
+It is not a new learned eyelid rig; inherited folds remain visible in clay.
+
+### Evidence, isolation and reproducibility
+
+`scripts/build_anime_claire_study.py:build` rejects a changed pinned rest hash
+or mismatched archived motion/audio metadata. It reuses synthetic Hazel
+trajectories, not fresh inference: `neutral + .5*(emotion-neutral)` reduces
+only the archived 4x emotion component to 2x. The timeline samples every
+2.75-second phrase at 8 fps, after rest/turn and deliberate blink.
+`scripts/render_anime_claire_report.py:render` encodes three silent 32.5-second
+GIFs, each with 260 source samples / 196 unique source frames. It decodes and
+compares every source time, permitting identical rests to merge into 201
+encoded frames without dropping duration. There is no independent listening
+or phonetic acceptance claim.
+
+The colored capture extension initially changes legacy clay rounding by up
+to 7/255. Restoring the exact old vertex/fragment strings as an explicit
+uncolored branch fixes it: all 60 existing Elara PNGs are byte-identical.
+Final-source captures also reproduce all 780 new comparison PNGs exactly.
+All 121 CPU tests pass. Installed Edge verifies all three GIF loads,
+one-at-a-time/reduced-motion behavior, 1280/430 layouts, the lip close-up image
+and zero page errors/external requests. Agent inspection covers real reference,
+rest, clay, expression, turn, closed-blink and wide-mouth images.
+
+Review paths are `.local\reports\claire-anime-research-20261122\index.html`
+and `.local\reports\akari-anime-review-20261122\index.html`; qualification is
+under `.local\qualification\anime-claire-86`. Earlier iterations and failed
+receipts survive. Builders/captures create NEW directories: interruption leaves
+a partial candidate, not an existing-report replacement; restart with a fresh
+name. Capture has a five-minute deadline and exact loopback asset allowlist.
+Qualification uses private disposable profiles, no live app cache/settings
+and no camera/microphone. A relative-path capture startup produced no frames;
+absolute paths/explicit working directory recovered without driving the live
+app. Existing six-head catalogs, manager/head and frozen books are unchanged.
+Akari is a separate implemented review study, not a production manager option,
+owner selection, universal accuracy claim, release or deployment.
+
 ## Add eye detail without refitting the face (vr-85)
 
 The owner's clay reference requests Elara-only raised eyebrows and upper lashes.

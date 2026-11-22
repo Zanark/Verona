@@ -1,6 +1,20 @@
 # Verona product brief
 
-Latest bounded experiment (vr-82): the owner supplies three new static GLBs
+Latest bounded experiment (vr-86): the owner requests deep research with
+reference images before implementing a new Claire-based anime woman across
+eyes, chin, cheeks, lashes and hairstyle. The illustrated research precedes
+the original Akari study: coordinated complete-pose geometry, teal layered
+eyes, moving brows/lashes and an original violet bob. Separate finished,
+clay/no-hair and original-skin comparison GIFs cover neutral plus all ten
+emotions, turns and a deliberate blink. Continuous mirrored rest-space lip
+guides follow speech; only wide openings reveal the background.
+See `docs\research\claire-anime-woman.md`, chapter09 and the local
+`.local\reports\akari-anime-review-20261122\index.html`.
+This is an implemented review candidate, not a production manager option,
+new learned rig, independent listening/phonetic acceptance or owner selection.
+Claire, earlier reviews and the running app remain unchanged.
+
+Earlier bounded experiment (vr-82): the owner supplies three new static GLBs
 and requests six candidates before selecting a subset. Original-base
 Lyra/Mira/Neris retain source geometry under Claire-driven geometric motion;
 Claire-base Elara/Selene/Thalia blend each source's registered structure into
