@@ -1,0 +1,37 @@
+ID: vr-83
+GitHub issue: https://github.com/Zanark/Verona/issues/82
+Title: Refresh the original six-model GIF review after facial feedback
+
+Status: IN_PROGRESS
+Milestone: Continue owner review at the existing report path
+Dependencies: vr-81, vr-82, vr-84
+
+Purpose:
+  Update the existing six-model review with current native cosmetics, mouth
+  transparency and Rowan emotion behavior without changing review identities.
+  Owner explicitly keeps the six GLB experiments in their separate report.
+
+Tasks:
+  Preserve the previous report and protect the active manager/head.
+  Recapture all original six models in full-head and face-only views.
+  Verify archived synthetic motion and explicitly halve Rowan-only emotion.
+  Encode complete neutral/all-ten-emotion timelines and inspect fresh frames.
+  Record Aster as Female; preserve all other unassigned genders.
+  Qualify all twelve GIFs and bounded report playback before same-path switch.
+  Update documentation, tracking, causal ledger and owned continuity.
+
+Acceptance criteria:
+  Same report path, six identities, twelve actual animated GIFs.
+  Current lip guides, wide-only transparent mouths, closed neutral lips,
+    Rowan eyelids and half emotions.
+  No inferred gender, GLB integration, new inference or audio playback.
+  Failed captures remain visible; old report survives a failed refresh.
+  Existing animation report remains untouched. GLB refresh and owned live
+    replacement belong to the separate priority vr-84 fix, not this capture.
+
+Completion evidence:
+  Pending capture, encoding and qualified same-path promotion.
+
+Completion log:
+  2026-11-22 - Owner requests the existing model GIF report be updated so
+    review can continue. Clarifies original six only; GLBs remain separate.

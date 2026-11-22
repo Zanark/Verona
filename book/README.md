@@ -20,6 +20,10 @@ The vr-82 entry adds six supplied-GLB review candidates, preserved native versus
 Claire topology, bounded exact attachment, fitting-only neck closure and a
 six-GIF local comparison. Source licensing and unresolved visual/rigging
 limitations remain explicit; it is not a new edition or manager installation.
+The vr-84 entry corrects neutral lip erasure, separates outer-lip tracking
+from folded inner rims, records rejected seals and explains the wide-opening
+gate. The separate six-GLB report is refreshed without changing its geometry;
+the original report backup and frozen editions remain intact.
 
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:

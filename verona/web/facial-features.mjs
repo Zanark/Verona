@@ -23,7 +23,7 @@ export function facialProfile(model) {
   return profile;
 }
 
-export function mouthAperture(positions, meta, profile) {
+export function mouthShape(positions, meta, profile) {
   const [cx, cy, width] = profile.mouth, halfWidth = width-.3;
   const candidates = [];
   for (let i=0; i<positions.length; i+=3) {
@@ -37,13 +37,14 @@ export function mouthAperture(positions, meta, profile) {
     const rim = [];
     for (let n=0;n<=40;n++) {
     const x=n/20-1, t=x*x;
-    const target=[cx+x*halfWidth, (cy+(upper?.10:-.15))*(1-t)+profile.upper[4]*t,
-      profile.depth[0]*(1-t)+profile.depth[1]*t+.25];
+    const target=[cx+x*halfWidth, (cy+(upper?.45:-.35))*(1-t)+profile.upper[4]*t,
+      profile.depth[0]*(1-t)+profile.depth[1]*t+.5];
     let best=null, distance=Infinity;
     for (const point of candidates) {
       const local=Math.min(1,Math.abs((point.p[0]-cx)/halfWidth));
       const seam=cy*(1-local*local)+profile.upper[4]*local*local;
-      if(upper ? point.p[1]<seam : point.p[1]>seam)continue;
+      const clearance=(1-local*local)*(upper?.2:-.15);
+      if(upper ? point.p[1]<seam+clearance : point.p[1]>seam+clearance)continue;
       const delta=point.p.map((v,axis)=>v-target[axis]);
       const d=4*delta[0]*delta[0]+4*delta[1]*delta[1]+delta[2]*delta[2];
       if(d<distance){best=point.id;distance=d;}
@@ -63,8 +64,38 @@ export function mouthAperture(positions, meta, profile) {
     triangles.push(...face);
   }
   if(!triangles.length)throw new Error("The native lip rim cannot form a mouth aperture.");
-  return Uint32Array.from(triangles);
+  // Outer lip tracks avoid lower-lip folds that curl above the resting seam.
+  const pairs = Uint32Array.from([-.4,-.2,0,.2,.4].flatMap(x => [true,false].map(upper => {
+    const target=[cx+x*halfWidth,cy+(upper?.65:-.65),profile.depth[0]+.5];
+    let best=null, distance=Infinity;
+    for (const point of candidates) {
+      if (upper ? point.p[1]<cy : point.p[1]>cy) continue;
+      const d=point.p.reduce((sum,v,axis)=>sum+(axis===2?1:4)*(v-target[axis])**2,0);
+      if(d<distance){best=point.id;distance=d;}
+    }
+    if(best===null)throw new Error("Cannot identify both outer lip tracks.");
+    return best;
+  })));
+  return {indices: Uint32Array.from(triangles), pairs};
 }
+
+export function mouthAperture(positions, meta, profile) {
+  return mouthShape(positions, meta, profile).indices;
+}
+
+export function sampleMouthOpening(positions, meta, pairs, offset = 0) {
+  const gaps = [];
+  for (let n=0; n<pairs.length; n+=2) {
+    const gap = positions[offset+pairs[n]*3+1] - positions[offset+pairs[n+1]*3+1];
+    if (!Number.isFinite(gap)) throw new Error("Cannot sample a finite native mouth opening.");
+    gaps.push(gap / meta.quantization * meta.scale);
+  }
+  if (!gaps.length) throw new Error("Cannot sample an empty native mouth rim.");
+  gaps.sort((a,b) => a-b);
+  return gaps[Math.floor(gaps.length/2)];
+}
+
+export const WIDE_MOUTH_OPENING_CM = .65;
 
 export const FACIAL_FEATURE_GLSL = `
   uniform vec3 lipMouth;
@@ -92,7 +123,7 @@ export const FACIAL_FEATURE_GLSL = `
   float lipstick(vec3 p) {
     vec3 region=lipRegion(p);
     return smoothstep(-.035,.035,region.y)*(1.0-smoothstep(.98,1.02,region.x))
-      *smoothstep(region.z,region.z+.12,p.z);
+      *smoothstep(min(lipDepth.x,lipDepth.y)-.4,min(lipDepth.x,lipDepth.y)-.28,p.z);
   }
   float rowanLidRidge(vec3 p) {
     if(rowanLids<.5) return 0.0;

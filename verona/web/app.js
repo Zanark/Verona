@@ -87,7 +87,7 @@ function surfaceNormals(positions, triangles, offset = 0, count = positions.leng
   return normals;
 }
 
-import {facialProfile, mouthAperture, FACIAL_FEATURE_GLSL} from "/facial-features.mjs";
+import {facialProfile, mouthShape, sampleMouthOpening, WIDE_MOUTH_OPENING_CM, FACIAL_FEATURE_GLSL} from "/facial-features.mjs";
 
 class FaceRenderer {
   constructor(canvas, meta, binary, model = "claire") {
@@ -189,6 +189,10 @@ class FaceRenderer {
         if (pass == 4) {
           outputColor=vec4(0.0);
           return;
+        }
+        if (pass == 5) {
+          float seam=abs(rest.y-mouthSeam(rest.x));
+          if(seam>.14 || lipstick(rest)<.5) discard;
         }
         if (material == 2 && blinkOccludes(rest)) discard;
         if (material != 1 && neckDepth >= 0.0 && rest.y < min(${JAW_CROP.ceiling.toFixed(1)}, ${JAW_CROP.chin}
@@ -397,6 +401,7 @@ class FaceRenderer {
       this.uniforms[name] = gl.getUniformLocation(program, name);
     }
     this.facialProfile = facialProfile(model);
+    this.neutralLipSeal = model === "mpfb";
     gl.uniform3fv(this.uniforms.lipMouth, this.facialProfile.mouth);
     gl.uniform2fv(this.uniforms.lipDepth, this.facialProfile.depth);
     gl.uniform1fv(this.uniforms.lipUpper, this.facialProfile.upper);
@@ -407,7 +412,11 @@ class FaceRenderer {
     }
     this.neutralData = new Int16Array(binary, 0, meta.vertices * 3);
     this.triangleData = new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3);
-    const mouthIndices = mouthAperture(this.neutralData, meta, this.facialProfile);
+    const {indices: mouthIndices, pairs} = mouthShape(this.neutralData, meta, this.facialProfile);
+    this.mouthPairs = pairs;
+    this.restMouthOpening = sampleMouthOpening(this.neutralData, meta, pairs);
+    this.mouthOpening = 0;
+    this.mouthOpenings = null;
     this.mouthTriangleCount = mouthIndices.length / 3;
     this.mouthIndices = this.buffer(gl.ELEMENT_ARRAY_BUFFER, mouthIndices);
     this.neutral = this.buffer(gl.ARRAY_BUFFER, this.neutralData);
@@ -761,6 +770,10 @@ class FaceRenderer {
     this.motion = this.buffer(this.gl.ARRAY_BUFFER, new Int16Array(binary));
     this.motionData = this.view.style === 0 ? new Int16Array(binary) : null;
     this.frames = metadata.frames;
+    const positions = new Int16Array(binary);
+    this.mouthOpenings = Float32Array.from({length: this.frames}, (_, frame) =>
+      sampleMouthOpening(positions, this.meta, this.mouthPairs, frame*this.meta.vertices*3)
+        - this.restMouthOpening);
     this.cheekinessExpression = metadata.expression === "cheekiness"
       ? metadata.expressionStrength / .6 : 0;
   }
@@ -769,6 +782,8 @@ class FaceRenderer {
     if (this.motion) this.gl.deleteBuffer(this.motion);
     this.motion = null;
     this.frames = 0;
+    this.mouthOpenings = null;
+    this.mouthOpening = 0;
     this.cheekinessExpression = 0;
     this.motionData = null;
     this.releaseNormalSlots();
@@ -817,16 +832,20 @@ class FaceRenderer {
   }
 
   clearMouth() {
+    const pass = this.mouthOpening >= WIDE_MOUTH_OPENING_CM ? 4
+      : this.neutralLipSeal && !this.view.style && this.mouthOpening < .1 ? 5 : 0;
+    if (!pass) return;
     const gl = this.gl, u = this.uniforms;
     for (const name of ["positionA", "positionB"]) {
       this.attribute(name, this.drawMotion || this.neutral, gl.SHORT,
         this.drawMotion ? (name === "positionA" ? this.leftFrame : this.rightFrame) * this.meta.vertices * 6 : 0);
     }
     this.attribute("restPosition", this.neutral, gl.SHORT);
+    for (const name of ["normalA", "normalB"]) this.attribute(name, this.neutralNormals, gl.FLOAT);
     gl.uniform1f(u.blend, this.frameBlend);
     gl.uniform1i(u.material, 0);
     gl.uniform1i(u.points, 0);
-    gl.uniform1i(u.pass, 4);
+    gl.uniform1i(u.pass, pass);
     // Replace RGBA where the animated lip-rim strip passes the existing skin depth.
     // Discarding it in the first pass would expose the back of the head or hair.
     gl.disable(gl.BLEND);
@@ -909,6 +928,9 @@ class FaceRenderer {
     const left = Math.floor(frame);
     const right = frames ? Math.min(frames - 1, left + 1) : 0;
     this.leftFrame = left; this.rightFrame = right; this.frameBlend = frame - left;
+    this.mouthOpening = Math.max(0, frames
+      ? this.mouthOpenings[left]*(1-this.frameBlend) + this.mouthOpenings[right]*this.frameBlend : 0)
+      + idle.yawn*3.4 + idle.jaw;
     this.attribute("positionA",motion||this.neutral,gl.SHORT,motion?left*this.meta.vertices*6:0);
     this.attribute("positionB",motion||this.neutral,gl.SHORT,motion?right*this.meta.vertices*6:0);
     this.attribute("restPosition",this.neutral,gl.SHORT);

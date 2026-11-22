@@ -5,6 +5,35 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - A transparent mouth must not mean a hole at rest (vr-84)
+
+The owner's screenshots reveal that vr-81's aperture is applied even to a
+closed mouth. Removing the opaque cavity was not enough: unconditional RGBA
+clearing manufactured a visible neutral gap. The standalone GLB study repeats
+the same error. `mouthShape` now separates actual front rims from curled
+inner-lip folds; five outer-lip pairs supply a median neutral-relative opening.
+`FaceRenderer.clearMouth` and the study renderer erase only beyond 0.65 cm.
+Clip installation caches one four-byte scalar per frame; clearing releases it.
+No new inference or per-draw CPU mesh traversal is introduced.
+
+A first opaque cap looks zigzagged and is rejected. A Rowan-only seal then
+looks too dark because it bypasses normal material shading. The final narrow
+near-closed Surface seal follows the existing shading path; other heads and
+wire presentations do not receive it. A constant conservative front plane
+also stops the symmetric lipstick curve being clipped differently on the
+two sides by native depth variation.
+
+Actual final native captures cover all six neutral lips, wide speech/yawn,
+blinks and 240 matrix checks. The neutral custom-color scan finds no interior
+transparent or skin-colored pixels on any head. An isolated resource/blink
+retry passes after an earlier concurrent-load cadence failure; the timing
+assertion is unchanged. The 115 CPU checks pass. Six newly captured GLB GIFs
+retain full 7.5-second motion and are verified at their original report path,
+with versioned media and an intact old-report backup. Strong-pose native
+creases remain possible; this is not owner visual or phonetic acceptance.
+The original-six catalog refresh and owned live restart are still pending
+at this implementation milestone. Frozen PDFs stay unchanged.
+
 ## 2026-11-22 - Compare two transfer directions on three supplied heads (vr-82)
 
 The owner wants six review choices, not six renamed copies of Claire.

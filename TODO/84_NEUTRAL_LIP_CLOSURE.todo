@@ -1,0 +1,47 @@
+ID: vr-84
+GitHub issue: https://github.com/Zanark/Verona/issues/83
+Title: Restore neutral lip contact and reserve transparency for wide openings
+
+Status: IN_PROGRESS
+Milestone: Correct the visible neutral slit before continuing model review
+Dependencies: vr-81, vr-82
+
+Purpose:
+  Fix the owner's reported black/transparent closed-lip regression on all
+  production heads and the six separate GLB study candidates, including
+  Elara, Selene and Thalia. Keep lipstick's authored contours symmetric.
+
+Tasks:
+  Gate the native-rim erase pass using neutral-relative outer-lip separation.
+  Avoid curled inner-lip points when identifying upper/lower motion.
+  Preserve opaque neutral and near-closed surfaces; fill Rowan's tiny native
+    Surface seam with the same shaded cosmetic material, not a dark cavity.
+  Remove asymmetric depth clipping from the symmetric lipstick contour.
+  Qualify actual native and GLB frames, resources and regressions.
+  Preserve rejected attempts; refresh the separate six-GLB GIF report.
+  Preserve settings when reopening only this session's explicitly owned head.
+  Update source, chapter, ledger, journal and GitHub tracking.
+
+Acceptance criteria:
+  All six native neutral lip contours contain no transparent/skin-colored
+    interior pixels in the custom-color qualification fixture.
+  Wide speech/yawn openings remain transparent; neutral is not alpha-erased.
+  No new inference, per-draw CPU mesh scan or retained extra motion copy.
+  Same six GLB identities and original geometry; six complete animated GIFs.
+  Other sessions, older report backup and frozen book editions remain intact.
+
+Completion evidence:
+  Native capture-05: 30 actual stills plus 240 model/view/pose/angle checks;
+    no failures/external requests. Neutral pixel scan passes all six heads.
+  GLB capture-02: 360 actual frames; all six decoded GIFs retain 42 distinct
+    frames and 7.5 seconds; isolated Edge verifies every candidate.
+  Focused lip and isolated resource/blink fixture pass; 115 CPU tests pass.
+  Corrected GLB report promoted at the original path with versioned assets;
+    before-vr84 backup intact; final-path isolated browser verification passes.
+  Owned live restart and source delivery pending.
+
+Completion log:
+  2026-11-22 - Owner makes closed-lip contact an urgent priority and requests
+    no questions while AFK. Original-six report refresh pauses for this fix.
+  2026-11-22 - Reject an all-model opaque seal and a darker Rowan seam;
+    retain both captures. Keep the final seal Rowan/Surface/near-closed only.

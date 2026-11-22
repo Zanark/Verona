@@ -1,5 +1,63 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Closed lips first, transparent wide openings second (vr-84)
+
+The owner's neutral-mouth screenshots expose a regression in vr-81's display
+pass: `FaceRenderer.clearMouth` erased the native-rim strip on every draw,
+including rest. A tiny native seam became a conspicuous transparent slit.
+The standalone GLB renderer repeated the mistake, so Elara, Selene and Thalia
+showed it too. This correction supersedes the unconditional erase below.
+
+`mouthShape` identifies front upper/lower rim samples with side-specific
+clearance. Five separate outer-lip pairs avoid lower-lip folds curled above
+the seam; those folded vertices can move with the jaw despite looking like
+upper-lip candidates at rest. `sampleMouthOpening` takes their median vertical
+separation in centimeters. Transparency starts only at 0.65 cm beyond neutral;
+it is a bounded authored display threshold, not anatomical calibration.
+The GLB study uses the same sampler and gate on actual posed positions.
+
+```mermaid
+flowchart TD
+    N["Native rest: rim indices and five outer-lip pairs"] --> C["Clip install: one opening scalar per frame"]
+    C --> I["Interpolate scalar; add procedural jaw/yawn estimate"]
+    I --> G{"At least 0.65 cm beyond neutral?"}
+    G -->|Yes| T["Depth-tested transparent aperture"]
+    G -->|No| O["Preserve native opaque lips"]
+    O --> R["Rowan Surface only: shade tiny near-closed seam"]
+    classDef node fill:#192a40,stroke:#ac91e0,color:#edf2ff;
+    class N,C,I,G,T,O,R node;
+```
+
+The scalar cache costs four bytes per clip frame and is released on clear.
+Ten vertex reads per frame happen at clip installation, not every draw; no
+extra full-motion copy or neural inference is retained. Procedural idle jaw
+and yawn contribution is an explicit estimate. The threshold is discrete,
+so crossing it changes the display mask rather than solving lip contact.
+Rowan alone needs a tiny opaque Surface seam within 0.14 cm of its guide,
+only below 0.1 cm opening. It uses the same cosmetic shading and depth test,
+not a dark painted line; wire/dot/grid views get no filled cosmetic seal.
+
+Lipstick keeps symmetric smooth XY curves and a conservative constant front
+depth plane. The older X-varying depth threshold clipped opposite sides of
+slightly asymmetric native geometry differently. This fixes that clipping,
+not the heads' underlying topology or every lighting asymmetry.
+
+Rejected all-model caps and a darker Rowan seam remain in qualification
+captures. Final native capture-05 covers 30 actual stills and 240 matrix cases
+without failures/external requests. A custom-color pixel scan finds zero
+transparent or skin-colored pixels inside all six neutral lip contours.
+The isolated shared WebGL resource/blink fixture and 115 CPU regressions pass;
+an earlier concurrent blink-cadence failure is retained, not hidden by a
+weakened timing assertion. Six recaptured GLB GIFs each retain 42 decoded
+distinct frames and 7.5 seconds. Installed Edge verifies all six GIFs at the
+same report path, one-at-a-time playback, mobile layout and no external page
+requests/errors. The old report remains in its before-vr84 backup.
+
+These are technical and agent visual checks, not owner approval or phonetic
+accuracy. Native rims and transferred dense meshes can still crease in strong
+poses. Original-six report regeneration is tracked separately in vr-83;
+live owned-head replacement remains pending at this source milestone.
+
 ## Six supplied-GLB candidates, without a production import promise (vr-82)
 
 The owner supplies three static heads and requests both transfer directions

@@ -107,7 +107,7 @@ The three Claire-based hybrids keep a family resemblance; they are not promised 
 <li>The source assets have no morph targets, skeletons or animation. Original-base motion is geometric triangle attachment, not a newly trained rig. Dense native lips can crease; Mira's closed source mouth has a smaller visible opening.</li>
 <li>Claire-base candidates blend 65% of an 80%-strength section registration plus bounded local surface correction. Claire's original skin indices are retained; static cosmetic eye geometry is separate.</li>
 <li>UV/normal seams are welded and low open neck loops extended only in temporary fitting geometry. The original-base output retains original vertices and triangles after a uniform eye-frame alignment. Normals are smoothed consistently for display.</li>
-<li>Open mouths reveal the background through a depth-tested native-rim display mask with a 0.55 cm forward bias. It is not oral retopology or contact correction. No opaque black cavity is added.</li>
+<li>Only wide openings (at least 0.65 cm beyond the neutral outer-lip separation) reveal the background through a depth-tested native-rim display mask with a 0.55 cm forward bias. Neutral and near-closed lips keep their original opaque surface. It is not oral retopology or contact correction. No opaque black cavity is added.</li>
 <li>All geometry is imported locally. No camera, microphone, cloud inference, asset upload, original-texture transfer, native joint fitting or production manager integration is included.</li>
 <li>Names are review labels, not gender assignments. The owner has not selected or accepted any candidate.</li></ul></details>
 <details><summary>Attribution, modifications and evidence</summary>

@@ -17,8 +17,9 @@ const deadline = setTimeout(async () => {
 const capability = crypto.randomBytes(24).toString("hex");
 const html = String.raw`<!doctype html><html><body style="margin:0"><canvas width="640" height="640"></canvas>
 <script type="module">
-import {mouthAperture} from "./facial-features.mjs";
-let gl,program,positionBuffer,normalBuffer,triangles,mouth,meta,faces,groups,groupCount;
+import {mouthShape,sampleMouthOpening,WIDE_MOUTH_OPENING_CM} from "./facial-features.mjs";
+let gl,program,positionBuffer,normalBuffer,triangles,mouth,meta,faces,groups,groupCount,mouthPairs,restOpening;
+const mouthMeta={quantization:1,scale:1,center:[0,0,0]};
 const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);
  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;};
 const floats=async(file)=>new Float32Array(await (await fetch("./"+meta.id+"/"+file,{cache:"no-store"})).arrayBuffer());
@@ -53,7 +54,8 @@ window.setup=async(data)=>{
  }
  const percentile=(a,q)=>{if(!a.length)throw Error("Missing source mouth depth samples");a.sort((x,y)=>x-y);return a[Math.floor((a.length-1)*q)];};
  const profile={mouth:[.08,cy,width],upper:[cy,cy,cy,cy,cy],depth:[percentile(center,.8)-.25,percentile(corner,.8)-.25]};
- const indices=mouthAperture(rest,{quantization:1,scale:1,center:[0,0,0]},profile);
+ const {indices,pairs}=mouthShape(rest,mouthMeta,profile);
+ mouthPairs=pairs;restOpening=sampleMouthOpening(rest,mouthMeta,pairs);
  meta.mouthTriangles=indices.length/3;
  mouth=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mouth);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);
  gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);gl.clearColor(0,0,0,0);
@@ -79,9 +81,14 @@ window.render=async(step)=>{
  gl.depthMask(true);gl.depthFunc(gl.LEQUAL);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
  gl.uniform1i(gl.getUniformLocation(program,"erase"),0);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,triangles);
  gl.drawElements(gl.TRIANGLES,meta.triangles*3,gl.UNSIGNED_INT,0);
- gl.uniform1i(gl.getUniformLocation(program,"erase"),1);gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);
- gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mouth);gl.drawElements(gl.TRIANGLES,meta.mouthTriangles*3,gl.UNSIGNED_INT,0);
- gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);gl.finish();
+ const opening=sampleMouthOpening(positions,mouthMeta,mouthPairs)-restOpening;
+ if(opening>=WIDE_MOUTH_OPENING_CM){
+  gl.uniform1i(gl.getUniformLocation(program,"erase"),1);
+  gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mouth);gl.drawElements(gl.TRIANGLES,meta.mouthTriangles*3,gl.UNSIGNED_INT,0);
+  gl.disable(gl.POLYGON_OFFSET_FILL);gl.depthMask(true);
+ }
+ gl.finish();
  if(gl.getError())throw Error("Candidate WebGL draw failed");
  return document.querySelector("canvas").toDataURL("image/png");
 };

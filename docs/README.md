@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Closed neutral lips (vr-84):** [chapter09](chapters/09-verona-character-and-waves.md#closed-lips-first-transparent-wide-openings-second-vr-84)
+corrects the unconditional transparent slit, tracks outer-lip opening,
+preserves near-closed lips and removes asymmetric lipstick depth clipping.
+The separate six-GLB report has newly captured GIFs; its predecessor survives.
+
 **Six supplied-GLB review heads (vr-82):** [chapter09](chapters/09-verona-character-and-waves.md#six-supplied-glb-candidates-without-a-production-import-promise-vr-82)
 explains Lyra/Elara, Mira/Selene and Neris/Thalia: original-topology motion
 transfer versus Claire-topology structural hybrids. Six actual local GIFs,
