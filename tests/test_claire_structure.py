@@ -80,3 +80,32 @@ class StructuralFitTests(unittest.TestCase):
             with self.subTest(topology=triangles.dtype, radii=radii.min()):
                 with self.assertRaises(ValueError):
                     structural_warp(source, triangles, source, faces, EYES, radii, 141.)
+
+    def test_partial_shape_weight_preserves_bound_and_eye_constraints(self):
+        source, faces = self.head()
+        target = (source - EYES.mean(0)) * [.9, 1.04, .94] + EYES.mean(0)
+        args = (source, faces, target, faces, EYES, np.array([[1.35, 1.32, 1.4]] * 2), 141.)
+        full, _ = structural_warp(*args)
+        partial, _ = structural_warp(*args, shape_weight=.8)
+        np.testing.assert_allclose(partial(source) - source, .8 * (full(source) - source), atol=1e-12)
+        np.testing.assert_allclose(partial(EYES), EYES, atol=1e-10)
+        for weight in (0, 1.1, np.nan):
+            with self.assertRaises(ValueError):
+                structural_warp(*args, shape_weight=weight)
+
+    def test_partial_surface_support_is_opt_in_counted_and_bounded(self):
+        source, faces = self.head()
+        def correspondence(points, _vertices, _faces):
+            target = points + [.25, 0, .1]
+            target[0] += [3, 0, 0]
+            return target
+        with self.assertRaisesRegex(ValueError, "two-centimeter"):
+            refine_surface(lambda p: p, source, source, faces, closest=correspondence)
+        warp, receipt = refine_surface(lambda p: p, source, source, faces,
+                                        closest=correspondence, minimum_controls=192)
+        self.assertEqual(receipt["rejectedSurfaceControls"], 1)
+        self.assertEqual(receipt["surfaceControls"], 255)
+        np.testing.assert_allclose(warp(EYES), EYES, atol=1e-10)
+        with self.assertRaisesRegex(ValueError, "required bounded"):
+            refine_surface(lambda p: p, source, source, faces,
+                           closest=correspondence, minimum_controls=256)

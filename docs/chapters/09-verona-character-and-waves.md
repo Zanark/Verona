@@ -1,5 +1,126 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Six supplied-GLB candidates, without a production import promise (vr-82)
+
+The owner supplies three static heads and requests both transfer directions
+before choosing a subset. This is a new bounded experiment, not permission
+to resume every parked custom-avatar workstream or replace an active head.
+The local review is `.local\reports\glb-six-head-review-20261122\index.html`.
+It contains six real, silent GIFs with matched camera, material and motion:
+
+| Supplied source | Original mesh + Claire motion | Claire mesh + source fit |
+| --- | --- | --- |
+| `stylized_anime_female_head.glb` | Lyra | Elara |
+| `free_basemesh_head_woman.glb` | Mira | Selene |
+| `head_woman_basemesh.glb` | Neris | Thalia |
+
+These are review names, not owner-assigned genders. The native meshes have
+414,028 / 9,447 / 6,696 vertices and 629,424 / 16,516 / 11,964 triangles.
+Each hybrid retains Claire's 15,375 skin vertices and 30,746 triangles;
+1,344 static cosmetic eye vertices add 2,432 display triangles. The denser
+anime source is not quietly decimated, and a warped Claire head is never
+labelled as original GLB topology.
+
+```mermaid
+flowchart TD
+    S["Three local static GLBs"] --> I["Bounded embedded-geometry import"]
+    I --> A["Uniform eye-frame alignment; original rest retained"]
+    I --> F["Temporary seam weld / neck closure for fitting only"]
+    F --> R["Bounded section + local surface registration"]
+    C["Matched Claire poses"] --> R
+    R --> N["Exact triangle attachment onto original mesh"]
+    A --> N
+    R --> H["65% registered-fit blend over Claire topology"]
+    N --> G["Serial WebGL2 capture / six actual GIFs"]
+    H --> G
+    G --> O["Owner review; no manager installation"]
+    classDef node fill:#192a40,stroke:#ac91e0,color:#edf2ff;
+    class S,I,A,F,R,C,N,H,G,O node;
+```
+
+`glb_head_import.load_head` accepts only bounded embedded GLB2 static triangle
+geometry: 64 MiB input, one million vertices, two million triangles, 512 unique
+scene nodes and 64 levels. Recursive column-major matrix/TRS transforms matter:
+the second asset's oral/eye components have their own units and transforms.
+Reflected transforms reverse winding. Offsets, strides, normalized vertex
+colors and multiple primitives retain their own indices. External buffers,
+required extensions, compression, sparse accessors, rigs and morphs fail
+explicitly. Textures and imported normals are not transferred. No external
+asset resource or downloaded scene script is executed.
+
+The apparent mesh boundaries include duplicated UV/normal seam vertices.
+`registration_surface` welds positions within 0.00001 cm only in temporary
+fitting geometry. The third source's genuinely diagonal open neck prevents
+supported horizontal sections; low closed boundary loops receive a downward
+skirt for fitting, not new output vertices. Both original neutral coordinates
+and triangle indexing remain intact after one uniform eye-frame alignment.
+Front/profile grids support authored approximate eye/mouth anchors; they
+are not anatomical ground truth.
+
+`glb_head_study.register` reuses `structural_warp` at 80% strength, retaining
+the existing five-centimeter bound. A rejected full-strength anime attempt
+reaches 5.40 cm around the nape; its receipt is kept rather than raising the
+limit. `refine_surface` then uses exact closest-triangle constraints with a
+two-centimeter correction bound. This study explicitly requires at least
+192 of 256 supported controls: anime and third-source fits reject six each;
+the second retains all 256. Existing production callers still default to
+full-strength registration and reject any unsupported surface control.
+
+For original-base motion, `batch_surface_binding` traverses an exact AABB
+tree and computes triangle-interior/edge nearest points, not vertex KNN.
+Vectorized 2,048-query by 16-triangle leaves bound temporary arrays.
+`attach` adds convex barycentric complete-pose displacement to the preserved
+native rest, fading to fixed lower-neck vertices. Final maximum attachment
+distances are 1.22 / 2.18 / 1.70 cm, below the existing three-centimeter gate.
+The eight-centimeter motion gate also remains. The static supplied assets
+have no facial rig: teeth/tongue/eyes receive no independent joints or contact
+solver. In particular, Mira's closed source mouth opens less clearly.
+
+For Claire-base output, 65% of the registered map reshapes each complete
+Claire pose. This preserves substantial Claire eye/midface character rather
+than producing three aliases for the native meshes. The three hybrids differ
+by 0.46 to 0.85 cm whole-skin RMS in corresponding neutral positions, but that
+number does not prove six unrelated perceptual identities. Family resemblance
+is explicit in the review, and remaining native lip/neck creases are not hidden.
+
+`build_glb_head_review` verifies the archived synthetic Hazel motion hashes
+and identical audio hash. It halves the matched 4x emotion-minus-neutral
+offset to 2x before fitting, preserving speech and changing no live defaults.
+Each 7.5-second, eight-fps loop covers rest, speech, happy/surprised speech and
+a rest turn through 90 degrees. `capture_glb_head_review.cjs` uses serial
+isolated Electron windows, a private profile and an exact allowlisted
+loopback capability route. Common area-weighted smoothed normals and clay
+lighting remove unrelated material/UV-seam shading differences.
+The existing paired native-rim helper supplies transparent mouth display
+strips, with a study-only 0.55 cm forward bias; this is not oral retopology.
+
+New output directories refuse overwrite. Import/fit/capture failures retain
+receipts; capture has a five-minute deadline. An interrupted or failed build
+is not a complete study and must restart into a new directory. No camera,
+microphone, speech replay, source upload or active-head reload is involved.
+`render_glb_review_report` packages the actual frames with explicit attribution,
+direct GIF links, static posters and one animated card at a time; hiding the
+page pauses it. Default/reduced-motion views remain static until requested.
+
+Final qualification: 115 CPU regressions; six decoded GIFs with 42 distinct
+frames each and exactly 7,500 ms; all six buttons/direct local GIF loads in
+installed Edge; 1,280/430-pixel layouts without overflow, zero page errors
+or external requests, and one-GIF/reduced-motion behavior. Source hashes are
+unchanged. This is technical/agent visual review, not owner selection,
+phonetic accuracy, independent listening, native-SDK parity or a new runtime
+performance benchmark. Existing reports, frozen editions and the active
+manager/head remain unchanged.
+
+Attribution: [Stylized Anime Female Head](https://sketchfab.com/3d-models/stylized-anime-female-head-e8d04325a74e46a98a6494abe721a8b2)
+by [Rodesqa](https://sketchfab.com/rodesqa);
+[free_basemesh_head_woman](https://sketchfab.com/3d-models/free-basemesh-head-woman-3f0007b44b3e4b8d851c4395b60f4a42)
+and [Head_Woman_basemesh](https://sketchfab.com/3d-models/head-woman-basemesh-f62bfd9c3ad047e08cd932fef6c40dc6)
+by [mono](https://sketchfab.com/michela.000), all
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Embedded metadata and independently fetched public Sketchfab metadata agree.
+Alignment, derived fitting surfaces, deformation, structural hybrids and
+review rendering are Verona modifications; original GLBs remain local.
+
 ## Native lip guides, transparent mouths and Rowan relief (vr-81)
 
 The first model-catalog feedback names Claire **Aster** and native MPFB

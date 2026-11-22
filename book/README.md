@@ -16,6 +16,10 @@ upper-skull fitting and independently decoded actual-model README previews.
 The vr-81 entry covers native lip paint, transparent mouth compositing, Rowan's
 eyelid relief and half-strength emotions, including retained failures and the
 distinction between technical qualification and owner visual acceptance.
+The vr-82 entry adds six supplied-GLB review candidates, preserved native versus
+Claire topology, bounded exact attachment, fitting-only neck closure and a
+six-GIF local comparison. Source licensing and unresolved visual/rigging
+limitations remain explicit; it is not a new edition or manager installation.
 
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:

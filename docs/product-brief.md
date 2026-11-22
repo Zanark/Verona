@@ -1,6 +1,17 @@
 # Verona product brief
 
-Latest bounded experiment (vr-44): the owner asks for the reverse transfer
+Latest bounded experiment (vr-82): the owner supplies three new static GLBs
+and requests six candidates before selecting a subset. Original-base
+Lyra/Mira/Neris retain source geometry under Claire-driven geometric motion;
+Claire-base Elara/Selene/Thalia blend each source's registered structure into
+Claire topology. The local six-GIF review is
+`.local\reports\glb-six-head-review-20261122\index.html`.
+This explicit study does not resume the general parked importer roadmap or
+install these candidates in the normal manager. Genders, visual selection,
+phonetic/contact accuracy and production acceptance remain open. Chapter09
+records the algorithms, retained failures, attribution and review limits.
+
+Earlier bounded experiment (vr-44): the owner asks for the reverse transfer
 onto the actual imported MPFB head. `VeronaMpfb.cmd` now supplies real
 audio-clocked speech from original Claire4x inputs through bounded native-rig
 fitting. Geometry/topology remain MPFB; unsupported source detail is lost.

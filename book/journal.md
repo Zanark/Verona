@@ -5,6 +5,42 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Compare two transfer directions on three supplied heads (vr-82)
+
+The owner wants six review choices, not six renamed copies of Claire.
+`glb_head_import.load_head` therefore retains actual original GLB topology,
+applies complete scene transforms and rejects unsupported/external resources.
+All three source models are static and unrigged. Public Sketchfab records
+confirm embedded CC-BY4 credits for Rodesqa and mono; originals remain local.
+
+The first full anime fit exceeds the existing five-centimeter bound at its
+nape. Reducing the explicitly requested registration strength to 80% keeps
+that gate intact. Another attempt exposes the third head's diagonal open neck.
+Only temporary fitting geometry gets seam welding and a downward neck skirt;
+neither change replaces original output geometry. The first strict surface
+fit also rejects unsupported controls. The new experiment explicitly requires
+192/256 supported controls under the unchanged two-centimeter correction limit,
+records rejected samples, and leaves strict production defaults unchanged.
+
+`batch_surface_binding` vectorizes exact closest triangle interiors and edges
+under AABB bounds. Convex displacement embedding yields Lyra, Mira and Neris
+on their original meshes; a 65% registered-fit blend yields Elara, Selene and
+Thalia on Claire's skin topology. All six share archived synthetic speech,
+the same 2x expression conversion, camera and clay shading. There is no new
+trained facial rig. Native lip/neck creases remain possible, Mira's closed
+mouth is less clearly open, and the hybrids intentionally retain Claire family
+resemblance. Numerical shape differences are not owner identity acceptance.
+
+An isolated serial WebGL2 capture produces six actual silent GIFs. The offline
+report starts with posters, runs one GIF at a time, pauses while hidden and
+offers direct GIF links. Common smoothed normals avoid mistaking UV-seam
+shading for structural differences; native-rim alpha masks avoid black cavities.
+115 CPU regressions pass; decoded GIFs each retain 42 distinct frames and
+7.5 seconds. Installed Edge verifies every candidate, wide/mobile layouts,
+one-at-a-time/reduced-motion behavior and no external page requests/errors.
+Earlier rejected attempts remain under the owned qualification directory.
+The active head/manager, previous reports and frozen PDFs are not replaced.
+
 ## 2026-11-22 - Follow the native lips instead of painting an oval (vr-81)
 
 The owner's marked lip borders expose a coordinate mistake: moving one generic

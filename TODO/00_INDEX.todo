@@ -81,6 +81,7 @@ vr-78 | 78_SUPPLIED_SNEEZE_EFFECTS.todo | DONE | Private supplied sneezes/female
 vr-79 | 79_TRANSPARENT_BRAND_IDENTITY.todo | DONE | Transparent purple-haired head, pink lips, Audiowide README lockup and qualified native/browser icons
 vr-80 | 80_MARK_SHORT_HAIRSTYLES.todo | DONE | Native-fitted quiff/side part, Mark-only startup defaults and three verified actual-renderer README GIFs
 vr-81 | 81_FACIAL_FEEDBACK.todo | DONE | Native lipstick, transparent mouth openings, Rowan eyelids and half-strength emotions
+vr-82 | 82_GLB_HEAD_REVIEW.todo | DONE | Six named native/Claire-base candidates and actual GIF review; owner selection pending
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

@@ -40,7 +40,10 @@ def closest_surface(points, vertices, faces, *, return_faces=False):
     return (positions, np.concatenate(selected)) if return_faces else positions
 
 
-def refine_surface(base_warp, rest, reference, faces):
+def refine_surface(base_warp, rest, reference, faces, *, closest=closest_surface,
+                   minimum_controls=None):
+    if minimum_controls is not None and (type(minimum_controls) is not int or not 3 <= minimum_controls <= 256):
+        raise ValueError("Partial surface fitting needs 3 to 256 required controls.")
     fitted = base_warp(rest)
     candidates = fitted[(abs(fitted[:, 0]) < 6.8) & (fitted[:, 1] > 137)
                         & (fitted[:, 1] < 152.5) & (fitted[:, 2] > .5)]
@@ -52,10 +55,16 @@ def refine_surface(base_warp, rest, reference, faces):
         nearest = np.minimum(nearest, np.sum((candidates - candidates[indices[-1]]) ** 2, axis=1))
         indices.append(int(np.argmax(nearest)))
     controls = candidates[indices]
-    target = closest_surface(controls, reference, faces)
+    target = closest(controls, reference, faces)
     offsets = target - controls
-    if np.max(np.linalg.norm(offsets, axis=1)) > 2:
+    supported = np.linalg.norm(offsets, axis=1) <= 2
+    rejected = int(np.count_nonzero(~supported))
+    if rejected and minimum_controls is None:
         raise ValueError("Reference correspondence exceeds the two-centimeter surface-fit bound.")
+    if minimum_controls is not None:
+        if np.count_nonzero(supported) < minimum_controls:
+            raise ValueError("Partial reference lacks the required bounded surface support.")
+        controls, offsets = controls[supported], offsets[supported]
     controls = np.vstack((controls, EYES))
     offsets = np.vstack((offsets, np.zeros((2, 3))))
 
@@ -113,6 +122,7 @@ def refine_surface(base_warp, rest, reference, faces):
     actual = sample(controls) - eye_kernel(controls) @ eye_weights
     return warp, {
         "surfaceControls": len(controls) - 2, "surfaceKernelWidthCm": 1.3,
+        "rejectedSurfaceControls": rejected, "minimumSurfaceControls": minimum_controls,
         "surfaceLattice": shape.tolist(), "surfaceLatticeBoundsCm": [low.tolist(), high.tolist()],
         "surfaceConstraintRmsBeforeCm": float(np.sqrt(np.mean(np.sum(offsets[:-2] ** 2, axis=1)))),
         "surfaceConstraintRmsAfterCm": float(np.sqrt(np.mean(np.sum((actual - offsets)[:-2] ** 2, axis=1)))),

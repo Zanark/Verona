@@ -1,6 +1,28 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr-82 compares three supplied meshes in both transfer directions
+Cause: owner wants original-base Claire motion and Claire-base structural
+adaptations of three supplied GLBs, reviewing six actual animated candidates.
+Action: bounded static GLB2 import, full scene transforms, unchanged originals;
+exact batched triangle attachment yields Lyra/Mira/Neris. Bounded section/local
+surface fit with65%blend yields Elara/Selene/Thalia on Claire topology.
+Retain failed full-strength5.40cm nape fit, unsupported diagonal neck sections
+and strict surface correspondence attempt. Use80%registration, fitting-only
+seam weld/neck skirts, explicit192/256bounded-control support and rejection
+counts, while preserving production full-strength/strict defaults and limits.
+Evidence:115CPU regressions; six actual7500ms GIFs with42unique decoded frames
+each; all360WebGL frames captured serially. Installed Edge verifies six local
+GIF loads, one-at-a-time/reduced-motion behavior,1280/430widths, no overflow,
+zero page errors/external requests. Public/embedded CC-BY4 credits agree;
+original source hashes unchanged. Representative final frames agent-reviewed.
+Limits: unrigged geometric transfer, native lip/neck creases, less open Mira
+mouth, Claire-family resemblance, no original textures or joint/contact rig.
+No owner choice, independent listening or phonetic/performance acceptance.
+Local report: .local\reports\glb-six-head-review-20261122\index.html.
+Preserve live manager306384/head333092, old reports and frozen editions.
+No production integration, source GLB/media upload, release or speech replay.
+
 2026-11-22 - vr-81 follows native lips and removes the opaque mouth void
 Cause: owner identifies misregistered lipstick on Aster/Rowan, a black mouth
 corner, flat Rowan eyelids, excessive Rowan emotion and creepy opaque yawns.

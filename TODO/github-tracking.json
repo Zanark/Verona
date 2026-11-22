@@ -1048,7 +1048,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-82": {
+      "source": "TODO/82_GLB_HEAD_REVIEW.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhZ0nlw",
+      "number": 81,
+      "url": "https://github.com/Zanark/Verona/issues/81",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhKz8Fs",
+      "title": "Six supplied-GLB and Claire-base animated head review candidates",
+      "managedBody": "\n<!-- verona-workstream:vr-82 -->\nWorkstream source: `TODO/82_GLB_HEAD_REVIEW.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-82\nTitle: Six supplied-GLB and Claire-base animated head review candidates\n\nStatus: DONE\nMilestone: Six-candidate review delivered; owner selection pending\nDependencies: vr-43, vr-44, vr-81\n\nPurpose:\n  Produce two honest, distinct geometry/motion experiments for each of three\n  supplied static GLB heads, with actual animated GIFs in one local HTML review.\n  Selection and ordinary manager integration remain separate owner decisions.\n\nTasks:\n  Inspect bounded embedded geometry, scene transforms, provenance and topology.\n  Preserve source GLBs and retain their embedded CC-BY4 attribution.\n  Author anatomical alignment from actual front/profile geometry inspection.\n  Transfer Claire trajectories onto each original GLB mesh without relabeling\n  a warped Claire mesh as imported native topology.\n  Separately reshape actual Claire topology toward each supplied structure.\n  Qualify finite/distinct geometry, speech poses, resources and actual frames.\n  Produce six labeled GIFs, source references and paired-method HTML review.\n  Update chapters, causal ledger, living journal, issue/Project and context.\n\nAcceptance criteria:\n  Exactly six review candidates: three native-base and three Claire-base.\n  Each derives from its stated source and genuinely changes during speech.\n  Same donor motion/camera/material enables meaningful method comparison;\n  neutral shape, topology counts and transfer limits remain inspectable.\n  Real GIFs, not still posters relabeled as animation, work in local Edge.\n  Sources remain unchanged; attribution/modifications are disclosed.\n  No live head reload, speech replay, source-asset upload or automatic download.\n  Numerical difference is not owner visual/phonetic acceptance.\n\nCompletion evidence:\n  Lyra/Elara, Mira/Selene and Neris/Thalia generated from three real assets.\n  Original-base counts414028/9447/6696; hybrids retain15375Claire skin vertices.\n  Local .local\\reports\\glb-six-head-review-20261122\\index.html contains six\n  real7500ms silent GIFs,42unique decoded frames each, source and fit receipts.\n  Qualification glb-six-head-review-82/build-06, capture-03, browser-01:\n  115CPU regressions pass;360actual serial WebGL frames. Installed Edge\n  verifies all six GIFs,1280/430widths, one-at-a-time/reduced-motion behavior,\n  no page errors, external requests or overflow. Source hashes unchanged.\n  CC-BY4 provenance independently checked against public Sketchfab metadata.\n  Rejected fitting attempts retained. Native lip/neck artifacts, less open\n  Mira mouth and Claire-hybrid resemblance disclosed, not owner acceptance.\n\nCompletion log:\n  2026-11-22 - Owner explicitly requests three original-base Claire-driven\n    candidates and three Claire-base structure adaptations, reviewing all six\n    before choosing a subset. Isolated candidate starts at ccefccc; live head\n    333092and manager306384remain protected, normal mode, no control writes.\n  2026-11-22 - Review delivered locally with attribution and explicit two-method\n    labels. No model selection, manager integration or source/media upload.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T00:50:06.600864+00:00"
+  "verifiedAt": "2026-11-22T01:32:58.596214+00:00"
 }

@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Six supplied-GLB review heads (vr-82):** [chapter09](chapters/09-verona-character-and-waves.md#six-supplied-glb-candidates-without-a-production-import-promise-vr-82)
+explains Lyra/Elara, Mira/Selene and Neris/Thalia: original-topology motion
+transfer versus Claire-topology structural hybrids. Six actual local GIFs,
+bounded fitting failures, source attribution and remaining lip/identity limits
+are documented; no production head is replaced or selected.
+
 **Native facial feedback (vr-81):** [chapter09](chapters/09-verona-character-and-waves.md#native-lip-guides-transparent-mouths-and-rowan-relief-vr-81)
 explains six symmetric lip guides, real transparent mouth cutouts, native
 yawn registration, Rowan's eyelid relief and Rowan-only half-gain emotions.

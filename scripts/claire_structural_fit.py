@@ -80,7 +80,9 @@ def _sample(grid, levels, y, angle):
 
 
 def structural_warp(rest, triangles, reference, reference_triangles, reference_eyes,
-                    reference_eye_radii, target_mouth_y):
+                    reference_eye_radii, target_mouth_y, *, shape_weight=1.0):
+    if not np.isscalar(shape_weight) or not np.isfinite(shape_weight) or not 0 < shape_weight <= 1:
+        raise ValueError("Structural shape weight must be finite and in (0, 1].")
     source, target, eyes = map(_positions, (rest, reference, reference_eyes))
     faces = _faces(triangles, len(source))
     target_faces = _faces(reference_triangles, len(target))
@@ -153,14 +155,14 @@ def structural_warp(rest, triangles, reference, reference_triangles, reference_e
     def warp(positions):
         points = _positions(positions)
         mapped = raw_map(points) - eye_kernel(points) @ eye_weights
-        delta = (mapped - points) * _smooth(132, 136, points[:, 1, None])
+        delta = (mapped - points) * _smooth(132, 136, points[:, 1, None]) * shape_weight
         if not np.isfinite(delta).all() or np.max(np.linalg.norm(delta, axis=1)) > 5:
             raise ValueError("Structural map exceeds its finite five-centimeter bound.")
         return points + delta
 
     fitted = warp(source)
     return warp, {
-        "revision": REVISION, "vertices": len(source), "shapeWeight": 1.0,
+        "revision": REVISION, "vertices": len(source), "shapeWeight": float(shape_weight),
         "sectionLevels": len(levels), "angularSamples": ANGLE_COUNT,
         "referenceEyeScale": float(scale), "orbitalDepthAlignmentCm": depth,
         "heightCorrespondencesCm": list(zip(heights.tolist(), destinations.tolist())),

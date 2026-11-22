@@ -1,0 +1,54 @@
+ID: vr-82
+Title: Six supplied-GLB and Claire-base animated head review candidates
+
+Status: DONE
+Milestone: Six-candidate review delivered; owner selection pending
+Dependencies: vr-43, vr-44, vr-81
+GitHub issue: https://github.com/Zanark/Verona/issues/81
+
+Purpose:
+  Produce two honest, distinct geometry/motion experiments for each of three
+  supplied static GLB heads, with actual animated GIFs in one local HTML review.
+  Selection and ordinary manager integration remain separate owner decisions.
+
+Tasks:
+  Inspect bounded embedded geometry, scene transforms, provenance and topology.
+  Preserve source GLBs and retain their embedded CC-BY4 attribution.
+  Author anatomical alignment from actual front/profile geometry inspection.
+  Transfer Claire trajectories onto each original GLB mesh without relabeling
+  a warped Claire mesh as imported native topology.
+  Separately reshape actual Claire topology toward each supplied structure.
+  Qualify finite/distinct geometry, speech poses, resources and actual frames.
+  Produce six labeled GIFs, source references and paired-method HTML review.
+  Update chapters, causal ledger, living journal, issue/Project and context.
+
+Acceptance criteria:
+  Exactly six review candidates: three native-base and three Claire-base.
+  Each derives from its stated source and genuinely changes during speech.
+  Same donor motion/camera/material enables meaningful method comparison;
+  neutral shape, topology counts and transfer limits remain inspectable.
+  Real GIFs, not still posters relabeled as animation, work in local Edge.
+  Sources remain unchanged; attribution/modifications are disclosed.
+  No live head reload, speech replay, source-asset upload or automatic download.
+  Numerical difference is not owner visual/phonetic acceptance.
+
+Completion evidence:
+  Lyra/Elara, Mira/Selene and Neris/Thalia generated from three real assets.
+  Original-base counts414028/9447/6696; hybrids retain15375Claire skin vertices.
+  Local .local\reports\glb-six-head-review-20261122\index.html contains six
+  real7500ms silent GIFs,42unique decoded frames each, source and fit receipts.
+  Qualification glb-six-head-review-82/build-06, capture-03, browser-01:
+  115CPU regressions pass;360actual serial WebGL frames. Installed Edge
+  verifies all six GIFs,1280/430widths, one-at-a-time/reduced-motion behavior,
+  no page errors, external requests or overflow. Source hashes unchanged.
+  CC-BY4 provenance independently checked against public Sketchfab metadata.
+  Rejected fitting attempts retained. Native lip/neck artifacts, less open
+  Mira mouth and Claire-hybrid resemblance disclosed, not owner acceptance.
+
+Completion log:
+  2026-11-22 - Owner explicitly requests three original-base Claire-driven
+    candidates and three Claire-base structure adaptations, reviewing all six
+    before choosing a subset. Isolated candidate starts at ccefccc; live head
+    333092and manager306384remain protected, normal mode, no control writes.
+  2026-11-22 - Review delivered locally with attribution and explicit two-method
+    labels. No model selection, manager integration or source/media upload.
