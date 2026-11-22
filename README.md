@@ -79,10 +79,14 @@ provenance; their old interfaces are not the current manager.
 FaceMesh look, including the opening talking hero. Each new model GIF shows
 all ten available single emotions plus neutral, not emotion combinations.
 Current source additionally fits lipstick to all six native lips, keeps
-neutral lips closed and makes only wide openings transparent, defines Rowan's
+neutral lips closed and defaults to the original opaque mouth, defines Rowan's
 eyelids and halves only Rowan's emotion gain (shared 2x/4x becomes effective
 1x/2x). These vr-81/84 corrections are not
-retroactively present in the preserved GIFs.
+retroactively present in the preserved GIFs. **Mouth transparency is optional:**
+select it when creating a head (CLI `--mouth-transparency`); it is unchecked by
+default and fixed for that head's lifetime. Only opted-in wide openings clear
+to the background. Akari's separate study now also fits lashes to the actual
+upper eye opening rather than Elara's contour.
 The separate local original-six review now has twelve freshly rendered GIFs;
 the six supplied-GLB experiments keep their separate corrected review.
 [Mechanisms and limits](docs/chapters/09-verona-character-and-waves.md#closed-lips-first-transparent-wide-openings-second-vr-84).
@@ -118,7 +122,9 @@ Neither falls back to synthesis. Independent mute/level controls default to **20
 also the hard maximum**. **Audible yawns are rare**: a 10% chance per yawn and
 at least ten minutes between automatic sounds; most yawns stay silent.
 The visual yawn retains **3x the selection weight** of another eligible action.
-Yawning separates the lips around a dark cosmetic mouth cavity, not a pucker.
+Yawning separates the lips rather than puckering. The old added dark cavity
+is removed; original opaque rendering is the default, with wide-opening
+transparency available only by explicit creation opt-in.
 The supplied recordings stay local/ignored and are not included in this repository.
 On a fresh checkout, mute idle sound until your authorized local clips are
 prepared; missing files produce a visible error, not a downloaded replacement.

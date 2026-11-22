@@ -2,6 +2,25 @@
 
 ## Current deliverable
 
+**Volume four: A Face That Keeps Changing** now continues the illustrated
+journal through `3d5bc5f`, with actual 21-22 November 2026 commit dates:
+`C:\devdesk\homedesk\Verona\book\editions\Verona-Living-Face-Journal-v1\Verona-Living-Face-Journal.pdf`.
+The adjacent `reading.html` is the offline companion. Its **47 pages,
+13 dated entries and 13 figure occurrences** cover vr69..88: zoom/crop,
+tool-owned gestures, sleep-policy correction, quiet private effects, branding,
+Mark hair, native lips/Rowan, six GLB candidates, Elara, research-first Akari
+and actual lash contact/opaque-default correction. Sources:
+`living-face\manifest.json` and `living-face\journal.json`.
+All layouts and figures, full-resolution pages25/26, native PDF navigation,
+an isolated offline reader and a Git-free portable rebuild are checked.
+The reader has47pages/13images/17valid links, no overflow/external requests.
+Ten journal tests pass, including the wrapped-section-heading regression
+exposed by this edition. Frozen PDF SHA-256:
+`00422cf85f8205a94938af2bf796f4e56948c1d51b485c3b4b9f64e174bca167`.
+No owner approval, new inference qualification, listening assessment, PDF
+upload or byte-identical regenerated PDF claim. Prior usable editions retain
+their exact bytes. Registers intentionally show historical source-cutoff status.
+
 The vr-87/88 [living-journal entry](journal.md) supersedes two defaults:
 mouth transparency is now creation-time opt-in, and Akari's upper lashes fit
 the actual eye opening instead of reusing Elara's contour. Corrected local
@@ -44,7 +63,7 @@ The vr-83 entry refreshes the original twelve-GIF catalog without changing
 identities, documents archived-motion derivation and exact gender labels,
 and records the separate settings-preserving owned-head reopen.
 
-The latest separate continuation is **Finding Different Voices**, anchored to
+The preceding separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:
 `book\editions\Verona-Local-Voices-Journal-v1\Verona-Local-Voices-Journal.pdf`.
 Its 24 pages, two dated entries and two occurrences of one actual qualification

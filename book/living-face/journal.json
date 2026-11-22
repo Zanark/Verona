@@ -1,0 +1,191 @@
+{
+  "editorialNote": "Volume four continues the frozen offline-voices notebook through commit 3d5bc5f on 22 November 2026. It records why apparent improvements needed correction: window clipping was not mesh clipping, skin attachment was not eye-rim contact, and transparent mouths were not the desired default. Dates come from actual commit author timestamps in IST, not file modification dates. Historical tests stay historical; this book does not rerun inference or confer owner approval.",
+  "benchNotes": {
+    "opening": [
+      ["The next two days", "The earlier volumes stop at M1, native-head parity and offline voices. This volume covers 21-22 November: usable zoom, intact hair, tool-owned idle life, explicit sleep policy, quiet supplied effects, new styling and repeated facial corrections."],
+      ["What the dates mean", "Each entry uses a real committed milestone and its Asia/Kolkata timestamp. Captures can precede that commit; a later correction can reuse earlier evidence. No capture date is invented from the filesystem."],
+      ["What changed last", "At the source cutoff, mouth transparency is creation-time opt-in. Akari's upper lashes follow the actual upper eye opening. This session was separately recreated as Onyx with 37 compatible controls preserved."],
+      ["What stays frozen", "M1 v2, native-head and offline-voice editions keep their original bytes. This is a separate local continuation, not a rewritten release, uploaded PDF or owner-approved face."]
+    ],
+    "mechanism": [
+      ["One owner for time", "Speech audio owns speech time; a bounded local scheduler supplies occasional idle poses to the existing renderer. No chat calls, per-frame model generation or competing animation loop choose gestures."],
+      ["Geometry and framing are different", "Native viewport growth fixes window clipping. A capped skin jaw boundary fixes ear loss; complete selected hair remains separately fitted. More pixels cannot recover triangles already discarded."],
+      ["Creation policy is immutable", "Performance-only sleep and mouth transparency are strict opt-ins at head creation. Read-only manager status and host rejection prevent stale controls from silently mutating policy."],
+      ["Fit the actual surface", "Symmetric native-rest lip guides replace a generic painted ellipse. Actual skin/sclera visibility replaces a borrowed lash arc. Original coordinates carry cosmetics through deformation; projection need not look symmetric."],
+      ["Review is not installation", "Six supplied-GLB candidates and Akari are separate studies. Distinct geometry, passing numerical gates and real GIFs do not establish owner preference, phonetic accuracy or production integration."]
+    ],
+    "acceptance": [
+      ["Implemented and delivered", "Six production choices share gestures, four presentations, voice-aware private idle effects and bounded resource ownership. Latest source defaults to opaque mouths; explicit creation opt-in retains the wide-opening cutout."],
+      ["Actually exercised", "The final combined source passed 124 CPU tests. Mouth policy qualification covered 480 actual native-model/view/policy checks. Akari's three revised GIFs retain every source time across 32.5 seconds, with actual eye and lip crops reviewed."],
+      ["Still open", "Human articulation, independent listening, subjective attractiveness, GLB candidate selection, anatomical eye/lip contact over all inputs and Akari production integration remain unaccepted."],
+      ["Historical evidence", "Earlier tests, failed captures and superseded defaults are identified rather than rewritten. Later owner-authorized storage cleanup may remove regenerable raw frames while keeping receipts, selected evidence, review media and portable frozen inputs."]
+    ]
+  },
+  "entries": [
+    {
+      "id": "L01", "title": "Give zoom a larger window", "commit": "9b34251", "workstreams": "vr-69/70", "chapter": "10", "status": "DELIVERED / BOUNDED NATIVE QUALIFICATION",
+      "body": [
+        "At 140% the head grew inside a fixed 480x600 window. Expanding the native viewport, compensating renderer scale and sharing cursor coordinates fixed the straight window-edge cuts without shrinking the requested zoom.",
+        "The next screenshot exposed another problem near the ear: the jaw parabola removed native ear skin and neighboring hair inside the window. A capped skin-only boundary and complete selected-hair fitting fixed a different cause.",
+        "The measured default now draws 17,840 hair triangles instead of 11,353. That is an explicit completeness tradeoff, not a speedup. Native witness checks, zoom cases and focused browser checks passed; an unrelated iris-artwork assertion also failed on unchanged source and was not claimed fixed."
+      ],
+      "mechanism": "Screen-bounded native viewport -> consistent projection -> capped skin crop -> complete selected hair in the combined fit.",
+      "failure": "A larger window cannot restore discarded triangles. A capped-only attempt still sheared hair tips; skin and hairstyle boundaries needed separate ownership.",
+      "boundary": "Historical same-pose native captures; no universal monitor, performance or owner visual-acceptance claim.",
+      "figures": [
+        {"path": "docs/media/overlay-zoom-140.png", "caption": "Actual owned native head at 100% and 140%. The requested larger face receives a larger viewport rather than being scaled down to hide clipping."},
+        {"path": "docs/media/ear-hair-crop.png", "caption": "Same 140% native pose before/after the skin-only crop correction: ear and full wave tips return while shoulders stay removed."}
+      ]
+    },
+    {
+      "id": "L02", "title": "Let the tool choose idle gestures", "commit": "a9f8dda", "workstreams": "vr-71/72", "chapter": "11", "status": "IMPLEMENTED / LOCAL GIF REVIEW",
+      "body": [
+        "Fifteen occasional gestures belong to the tool, not the chat. One timeout waits 12-28 seconds, selects from a weighted catalog and avoids recent repeats; the existing renderer evaluates finite trajectories without new mesh buffers or network requests.",
+        "Speech and inspection take priority. Cancelled speech can retain a paused clip, so terminal agent output uses neutral buffers for idle without deleting the clip or altering its audio position. Manual replay returns ownership to inspection.",
+        "A separate report captures every complete action in Surface and FaceMesh. The 814 source captures encode 407 frames; decoded timelines remain exact while delta encoding reduces the GIF set from about 58 MB to 19 MB. One-card playback avoids running fifteen animations merely to browse."
+      ],
+      "mechanism": "Bounded timer -> weighted nonrepeating action -> existing RAF pose -> cancellation/preemption -> neutral restoration.",
+      "failure": "A few wire channels varied even across repeated neutral frames. Final tests demand exact filled-Surface restoration and use measured neutral ranges elsewhere, retaining failed receipts.",
+      "boundary": "360 native action/view cases are bounded qualification, not proof of natural gestures. The original report has fifteen actions; later source expands the catalog.",
+      "figures": [{"path": "idle-life-native-06/claire-actions.png", "caption": "Actual Claire gesture samples from the original fifteen-action qualification. Still phases illustrate the fields, not complete gesture timing or anatomy."}]
+    },
+    {
+      "id": "L03", "title": "Sleep is a creation choice", "commit": "e188149", "workstreams": "vr-73/74", "chapter": "10/11", "status": "MEASURED / OWNER POLICY CORRECTED",
+      "body": [
+        "A silent performance-only head should stop work, not merely become transparent. The event-driven controller cancels RAF, blink/idle clocks and the native cursor interval, retaining the warm model and saved controls. Actual audio playback wakes it.",
+        "Eight counterbalanced 16-second windows measured stationary-cursor CPU 2.786% versus 0.305% of one core and moving-cursor CPU 28.856% versus 0.368%. Working set stayed roughly 756 MiB: sleep did not unload the speech model.",
+        "The owner then corrected the UX: normal heads must remain normal. An unchecked creation checkbox and explicit CLI flag now fix the policy for the head's lifetime; the manager shows read-only status and rejects live changes."
+      ],
+      "mechanism": "Immutable opt-in -> audio event wake/sleep -> 10% idle/100% speaking canvas -> retained warm engine and preferences.",
+      "failure": "A live switch on every head did not satisfy the requested creation policy. Existing default heads were restored to normal before delivering the correction.",
+      "boundary": "Invisible isolated Electron process measurements, not whole-machine CPU/GPU energy, eight-head capacity or independent listening.",
+      "figures": [{"path": "creation-performance-ui-01/manager-workspace.png", "caption": "Actual isolated manager UI qualification for creation-time performance policy; unavailable controls are separate from immutable identity."}]
+    },
+    {
+      "id": "L04", "title": "Eyes join the gesture, sound stays quiet", "commit": "f2c7c83", "workstreams": "vr-75/76", "chapter": "11", "status": "IMPLEMENTED / SUPPLIED EFFECTS QUALIFIED",
+      "body": [
+        "The catalog expands to thirty actions: five eye-focused gestures and ten composites share calibrated face fields. Deliberate gaze temporarily blends out cursor gaze in either cursor mode; individual lids use the same skin/optical closure.",
+        "The first yawn protruded instead of opening. A separate oval field lifts upper lip and drops jaw with a gentler chin transition. The then-current dark cavity was a cosmetic approximation, later removed by the mouth-policy corrections.",
+        "Supplied male/female effects replace synthetic yawns. Prepared mono PCM, bounded duration and fades remain local. The owner asks for 20% maximum and rare sound: automatic yawn sound has 10% chance and at least ten minutes between successful cues, while visual yawn retains 3x weight."
+      ],
+      "mechanism": "Thirty local trajectories -> shared gaze/lid fields -> selected-voice style -> lazy bounded effect buffer -> speech/mute/cancel preemption.",
+      "failure": "Early native style metadata was missing from the warm worker, and the first jaw drop looked rectangular. Correct actual metadata and oval geometry rather than infer success from tests.",
+      "boundary": "720 native action/view cases exercise six heads/four views. Muted PCM and audio-clock checks are not independent listening or an anatomical yawn verdict.",
+      "figures": [{"path": "idle-eyes-native-01/new-actions-sheet.png", "caption": "Actual new eye/composite gesture phases. They are renderer samples, not captured human motion or an inferred emotion system."}]
+    },
+    {
+      "id": "L05", "title": "Publish behavior, keep recordings local", "commit": "818c154", "workstreams": "vr-77/78", "chapter": "11", "status": "SOURCE RELEASED / PRIVATE AUDIO EXCLUDED",
+      "body": [
+        "v0.3.0 collects the implemented local-voice, viewport, crop, gesture and sleep changes. v0.3.1 then adds supplied voice-matched sneezes without putting recordings in source archives. Exact committed trees, member hashes and downloaded assets are verified.",
+        "One shared kind/style loader replaces separate recorded-yawn and synthetic-sneeze paths. Missing prepared files fail visibly; they never trigger cloud fetches or a synthesized substitute. A latest-buffer policy bounds decoded audio ownership.",
+        "The owner later identifies an unwanted female sneeze ending. Exactly one second is removed from the prepared clip, 2.7 to 1.7 seconds, with a 25 ms fade. Original input, male sneeze and both yawns remain unchanged; cached output is discarded by an authorized owned-head recreation."
+      ],
+      "mechanism": "Explicit local preparation -> authenticated bounded kind/style route -> one decoded effect -> immutable source release excludes private media.",
+      "failure": "Initial sound/discovery fixtures used stale assumptions. Fix actual-duration checks and verify installed skill discovery from outside the repository, without weakening privacy boundaries.",
+      "boundary": "Release tags/assets stay frozen. Local permission to trim/play supplied audio is not redistribution permission; technical playback is not listening acceptance.",
+      "figures": []
+    },
+    {
+      "id": "L06", "title": "A transparent mark and two short cuts", "commit": "1b3922d", "workstreams": "vr-79/80", "chapter": "09", "status": "DELIVERED / ACTUAL RENDERER PREVIEWS",
+      "body": [
+        "The cyan mesh identity gains genuinely transparent corners, purple hair, pink lips and an Audiowide wordmark. Alpha-preserving icon generation rejects opaque/empty masters; font license, immutable blobs and hashes remain together.",
+        "Actual Mark gains a short textured quiff and classic side part in addition to Claire waves and spiral curls. New Mark heads start with quiff hair visible in every view; other models and live choices retain their settings.",
+        "The first short-hair capture looked like a loose helmet despite passing numeric checks. Fitting independent scalp axes to resident upper-skull points corrected the silhouette. 420 palette-converted source samples match decoded GIF timelines across the overview and two short loops."
+      ],
+      "mechanism": "RGBA master -> checked icon/lockup derivatives; native upper-skull axis fit -> existing packed hairstyle renderer and selected-only buffers.",
+      "failure": "A nested script, degree/radian capture error and too-wide inherited clearance sphere were corrected before accepting the actual preview; rejected outputs remain diagnostics.",
+      "boundary": "Original authored branding/hair, not a trained identity change, subjective attractiveness acceptance or a new release.",
+      "figures": [
+        {"path": "docs/media/model-vr80-mark.gif", "sampleMs": 1100, "caption": "Explicit 1100 ms sample of the actual Mark overview. Its native neural identity and four presentations are not four simultaneously loaded speech models."},
+        {"path": "mark-hair-80-capture-03/mark-hair-contact.png", "caption": "Final actual Mark short-style comparison after correcting the loose-helmet fit. Front and turned silhouettes expose placement rather than relying on style names."}
+      ]
+    },
+    {
+      "id": "L07", "title": "Follow each native lip", "commit": "ccefccc", "workstreams": "vr-81", "chapter": "09", "status": "IMPLEMENTED / LATER MOUTH DEFAULT SUPERSEDED",
+      "body": [
+        "Owner-marked borders reveal why a generic ellipse cannot fit six mouths. Native-rest upper/lower curves use mirrored coordinates and a smooth Cupid's bow. Removing separate black cavity paint also removes Aster's artificial corner spot.",
+        "Transparent opening requires a depth-tested compositing pass: discarding one surface can reveal the back of the head. A paired animated rim strip clears RGBA without new inference. This historical initial pass later proves too eager near closed lips.",
+        "Only Rowan receives a bounded 0.16 cm eyelid ridge and half-strength native emotion deltas after fitting. Shared 2x/4x controls display effective 1x/2x there; neutral speech, other heads and audio remain unchanged."
+      ],
+      "mechanism": "Per-model mirrored rest-space guides -> interpolated surface cosmetics -> animated GPU rim compositing; Rowan gain after native fitting.",
+      "failure": "A generic paint ellipse and separate dark cavity were wrong. Technical depth-mask tests did not establish neutral lip contact; later owner feedback correctly triggers another fix.",
+      "boundary": "Aster is owner-assigned Female; other review genders remain unassigned. Symmetric rest guides do not force asymmetric expressions or perspective to mirror.",
+      "figures": [{"path": "facial-feedback-81/native-lip-atlas.png", "caption": "Historical native lip atlas used while replacing one generic paint region. Later closure/transparency corrections supersede its original compositing policy."}]
+    },
+    {
+      "id": "L08", "title": "Three sources, two transfer directions", "commit": "8a8e501", "workstreams": "vr-82", "chapter": "09", "status": "SEPARATE SIX-CANDIDATE REVIEW",
+      "body": [
+        "Three supplied static GLBs produce six deliberate choices. Lyra/Mira/Neris retain source topology under Claire-driven geometric motion; Elara/Selene/Thalia retain Claire correspondence and blend 65% of each registered source structure.",
+        "Exact closest-triangle AABB binding replaces approximate nearest vertices. Fitting-only seam welding and a downward neck skirt support registration without modifying output topology. An 80% experimental strength and 192 of 256 supported-control gate keep original distance limits intact.",
+        "All six receive archived same-audio motion and common clay rendering. Six actual 7.5-second GIFs retain 42 distinct frames each. Native lip/neck creases, limited opening and Claire-family hybrid resemblance remain visible rather than hidden by passing metrics."
+      ],
+      "mechanism": "Bounded static import -> registration-only support geometry -> exact convex triangle displacement or Claire-topology hybrid -> separate matched GIF review.",
+      "failure": "Full anime nape correction exceeded the 5 cm bound; another source had an open diagonal neck. The bounded experiment records unsupported controls rather than silently relaxing production defaults.",
+      "boundary": "Reviewed source attribution is not permission to publish private source files. No imported candidate is installed, selected or accepted as a phonetic/anatomical rig.",
+      "figures": [{"path": "neutral-lips-84/glb-mouths.png", "caption": "Actual six-candidate mouth close-ups from the subsequent closure correction. Native topology differences and remaining expression creases are deliberately visible."}]
+    },
+    {
+      "id": "L09", "title": "Closed lips before a transparent opening", "commit": "48742b6", "workstreams": "vr-83/84", "chapter": "09", "status": "CORRECTED / ORIGINAL REVIEW REFRESHED",
+      "body": [
+        "The owner's neutral-gap screenshot exposes unconditional lip erasure. Five outer-lip tracking pairs provide median extra opening beyond rest; curled inner folds are poor motion witnesses. Transparency is gated at 0.65 cm.",
+        "A zigzag opaque cap and then a too-dark Rowan seal are rejected. The narrow near-closed Rowan seal finally uses normal material shading. Constant conservative front depth also prevents symmetric lipstick being clipped differently by native left/right depth.",
+        "The original six names remain stable while twelve 30.25-second GIFs are refreshed. Archived motion hashes require exact CRLF source reconstruction; only Rowan's emotion deltas are halved, within one quantization unit. All decoded source times are checked; Aster's Female badge is explicit."
+      ],
+      "mechanism": "Outer-lip opening scalar cached per frame -> wide-only cutout; exact archived motion identity -> versioned assets -> atomic report switch.",
+      "failure": "Opaque sealing could introduce its own visual defects. Rejected seals and failed source-hash audit are retained rather than bypassing gates.",
+      "boundary": "Current source later defaults transparency off entirely. These twelve retained GIFs document the historical wide-transparent revision, not screenshots of that later default.",
+      "figures": []
+    },
+    {
+      "id": "L10", "title": "Add detail without refitting Elara", "commit": "ccb4f80", "workstreams": "vr-85", "chapter": "09", "status": "ADDITIVE DETAIL / REVIEW ONLY",
+      "body": [
+        "The owner supplies a clay eye reference and asks for Elara brows/lashes, not another face refit. Raised tapered arches, upper-lid bands and three outer tufts are projected onto front skin and bound to exact supporting triangles.",
+        "The first brows are too thin/high inside. Fuller inner taper and a revised arch append 1508 vertices/2976 triangles while preserving every original Elara binary as a prefix and all other five candidate folders/media.",
+        "A selective actual capture refreshes only Elara's 7.5-second GIF. All 60 lower-face crops match the previous correction; desktop/mobile one-card review remains bounded and offline."
+      ],
+      "mechanism": "Authored XY guides -> front-skin projection -> closed tapered tubes -> convex native skin displacement.",
+      "failure": "Reference-guided additive detail is not automatic anatomical fitting; reusing this contour on a different face later proves incorrect.",
+      "boundary": "No separate follicle rig, original GLB edit, production import or owner approval.",
+      "figures": []
+    },
+    {
+      "id": "L11", "title": "Research the whole anime face first", "commit": "0aa5105", "workstreams": "vr-86", "chapter": "09", "status": "RESEARCH COMMITTED BEFORE IMPLEMENTATION",
+      "body": [
+        "The owner wants a complete Claire-based anime woman: eyes, chin, cheeks, eyelashes and hairstyle together. Five progressive research iterations compare same-topology shaping, independent rigs, expressive eye/lash construction, original hair and reuse rights.",
+        "The illustrated document cites primary VRoid/VRM guidance and two credited reference images. Neither source supplies geometry, textures, a copied character identity or a calibration target. A 403 fetch limit remains explicit.",
+        "A same-correspondence original candidate is chosen so complete posed skin can be reshaped without pretending that independent unrigged assets become a trained anime expression system."
+      ],
+      "mechanism": "Requirements and primary-source comparison -> rights/coupling review -> explicit same-topology design -> research commit before model code.",
+      "failure":       "A familiar style label or appealing reference image is not a rig specification, an exact likeness requirement or permission to copy.",
+      "boundary": "Reference images remain in their credited research document; this volume does not reproduce the owner's private feedback images.",
+      "figures": []
+    },
+    {
+      "id": "L12", "title": "Build Akari, expose the structure", "commit": "4863986", "workstreams": "vr-86", "chapter": "09", "status": "IMPLEMENTED / SEPARATE THREE-WAY REVIEW",
+      "body": [
+        "Akari maps complete Claire poses to a tapered rounded jaw/chin, lifted lower face, softer cheeks, reduced nose projection and larger orbital openings. Original teal iris layers and a swept violet bob form one coordinated identity.",
+        "The first hard-toon/per-vertex lip render looks patchy. Soft skin light and the shared continuous native-rest lip shader replace coarse paint. A steep orbital falloff is relaxed to keep sampled Jacobians positive.",
+        "Finished, clay/no-hair and original-skin comparison GIFs each retain 32.5 seconds and 260 source samples. A legacy shader branch preserves old clay rounding exactly. The later lash correction changes detail placement, not these research or original-motion claims."
+      ],
+      "mechanism": "Unchanged skin correspondence -> smooth complete-pose map -> original optics/hair -> continuous rest-space cosmetics -> matched finished/clay/baseline review.",
+      "failure": "Hard lighting, coarse vertex paint and a steep falloff each created different defects. Bound numerical checks and actual image review catch different classes of failure.",
+      "boundary": "Akari remains a separate study, not an installed manager choice, new neural identity, owner-approved design or listening proof.",
+      "figures": [      {"path": "anime-claire-86/capture06-attached-default/akari-clay/000.png", "caption": "Subsequent corrected clay Akari rest view, without hair: actual structural map and inherited skin folds. The capture includes vr88 fitted lashes and opaque-default policy, not the first vr86 attempt."}]
+    },
+    {
+      "id": "L13", "title": "Contact is not a nearby arc", "commit": "3d5bc5f", "workstreams": "vr-87/88", "chapter": "09/10", "status": "CORRECTED / ONYX LIVE / REVIEW OPEN",
+      "body": [
+        "The owner identifies a gap between Akari's visible eyes and lashes. Skin attachment alone was insufficient: Elara's curve followed the wrong skin. Ray-testing actual skin/sclera visibility, then 18 bisections and 0.012 cm skin-side overlap place the band on the real upper aperture.",
+        "The owner also withdraws mouth transparency as the default. Strict default-false metadata passes through manager, CLI, host and renderer; only creation-time opt-in plus a wide opening clears the mouth. Rowan's opaque neutral seal remains independent.",
+        "Actual revised eye/lip crops and three complete GIFs are checked. Combined 124 CPU tests and 480 native policy/view checks pass; all 60 Elara detail poses stay exact. Only this session's head and its owned manager are recreated after confirming no other heads. Onyx retains 37 controls, colors and zoom with transparency false."
+      ],
+      "mechanism": "Actual visibility boundary -> skin-bound fitted detail; immutable creation opt-in -> measured wide-only erase dispatch -> preserved default opaque surface.",
+      "failure": "Two pixel-equality fixtures rejected a single neutral wire-edge raster difference. Actual erase-pass instrumentation distinguishes policy execution from readback variance; failed receipts remain.",
+      "boundary": "Corrected observed gap and verified live readiness do not establish universal anatomy, listening acceptance or owner selection. Akari stays review-only; Onyx is existing male-sharp.",
+      "figures": [
+        {"path": "anime-claire-86/lash-comparison06-eyes.png", "caption": "Actual before/after eye crops: floating Elara-derived arc on the left, fitted upper-eye-rim band on the right, across rest, turn, blink and speech samples."},
+        {"path": "anime-claire-86/capture06-attached-default/akari/000.png", "caption": "Final corrected finished Akari rest. Original opaque mouth and continuous symmetric rest-space lipstick; expression/perspective symmetry is not forcibly imposed."}
+      ]
+    }
+  ]
+}

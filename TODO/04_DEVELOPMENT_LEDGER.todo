@@ -1,6 +1,22 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr89 updates the actual illustrated Development Journal
+Cause: owner wants all new work/dates in the earlier journal, then disk cleanup.
+Action: separate VOL4 source through3d5bc5f;13chronological authored entries
+cover vr69..88. Actual Git author dates in IST, explicit13figure allowlist,
+historical defaults separated from latest opaque-default/lash correction.
+Evidence:47native pages; all12layout sheets and both source sheets reviewed;
+full-resolution25/26 inspected. Native text/fonts/navigation and isolated
+Edge reader47pages/13images/17links/no overflow/external requests pass.
+Git-free portable rebuild47pages/exact prepared figure hashes; frozen checksums.
+Initial wrapped heading fails literal newline section match; normalize whitespace
+and add focused regression. All10book tests pass. No suppressed failure.
+Effect: distinct Verona-Living-Face-Journal-v1 local PDF/reader, unchanged prior
+usable editions, current README/product brief claims corrected. Cleanup follows.
+Limits: agent review, not owner approval/new runtime or listening qualification;
+no uploaded PDF, rewritten release or byte-identical regenerated-PDF guarantee.
+
 2026-11-22 - vr87/88 correct mouth policy and actual Akari lash contact
 Cause: owner wants original opaque mouth default, creation-only transparency
 opt-in, final Onyx recreation, and rejects visible Akari upper-lash gap.

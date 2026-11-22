@@ -1,0 +1,39 @@
+ID: vr-89
+Title: Update the illustrated development journal through the latest corrections
+
+Status: DONE
+Milestone: Separately versioned living-face journal continuation
+Dependencies: vr-88
+
+Purpose:
+  Owner asks to update the earlier Development Journal with new work and dates.
+  Extend the rendered journal, not just its Markdown ledger; preserve editions.
+
+Tasks:
+  Anchor chronology to actual commits after the offline-voices continuation.
+  Author mechanisms, decisions, failures and limits through vr87/88.
+  Curate explicit actual figures; build native PDF and offline reader.
+  Inspect all layouts/figures, qualify text/navigation and portable rebuild.
+  Freeze a distinct local edition and update book indexes/causal ledger.
+
+Acceptance criteria:
+  Covers vr69..88 with actual21/22November2026 commit dates in IST.
+  No invented approval, new runtime qualification or listening assessment.
+  Frozen older books unchanged; no withdrawn character imagery or private data.
+  Searchable PDF, complete chronology, readable figures and working offline HTML.
+  Explicit sources/hashes, reviewed output and distinct versioned edition.
+
+Completion evidence:
+  book/living-face/{manifest,journal}.json; immutable cutoff3d5bc5f.
+  book/editions/Verona-Living-Face-Journal-v1:47pages/13entries/13figures.
+  Native qualification, all-page/source visual review, full-resolution25/26,
+  isolated Edge reader47pages/13images/17links/no external requests pass.
+  Git-free portable rebuild47pages and exact prepared-image hashes pass.
+  Frozen SHA00422cf85f8205a94938af2bf796f4e56948c1d51b485c3b4b9f64e174bca167.
+  Ten journal tests pass, including wrapped native-section heading regression.
+  Earlier frozen editions unchanged. Not owner approval/new listening tests.
+
+Completion log:
+  2026-11-22 - Owner requests updated journal before local disk cleanup.
+  2026-11-22 - Separate reviewed/portable volume frozen; docs/current mouth
+    claims updated. No source media/history deletion preceded the journal.

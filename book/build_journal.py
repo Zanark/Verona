@@ -735,7 +735,8 @@ def qualify(output):
                                 "links": len(page.get_links()), "spans": len(spans)})
         if len(doc.get_toc()) != 3 + len(load(output / "journal.json")["entries"]) + 7:
             raise ValueError("Native bookmark inventory is incomplete.")
-        if not all(name in "\n".join(fulltext) for name in (
+        section_text = " ".join("\n".join(fulltext).split())
+        if not all(name in section_text for name in (
                 "Source notebook", "Commit register", edition.get("acceptanceTitle", "M1: present"))):
             raise ValueError("Expected journal sections are missing from native text.")
         (output / "review" / "native-text.txt").write_text("\n\f\n".join(fulltext), encoding="utf-8")

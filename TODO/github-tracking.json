@@ -1139,7 +1139,33 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-89": {
+      "source": "TODO/89_LIVING_FACE_JOURNAL.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhhFlLg",
+      "number": 88,
+      "url": "https://github.com/Zanark/Verona/issues/88",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK6V-4",
+      "title": "Update the illustrated development journal through the latest corrections",
+      "managedBody": "\n<!-- verona-workstream:vr-89 -->\nWorkstream source: `TODO/89_LIVING_FACE_JOURNAL.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-89\nTitle: Update the illustrated development journal through the latest corrections\n\nStatus: DONE\nMilestone: Separately versioned living-face journal continuation\nDependencies: vr-88\n\nPurpose:\n  Owner asks to update the earlier Development Journal with new work and dates.\n  Extend the rendered journal, not just its Markdown ledger; preserve editions.\n\nTasks:\n  Anchor chronology to actual commits after the offline-voices continuation.\n  Author mechanisms, decisions, failures and limits through vr87/88.\n  Curate explicit actual figures; build native PDF and offline reader.\n  Inspect all layouts/figures, qualify text/navigation and portable rebuild.\n  Freeze a distinct local edition and update book indexes/causal ledger.\n\nAcceptance criteria:\n  Covers vr69..88 with actual21/22November2026 commit dates in IST.\n  No invented approval, new runtime qualification or listening assessment.\n  Frozen older books unchanged; no withdrawn character imagery or private data.\n  Searchable PDF, complete chronology, readable figures and working offline HTML.\n  Explicit sources/hashes, reviewed output and distinct versioned edition.\n\nCompletion evidence:\n  book/living-face/{manifest,journal}.json; immutable cutoff3d5bc5f.\n  book/editions/Verona-Living-Face-Journal-v1:47pages/13entries/13figures.\n  Native qualification, all-page/source visual review, full-resolution25/26,\n  isolated Edge reader47pages/13images/17links/no external requests pass.\n  Git-free portable rebuild47pages and exact prepared-image hashes pass.\n  Frozen SHA00422cf85f8205a94938af2bf796f4e56948c1d51b485c3b4b9f64e174bca167.\n  Ten journal tests pass, including wrapped native-section heading regression.\n  Earlier frozen editions unchanged. Not owner approval/new listening tests.\n\nCompletion log:\n  2026-11-22 - Owner requests updated journal before local disk cleanup.\n  2026-11-22 - Separate reviewed/portable volume frozen; docs/current mouth\n    claims updated. No source media/history deletion preceded the journal.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
+    },
+    "vr-90": {
+      "source": "TODO/90_LOCAL_ARTIFACT_CLEANUP.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhhFovA",
+      "number": 89,
+      "url": "https://github.com/Zanark/Verona/issues/89",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK6WB0",
+      "title": "Reclaim obsolete local build and qualification storage safely",
+      "managedBody": "\n<!-- verona-workstream:vr-90 -->\nWorkstream source: `TODO/90_LOCAL_ARTIFACT_CLEANUP.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-90\nTitle: Reclaim obsolete local build and qualification storage safely\n\nStatus: IN_PROGRESS\nMilestone: Smaller usable checkout with explicit retention evidence\nDependencies: vr-89\n\nPurpose:\n  Owner reports almost30GB and authorizes removal of unused local files/folders.\n  Measured starting logical size30.1008GiB; preserve usable app and actual books.\n\nTasks:\n  Inventory exact files/worktrees/links; identify live owners and asset references.\n  Finish requested journal before deletion; preserve frozen prepared inputs.\n  Compare old dirty worktrees with delivered source/history before removing.\n  Retain models/env/native runtime, current review reports and compact receipts.\n  Delete only explicit regenerable/duplicate payloads from a reviewed manifest.\n  Verify retained links/hashes, source integrity, app readiness and reclaimed bytes.\n\nAcceptance criteria:\n  No broad root deletion, link traversal, source/history loss or sibling changes.\n  No current runtime/profile interruption or automatic dependency redownload.\n  Preserve failed receipts and required model/native/effect/voice assets.\n  Explain pruned raw evidence honestly; old raw-frame replay may require rebuild.\n  Record actual before/after logical size and exact removed-file inventory.\n\nCompletion evidence:\n  Read-only inventory: .local/qualification19.596GiB; .local/worktrees5.575GiB.\n  Deletion pending journal completion and reference/ownership checks.\n\nCompletion log:\n  2026-11-22 - Owner authorizes cleanup after documentation; inspect first.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T14:36:50.862844+00:00"
+  "verifiedAt": "2026-11-22T15:45:53.260419+00:00"
 }

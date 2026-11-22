@@ -1,0 +1,32 @@
+ID: vr-90
+Title: Reclaim obsolete local build and qualification storage safely
+
+Status: IN_PROGRESS
+Milestone: Smaller usable checkout with explicit retention evidence
+Dependencies: vr-89
+
+Purpose:
+  Owner reports almost30GB and authorizes removal of unused local files/folders.
+  Measured starting logical size30.1008GiB; preserve usable app and actual books.
+
+Tasks:
+  Inventory exact files/worktrees/links; identify live owners and asset references.
+  Finish requested journal before deletion; preserve frozen prepared inputs.
+  Compare old dirty worktrees with delivered source/history before removing.
+  Retain models/env/native runtime, current review reports and compact receipts.
+  Delete only explicit regenerable/duplicate payloads from a reviewed manifest.
+  Verify retained links/hashes, source integrity, app readiness and reclaimed bytes.
+
+Acceptance criteria:
+  No broad root deletion, link traversal, source/history loss or sibling changes.
+  No current runtime/profile interruption or automatic dependency redownload.
+  Preserve failed receipts and required model/native/effect/voice assets.
+  Explain pruned raw evidence honestly; old raw-frame replay may require rebuild.
+  Record actual before/after logical size and exact removed-file inventory.
+
+Completion evidence:
+  Read-only inventory: .local/qualification19.596GiB; .local/worktrees5.575GiB.
+  Deletion pending journal completion and reference/ownership checks.
+
+Completion log:
+  2026-11-22 - Owner authorizes cleanup after documentation; inspect first.

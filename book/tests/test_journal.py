@@ -17,6 +17,26 @@ SPEC.loader.exec_module(journal)
 
 
 class JournalTests(unittest.TestCase):
+    def test_native_qualification_accepts_wrapped_section_titles(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            (output / "review").mkdir()
+            name = "Wrapped.pdf"
+            title = "What exists, and what remains a review"
+            with fitz.open() as doc:
+                page = doc.new_page()
+                page.insert_text((48, 100), "Source notebook\nCommit register\n"
+                                 "What exists, and what remains a\nreview")
+                doc.set_toc([[1, f"Section {i}", 1] for i in range(10)])
+                doc.save(output / name)
+            journal.write(output / "expected-text.json", [[]])
+            journal.write(output / "journal.json", {"entries": []})
+            journal.write(output / "edition.json", {
+                "pdfName": name, "pages": [{}], "assets": [], "acceptanceTitle": title,
+                "outputs": {name: {"sha256": journal.sha(output / name)}},
+                "expectedTextSha256": journal.sha(output / "expected-text.json")})
+            self.assertEqual(journal.qualify(output)["nativePages"], 1)
+
     def test_freeze_returns_the_custom_pdf_hash_and_preserves_existing_edition(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

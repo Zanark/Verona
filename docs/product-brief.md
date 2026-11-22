@@ -1,18 +1,23 @@
 # Verona product brief
 
-Latest bounded experiment (vr-86): the owner requests deep research with
+Latest bounded experiment (vr-86/87/88): the owner requests deep research with
 reference images before implementing a new Claire-based anime woman across
 eyes, chin, cheeks, lashes and hairstyle. The illustrated research precedes
 the original Akari study: coordinated complete-pose geometry, teal layered
 eyes, moving brows/lashes and an original violet bob. Separate finished,
 clay/no-hair and original-skin comparison GIFs cover neutral plus all ten
 emotions, turns and a deliberate blink. Continuous mirrored rest-space lip
-guides follow speech; only wide openings reveal the background.
+guides follow speech. Mouths default to the original opaque rendering;
+transparency requires explicit opt-in at head creation and a wide opening.
+Akari's upper lashes now fit the actual skin/sclera opening, not Elara's arc.
 See `docs\research\claire-anime-woman.md`, chapter09 and the local
 `.local\reports\akari-anime-review-20261122\index.html`.
 This is an implemented review candidate, not a production manager option,
 new learned rig, independent listening/phonetic acceptance or owner selection.
-Claire, earlier reviews and the running app remain unchanged.
+Claire and earlier review identities are preserved. The original six-model
+report now links the corrected study while retaining historical wide-transparent
+GIFs. This session's production Onyx head was separately recreated with
+mouth transparency off; Akari remains review-only.
 
 Earlier bounded experiment (vr-82): the owner supplies three new static GLBs
 and requests six candidates before selecting a subset. Original-base

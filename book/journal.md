@@ -5,6 +5,31 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Bind the next two days into a separate volume (vr-89)
+
+The owner asks to update the earlier Development Journal before reducing the
+30.10 GiB checkout. The Markdown already follows the work, but the latest
+rendered volume stops at offline voices. A separately versioned continuation,
+**A Face That Keeps Changing**, now follows vr69..88 through actual commit
+`3d5bc5f`, with21/22November dates derived from Git in IST. Thirteen authored
+entries explain causes, mechanisms, rejected approaches and unresolved
+acceptance; thirteen actual figure occurrences show the changed app.
+
+The47-page native PDF and offline reader preserve earlier frozen editions.
+Every layout/source figure and full-resolution text/eye-evidence pages25/26
+are agent-reviewed. Native text, fonts, links, an isolated47-page reader and
+Git-free portable rebuild pass. A wrapped acceptance heading initially fails
+the section check despite complete native text; whitespace-normalized matching
+and a focused regression fix that actual builder defect. Ten book tests pass.
+Source-image hashes and previous editions remain unchanged. No listening,
+new runtime testing, owner approval, PDF upload or exact regenerated-byte claim.
+
+The new local edition is
+`C:\devdesk\homedesk\Verona\book\editions\Verona-Living-Face-Journal-v1`.
+Storage cleanup follows only after this documentation milestone. Small
+receipts, selected evidence and frozen prepared inputs will remain even when
+regenerable raw capture series and duplicate builds are removed.
+
 ## 2026-11-22 - Fix actual eye contact and make mouth clearing explicit (vr-87/88)
 
 The owner rejects Akari's visible eye/lash gap. Being bound to skin was not

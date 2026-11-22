@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Updated illustrated journal (vr-89):** [book delivery index](../book/README.md)
+records the separate47-page **A Face That Keeps Changing** continuation:
+13dated entries/13figure occurrences through vr88, actual21-22November
+commit dates, reviewed native PDF/offline reader and portable frozen inputs.
+Earlier volumes are unchanged; technical review is not owner acceptance.
+
 **Owner corrections (vr-87/88):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#opaque-mouths-by-default-transparency-belongs-to-head-creation-vr-87)
 restores opaque mouths with creation-time transparency opt-in.
 [Chapter09](chapters/09-verona-character-and-waves.md#attach-lashes-to-the-eye-opening-not-a-nearby-arc-vr-88)
