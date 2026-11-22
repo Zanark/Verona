@@ -21,6 +21,16 @@ No owner approval, new inference qualification, listening assessment, PDF
 upload or byte-identical regenerated PDF claim. Prior usable editions retain
 their exact bytes. Registers intentionally show historical source-cutoff status.
 
+**Local storage cleanup (vr-90):** after this volume was frozen and delivered,
+obsolete working payloads were pruned: raw captures, old numerical builds,
+duplicate release ZIPs, disposable profiles and candidate book copies.
+The checkout fell from30.15GiB(after the new book) to8.01GiB.
+All four usable frozen editions and their177checksum entries remain exact,
+including the new volume's prepared figures and portable builder.
+Compact failed/success receipts remain, but not every old raw capture or
+candidate PDF. Use frozen `--from-edition` inputs to rebuild books independently
+of those pruned captures. Original selected source images are also retained.
+
 The vr-87/88 [living-journal entry](journal.md) supersedes two defaults:
 mouth transparency is now creation-time opt-in, and Akari's upper lashes fit
 the actual eye opening instead of reusing Elara's contour. Corrected local

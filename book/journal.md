@@ -5,6 +5,30 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Keep the evidence, remove its redundant working copies (vr-90)
+
+The owner-requested journal is frozen and pushed before deletion. The exact
+post-book baseline is30.151GiB;15obsolete detached worktrees, duplicated
+release ZIPs, raw capture sequences, superseded numerical payloads, disposable
+profiles, tool download archives and candidate book renders account for
+22.142GiBreclaimed. The checkout now holds8.009GiBof logical file data.
+
+This is not a blind deletion of `.local`, environments or media. Every old
+worktree is audited against reachable Git history; five unique documentation
+snapshots are privately preserved. Shared junction entries are removed without
+traversing models or Electron. All881retained asset hashes remain exact,
+649local report links resolve and177checksum entries across four usable frozen
+books pass. All review directories/backups, selected source figures, compact
+failed receipts, source motion/latest candidate geometry and installed model/
+runtime/authoring dependencies remain. Exact private inventory and a compact
+`.local/cleanup-20261122.json` receipt explain the boundary.
+
+Historical receipts still describe real runs, but deleted raw-frame series and
+old candidates now require regeneration. No automatic fetch, new playback or
+owner-approval claim follows from cleanup. No runtime was interrupted; the old
+Onyx PIDs were already absent at the pre-delete check, so previous delivery
+evidence must not be presented as current running-state proof.
+
 ## 2026-11-22 - Bind the next two days into a separate volume (vr-89)
 
 The owner asks to update the earlier Development Journal before reducing the

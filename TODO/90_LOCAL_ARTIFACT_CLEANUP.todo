@@ -1,7 +1,7 @@
 ID: vr-90
 Title: Reclaim obsolete local build and qualification storage safely
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Smaller usable checkout with explicit retention evidence
 Dependencies: vr-89
 
@@ -25,8 +25,22 @@ Acceptance criteria:
   Record actual before/after logical size and exact removed-file inventory.
 
 Completion evidence:
-  Read-only inventory: .local/qualification19.596GiB; .local/worktrees5.575GiB.
-  Deletion pending journal completion and reference/ownership checks.
+  Journal milestone completed/pushed d9e08c5 before any deletion.
+  Original inventory30.1008GiB; post-book exact cleanup baseline30.1512GiB.
+  After8.0089GiB; reclaimed23775080870bytes=22.1423GiB (logical file bytes).
+  Removed56661explicit files and15audited obsolete detached worktrees.
+  Five unique uncommitted documentation snapshots preserved privately;
+  other changed worktree contents resolve to reachable historical Git blobs.
+  Junction entries unlinked, shared model/Electron targets untouched.
+  All881retained asset hashes exact;649report links valid; four usable frozen
+  books177checksum entries exact. Required CPUenv/Electron/Blender/inputs exist.
+  Reports/backups, models, local effects, archived motion/latest review geometry,
+  selected figures, compact failed/success receipts and source/history retained.
+  .local/cleanup-20261122.json contains measured compact receipt.
+  Exact full manifest/recovery retained in the private owning session artifacts.
+  No runtime stop/reload/launch. Prior Onyx PIDs already absent before deletion.
 
 Completion log:
   2026-11-22 - Owner authorizes cleanup after documentation; inspect first.
+  2026-11-22 - Reviewed manifest applied; retained assets/readers/books verified.
+    Raw generated sequences/candidate payloads now need regeneration if reused.

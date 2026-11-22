@@ -1,6 +1,24 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr90 removes redundant generated storage after journal delivery
+Cause: owner wants obsolete files removed from almost30GiBlocal checkout.
+Action: complete/push journal d9e08c5first. Explicit link-safe file manifest,
+reachable-history audit for15oldworktrees; preserve5unique documentation
+snapshots privately. Unlink only shared junction entries, then remove worktrees.
+Delete rawframes/superseded binaries/profiles, duplicate releaseZIPs, installed
+tool archives and candidatebookpayloads. Keep selectedfigureallowlists.
+Evidence: exact before32374564034bytes(afterbook), after8599483164;
+23775080870bytes=22.1423GiBreclaimed.56661files/15worktrees removed.
+881retained asset hashes exact;649reportlinks and177checksums across4usable
+frozenbooks pass. Models/effects/CPUenv/Electron/Blender/nativeinputs retained.
+Effect: checkout8.0089GiB; allcurrent/historicalreports and preparedfrozeninputs
+remain. Compact .local/cleanup-20261122.json plus private exactmanifest.
+Limits: logicalbytesnotfilesystemallocation. Rawsequence replayrequires rebuild;
+compactfailed/successreceipts retained, not misrepresented as fresh review.
+No processrestart. EarlierOnyxPIDs alreadyabsent at predeletecheck, not killed
+by cleanup; future runtimework must rediscover actual ownership.
+
 2026-11-22 - vr89 updates the actual illustrated Development Journal
 Cause: owner wants all new work/dates in the earlier journal, then disk cleanup.
 Action: separate VOL4 source through3d5bc5f;13chronological authored entries
