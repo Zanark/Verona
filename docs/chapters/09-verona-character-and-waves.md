@@ -1,5 +1,31 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Attach lashes to the eye opening, not a nearby arc (vr-88)
+
+The owner's screenshot rejects Akari's floating lash line. The vr-86 detail
+was skin-bound but reused Elara's authored contour: attachment to *some skin*
+does not establish contact with the visible eye. `anime_claire.upper_eye_guides`
+ray-tests the actual front skin triangles against the existing sclera ellipsoid,
+brackets its upper visible boundary and bisects it eighteen times. The band
+center sits 0.012 cm onto the skin side; its radius overlaps the rim.
+The same complete-pose map and convex skin displacement move this fitted band
+and its outer tufts. Unsupported or unbracketed guides fail explicitly.
+
+`glb_head_study.elara_eye_details` accepts optional finite two-by-33 XY guides.
+Omitting them preserves Elara's original construction: actual detail vertices,
+triangles and all 60 animated detail poses remain byte-exact. A synthetic
+plane/ellipsoid test verifies the analytic intersection and its response to
+changed skin depth, including explicit failure when no sclera is exposed.
+Actual before/after crops show corrected rest, turned, partial/full-blink and
+speech contact; the complete revised three-way GIFs retain 260 source samples,
+196 unique frames and 32.5 seconds each. Every encoded source time is checked.
+This corrects the observed gap, not an independent anatomical/owner acceptance.
+
+The revised local report adds eye and all-emotion lip close-ups. Its mouth is
+opaque throughout, superseding vr-86's transparent wide-mouth presentation.
+Older captures/reports remain historical evidence. The continuous mirrored
+lip guide and original skin correspondence are unchanged.
+
 ## Build a coordinated anime identity, not just larger irises (vr-86)
 
 The owner asks for a new Claire-based anime woman across eyes, chin, cheeks,

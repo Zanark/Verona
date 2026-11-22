@@ -5,6 +5,35 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Fix actual eye contact and make mouth clearing explicit (vr-87/88)
+
+The owner rejects Akari's visible eye/lash gap. Being bound to skin was not
+enough: the reused Elara curve traced the wrong skin. The replacement ray-tests
+the native sclera against skin triangles, bisects the upper exposed boundary
+and overlaps the lash band slightly onto its skin side. The original complete
+pose map carries that contact through the anime deformation. Elara's omitted-
+guide path retains exact geometry and all 60 detail poses.
+
+The owner also requests original opaque mouths, without an added void.
+Transparency becomes a strictly boolean, default-off, creation-only policy
+through manager, CLI, host and renderer. The existing wide-opening threshold
+still applies after opt-in; Rowan's opaque neutral seal remains independent.
+An isolated worktree protects the running head during qualification.
+
+The corrected finished/clay/original-skin GIFs each retain 32.5 seconds and
+every one of 260 source samples. Actual eye contact, blink and all-emotion lip
+crops are inspected; browser qualification reports no errors/external requests.
+Six actual native meshes, both policies and four views pass 480 matrix checks.
+Two failed fixtures retain a one-pixel wire-edge raster difference; actual
+erase-pass instrumentation distinguishes that from executing transparency.
+No new inference, dependency, listening acceptance or frozen edition is claimed.
+Combined source passes 124 CPU tests and the native lip tests. With no other
+head present, the requested live switch replaces only this session's host and
+its owned manager, whose already-loaded API requires the update. Onyx retains
+all 37 compatible controls and defaults to opaque mouth; native window and
+served-source identity are verified. No speech is replayed.
+The prior research/rendering results below remain historical, not rewritten.
+
 ## 2026-11-22 - Research a whole anime face before building Akari (vr-86)
 
 The request is coordinated eyes, chin, cheeks, lashes and hairstyle, not another

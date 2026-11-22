@@ -58,7 +58,8 @@ app.whenReady().then(async()=>{
         head.id="1".repeat(32);head.state="generating";value=head;
       }else if(payload.action==="create"){
         value={session:payload.session,ready:true,state:"idle",
-          appearance:{model:payload.model,colors:payload.colors,performanceMode:payload.performanceMode===true},controls:[]};
+          appearance:{model:payload.model,colors:payload.colors,performanceMode:payload.performanceMode===true,
+            mouthTransparency:payload.mouthTransparency===true},controls:[]};
         fixtureHeads.push(value);
       }else throw new Error("Unexpected fixture request: "+payload.action);
       const snapshot=JSON.parse(JSON.stringify(value));
@@ -80,11 +81,12 @@ app.whenReady().then(async()=>{
   await evaluate(`managerTest.choose("qual-a");managerTest.refresh()`);
   assert.deepEqual((await rows("controls")).map(row=>row.label),["voice","presentation","volume"]);
   const readonly=await rows("readonly-controls");
-  assert.deepEqual(readonly.map(row=>row.label),["Session name","Head variant","Performance-only mode","framing"]);
+  assert.deepEqual(readonly.map(row=>row.label),["Session name","Head variant","Performance-only mode","Mouth transparency","framing"]);
   assert.equal(readonly[0].value,"qual-a");assert.equal(readonly[1].value,"Original Claire");
-  assert(readonly.slice(0,3).every(row=>row.readonly&&row.hint.startsWith("Set at creation.")));
+  assert(readonly.slice(0,4).every(row=>row.readonly&&row.hint.startsWith("Set at creation.")));
   assert.equal(readonly[2].value,"Off (normal head)");
-  assert(readonly[3].disabled&&readonly[3].hint.startsWith("Currently unavailable"));
+  assert.equal(readonly[3].value,"Off (original opaque mouth)");
+  assert(readonly[4].disabled&&readonly[4].hint.startsWith("Currently unavailable"));
   assert.equal(await evaluate(`document.querySelector("#error").textContent`),"");
   report.checks.push("Two sections separate enabled controls, immutable name/model and explicitly temporary unavailable controls.");
   await evaluate(`const volume=[...document.querySelectorAll("#controls label")].find(label=>
@@ -92,7 +94,7 @@ app.whenReady().then(async()=>{
     volume.focus();managerTest.heads[0].ready=false;managerTest.refresh()`);
   assert.equal((await rows("controls")).length,0);
   assert.equal(await evaluate(`document.getElementById("no-editable").hidden`),false);
-  assert((await rows("readonly-controls")).slice(3).every(row=>row.disabled));
+  assert((await rows("readonly-controls")).slice(4).every(row=>row.disabled));
   await evaluate(`managerTest.heads[0].ready=true;managerTest.refresh()`);
   assert.equal((await rows("controls")).length,3);
   report.checks.push("Readiness changes regroup controls even with an input focused; ready state restores editable controls.");
@@ -101,7 +103,7 @@ app.whenReady().then(async()=>{
       label.querySelector("span").textContent==="presentation").querySelector("select");
       input.value=${JSON.stringify(mode)};input.dispatchEvent(new Event("change",{bubbles:true}));}`);
     await waitFor(`document.querySelectorAll("#controls>label").length===${editableCount}`,"mode regrouping");
-    assert.equal((await rows("readonly-controls")).length,7-editableCount);
+    assert.equal((await rows("readonly-controls")).length,8-editableCount);
   }
   assert.deepEqual(await evaluate(`managerTest.calls.filter(call=>call.action==="settings").map(
     call=>({session:call.session,settings:call.settings}))`),[
@@ -174,12 +176,21 @@ app.whenReady().then(async()=>{
   assert.equal(await evaluate(`managerTest.calls.filter(call=>call.action==="create").length`),1);
   assert.equal(await evaluate(`managerTest.calls.find(call=>call.action==="create").performanceMode`),undefined);
   assert.equal(await evaluate(`document.getElementById("create-performance").checked`),false);
+  assert.equal(await evaluate(`managerTest.calls.find(call=>call.action==="create").mouthTransparency`),undefined);
+  assert.equal(await evaluate(`document.getElementById("create-mouth-transparency").checked`),false);
   await evaluate(`managerTest.choose(null);document.getElementById("name").value="qual-performance";
     document.getElementById("create-performance").checked=true;document.getElementById("create").requestSubmit()`);
   await waitFor(`document.getElementById("heading").textContent==="qual-performance"`,"opted-in head");
   assert.equal(await evaluate(`managerTest.calls.filter(call=>call.action==="create").at(-1).performanceMode`),true);
   assert.equal(await evaluate(`document.getElementById("create-performance").checked`),false);
   assert.equal((await rows("readonly-controls"))[2].value,"On");
+  await evaluate(`managerTest.choose(null);document.getElementById("name").value="qual-transparent";
+    document.getElementById("create-mouth-transparency").checked=true;document.getElementById("create").requestSubmit()`);
+  await waitFor(`document.getElementById("heading").textContent==="qual-transparent"`,"transparent-mouth opt-in head");
+  assert.equal(await evaluate(`managerTest.calls.filter(call=>call.action==="create").at(-1).mouthTransparency`),true);
+  assert.equal(await evaluate(`document.getElementById("create-mouth-transparency").checked`),false);
+  assert.equal((await rows("readonly-controls"))[3].value,"On (wide openings only)");
+  report.checks.push("Mouth transparency defaults off, forwards only explicit creation opt-in, shows immutable status and resets off.");
   report.checks.push("Unchecked creation is normal; explicit opt-in is forwarded, shown read-only, and resets off for the next new head.");
   report.checks.push("Stale connections disable mutations, preserve drafts and recover explicitly; duplicate head creation is gated while pending.");
   await evaluate(`(async()=>{managerTest.choose("qual-a");

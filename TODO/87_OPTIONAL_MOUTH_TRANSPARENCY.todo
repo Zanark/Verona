@@ -1,0 +1,49 @@
+ID: vr-87
+Title: Restore opaque mouth default with creation-time transparency opt-in
+
+Status: DONE
+Milestone: Explicit per-head mouth policy and settings-preserving Onyx delivery
+Dependencies: vr-84
+
+Purpose:
+  Owner wants the original opaque mouth by default, without a painted void or
+  transparency. Transparency must be explicitly chosen when creating a head.
+
+Tasks:
+  Trace manager, CLI, host, appearance metadata and renderer ownership.
+  Add strict default-false creation-time option; retain near-closed lip seal.
+  Expose unchecked manager checkbox and immutable confirmed status.
+  Qualify both policies, default compatibility and actual isolated rendering.
+  Recreate only this session's head as Onyx after all requested work is done.
+  Update affected chapter/index/ledger/tracking and owned continuity.
+
+Acceptance criteria:
+  Omitted/false keeps original opaque mouth at rest and during wide openings.
+  Only true enables existing wide-only transparency; no black cavity added.
+  Invalid types and live changes rejected; CLI and manager agree.
+  Separate qualification profiles/data/cache, no uncoordinated live restart.
+  Onyx recreation preserves compatible current settings and stays default-off.
+
+Completion evidence:
+  Strict default-false appearance/manager/CLI/host policy, immutable settings
+    rejection and unchecked manager checkbox implemented.
+  Isolated123CPU tests and real manager DOM pass. Combined main124CPU tests
+    and native mouth-rim tests pass after exact9-file promotion.
+  .local/qualification/mouth-optin-87/gpu03/receipt.json: six native models,
+    both creation policies,480matrix checks; actual erase dispatch and wide
+    opaque/transparent pixels checked. Zero renderer errors/external requests.
+  gpu01/02 retained:1neutral wire-edge raster pixel triggered a brittle
+    pixel-equality assertion. Instrumentation checks actual erase dispatch.
+  .local/qualification/mouth-optin-87/live-onyx/receipt.json: only session
+    Verona existed. Old owned head392392 and manager306384 closed; updated
+    manager6260 and Onyx(male-sharp)head394640 ready with transparencyfalse.
+    All37controls including zoom/colors/performance policy preserved.
+  Native Electron397884 window title Verona | Verona | male-sharp verified.
+    No speech replay, other-head interruption or owner acceptance claimed.
+
+Completion log:
+  2026-11-22 - Owner makes transparency opt-in at creation and requests Onyx
+    for this session after all changes are complete.
+  2026-11-22 - Runtime and actual renderer qualified in isolation; corrected
+    Akari review ready before exclusively owned live runtime promotion.
+    Recreated Verona as Onyx, all compatible settings preserved and defaultoff.

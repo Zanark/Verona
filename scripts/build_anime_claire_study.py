@@ -78,7 +78,7 @@ def build(baseline, motion, output):
         mapped = anime_warp(mouth_points) if styled else mouth_points
         cy = float(mapped[0, 1])
         candidate = {"id": identity, "name": title, "vertices": len(total),
-            "triangles": len(chosen), "frames": frames, "method": "anime",
+            "triangles": len(chosen), "frames": frames, "method": "anime", "mouthTransparency": False,
             "mouthProfile": {"mouth": [.08, cy, float(mapped[1, 0]-.08)],
                 "upper": [cy]*5, "depth": [float(mapped[0, 2]), float(mapped[1, 2])]},
             "viewCenter": [0, 146.4, -1.5], "viewScale": 15.7, "cropY": 133.6,
@@ -86,7 +86,7 @@ def build(baseline, motion, output):
             "eyeRadius": 1.33 if styled else .85, "colors": "colors.bin", "toon": include_hair,
         }
         candidates.append(candidate)
-    study = {"revision": "akari-anime-1", "fps": 8, "candidates": candidates,
+    study = {"revision": "akari-anime-2-attached-lashes", "fps": 8, "candidates": candidates,
         "baselineSha256": BASE_SHA, "motionSha256": hashes, "audioSha256": AUDIO_SHA,
         "emotionGain": "2x archived emotion minus neutral; neutral speech retained",
         "audio": False, "sourceReceipt": receipt,

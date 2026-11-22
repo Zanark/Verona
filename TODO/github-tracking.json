@@ -1113,7 +1113,33 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-87": {
+      "source": "TODO/87_OPTIONAL_MOUTH_TRANSPARENCY.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhgZ_3w",
+      "number": 86,
+      "url": "https://github.com/Zanark/Verona/issues/86",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK5uk0",
+      "title": "Restore opaque mouth default with creation-time transparency opt-in",
+      "managedBody": "\n<!-- verona-workstream:vr-87 -->\nWorkstream source: `TODO/87_OPTIONAL_MOUTH_TRANSPARENCY.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-87\nTitle: Restore opaque mouth default with creation-time transparency opt-in\n\nStatus: DONE\nMilestone: Explicit per-head mouth policy and settings-preserving Onyx delivery\nDependencies: vr-84\n\nPurpose:\n  Owner wants the original opaque mouth by default, without a painted void or\n  transparency. Transparency must be explicitly chosen when creating a head.\n\nTasks:\n  Trace manager, CLI, host, appearance metadata and renderer ownership.\n  Add strict default-false creation-time option; retain near-closed lip seal.\n  Expose unchecked manager checkbox and immutable confirmed status.\n  Qualify both policies, default compatibility and actual isolated rendering.\n  Recreate only this session's head as Onyx after all requested work is done.\n  Update affected chapter/index/ledger/tracking and owned continuity.\n\nAcceptance criteria:\n  Omitted/false keeps original opaque mouth at rest and during wide openings.\n  Only true enables existing wide-only transparency; no black cavity added.\n  Invalid types and live changes rejected; CLI and manager agree.\n  Separate qualification profiles/data/cache, no uncoordinated live restart.\n  Onyx recreation preserves compatible current settings and stays default-off.\n\nCompletion evidence:\n  Strict default-false appearance/manager/CLI/host policy, immutable settings\n    rejection and unchecked manager checkbox implemented.\n  Isolated123CPU tests and real manager DOM pass. Combined main124CPU tests\n    and native mouth-rim tests pass after exact9-file promotion.\n  .local/qualification/mouth-optin-87/gpu03/receipt.json: six native models,\n    both creation policies,480matrix checks; actual erase dispatch and wide\n    opaque/transparent pixels checked. Zero renderer errors/external requests.\n  gpu01/02 retained:1neutral wire-edge raster pixel triggered a brittle\n    pixel-equality assertion. Instrumentation checks actual erase dispatch.\n  .local/qualification/mouth-optin-87/live-onyx/receipt.json: only session\n    Verona existed. Old owned head392392 and manager306384 closed; updated\n    manager6260 and Onyx(male-sharp)head394640 ready with transparencyfalse.\n    All37controls including zoom/colors/performance policy preserved.\n  Native Electron397884 window title Verona | Verona | male-sharp verified.\n    No speech replay, other-head interruption or owner acceptance claimed.\n\nCompletion log:\n  2026-11-22 - Owner makes transparency opt-in at creation and requests Onyx\n    for this session after all changes are complete.\n  2026-11-22 - Runtime and actual renderer qualified in isolation; corrected\n    Akari review ready before exclusively owned live runtime promotion.\n    Recreated Verona as Onyx, all compatible settings preserved and defaultoff.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
+    },
+    "vr-88": {
+      "source": "TODO/88_AKARI_LASH_ATTACHMENT.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhgaEaQ",
+      "number": 87,
+      "url": "https://github.com/Zanark/Verona/issues/87",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK5upQ",
+      "title": "Attach Akari upper lashes to the actual upper eye opening",
+      "managedBody": "\n<!-- verona-workstream:vr-88 -->\nWorkstream source: `TODO/88_AKARI_LASH_ATTACHMENT.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-88\nTitle: Attach Akari upper lashes to the actual upper eye opening\n\nStatus: DONE\nMilestone: Correct visible eye/lash contact in the separate anime review\nDependencies: vr-86\n\nPurpose:\n  Owner identifies a visible gap between Akari's eyes and upper lashes.\n  The reused Elara guide is not a suitable Akari upper-lid boundary.\n\nTasks:\n  Derive the visible upper eye aperture from actual Claire skin/eye geometry.\n  Bind a fitted lash band/tufts to that rim, preserving Elara's default detail.\n  Qualify rest, blink, expression and turned views; refresh Akari review.\n  Preserve lip-guide symmetry and current default-off mouth policy.\n  Update chapter/index/ledger/tracking and owned continuity.\n\nAcceptance criteria:\n  Upper lash band touches the visible upper eye edge rather than floating.\n  Lash geometry follows eyelid skin through blink/expression poses.\n  Original Elara eye geometry/motion remains unchanged; new mouth policy is\n    intentional in new captures. No new model dependency.\n  Actual images/GIFs inspected, not only numerical fit or test success.\n\nCompletion evidence:\n  Ray-tested skin/sclera upper aperture, 18 bisections and 0.012cm skin-side\n    overlap replace the reused arc. Synthetic analytic intersection test passes.\n  Default Elara vertices/triangles and all60animated detail poses byte-exact.\n  .local/qualification/anime-claire-86/build05-mouth-default and\n    capture06-attached-default; actual before/after eye crops inspected.\n  Revised3GIFs: each32500ms/260source samples/196unique; every source time\n    decoded/verified. No transparent cutout in any of780captures.\n  review-browser03: allGIFs/images,1280/430layouts,0errors/external requests.\n  .local/reports/akari-anime-review-20261122/index.html is the delivery reader;\n    old reader retained separately. Owner acceptance remains open.\n\nCompletion log:\n  2026-11-22 - Owner rejects floating Akari lashes; refit actual eye opening\n    instead of reusing Elara's authored upper-lid contour.\n  2026-11-22 - Corrected actual rim contact and full-state review qualified;\n    original Elara geometry/motion retained. Mouth follows vr87 default-off.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T14:14:39.707818+00:00"
+  "verifiedAt": "2026-11-22T14:36:50.862844+00:00"
 }

@@ -83,7 +83,8 @@ function showControls(session) {
   const model=session.appearance?.model;
   const variant=[...$("model").options].find(option=>option.value===model)?.textContent||model||"Unknown";
   for(const [name,value] of [["Session name",session.session],["Head variant",variant],
-    ["Performance-only mode",session.appearance?.performanceMode ? "On" : "Off (normal head)"]]) {
+    ["Performance-only mode",session.appearance?.performanceMode ? "On" : "Off (normal head)"],
+    ["Mouth transparency",session.appearance?.mouthTransparency ? "On (wide openings only)" : "Off (original opaque mouth)"]]) {
     const label=document.createElement("label"), title=document.createElement("span");
     const input=document.createElement("input"), hint=document.createElement("small");
     title.textContent=name;input.value=value;input.readOnly=true;
@@ -214,8 +215,10 @@ $("create").addEventListener("submit",async event=>{
   event.preventDefault();
   await act("create-head","Creating head...",async()=>{
     const result=await request({action:"create",session:$("name").value,model:$("model").value,colors:colors(),
-      ...($("create-performance").checked ? {performanceMode:true} : {})});
+      ...($("create-performance").checked ? {performanceMode:true} : {}),
+      ...($("create-mouth-transparency").checked ? {mouthTransparency:true} : {})});
     $("create-performance").checked=false;
+    $("create-mouth-transparency").checked=false;
     revision++;sessions.push({...result,ready:false});choose(result.session);await refresh();
   });
 });

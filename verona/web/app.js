@@ -90,9 +90,10 @@ function surfaceNormals(positions, triangles, offset = 0, count = positions.leng
 import {facialProfile, mouthShape, sampleMouthOpening, WIDE_MOUTH_OPENING_CM, FACIAL_FEATURE_GLSL} from "/facial-features.mjs";
 
 class FaceRenderer {
-  constructor(canvas, meta, binary, model = "claire") {
+  constructor(canvas, meta, binary, model = "claire", mouthTransparency = false) {
     this.canvas = canvas;
     this.meta = meta;
+    this.mouthTransparency = mouthTransparency === true;
     this.frames = 0;
     const gl = canvas.getContext("webgl2", { antialias: true, alpha: true, premultipliedAlpha: false });
     if (!gl) throw new Error("WebGL2 is unavailable. Use a current Edge or Chrome with graphics enabled.");
@@ -832,7 +833,7 @@ class FaceRenderer {
   }
 
   clearMouth() {
-    const pass = this.mouthOpening >= WIDE_MOUTH_OPENING_CM ? 4
+    const pass = this.mouthTransparency && this.mouthOpening >= WIDE_MOUTH_OPENING_CM ? 4
       : this.neutralLipSeal && !this.view.style && this.mouthOpening < .1 ? 5 : 0;
     if (!pass) return;
     const gl = this.gl, u = this.uniforms;
@@ -1624,7 +1625,8 @@ try {
   $("voice").value = defaultVoice;
   syncVoiceControls();
   const binary = await (await request("/api/mesh")).arrayBuffer();
-  renderer = new FaceRenderer($("face"), session.mesh, binary, session.appearance?.model);
+  renderer = new FaceRenderer($("face"), session.mesh, binary, session.appearance?.model,
+    session.appearance?.mouthTransparency);
   if (session.mesh.expressionGainScale === .5) {
     for (const option of $("expression-gain").options) {
       option.textContent = `${Number(option.value) * .5}x (Rowan)`;

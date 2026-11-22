@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Owner corrections (vr-87/88):** [chapter10](chapters/10-desktop-overlay-and-gaze.md#opaque-mouths-by-default-transparency-belongs-to-head-creation-vr-87)
+restores opaque mouths with creation-time transparency opt-in.
+[Chapter09](chapters/09-verona-character-and-waves.md#attach-lashes-to-the-eye-opening-not-a-nearby-arc-vr-88)
+fits Akari's lashes to the actual visible eye rim and records the revised
+complete GIF review. Earlier transparent-mouth/raised-arc evidence is historical.
+
 **Anime-woman research (vr-86):** [Akari's illustrated design investigation](research/claire-anime-woman.md)
 compares same-topology sculpting, independent rigs, eye/lash construction,
 hair guides, toon shading and rights. The separate original Claire-based

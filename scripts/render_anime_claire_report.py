@@ -17,6 +17,10 @@ def render(study_path, capture, output):
         raise ValueError("The complete finished, clay and baseline capture is required.")
     if any(c["frames"] != 260 for c in captures):
         raise ValueError("Incomplete 32.5-second comparison timeline.")
+    if any(c.get("mouthTransparency") is not False for c in study["candidates"]):
+        raise ValueError("This review requires explicit opaque-default mouth metadata.")
+    if any(s["wideCutout"] for c in captures for s in c["openingSamples"]):
+        raise ValueError("Opaque-default review contains a transparent mouth pass.")
     output.mkdir()
     font = ImageFont.truetype("segoeui.ttf", 20)
     receipts, cards = [], []
@@ -85,6 +89,14 @@ def render(study_path, capture, output):
                 lips.paste(frames[index].crop((260, 380, 380, 510)).resize((240, 260)), xy)
                 draw.text((xy[0]+5, xy[1]+263), label, fill="white")
             lips.save(output/"lip-review.png")
+            eyes = Image.new("RGB", (1380, 500), "#142331")
+            draw = ImageDraw.Draw(eyes)
+            for i, index in enumerate((0, 4, 10, 12, 33, 99)):
+                xy = ((i % 3)*460, (i//3)*250)
+                eyes.paste(frames[index].crop((205, 265, 435, 340)).resize((460, 150)), xy)
+                draw.text((xy[0]+5, xy[1]+160),
+                          f"{candidate['frames'][index]['label']} / frame {index}", fill="white")
+            eyes.save(output/"eye-review.png")
         description = {
             "akari": "New anime proportions, continuous rose lip color, large teal iris layers, moving brows/lashes and an original violet layered bob. Soft skin lighting; stepped hair shading.",
             "akari-clay": "Identical Akari skin, eye optics and moving detail with neutral clay shading and hair removed. Inspect structure without the finished styling.",
@@ -108,21 +120,24 @@ button[aria-pressed=true]{background:#eeb7d7}button:focus-visible,a:focus-visibl
 </style></head><body><main><header><div class="eyebrow">VERONA / ORIGINAL CLAIRE-BASED ANIME STUDY</div>
 <h1>Meet <em>Akari.</em></h1><p>A coordinated anime-woman direction, not a renamed Elara: larger almond orbital geometry, a tapered rounded chin and jaw, softer cheeks, reduced nose projection, teal eye layers, raised brows/lashes and a newly authored violet bob.</p>
 <p><a href="../claire-anime-research-20261122/index.html">Read the illustrated research and reference credits</a></p></header>
-<div class="notice"><strong>Separate review candidate, not installed or owner-accepted.</strong> Claire and your running head are unchanged.
+<div class="notice"><strong>Separate review candidate, not installed or owner-accepted.</strong> This study does not install Akari; the live head is managed separately.
 These are real WebGL captures of animated geometry. Each silent GIF lasts 32.5 seconds: rest/turn, deliberate blink, then neutral and all ten archived emotions.
 No sound is played, so the 20% sound ceiling is respected.</div>
 <h2>Finished face, exposed structure, original skin</h2><p id="status" role="status" aria-live="polite">Posters shown. Play one GIF at a time.</p>
 <noscript>Use the Open GIF links; buttons require JavaScript.</noscript><div class="grid">"""+"\n".join(cards)+"""</div>
+<h2>Upper lashes attached to the eye rim</h2><p>The earlier reused Elara arc floated above Akari's eyes. The corrected band follows the actual upper skin/sclera intersection, then moves with the supporting eyelid skin.
+These actual crops show rest, turn, partial/complete blink and two speech/expression samples. Play the GIF for the complete sequence.</p>
+<a href="eye-review.png"><img src="eye-review.png" width="1380" height="500" style="width:100%;height:auto" alt="Corrected Akari upper-lash contact in rendered rest, turn, blink and speech samples"></a>
 <h2>Lipstick stays on the animated lip surface</h2><p>The continuous upper/lower guide is mirrored around the native mouth center, with one conservative depth plane rather than independent side clipping.
 Rest and the widest sampled mouth in every phrase are shown below. The same rest-space coordinates follow every speech/expression pose; facial motion and perspective are not forcibly mirrored.
-The low-polygon inner transparent aperture remains a display approximation, not new oral topology.</p>
+The original opaque mouth is retained throughout this review: no transparent cutout or added black cavity.</p>
 <a href="lip-review.png"><img src="lip-review.png" width="1440" height="560" style="width:100%;height:auto" alt="Actual lip close-ups: rest, neutral speech and all ten emotions"></a>
 <details open><summary>What changed, and how to review it</summary><ul>
 <li>Compare Akari's clay head against Claire's original skin: same skin vertex IDs and triangles, with a smooth complete-pose mapping applied to rest and every speech/expression pose. Neck below 132 cm is unchanged.</li>
 <li>The deliberate blink shows both partial and complete closure. Skin and attached lashes deform; optical layers are clipped together. This is a cosmetic demonstration, not a learned anime eyelid rig.</li>
 <li>After the blink: neutral, angry, cheekiness, disgust, fear, grief, happy, outofbreath, pain, sad and surprised. Each archived synthetic Hazel phrase contributes all 2.75 seconds, sampled at 8 fps. Emotion-minus-neutral is reduced from archived 4x to 2x; neutral speech is retained.</li>
 <li>Skin uses soft stylized light; hair uses a simple stepped shade. No imported anime avatar, VRoid sample, Rain geometry/rig or reference-image texture is used.</li>
-<li>Continuous symmetric Claire-native lip guides follow the animated surface. Neutral/near-closed lips remain opaque; only a measured opening of at least 0.65 cm beyond neutral permits the native-rim transparent cutout. The report background remains visible through that opening.</li>
+<li>Continuous symmetric Claire-native lip guides follow the animated surface. Mouth transparency is off throughout these captures, including wide openings. In the app it requires explicit creation-time opt-in; even then only an opening at least 0.65 cm beyond neutral permits the native-rim cutout.</li>
 </ul></details><details><summary>Limits, provenance and recovery</summary><ul>
 <li>Underlying Claire speech/PCA skin remains inherited. No claim of phonetic accuracy, independent listening, universal female anatomy, exact reference likeness, owner selection or production readiness.</li>
 <li>Static eye layers do not provide gaze joints. Hair is original rigid geometry, not strand simulation; extreme angles and expressions still need owner review. Existing eyelid/facial folds remain visible in the honest clay view.</li>

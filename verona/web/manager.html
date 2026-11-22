@@ -43,6 +43,10 @@
         Performance-only head (optional)</label>
       <p class="hint">Off by default. Choose now: 10% opacity and no automatic idle movement
         while silent, 100% while speaking. Fixed for this head's lifetime; create a new head to change.</p>
+      <label class="check-label"><input id="create-mouth-transparency" type="checkbox">
+        Transparent wide mouth openings (optional)</label>
+      <p class="hint">Off by default: retain the original opaque mouth, without an added black void.
+        Opt in to reveal the background only when the mouth opens widely. Fixed at creation.</p>
       <button id="create-head" class="primary" type="submit">Create separate head</button>
     </form>
     <div id="selected" hidden>
@@ -77,7 +81,7 @@
       </section>
       <section class="control-section surface readonly-section" aria-labelledby="readonly-heading">
         <h3 id="readonly-heading">Read-only settings</h3>
-        <p class="hint">Name, variant and performance-only mode are set at creation. Other unavailable controls are marked separately;
+        <p class="hint">Name, variant, performance-only mode and mouth transparency are set at creation. Other unavailable controls are marked separately;
           they may become editable in another mode or after speech finishes.</p>
         <div id="readonly-controls"></div>
       </section>

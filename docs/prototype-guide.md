@@ -30,6 +30,12 @@ this page stays open. Reload discards these drafts. A failed connection is
 explicitly stale, not a fresh empty list; use Refresh to recover.
 The head windows show the face and session identity, not separate settings GUIs.
 Models are selected at creation; close/recreate a session to change its model.
+Mouths use the original opaque surface by default, without an added black
+cavity. Check **Mouth transparency** when creating a head only if you want
+wide openings to reveal the desktop. Near-closed lips still stay opaque.
+This policy is read-only afterwards; recreate the head to change it.
+The CLI equivalent is `create --mouth-transparency` (also supported by direct
+`host`); omit it for the default. It is independent of head/window opacity.
 Changes, speech and colors are RAM-only. A head may take seconds to prepare;
 wait for ready, rather than repeatedly creating it.
 

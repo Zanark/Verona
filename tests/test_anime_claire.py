@@ -2,11 +2,25 @@ import unittest
 
 import numpy as np
 
-from scripts.anime_claire import anime_hair, anime_warp, blink_skin, eye_optics
+from scripts.anime_claire import anime_hair, anime_warp, blink_skin, eye_optics, upper_eye_guides
 from scripts.claire_reference_study import EYES
 
 
 class AnimeClaireTests(unittest.TestCase):
+    def test_upper_lash_guide_tracks_actual_skin_eye_intersection(self):
+        faces = np.array([[0, 1, 2], [0, 2, 3]])
+        skin = np.array([[-5., 146.1, 3.], [5., 146.1, 3.],
+                         [5., 150.9, 3.], [-5., 150.9, 3.]])
+        guides, receipt = upper_eye_guides(skin, faces)
+        for guide, (ex, ey, ez) in zip(guides, EYES):
+            expected = ey+1.32*np.sqrt(1-((guide[:, 0]-ex)/1.35)**2-((3-ez)/1.4)**2)
+            np.testing.assert_allclose(guide[:, 1], expected+.012, atol=1e-6)
+        raised, _ = upper_eye_guides(skin+[0, 0, .4], faces)
+        self.assertTrue(np.all(raised[:, :, 1] < guides[:, :, 1]))
+        self.assertLess(receipt["bracketMaximumCm"], 1e-6)
+        with self.assertRaisesRegex(ValueError, "insufficient visible sclera"):
+            upper_eye_guides(skin+[0, 0, 2], faces)
+
     def test_coordinated_face_change_retains_neck_and_contact(self):
         samples = np.array([[4., 137.8, 3.], [-3.84, 137.8, 3.],
                             [.08, 143.6, 5.], [3., 131., -2.],

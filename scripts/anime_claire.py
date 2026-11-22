@@ -9,6 +9,66 @@ from verona.appearance import claire_eyes, native_hair_scale
 HAIR = np.array([.25, .16, .40])
 
 
+def upper_eye_guides(rest, faces):
+    """Find the upper visible sclera/skin intersection, not a guessed brow arc."""
+    corners = rest[faces]
+    keep = ((corners[:, :, 2].min(1) > 0) & (corners[:, :, 1].min(1) > 146)
+            & (corners[:, :, 1].max(1) < 151))
+    a, b, c = np.moveaxis(corners[keep], 1, 0)
+    if not len(a):
+        raise ValueError("Anime lashes require supported front orbital skin.")
+    ab, ac = b[:, :2]-a[:, :2], c[:, :2]-a[:, :2]
+    determinant = ab[:, 0]*ac[:, 1]-ab[:, 1]*ac[:, 0]
+
+    def depth(xy):
+        result = np.full(len(xy), -np.inf)
+        for start in range(0, len(xy), 128):
+            ap = xy[start:start+128, None]-a[None, :, :2]
+            u = np.divide(ap[..., 0]*ac[:, 1]-ap[..., 1]*ac[:, 0], determinant,
+                          out=np.full(ap.shape[:2], np.nan), where=abs(determinant) > 1e-10)
+            v = np.divide(ab[:, 0]*ap[..., 1]-ab[:, 1]*ap[..., 0], determinant,
+                          out=np.full(ap.shape[:2], np.nan), where=abs(determinant) > 1e-10)
+            valid = (u >= -1e-7) & (v >= -1e-7) & (u+v <= 1+1e-7)
+            z = a[:, 2]+u*(b[:, 2]-a[:, 2])+v*(c[:, 2]-a[:, 2])
+            result[start:start+128] = np.where(valid, z, -np.inf).max(1)
+        return result
+
+    guides, errors = [], []
+    for side, (ex, ey, ez) in zip((-1, 1), EYES):
+        def visible(x, y):
+            radius = 1-((x-ex)/1.35)**2-((y-ey)/1.32)**2
+            z = ez+1.4*np.sqrt(np.maximum(0, radius))
+            return (radius > 0) & (z > depth(np.column_stack((x, y))))
+
+        xs, ys = np.linspace(ex-1.3365, ex+1.3365, 81), np.linspace(ey-.35, ey+1.31, 100)
+        xx, yy = np.meshgrid(xs, ys, indexing="ij")
+        exposed = visible(xx.ravel(), yy.ravel()).reshape(xx.shape)
+        supported = np.flatnonzero(exposed.sum(1) >= 3)
+        if len(supported) < 20:
+            raise ValueError("Anime eye has insufficient visible sclera to fit lashes.")
+        x = np.linspace(xs[supported[0]]+.02, xs[supported[-1]]-.02, 33)
+        if side < 0:
+            x = x[::-1]
+        xx, yy = np.meshgrid(x, ys, indexing="ij")
+        exposed = visible(xx.ravel(), yy.ravel()).reshape(xx.shape)
+        last = np.where(exposed, np.arange(len(ys)), -1).max(1)
+        if np.any(last < 0) or np.any(last >= len(ys)-1):
+            raise ValueError("Upper eye edge is not bracketed by the actual skin.")
+        low, high = ys[last], ys[last+1]
+        for _ in range(18):
+            middle = (low+high)/2
+            inside = visible(x, middle)
+            low, high = np.where(inside, middle, low), np.where(inside, high, middle)
+        y = high+.012
+        z = depth(np.column_stack((x, y)))
+        if not np.isfinite(z).all():
+            raise ValueError("Upper lash guide leaves the supporting skin surface.")
+        errors.append(float(np.max(high-low)))
+        guides.append(np.column_stack((x, y)))
+    return np.asarray(guides), {"method": "Ray-tested native skin / sclera upper aperture intersection",
+                               "bracketMaximumCm": max(errors), "skinSideOffsetCm": .012}
+
+
 def anime_warp(positions):
     p = _positions(positions)
     x, y, z = p.T
@@ -163,7 +223,8 @@ def eye_optics():
 
 def assemble(rest, faces):
     rest = _positions(rest)
-    detail, detail_faces, move_details, detail_receipt = elara_eye_details(rest, faces)
+    guides, guide_receipt = upper_eye_guides(rest, faces)
+    detail, detail_faces, move_details, detail_receipt = elara_eye_details(rest, faces, lid_guides=guides)
     eyes, eye_faces, eye_colors = eye_optics()
     hair, hair_faces, shades = anime_hair(rest)
     # Skin carries original coordinates for continuous, pose-following cosmetics.
@@ -187,6 +248,7 @@ def assemble(rest, faces):
         "skinVertices": len(rest), "eyeVertices": len(eyes), "detailVertices": len(detail),
         "hairVertices": len(hair), "hairTriangles": len(hair_faces),
         "detailBinding": detail_receipt,
+        "upperLidFit": guide_receipt,
         "style": "Original adult anime-woman direction: heart/oval face, larger almond eyes, teal optics, violet layered bob.",
         "limits": "Review only; inherited Claire skin/PCA, cosmetic blink, static eyes and rigid hair; no new trained rig.",
     }

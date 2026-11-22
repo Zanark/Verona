@@ -10,10 +10,14 @@ from scripts.claire_surface_fit import refine_surface
 HYBRID_WEIGHT = .65
 
 
-def elara_eye_details(rest, faces):
+def elara_eye_details(rest, faces, *, lid_guides=None):
     """Raised clay brows/lashes bound to Elara's skin, without changing it."""
     rest = _positions(rest)
     faces = _faces(faces, len(rest))
+    if lid_guides is not None:
+        lid_guides = np.asarray(lid_guides, dtype=float)
+        if lid_guides.shape != (2, 33, 2) or not np.isfinite(lid_guides).all():
+            raise ValueError("Upper-lid guides require two finite 33-point XY curves.")
     corners = rest[faces]
     front = corners[:, :, 2].min(1) > 0
     front &= (corners[:, :, 1].min(1) > 146) & (corners[:, :, 1].max(1) < 152)
@@ -65,7 +69,7 @@ def elara_eye_details(rest, faces):
                 a, b = offset+i*sides+j, offset+i*sides+(j+1) % sides
                 triangles.append((center, b, a) if reverse else (center, a, b))
 
-    for side in (-1, 1):
+    for eye, side in enumerate((-1, 1)):
         t = np.linspace(0, 1, 33)
         brow = surface(np.column_stack((.08 + side*(1.45+3.45*t),
                                         149.12+.55*t+.35*np.sin(np.pi*t))))
@@ -73,7 +77,8 @@ def elara_eye_details(rest, faces):
         t = np.linspace(0, 1, 33)
         x = 1.65 + 2.85*t
         y = 147.53+.8*np.sqrt(np.maximum(0, 1-((x-3.02)/1.65)**2))+.075*((x-3.02)/1.65)
-        lid = surface(np.column_stack((.08+side*x, y+.07)))
+        lid = surface(np.column_stack((.08+side*x, y+.07))
+                      if lid_guides is None else lid_guides[eye])
         tube(lid, .025+.035*np.sin(np.pi*t), .8)
         for index, position in enumerate((.76, .86, .95)):
             start = lid[round(position*(len(lid)-1))]

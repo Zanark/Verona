@@ -2,6 +2,11 @@
 
 ## Current deliverable
 
+The vr-87/88 [living-journal entry](journal.md) supersedes two defaults:
+mouth transparency is now creation-time opt-in, and Akari's upper lashes fit
+the actual eye opening instead of reusing Elara's contour. Corrected local
+GIFs include eye/lip close-ups. Frozen editions remain unchanged.
+
 The vr-86 [living-journal entry](journal.md) follows the illustrated
 [anime-woman research](../docs/research/claire-anime-woman.md) into the original
 Akari candidate: coordinated same-topology skin, layered eyes, bound lashes/

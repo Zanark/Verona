@@ -1,5 +1,49 @@
 # 10 - A transparent desktop without a second speech system
 
+## Opaque mouths by default; transparency belongs to head creation (vr-87)
+
+The owner withdraws wide-mouth transparency as the default. This is separate
+from the transparent *desktop window*: normal heads retain the original
+opaque mouth surface, without adding a black cavity. `session_config.appearance`
+strictly validates default-false `mouth_transparency`. `SessionManager.create`,
+the manager API, `agent.main` create/host CLI and `agent_host.host` forward the
+confirmed creation policy as `mouthTransparency`; non-boolean values fail.
+
+The unchecked **Mouth transparency** creation checkbox opts in for that head
+only. Successful creation resets it off; failure retains the unsubmitted
+choice. The selected-head status is immutable. A live settings attempt is
+rejected, so changing policy requires closing/recreating the head rather than
+silently mutating it during speech. Omitted metadata remains default-off,
+including an older manager creating a newly sourced host.
+
+`FaceRenderer.clearMouth` selects the transparent pass only when the policy is
+true **and** measured extra opening is at least 0.65 cm. Rowan's near-closed
+opaque lip seal remains independent. No extra storage, speech processing or
+per-frame geometry upload is introduced. Loss/cancellation/restart retain
+the existing head lifecycle; recreation without explicit opt-in resets off.
+Review capture also defaults off and requires explicit candidate metadata to
+enable its existing wide cutout.
+
+Qualification uses a detached source worktree, synthetic API fixtures,
+archived native motion, hidden isolated browser profiles and no live head.
+The manager DOM verifies unchecked/default omission, explicit opt-in/reset and
+read-only status. Real WebGL covers six heads, both policy lanes, four views,
+three yaw angles and rest/speech/yawn, plus blink closure: 480 matrix checks.
+Actual pass dispatch and opaque-to-transparent wide-mouth pixels are checked.
+Two initial fixtures rejected a single neutral wire-edge raster difference;
+the corrected fixture checks actual erase dispatch instead of treating that
+one pixel as policy execution. Both failed receipts remain. Tests are not
+human visual/listening approval.
+
+After qualification and the corrected Akari review, the requested session
+recreation confirms that **Verona is the only head**. Its old host and owned
+manager close before exact qualified source promotion; the lightweight manager
+restarts because its already-imported API cannot learn the new creation field
+from static-file changes. The replacement uses Onyx's existing `male-sharp`
+ID, explicitly false transparency and all 37 preserved compatible controls,
+including zoom/colors/performance policy. Live readiness, served-source hashes
+and the native window identity are verified without speech replay.
+
 **Coordinated idle eyes (vr-75):** cursor-head mode still centers its cursor
 gaze, but authored idle eye movement now works in either cursor mode.
 Look-around scans horizontally/vertically; unilateral lids share skin and

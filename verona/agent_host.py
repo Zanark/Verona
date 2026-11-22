@@ -115,6 +115,8 @@ class AgentBridge:
                 if "settings" in request:
                     if isinstance(settings, dict) and "performance-mode" in settings:
                         raise ValueError("Performance-only mode is fixed at creation; create a new head to change it.")
+                    if isinstance(settings, dict) and "mouth-transparency" in settings:
+                        raise ValueError("Mouth transparency is fixed at creation; create a new head to change it.")
                     available = {control["id"] for control in self.controls}
                     if (not isinstance(settings, dict) or not settings or set(settings) - available
                             or len(settings) > 1
@@ -345,7 +347,8 @@ class AgentBridge:
             self.descriptor = None
 
 
-def host(path, *, model="claire", colors=None, voice=None, performance_mode=False) -> None:
+def host(path, *, model="claire", colors=None, voice=None, performance_mode=False,
+         mouth_transparency=False) -> None:
     from .desktop import run_desktop
     if path.exists():
         raise RuntimeError("Session already exists. Stop its host; remove a stale descriptor explicitly after checking ownership.")
@@ -355,7 +358,8 @@ def host(path, *, model="claire", colors=None, voice=None, performance_mode=Fals
     from .mesh import claire_topology
     from .variants import prepare_variant
     from .lifecycle import parent_lifetime
-    config = appearance(model, colors, path.stem, performance_mode=performance_mode)
+    config = appearance(model, colors, path.stem, performance_mode=performance_mode,
+                        mouth_transparency=mouth_transparency)
     with parent_lifetime() as stopping, tempfile.TemporaryDirectory(prefix="verona-agent-owned-") as directory:
         owned = Path(directory)
         with (patch("verona.engine.claire_topology", side_effect=lambda n,s,c,f:

@@ -31,10 +31,14 @@ def colors_patch(value):
     return result
 
 
-def appearance(model="claire", colors=None, session=None, *, performance_mode=False):
+def appearance(model="claire", colors=None, session=None, *, performance_mode=False,
+               mouth_transparency=False):
     if not isinstance(model, str) or model not in MODELS:
         raise ValueError("Choose one of the supported head variants.")
     if type(performance_mode) is not bool:
         raise ValueError("Performance mode must be a creation-time true or false.")
+    if type(mouth_transparency) is not bool:
+        raise ValueError("Mouth transparency must be a creation-time true or false.")
     return {"model": model, "session": session, "performanceMode": performance_mode,
+            "mouthTransparency": mouth_transparency,
             "colors": {**dict.fromkeys(COLOR_KEYS), **colors_patch({} if colors is None else colors)}}

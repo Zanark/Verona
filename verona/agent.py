@@ -149,6 +149,8 @@ def main() -> None:
             command.add_argument("--voice", help="Installed voice; manager otherwise reserves an unused voice.")
             command.add_argument("--performance-mode", action="store_true",
                                  help="Create a performance-only head: 10% idle / 100% speaking. Fixed for its lifetime.")
+            command.add_argument("--mouth-transparency", action="store_true",
+                                 help="Opt into transparent wide mouth openings. Off by default; fixed at creation.")
         if name == "say":
             command.add_argument("--id", default=uuid.uuid4().hex, help="Stable request ID for safe explicit retries.")
             command.add_argument("--voice")
@@ -172,7 +174,8 @@ def main() -> None:
             print(json.dumps(call(read_descriptor(manager_path()), {
                 "action":"create","session":args.session,"model":args.model,"colors":colors,
                 **({"voice": args.voice} if args.voice is not None else {}),
-                **({"performanceMode": True} if args.performance_mode else {})})), flush=True)
+                **({"performanceMode": True} if args.performance_mode else {}),
+                **({"mouthTransparency": True} if args.mouth_transparency else {})})), flush=True)
             return
         if args.command == "host":
             from .agent_host import host
@@ -180,7 +183,7 @@ def main() -> None:
                                    for key in COLOR_KEYS
                                    if (value := getattr(args, key + "_color")) is not None})
             host(path, model=args.model, colors=colors, voice=args.voice,
-                 performance_mode=args.performance_mode)
+                 performance_mode=args.performance_mode, mouth_transparency=args.mouth_transparency)
             return
         descriptor = read_descriptor(path)
         if args.command == "status":

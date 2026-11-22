@@ -88,6 +88,51 @@ assert not any(name in sys.modules for name in (
                 main()
             self.assertEqual(host.call_args.kwargs["performance_mode"], enabled)
 
+    def test_mouth_transparency_is_strict_default_off_and_creation_only(self):
+        self.assertFalse(appearance()["mouthTransparency"])
+        self.assertTrue(appearance(mouth_transparency=True)["mouthTransparency"])
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {"LOCALAPPDATA": directory}), patch(
+                "verona.manager.subprocess.Popen") as spawn:
+            spawn.return_value.poll.return_value = None
+            manager = SessionManager()
+            manager.voices = [{"name": "Windows", "culture": "en-US"}]
+            for value in ("true", 1, None):
+                with self.assertRaises(ValueError):
+                    manager.command({"action": "create", "session": "bad", "model": "claire",
+                                     "colors": {}, "mouthTransparency": value})
+            spawn.assert_not_called()
+            for index, value in enumerate((None, False, True)):
+                manager.children.clear()
+                request = {"action": "create", "session": f"mouth{index}", "model": "claire", "colors": {}}
+                if value is not None:
+                    request["mouthTransparency"] = value
+                result = manager.command(request)
+                self.assertEqual(result["appearance"]["mouthTransparency"], value is True)
+                self.assertEqual("--mouth-transparency" in spawn.call_args.args[0], value is True)
+            bridge = AgentBridge(State(Mock(), []), Path(directory)/"bridge.json", Mock())
+            bridge.ready = True
+            bridge.controls = [{"id": "mouth-transparency"}]
+            bridge._send = Mock()
+            with self.assertRaisesRegex(ValueError, "fixed at creation"):
+                bridge.command({"action": "configure", "settings": {"mouth-transparency": True}})
+            bridge._send.assert_not_called()
+            bridge.close()
+
+    def test_cli_mouth_transparency_requires_explicit_creation_flag(self):
+        from verona.agent import main
+        for enabled in (False, True):
+            args = ["agent", "create", "--session", "cli-mouth"]
+            if enabled:
+                args.append("--mouth-transparency")
+            with patch.object(sys, "argv", args), patch("verona.agent.read_descriptor", return_value={}), patch(
+                    "verona.agent.call", return_value={}) as send, patch("builtins.print"):
+                main()
+            self.assertEqual(send.call_args.args[1].get("mouthTransparency", False), enabled)
+            args[1] = "host"
+            with patch.object(sys, "argv", args), patch("verona.agent_host.host") as host:
+                main()
+            self.assertEqual(host.call_args.kwargs["mouth_transparency"], enabled)
+
     def test_named_heads_and_confirmed_live_colors_do_not_cross_or_regenerate(self):
         with tempfile.TemporaryDirectory() as directory:
             states = [State(Mock(), []) for _ in range(2)]

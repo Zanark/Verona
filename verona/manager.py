@@ -29,9 +29,11 @@ class SessionManager:
         self.closing = False
         self.voices = None
 
-    def create(self, name, model, colors, voice=None, *, performance_mode=False):
+    def create(self, name, model, colors, voice=None, *, performance_mode=False,
+               mouth_transparency=False):
         path = session_path(name)
-        config = appearance(model, colors, name, performance_mode=performance_mode)
+        config = appearance(model, colors, name, performance_mode=performance_mode,
+                            mouth_transparency=mouth_transparency)
         with self.lock:
             if self.closing:
                 raise RuntimeError("Manager is closing; no head was created.")
@@ -68,6 +70,8 @@ class SessionManager:
             args.extend(["--voice", voice])
             if performance_mode:
                 args.append("--performance-mode")
+            if mouth_transparency:
+                args.append("--mouth-transparency")
             for key, value in config["colors"].items():
                 if value is not None:
                     args.extend([f"--{key}-color", value])
@@ -143,7 +147,7 @@ class SessionManager:
                    "cancel": {"action","session","id"},
                    "say": {"action","session","text","voice","expression","intensity","gain","mode"}}
         required = allowed.get(action)
-        optional = {"voice", "performanceMode"} if action == "create" else set()
+        optional = {"voice", "performanceMode", "mouthTransparency"} if action == "create" else set()
         if required is None or not required <= set(value) or set(value) - required - optional:
             raise ValueError("Invalid manager action fields.")
         if action == "status":
@@ -154,7 +158,8 @@ class SessionManager:
             return self.inspect(value["session"])
         if action == "create":
             return self.create(value["session"], value["model"], colors_patch(value["colors"]),
-                               value.get("voice"), performance_mode=value.get("performanceMode", False))
+                               value.get("voice"), performance_mode=value.get("performanceMode", False),
+                               mouth_transparency=value.get("mouthTransparency", False))
         if action == "shutdown":
             return {"state": "closing"}
         descriptor = read_descriptor(session_path(value["session"]))

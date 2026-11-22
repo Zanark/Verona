@@ -106,7 +106,8 @@ window.render=async(step)=>{
  gl.uniform1i(gl.getUniformLocation(program,"erase"),0);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,triangles);
  gl.drawElements(gl.TRIANGLES,meta.triangles*3,gl.UNSIGNED_INT,0);
  const opening=sampleMouthOpening(positions,mouthMeta,mouthPairs)-restOpening;
- if(opening>=WIDE_MOUTH_OPENING_CM){
+ const wideCutout=meta.mouthTransparency===true&&opening>=WIDE_MOUTH_OPENING_CM;
+ if(wideCutout){
   gl.uniform1i(gl.getUniformLocation(program,"erase"),1);
   gl.depthMask(false);gl.enable(gl.POLYGON_OFFSET_FILL);gl.polygonOffset(-1,-1);
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,mouth);gl.drawElements(gl.TRIANGLES,meta.mouthTriangles*3,gl.UNSIGNED_INT,0);
@@ -114,7 +115,7 @@ window.render=async(step)=>{
  }
  gl.finish();
  if(gl.getError())throw Error("Candidate WebGL draw failed");
- return {png:document.querySelector("canvas").toDataURL("image/png"),opening,wideCutout:opening>=WIDE_MOUTH_OPENING_CM};
+ return {png:document.querySelector("canvas").toDataURL("image/png"),opening,wideCutout};
 };
 window.dispose=()=>gl.getExtension("WEBGL_lose_context")?.loseContext();
 </script></body></html>`;

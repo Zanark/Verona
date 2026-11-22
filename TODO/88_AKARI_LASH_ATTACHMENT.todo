@@ -1,0 +1,42 @@
+ID: vr-88
+Title: Attach Akari upper lashes to the actual upper eye opening
+
+Status: DONE
+Milestone: Correct visible eye/lash contact in the separate anime review
+Dependencies: vr-86
+
+Purpose:
+  Owner identifies a visible gap between Akari's eyes and upper lashes.
+  The reused Elara guide is not a suitable Akari upper-lid boundary.
+
+Tasks:
+  Derive the visible upper eye aperture from actual Claire skin/eye geometry.
+  Bind a fitted lash band/tufts to that rim, preserving Elara's default detail.
+  Qualify rest, blink, expression and turned views; refresh Akari review.
+  Preserve lip-guide symmetry and current default-off mouth policy.
+  Update chapter/index/ledger/tracking and owned continuity.
+
+Acceptance criteria:
+  Upper lash band touches the visible upper eye edge rather than floating.
+  Lash geometry follows eyelid skin through blink/expression poses.
+  Original Elara eye geometry/motion remains unchanged; new mouth policy is
+    intentional in new captures. No new model dependency.
+  Actual images/GIFs inspected, not only numerical fit or test success.
+
+Completion evidence:
+  Ray-tested skin/sclera upper aperture, 18 bisections and 0.012cm skin-side
+    overlap replace the reused arc. Synthetic analytic intersection test passes.
+  Default Elara vertices/triangles and all60animated detail poses byte-exact.
+  .local/qualification/anime-claire-86/build05-mouth-default and
+    capture06-attached-default; actual before/after eye crops inspected.
+  Revised3GIFs: each32500ms/260source samples/196unique; every source time
+    decoded/verified. No transparent cutout in any of780captures.
+  review-browser03: allGIFs/images,1280/430layouts,0errors/external requests.
+  .local/reports/akari-anime-review-20261122/index.html is the delivery reader;
+    old reader retained separately. Owner acceptance remains open.
+
+Completion log:
+  2026-11-22 - Owner rejects floating Akari lashes; refit actual eye opening
+    instead of reusing Elara's authored upper-lid contour.
+  2026-11-22 - Corrected actual rim contact and full-state review qualified;
+    original Elara geometry/motion retained. Mouth follows vr87 default-off.
