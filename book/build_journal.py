@@ -228,6 +228,50 @@ def source_sheets(output, assets):
         sheet.save(review / f"source-{offset // 12 + 1:02}.jpg", quality=94)
 
 
+def appendix_terms(appendix):
+    terms, ids, aliases = [], set(), {}
+    for group in appendix["groups"]:
+        if not re.fullmatch(r"[a-z][a-z0-9-]*", group["id"]) or not group["title"]:
+            raise ValueError("Invalid appendix group identity/title.")
+        for term in group["terms"]:
+            identity = term["id"]
+            if not re.fullmatch(r"[a-z][a-z0-9-]*", identity) or identity in ids:
+                raise ValueError(f"Invalid/duplicate appendix term identity: {identity}")
+            if not term["term"].strip() or not term["explanation"].strip() or not term["aliases"]:
+                raise ValueError(f"Missing appendix explanation or aliases: {identity}")
+            ids.add(identity)
+            for alias in term["aliases"]:
+                key = " ".join(alias.split()).casefold()
+                if not key or aliases.get(key, identity) != identity:
+                    raise ValueError(f"Empty/ambiguous appendix alias: {alias!r}")
+                aliases[key] = identity
+            terms.append(term)
+    if not terms:
+        raise ValueError("Appendix must explain at least one term.")
+    return terms, aliases
+
+
+def term_matches(text, aliases):
+    alternatives = sorted(aliases, key=lambda a: (-len(a), a))
+    expression = r"(?<![\w])(?:" + "|".join(
+        r"\s+".join(re.escape(word) for word in a.split()) for a in alternatives
+    ) + r")(?![\w])"
+    for match in re.finditer(expression, text, re.IGNORECASE):
+        yield match, aliases[" ".join(match.group().split()).casefold()]
+
+
+def outside_rect(box, cut):
+    overlap = box & cut
+    if overlap.is_empty:
+        return [box]
+    return [rect for rect in (
+        fitz.Rect(box.x0, box.y0, box.x1, overlap.y0),
+        fitz.Rect(box.x0, overlap.y1, box.x1, box.y1),
+        fitz.Rect(box.x0, overlap.y0, overlap.x0, overlap.y1),
+        fitz.Rect(overlap.x1, overlap.y0, box.x1, overlap.y1),
+    ) if not rect.is_empty]
+
+
 def prepare(output, input_manifest=INPUT):
     if output.exists():
         raise FileExistsError(f"Use a new output directory; preserve previous runs: {output}")
@@ -240,6 +284,13 @@ def prepare(output, input_manifest=INPUT):
     if not content.is_relative_to((ROOT / "book").resolve()):
         raise ValueError("Journal content must be inside book.")
     journal = load(content)
+    appendix_source = None
+    if manifest.get("appendix"):
+        appendix_source = (ROOT / manifest["appendix"]).resolve()
+        if not appendix_source.is_relative_to((ROOT / "book").resolve()):
+            raise ValueError("Journal appendix must be inside book.")
+        journal["appendix"] = load(appendix_source)
+        appendix_terms(journal["appendix"])
     historical = historical_data(manifest, journal)
     tools = tool_versions()
     definitions = [{"entry": "COVER", **manifest.get("coverFigure", {
@@ -268,7 +319,8 @@ def prepare(output, input_manifest=INPUT):
     write(output / "manifest-input.json", manifest)
     write(output / "prepared.json", {"historical": historical, "assets": assets,
           "tools": tools, "inputSha256": sha(input_manifest),
-          "journalSourceSha256": sha(content)})
+          "journalSourceSha256": sha(content),
+          **({"appendixSourceSha256": sha(appendix_source)} if appendix_source else {})})
     source_sheets(output, assets)
     return len(assets)
 
@@ -479,6 +531,103 @@ class JournalPDF:
             y = self.text(subheading, 48, y, 499, 12, "bold") + 8
             y = self.text(text, 48, y, 499, 10.7, bottom=768) + 22
 
+    def appendix(self, appendix):
+        terms, _ = appendix_terms(appendix)
+        self.term_destinations = {}
+        self.appendix_groups = []
+        self.appendix_lookup = []
+        self.page_new(appendix["title"], "appendix", "glossary")
+        y = self.heading(appendix["title"], "ELI5 APPENDIX / SMALL WORDS, BIG IDEAS") + 22
+        y = self.text(appendix["intro"], 48, y, 499, 11) + 24
+        self.text(f"{len(terms)} explained topics / alphabetical map next", 48, y, 499, 10, "mono")
+        y += 35
+        for group in appendix["groups"]:
+            y = self.text(group["title"], 48, y, 499, 11, "bold") + 11
+        for offset in range(0, len(terms), 44):
+            self.page_new("Alphabetical explanation map", "appendix-index")
+            self.heading("Find your tiny explanation", "ELI5 / ALPHABETICAL MAP")
+            for index, term in enumerate(sorted(terms, key=lambda t: t["term"].casefold())[offset:offset+44]):
+                x, y = 48 + (index // 22) * 256, 150 + (index % 22) * 26
+                self.text(term["term"], x, y, 238, 9.1, "bold")
+                self.appendix_lookup.append((self.page.number, fitz.Rect(x, y, x + 238, y + 24), term["id"]))
+        for group in appendix["groups"]:
+            y = 800
+            for term in group["terms"]:
+                title_lines = wrapped(term["term"], 470, lambda s: self.fonts["bold"]["font"].text_length(s, fontsize=12))
+                lines = wrapped(term["explanation"], 470, lambda s: self.fonts["body"]["font"].text_length(s, fontsize=10.7))
+                height = len(title_lines) * 16.32 + len(lines) * 14.552 + 29
+                if y + height > 766:
+                    page = self.page_new(group["title"], "appendix")
+                    y = self.heading(group["title"], "ELI5 / " + group["id"].upper()) + 25
+                    if not any(row["id"] == group["id"] for row in self.appendix_groups):
+                        self.appendix_groups.append({"id": group["id"], "title": group["title"], "page": page})
+                self.term_destinations[term["id"]] = {
+                    "page": self.page.number + 1, "y": y, "term": term["term"]}
+                self.items.append(
+                    f'<span id="term-{term["id"]}" class="definition-anchor" '
+                    f'style="left:48pt;top:{y}pt"></span>')
+                self.rect((48, y, 51, y + height - 12), (.75, .81, .69))
+                y = self.text(term["term"], 62, y, 470, 12, "bold", ACCENT) + 6
+                y = self.text(term["explanation"], 62, y, 470, 10.7, bottom=766) + 23
+
+    def link_terms(self, appendix):
+        _, aliases = appendix_terms(appendix)
+        links = []
+        for page_index, rect, identity in self.appendix_lookup:
+            target = self.term_destinations[identity]
+            self.doc[page_index].insert_link({
+                "kind": fitz.LINK_GOTO, "from": rect, "page": target["page"] - 1,
+                "to": fitz.Point(0, max(0, target["y"] - 20))})
+            self.pages[page_index]["items"].append(
+                f'<a class="hotspot" href="#term-{identity}" '
+                f'aria-label="Explain: {html.escape(target["term"], quote=True)}" '
+                f'style="left:{rect.x0}pt;top:{rect.y0}pt;width:{rect.width}pt;height:{rect.height}pt"></a>')
+        for page_index in range(self.doc.page_count):
+            page = self.doc[page_index]
+            occupied = [fitz.Rect(link["from"]) for link in page.get_links()]
+            text, characters = "", []
+            raw = page.get_text("rawdict")
+            for block in raw["blocks"]:
+                for line in block.get("lines", []):
+                    for span in line["spans"]:
+                        for char in span["chars"]:
+                            text += char["c"]
+                            characters.append((fitz.Rect(char["bbox"]), len(text)))
+                    text += "\n"
+                    characters.append((None, len(text)))
+            for match, identity in term_matches(text, aliases):
+                destination = self.term_destinations[identity]
+                pieces = []
+                for rect, _ in characters[match.start():match.end()]:
+                    if rect is None:
+                        continue
+                    if pieces and abs(pieces[-1].y0 - rect.y0) < .5:
+                        pieces[-1] |= rect
+                    else:
+                        pieces.append(fitz.Rect(rect))
+                for rect in pieces:
+                    # The definition heading is already the destination; self-links
+                    # would add clutter without helping the reader.
+                    if page_index + 1 == destination["page"] and abs(rect.y0 - destination["y"]) < 18:
+                        continue
+                    if any(rect.intersects(existing) for existing in occupied):
+                        continue
+                    page.insert_link({"kind": fitz.LINK_GOTO, "from": rect,
+                                      "page": destination["page"] - 1,
+                                      "to": fitz.Point(0, max(0, destination["y"] - 20))})
+                    page.draw_line(rect.bottom_left, rect.bottom_right, color=ACCENT,
+                                   width=.4, dashes="[1 2] 0", stroke_opacity=.5)
+                    self.pages[page_index]["items"].append(
+                        f'<a class="hotspot term-link" href="#term-{identity}" '
+                        f'title="Explain: {html.escape(destination["term"], quote=True)}" '
+                        f'aria-label="Explain: {html.escape(destination["term"], quote=True)}" '
+                        f'style="left:{rect.x0}pt;top:{rect.y0}pt;width:{rect.width}pt;height:{rect.height}pt"></a>')
+                    links.append({"page": page_index + 1, "term": identity,
+                                  "targetPage": destination["page"],
+                                  "targetY": max(0, destination["y"] - 20),
+                                  "rect": list(rect)})
+        return links
+
     def finish(self, journal, manifest, historical):
         total = self.doc.page_count
         for index in range(total):
@@ -505,25 +654,36 @@ class JournalPDF:
             self.text(f"{title} / {destination}", 48, y, 499, 8.8, "mono")
             self.link((45, y, 550, y+13), destination)
             y += 17
+        self.restore_unicode()
+        if journal.get("appendix"):
+            self.term_links = self.link_terms(journal["appendix"])
         for index, rect, destination in self.links:
             if destination < 1 or destination > total:
                 raise ValueError("Invalid native PDF destination.")
-            self.doc[index].insert_link({"kind": fitz.LINK_GOTO, "from": rect, "page": destination-1})
-            self.pages[index]["items"].append(f'<a class="hotspot" href="#page-{destination}" '
-                f'style="left:{rect.x0}pt;top:{rect.y0}pt;width:{rect.width}pt;height:{rect.height}pt" '
-                f'aria-label="Go to page {destination}"></a>')
+            pieces = [rect]
+            for term_link in getattr(self, "term_links", []):
+                if term_link["page"] == index + 1:
+                    pieces = [part for piece in pieces
+                              for part in outside_rect(piece, fitz.Rect(term_link["rect"]))]
+            for piece in pieces:
+                self.doc[index].insert_link({"kind": fitz.LINK_GOTO, "from": piece, "page": destination-1})
+                self.pages[index]["items"].append(f'<a class="hotspot" href="#page-{destination}" '
+                    f'style="left:{piece.x0}pt;top:{piece.y0}pt;width:{piece.width}pt;height:{piece.height}pt" '
+                    f'aria-label="Go to page {destination}"></a>')
         outline = [[1, "Opening notebook", 2], [1, "Contents", contents+1], [1, "Dated timeline", 4]]
         for entry in journal["entries"]:
             outline.append([1, f"{entry['id']} / {entry['record']['date']} / {entry['title']}",
                             self.destinations[entry["id"]]])
         for label in ("mechanism", "acceptance", "records", "sources", "glossary", "commits", "workstreams"):
             outline.append([1, self.pages[self.destinations[label]-1]["title"], self.destinations[label]])
+            if label == "glossary":
+                for group in getattr(self, "appendix_groups", []):
+                    outline.append([2, group["title"], group["page"]])
         self.doc.set_toc(outline)
         self.doc.set_metadata({"title": manifest["title"] + " / " + manifest["subtitle"],
             "author": "Zanark / Copilot", "subject": "Dated, illustrated development retrospective; " + manifest["period"],
             "keywords": "Verona, development journal, speech, face mesh, local CPU",
             "creator": "Verona book/build_journal.py / PyMuPDF"})
-        self.restore_unicode()
         self.doc.subset_fonts()
         name = pdf_name(manifest)
         self.doc.save(self.output / name, garbage=4, deflate=True)
@@ -540,12 +700,18 @@ nav a{color:#fff;margin-right:20px}.reading-note{max-width:760px;margin:20px aut
 .body,.bold,.italic{font-family:Georgia,serif}.bold{font-weight:bold}.italic{font-style:italic}
 .mono{font-family:Consolas,monospace}.vector{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .hotspot:hover{outline:1px solid #ac4021}.sheet a img:hover{outline:2px solid #ac4021}
+.term-link{border-bottom:.5pt dotted #ac402199;box-sizing:border-box}
+.term-link:hover,.term-link:focus-visible{background:#f1ce7b55;outline:1pt solid #ac4021}
+.definition-anchor{position:absolute;scroll-margin-top:70px}
 @media print{body{background:white}nav,.reading-note{display:none}.sheet{margin:0;box-shadow:none;break-after:page}
 @page{size:A4;margin:0}}"""
         reader = '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">'
         reader += '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src \'self\' data:; style-src \'unsafe-inline\'; base-uri \'none\'">'
         reader += f'<title>{html.escape(manifest["title"])}</title><style>{css}</style><nav>'
-        reader += f'<a href="{name}">Open PDF</a><a href="#page-3">Contents</a><a href="edition.json">Edition manifest</a></nav>'
+        reader += f'<a href="{name}">Open PDF</a><a href="#page-3">Contents</a>'
+        if journal.get("appendix"):
+            reader += f'<a href="#page-{self.destinations["glossary"]}">ELI5 appendix</a>'
+        reader += '<a href="edition.json">Edition manifest</a></nav>'
         reader += '<p class="reading-note">An offline, fixed-page reading companion. Click any image for its full-resolution PNG. '
         reader += 'Use the native PDF for bookmarks and page navigation. Static GIF samples do not animate or play sound. '
         reader += 'This reader makes no network requests and contains no application capability or runtime connection.</p>'
@@ -649,14 +815,17 @@ def render(output):
         y = book.text(f"SHA-256 {record['sha256'][:20]}... / {record['bytes']:,} bytes",
                       48, y, 499, 7.7, "mono", MUTED) + 9
     book.text("Full hashes, page/figure maps and exact commits are retained in edition.json. Historical references are read from the frozen Git revision, not the subsequently updated working tree.", 48, 730, 499, 9)
-    book.note_page("glossary", "A small bench glossary", [
+    if journal.get("appendix"):
+        book.appendix(journal["appendix"])
+    else:
+        book.note_page("glossary", "A small bench glossary", [
         ("PCA / basis / mean", "A compact vector of coefficients weights released displacement directions. Adding those weighted deltas to the matching mean reconstructs skin positions. Coefficients are not normalized viseme weights, and one identity's basis cannot be silently reused as another's."),
         ("Native topology", "The original connectivity and vertex identities that make positions into a surface. Nearby coordinates do not prove that upper and lower lips should connect. The Maya ASCII sample is parsed as numbers, never executed."),
         ("Implicit style and explicit emotion", "The network combines a pinned identity/style condition with ten explicit expression controls. A channel's name is metadata, not human acceptance. Joint conditioning is not generally equivalent to averaging independent outputs."),
         ("Rest-space map / Jacobian", "A deformation field defined around a neutral shape can transform full poses consistently. Its local derivative helps diagnose stretching or folding. Positive sampled local diagnostics do not prove global injectivity or collision-free contacts."),
         ("Capability / lifecycle owner", "A per-run secret guards the loopback API; it must never enter a book. Exact process handles and per-head state identify who may close a native window. A tab closing, a head closing and manager Exit are different events."),
         ("Qualified versus accepted", "A bounded test on a specific machine establishes only what it measured. Owner approval of one proposed appearance does not approve an unseen stronger version, another identity, hearing quality or a wider unimplemented feature.")
-    ])
+        ])
     for offset in range(0, len(historical["commits"]), 14):
         book.page_new("Commit register", "register", "commits" if not offset else None)
         y = book.heading("Commit register", "ORIGINAL AUTHOR TIMESTAMPS / IST") + 21
@@ -685,6 +854,10 @@ def render(output):
         "inputManifestSha256": sha(output / "manifest-input.json"), "assets": assets, "pages": pages,
         "sources": historical["references"], "commits": historical["commits"],
         "workstreams": historical["workstreams"],
+        **({"appendix": {"definitions": book.term_destinations,
+                         "links": book.term_links,
+                         "groups": book.appendix_groups}}
+           if journal.get("appendix") else {}),
         "outputs": {filename: {"sha256": sha(output / filename), "bytes": (output / filename).stat().st_size}
                     for filename in (name, "reading.html")}}
     write(output / "edition.json", receipt)
@@ -733,8 +906,21 @@ def qualify(output):
             pixmap.save(pages_dir / f"page-{index+1:03}.png")
             page_checks.append({"page": index+1, "nativeCharacters": len(text),
                                 "links": len(page.get_links()), "spans": len(spans)})
-        if len(doc.get_toc()) != 3 + len(load(output / "journal.json")["entries"]) + 7:
+        if len(doc.get_toc()) != (3 + len(load(output / "journal.json")["entries"]) + 7
+                                 + len(edition.get("appendix", {}).get("groups", []))):
             raise ValueError("Native bookmark inventory is incomplete.")
+        if edition.get("appendix"):
+            for identity, target in edition["appendix"]["definitions"].items():
+                if target["term"] not in " ".join(fulltext[target["page"] - 1].split()):
+                    raise ValueError(f"Missing native definition: {identity}")
+            for record in edition["appendix"]["links"]:
+                matches = [link for link in doc[record["page"] - 1].get_links()
+                           if link["kind"] == fitz.LINK_GOTO
+                           and link["page"] == record["targetPage"] - 1
+                           and abs(link["to"].y - record["targetY"]) < .1
+                           and all(abs(a - b) < .1 for a, b in zip(link["from"], record["rect"]))]
+                if len(matches) != 1:
+                    raise ValueError("Missing or incorrect exact-definition PDF link.")
         section_text = " ".join("\n".join(fulltext).split())
         if not all(name in section_text for name in (
                 "Source notebook", "Commit register", edition.get("acceptanceTitle", "M1: present"))):

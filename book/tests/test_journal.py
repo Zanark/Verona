@@ -17,6 +17,62 @@ SPEC.loader.exec_module(journal)
 
 
 class JournalTests(unittest.TestCase):
+    def test_contents_links_leave_term_hotspots_unobstructed(self):
+        box, word = fitz.Rect(0, 0, 100, 20), fitz.Rect(20, 0, 40, 20)
+        parts = journal.outside_rect(box, word)
+        self.assertEqual(parts, [fitz.Rect(0, 0, 20, 20), fitz.Rect(40, 0, 100, 20)])
+        self.assertTrue(all(not p.intersects(word) for p in parts))
+        self.assertEqual(sum(p.get_area() for p in parts) + word.get_area(), box.get_area())
+
+    def test_term_matches_are_whole_word_longest_first_and_span_wrapped_lines(self):
+        aliases = {"gpu": "gpu", "gpu buffer": "buffer", "ram": "ram"}
+        found = [(m.group(), identity) for m, identity in journal.term_matches(
+            "program RAM, GPU buffer; gpu\nbuffer. GPU gpu_buffer.", aliases)]
+        self.assertEqual(found, [("RAM", "ram"), ("GPU buffer", "buffer"),
+                                 ("gpu\nbuffer", "buffer"), ("GPU", "gpu")])
+
+    def test_appendix_rejects_ambiguous_aliases_and_missing_explanations(self):
+        first = {"id": "gpu", "term": "GPU", "aliases": ["GPU"], "explanation": "Drawing helper."}
+        second = {"id": "other", "term": "Other", "aliases": ["gpu"], "explanation": "Other."}
+        value = {"groups": [{"id": "drawing", "title": "Drawing", "terms": [first, second]}]}
+        with self.assertRaisesRegex(ValueError, "ambiguous"):
+            journal.appendix_terms(value)
+        value["groups"][0]["terms"] = [{**first, "explanation": ""}]
+        with self.assertRaisesRegex(ValueError, "Missing"):
+            journal.appendix_terms(value)
+
+    def test_repeated_and_wrapped_pdf_terms_link_to_exact_definition_positions(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            fonts = journal.fonts_for(journal.load(journal.INPUT))
+            book = journal.JournalPDF(fonts, [], Path(temporary))
+            book.page_new("Source", "journal")
+            book.text("GPU and GPU buffer; GPU buffer.", 48, 100, 499)
+            book.text("GPU", 48, 130, 499)
+            book.text("buffer", 48, 145, 499)
+            book.text("program RAM", 48, 180, 499, 9)
+            book.page_new("Definitions", "appendix")
+            book.text("GPU", 48, 100, 499)
+            book.text("GPU buffer", 48, 150, 499)
+            book.term_destinations = {
+                "gpu": {"page": 2, "y": 100, "term": "GPU"},
+                "buffer": {"page": 2, "y": 150, "term": "GPU buffer"}}
+            book.appendix_lookup = []
+            appendix = {"groups": [{"id": "drawing", "title": "Drawing", "terms": [
+                {"id": "gpu", "term": "GPU", "aliases": ["GPU"], "explanation": "Drawing helper."},
+                {"id": "buffer", "term": "GPU buffer", "aliases": ["GPU buffer"], "explanation": "Number tray."}
+            ]}]}
+            book.restore_unicode()
+            links = book.link_terms(appendix)
+            self.assertEqual(len(links), 5)
+            self.assertEqual([x["targetY"] for x in links], [80, 130, 130, 130, 130])
+            with fitz.open(stream=book.doc.tobytes(), filetype="pdf") as restored:
+                self.assertEqual(len(restored[0].get_links()), 5)
+                self.assertEqual([x["to"].y for x in restored[0].get_links()],
+                                 [80, 130, 130, 130, 130])
+                self.assertIn("program RAM", restored[0].get_text())
+            self.assertEqual("".join(book.pages[0]["items"]).count('href="#term-buffer"'), 4)
+            book.doc.close()
+
     def test_native_qualification_accepts_wrapped_section_titles(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)

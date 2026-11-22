@@ -2,6 +2,33 @@
 
 ## Current deliverable
 
+**Clickable ELI5 update (vr-91):** volume four v2 adds **150 friendly explained
+topics, 930 word/phrase aliases and nine subject gardens**. Open:
+`C:\devdesk\homedesk\Verona\book\editions\Verona-Living-Face-Journal-v2\Verona-Living-Face-Journal.pdf`
+or its offline companion:
+`C:\devdesk\homedesk\Verona\book\editions\Verona-Living-Face-Journal-v2\reading.html`.
+Dotted-underlined technical words jump to their exact explanation, including
+repeated mentions, wrapped phrases and captions. Use the PDF viewer's Back
+command or browser Back to return. The alphabetical map and nine bookmarks
+provide additional entry points. Words inside historical screenshot pixels
+are not rewritten or linked; ordinary English is not a general dictionary.
+
+The new edition has78pages/32bookmarks/13figure occurrences, with2,998native
+term-link rectangles and150alphabetical links. Fourteen journal tests pass.
+All78layouts and full-resolution pages3/26/36/51 are agent-reviewed. Isolated
+offline Edge checks3,207local links and actually pointer-clicks all150definition
+targets plus a contents-row term and cover caption; exact anchor visibility,
+Back, font/image decoding and no overflow/external requests pass.
+Native PDF qualification checks every recorded term rectangle's exact page/Y.
+The portable Git-free rebuild preserves the complete appendix/link inventory
+and selected image hashes. All201checksum entries across five usable editions
+pass. PDF SHA-256:
+`75089febe52a9d6dadc7ec7211299e302be80f909b7fd595d967a6b1034ed10a`.
+No runtime restart, owner approval, new face/listening qualification or upload.
+The historical story/source cutoff and all earlier frozen editions stay intact.
+
+The following v1 delivery remains a preserved historical edition:
+
 **Volume four: A Face That Keeps Changing** now continues the illustrated
 journal through `3d5bc5f`, with actual 21-22 November 2026 commit dates:
 `C:\devdesk\homedesk\Verona\book\editions\Verona-Living-Face-Journal-v1\Verona-Living-Face-Journal.pdf`.

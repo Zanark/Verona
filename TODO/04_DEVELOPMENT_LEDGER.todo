@@ -1,6 +1,24 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr91 makes technical terms open friendly exact explanations
+Cause: owner wants a cute ELI5 concept appendix and direct clickable words.
+Action: author150topics/930aliases/ninegroups; explicit contained appendix input,
+portable bundling, longest whole-word/wrapped matching after Unicode repair.
+Native character rectangles link to exact PDF page/Y and offline HTML anchors.
+Subtract term areas from contents navigation; add dotted cues/index/bookmarks.
+Evidence:14booktests pass;78pages/32bookmarks/13unchanged figure occurrences.
+All20layout sheets and native-resolution3/26/36/51 reviewed.2,998termrectangles
+and150indexlinks; isolated Edge3,207local links, actual150definition clicks
+plus contents/caption pointer checks, exact visibility/Back/noexternal/overflow.
+Retain fixture guessed-ID and string-interpolation failures; corrected full run.
+Git-free rebuild preserves complete appendix/linkinventory and figurehashes.
+All201checksums across five usable frozen editions pass.
+Effect: distinct Verona-Living-Face-Journal-v2 PDF/reader; v1/earlierbytes intact.
+Limits: inventoried authored technical text, not ordinary-English dictionary
+or screenshot-pixel OCR. Historical3d5bc5fcutoff unchanged. No runtime restart,
+new listening/anatomy qualification, owner approval or uploaded PDF.
+
 2026-11-22 - vr90 removes redundant generated storage after journal delivery
 Cause: owner wants obsolete files removed from almost30GiBlocal checkout.
 Action: complete/push journal d9e08c5first. Explicit link-safe file manifest,

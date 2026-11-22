@@ -5,6 +5,41 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Give every technical idea a little explanation door (vr-91)
+
+The owner wants a cute ELI5 appendix, then asks for each word to jump directly
+to its explanation. Volume four v2 keeps the original story and images while
+adding150authored topics in nine subject gardens: faces, math, drawing, motion,
+speech, runtime, evidence, files and names. The930case-insensitive aliases
+cover technical prose, captions, notes and historical register terminology.
+Analogies explain the mechanisms without promising anatomy or acceptance.
+
+`book/build_journal.py:appendix_terms` rejects ambiguous aliases.
+`term_matches` chooses whole-word, longest phrases, including across wrapped
+native lines. `JournalPDF.appendix` records exact page/Y destinations.
+`link_terms` maps native character boxes to PDF annotations and offline anchor
+hotspots; dotted cues leave the words searchable/selectable. Contents-row
+navigation is split around term rectangles, so a technical word explains itself
+while the remainder still opens its entry. An alphabetical map and nine group
+bookmarks avoid making the appendix one long treasure hunt.
+
+The78-page edition has2,998term rectangles and150alphabetical links.
+All20layout sheets and native-resolution pages3/26/36/51 are reviewed;
+the13selected image hashes match reviewed v1. Fourteen focused book tests
+pass. Native qualification verifies exact term targets, and an isolated offline
+Edge session pointer-clicks all150definitions plus contents/caption examples.
+Back returns correctly;3,207local links resolve with no overflow or external
+requests. Fixture failures from guessed IDs and an uninterpolated comparison
+are retained and corrected, not mistaken for product defects.
+
+The frozen v2 and Git-free rebuild preserve identical appendix inventories
+and prepared images. All201file checksums across five usable frozen editions
+pass. PDF/reader:
+`C:\devdesk\homedesk\Verona\book\editions\Verona-Living-Face-Journal-v2`.
+Earlier frozen bytes remain untouched. This explains inventoried technical
+words, not every ordinary English word or text baked into historical images.
+No new face capture, runtime restart, owner approval or PDF publication.
+
 ## 2026-11-22 - Keep the evidence, remove its redundant working copies (vr-90)
 
 The owner-requested journal is frozen and pushed before deletion. The exact

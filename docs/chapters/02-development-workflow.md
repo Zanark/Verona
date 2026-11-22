@@ -164,3 +164,39 @@ No runtime process was stopped, reloaded or launched for cleanup. The earlier
 Onyx process IDs were already absent at the pre-delete check; their previous
 delivery receipt is not a claim that the head is still running now. New
 runtime work must discover current ownership again rather than trusting PIDs.
+
+## Explain technical vocabulary at the point of reading (vr-91)
+
+The living-face v2 manifest explicitly names `book/living-face/appendix.json`.
+Its150topics group930aliases into nine friendly subject gardens. Explanations
+use simple analogies and real limits; the vocabulary includes foundational
+mesh/math/speech concepts as well as current lip/lash and publishing work.
+It is a technical concept appendix, not an ordinary-English dictionary or
+an attempt to rewrite text embedded in historical images.
+
+`book/build_journal.py:prepare` accepts only an appendix path contained inside
+`book`, validates unique IDs and unambiguous aliases, and bundles its content
+into portable `journal.json`. `term_matches` is case-insensitive, whole-word,
+longest-first and whitespace-aware. After native text/Unicode restoration,
+`JournalPDF.link_terms` converts matched character boxes into exact page/Y PDF
+annotations and corresponding positioned HTML anchor links. Wrapped phrases
+have one rectangle per line, not a huge box over unrelated words.
+
+`outside_rect` subtracts term hotspots from contents navigation rather than
+stacking competing links over the same word. Alphabetical index rows target
+the canonical definition; definition headings do not need self-links.
+Subtle dotted cues show what is clickable. Both formats keep native searchable
+text, local-only destinations and no reader script or network dependency.
+Use viewer/browser Back after following a term.
+
+The reviewed78-page v2 has2,998term rectangles,150alphabetical links and
+32native bookmarks. Fourteen book tests cover matching, ambiguity, wrapped/
+repeated exact PDF destinations and navigation subtraction. Native checks
+validate every recorded rectangle/target. Isolated Edge actually pointer-clicks
+all150definition destinations plus a contents-row term and cover caption,
+checks Back, and resolves3,207local links without overflow/external requests.
+Two fixture-only selector/assertion defects have retained failure notes.
+All78layouts and full-resolution3/26/36/51 are reviewed. A Git-free portable
+rebuild preserves the complete appendix/link inventory and selected figures;
+201checksum entries across five usable frozen editions remain exact.
+These are agent production checks, not owner approval or new face qualification.

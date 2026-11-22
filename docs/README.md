@@ -1,5 +1,11 @@
 # Verona engineering book
 
+**Clickable ELI5 journal (vr-91):** the [book delivery index](../book/README.md)
+now points to volume four v2:78pages,150friendly topic explanations and exact
+PDF/offline-reader word links. Dotted terms, including repeated mentions and
+captions, land at their definition; viewer/browser Back returns to reading.
+The historical source cutoff, images and earlier frozen editions are unchanged.
+
 **Updated illustrated journal (vr-89):** [book delivery index](../book/README.md)
 records the separate47-page **A Face That Keeps Changing** continuation:
 13dated entries/13figure occurrences through vr88, actual21-22November

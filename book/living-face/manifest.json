@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "editionId": "Verona-Living-Face-Journal-v1",
+  "editionId": "Verona-Living-Face-Journal-v2",
   "pdfName": "Verona-Living-Face-Journal.pdf",
   "title": "Verona - A Face That Keeps Changing",
   "subtitle": "A development journal / Living-face continuation",
@@ -16,6 +16,7 @@
   "historicalRevision": "3d5bc5fcdc9d96319a8628697d98aba145722847",
   "releaseRevision": "6c9ec5ad9d6a38a97b32629ac7d3b93a72859fec",
   "content": "book/living-face/journal.json",
+  "appendix": "book/living-face/appendix.json",
   "sourcePolicy": "Explicit committed references and actual public-safe renderer figures. No scans of private continuity, sounds, supplied reference images or model binaries. Preserve frozen prior editions.",
   "references": [
     "book/journal.md",

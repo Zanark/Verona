@@ -1165,7 +1165,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-91": {
+      "source": "TODO/91_CLICKABLE_ELI5_APPENDIX.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhhjQIA",
+      "number": 90,
+      "url": "https://github.com/Zanark/Verona/issues/90",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK6ygo",
+      "title": "Add a friendly linked ELI5 appendix to the illustrated journal",
+      "managedBody": "\n<!-- verona-workstream:vr-91 -->\nWorkstream source: `TODO/91_CLICKABLE_ELI5_APPENDIX.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-91\nTitle: Add a friendly linked ELI5 appendix to the illustrated journal\n\nStatus: DONE\nMilestone: New frozen living-face edition with exact-definition navigation\nDependencies: vr-89, vr-90\n\nPurpose:\n  Owner wants every technical concept/new topic explained simply and cutely,\n  with each occurrence clickable directly to its appendix definition.\n\nTasks:\n  Inventory terminology across prose, captions, notes and historical registers.\n  Author grouped plain-language explanations, analogies and precise limits.\n  Add explicit appendix input to the existing portable journal builder.\n  Link all recognized technical-word/phrase occurrences in PDF and offline HTML.\n  Provide alphabetical lookup, exact definition anchors and native bookmarks.\n  Test repeated/wrapped phrases, boundaries, longest matches and invalid inputs.\n  Review complete new edition; preserve frozen v1 and prior volumes unchanged.\n\nAcceptance criteria:\n  Every inventoried concept has a real explanation, not an unexplained acronym.\n  Matching is case-insensitive, whole-word and longest-phrase first.\n  Links target the actual definition position, not merely the appendix start.\n  Repeated prose/caption terms work in both PDF and offline HTML without scripts.\n  All source text remains searchable/selectable and all links are local/valid.\n  Complete native/reader/link qualification and portable frozen-input rebuild.\n  No new images, runtime disturbance, source-cutoff rewrite or owner-approval claim.\n\nCompletion evidence:\n  book/living-face/appendix.json:150topics/930aliases/nine subject gardens.\n  book/build_journal.py:contained input, portable bundling, character-box PDF\n  links and matching HTML anchors; term-first contents navigation, dotted cues.\n  Fourteen book tests pass, including whole-word/longest/wrapped/repeated\n  matching, invalid aliases, exact native destinations and rectangle subtraction.\n  Verona-Living-Face-Journal-v2 frozen:78pages/32bookmarks/13figure occurrences.\n  All78layouts/13unchanged reviewed figures and native3/26/36/51 inspected.\n  2,998term rectangles/150index links; native exact page/Y checks pass.\n  Isolated offline Edge3,207local links,150actual definition pointer clicks\n  plus contents-row/caption clicks, Back/exact visibility/nooverflow/noexternal.\n  Git-free rebuild preserves full appendix/link inventory and prepared images.\n  All201checksum entries across five usable frozen editions verified.\n  PDF SHA256 75089febe52a9d6dadc7ec7211299e302be80f909b7fd595d967a6b1034ed10a.\n  Local PDF/reader:book/editions/Verona-Living-Face-Journal-v2.\n  Inventoried native technical text, not ordinary words or screenshot pixels.\n  Historical story/cutoff and all earlier frozen bytes unchanged; no runtime\n  restart, owner approval, new face/listening qualification or PDF upload.\n\nCompletion log:\n  2026-11-22 - Owner requests ELI5 explanations, then exact clickable term links.\n  2026-11-22 - Authored/reviewed/froze v2; exact native/browser navigation and\n  portable rebuild pass. Retained/corrected fixture-only selector/assertion\n  failures; documentation and causal ledger updated.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T16:05:02.230403+00:00"
+  "verifiedAt": "2026-11-22T16:33:32.601131+00:00"
 }
