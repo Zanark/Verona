@@ -24,6 +24,9 @@ The vr-84 entry corrects neutral lip erasure, separates outer-lip tracking
 from folded inner rims, records rejected seals and explains the wide-opening
 gate. The separate six-GLB report is refreshed without changing its geometry;
 the original report backup and frozen editions remain intact.
+The vr-83 entry refreshes the original twelve-GIF catalog without changing
+identities, documents archived-motion derivation and exact gender labels,
+and records the separate settings-preserving owned-head reopen.
 
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:

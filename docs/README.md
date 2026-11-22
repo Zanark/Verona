@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Original-six review refresh (vr-83):** [chapter09](chapters/09-verona-character-and-waves.md#refresh-the-review-not-its-identities-vr-83)
+records twelve complete newly rendered GIFs at the original report path,
+verified archived motion, Rowan-only half-deltas, Aster's assigned gender,
+versioned media and an intact previous-report backup.
+
 **Closed neutral lips (vr-84):** [chapter09](chapters/09-verona-character-and-waves.md#closed-lips-first-transparent-wide-openings-second-vr-84)
 corrects the unconditional transparent slit, tracks outer-lip opening,
 preserves near-closed lips and removes asymmetric lipstick depth clipping.

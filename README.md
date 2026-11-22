@@ -78,11 +78,14 @@ provenance; their old interfaces are not the current manager.
 **4x expressions, glowing centers and bright spokes** are the selected
 FaceMesh look, including the opening talking hero. Each new model GIF shows
 all ten available single emotions plus neutral, not emotion combinations.
-Current source additionally fits lipstick to all six native lips, makes mouth
-openings transparent, defines Rowan's eyelids and halves only Rowan's emotion
-gain (shared 2x/4x becomes effective 1x/2x). These vr-81 corrections are not
+Current source additionally fits lipstick to all six native lips, keeps
+neutral lips closed and makes only wide openings transparent, defines Rowan's
+eyelids and halves only Rowan's emotion gain (shared 2x/4x becomes effective
+1x/2x). These vr-81/84 corrections are not
 retroactively present in the preserved GIFs.
-[Mechanisms and limits](docs/chapters/09-verona-character-and-waves.md#native-lip-guides-transparent-mouths-and-rowan-relief-vr-81).
+The separate local original-six review now has twelve freshly rendered GIFs;
+the six supplied-GLB experiments keep their separate corrected review.
+[Mechanisms and limits](docs/chapters/09-verona-character-and-waves.md#closed-lips-first-transparent-wide-openings-second-vr-84).
 
 ## Six heads, one local workspace
 

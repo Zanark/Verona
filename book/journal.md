@@ -5,6 +5,33 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Let the owner resume the same six-model review (vr-83)
+
+The review names must remain stable while the rendering changes. Six serial
+private workers therefore capture the original Aster/Rowan/Kestrel/Vale/Linden/
+Onyx catalog again, twice per head. The six GLB experiments remain separate.
+Aster's badge now says Female; the other five remain explicitly unassigned.
+Every fresh GIF includes neutral plus ten emotions and the current lip fix.
+
+The archive audit initially fails on LF-versus-CRLF source hashes. Converting
+the exact pinned Git source into its Windows checkout form matches all four
+motion-source receipts for all six heads; checking is not bypassed. Native rest
+hashes match too. Only Rowan's quantized emotion-minus-neutral deltas are halved,
+with a one-unit rounding bound. Other motion bytes and audio identity remain
+unchanged. No network inference, audio replay or owner listening is claimed.
+
+The encoder verifies every source sample through the full 30.25-second decoded
+timeline. Candidate and final-path browser qualification load all twelve GIFs,
+check one-card playback/pause, mobile layout and exact gender labels, without
+external page requests or errors. Versioned assets precede an atomic HTML
+switch; the original report and the earlier failed run remain preserved.
+The historical idle-animation report and frozen PDFs stay untouched.
+
+Separately, at18:49:41IST the owner's reopen request replaces only this
+session's head333092with392392. Manager306384 and all fresh settings,
+appearance and zoom1 are preserved; served lip-renderer hashes match the
+qualified source. No other heads are present and no speech is replayed.
+
 ## 2026-11-22 - A transparent mouth must not mean a hole at rest (vr-84)
 
 The owner's screenshots reveal that vr-81's aperture is applied even to a

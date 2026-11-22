@@ -2,7 +2,7 @@ ID: vr-83
 GitHub issue: https://github.com/Zanark/Verona/issues/82
 Title: Refresh the original six-model GIF review after facial feedback
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Continue owner review at the existing report path
 Dependencies: vr-81, vr-82, vr-84
 
@@ -30,8 +30,22 @@ Acceptance criteria:
     replacement belong to the separate priority vr-84 fix, not this capture.
 
 Completion evidence:
-  Pending capture, encoding and qualified same-path promotion.
+  Production renderer source 8a11d90; six isolated serial workers stopped.
+  Twelve 30.25-second GIFs: neutral plus all ten emotions in both views.
+  Every encoded source sample is decoded and compared to its palette image.
+  Existing motion hashes verified against exact Windows-CRLF source snapshots;
+    only Rowan's emotion-minus-neutral packed deltas halved, within one unit.
+  Native rest hashes match the qualified baseline for all six models.
+  Candidate and final-path isolated browser checks load every GIF, verify
+    one-card playback/pause, 1440/430 layouts and zero errors/external requests.
+  Final browser confirms Aster Female and five unassigned genders.
+  Same-path HTML switched after media qualification; before-vr83 backup intact.
+  Capture preserves fresh live controls; no speech replay or new inference.
+  Report: .local\reports\model-gifs-20261122\index.html.
 
 Completion log:
   2026-11-22 - Owner requests the existing model GIF report be updated so
     review can continue. Clarifies original six only; GLBs remain separate.
+  2026-11-22 - Pause for vr84; preserve the first rejected source-hash check.
+    Resolve LF Git blobs versus exact CRLF archive receipts without bypassing
+    content verification. Complete run02, encode, qualify and promote.

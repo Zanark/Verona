@@ -1,5 +1,37 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Refresh the review, not its identities (vr-83)
+
+The original-six catalog remains at
+`.local\reports\model-gifs-20261122\index.html`. The owner explicitly keeps
+GLB experiments separate. Aster/Rowan/Kestrel/Vale/Linden/Onyx retain their
+names and technical model IDs; Aster is Female and the other five genders
+remain unassigned. Twelve newly rendered GIFs show full head mesh and
+face-only FaceMesh with the vr-84 closure fix, Rowan eyelids and reduced gain.
+
+Six serial isolated production-renderer workers reuse hash-verified synthetic
+same-audio motions. The source audit finds only Rowan's native emotion gain
+needs a trajectory change: `round(qNeutral + .5*(qEmotion-qNeutral))` matches
+the current post-fit half-delta rule within one packed quantization unit.
+Neutral and the other five models retain their original bytes. This is
+explicitly archived-motion derivation, not fresh network inference or listening.
+Native rest hashes must match the qualification baseline.
+
+The first provenance check fails because Git's LF blobs are compared with
+Windows CRLF checkout hashes. Exact CRLF conversion matches all four motion
+sources for all six archives; content checking is retained. The failed run
+survives. Each final GIF encodes all 30.25 seconds, neutral plus ten emotions.
+The encoder decodes every source time and compares the palette-quantized frame,
+allowing lossless merging of identical neighboring frames, not timeline loss.
+
+Candidate and final-path browser checks decode every GIF, verify bounded
+one-card playback/pause and 1440/430 layouts without errors or external page
+requests. Exact badge checks confirm Female plus five unassigned genders.
+Versioned media is copied before the final HTML switch; the old report
+survives in its before-vr83 backup. A failure before that switch leaves the
+old review usable. The separate historical animation report stays unchanged.
+No frozen edition is rewritten or report media uploaded.
+
 ## Closed lips first, transparent wide openings second (vr-84)
 
 The owner's neutral-mouth screenshots expose a regression in vr-81's display
@@ -56,7 +88,12 @@ requests/errors. The old report remains in its before-vr84 backup.
 These are technical and agent visual checks, not owner approval or phonetic
 accuracy. Native rims and transferred dense meshes can still crease in strong
 poses. Original-six report regeneration is tracked separately in vr-83;
-live owned-head replacement remains pending at this source milestone.
+live owned-head replacement was pending at the initial source milestone.
+At 18:49:41 IST, the owner's earlier explicit reopen request is fulfilled:
+only head333092 becomes392392, manager306384 remains, and every fresh control
+and appearance value is restored, including zoom1. Served renderer/module
+hashes match qualified source. No other heads are present and no speech is
+replayed. This is readiness/control preservation, not owner visual approval.
 
 ## Six supplied-GLB candidates, without a production import promise (vr-82)
 

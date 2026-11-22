@@ -82,8 +82,8 @@ vr-79 | 79_TRANSPARENT_BRAND_IDENTITY.todo | DONE | Transparent purple-haired he
 vr-80 | 80_MARK_SHORT_HAIRSTYLES.todo | DONE | Native-fitted quiff/side part, Mark-only startup defaults and three verified actual-renderer README GIFs
 vr-81 | 81_FACIAL_FEEDBACK.todo | DONE | Native lipstick, transparent mouth openings, Rowan eyelids and half-strength emotions
 vr-82 | 82_GLB_HEAD_REVIEW.todo | DONE | Six named native/Claire-base candidates and actual GIF review; owner selection pending
-vr-83 | 83_MODEL_REVIEW_REFRESH.todo | IN_PROGRESS | Refresh original six-model GIFs at the same report path; GLB review stays separate
-vr-84 | 84_NEUTRAL_LIP_CLOSURE.todo | IN_PROGRESS | Restore closed neutral lips; gate transparency on wide openings and refresh separate GLB GIFs
+vr-83 | 83_MODEL_REVIEW_REFRESH.todo | DONE | Twelve complete original-six GIFs refreshed at the original path; Aster Female, other genders unassigned
+vr-84 | 84_NEUTRAL_LIP_CLOSURE.todo | DONE | Closed neutral lips, wide-only transparency; separate GLB GIFs refreshed and owned head reopened
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE.
 Do not infer dependencies from file order.

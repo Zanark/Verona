@@ -2,7 +2,7 @@ ID: vr-84
 GitHub issue: https://github.com/Zanark/Verona/issues/83
 Title: Restore neutral lip contact and reserve transparency for wide openings
 
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Correct the visible neutral slit before continuing model review
 Dependencies: vr-81, vr-82
 
@@ -38,10 +38,16 @@ Completion evidence:
   Focused lip and isolated resource/blink fixture pass; 115 CPU tests pass.
   Corrected GLB report promoted at the original path with versioned assets;
     before-vr84 backup intact; final-path isolated browser verification passes.
-  Owned live restart and source delivery pending.
+  Source 8a11d90 pushed; exact remote commit/tree and Zanark identities verified.
+  At18:49:41IST only this session's head333092 is replaced by392392;
+    manager306384 remains. All fresh controls/appearance, including zoom1,
+    preserved. Served renderer/module hashes match qualified source.
+  No other heads present, no speech replay, no camera or microphone activity.
 
 Completion log:
   2026-11-22 - Owner makes closed-lip contact an urgent priority and requests
     no questions while AFK. Original-six report refresh pauses for this fix.
   2026-11-22 - Reject an all-model opaque seal and a darker Rowan seam;
     retain both captures. Keep the final seal Rowan/Surface/near-closed only.
+  2026-11-22 - Verify corrected GLB report at its original path; reopen the
+    explicitly owned session with unchanged settings and ready capability.
