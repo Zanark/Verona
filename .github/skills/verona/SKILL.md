@@ -152,8 +152,11 @@ and Spiral curls remain available. Other models retain their original
 startup style/visibility. Never restart or reconfigure an existing head
 merely to apply a new default.
 
-MPFB fits conditioned and same-audio neutral geometry separately, then applies
-2x/4x to their native difference. Final exaggerated geometry can exceed the
+MPFB (catalog name Rowan) fits conditioned and same-audio neutral geometry
+separately, then applies half the shared2x/4x setting: effective1x/2x.
+Its selector shows effective values; API/agent requests retain the shared
+setting and metadata records requested/effective values separately. Other
+models retain their prior gains. Final exaggerated geometry can exceed the
 native 0..1 rig envelope; it is not contact-corrected or a lossless reproduction
 of unsupported Claire detail. Mark uses only its own network/PCA/conditioning;
 Claire heads never load Mark. Sideways cheekiness adds a procedural asymmetric
@@ -172,8 +175,8 @@ else's head to switch models or policy.
 
 Idle life now owns thirty local actions, including five eye-focused actions
 and ten multi-feature composites. The tool chooses/times them, never the chat.
-Look-around moves eyes in either cursor mode. Yawns open lips around a dark
-cosmetic cavity and use explicitly prepared ignored local effects selected by
+Look-around moves eyes in either cursor mode. Yawns open lips around a transparent
+native-rim display aperture and use explicitly prepared ignored local effects selected by
 voice style (head fallback if unknown). Sneezes use supplied recordings too;
 neither effect falls back to synthesis.
 Manager `idle-sounds`/`idle-volume` controls mute/level independently of speech

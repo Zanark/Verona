@@ -207,12 +207,15 @@ def apply_transfer(engine, path=REFERENCE, *, shared=False):
             eyes=(centers, radii), hair_scale=native_hair_scale(render_rest))
         engine.identity = "Original MPFB head 1, driven by Claire neural motion"
         engine.appearance = "Original native MPFB rest and polygons; optional procedural cosmetics/hair."
+        engine.expression_gain_scale = .5
         receipt["exaggeration"] = (
             "Fit conditioned and same-audio neutral trajectories separately with weights 0..1; "
-            "apply 2x/4x to their native geometric difference after fitting. "
+            "apply half the shared 2x/4x setting (effective 1x/2x for Rowan) "
+            "to their native geometric difference after fitting. "
             "Exaggerated geometry is not constrained to native control bounds.")
         engine.mesh_metadata = {
             **engine.mesh_metadata, **geometry, "identity": engine.identity,
+            "expressionGainScale": engine.expression_gain_scale,
             "appearance": engine.appearance, "transfer": receipt,
             "topology": "Original MPFB polygons triangulated without a Claire rest substitution.",
             "renderTransform": {"scale": float(scale), "origin": origin.tolist(),

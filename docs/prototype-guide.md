@@ -163,7 +163,7 @@ prepared local recordings matched to the selected voice's male/female style;
 unknown styles fall back to the head's documented presentation. There is no
 synthesized fallback. Automatic yawn audio has a10%chance and a minimum ten-minute gap;
 most yawns stay silent, while an explicit preview bypasses rarity.
-The yawn opens the lower jaw and separates lips around a dark cosmetic cavity,
+The yawn opens the lower jaw and separates lips around a transparent cutout,
 without teeth/tongue anatomy. Mute or set0% to retain silent gestures;
 speech and interaction stop both motion and sound. Visual yawn's choice
 weight is 3x each other eligible action, still subject to recent-repeat exclusion.
@@ -214,8 +214,9 @@ Hair and makeup are approximate shared decorations, not native hair assets.
 explains captures, exact source-sample decoding and limitations.
 
 **Exaggeration and cheekiness:** native MPFB fits conditioned and same-audio
-neutral motion into bounded faceunits separately, then applies 2x/4x to their
-native geometric difference. Final exaggerated geometry is not constrained to
+neutral motion into bounded faceunits separately, then applies the shared 2x/4x
+setting at half strength for Rowan (effective 1x/2x) to their native geometric
+difference. Other heads keep their existing gain. Final exaggerated geometry is not constrained to
 the native 0..1 rig envelope and is not contact-corrected. Mark uses its own
 neural conditioning. **Sideways cheekiness** and its strength slider add a
 procedural asymmetric lip pull only during cheekiness clips, with no extra
@@ -239,7 +240,7 @@ optional compatibility/research routes, not required for normal use.
 **Actual imported MPFB head with speech:** `.\VeronaMpfb.cmd` now starts the
 same shared player in a separate capability-protected browser session.
 Generate your sentence, then press Play. Its 51 native faceunits are fitted
-before neutral-relative 2x/4x geometric exaggeration, as described above.
+before neutral-relative geometric exaggeration (effective 1x/2x for Rowan), as described above.
 Stop resets the head; keep the console open and use
 Ctrl+C to cancel/stop it and clear speech RAM. Closing the tab alone does not
 stop the console. Reload after WebGL loss or an expired session.

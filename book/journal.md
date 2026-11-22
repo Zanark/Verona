@@ -5,6 +5,50 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Follow the native lips instead of painting an oval (vr-81)
+
+The owner's marked lip borders expose a coordinate mistake: moving one generic
+ellipse cannot fit six different mouths. `facial-features.mjs:facialProfile`
+instead supplies symmetric upper/lower curves in each head's native rest space.
+The same smooth Cupid's-bow mask serves filled paint and feature ink. Removing
+the old separate black cavity paint also removes Aster's artificial corner spot.
+The owner identifies Aster as female; the other review genders stay unassigned.
+
+The requested transparent mouth is a compositing problem, not a darker material.
+Discarding cavity fragments reveals other head surfaces. A corner fan can sit
+behind protruding central lips. `mouthAperture` selects paired native rim samples
+once; `FaceRenderer.clearMouth` reuses animated GPU positions and clears RGBA in
+a depth-tested strip, with a bounded0.8cm view-depth bias. Native seam registration
+also prevents the idle yawn from stretching a broad intermediate pink sheet.
+The pass preserves LEQUAL depth state. One small static index buffer and one
+local draw add bounded work, not new inference or a whole-app cost measurement.
+Strong native poses can still have angular rims; this is not oral retopology.
+
+Rowan's eyelid skin gains a bounded0.16cm shader ridge that fades during blinking.
+Its emotion gain is halved after native fitting: shared2x/4x becomes effective
+1x/2x, including the optional sideways pull, without changing neutral speech or
+other heads. Requested/effective metadata and visible labels remain distinct.
+
+The105CPU regressions and three focused Node suites pass. The final shared
+WebGL fixture verifies resources, blink closure and retirement behavior; an
+initial navigation race is retained and corrected by waiting for the actual new
+error element. Actual six-head capture08 adds30stills and240draw/optical cases.
+All24model/view blink checks close fully and reopen, all GL checks pass, and
+12front speech/yawn masks have no fully opaque depth residual against their
+reference aperture. That comparison checks depth, not anatomical mask accuracy.
+An independent pinned-network check verifies all eleven Rowan states, unchanged
+audio and half-deltas within0.5quantization unit. Earlier rejected visual attempts
+remain evidence; representative front/30-degree/profile inspection is agent
+review, not owner visual or listening acceptance.
+
+Existing GIF reports and frozen editions are preserved. README explicitly dates
+its older captures rather than pretending these paint/compositing changes were
+already recorded. At06:16:24IST the authorized switch replaces only this
+session's head310488with333092. The manager remains306384; all fresh settings
+and appearance match, including the then-current zoom1. No other heads are
+present, no speech is replayed, and served renderer/module hashes match the
+qualified candidate. This is live readiness, not independent human acceptance.
+
 ## 2026-11-22 - Give Mark two genuinely short silhouettes (vr-80)
 
 The owner points out that the existing waves and curls were designed as long

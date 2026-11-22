@@ -192,6 +192,10 @@ class LocalServerTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn("javascript", headers["Content-Type"])
         self.assertIn(b"export function attachBlinking", body)
+        status, headers, body = self.request("GET", "/facial-features.mjs")
+        self.assertEqual(status, 200)
+        self.assertIn("javascript", headers["Content-Type"])
+        self.assertIn(b"export function facialProfile", body)
 
     def test_single_generation_slot_fails_busy_without_queue(self):
         self.state.busy.acquire()

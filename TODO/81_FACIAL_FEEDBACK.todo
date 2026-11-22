@@ -1,0 +1,66 @@
+ID: vr-81
+Title: Native lipstick contours, transparent mouths and Rowan facial feedback
+
+Status: DONE
+Milestone: First six-head visual-feedback corrections
+Dependencies: vr-65, vr-66, vr-76, vr-80
+GitHub issue: https://github.com/Zanark/Verona/issues/80
+
+Purpose:
+  Follow each native lip silhouette instead of painting a shared oval.
+  Remove Aster's artificial dark mouth corner, define Rowan's eyelid folds,
+  halve only Rowan's emotion exaggeration, and replace opaque mouth voids
+  with actual transparency during speech and yawns.
+
+Tasks:
+  Fit symmetric rest-space lipstick guides with a Cupid's-bow central dip.
+  Share the same mask between filled, edge and other presentation paths.
+  Attach a bounded transparent aperture to native animated lip-rim vertices.
+  Align idle mouth fields with the selected native mouth and preserve closure.
+  Add Rowan-only eyelid relief and halve its post-fit emotional deltas.
+  Show effective Rowan emotion settings and preserve neutral speech/audio.
+  Qualify all six heads, speech, yawns, turns, blinking and resource ownership.
+  Update the chapter, guide, living journal, tracking and owned continuity.
+  Reopen only this session's Verona head after qualification, keeping settings.
+
+Acceptance criteria:
+  Default/custom lipstick follows symmetric native upper/lower borders.
+  Aster has no separate artificial black cavity/corner paint.
+  Open mouths reveal the background, not opaque black or interior patches.
+  Rowan receives half the previous emotion delta for every expression;
+  neutral speech and the other five models retain their prior gains.
+  Rowan eyelids retain complete blink closure and reopening without eye glow.
+  No new network/model, continuous RAF, per-frame topology generation,
+  transcript persistence, sibling interruption or unapproved release.
+  Owner's Aster=Female assignment is recorded; other genders stay unassigned.
+
+Completion evidence:
+  Implemented and environment-qualified, not owner visual/phonetic acceptance.
+  105CPU tests; native-feature, idle and blinking Node suites pass.
+  Shared WebGL resource/lifecycle fixture passes; the retirement assertion now
+  waits for the navigated page's actual error element instead of racing it.
+  Final .local\qualification\facial-feedback-81\capture-08:30actual native
+  stills,240view/angle/pose/blink checks, zero GL errors,24complete optical
+  blink checks,12front speech/yawn depth masks with zero opaque residuals.
+  That residual test qualifies depth, not anatomical mask accuracy.
+  rowan-gain\receipt.json: actual pinned network/native fit, all11states,
+  unchanged audio/frames, half-delta error at most0.5quantization unit.
+  Front/30-degree/profile captures inspected; rejected attempts retained.
+  delivery\receipt.json: only session Verona reopened as head333092, manager
+  306384unchanged, every fresh control/appearance preserved, zoom1, no replay.
+  Served renderer/module hashes equal the qualified candidate.
+  Existing model/animation GIF reports preserved; README dates old captures.
+  Native lip-rim angularity can remain in strong poses; no retopology claim.
+
+Completion log:
+  2026-11-22 - Owner supplies native lip-border examples, Aster=Female,
+    Aster's dark corner and Rowan's eyelid feedback. Additional directions
+    halve Rowan-only emotion and supersede the earlier dark-yawn-void choice
+    with transparent mouth openings. Owner explicitly authorizes reopening
+    only this session's head after all corrections are done.
+  2026-11-22 - Work isolated in a detached candidate; pinned models and
+    installed packages are read-only inputs. Cache, qualification outputs,
+    browser profile and synthetic speech remain separate from the live head.
+  2026-11-22 - All final qualification gates pass. At06:16:24IST the authorized
+    own-head replacement promotes22qualified source/doc/test files and restores
+    fresh settings exactly. No other heads were present; manager is not restarted.

@@ -97,13 +97,16 @@ extra field math. A separate `idleLids` `vec2` drives unilateral closures.
 The vr-76 yawn adds one `idleYawn` scalar shared by vertex and fragment stages.
 It replaces the old small jaw/purse combination: upper lip rises while the
 lower jaw descends, with an elliptical width envelope and a gentler chin
-transition. A rest-space inner-mouth band becomes dark across all four views.
-This keeps a visible lip rim around a cosmetic empty cavity rather than
-pushing closed lips forward. It is not a new oral mesh, physical jaw joint,
-teeth/tongue rig or contact solver. At zero, the extra displacement/cavity
-branch has no effect; interrupted/completed yawns restore the original surface.
-No vertex buffer, topology, model, TTS voice or speech clip is created for
-an idle action. Normals retain the renderer's cosmetic approximation.
+transition. The original vr-76 dark inner-mouth band is superseded by
+vr-81: [chapter09](09-verona-character-and-waves.md#native-lip-guides-transparent-mouths-and-rowan-relief-vr-81)
+explains the actual transparent opening and native lip-rim mask. Native mouth
+registration and an upper/lower seam avoid stretching a closed strip through
+the opening. This remains a cosmetic display mask, not a physical jaw joint,
+teeth/tongue rig or contact solver. Interrupted/completed yawns restore the
+original pose; the mouth mask also follows ordinary speech. No vertex buffer,
+topology, model, TTS voice or speech clip is created per idle action. The small
+static aperture indices are built once with the renderer; normals retain the
+cosmetic approximation.
 
 `FaceRenderer.draw` combines the existing blink amount with the gesture's eye
 squeeze using a maximum. `blinking.mjs:blinkAmount` then takes the maximum with

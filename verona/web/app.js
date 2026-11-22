@@ -87,12 +87,14 @@ function surfaceNormals(positions, triangles, offset = 0, count = positions.leng
   return normals;
 }
 
+import {facialProfile, mouthAperture, FACIAL_FEATURE_GLSL} from "/facial-features.mjs";
+
 class FaceRenderer {
   constructor(canvas, meta, binary, model = "claire") {
     this.canvas = canvas;
     this.meta = meta;
     this.frames = 0;
-    const gl = canvas.getContext("webgl2", { antialias: true, alpha: Boolean(desktop), premultipliedAlpha: false });
+    const gl = canvas.getContext("webgl2", { antialias: true, alpha: true, premultipliedAlpha: false });
     if (!gl) throw new Error("WebGL2 is unavailable. Use a current Edge or Chrome with graphics enabled.");
     this.gl = gl;
     const vertex = `#version 300 es
@@ -107,8 +109,9 @@ class FaceRenderer {
       uniform float scale, viewScale, cheekiness;
       uniform vec3 mouthAnchor;
       uniform vec3 viewCenter, rotationOffset;
-      uniform int material;
+      uniform int material, pass;
       ${BLINK_GLSL}
+      ${FACIAL_FEATURE_GLSL}
       vec3 featurePosition(vec3 p) {
         float weight = 1.0-smoothstep(mouthAnchor.y+2.0,mouthAnchor.y+5.0,p.y);
         p.z += weight*(3.8-mouthAnchor.z);
@@ -130,7 +133,15 @@ class FaceRenderer {
         vec3 worldRest = restPosition / quantization * scale + center;
         if (material == 0) p += (blinkOffset(worldRest)+cheekinessOffset(worldRest)+idleOffset(worldRest)) / scale;
         vec3 normal = mix(normalA, normalB, blend);
+        if (material == 0 && rowanLids > .5) {
+          p.z += rowanLidRidge(worldRest) / scale;
+          vec2 gradient = vec2(
+            rowanLidRidge(worldRest+vec3(.02,0,0))-rowanLidRidge(worldRest-vec3(.02,0,0)),
+            rowanLidRidge(worldRest+vec3(0,.02,0))-rowanLidRidge(worldRest-vec3(0,.02,0))) / .04;
+          normal.xy -= gradient*normal.z;
+        }
         p = rotation * ((p - viewCenter) * viewScale) + rotationOffset;
+        if (pass == 4) p.z += .8 * viewScale / scale;
         gl_Position = vec4(p.x * zoom / aspect, p.y * zoom, -p.z * 0.35, 1.0);
         gl_PointSize = pointSize;
         viewNormal = rotation * normal;
@@ -146,6 +157,7 @@ class FaceRenderer {
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle, eyeGlow;
       ${BLINK_GLSL}
+      ${FACIAL_FEATURE_GLSL}
       in vec3 viewNormal, rest;
       uniform vec3 mouthAnchor;
       out vec4 outputColor;
@@ -162,9 +174,7 @@ class FaceRenderer {
         if (customMeshColor) base = meshColor;
         vec3 feature = featurePosition(rest);
         float x = abs(feature.x - 0.08);
-        float lipCenter = 140.15 - 0.10 * square(x / 2.5);
-        float lip = (1.0-smoothstep(0.70,1.0,square(x/2.65)+square((feature.y-lipCenter)/0.70)))
-          * smoothstep(2.6,3.2,feature.z);
+        float lip = lipstick(rest);
         float browY = 149.25 + 0.46 * exp(-square((x-3.65)/1.4));
         float brow = (1.0-smoothstep(0.18,0.27,abs(rest.y-browY)))
           * smoothstep(1.3,1.8,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(1.6,2.5,rest.z);
@@ -176,20 +186,16 @@ class FaceRenderer {
         return monochrome ? vec3(dot(value, vec3(0.2126, 0.7152, 0.0722))) : value;
       }
       void main() {
+        if (pass == 4) {
+          outputColor=vec4(0.0);
+          return;
+        }
         if (material == 2 && blinkOccludes(rest)) discard;
         if (material != 1 && neckDepth >= 0.0 && rest.y < min(${JAW_CROP.ceiling.toFixed(1)}, ${JAW_CROP.chin}
           + ${JAW_CROP.curve} * rest.x * rest.x
           + ${JAW_CROP.rearRise.toFixed(1)} * clamp((${JAW_CROP.rearStart.toFixed(1)} - rest.z)
             / ${JAW_CROP.rearSpan.toFixed(1)}, 0.0, 1.0)) - neckDepth) discard;
         if (points && distance(gl_PointCoord, vec2(0.5)) > 0.5) discard;
-        if (material == 0 && idleYawn > 0.0) {
-          vec3 mouth = featurePosition(rest);
-          float interior = square((mouth.x-.08)/2.15)+square((mouth.y-140.15)/.33);
-          if (interior < .85 && mouth.z > .6) {
-            outputColor = vec4(vec3(.006,.003,.004),smoothstep(0.0,.25,idleYawn));
-            return;
-          }
-        }
         if (presentationStyle > 0) {
           if (pass == 2) { outputColor = vec4(0.0); return; }
           if (presentationStyle == 1 && material == 2 && pass == 3) {
@@ -278,16 +284,11 @@ class FaceRenderer {
         float polish = 0.10;
         if (material == 0) {
           vec3 feature = featurePosition(rest);
+          float lip = lipstick(rest);
           vec3 rest = feature;
           float x = abs(rest.x - 0.08);
-          float lipCenter = 140.15 - 0.10 * square(x / 2.5);
-          float lip = (1.0-smoothstep(0.70,1.0,square(x/2.65)+square((rest.y-lipCenter)/0.70)))
-            * smoothstep(2.6,3.2,rest.z);
           if (polygonView) {
             base=mix(base,customLipColor ? lipColor : vec3(0.37,0.16,0.20),lip*0.8);
-            float cavity=(1.0-smoothstep(0.65,1.0,square(x/2.3)+square((rest.y-140.1)/0.62)))
-              *(1.0-smoothstep(3.0,3.35,rest.z));
-            base=mix(base,vec3(0.025,0.018,0.024),cavity);
             float browY=149.18+0.42*(1.0-square((x-3.1)/1.8));
             float brow=(1.0-smoothstep(0.12,0.23,abs(rest.y-browY)))
               *smoothstep(1.3,1.8,x)*(1.0-smoothstep(4.5,4.9,x))*smoothstep(1.6,2.5,rest.z);
@@ -298,9 +299,6 @@ class FaceRenderer {
           float blush = exp(-square((x-3.9)/1.7)-square((rest.y-144.4)/1.6))
             * smoothstep(1.5,2.8,rest.z);
           base = mix(base,vec3(0.49,0.19,0.17),blush*0.16);
-          float cavity = (1.0-smoothstep(0.65,1.0,square(x/2.3)+square((rest.y-140.1)/0.62)))
-            * (1.0-smoothstep(3.0,3.35,rest.z));
-          base = mix(base,vec3(0.008,0.003,0.006),cavity);
           float browY = 149.25 + 0.46 * exp(-square((x-3.65)/1.4));
           float browWidth=mix(0.18,0.035,smoothstep(2.5,4.9,x));
           float brow = (1.0-smoothstep(browWidth,browWidth+0.07,abs(rest.y-browY)))
@@ -395,11 +393,23 @@ class FaceRenderer {
         .map((name) => [name, gl.getUniformLocation(program, name)]),
     );
     for (const name of ["idleFaceA", "idleFaceB", "idleFaceC", "idleLids"]) this.uniforms[name] = gl.getUniformLocation(program, name);
+    for (const name of ["lipMouth", "lipDepth", "lipUpper", "lipLower", "rowanLids"]) {
+      this.uniforms[name] = gl.getUniformLocation(program, name);
+    }
+    this.facialProfile = facialProfile(model);
+    gl.uniform3fv(this.uniforms.lipMouth, this.facialProfile.mouth);
+    gl.uniform2fv(this.uniforms.lipDepth, this.facialProfile.depth);
+    gl.uniform1fv(this.uniforms.lipUpper, this.facialProfile.upper);
+    gl.uniform1fv(this.uniforms.lipLower, this.facialProfile.lower);
+    gl.uniform1f(this.uniforms.rowanLids, model === "mpfb" ? 1 : 0);
     if (binary.byteLength !== meta.bytes || meta.edgeOffset % 4 || meta.triangleOffset % 4) {
       throw new Error("Face mesh byte count/alignment does not match its contract.");
     }
     this.neutralData = new Int16Array(binary, 0, meta.vertices * 3);
     this.triangleData = new Uint32Array(binary, meta.triangleOffset, meta.triangles * 3);
+    const mouthIndices = mouthAperture(this.neutralData, meta, this.facialProfile);
+    this.mouthTriangleCount = mouthIndices.length / 3;
+    this.mouthIndices = this.buffer(gl.ELEMENT_ARRAY_BUFFER, mouthIndices);
     this.neutral = this.buffer(gl.ARRAY_BUFFER, this.neutralData);
     this.neutralNormals = this.buffer(gl.ARRAY_BUFFER, surfaceNormals(this.neutralData,this.triangleData));
     this.normalSlots = [];
@@ -806,6 +816,32 @@ class FaceRenderer {
     gl.uniform1f(this.uniforms.blend,0);
   }
 
+  clearMouth() {
+    const gl = this.gl, u = this.uniforms;
+    for (const name of ["positionA", "positionB"]) {
+      this.attribute(name, this.drawMotion || this.neutral, gl.SHORT,
+        this.drawMotion ? (name === "positionA" ? this.leftFrame : this.rightFrame) * this.meta.vertices * 6 : 0);
+    }
+    this.attribute("restPosition", this.neutral, gl.SHORT);
+    gl.uniform1f(u.blend, this.frameBlend);
+    gl.uniform1i(u.material, 0);
+    gl.uniform1i(u.points, 0);
+    gl.uniform1i(u.pass, 4);
+    // Replace RGBA where the animated lip-rim strip passes the existing skin depth.
+    // Discarding it in the first pass would expose the back of the head or hair.
+    gl.disable(gl.BLEND);
+    gl.depthMask(false);
+    gl.depthFunc(gl.LEQUAL);
+    gl.enable(gl.POLYGON_OFFSET_FILL);
+    gl.polygonOffset(-1, -1);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.mouthIndices);
+    gl.drawElements(gl.TRIANGLES, this.mouthTriangleCount * 3, gl.UNSIGNED_INT, 0);
+    gl.disable(gl.POLYGON_OFFSET_FILL);
+    gl.depthFunc(gl.LEQUAL);
+    gl.depthMask(true);
+    gl.uniform1i(u.pass, 0);
+  }
+
   placeOverlayTools(pose, fitScale, zoom, rect) {
     if (!desktop || !document.documentElement.classList.contains("overlay")) return;
     const showHair = this.hairVisible[this.presentationId];
@@ -889,9 +925,11 @@ class FaceRenderer {
     gl.uniform3fv(u.blinkCenterA, rig.centers[0]);
     gl.uniform3fv(u.blinkCenterB, rig.centers[1]);
     gl.uniform3fv(u.blinkRadius, rig.radius);
-    gl.uniform3fv(u.mouthAnchor, rig.mouth || [.08, 140.15, 3.8]);
+    gl.uniform3fv(u.mouthAnchor, [this.facialProfile.mouth[0], this.facialProfile.mouth[1],
+      this.facialProfile.depth[0]+.25]);
     gl.uniform1f(u.cheekiness, !resting && $("sideways-cheekiness").checked
-      ? (this.cheekinessExpression || 0) * Number($("cheekiness-pull").value) : 0);
+      ? (this.cheekinessExpression || 0) * Number($("cheekiness-pull").value)
+        * (this.meta.expressionGainScale ?? 1) : 0);
     this.canvas.dataset.blink = String(blink);
     const skin = this.skin, hair = this.activeHair;
     gl.uniform1f(u.neckDepth, this.headOnly ? this.neck.depth : -1);
@@ -948,6 +986,7 @@ class FaceRenderer {
     $("frame").textContent = frames ? `FRAME ${left + 1} / ${frames}` : "NEUTRAL";
     if (this.view.style) {
       this.drawPresentation(ratio);
+      this.clearMouth();
       const description = `${this.view.name}: ${skin.triangleCount.toLocaleString()} skin depth triangles; `
         + (this.view.style === 1 ? `${skin.edgeCount.toLocaleString()} triangle edges, detail ${this.detail}/5. Front face only.`
           : this.view.style === 2 ? "Surface-sampled dots only." : "Surface-space rectangular grid.")
@@ -1017,6 +1056,7 @@ class FaceRenderer {
       gl.disable(gl.BLEND);
       gl.depthMask(true);
     }
+    this.clearMouth();
     $("frame").textContent = frames ? `FRAME ${left + 1} / ${frames}` : "NEUTRAL";
     const geometryKey = `${this.headOnly}:${this.neck?.depth}:${$("hair").checked}`;
     if (geometryKey !== this.geometryKey) {
@@ -1235,7 +1275,7 @@ async function generate(options = {}) {
     const settings = metadata.voiceSettings;
     $("details").textContent = `${metadata.voice} | pitch ${settings.pitch} st, speed ${settings.rate}, `
       + `bass ${settings.bass} dB, treble ${settings.treble} dB, ${settings.emphasis} emphasis | `
-      + `${metadata.duration.toFixed(2)} s | ${metadata.frames} frames | ${metadata.expressionGainSetting}x emotion setting | `
+      + `${metadata.duration.toFixed(2)} s | ${metadata.frames} frames | ${metadata.effectiveExpressionGainSetting ?? metadata.expressionGainSetting}x emotion setting | `
       + `${metadata.cacheHit ? "reused complete clip" : metadata.speechCacheHit ? "reused speech" : "new speech"} | `
       + `${readySeconds.toFixed(2)} s ready (${metadata.requestSeconds.toFixed(2)} s server; excludes startup)`;
     $("status").textContent = "Ready. Press Play; the mesh follows the audio clock.";
@@ -1548,7 +1588,7 @@ try {
   $("face").dataset.appearanceModel = session.appearance?.model || "claire";
   $("face").dataset.appearanceSession = session.appearance?.session || "";
   if (session.appearance?.model === "mpfb" || session.appearance?.model === "mark") {
-    $("model-details").textContent = `${session.mesh.identity}. Surface offers transparent polygons or shaded color/makeup; FaceMesh, FaceDot and UniformPolygons share this native geometry and one audio clock. Native shape is uniformly aligned to the shared eye frame, not replaced with Claire. Neck cut, XYZ, cursor tracking, zoom, colors, optional procedural hair and blinking are shared controls. Sideways cheekiness adds a live cosmetic lip pull only to cheekiness clips; turn it off for model-only motion. MPFB fits neural motion to native controls before geometric 2x/4x exaggeration; Mark uses its own network/PCA. These are prototypes, not contact-corrected or human-accepted facial performances.`;
+    $("model-details").textContent = `${session.mesh.identity}. Surface offers transparent polygons or shaded color/makeup; FaceMesh, FaceDot and UniformPolygons share this native geometry and one audio clock. Native shape is uniformly aligned to the shared eye frame, not replaced with Claire. Neck cut, XYZ, cursor tracking, zoom, colors, optional procedural hair and blinking are shared controls. Sideways cheekiness adds a live cosmetic lip pull only to cheekiness clips; turn it off for model-only motion. Rowan halves the shared emotion setting after native fitting (4x becomes 2x), including the optional sideways pull; its selector shows effective 1x/2x. Mark uses its own network/PCA without this reduction. These are prototypes, not contact-corrected or human-accepted facial performances.`;
   }
   installedVoiceMetadata = session.voices;
   voicePackMessage = session.voicePack?.message || "";
@@ -1563,6 +1603,11 @@ try {
   syncVoiceControls();
   const binary = await (await request("/api/mesh")).arrayBuffer();
   renderer = new FaceRenderer($("face"), session.mesh, binary, session.appearance?.model);
+  if (session.mesh.expressionGainScale === .5) {
+    for (const option of $("expression-gain").options) {
+      option.textContent = `${Number(option.value) * .5}x (Rowan)`;
+    }
+  }
   appearance.apply(session.appearance?.colors || {});
   $("mesh-colors-control").disabled = false;
   for (const [id, style] of Object.entries(HAIRSTYLES)) {

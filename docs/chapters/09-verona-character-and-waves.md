@@ -1,5 +1,69 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Native lip guides, transparent mouths and Rowan relief (vr-81)
+
+The first model-catalog feedback names Claire **Aster** and native MPFB
+**Rowan** for review. The owner assigns Aster female; the other catalog
+genders remain unassigned. These aliases do not change the stored model IDs.
+The base lips already have shape, but the old shared oval of lipstick ignores
+their borders and Cupid's bow. The fixed dark cavity ellipse also paints a
+black spot onto Aster's mouth corner, independent of actual opening.
+
+`facial-features.mjs:facialProfile` supplies a small symmetric rest-space guide
+for each of the six native silhouettes. Five upper/lower knots interpolate
+smoothly with a central upper dip and two peaks; depth gates keep color off
+recessed tissue. `FACIAL_FEATURE_GLSL:lipstick` is shared by filled material
+and feature ink instead of maintaining two ellipse formulas. Native rest
+coordinates attach the paint to animated vertices. These authored guides
+are approximate cosmetics, not anatomical calibration or new trained lips.
+
+The owner's later direction supersedes vr-76's opaque black mouth void:
+an opening must reveal the background. Simply discarding the old dark
+fragments exposes the closed oral sheet, back of the head or hair.
+`mouthAperture` instead selects corresponding native upper/lower inner-rim
+samples once. Local paired triangles span each neighboring pair; a single
+corner fan sits behind the protruding center and leaves interior strips
+visible. The cutout reuses existing neutral/motion GPU positions, blink and
+idle deformation, not a second animated CPU copy or per-frame topology.
+`FaceRenderer.clearMouth` then replaces RGBA with zero inside the depth-tested
+opening, with blending off. A bounded0.8cm camera-depth bias avoids exposing
+the original near-coplanar sheet; it is a display mask, not a contact solver.
+WebGL alpha is enabled in the ordinary browser as well as the desktop shell.
+A black webpage can still look black through a transparent opening, so
+qualification uses a colored checkerboard and actual alpha bytes.
+
+The native mouth guide also registers idle mouth fields. A narrow, curved
+upper/lower seam distinguishes the two sides during yawning instead of
+stretching an intermediate strip into a pink curtain. Speech positions and
+all six original model topologies remain intact. One small static aperture
+index buffer and one extra local draw replace opaque mouth paint; this is
+not zero rendering cost or a new whole-app performance result.
+
+Rowan alone adds a bounded0.16cm rest-space orbital ridge around the fitted
+eye frame. The vertex shader adjusts its normal gradient and fades the relief
+during closure, retaining the shared blink/optical mask. This defines the
+upper/lower eyelid skin without replacing Rowan's head with Aster or adding
+eye joints.
+
+`apply_transfer(shared=True)` sets only Rowan's `expression_gain_scale` to
+one half. `FaceEngine.generate` applies this after fitting conditioned and
+same-audio neutral geometry: a shared4x request produces effective2x, and2x
+produces1x. Neutral and zero-strength speech are not scaled. The requested
+setting, scale and effective setting are distinct clip metadata; Rowan's
+selector/details show effective values. Its optional sideways-cheekiness cue
+is also halved. Mark and the four other Claire-derived heads retain their
+previous gains and audio. No extra inference pass is added.
+
+Missing native rim samples fail explicitly at initialization. Existing
+generation cancellation, RAM-only latest-clip ownership and context-loss
+behavior remain unchanged. Reload recreates the bounded guide/buffer and
+loses unsaved clip/control state; an authorized head replacement must capture
+and restore current controls, not replay speech or restart sibling sessions.
+The private comparison captures and numerical/browser receipts distinguish
+implementation from human visual, phonetic and listening acceptance.
+The native rim can still look angular in strongly opened poses; this cosmetic
+mask does not smooth or retopologize the underlying speech geometry.
+
 ## Short hair designed for Mark (vr-80)
 
 The owner rejects reusing the long, feminine-styled waves/curls as Mark's only

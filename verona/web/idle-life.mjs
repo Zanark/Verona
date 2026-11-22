@@ -305,9 +305,12 @@ export const IDLE_GLSL = `
     offset.y += cheek*.18*idleFaceC.z;
     float lower = (1.0-smoothstep(-.10,.10,y))
       *(1.0-smoothstep(2.8,6.0,abs(x)));
+    float lipSide=rest.y-mouthSeam(rest.x);
+    float mouthCore=1.0-smoothstep(2.8,4.0,abs(x));
+    lower=mix(lower,1.0-step(0.0,lipSide),mouthCore);
     float opening = sqrt(max(0.0,1.0-(x/2.2)*(x/2.2)));
     float mouthBand = 1.0-smoothstep(.8,2.4,abs(y));
-    offset.y += idleYawn*(.5*lip*smoothstep(0.0,.3,y)
+    offset.y += idleYawn*(.5*lip*smoothstep(0.0,.08,lipSide)
       -3.4*lower*mix(.55,opening,mouthBand));
     offset.z -= idleYawn*.5*lower;
     return offset*front;

@@ -40,6 +40,7 @@ STATIC = {
     "/agent-player.mjs": ("agent-player.mjs", "text/javascript; charset=utf-8"),
     "/face-colors.mjs": ("face-colors.mjs", "text/javascript; charset=utf-8"),
     "/blinking.mjs": ("blinking.mjs", "text/javascript; charset=utf-8"),
+    "/facial-features.mjs": ("facial-features.mjs", "text/javascript; charset=utf-8"),
     "/idle-life.mjs": ("idle-life.mjs", "text/javascript; charset=utf-8"),
     "/idle-sound.mjs": ("idle-sound.mjs", "text/javascript; charset=utf-8"),
     "/performance-mode.mjs": ("performance-mode.mjs", "text/javascript; charset=utf-8"),

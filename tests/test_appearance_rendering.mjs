@@ -514,7 +514,7 @@ try{
     assert.equal(sample.bytes,first.bytes,"Mark hairstyle changes must not accumulate GPU resources.");
   }
   await cdp("Page.navigate",{url:`${origin}/retired#${"a".repeat(43)}`});
-  await waitFor('!document.getElementById("error").hidden && document.getElementById("error").textContent.includes("retired by its owner")');
+  await waitFor('document.getElementById("error") && !document.getElementById("error").hidden && document.getElementById("error").textContent.includes("retired by its owner")');
   assert.equal(retiredMeshRequests,0,"A retired host must fail before loading a substitute mesh.");
   report.retiredHostRejectedBeforeMesh=true;
   assert.deepEqual(errors,[]);

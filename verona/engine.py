@@ -106,6 +106,7 @@ class Clip:
 
 class FaceEngine:
     motion_mapper = None
+    expression_gain_scale = 1.0
     input_strength = 1.0
     identity = "Claire v2.3.1"
     appearance = "Verona: reference-guided appearance study over unchanged Claire motion basis"
@@ -221,7 +222,8 @@ class FaceEngine:
         self, speech: Speech, expression: str = "neutral", intensity: float = 0.35,
         stop: threading.Event | None = None, *, expression_gain: float = EXPRESSION_GAIN,
     ) -> Clip:
-        gain = validate_expression_gain(expression_gain)
+        setting = validate_expression_gain(expression_gain)
+        gain = setting * self.expression_gain_scale
         condition = expression_condition(self.condition, expression, intensity)
         amplify = not np.array_equal(condition, self.condition)
         samples = np.frombuffer(speech.pcm, dtype="<i2").astype(np.float32) / 32768
@@ -283,7 +285,9 @@ class FaceEngine:
             "expression": expression,
             "expressionStrength": intensity,
             "expressionGain": gain if amplify else 1.0,
-            "expressionGainSetting": gain,
+            "expressionGainSetting": setting,
+            "expressionGainScale": self.expression_gain_scale,
+            "effectiveExpressionGainSetting": gain,
             "expressionReference": (
                 "same-audio neutral-conditioned native fitted geometry" if self.motion_mapper is not None
                 else "same-audio neutral-conditioned skin PCA") if amplify else None,

@@ -13,6 +13,9 @@ The vr-79 entry explains the transparent purple-haired/pink-lipped identity,
 Audiowide wordmark, alpha-preserving icon generation and isolated qualification.
 The vr-80 entry adds Mark's quiff/side part, the rejected helmet fit, native
 upper-skull fitting and independently decoded actual-model README previews.
+The vr-81 entry covers native lip paint, transparent mouth compositing, Rowan's
+eyelid relief and half-strength emotions, including retained failures and the
+distinction between technical qualification and owner visual acceptance.
 
 The latest separate continuation is **Finding Different Voices**, anchored to
 implementation `d2585f3`:

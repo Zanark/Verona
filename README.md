@@ -72,12 +72,17 @@ separately; the v0.2.0 ZIP and frozen tag remain unchanged.
 
 **M1 freezes the working local speaking-face workspace, not a claim of perfect
 lip sync or a production-ready assistant.** The six model overviews below are
-newer captures of the current renderers, including procedural blinks. The
+captures through vr-80, including procedural blinks. The
 preserved hero, hair, rotation and control demonstrations retain their earlier
 provenance; their old interfaces are not the current manager.
 **4x expressions, glowing centers and bright spokes** are the selected
 FaceMesh look, including the opening talking hero. Each new model GIF shows
 all ten available single emotions plus neutral, not emotion combinations.
+Current source additionally fits lipstick to all six native lips, makes mouth
+openings transparent, defines Rowan's eyelids and halves only Rowan's emotion
+gain (shared 2x/4x becomes effective 1x/2x). These vr-81 corrections are not
+retroactively present in the preserved GIFs.
+[Mechanisms and limits](docs/chapters/09-verona-character-and-waves.md#native-lip-guides-transparent-mouths-and-rowan-relief-vr-81).
 
 ## Six heads, one local workspace
 

@@ -447,6 +447,35 @@ class ClipTests(unittest.TestCase):
                 FaceEngine("missing")
             verify.assert_not_called()
 
+    def test_rowan_halves_every_emotion_after_native_fitting_not_neutral_speech(self):
+        from verona.engine import EXPRESSIONS
+
+        for expression in EXPRESSIONS:
+            for setting in (2, 4):
+                with self.subTest(expression=expression, setting=setting):
+                    engine, audio = self.expression_fixture()
+                    engine.motion_mapper = lambda positions, stop: np.clip(positions, -.1, .2)
+                    baseline = engine.generate(audio)
+                    original = engine.generate(audio, expression, .6, expression_gain=setting)
+                    engine.expression_gain_scale = .5
+                    reduced = engine.generate(audio, expression, .6, expression_gain=setting)
+                    expected = (
+                        np.frombuffer(baseline.motion, dtype="<i2").astype(float)
+                        + np.frombuffer(original.motion, dtype="<i2")).astype(float) / 2
+                    np.testing.assert_allclose(np.frombuffer(reduced.motion, dtype="<i2"),
+                                               expected, atol=1)
+                    self.assertEqual(reduced.audio, original.audio)
+                    self.assertEqual(reduced.metadata["frames"], original.metadata["frames"])
+                    self.assertEqual(reduced.metadata["expressionGainSetting"], setting)
+                    self.assertEqual(reduced.metadata["effectiveExpressionGainSetting"], setting / 2)
+                    self.assertEqual(reduced.metadata["expressionGain"],
+                                     1 if expression == "neutral" else setting / 2)
+                    if expression == "neutral":
+                        self.assertEqual(reduced.motion, baseline.motion)
+                    zero = engine.generate(audio, expression, 0, expression_gain=setting)
+                    self.assertEqual(zero.motion, baseline.motion)
+                    self.assertEqual(zero.metadata["inferencePassesPerBatch"], 1)
+
     def test_neutral_or_zero_strength_does_not_add_an_exaggeration_pass(self):
         for expression, strength in (
             ("neutral", .6), *((name, 0) for name in (

@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Native facial feedback (vr-81):** [chapter09](chapters/09-verona-character-and-waves.md#native-lip-guides-transparent-mouths-and-rowan-relief-vr-81)
+explains six symmetric lip guides, real transparent mouth cutouts, native
+yawn registration, Rowan's eyelid relief and Rowan-only half-gain emotions.
+The transparent opening supersedes the earlier dark cosmetic cavity below.
+
 **Mark's short hairstyles (vr-80):** [chapter09](chapters/09-verona-character-and-waves.md#short-hair-designed-for-mark-vr-80)
 explains the textured quiff, classic side part, Mark-only startup defaults
 and unchanged selected-only ownership. The README adds two actual Mark
@@ -25,7 +30,8 @@ local PDF editions or a new runtime benchmark.
 
 **Quiet supplied yawns and open lips (vr-76):**
 [Chapter11](chapters/11-autonomous-idle-life.md) explains the separate jaw/lip
-field, dark cosmetic cavity, local voice-matched recordings, hard20% gain cap
+field, originally dark cosmetic cavity (superseded by vr-81 transparency),
+local voice-matched recordings, hard20% gain cap
 and rare automatic yawn audio. Silent visual yawns keep their existing timing.
 The [guide](prototype-guide.md#autonomous-idle-life) covers explicit local
 preparation; no recordings are included in source or frozen editions.
