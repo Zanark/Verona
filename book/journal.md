@@ -5,6 +5,27 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-22 - Elara gets raised brows and upper lashes (vr-85)
+
+The owner supplies a clay-model eye reference, not a request for a new face.
+The first additive pass makes Elara's brows too thin/high inside; its capture
+is retained. A revised fuller inner taper and raised arch follow the reference
+more closely. Three tapered outer lashes per eye join a raised upper-lid band.
+All detail is original procedural geometry in the same clay material.
+
+Ray-projecting guides onto actual front skin avoids a guessed flat depth.
+Exact triangle/barycentric displacement follows existing expression motion;
+1,508 added vertices and 2,976 triangles leave every original Elara binary as
+an exact prefix. Other five candidate folders and all their GIF/poster bytes
+remain identical. All 60 lower-face crops match, retaining the lip correction.
+
+One isolated Elara capture supplies a complete 7.5-second/42-distinct-frame GIF.
+Candidate and final-path installed-Edge checks load all six, retain one-card
+playback and fit desktop/mobile without page errors or external page requests.
+The old report survives a before-vr85 backup and versioned-media/atomic HTML
+promotion. The live manager/head and frozen books are unchanged. This is agent
+technical/visual qualification, not owner approval or a separate blink rig.
+
 ## 2026-11-22 - Let the owner resume the same six-model review (vr-83)
 
 The review names must remain stable while the rendering changes. Six serial

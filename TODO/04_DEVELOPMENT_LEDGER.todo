@@ -1,6 +1,26 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-22 - vr85 adds reference-guided Elara eye details, without a refit
+Cause: owner wants Elara to have raised eyebrows and upper lashes like the
+supplied clay reference. No request to alter other candidates or the live app.
+Action: author mirrored tapered curves, project onto actual front skin and
+sweep closed clay tubes; bind added vertices to exact skin triangles using
+convex barycentric displacement. Derive new study; do not rerun source fits.
+Reject/retain the first too-thin/high-inner-brow capture; revise arch/taper.
+Evidence: original Elara binaries retain exact prefixes; other five candidate
+folders and all10GIF/poster bytes remain identical. Add1508vertices/2976triangles,
+max attachment0.385cm under0.85cm gate. All60lower-face crops match old capture.
+All117CPU tests pass; exact final-source capture03 reproduces all60frames.
+Final Elara GIF has42distinct decoded frames/7500ms. Agent inspects actual
+neutral/expression/turn images. Candidate/final-path Edge verify all six loads,
+one-at-a-time/reduced-motion behavior,1280/430layouts and zero errors/network.
+Effect: replace only Elara card/media at the existing GLB report path, with
+before-vr85 backup/versioned media/atomic HTML switch. Protected processes
+306384/392392 remain; original-six report and frozen editions unchanged.
+Limits: review-only clay detail and existing-motion attachment, not owner
+approval, follicle rigging, independent blink/contact or production integration.
+
 2026-11-22 - vr83refresh and vr84owned live delivery complete
 Cause: owner wants to continue the same six-model review after urgent lip fixes,
 and previously explicitly asks to reopen this session's head after updates.

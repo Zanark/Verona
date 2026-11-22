@@ -1087,7 +1087,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-85": {
+      "source": "TODO/85_ELARA_EYE_DETAILS.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhf485w",
+      "number": 84,
+      "url": "https://github.com/Zanark/Verona/issues/84",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK5PAQ",
+      "title": "Add reference-guided raised eyebrows and upper lashes to Elara",
+      "managedBody": "\n<!-- verona-workstream:vr-85 -->\nWorkstream source: `TODO/85_ELARA_EYE_DETAILS.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-85\nTitle: Add reference-guided raised eyebrows and upper lashes to Elara\n\nStatus: DONE\nMilestone: Elara-only clay eye-detail revision in the existing six-head review\nDependencies: vr-82, vr-84\n\nPurpose:\n  Follow the owner's clay reference with arched tapered raised brows,\n  upper-lid lash contours and outer lashes, without changing the other heads.\n\nTasks:\n  Construct original additive geometry supported by actual Elara skin.\n  Bind its motion to convex skin-triangle displacement, preserving skin/eyes.\n  Capture only Elara in an isolated offscreen lane; inspect actual results.\n  Refresh Elara's GIF/poster at the existing separate GLB report path.\n  Preserve the previous report and other five candidates/media byte-for-byte.\n  Update tests, chapter, ledger, tracking and owned continuity.\n\nAcceptance criteria:\n  Raised arched brows taper toward the outer corners; three tapered outer\n    lashes per eye follow the existing expression motion.\n  All original Elara positions/triangles remain exact prefixes in every pose.\n  Other five study candidates/media and the live manager/head are unchanged.\n  Complete decoded 7.5-second Elara GIF and all-six final-path browser checks.\n  No new inference, original GLB edits, uploads or production integration.\n\nCompletion evidence:\n  Final build02 adds1508vertices/2976triangles, max skin attachment0.385cm.\n  All Elara binary prefixes and other five candidate folders compare exactly.\n  Capture02:60actual frames; all lower-face crops match prior capture exactly.\n  Elara GIF:42distinct decoded frames/7500ms; unchanged other10media hashes.\n  Candidate/final-path Edge verify six GIF loads, bounded/reduced-motion\n    playback,1280/430layouts and zero page errors/external requests.\n  Actual neutral, expression and turned views agent-inspected; not owner approval.\n  All117CPU tests pass; live306384/392392 remain untouched.\n  Final-source capture03 reproduces all60qualified capture02frames exactly.\n  Existing report updated with assets-vr85 and intact before-vr85 backup.\n\nCompletion log:\n  2026-11-22 - Owner requests Elara-only brows/lashes from a clay reference.\n    First capture retains neutral lips but brows read too thin and high at\n    the inner end; preserve it and revise the taper/arch before delivery.\n  2026-11-22 - Final additive detail and same-path report qualified; preserve\n    original skin/eyes/mouth, other five media, live app and frozen editions.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T13:22:33.995611+00:00"
+  "verifiedAt": "2026-11-22T13:38:04.015821+00:00"
 }

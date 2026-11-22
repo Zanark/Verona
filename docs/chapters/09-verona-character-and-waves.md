@@ -1,5 +1,56 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Add eye detail without refitting the face (vr-85)
+
+The owner's clay reference requests Elara-only raised eyebrows and upper lashes.
+`scripts/glb_head_study.py:elara_eye_details` authors two tapered arched tubes,
+two upper-lid contours and three curved tapered outer lashes per eye. These
+are original clay geometry, not painted textures or extracted reference pixels.
+Authored XY guides ray-project onto actual front skin triangles; using one
+guessed depth would bury the inner brow or float the outer end. The first
+capture's thin/high inner brows are retained; the final arch is fuller inside
+and tapers toward the temples.
+
+Every added vertex binds to an exact nearest skin triangle with convex
+barycentric weights. Animation adds the weighted native skin displacement to
+that detail's rest position. Original skin and static-eye positions remain
+byte-exact prefixes in every serialized pose; original triangle indices stay
+an exact prefix too. `scripts/detail_elara_review.py:build` derives a new
+six-head study without rerunning registration or editing source GLBs.
+Only Elara gains 1,508 vertices and 2,976 triangles; her final counts are
+18,227 vertices and 36,154 triangles. Maximum rest attachment distance is
+0.385 cm, below the authored 0.85 cm rejection bound.
+
+```mermaid
+flowchart TD
+    G["Authored mirrored brow/lash guides"] --> S["Project onto actual front skin"]
+    S --> T["Sweep tapered closed clay tubes"]
+    T --> B["Exact triangle binding and convex weights"]
+    P["Existing native skin pose minus rest"] --> D["Weighted displacement"]
+    B --> D
+    D --> A["Append moving detail; preserve original geometry"]
+    classDef node fill:#192a40,stroke:#ac91e0,color:#edf2ff;
+    class G,S,T,B,P,D,A node;
+```
+
+`capture_glb_head_review.cjs --candidate=elara` captures only the changed
+candidate in a private offscreen lane. Five unchanged candidate folders compare
+byte-for-byte before their old captures are reused. All 60 lower-face crops
+match the previous capture exactly, preserving the neutral/wide-mouth fix.
+The final Elara GIF retains 7.5 seconds and 42 distinct decoded frames.
+All 117 CPU tests pass; a final-source capture reproduces all 60 frames exactly.
+Actual neutral, speaking and turned views are agent-inspected; installed Edge
+checks every final-path GIF, bounded playback and 1280/430 layouts without
+errors or external page requests. The other five GIF/poster hashes are unchanged.
+
+Versioned Elara assets precede the atomic same-path report HTML switch; a
+before-vr85 backup preserves recovery. A failed/interrupted derivation leaves
+a partial new output, never a successful replacement; restart with a fresh
+output name. Capture has a five-minute deadline and closes its owned windows.
+The live manager/head and original-six report are untouched. This is a
+review-only expression-following attachment, not an independent lash rig,
+blink/contact solver, production installation or owner acceptance.
+
 ## Refresh the review, not its identities (vr-83)
 
 The original-six catalog remains at

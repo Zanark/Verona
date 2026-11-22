@@ -59,6 +59,9 @@ def render(study_path, capture, sources_path, output):
             "neris": "More angular nose and a diagonal native neck cut. Neither is silently retopologized.",
             "thalia": "Source-influenced nose, chin and forehead with Claire's underlying facial layout.",
         }[name]
+        if candidate.get("eyeDetails"):
+            notes += (" Raised arched brows, upper-lid lash bands and three tapered outer lashes per eye "
+                      "are added as moving clay geometry. Original skin, eyes and corrected mouth are retained.")
         cards.append(f"""<article id="{name}" class="card">
 <div class="eyebrow">{'A / ORIGINAL TOPOLOGY' if native else 'B / CLAIRE TOPOLOGY'}</div>
 <h3>{candidate['name']}</h3><p class="method">{method}</p>
@@ -97,7 +100,7 @@ summary{cursor:pointer;font-weight:600}li{margin:8px 0}footer{margin-top:48px;co
 <p>Two genuinely different construction methods for each supplied head: move the original mesh with Claire, or reshape Claire toward that head. Choose by name after reviewing the motion, not just the first frame.</p>
 <div class="tags"><span>6 ACTUAL ANIMATED GIFS</span><span>7.5 SECONDS EACH / 8 FPS</span><span>SILENT / LOCAL</span><span>REVIEW ONLY</span></div></header>
 <div class="notice"><strong>Comparison, not installation.</strong> All six use the same camera, clay material, speech samples and 2x expression setting. No hair, lipstick or original textures hide the geometry.
-The three Claire-based hybrids keep a family resemblance; they are not promised to read as six unrelated identities. Your running Verona head has not been replaced.</div>
+The three Claire-based hybrids keep a family resemblance; they are not promised to read as six unrelated identities. Elara's eye-detail revision, when present, is explicitly described on her card. Your running Verona head has not been replaced.</div>
 <p id="status" role="status" aria-live="polite">Posters shown. Play any candidate; only one GIF runs at a time.</p>
 <noscript><p>Animation buttons require JavaScript. Every Open GIF link works directly without it.</p></noscript>
 """ + "\n".join(sections) + """

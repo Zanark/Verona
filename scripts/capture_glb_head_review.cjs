@@ -5,6 +5,8 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 
 const studyPath = process.argv[2], output = process.argv[3];
+const selected = process.argv[4]?.replace(/^--candidate=/,"");
+if (process.argv.length > 5 || (process.argv[4] && (!process.argv[4].startsWith("--candidate=") || !selected))) throw new Error("Expected one nonempty --candidate=<id> option.");
 if (!studyPath || !output) throw new Error("Provide an existing study directory and a NEW capture directory.");
 require("node:fs").mkdirSync(output, { recursive: false });
 app.setPath("userData", path.join(output, "profile"));
@@ -98,8 +100,10 @@ window.dispose=()=>gl.getExtension("WEBGL_lose_context")?.loseContext();
 let server;
 app.whenReady().then(async () => {
   const study = JSON.parse(await fs.readFile(path.join(studyPath, "study.json"), "utf8"));
+  const candidates = selected ? study.candidates.filter(c => c.id === selected) : study.candidates;
+  if (!candidates.length) throw new Error("Requested capture candidate is absent.");
   const allowed = new Map(), receipt = { candidates: [], sourceStudy: studyPath, audio: false };
-  for (const candidate of study.candidates) {
+  for (const candidate of candidates) {
     for (const file of new Set(["triangles.bin", ...candidate.frames.map(f => f.file)])) {
       allowed.set(candidate.id + "/" + file, path.join(studyPath, candidate.id, file));
     }
@@ -118,7 +122,7 @@ app.whenReady().then(async () => {
     } catch (error) { res.writeHead(500).end(String(error)); }
   });
   await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-  for (const candidate of study.candidates) {
+  for (const candidate of candidates) {
     const folder = path.join(output, candidate.id);
     await fs.mkdir(folder);
     const win = new BrowserWindow({ show: false, width: 640, height: 640,

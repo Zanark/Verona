@@ -2,6 +2,10 @@
 
 ## Current deliverable
 
+The vr-85 [living-journal entry](journal.md) adds Elara-only raised brows and
+upper lashes, exact original-geometry preservation and unchanged other-head
+media in the existing local GLB review. It does not update a frozen edition.
+
 The [living development journal](journal.md) now records vr-69's floating-zoom
 and vr-70's separate internal ear/hair corrections, including actual owned-window
 images, retained failures and their scope. Its vr-71 entry adds tool-owned idle

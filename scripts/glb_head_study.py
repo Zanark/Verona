@@ -10,6 +10,98 @@ from scripts.claire_surface_fit import refine_surface
 HYBRID_WEIGHT = .65
 
 
+def elara_eye_details(rest, faces):
+    """Raised clay brows/lashes bound to Elara's skin, without changing it."""
+    rest = _positions(rest)
+    faces = _faces(faces, len(rest))
+    corners = rest[faces]
+    front = corners[:, :, 2].min(1) > 0
+    front &= (corners[:, :, 1].min(1) > 146) & (corners[:, :, 1].max(1) < 152)
+    front_faces = faces[front]
+    corners = rest[front_faces]
+    if not len(corners):
+        raise ValueError("Elara eye details require supported front orbital skin.")
+
+    def surface(xy):
+        points = []
+        a, b, c = np.moveaxis(corners, 1, 0)
+        ab, ac = b[:, :2] - a[:, :2], c[:, :2] - a[:, :2]
+        determinant = ab[:, 0] * ac[:, 1] - ab[:, 1] * ac[:, 0]
+        for point in xy:
+            ap = point - a[:, :2]
+            u = np.divide(ap[:, 0]*ac[:, 1] - ap[:, 1]*ac[:, 0], determinant,
+                          out=np.full(len(a), np.nan), where=np.abs(determinant) > 1e-10)
+            v = np.divide(ab[:, 0]*ap[:, 1] - ab[:, 1]*ap[:, 0], determinant,
+                          out=np.full(len(a), np.nan), where=np.abs(determinant) > 1e-10)
+            valid = (u >= -1e-7) & (v >= -1e-7) & (u + v <= 1 + 1e-7)
+            if not valid.any():
+                raise ValueError("Elara detail guide misses the front skin.")
+            z = (a + u[:, None]*(b-a) + v[:, None]*(c-a))[valid, 2].max()
+            points.append([*point, z + .065])
+        return np.asarray(points)
+
+    vertices, triangles = [], []
+
+    def tube(line, radius, depth_ratio=1.):
+        offset, sides = len(vertices), 8
+        tangent = np.gradient(line[:, :2], axis=0)
+        length = np.linalg.norm(tangent, axis=1)
+        if np.any(length < 1e-8):
+            raise ValueError("Elara detail curve has no finite direction.")
+        lateral = np.column_stack((-tangent[:, 1]/length, tangent[:, 0]/length,
+                                   np.zeros(len(line))))
+        for i, point in enumerate(line):
+            for angle in np.linspace(0, 2*np.pi, sides, endpoint=False):
+                vertices.append(point + radius[i] * (
+                    np.cos(angle)*lateral[i] + [0, 0, np.sin(angle)*depth_ratio]))
+        for i in range(len(line)-1):
+            for j in range(sides):
+                a, b = offset+i*sides+j, offset+i*sides+(j+1) % sides
+                triangles.extend(((a, b, b+sides), (a, b+sides, a+sides)))
+        for i, reverse in ((0, True), (len(line)-1, False)):
+            center = len(vertices)
+            vertices.append(line[i])
+            for j in range(sides):
+                a, b = offset+i*sides+j, offset+i*sides+(j+1) % sides
+                triangles.append((center, b, a) if reverse else (center, a, b))
+
+    for side in (-1, 1):
+        t = np.linspace(0, 1, 33)
+        brow = surface(np.column_stack((.08 + side*(1.45+3.45*t),
+                                        149.12+.55*t+.35*np.sin(np.pi*t))))
+        tube(brow, .14*(1-t)**.65+.008, .75)
+        t = np.linspace(0, 1, 33)
+        x = 1.65 + 2.85*t
+        y = 147.53+.8*np.sqrt(np.maximum(0, 1-((x-3.02)/1.65)**2))+.075*((x-3.02)/1.65)
+        lid = surface(np.column_stack((.08+side*x, y+.07)))
+        tube(lid, .025+.035*np.sin(np.pi*t), .8)
+        for index, position in enumerate((.76, .86, .95)):
+            start = lid[round(position*(len(lid)-1))]
+            t = np.linspace(0, 1, 9)
+            line = start + np.column_stack((side*(.20+.10*index)*t,
+                (.12+.08*index)*t+.12*t*t, .12*np.sin(t*np.pi/2)))
+            tube(line, .045*(1-t)**1.2+.002)
+    detail = np.asarray(vertices)
+    detail_faces = np.asarray(triangles, dtype=np.uint32)
+    indices, weights, distances = batch_surface_binding(rest, front_faces, detail)
+    if distances.max() > .85:
+        raise ValueError("Elara eye detail attachment exceeds 0.85 cm.")
+
+    def animate(pose):
+        pose = _positions(pose)
+        if pose.shape != rest.shape:
+            raise ValueError("Elara detail motion must preserve native skin correspondence.")
+        return detail + np.sum((pose-rest)[indices] * weights[..., None], axis=1)
+
+    return detail, detail_faces, animate, {
+        "style": "Raised arched clay brows, upper-lid lash bands and three tapered outer lashes per eye.",
+        "vertices": len(detail), "triangles": len(detail_faces),
+        "attachmentMaximumCm": float(distances.max()),
+        "binding": "Convex skin-triangle displacement; existing skin/eyes and mouth unchanged.",
+        "limits": "Review-only geometric detail; no separate follicle rig or new blink/contact solver.",
+    }
+
+
 def _nearest(points, corners):
     a, b, c = np.moveaxis(corners, 1, 0)
     ab, ac = b - a, c - a

@@ -1,0 +1,46 @@
+ID: vr-85
+GitHub issue: https://github.com/Zanark/Verona/issues/84
+Title: Add reference-guided raised eyebrows and upper lashes to Elara
+
+Status: DONE
+Milestone: Elara-only clay eye-detail revision in the existing six-head review
+Dependencies: vr-82, vr-84
+
+Purpose:
+  Follow the owner's clay reference with arched tapered raised brows,
+  upper-lid lash contours and outer lashes, without changing the other heads.
+
+Tasks:
+  Construct original additive geometry supported by actual Elara skin.
+  Bind its motion to convex skin-triangle displacement, preserving skin/eyes.
+  Capture only Elara in an isolated offscreen lane; inspect actual results.
+  Refresh Elara's GIF/poster at the existing separate GLB report path.
+  Preserve the previous report and other five candidates/media byte-for-byte.
+  Update tests, chapter, ledger, tracking and owned continuity.
+
+Acceptance criteria:
+  Raised arched brows taper toward the outer corners; three tapered outer
+    lashes per eye follow the existing expression motion.
+  All original Elara positions/triangles remain exact prefixes in every pose.
+  Other five study candidates/media and the live manager/head are unchanged.
+  Complete decoded 7.5-second Elara GIF and all-six final-path browser checks.
+  No new inference, original GLB edits, uploads or production integration.
+
+Completion evidence:
+  Final build02 adds1508vertices/2976triangles, max skin attachment0.385cm.
+  All Elara binary prefixes and other five candidate folders compare exactly.
+  Capture02:60actual frames; all lower-face crops match prior capture exactly.
+  Elara GIF:42distinct decoded frames/7500ms; unchanged other10media hashes.
+  Candidate/final-path Edge verify six GIF loads, bounded/reduced-motion
+    playback,1280/430layouts and zero page errors/external requests.
+  Actual neutral, expression and turned views agent-inspected; not owner approval.
+  All117CPU tests pass; live306384/392392 remain untouched.
+  Final-source capture03 reproduces all60qualified capture02frames exactly.
+  Existing report updated with assets-vr85 and intact before-vr85 backup.
+
+Completion log:
+  2026-11-22 - Owner requests Elara-only brows/lashes from a clay reference.
+    First capture retains neutral lips but brows read too thin and high at
+    the inner end; preserve it and revise the taper/arch before delivery.
+  2026-11-22 - Final additive detail and same-path report qualified; preserve
+    original skin/eyes/mouth, other five media, live app and frozen editions.

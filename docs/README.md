@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Elara eye details (vr-85):** [chapter09](chapters/09-verona-character-and-waves.md#add-eye-detail-without-refitting-the-face-vr-85)
+explains raised tapered brows, upper-lid contours and outer lashes, projected
+onto actual skin and attached to its motion. Only Elara's existing review
+card/media change; original geometry, other five heads and live app stay intact.
+
 **Original-six review refresh (vr-83):** [chapter09](chapters/09-verona-character-and-waves.md#refresh-the-review-not-its-identities-vr-83)
 records twelve complete newly rendered GIFs at the original report path,
 verified archived motion, Rowan-only half-deltas, Aster's assigned gender,
