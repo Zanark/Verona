@@ -1100,7 +1100,20 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-86": {
+      "source": "TODO/86_CLAIRE_ANIME_WOMAN.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhgCvUA",
+      "number": 85,
+      "url": "https://github.com/Zanark/Verona/issues/85",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhK5ZhM",
+      "title": "Research and implement a distinct Claire-based anime woman",
+      "managedBody": "\n<!-- verona-workstream:vr-86 -->\nWorkstream source: `TODO/86_CLAIRE_ANIME_WOMAN.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-86\nTitle: Research and implement a distinct Claire-based anime woman\n\nStatus: IN_PROGRESS\nMilestone: Illustrated research followed by a separate original Akari candidate\nDependencies: vr-81, vr-84, vr-85\n\nPurpose:\n  Follow the owner's explicit anime-woman request across eyes, chin, cheeks,\n  brows/lashes and hairstyle, preserving Claire and existing model reviews.\n\nTasks:\n  Research primary face/hair/expression/toon/rights sources before coding.\n  Author a document with credited reference images and a bounded design.\n  Implement coordinated Claire-based geometry, eye optics, detail and hair.\n  Qualify actual rest, speech, all ten emotions, blink and turn views.\n  Deliver a separate local illustrated/animated review and unchanged baseline.\n  Update chapter, ledger, tracking and owned context; commit verified source.\n\nAcceptance criteria:\n  Research document exists before implementation and distinguishes source\n    facts, selected style, uncertainty and image rights.\n  New named candidate retains Claire skin correspondence but visibly changes\n    coordinated facial proportions, eyes, lashes and hairstyle.\n  Neutral contact/wide-only transparency preserved; actual failures retained.\n  All prior heads, reports and live runtime remain unchanged.\n  No new inference dependency, avatar download, media upload or deployment.\n  Clear distinction between implemented review candidate and owner acceptance.\n\nCompletion evidence:\n  Research authored with primary sources and two licensed reference images.\n  Implementation and isolated visual qualification pending.\n\nCompletion log:\n  2026-11-22 - Owner asks for deep research/document with reference images,\n    then implementation, with no questions while AFK.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T13:38:04.015821+00:00"
+  "verifiedAt": "2026-11-22T13:49:57.601077+00:00"
 }

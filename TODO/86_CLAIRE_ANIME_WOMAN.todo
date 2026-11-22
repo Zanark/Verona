@@ -1,0 +1,37 @@
+ID: vr-86
+GitHub issue: https://github.com/Zanark/Verona/issues/85
+Title: Research and implement a distinct Claire-based anime woman
+
+Status: IN_PROGRESS
+Milestone: Illustrated research followed by a separate original Akari candidate
+Dependencies: vr-81, vr-84, vr-85
+
+Purpose:
+  Follow the owner's explicit anime-woman request across eyes, chin, cheeks,
+  brows/lashes and hairstyle, preserving Claire and existing model reviews.
+
+Tasks:
+  Research primary face/hair/expression/toon/rights sources before coding.
+  Author a document with credited reference images and a bounded design.
+  Implement coordinated Claire-based geometry, eye optics, detail and hair.
+  Qualify actual rest, speech, all ten emotions, blink and turn views.
+  Deliver a separate local illustrated/animated review and unchanged baseline.
+  Update chapter, ledger, tracking and owned context; commit verified source.
+
+Acceptance criteria:
+  Research document exists before implementation and distinguishes source
+    facts, selected style, uncertainty and image rights.
+  New named candidate retains Claire skin correspondence but visibly changes
+    coordinated facial proportions, eyes, lashes and hairstyle.
+  Neutral contact/wide-only transparency preserved; actual failures retained.
+  All prior heads, reports and live runtime remain unchanged.
+  No new inference dependency, avatar download, media upload or deployment.
+  Clear distinction between implemented review candidate and owner acceptance.
+
+Completion evidence:
+  Research authored with primary sources and two licensed reference images.
+  Implementation and isolated visual qualification pending.
+
+Completion log:
+  2026-11-22 - Owner asks for deep research/document with reference images,
+    then implementation, with no questions while AFK.

@@ -1,5 +1,10 @@
 # Verona engineering book
 
+**Anime-woman research (vr-86):** [Akari's illustrated design investigation](research/claire-anime-woman.md)
+compares same-topology sculpting, independent rigs, eye/lash construction,
+hair guides, toon shading and rights. Research is complete; the separate
+original Claire-based candidate is being implemented, not yet accepted.
+
 **Elara eye details (vr-85):** [chapter09](chapters/09-verona-character-and-waves.md#add-eye-detail-without-refitting-the-face-vr-85)
 explains raised tapered brows, upper-lid contours and outer lashes, projected
 onto actual skin and attached to its motion. Only Elara's existing review
