@@ -1,6 +1,9 @@
 Verona workstream index
 
 Stable ID | File | Status | Outcome
+vr-92 | 92_AKARI_TOON_RESTORATION.todo | DONE | Restore anime cel shading without changing corrected lips/lashes
+vr-93 | 93_CURRENT_ALL_MODEL_README.todo | IN_PROGRESS | Current GIF-first gallery of six selectable heads and seven studies
+vr-94 | 94_CURRENT_VERONA_SKILL.todo | IN_PROGRESS | Synchronize project, library and installed operating skill
 vr-91 | 91_CLICKABLE_ELI5_APPENDIX.todo | DONE | Frozen78-page v2;150ELI5topics/930aliases, exact PDF/HTML term links, portable
 vr-89 | 89_LIVING_FACE_JOURNAL.todo | DONE | Reviewed47-page/13-entry illustrated continuation through vr88; frozen/portable
 vr-90 | 90_LOCAL_ARTIFACT_CLEANUP.todo | DONE | Reclaimed22.14GiB;8.01GiBcheckout, reports/models/frozenbooks intact

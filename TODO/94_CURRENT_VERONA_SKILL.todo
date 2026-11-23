@@ -1,0 +1,23 @@
+ID: vr-94
+Title: Synchronize current Verona operating skill at all three locations
+Status: IN_PROGRESS
+Milestone: Current source, canonical library and installed operating instructions
+Dependencies: vr-92, vr-93
+Purpose:
+  Owner explicitly requests updating the authored skill, library source and
+  installed copy with all subsequent behavior and honest feature boundaries.
+Tasks:
+  [ ] Verify runtime flags/defaults against current source and guide.
+  [ ] Document immutable mouth opt-in, corrected lip policy, current six model
+       aliases, four hairstyles, Rowan gain and seven review-only candidates.
+  [ ] Reconcile pre-existing library/installed drift without losing instructions.
+  [ ] Copy reviewed source exactly; verify hashes and skill discovery.
+Acceptance criteria:
+  Three copies match; no invented CLI model/shader option, automatic narration,
+  head recreation, runtime restart or claim that old releases include new work.
+Completion evidence:
+  Current agent.py, manager.py and session_config.py confirm --mouth-transparency
+  and immutable boolean policy; project skill already includes vr80/83 changes
+  absent from library/installed copies.
+Completion log:
+  2026-11-23: Owner adds explicit skill-source and installed refresh request.

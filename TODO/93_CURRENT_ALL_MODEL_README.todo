@@ -1,0 +1,23 @@
+ID: vr-93
+Title: Refresh the GIF-first README with every current head and review study
+Status: IN_PROGRESS
+Milestone: Current GIF-first all-model front page
+Dependencies: vr-92
+Purpose:
+  Replace the prose-heavy, stale front page with current captures of all six
+  selectable heads and clearly separate six GLB studies plus Akari.
+Tasks:
+  [ ] Capture current renderer with retained hash-verified synthetic motion.
+  [ ] Show every model, four shared hairstyles and concise setup/limits links.
+  [ ] Verify decoded timelines, attribution and wide/narrow README rendering.
+  [ ] Update media provenance, chapter/index, journal and issue/Project tracking.
+Acceptance criteria:
+  All thirteen current selectable/study identities appear with actual GIFs;
+  studies are not presented as installed choices. Opaque mouths and corrected
+  lashes/lipstick are current. Hero first, one closed disclosure, borderless
+  full-width rows and natural aspect ratios remain. No private source model,
+  recordings/context, new release or frozen-book rewrite.
+Completion evidence:
+  Pending current rendering, independent decoding and README layout review.
+Completion log:
+  2026-11-23: Owner asks for up-to-date GIFs, less text and all models.

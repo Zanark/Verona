@@ -1178,7 +1178,46 @@
       "issueStateReason": "COMPLETED",
       "projectStatus": "Done",
       "verified": true
+    },
+    "vr-92": {
+      "source": "TODO/92_AKARI_TOON_RESTORATION.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABht86QQ",
+      "number": 91,
+      "url": "https://github.com/Zanark/Verona/issues/91",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhLGgoI",
+      "title": "Restore Akari toon shading without regressing lips or lashes",
+      "managedBody": "\n<!-- verona-workstream:vr-92 -->\nWorkstream source: `TODO/92_AKARI_TOON_RESTORATION.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-92\nTitle: Restore Akari toon shading without regressing lips or lashes\nStatus: DONE\nMilestone: Restore the anime review's cel-shaded face\nDependencies: vr-86, vr-87, vr-88\nPurpose:\n  Restore visible toon lighting for Akari without undoing corrected continuous\n  lipstick, attached upper lashes, neutral closure or opaque-default mouths.\nTasks:\n  [x] Apply bounded banded skin lighting only to the finished anime candidate.\n  [x] Preserve exact clay/baseline and uncolored legacy rendering.\n  [x] Capture actual rest/turn/blink/all-emotion outputs and refresh local review.\n  [x] Update chapter, living journal and verified issue/Project tracking.\nAcceptance criteria:\n  Finished Akari has cel-shaded skin and hair; mouth policy, geometry and\n  symmetric lip guide remain unchanged. Actual WebGL output verifies the\n  lighting change and unchanged comparison branches. No model integration,\n  live-head restart, new dependency or anatomy/owner-acceptance claim.\nCompletion evidence:\n  Actual780sample capture; three32.5s timelines match every decoded source time.\n  Both comparison GIFs are byte-identical to their prior delivered versions;\n  finished Akari changes. Rest inner-mouth alpha255; rest1792teal iris pixels,\n  deliberate closed blink0. All mouth cutouts remain off.\n  Five focused geometry/lash tests and native mouth gate regression pass.\n  Isolated Edge opens all3GIFs,1280/430layouts, no errors/external requests.\n  Representative rest/turn/blink/expression contact and eye crops reviewed.\n  Separate akari-toon-review-20261123 report; original delivery retained.\n  No runtime head restart, integration, listening or owner-acceptance claim.\nCompletion log:\n  2026-11-23: Owner explicitly requests return of the anime toon shader.\n  2026-11-23: Restored explicit finished-candidate cel light; qualified actual\n    captures and invariant comparison branches. Prior cosmetic fixes retained.\n```\n",
+      "issueState": "CLOSED",
+      "issueStateReason": "COMPLETED",
+      "projectStatus": "Done",
+      "verified": true
+    },
+    "vr-93": {
+      "source": "TODO/93_CURRENT_ALL_MODEL_README.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABht9AuQ",
+      "number": 92,
+      "url": "https://github.com/Zanark/Verona/issues/92",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhLGguo",
+      "title": "Refresh the GIF-first README with every current head and review study",
+      "managedBody": "\n<!-- verona-workstream:vr-93 -->\nWorkstream source: `TODO/93_CURRENT_ALL_MODEL_README.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-93\nTitle: Refresh the GIF-first README with every current head and review study\nStatus: IN_PROGRESS\nMilestone: Current GIF-first all-model front page\nDependencies: vr-92\nPurpose:\n  Replace the prose-heavy, stale front page with current captures of all six\n  selectable heads and clearly separate six GLB studies plus Akari.\nTasks:\n  [ ] Capture current renderer with retained hash-verified synthetic motion.\n  [ ] Show every model, four shared hairstyles and concise setup/limits links.\n  [ ] Verify decoded timelines, attribution and wide/narrow README rendering.\n  [ ] Update media provenance, chapter/index, journal and issue/Project tracking.\nAcceptance criteria:\n  All thirteen current selectable/study identities appear with actual GIFs;\n  studies are not presented as installed choices. Opaque mouths and corrected\n  lashes/lipstick are current. Hero first, one closed disclosure, borderless\n  full-width rows and natural aspect ratios remain. No private source model,\n  recordings/context, new release or frozen-book rewrite.\nCompletion evidence:\n  Pending current rendering, independent decoding and README layout review.\nCompletion log:\n  2026-11-23: Owner asks for up-to-date GIFs, less text and all models.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
+    },
+    "vr-94": {
+      "source": "TODO/94_CURRENT_VERONA_SKILL.todo",
+      "issueId": "I_kwDOVyQ_Is8AAAABhuBo-Q",
+      "number": 93,
+      "url": "https://github.com/Zanark/Verona/issues/93",
+      "itemId": "PVTI_lAHOAe2wCs4BsFbFzhLGleQ",
+      "title": "Synchronize current Verona operating skill at all three locations",
+      "managedBody": "\n<!-- verona-workstream:vr-94 -->\nWorkstream source: `TODO/94_CURRENT_VERONA_SKILL.todo` (managed working-tree projection; Git publication is separate).\n\n```text\nID: vr-94\nTitle: Synchronize current Verona operating skill at all three locations\nStatus: IN_PROGRESS\nMilestone: Current source, canonical library and installed operating instructions\nDependencies: vr-92, vr-93\nPurpose:\n  Owner explicitly requests updating the authored skill, library source and\n  installed copy with all subsequent behavior and honest feature boundaries.\nTasks:\n  [ ] Verify runtime flags/defaults against current source and guide.\n  [ ] Document immutable mouth opt-in, corrected lip policy, current six model\n       aliases, four hairstyles, Rowan gain and seven review-only candidates.\n  [ ] Reconcile pre-existing library/installed drift without losing instructions.\n  [ ] Copy reviewed source exactly; verify hashes and skill discovery.\nAcceptance criteria:\n  Three copies match; no invented CLI model/shader option, automatic narration,\n  head recreation, runtime restart or claim that old releases include new work.\nCompletion evidence:\n  Current agent.py, manager.py and session_config.py confirm --mouth-transparency\n  and immutable boolean policy; project skill already includes vr80/83 changes\n  absent from library/installed copies.\nCompletion log:\n  2026-11-23: Owner adds explicit skill-source and installed refresh request.\n```\n",
+      "issueState": "OPEN",
+      "issueStateReason": null,
+      "projectStatus": "In Progress",
+      "verified": true
     }
   },
-  "verifiedAt": "2026-11-22T16:33:32.601131+00:00"
+  "verifiedAt": "2026-11-23T11:07:38.159794+00:00"
 }

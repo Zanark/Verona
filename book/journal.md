@@ -5,6 +5,30 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-23 - Bring back the anime light, not the old lip defect (vr-92)
+
+The owner asks for the anime head's toon shader again. Akari's corrective lip
+work had also softened the skin light. Those mechanisms need not be coupled:
+the finished candidate now uses a two-tone diffuse response, while its
+continuous mirrored surface lip mask and attached upper lashes stay intact.
+Hair keeps the existing banded light and optical details stay unlit.
+`scripts/capture_glb_head_review.cjs:setup` gates this on explicit toon
+metadata; the clay and original-skin comparison branches are untouched.
+
+The fresh three-GIF review retains all 260 samples per candidate and the full
+32.5-second rest/turn/blink/eleven-phrase timeline. Both comparison GIFs are
+byte-identical to their prior delivered versions; the finished face changes.
+Five focused geometry/lash tests, native mouth-gate checks, actual capture
+and exact GIF timeline decoding pass. Isolated Edge opens each animation and
+checks wide/narrow layout with no page errors or external requests. Contact
+and eye crops are reviewed, not every frame or independent listening.
+
+The separate local review is
+`.local\reports\akari-toon-review-20261123\index.html`. The default mouth
+remains opaque, with no added black cavity. This restores an original study's
+cel-shaded appearance; it does not install Akari, add a runtime toon option
+or establish owner acceptance. Earlier review and frozen books are preserved.
+
 ## 2026-11-22 - Give every technical idea a little explanation door (vr-91)
 
 The owner wants a cute ELI5 appendix, then asks for each word to jump directly

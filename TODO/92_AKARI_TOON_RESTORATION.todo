@@ -1,0 +1,32 @@
+ID: vr-92
+Title: Restore Akari toon shading without regressing lips or lashes
+Status: DONE
+Milestone: Restore the anime review's cel-shaded face
+Dependencies: vr-86, vr-87, vr-88
+Purpose:
+  Restore visible toon lighting for Akari without undoing corrected continuous
+  lipstick, attached upper lashes, neutral closure or opaque-default mouths.
+Tasks:
+  [x] Apply bounded banded skin lighting only to the finished anime candidate.
+  [x] Preserve exact clay/baseline and uncolored legacy rendering.
+  [x] Capture actual rest/turn/blink/all-emotion outputs and refresh local review.
+  [x] Update chapter, living journal and verified issue/Project tracking.
+Acceptance criteria:
+  Finished Akari has cel-shaded skin and hair; mouth policy, geometry and
+  symmetric lip guide remain unchanged. Actual WebGL output verifies the
+  lighting change and unchanged comparison branches. No model integration,
+  live-head restart, new dependency or anatomy/owner-acceptance claim.
+Completion evidence:
+  Actual780sample capture; three32.5s timelines match every decoded source time.
+  Both comparison GIFs are byte-identical to their prior delivered versions;
+  finished Akari changes. Rest inner-mouth alpha255; rest1792teal iris pixels,
+  deliberate closed blink0. All mouth cutouts remain off.
+  Five focused geometry/lash tests and native mouth gate regression pass.
+  Isolated Edge opens all3GIFs,1280/430layouts, no errors/external requests.
+  Representative rest/turn/blink/expression contact and eye crops reviewed.
+  Separate akari-toon-review-20261123 report; original delivery retained.
+  No runtime head restart, integration, listening or owner-acceptance claim.
+Completion log:
+  2026-11-23: Owner explicitly requests return of the anime toon shader.
+  2026-11-23: Restored explicit finished-candidate cel light; qualified actual
+    captures and invariant comparison branches. Prior cosmetic fixes retained.

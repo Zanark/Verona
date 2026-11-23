@@ -1,6 +1,18 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-23 - vr92 restores anime toon lighting independently from cosmetics
+Cause: owner wants Akari's toon shader back after the prior lip correction.
+Action: explicit toon metadata selects0.70-1.00 skin bands with a narrow
+smoothstep transition; keep hair0.68-1.00, unlit optics, continuous lip guide,
+actual-eye-rim lashes and creation-only opaque mouth unchanged.
+Evidence: actual three-candidate780sample capture;32.5s timelines all decoded;
+clay/original-skin GIFs byte-identical to prior delivery. Five focused tests
+and native mouth checks pass. Edge opens3GIFs,1280/430layouts, no errors/network.
+Effect: distinct local akari-toon-review-20261123 report; older evidence stays.
+Limits: separate study, not selectable runtime model, MToon, anatomy/listening
+or owner-acceptance claim. Existing heads/frozen editions remain untouched.
+
 2026-11-22 - vr91 makes technical terms open friendly exact explanations
 Cause: owner wants a cute ELI5 concept appendix and direct clickable words.
 Action: author150topics/930aliases/ninegroups; explicit contained appendix input,

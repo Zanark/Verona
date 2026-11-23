@@ -98,7 +98,7 @@ def render(study_path, capture, output):
                           f"{candidate['frames'][index]['label']} / frame {index}", fill="white")
             eyes.save(output/"eye-review.png")
         description = {
-            "akari": "New anime proportions, continuous rose lip color, large teal iris layers, moving brows/lashes and an original violet layered bob. Soft skin lighting; stepped hair shading.",
+            "akari": "New anime proportions, continuous rose lip color, large teal iris layers, moving brows/lashes and an original violet layered bob. Restored two-tone cel shading on skin and hair; unlit eye details.",
             "akari-clay": "Identical Akari skin, eye optics and moving detail with neutral clay shading and hair removed. Inspect structure without the finished styling.",
             "claire": "Original Claire skin coordinates and triangles. Shared review eye/iris and brow/lash aids, no hair, identical camera and motion. Not an untouched production screenshot.",
         }[identity]
@@ -136,7 +136,7 @@ The original opaque mouth is retained throughout this review: no transparent cut
 <li>Compare Akari's clay head against Claire's original skin: same skin vertex IDs and triangles, with a smooth complete-pose mapping applied to rest and every speech/expression pose. Neck below 132 cm is unchanged.</li>
 <li>The deliberate blink shows both partial and complete closure. Skin and attached lashes deform; optical layers are clipped together. This is a cosmetic demonstration, not a learned anime eyelid rig.</li>
 <li>After the blink: neutral, angry, cheekiness, disgust, fear, grief, happy, outofbreath, pain, sad and surprised. Each archived synthetic Hazel phrase contributes all 2.75 seconds, sampled at 8 fps. Emotion-minus-neutral is reduced from archived 4x to 2x; neutral speech is retained.</li>
-<li>Skin uses soft stylized light; hair uses a simple stepped shade. No imported anime avatar, VRoid sample, Rain geometry/rig or reference-image texture is used.</li>
+<li>Skin and hair use restored two-tone cel shading with a narrow softened transition; optics stay unlit. Continuous surface lipstick and attached lashes are unchanged. This is a local toon shader, not an MToon implementation. No imported anime avatar, VRoid sample, Rain geometry/rig or reference-image texture is used.</li>
 <li>Continuous symmetric Claire-native lip guides follow the animated surface. Mouth transparency is off throughout these captures, including wide openings. In the app it requires explicit creation-time opt-in; even then only an opening at least 0.65 cm beyond neutral permits the native-rim cutout.</li>
 </ul></details><details><summary>Limits, provenance and recovery</summary><ul>
 <li>Underlying Claire speech/PCA skin remains inherited. No claim of phonetic accuracy, independent listening, universal female anatomy, exact reference likeness, owner selection or production readiness.</li>

@@ -1,5 +1,32 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Restore toon light without restoring old cosmetic defects (vr-92)
+
+The owner asks for Akari's toon effect back. The previous correction softened
+skin lighting while fixing continuous lipstick; those are independent choices.
+`scripts/capture_glb_head_review.cjs:setup` now selects a two-tone skin response
+only for an explicit `toon: true` candidate. Diffuse light transitions from
+0.70 to 1.00 over 0.15-0.23 using `smoothstep`; hair retains its existing
+0.68-1.00 band and optics remain unlit. The narrow transition softens the
+band boundary without returning to the earlier almost-flat skin lighting.
+It is a local cel shader, not an MToon implementation or a newly trained face.
+
+The continuous Claire-rest-space lip guide still runs per fragment before
+lighting. Skin/hair geometry, actual-rim lash attachment, blink clipping and
+creation-only opaque-default mouth policy are unchanged. Clay/original-skin
+comparison GIFs are byte-identical to their prior delivered versions;
+finished Akari changes visibly. All three freshly captured 32.5-second
+timelines decode exactly at every source time. An isolated Edge review opens
+each animation, pauses peers and checks 1280/430px layouts without external
+requests or page errors. Representative rest/turn/blink/expression contact
+and eye crops are inspected, not every frame or independent listening.
+
+The new local review is
+`.local\reports\akari-toon-review-20261123\index.html`; its predecessor stays
+available. Akari remains review-only, not a manager model or runtime shader
+toggle. A partial failed capture is retained; retries need a new output
+directory. Existing heads, source geometry and frozen books are not replaced.
+
 ## Attach lashes to the eye opening, not a nearby arc (vr-88)
 
 The owner's screenshot rejects Akari's floating lash line. The vr-86 detail
