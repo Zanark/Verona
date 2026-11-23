@@ -21,6 +21,21 @@ celebration and completion projection. Those final receipts belong in a
 descendant closeout, not a force-moved release tag. No runtime change or new
 clean-machine, accuracy, listening or human acceptance is implied.
 
+Published v1.0.0 is release455350807, latest/public at source
+`1c9064c5bbff6445680f35246860e30daf05518d`. All452archive members match
+canonical Git and the remote tree; the516,776,055-byte source ZIP, manifest
+and checksums are downloaded and verified. Seven prior release bodies,
+assets and tag objects remain unchanged. Actual tagged README/GFM keeps
+20images/19GIFs and the first-public-release link inside its closed gallery.
+
+The older allowlist first refused `.gitattributes`; reading its OFL-whitespace
+preservation rule justified explicitly admitting it before a fresh retry.
+That failed prepublication receipt remains. The owned MeshBoard celebration
+is actually indexed with the verified link and a previously inspected full
+toast GIF, not an invented external-platform post. Two temporary ZIP copies
+are removed after verification, recovering1,033,552,110bytes. Remote assets,
+source and compact receipts remain; the release tag is never moved for closeout.
+
 ## 2026-11-23 - Let the faces fill the front page (vr-93)
 
 The owner wants less text, current GIFs and every model. The README now keeps

@@ -1,6 +1,21 @@
 Verona development ledger
 Newest entries first. Perpetual history; excluded from finite issue inventory.
 
+2026-11-23 - vr95 publishes and verifies the first public release
+Cause: explicit first-public-release designation after current gallery delivery.
+Action: publish latest v1.0.0/release455350807 at source1c9064c/tree70aa7a8;
+verify452canonical archive members, all3downloaded asset hashes and7unchanged
+older release bodies/assets/tagobjects. Tagged README/GFM20images19GIFs pass.
+Evidence: first-public-release-02 delivery/github-readme/announcement receipts.
+Initial older allowlist rejected .gitattributes before packaging; reviewed its
+OFL-byte rule, explicitly admitted it and retried without source changes.
+Effect: owner-designated first public source release and actual owned MeshBoard
+celebration, exact link/full previously inspected toast GIF,1GIF/1meme usage.
+Cleanup: remove two verified temporary ZIP copies,1,033,552,110bytes; retain
+source/manifests/checksums/receipts and online assets. Prior failures remain.
+Limits: no installer, new runtime qualification, accepted accuracy or external
+social-platform posting. Frozen editions/running heads and v1tag unchanged.
+
 2026-11-23 - vr95 prepares the owner's first public product release
 Cause: explicit request to mark first public release and update README/releases/socials.
 Action: choose v1.0.0, preserve7earlier release bodies/assets/tags; add current

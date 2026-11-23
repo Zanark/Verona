@@ -1,7 +1,7 @@
 ID: vr-95
 Title: Publish Verona's first public release and announce it
 GitHub issue: https://github.com/Zanark/Verona/issues/94
-Status: IN_PROGRESS
+Status: DONE
 Milestone: v1.0.0 - First public release
 Dependencies: vr-93, vr-94
 Purpose:
@@ -11,9 +11,9 @@ Purpose:
 Tasks:
   [x] Inspect existing public releases, source policy and current qualification.
   [x] Update README, changelog, release notes, guide, chapter and living journal.
-  [ ] Commit/push exact source; build allowlisted archive, manifest/checksums.
-  [ ] Publish latest v1.0.0 and verify tag, assets/downloads and old releases.
-  [ ] Publish owned MeshBoard celebration; reconcile issue/Project and continuity.
+  [x] Commit/push exact source; build allowlisted archive, manifest/checksums.
+  [x] Publish latest v1.0.0 and verify tag, assets/downloads and old releases.
+  [x] Publish owned MeshBoard celebration; reconcile issue/Project and continuity.
 Acceptance criteria:
   First-public-release designation is visible without rewriting prior history.
   Hero first/one closed disclosure and current19GIF gallery are preserved.
@@ -24,9 +24,30 @@ Acceptance criteria:
   prepared environments or sibling state enters the release.
   Actual social post links the verified release; no invented external posting.
 Completion evidence:
-  Publication pending. Seven existing releases/tags must remain unchanged.
-  Current gallery qualification: vr-93; synchronized operating skill: vr-94.
+  https://github.com/Zanark/Verona/releases/tag/v1.0.0
+  Release455350807 is public/latest/notdraft/notprerelease, pinning source
+  1c9064c5bbff6445680f35246860e30daf05518d and tree
+  70aa7a81dd979b60c90590c9eba8e69476e6ebfd. Zanark identities/trailers verified.
+  Source ZIP516,776,055bytes/452members, each matches canonicalGit/remote tree.
+  ZIP, manifest and checksums uploaded, downloaded and all three hashes verified.
+  Seven older release bodies/assets/tagobjects unchanged.
+  Actual tagged README bytes and rendered GFM preserve first-public banner,
+  hero first/one closed disclosure/20images19GIFs. Runtime unchanged from vr93.
+  Current gallery qualification remains vr93; synchronized skill remains vr94.
+  Owned social announcement session-62456741-first-public-release-20261123
+  published/read back exactly once, with verified release link/full original
+  previously inspected toast GIF. Daily usage1GIF/1meme; no external-platform
+  post, invented peer response or runtime restart.
+  Evidence: .local/qualification/first-public-release-02/delivery.json,
+  github-readme.json, announcement.json and temporary-archive-cleanup.json.
+  Two temporary verified ZIP copies removed after delivery:1,033,552,110bytes;
+  source/manifests/checksums/receipts and online release assets remain.
 Completion log:
   2026-11-23: Owner explicitly designates first public release and authorizes
   README, GitHub releases and socials updates. Select v1.0.0 for this product
   milestone; keep v0.x releases as immutable earlier engineering history.
+  2026-11-23: First allowlist refused .gitattributes before archive/publication.
+  Read its OFL-byte preservation rule, explicitly allowed it and retried in
+  a new directory. Failed first-public-release-01 retained; source unchanged.
+  2026-11-23: Published and verified release/README/owned MeshBoard. Final
+  issue/Project/evidence closeout is a descendant commit; v1.0.0 never retagged.

@@ -19,6 +19,15 @@ Final tracking and the social announcement follow verified publication in a
 separate descendant commit; the release tag is not moved to include closeout.
 This changes no running head, dependency installation or frozen edition.
 
+The delivered release pins source `1c9064c5bbff6445680f35246860e30daf05518d`:
+452members/516,776,055-byte ZIP, three uploaded/downloaded assets SHA-256
+verified and all seven old releases preserved. Actual tagged README/GFM and
+the owned indexed MeshBoard celebration are read back. A first allowlist
+failure on `.gitattributes` is retained; its actual OFL-byte preservation rule
+was reviewed before explicit admission and a fresh retry. Two temporary ZIP
+copies are then removed, not accumulated as permanent local cache. The online
+release, source, manifests/checksums and compact receipts remain available.
+
 ## One bounded outcome at a time
 
 Start with observable behavior, ownership, failure conditions and exclusions.
