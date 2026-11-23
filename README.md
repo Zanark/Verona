@@ -14,6 +14,8 @@
 
 # Verona
 
+**[v1.0.0 - First public release](https://github.com/Zanark/Verona/releases/tag/v1.0.0)** · Windows-local source release. [Release notes](docs/releases/v1.0.0.md)
+
 **Type a sentence. Hear a local voice. Give it a face.**
 
 Windows-local speech, CPU neural motion and an animated WebGL face.

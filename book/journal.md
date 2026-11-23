@@ -5,6 +5,22 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-23 - Call this the first public release (vr-95)
+
+The owner now explicitly names the current milestone Verona's first public
+release and asks for README, releases and socials updates. v1.0.0 gives that
+decision a distinct source tag without relabelling or deleting the seven
+earlier prototype/engineering releases. The gallery stays GIF-heavy, hero
+first and collapsed below; the guide/release notes distinguish source setup
+from an installer and implemented model choices from privately prepared assets.
+
+The release procedure pins reviewed Git source, checks every allowlisted ZIP
+member against its canonical blob and records a manifest/checksum inventory.
+Publication and downloaded-byte verification precede the owned social
+celebration and completion projection. Those final receipts belong in a
+descendant closeout, not a force-moved release tag. No runtime change or new
+clean-machine, accuracy, listening or human acceptance is implied.
+
 ## 2026-11-23 - Let the faces fill the front page (vr-93)
 
 The owner wants less text, current GIFs and every model. The README now keeps

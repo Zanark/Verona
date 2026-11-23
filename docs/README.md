@@ -1,5 +1,9 @@
 # Verona engineering book
 
+**First public release:** [v1.0.0 notes](releases/v1.0.0.md) identify the current
+source distribution, setup and qualification boundaries. Earlier v0.x milestones
+remain immutable; this designation does not publish local PDF editions.
+
 **Current visual front page (vr-92/93):** the [README](../README.md) separates
 six selectable heads from seven review-only studies, with current GIFs and
 all four hairstyles. [Chapter09](chapters/09-verona-character-and-waves.md#restore-toon-light-without-restoring-old-cosmetic-defects-vr-92)

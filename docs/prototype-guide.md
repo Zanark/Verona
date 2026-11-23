@@ -6,9 +6,10 @@ installed English voices and explicit expression controls. Accurate human
 articulation is the goal, **not an established result**. Recording import and a
 voiced personal assistant remain future work.
 
-**Milestone1 / v0.1.0:** [release notes](releases/v0.1.0.md) identify the exact
-source distribution, current gallery, setup and remaining qualification limits.
+**First public release / v1.0.0:** [release notes](releases/v1.0.0.md) identify
+the source distribution, current gallery, setup and qualification limits.
 The downloadable source ZIP is not a prepared environment or executable installer.
+Earlier prototype/engineering releases remain available unchanged.
 
 ## Run the prototype
 

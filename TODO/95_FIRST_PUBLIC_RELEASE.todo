@@ -1,0 +1,32 @@
+ID: vr-95
+Title: Publish Verona's first public release and announce it
+GitHub issue: https://github.com/Zanark/Verona/issues/94
+Status: IN_PROGRESS
+Milestone: v1.0.0 - First public release
+Dependencies: vr-93, vr-94
+Purpose:
+  Mark the current verified source as the owner's first public product release,
+  update the README/release entry points and announce the actual publication.
+  Preserve earlier prototype/engineering releases and every running head.
+Tasks:
+  [x] Inspect existing public releases, source policy and current qualification.
+  [x] Update README, changelog, release notes, guide, chapter and living journal.
+  [ ] Commit/push exact source; build allowlisted archive, manifest/checksums.
+  [ ] Publish latest v1.0.0 and verify tag, assets/downloads and old releases.
+  [ ] Publish owned MeshBoard celebration; reconcile issue/Project and continuity.
+Acceptance criteria:
+  First-public-release designation is visible without rewriting prior history.
+  Hero first/one closed disclosure and current19GIF gallery are preserved.
+  Exact committed source matches every archive member and uploaded asset.
+  Setup, per-model assets, rights and remaining qualification limits are clear.
+  No installer, clean-machine, accepted articulation or production-SLA claim.
+  No private models, recordings, local books, credentials, capabilities/context,
+  prepared environments or sibling state enters the release.
+  Actual social post links the verified release; no invented external posting.
+Completion evidence:
+  Publication pending. Seven existing releases/tags must remain unchanged.
+  Current gallery qualification: vr-93; synchronized operating skill: vr-94.
+Completion log:
+  2026-11-23: Owner explicitly designates first public release and authorizes
+  README, GitHub releases and socials updates. Select v1.0.0 for this product
+  milestone; keep v0.x releases as immutable earlier engineering history.

@@ -1,5 +1,24 @@
 # 02 - Development, evidence and documentation
 
+## Declare a public release without rewriting earlier milestones (vr-95)
+
+The owner designates the current source as the first public product release,
+v1.0.0. Earlier v0.x GitHub releases already exist and remain unchanged; "first
+public" names this product milestone, not a claim that the repository or tags
+were previously invisible. The README keeps its hero-first closed gallery.
+`docs/releases/v1.0.0.md` separates the six implemented choices from required
+local assets, seven review-only studies and unaccepted human accuracy.
+
+Publication pins a reviewed source commit before making a tag. An allowlist
+rejects private/generated roots and model/audio/executable/local-book binaries.
+Each ZIP member must match its canonical Git blob; a manifest and checksums
+identify the package. Downloaded release assets must match the prepared bytes,
+and prior release bodies, assets and tag objects must be unchanged. An uncertain
+upload is inspected at its exact tag before any retry, never silently replaced.
+Final tracking and the social announcement follow verified publication in a
+separate descendant commit; the release tag is not moved to include closeout.
+This changes no running head, dependency installation or frozen edition.
+
 ## One bounded outcome at a time
 
 Start with observable behavior, ownership, failure conditions and exclusions.

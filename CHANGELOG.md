@@ -2,11 +2,30 @@
 
 ## Unreleased
 
+No additional changes announced.
+
+## v1.0.0 - First public release
+
+The owner-designated first public product release brings the current local
+speaking-face workspace together. Earlier v0.x prototype and engineering
+releases remain available unchanged; v1.0.0 does not imply a turnkey installer,
+stable API, clean-machine qualification or accepted human articulation.
+
+Six selectable shapes over Claire/Mark neural identities share four
+presentations, local voices, named independent heads and four hairstyles.
+Mouths use their original opaque surface by default; wide-opening transparency
+requires explicit head-creation opt-in. Current lipstick, Rowan emotion gain
+and native eye/lash corrections are included. Akari's restored toon lighting
+and the six supplied-GLB candidates remain separate review-only studies.
+The GIF-heavy README now has19GIFs covering every head/study/hairstyle, with
+fresh captures and exact provenance; source/library/personal skills agree.
+
 Mark now starts with a short textured quiff, visible in all four presentations.
 A classic side part provides a second short masculine design. Both fit the
 selected native skull and remain manual choices alongside waves/curls.
-The README refreshes Mark's complete overview and adds both hairstyle GIFs;
-other models' startup defaults and existing running heads are unchanged.
+Other models' startup defaults and existing running heads are unchanged.
+See [release notes](docs/releases/v1.0.0.md) for setup, source-archive boundaries,
+inherited qualification and known limitations.
 
 ## v0.3.1 - Recorded local idle effects
 
