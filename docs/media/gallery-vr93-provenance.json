@@ -1,0 +1,621 @@
+{
+  "createdAt": "2026-11-23T16:53:20.167836+05:30",
+  "capturePolicy": "Serial hidden sandboxed windows, private loopback/profile/cache; no live head driven.",
+  "mouthPolicy": "Creation opt-in omitted for production; explicit false for all review candidates.",
+  "newGifs": [
+    {
+      "file": "model-vr93-claire.gif",
+      "sha256": "388748ed990033ac8151fa693b350b3ef5476184cd875aecd5bbcb8545c26627",
+      "bytes": 9146731,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 245,
+      "parentFrames": 245,
+      "parentGifSha256": "5f916d5deb43178f91db4c4b69fbc005ec94a4730746a64d048d923bef938807",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "claire",
+      "name": "Aster",
+      "status": "selectable",
+      "freshInference": true,
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "captureBaseCommit": "8498609f9197396fa46f5f926239455f7ee387eb",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "6b882aa07eaad09fabdfebe50794bf82fe1ddf89b87bc9aab3d01343952d57f0",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+        "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90"
+    },
+    {
+      "file": "model-vr93-mpfb.gif",
+      "sha256": "f520b4b9370910ba6fb88632fa839347328749d6e3645b77875667742e376115",
+      "bytes": 7599885,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 242,
+      "parentFrames": 242,
+      "parentGifSha256": "98505f70d628ae2add7914fbe14a1a953674ccbf79c1296e60e73e72abfca40b",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "mpfb",
+      "name": "Rowan",
+      "status": "selectable",
+      "freshInference": true,
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "captureBaseCommit": "8498609f9197396fa46f5f926239455f7ee387eb",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "6b882aa07eaad09fabdfebe50794bf82fe1ddf89b87bc9aab3d01343952d57f0",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+        "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90"
+    },
+    {
+      "file": "model-vr93-mark.gif",
+      "sha256": "152550310911341f7d22add4ee79d7b37f1c8aef216480f564b5c4b841bf3cc0",
+      "bytes": 6563954,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 247,
+      "parentFrames": 251,
+      "parentGifSha256": "8f23580908f3166e8a4cb4d267ded3b88ddce86eeac5a599b6dd22992054cbc6",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "mark",
+      "name": "Kestrel",
+      "status": "selectable",
+      "freshInference": true,
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "captureBaseCommit": "8498609f9197396fa46f5f926239455f7ee387eb",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "6b882aa07eaad09fabdfebe50794bf82fe1ddf89b87bc9aab3d01343952d57f0",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+        "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90"
+    },
+    {
+      "file": "model-vr93-reference-structure.gif",
+      "sha256": "e251d6a524d281ce44a02ac64181c2690cc0ea46a8fafa03d56b7254dbaf87cc",
+      "bytes": 8602288,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 244,
+      "parentFrames": 244,
+      "parentGifSha256": "664ea0158419d2f921a7b33c013e4be9b7088d44cb62e2c4aab2c03b37638285",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "reference-structure",
+      "name": "Vale",
+      "status": "selectable",
+      "freshInference": true,
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "captureBaseCommit": "25cb953b3e0fca29b46a993670241bcfbf5c9bf5",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "6b882aa07eaad09fabdfebe50794bf82fe1ddf89b87bc9aab3d01343952d57f0",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+        "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90"
+    },
+    {
+      "file": "model-vr93-reference-shell.gif",
+      "sha256": "ca566b8e0fee403108dadbbdde64b00a54487aad18eb381d44d5b35f0509cf38",
+      "bytes": 8884273,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 242,
+      "parentFrames": 244,
+      "parentGifSha256": "0ab7fbf88780e233d7b589e98ef369d11f6cc324f2681fbe6fa774f439e68c84",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "reference-shell",
+      "name": "Linden",
+      "status": "selectable",
+      "freshInference": true,
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "captureBaseCommit": "25cb953b3e0fca29b46a993670241bcfbf5c9bf5",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "6b882aa07eaad09fabdfebe50794bf82fe1ddf89b87bc9aab3d01343952d57f0",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+        "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90"
+    },
+    {
+      "file": "model-vr93-male-sharp.gif",
+      "sha256": "fea76882bc6b82deefcc1af478f725ea3a268b4813c95c357fcfdadbf5ed02f5",
+      "bytes": 8673536,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 247,
+      "parentFrames": 250,
+      "parentGifSha256": "eaf79da7a2485ce8eec7cae638e932fb48d45563c3f1ddcd1f23cb304a7c0143",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "male-sharp",
+      "name": "Onyx",
+      "status": "selectable",
+      "freshInference": true,
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ],
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "captureBaseCommit": "7e3120e24385965929736c6d79c63fd48f7a0822",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "6b882aa07eaad09fabdfebe50794bf82fe1ddf89b87bc9aab3d01343952d57f0",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "77eed90c36e98ef6a01ca8fc5aa1e95e846a78337420002e0e7b09d7577aea6e",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "a1dd5aef143e31aa8cb635511447534573a58a4a60336df301e40bbf174a886f",
+        "scripts/model_gallery.cjs": "76bc2d6e4ec597082234b4941e78f863dd64efe5eb8892add589ba6f65f77098"
+      },
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90"
+    },
+    {
+      "file": "study-vr93-akari.gif",
+      "sha256": "dc248bbb20e5bc0bfed03ea3c66974beb65b067470706f6dc66c425f067f8a2e",
+      "bytes": 1296836,
+      "dimensions": [
+        640,
+        640
+      ],
+      "durationMs": 32500,
+      "encodedFrames": 201,
+      "parentFrames": 201,
+      "parentGifSha256": "9d40e144e056c23323cff31e7ce0bd49f67a44312d451213166638b7d64f5b9d",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "akari",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Original Verona Claire-based procedural study; archived synthetic motion.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "study-vr93-lyra.gif",
+      "sha256": "f5986e7401563e21aa372ce3889cb002b6e299818acc95fb82bb5b42a730b0e4",
+      "bytes": 1041763,
+      "dimensions": [
+        480,
+        480
+      ],
+      "durationMs": 7500,
+      "encodedFrames": 44,
+      "parentFrames": 44,
+      "parentGifSha256": "a407fe4d43293f4d8105dd2f0d037a6ec9f0d29a852fe15616ab5e73865485b5",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "lyra",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Retained latest GLB-study geometry/derived Claire motion, fresh opaque-default rendering.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "study-vr93-elara.gif",
+      "sha256": "2b57de5c8fa1bf1ad9e0dd76be45886d867a8b0da2f7f7d0006ce9e26f8fd9cc",
+      "bytes": 1070365,
+      "dimensions": [
+        480,
+        480
+      ],
+      "durationMs": 7500,
+      "encodedFrames": 44,
+      "parentFrames": 44,
+      "parentGifSha256": "c31beb8f67829f972874580cb61f904d35df960a541b6f361c974dc6210492fe",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "elara",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Retained latest GLB-study geometry/derived Claire motion, fresh opaque-default rendering.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "study-vr93-mira.gif",
+      "sha256": "4e6969ce963a7f45e02a9491c98d7c11fa7c32b1402a980b2929a4408ecc8c07",
+      "bytes": 982457,
+      "dimensions": [
+        480,
+        480
+      ],
+      "durationMs": 7500,
+      "encodedFrames": 44,
+      "parentFrames": 44,
+      "parentGifSha256": "551defa6a60ee5a54d6c199480205f79479d7f3dbbe12b736412743541d5505c",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "mira",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Retained latest GLB-study geometry/derived Claire motion, fresh opaque-default rendering.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "study-vr93-selene.gif",
+      "sha256": "8369d38e54f62a48ac6bed4e54f31fc638e050822b637754fc20a7ef47db3e61",
+      "bytes": 1147864,
+      "dimensions": [
+        480,
+        480
+      ],
+      "durationMs": 7500,
+      "encodedFrames": 44,
+      "parentFrames": 44,
+      "parentGifSha256": "2ab60e3972d567657f901bab66dec314e0039918e7922a7ab999bbea1d893c0f",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "selene",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Retained latest GLB-study geometry/derived Claire motion, fresh opaque-default rendering.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "study-vr93-neris.gif",
+      "sha256": "1761662ac5379ffd51dd3caabb2a8c0af7f6acfc430b08dfe0391f62212b82f7",
+      "bytes": 1022317,
+      "dimensions": [
+        480,
+        480
+      ],
+      "durationMs": 7500,
+      "encodedFrames": 44,
+      "parentFrames": 44,
+      "parentGifSha256": "9bd39ca31b811a1e1e93a4d45ebc14b97d42c8dbbb0b4cdef8e0f27d13b5a979",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "neris",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Retained latest GLB-study geometry/derived Claire motion, fresh opaque-default rendering.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "study-vr93-thalia.gif",
+      "sha256": "470d720fcfcc45acc162828d86df74d075a67566481956ae93d6f1cdcd2ff187",
+      "bytes": 1154712,
+      "dimensions": [
+        480,
+        480
+      ],
+      "durationMs": 7500,
+      "encodedFrames": 44,
+      "parentFrames": 44,
+      "parentGifSha256": "bc3cd0e14748c9ac1730e2dd9f78b94b9599ca764da94be66cb38daeeb2213d5",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "thalia",
+      "status": "review-only",
+      "freshInference": false,
+      "source": "Retained latest GLB-study geometry/derived Claire motion, fresh opaque-default rendering.",
+      "mouthTransparency": false
+    },
+    {
+      "file": "hair-vr93-claire.gif",
+      "sha256": "640a37b49a152173f7437aa25e54748fcd137f312444bbf8e8032f4e7358c2b3",
+      "bytes": 3732273,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "6ce7a1ce1526b81ee9786252e10dd6930c281c9c58f2d5110a5b65389f26a036",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "hair-claire",
+      "status": "shared-hairstyle",
+      "model": "mark",
+      "freshInference": false,
+      "source": "Same current-run Mark Happy motion; new Surface/FaceMesh turning capture."
+    },
+    {
+      "file": "hair-vr93-curls.gif",
+      "sha256": "9246f50e0ef27914bea03c0a0b95ae89d6beec393555020a9b8e415682dd8e6d",
+      "bytes": 4190054,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "fe6f7eccf740311d212766224c33d66fb4f8743b324aa55bf085f25dbd34ee37",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "hair-curls",
+      "status": "shared-hairstyle",
+      "model": "mark",
+      "freshInference": false,
+      "source": "Same current-run Mark Happy motion; new Surface/FaceMesh turning capture."
+    },
+    {
+      "file": "hair-vr93-quiff.gif",
+      "sha256": "29dd846818047015b6621695b06ab116b5bb71351b4e5b4fa76cbad90ae9974e",
+      "bytes": 2603425,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "23091ef8a94755ea5daaa154a3b4ab5d7d5ea3a764ac06cc7db0f1975faf79ac",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "hair-quiff",
+      "status": "shared-hairstyle",
+      "model": "mark",
+      "freshInference": false,
+      "source": "Same current-run Mark Happy motion; new Surface/FaceMesh turning capture."
+    },
+    {
+      "file": "hair-vr93-side-part.gif",
+      "sha256": "d247ccb484405798fe8698e22f01a7bf8bdc22772cda9570b2a0babde95e5012",
+      "bytes": 2658103,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "861bca57cf8d3eee1520acd0bb03c9b5cf396a5d6ab0824d90abafc10d046b48",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "id": "hair-side-part",
+      "status": "shared-hairstyle",
+      "model": "mark",
+      "freshInference": false,
+      "source": "Same current-run Mark Happy motion; new Surface/FaceMesh turning capture."
+    }
+  ],
+  "sources": [
+    {
+      "id": "e8d04325a74e46a98a6494abe721a8b2",
+      "name": "Stylized Anime Female Head",
+      "sourceUrl": "https://sketchfab.com/3d-models/stylized-anime-female-head-e8d04325a74e46a98a6494abe721a8b2",
+      "author": "Rodesqa",
+      "authorUrl": "https://sketchfab.com/rodesqa",
+      "license": "Creative Commons Attribution",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "triangles": 629424,
+      "retrievedAt": "2026-11-22",
+      "verification": "Public Sketchfab API and embedded asset metadata"
+    },
+    {
+      "id": "3f0007b44b3e4b8d851c4395b60f4a42",
+      "name": "free_basemesh_head_woman",
+      "sourceUrl": "https://sketchfab.com/3d-models/free-basemesh-head-woman-3f0007b44b3e4b8d851c4395b60f4a42",
+      "author": "mono",
+      "authorUrl": "https://sketchfab.com/michela.000",
+      "license": "Creative Commons Attribution",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "triangles": 16516,
+      "retrievedAt": "2026-11-22",
+      "verification": "Public Sketchfab API and embedded asset metadata"
+    },
+    {
+      "id": "f62bfd9c3ad047e08cd932fef6c40dc6",
+      "name": "Head_Woman_basemesh",
+      "sourceUrl": "https://sketchfab.com/3d-models/head-woman-basemesh-f62bfd9c3ad047e08cd932fef6c40dc6",
+      "author": "mono",
+      "authorUrl": "https://sketchfab.com/michela.000",
+      "license": "Creative Commons Attribution",
+      "licenseUrl": "http://creativecommons.org/licenses/by/4.0/",
+      "triangles": 11964,
+      "retrievedAt": "2026-11-22",
+      "verification": "Public Sketchfab API and embedded asset metadata"
+    }
+  ],
+  "readmeQualification": {
+    "method": "Actual GitHub-flavored Markdown with retained GitHub CSS; local 980px content fixture, not signed-in GitHub chrome.",
+    "images": 20,
+    "gifs": 19,
+    "widths": [1200, 768, 390],
+    "halfWidthPairedRows": 8,
+    "fullWidthSoloRows": 2,
+    "heroFirst": true,
+    "oneInitiallyClosedDisclosure": true,
+    "naturalAspects": true,
+    "bordersTablesOverflow": false,
+    "pageErrors": 0,
+    "externalRequests": 0,
+    "inspectionScope": "Representative contact sheets and wide/narrow layouts, not every frame or independent listening."
+  },
+  "temporaryCaptureCleanup": {
+    "newRawPngFilesRemoved": 3324,
+    "closedOwnedProfilesRemoved": 4,
+    "bytesReclaimed": 1118036084,
+    "retained": "Public/parent GIFs, latest motion, geometry, reports, contact sheets and failure/cleanup receipts."
+  },
+  "limits": "Silent sampled previews, not live FPS, phonetic/listening, identity or owner acceptance.",
+  "historicalRetainedEmbeds": [
+    "gallery-vr36-facemesh-transparent.gif",
+    "gallery-vr36-facemesh-xyz.gif"
+  ]
+}

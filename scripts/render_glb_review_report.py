@@ -34,18 +34,33 @@ def render(study_path, capture, sources_path, output):
         frames[0].save(output / (name + ".png"))
         durations = [120 if i % 2 == 0 else 130 for i in range(len(frames))]
         gif_path = output / (name + ".gif")
-        frames[0].save(gif_path, save_all=True, append_images=frames[1:], duration=durations,
+        swatch = Image.new("RGB", (640 * 4, 640))
+        for column, index in enumerate((0, 15, 30, 45)):
+            swatch.paste(frames[index], (column * 640, 0))
+        palette = swatch.quantize(colors=256)
+        quantized = [frame.quantize(palette=palette, dither=Image.Dither.NONE) for frame in frames]
+        quantized[0].save(gif_path, save_all=True, append_images=quantized[1:], duration=durations,
                        loop=0, disposal=2, optimize=False)
         with Image.open(gif_path) as gif:
-            unique, total = set(), 0
+            unique, total, timeline = set(), 0, []
             for index in range(gif.n_frames):
                 gif.seek(index)
                 total += gif.info["duration"]
-                unique.add(hashlib.sha256(gif.convert("RGB").tobytes()).hexdigest())
+                digest = hashlib.sha256(gif.convert("RGB").tobytes()).hexdigest()
+                unique.add(digest)
+                timeline.append((total, digest))
             if len(unique) < 30 or total != 7500:
                 raise ValueError("Encoded GIF lost real animation or the expected duration.")
+            elapsed = cursor = 0
+            for frame, duration in zip(quantized, durations):
+                while elapsed >= timeline[cursor][0]:
+                    cursor += 1
+                if hashlib.sha256(frame.convert("RGB").tobytes()).hexdigest() != timeline[cursor][1]:
+                    raise ValueError("Encoded GIF changed or omitted a source sample.")
+                elapsed += duration
             receipts.append({"id": name, "frames": gif.n_frames, "uniqueFrames": len(unique),
                              "durationMs": total, "bytes": gif_path.stat().st_size,
+                             "allSourceTimesVerified": True,
                              "sha256": hashlib.sha256(gif_path.read_bytes()).hexdigest()})
         native = candidate["method"] == "native"
         method = "Original GLB mesh + Claire motion" if native else "Claire mesh + source structure"
@@ -110,7 +125,7 @@ The three Claire-based hybrids keep a family resemblance; they are not promised 
 <li>The source assets have no morph targets, skeletons or animation. Original-base motion is geometric triangle attachment, not a newly trained rig. Dense native lips can crease; Mira's closed source mouth has a smaller visible opening.</li>
 <li>Claire-base candidates blend 65% of an 80%-strength section registration plus bounded local surface correction. Claire's original skin indices are retained; static cosmetic eye geometry is separate.</li>
 <li>UV/normal seams are welded and low open neck loops extended only in temporary fitting geometry. The original-base output retains original vertices and triangles after a uniform eye-frame alignment. Normals are smoothed consistently for display.</li>
-<li>Only wide openings (at least 0.65 cm beyond the neutral outer-lip separation) reveal the background through a depth-tested native-rim display mask with a 0.55 cm forward bias. Neutral and near-closed lips keep their original opaque surface. It is not oral retopology or contact correction. No opaque black cavity is added.</li>
+<li>Mouths are opaque by default, without an added black cavity. Only explicit creation-time transparency opt-in permits the depth-tested native-rim display mask, and only at least 0.65 cm beyond neutral outer-lip separation. Its 0.55 cm forward bias is a display approximation, not oral retopology or contact correction. The study metadata records the actual policy.</li>
 <li>All geometry is imported locally. No camera, microphone, cloud inference, asset upload, original-texture transfer, native joint fitting or production manager integration is included.</li>
 <li>Names are review labels, not gender assignments. The owner has not selected or accepted any candidate.</li></ul></details>
 <details><summary>Attribution, modifications and evidence</summary>
@@ -118,7 +133,7 @@ The three Claire-based hybrids keep a family resemblance; they are not promised 
 Public Sketchfab metadata and embedded source credits agree. Verona modifications: coordinate alignment, derived fitting surfaces, Claire-driven deformation, structural hybrids, common clay shading and review captures. Original GLBs remain unchanged.</p>
 <p><a href="study.json">Geometry and motion provenance</a> / <a href="sources.json">Public source/licensing receipt</a> /
 <a href="gif-verification.json">Decoded animation receipts</a></p></details>
-<footer>Local review artifact. Existing catalogs and frozen book editions are unchanged. No source GLBs or review media are included in Git commits.</footer></main>
+<footer>Review artifact. Existing catalogs and frozen book editions are unchanged. Source GLBs remain local; selected derived GIFs are credited separately in the public media provenance.</footer></main>
 <script>
 const status=document.querySelector("#status");
 function pauseAll(){document.querySelectorAll(".card").forEach(card=>{const img=card.querySelector("img"),button=card.querySelector("button");img.src=img.dataset.poster;button.setAttribute("aria-pressed","false");button.textContent="Play GIF";});}

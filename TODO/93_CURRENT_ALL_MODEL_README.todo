@@ -1,16 +1,17 @@
 ID: vr-93
 Title: Refresh the GIF-first README with every current head and review study
-Status: IN_PROGRESS
+GitHub issue: https://github.com/Zanark/Verona/issues/92
+Status: DONE
 Milestone: Current GIF-first all-model front page
 Dependencies: vr-92
 Purpose:
   Replace the prose-heavy, stale front page with current captures of all six
   selectable heads and clearly separate six GLB studies plus Akari.
 Tasks:
-  [ ] Capture current renderer with retained hash-verified synthetic motion.
-  [ ] Show every model, four shared hairstyles and concise setup/limits links.
-  [ ] Verify decoded timelines, attribution and wide/narrow README rendering.
-  [ ] Update media provenance, chapter/index, journal and issue/Project tracking.
+  [x] Capture six current heads with fresh synthetic inference; reuse pinned study motion.
+  [x] Show every model, four shared hairstyles and concise setup/limits links.
+  [x] Verify decoded timelines, attribution and wide/narrow README rendering.
+  [x] Update media provenance, chapter/index, journal and issue/Project tracking.
 Acceptance criteria:
   All thirteen current selectable/study identities appear with actual GIFs;
   studies are not presented as installed choices. Opaque mouths and corrected
@@ -18,6 +19,25 @@ Acceptance criteria:
   full-width rows and natural aspect ratios remain. No private source model,
   recordings/context, new release or frozen-book rewrite.
 Completion evidence:
-  Pending current rendering, independent decoding and README layout review.
+  Seventeen new GIFs/70,370,836bytes; every parent sample matches its decoded
+  public timeline. Six30.25s native overviews, one32.5s Akari study, six7.5s
+  GLB studies and four5.5s hair loops. New Mark Happy motion/audio reused for hair.
+  README embeds19GIFs/20images, with6selectable heads/7review-only identities.
+  Actual GFM with retained GitHub CSS passes1200/768/390px:8paired50%rows,
+  2solo100%rows, natural aspects, no borders/tables/overflow, hero first and
+  one closed disclosure. Zero page errors/external requests. Representative
+  contact/layout images inspected, not all frames or human acceptance.
+  Public provenance: docs/media/gallery-vr93-provenance.json.
+  Local evidence: .local/qualification/current-gallery-93;
+  .local/qualification/current-glb-gallery-93;
+  .local/qualification/readme-gallery-93-retry-02/layout-report.json.
+  Removed3,324new raw PNGs and4closed private profiles after encoding:
+  1,118,036,084bytes. Exact cleanup inventory retained; GIFs, reports, latest
+  motion, geometry, contact sheets and failure receipts remain.
 Completion log:
   2026-11-23: Owner asks for up-to-date GIFs, less text and all models.
+  2026-11-23: Current gallery delivered; initial local fixture encoding and
+  raw-versus-normalized input hashes corrected without changing README text.
+  Current captures use owned hidden windows, private cache/profile and serial
+  CPU work. No running head reconfigured/restarted, new installed model,
+  frozen edition rewrite, release or deployment.

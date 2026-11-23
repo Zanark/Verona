@@ -5,6 +5,40 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-23 - Let the faces fill the front page (vr-93)
+
+The owner wants less text, current GIFs and every model. The README now keeps
+the captioned front-facing hero first and puts everything else inside one
+closed disclosure. Six selectable shapes, seven explicitly review-only
+studies and all four hairstyles are visible without pretending that a review
+label is a manager model. The separate historical XYZ demo stays inside.
+
+The old latest native-motion intermediates were deliberately removed during
+cleanup, so six fresh local synthetic Hazel runs replace speculative reuse.
+`scripts/model_gallery.py:capture/encode` and its browser driver produce
+matching-time four-view tours, neutral plus ten expressions. Studies instead
+reuse retained derived motion; Akari includes restored cel light and attached
+lashes, while the six GLB studies show current opaque mouths. Hair reuses this
+run's hash-verified Mark Happy clip rather than paying for another inference.
+
+Seventeen new GIFs total70,370,836bytes. Public resizing retains every parent
+time interval; independently decoded samples match their palette-converted
+parents. `scripts/render_glb_review_report.py:render` now shares a palette and
+checks every source time, not merely changing frames and total duration.
+Attribution names each supplied source, author, CC BY4.0 license and modification.
+
+Actual GitHub-flavored Markdown with retained GitHub CSS passes1200/768/390px:
+eight adjacent half-width pairs and two full-width solos, natural aspects,
+no borders/tables/overflow. The initial local preview exposed a Windows-codec
+error in its fixture, not the README; UTF-8 regeneration corrects it, and the
+receipt distinguishes raw bytes from normalized Markdown input. Representative
+layouts/contact sheets are inspected, not every frame or independent listening.
+
+After encoding,3,324new raw PNGs and four closed test profiles are removed,
+recovering1,118,036,084bytes without discarding the new GIFs, latest neural
+motion, geometry or receipts. Frozen editions stay frozen. This is a current
+silent gallery, not new model installation, owner acceptance or live-FPS proof.
+
 ## 2026-11-23 - Let the instructions catch up with the face (vr-94)
 
 The owner also requests refreshing Verona's skill at its source and installed

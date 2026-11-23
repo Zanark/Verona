@@ -1,5 +1,15 @@
 # Verona engineering book
 
+**Current visual front page (vr-92/93):** the [README](../README.md) separates
+six selectable heads from seven review-only studies, with current GIFs and
+all four hairstyles. [Chapter09](chapters/09-verona-character-and-waves.md#restore-toon-light-without-restoring-old-cosmetic-defects-vr-92)
+explains restored Akari cel light without undoing corrected lips/lashes.
+[Gallery mechanisms and qualification](chapters/09-verona-character-and-waves.md#a-current-gallery-is-a-rendering-pipeline-not-a-model-catalog-vr-93)
+distinguish fresh inference, reused motion, sampled GIFs and installed models.
+The [source skill](../.github/skills/verona/SKILL.md) also documents current
+creation-only mouth opt-in and honest model/study boundaries (vr-94).
+The living journal continues; no frozen edition is rewritten.
+
 **Clickable ELI5 journal (vr-91):** the [book delivery index](../book/README.md)
 now points to volume four v2:78pages,150friendly topic explanations and exact
 PDF/offline-reader word links. Dotted terms, including repeated mentions and

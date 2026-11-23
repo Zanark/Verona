@@ -1,5 +1,46 @@
 # 09 - Designing Verona without replacing the speech system
 
+## A current gallery is a rendering pipeline, not a model catalog (vr-93)
+
+The README now shows six selectable heads, seven separately labelled studies
+and all four hairstyles. Seventeen new GIFs replace stale front-page previews;
+the captioned hero and separate XYZ loop remain explicit historical captures.
+Review names do not add CLI model IDs. The single closed disclosure, centered
+half-width pairs/full-width solos and natural aspect ratios use GitHub-supported
+markup rather than stripped author CSS or bordered HTML tables.
+
+`scripts/model_gallery.py:capture/encode` and `scripts/model_gallery.cjs` run
+six fresh synthetic Hazel inference/capture lanes serially. Each30.25-second
+tour shows neutral plus ten expressions in four synchronized presentations,
+including current Rowan gain and Mark quiff defaults. Akari's32.5-second loop
+and six7.5-second supplied-GLB loops instead use retained derived motion with
+fresh rendering. Four5.5-second hairstyle loops reuse the newly generated,
+hash-verified Mark Happy clip/audio; changing hair does not need new inference.
+
+`scripts/render_glb_review_report.py:render` quantizes against one shared
+256-color palette and checks each source sample against its decoded GIF time.
+The public packaging also compares every resized parent sample at its exact
+time. Duplicate frame coalescing is allowed; timeline trimming is not.
+The17public GIFs total70,370,836bytes, with dimensions, hashes, source credits
+and constraints in [the receipt](../media/gallery-vr93-provenance.json).
+Smaller previews trade spatial/palette fidelity for download cost, not duration.
+
+Actual GFM with retained GitHub CSS is qualified locally at1200/768/390px:
+20images/19GIFs, eight paired rows/two solos, hero first and one closed
+disclosure, no borders/tables/overflow/page errors/external requests.
+This models a980px GitHub content container, not signed-in GitHub chrome.
+The initial fixture's Windows text-codec error is corrected in a retained
+UTF-8 retry; raw-byte and newline-normalized input hashes are separate.
+Representative contact/layout views are inspected, not every animation frame.
+
+Capture uses owned hidden windows, private profiles/cache and synthetic inputs,
+not existing heads. After verification, an exact manifest removes3,324new raw
+PNGs/four closed profiles, reclaiming1,118,036,084bytes. Encoded GIFs, latest
+motion, geometry, reports, contact sheets and failures remain. Raw-frame paths
+in old receipts are provenance, not a promise that those intermediates persist.
+Mouths remain opaque by default. These silent samples establish neither human
+articulation/identity acceptance nor a universal live frame-rate guarantee.
+
 ## Restore toon light without restoring old cosmetic defects (vr-92)
 
 The owner asks for Akari's toon effect back. The previous correction softened

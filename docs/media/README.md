@@ -1,5 +1,70 @@
 # Prototype media receipt
 
+## Current all-model front page (vr-93)
+
+The [current gallery provenance](gallery-vr93-provenance.json) inventories
+seventeen newly rendered GIFs: six selectable heads, seven separately labelled
+review studies and all four shared hairstyles. The README embeds those
+seventeen plus the preserved front-facing captioned hero and separate XYZ
+demo. Both historical hero captures remain explicitly identified in the
+receipt, not relabelled as fresh.
+
+Six selectable-head overviews use fresh local synthetic Hazel inference:
+neutral plus all ten expressions, the same sentence, four matching-time
+presentations, current Mark hair defaults and Rowan's current effective gain.
+Each overview retains the complete30.25-second tour. Akari reuses the pinned
+archived motion and latest attached-lash geometry with restored cel lighting;
+its32.5-second timeline includes rest/turn/blink and all ten emotions.
+The six GLB studies use latest retained geometry/derived motion and fresh
+opaque-default rendering, each7.5seconds. No source GLB is distributed.
+
+Four5.5-second hairstyle loops reuse the new Mark Happy motion, independently
+verifying both motion and same-sentence audio hashes before drawing Surface
+and FaceMesh with authored yaw. Original waves,48-lock curls, quiff and side
+part remain intact. This is not new hair physics or per-frame generation.
+
+Parent encoders decode and compare every captured sample. Public-size
+encoders then resize, use a shared256-color palette and independently compare
+every decoded parent sample at its exact time; no phrase/frame interval is
+trimmed. Exact dimensions, durations, source hashes and bytes are in the
+receipt. These are silent sampled previews, not live60fps, listening,
+phonetic/anatomical acceptance or seven newly installed models.
+
+The new report uses original opaque mouth surfaces throughout: transparency
+is default-off, not an added black cavity. Lighting, perspective and inherited
+expressive asymmetry remain visible. Review-only models are not owner-selected.
+Capture uses serial hidden sandboxed windows, capability-protected loopback,
+private profiles/cache and synthetic inputs; no running head is driven,
+restarted or reconfigured. Frozen books and prior receipts remain unchanged.
+
+Actual GFM with retained GitHub CSS passes1200/768/390px:20images/19GIFs,
+eight half-width pairs/two full-width solos, hero first/one closed disclosure,
+natural aspects and no borders/tables/overflow/page errors/external requests.
+This is a representative local980px content fixture, not signed-in GitHub
+chrome. Its initial Windows-codec error is corrected in a retained UTF-8 retry.
+After verification,3,324new raw PNGs and four closed disposable profiles were
+removed (1,118,036,084bytes); public/parent GIFs, latest motion, geometry,
+reports, contact sheets and failure/cleanup receipts remain.
+
+### Supplied GLB source credits
+
+Lyra/Elara derive from
+[Stylized Anime Female Head](https://sketchfab.com/3d-models/stylized-anime-female-head-e8d04325a74e46a98a6494abe721a8b2)
+by [Rodesqa](https://sketchfab.com/rodesqa).
+Mira/Selene derive from
+[free_basemesh_head_woman](https://sketchfab.com/3d-models/free-basemesh-head-woman-3f0007b44b3e4b8d851c4395b60f4a42)
+by [mono](https://sketchfab.com/michela.000).
+Neris/Thalia derive from
+[Head_Woman_basemesh](https://sketchfab.com/3d-models/head-woman-basemesh-f62bfd9c3ad047e08cd932fef6c40dc6)
+by [mono](https://sketchfab.com/michela.000).
+All three are [CC BY4.0](https://creativecommons.org/licenses/by/4.0/);
+public Sketchfab metadata and embedded credits were verified for the earlier
+study and are retained in the current provenance. Modifications: coordinate
+alignment, derived fit surfaces, Claire-driven deformation or structural
+hybrid, common clay shading and GIF capture. Original GLBs stay local and
+unchanged. Akari's sculpt/hair/details are original Verona procedural work,
+not copied VRoid/Rain/reference-image assets.
+
 ## Current Mark short-hair previews (vr-80)
 
 [Mark provenance](mark-vr80-provenance.json) records three new actual Mark
