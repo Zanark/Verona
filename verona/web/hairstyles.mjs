@@ -1,9 +1,24 @@
 export const HAIRSTYLES = Object.freeze({
   claire: Object.freeze({ name: "Claire waves (original)", fit: 1 }),
   curls: Object.freeze({ name: "Spiral curls", fit: 1 }),
-  quiff: Object.freeze({ name: "Short textured quiff", fit: 1 }),
-  "side-part": Object.freeze({ name: "Classic side part", fit: 1 }),
+  "curly-fade": Object.freeze({ name: "Textured curls fade", fit: 1 }),
+  "swept-quiff": Object.freeze({ name: "Swept quiff fade", fit: 1 }),
 });
+
+export const HAIR_FADE_GLSL = `
+  uniform bool hairFade;
+  uniform vec3 hairFadeCenter, hairFadeAxes;
+  void clipHairFade(vec3 p) {
+    if (material != 1 || !hairFade) return;
+    vec3 local = (p-hairFadeCenter)/hairFadeAxes;
+    float coverage = smoothstep(.10,.62,local.y);
+    vec2 uv = vec2(atan(local.x,local.z)*90.0,local.y*100.0);
+    vec2 cell = floor(uv);
+    float seed = fract(sin(dot(cell,vec2(12.9898,78.233)))*43758.5453);
+    vec2 grain = fract(uv)-.5 + .13*vec2(sin(seed*31.0),cos(seed*29.0));
+    if (coverage <= 0.0 || length(grain) > .85*sqrt(coverage)) discard;
+  }
+`;
 
 export function hairstyle(id) {
   if (!Object.hasOwn(HAIRSTYLES, id)) throw new Error("Choose a supported hairstyle.");
@@ -30,7 +45,10 @@ function shortScalp(meta, neutral) {
   const center = [(low[0] + high[0]) / 2, 148.2, (low[2] + high[2]) / 2];
   const axes = [(high[0] - low[0]) / 2 + .25, high[1] - center[1] + .25, (high[2] - low[2]) / 2 + .25];
   let radius = 1;
-  for (const p of points) radius = Math.max(radius, Math.hypot(...p.map((v, a) => (v - center[a]) / axes[a])));
+  for (const p of points) {
+    const [x, y, z] = p.map((v, a) => (v - center[a]) / axes[a]);
+    radius = Math.max(radius, Math.sqrt(x*x + z*z + Math.max(0, y)**4));
+  }
   return { center, axes: axes.map(v => v * radius * 1.025) };
 }
 
@@ -54,8 +72,7 @@ export function createHairstyle(id, meta, neutral) {
       if (column % contourEvery === 0) edges.push(a, c);
     }
   };
-  const tube = (path, radius) => {
-    const sections = 40, sides = 8;
+  const tube = (path, radius, sections = 40, sides = 8, flatten = 1) => {
     const offset = positions.length / 3;
     let previousNormal;
     for (let row = 0; row < sections; row++) {
@@ -72,50 +89,65 @@ export function createHairstyle(id, meta, neutral) {
       const r = typeof radius === "function" ? radius(t) : radius;
       for (let side = 0; side < sides; side++) {
         const angle = 2 * Math.PI * side / sides;
-        vertex(...p.map((v, i) => v + r * (normal[i] * Math.cos(angle) + binormal[i] * Math.sin(angle))));
+        vertex(...p.map((v, i) => v + r * (flatten * normal[i] * Math.cos(angle) + binormal[i] * Math.sin(angle))));
       }
     }
     connect(offset, sections, sides, 4, true);
   };
-  const columns = 64, rows = 16;
+  const columns = id === "curls" ? 64 : 96, rows = id === "curls" ? 16 : 24;
   if (id !== "curls") {
+    const swept = id === "swept-quiff";
     const point = (theta, angle) => {
       const x = Math.sin(theta) * Math.sin(angle), z = Math.sin(theta) * Math.cos(angle);
       const top = Math.max(0, Math.cos(theta));
-      const lift = id === "quiff"
-        ? 1.9 * Math.exp(-(((theta - .62) / .48) ** 2)) * smooth(0, .8, Math.cos(angle))
-        : .7 * smooth(-.3, .7, x) * top;
-      return [9.5 * x, 148.2 + 11 * Math.cos(theta) + lift, -5.7 + 11.6 * z];
+      const crown = smooth(.35, .76, top);
+      const lift = swept
+        ? crown * (1.0 + 3.0 * Math.exp(-(((theta - .62) / .50) ** 2))
+          * smooth(-.2, .8, Math.cos(angle)) * (.45 + .55 * smooth(-.6, .6, x)))
+        : crown * (.65 + .24 * Math.sin(23*x + Math.cos(19*z)) * Math.cos(17*z + Math.sin(21*x)));
+      const vertical = Math.cos(theta);
+      return [9.5 * x + (swept ? .8 * crown : 0),
+        148.2 + 11 * (vertical > 0 ? Math.sqrt(vertical) : vertical) + lift,
+        -5.7 + 11.6 * z];
     };
     for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
       const t = row / (rows - 1), a = 2 * Math.PI * col / columns;
       const front = smooth(0, 1, Math.max(0, Math.cos(a)));
-      vertex(...point((.012 + .988 * t) * (1.45 - .40 * front), a));
+      vertex(...point((.012 + .988 * t) * (1.65 - .62 * front), a));
     }
     connect(0, rows, columns, 4);
-    const swept = (x, z, t) => {
+    const scalp = (x, z) => {
       const y = Math.sqrt(Math.max(0, 1 - x * x - z * z));
-      const p = point(Math.acos(y), Math.atan2(x, z));
-      p[1] += .12 + .25 * Math.sin(Math.PI * t);
-      return p;
+      return point(Math.acos(y), Math.atan2(x, z));
     };
-    if (id === "quiff") {
-      for (let lock = 0; lock < 14; lock++) {
-        const x = -.7 + 1.4 * lock / 13;
+    if (swept) {
+      for (let lock = 0; lock < 52; lock++) {
+        const lane = lock % 13, layer = Math.floor(lock / 13);
+        const x = -.74 + 1.35 * lane / 12;
         tube(t => {
-          const across = x + .055 * Math.sin(Math.PI * t);
-          const arc = 1.02 - (1.6 + .12 * Math.sin(lock * 1.7)) * t;
-          return swept(across, Math.sqrt(1 - across * across) * Math.sin(arc), t);
-        }, t => .42 * (.12 + .88 * Math.sin(Math.PI * t) ** .45));
+          const across = x + .32 * Math.sin(Math.PI * t);
+          const arc = .99 - layer * .16 - (1.5 + .09 * Math.sin(lock * 1.7)) * t;
+          const p = scalp(across, Math.sqrt(1 - across * across) * Math.sin(arc));
+          p[1] += .12 + (.35 + layer * .08) * Math.sin(Math.PI * t)
+            + .035 * Math.sin(t * 15 + lock);
+          return p;
+        }, t => (.10 + .035 * Math.sin(lock * 2.1) ** 2)
+          * (.15 + .85 * Math.sin(Math.PI * t) ** .6), 32, 6, .45);
       }
     } else {
-      for (const side of [-1, 1]) for (let lock = 0; lock < 9; lock++) {
+      const count = 144;
+      for (let lock = 0; lock < count; lock++) {
+        const radial = Math.sqrt((lock + .5) / count) * .84;
+        const a = lock * Math.PI * (3 - Math.sqrt(5));
+        const root = scalp(radial * Math.sin(a), radial * Math.cos(a));
+        const phase = lock * 2.17, height = .9 + .7 * (.5 + .5 * Math.sin(lock * 3.1));
         tube(t => {
-          const z = .66 - 1.32 * lock / 8 - .08 * Math.sin(Math.PI * t);
-          const start = -.23 + side * .018;
-          const x = start * (1 - t) + side * .965 * Math.sqrt(1 - z * z) * t;
-          return swept(x, z, t);
-        }, t => .30 * (.12 + .88 * Math.sin(Math.PI * t) ** .45));
+          const angle = phase + t * Math.PI * (3.4 + .4 * Math.sin(lock));
+          const radius = (.34 + .12 * Math.sin(lock * 1.3) ** 2) * Math.sin(Math.PI * t * .9);
+          return [root[0] + radius * Math.cos(angle) + .55 * radial * Math.sin(a) * t,
+            root[1] + .10 + height * t,
+            root[2] + radius * Math.sin(angle) + .55 * radial * Math.cos(a) * t];
+        }, t => .15 * (1 - .75 * smooth(.65, 1, t)), 12, 6);
       }
     }
   } else {
@@ -154,5 +186,8 @@ export function createHairstyle(id, meta, neutral) {
     if (!Number.isFinite(n) || n < -32768 || n > 32767) throw new Error("Hairstyle exceeds the packed mesh bounds.");
     return n;
   });
-  return { positions: packed, edges: Uint32Array.from(edges), triangles: Uint32Array.from(triangles) };
+  const fade = id === "curls" ? null : shortFit || {
+    center: hairAnchor, axes: [9.5, 11, 11.6].map(value => value * factor),
+  };
+  return { positions: packed, edges: Uint32Array.from(edges), triangles: Uint32Array.from(triangles), fade };
 }

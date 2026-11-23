@@ -140,10 +140,10 @@ Optional phonemization includes GPL components; no cloud, cloning or recordings.
 | `male-sharp` | Owner-named Male-SharpJawline, preserved complete-pose sculpt. |
 
 These are six selectable shapes over two neural identities, not six independently
-trained speech models or accepted gender identities. Review aliases are Aster
+trained speech models or accepted gender identities. Display names are Aster
 (`claire`), Rowan (`mpfb`), Kestrel (`mark`), Vale (`reference-structure`),
 Linden (`reference-shell`) and Onyx (`male-sharp`). CLI requests use the IDs,
-not review aliases. Aster's review label is owner-assigned Female; do not infer
+not display names. Aster's review label is owner-assigned Female; do not infer
 gender for other models or use it to choose a voice.
 
 Lyra/Elara, Mira/Selene and Neris/Thalia are six separate supplied-GLB review
@@ -153,7 +153,8 @@ Its isolated review renderer restores banded toon skin/hair lighting; that
 does not add an anime shader toggle or Akari to production. Never pass these
 review names as `--model`, import/download a GLB, or replace a head to imitate
 them. Current studies and their limits are documented in chapter09 and the
-GIF-first README; review/capture is not owner selection or installation.
+research documentation; review/capture is not owner selection or installation.
+The README omits supplied-GLB studies and lists Akari inline as review-only.
 
 Every selectable head shares Surface
 (legacy ID `claire`), FaceMesh, FaceDot and UniformPolygons, full/head-neck
@@ -161,11 +162,15 @@ framing, neck depth, XYZ/cursor motion, zoom, colors, four procedural
 hairstyles and natural blinking. Surface supports transparent polygons and
 shaded color/makeup. Native shape is uniformly aligned, not replaced by Claire.
 Hair, eyelids and makeup remain cosmetic approximations, not accepted anatomy.
-New Mark players start with Short textured quiff and hair on in all four
-presentations. Classic side part is a second short design; original waves
+New Mark players start with Textured curls fade (`curly-fade`) and hair on in
+all four presentations. Swept quiff fade (`swept-quiff`) is the second short
+design. Both have skin-to-stubble tapered sides; the rejected `quiff` and
+`side-part` IDs are removed, not aliases. Original waves
 and Spiral curls remain available. Other models retain their original
 startup style/visibility. Never restart or reconfigure an existing head
 merely to apply a new default.
+The README uses Onyx for the owner's women hairstyle examples and Mark for men;
+this is showcase direction, not a runtime gender/voice restriction.
 
 MPFB (catalog name Rowan) fits conditioned and same-audio neutral geometry
 separately, then applies half the shared2x/4x setting: effective1x/2x.

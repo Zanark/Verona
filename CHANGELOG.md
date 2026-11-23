@@ -2,7 +2,12 @@
 
 ## Unreleased
 
-No additional changes announced.
+- Replace the rejected men cuts with Textured curls fade and Swept quiff fade,
+  including skin-to-stubble sides. New Mark heads default to textured curls.
+- Use Aster, Rowan, Kestrel, Vale, Linden and Onyx in the model catalog;
+  internal model IDs remain unchanged.
+- Curate the README: Akari inline, no supplied-GLB study cards, Onyx women's
+  hairstyles and Mark men's hairstyles, with new matching GIFs.
 
 ## v1.0.0 - First public release
 

@@ -5,6 +5,48 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-23 - Give the short hair a real fade (vr-96/97)
+
+The owner rejects the previous men's cuts: a different name on the same cap
+would not answer the photographs. `hairstyles.mjs:createHairstyle` now builds
+144short coiled strands or52flattened swept strands, replacing the old quiff/
+side-part implementations. Original waves and all48long spiral locks survive;
+the long-curl positions and indices remain byte-identical.
+
+The first capture exposes an oversized roof. Measuring actual Mark skull bands
+leads to `shortScalp`'s rounded fourth-power crown, fitted once per selection.
+The fade itself is coverage, not a painted dark band: deterministic follicles
+increase from exposed skin through stubble to filled hair. `clipHairFade`
+discards the same fragments in color, ink and invisible depth; otherwise holes
+would still hide the skin beneath. One selected hairstyle remains resident,
+with no texture download, per-frame fitting or new inference model.
+
+The six earlier combination names now label unchanged model IDs: Aster, Rowan,
+Kestrel, Vale, Linden and Onyx. README curation puts review-only Akari alongside
+them, removes GLB cards without deleting the studies/credits, and demonstrates
+women's waves/curls on actual Onyx and the two men's fades on actual Mark.
+Exact-model retained vr93 synthetic motion avoids another inference. The first
+Onyx reuse attempt stops before drawing; preparing static native geometry
+before installing already-adapted motion avoids applying its sculpt twice.
+
+Five new GIFs total20,189,094bytes, preserving the complete30.25-second overview
+and four5.5-second hair loops. Every parent/source and public/parent timeline
+sample matches. The resulting13GIF/14image README passes actual GFM/CSS layouts
+at1200/768/390px: five borderless half-width pairs and two full-width solos,
+hero first, one closed disclosure, natural aspects and no overflow or network.
+Representative wide/narrow layouts and the final hairstyle contact sheet are
+agent-reviewed, not owner visual acceptance.
+
+Geometry and14session tests pass. A blink-cadence assertion fails during
+concurrent GIF encoding; the failed report remains. A serial final appearance
+run passes unchanged assertions, original/native pixel baselines, both blink
+cadences and24Mark hairstyle/view restoration cases. Hair-only encoder replay
+also preserves both Onyx parent hashes. Three Verona skill copies agree.
+Eight superseded public GIFs recover39,323,887bytes; after verification,
+1,064raw PNGs/one closed profile recover350,019,015bytes. Parent GIFs, motion,
+contact sheets and failed receipts remain. No live head restart, source-photo
+publication, exact likeness claim, frozen-edition rewrite or v1.0.0 retag.
+
 ## 2026-11-23 - Call this the first public release (vr-95)
 
 The owner now explicitly names the current milestone Verona's first public

@@ -616,9 +616,12 @@ eyes, cosmetics, edges/points and hair in either material; enable to restore
 their hues. Lighting and tonal cosmetic detail remain, not a bare unstyled face.
 The option is hidden outside Claire; human alternatives retain cyan ink.
 **Hairstyle** selects **Claire waves (original)**, **Spiral curls**,
-**Short textured quiff** or **Classic side part**. New Mark players start with
-the short quiff and hair visible in every presentation. The side part is a
-second short masculine design; both remain manual choices on other models.
+**Textured curls fade** (`curly-fade`) or **Swept quiff fade** (`swept-quiff`).
+New Mark players start with textured curls fade and hair visible in every
+presentation. The two reference-guided men cuts replace the rejected short
+quiff/side part, including their old IDs. Both remain manual choices on other
+models. Short sides transition from visible skin through sparse stubble to
+full hair; the crowns use individual coiled or swept strands.
 No existing running head is changed automatically.
 Curls have48 independently swept locks, twice the previous24, with unchanged
 per-lock detail. The other nine styles and their generators/gallery files are
@@ -644,7 +647,7 @@ turning hair off restores their original fit. Crop-slider/detail changes keep
 that fit stable. High zoom/large rotations can still crop the model.
 Selection builds only the latest alternative, deletes its replaced GPU buffers
 and never regenerates/seeks speech. Reload resets the model's default style
-(Mark quiff, otherwise original waves), Claire colors and per-view visibility;
+(Mark textured curls fade, otherwise original waves), Claire colors and per-view visibility;
 no preferences are persisted. Invalid
 geometry surfaces an error and preserves the previous choice, not a silent fallback.
 The original hair has actual layered S-wave geometry. These are not

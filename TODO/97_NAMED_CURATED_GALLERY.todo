@@ -1,0 +1,46 @@
+ID: vr-97
+Title: Curate the named-head gallery and model-appropriate hairstyle demos
+GitHub issue: https://github.com/Zanark/Verona/issues/96
+Status: DONE
+Milestone: Seven named gallery entries, Onyx/Mark hairstyle showcases
+Dependencies: vr-96
+Purpose:
+  Remove supplied-GLB studies from the README only, group Akari with the heads,
+  and consistently identify the previously named model/geometry combinations.
+Tasks:
+  [x] Use Aster, Rowan, Kestrel, Onyx, Vale and Linden consistently.
+  [x] Put Akari in the same list, clearly retaining its review-only status.
+  [x] Capture waves/spiral curls on actual Onyx, men fades on actual Mark.
+  [x] Refresh changed gallery media, provenance, responsive layout and docs.
+Acceptance criteria:
+  Six production combinations have unique names without changing model IDs.
+  Akari appears inline without pretending to be installed in the selector.
+  GLB study images/cards leave the README; reports/history/credits remain.
+  Hero remains first; all other content stays in one closed disclosure.
+  Borderless full-width pairs/solos, complete GIF timelines and exact provenance.
+  First-public-release tag/assets remain immutable; no new release is implied.
+Completion evidence:
+  README has13GIFs/14images: six named selectable heads, inline review-only
+  Akari, four hairstyle examples and the preserved hero/XYZ pair. No GLB cards.
+  Five new GIFs/20,189,094bytes; complete30.25s Mark overview and four5.5s
+  hair loops. Every source/parent and parent/public sample timeline matches.
+  docs/media/gallery-vr97-provenance.json records exact model/source/hashes.
+  Actual GFM with GitHub CSS passes1200/768/390px: five50%pairs/two100%solos,
+  hero first/one closed disclosure, natural aspects/no borders/overflow,
+  no page errors or external requests. Wide/narrow screenshots reviewed.
+  .local/qualification/readme-gallery-97/layout-report.json retains results.
+  Fourteen session tests pass; model IDs and neural identity remain unchanged.
+  Hair-only encoder rerun preserves both Onyx parent GIF hashes.
+  Eight obsolete Mark/hair GIFs removed:39,323,887bytes. After verification,
+  1,064owned raw PNGs/one closed profile removed:350,019,015bytes.
+  All parent GIFs, motion, contact sheets, compact/failed receipts remain.
+  First-public-release v1.0.0 source/assets and all frozen books are unchanged.
+Completion log:
+  2026-11-23: Recovered the original six unique names from the earlier report.
+  Current request specifies Onyx for women hairstyle demos and Mark for men.
+  2026-11-23: Onyx's first reuse attempt stopped before drawing; prepare native
+  static geometry before installing already-adapted motion to avoid a second
+  sculpt. Captures use retained exact-model synthetic motion, no new inference.
+  2026-11-23: Qualified responsive gallery, exact media and hair-only encoding.
+  Removed only superseded public GIFs and enumerated closed intermediates;
+  source photos, GLB reports/study GIFs/credits and immutable history preserved.

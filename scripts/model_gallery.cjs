@@ -40,15 +40,15 @@ app.whenReady().then(async () => {
     if($("follow-eyes")){$("follow-eyes").checked=false;$("follow-eyes").dispatchEvent(new Event("input"));}
     window.galleryCatalog=catalog;
     if(catalog.model==="mark"){
-      if(galleryRenderer.hairStyle!=="quiff"||!Object.values(galleryRenderer.hairVisible).every(Boolean))
-        throw Error("Mark must start with visible short quiff hair in every view.");
+      if(galleryRenderer.hairStyle!=="curly-fade"||!Object.values(galleryRenderer.hairVisible).every(Boolean))
+        throw Error("Mark must start with visible textured curls fade in every view.");
     }
     return catalog;
   })()`);
   const views = ["Surface", "FaceMesh", "FaceDot", "UniformPolygons"];
   const captures = [];
   await fs.mkdir(path.join(output, "frames"));
-  for (let emotion=0; emotion<catalog.clips.length; emotion++) {
+  for (let emotion=0; !catalog.hairOnly && emotion<catalog.clips.length; emotion++) {
     const info = catalog.clips[emotion];
     const result = await ev(`(async()=>{
       const $=id=>document.getElementById(id),info=galleryCatalog.clips[${emotion}];
@@ -60,9 +60,9 @@ app.whenReady().then(async () => {
       const labels={neutral:"Neutral",happy:"Joy / Happy",sad:"Sadness",surprised:"Amazement",
         angry:"Anger",cheekiness:"Cheekiness",disgust:"Disgust",fear:"Fear",grief:"Grief",
         outofbreath:"Out of breath",pain:"Pain"};
-      const names={claire:"ORIGINAL CLAIRE",mpfb:"NATIVE MPFB",mark:"ORIGINAL MARK",
-        "reference-structure":"STRUCTURAL-REFERENCE CLAIRE",
-        "reference-shell":"HISTORICAL SUBTLE-REFERENCE CLAIRE","male-sharp":"MALE-SHARPJAWLINE"};
+      const names={claire:"ASTER / CLAIRE",mpfb:"ROWAN / NATIVE MPFB",mark:"KESTREL / MARK",
+        "reference-structure":"VALE / STRUCTURAL CLAIRE",
+        "reference-shell":"LINDEN / SUBTLE CLAIRE","male-sharp":"ONYX"};
       const canvases=Array.from({length:count},()=>{
         const c=document.createElement("canvas");c.width=960;c.height=1080;
         const g=c.getContext("2d");g.fillStyle="#081018";g.fillRect(0,0,960,1080);
@@ -127,7 +127,7 @@ app.whenReady().then(async () => {
     const cases=[];
     for(let cycle=0;cycle<3;cycle++)for(const view of ["claire","facemesh","facedot","uniform"]){
       change("presentation",view);
-      for(const style of ["quiff","side-part"]){
+      for(const style of ["curly-fade","swept-quiff"]){
         change("hairstyle",style);r.draw(0);
         const data=r.hairData;
         $("hair").checked=false;$("hair").dispatchEvent(new Event("input"));
@@ -146,7 +146,7 @@ app.whenReady().then(async () => {
     if(sample.view!=="claire")assert.equal(sample.normals,0);
   }
   const hairstyles=[];
-  if(catalog.model==="mark")for(const style of ["quiff","side-part"]){
+  for(const style of catalog.hairstyles || (catalog.model==="mark"?["curly-fade","swept-quiff"]:[])){
     const directory=`hair-${style}`;
     await fs.mkdir(path.join(output,directory));
     const result=await ev(`(async()=>{
@@ -157,6 +157,10 @@ app.whenReady().then(async () => {
         if(input.type==="checkbox")input.checked=value;else input.value=String(value);
         input.dispatchEvent(new Event("input"));};
       const style=${JSON.stringify(style)};
+      const {HAIRSTYLES}=await import("/hairstyles.mjs");
+      const head=({claire:"ASTER",mpfb:"ROWAN",mark:"KESTREL / MARK",
+        "reference-structure":"VALE","reference-shell":"LINDEN","male-sharp":"ONYX"})[galleryCatalog.model];
+      if(!head)throw Error("Unknown hairstyle capture model.");
       set("hairstyle",style);
       const perView=Math.ceil(info.metadata.duration*galleryCatalog.previewFps);
       const frames=[];
@@ -167,14 +171,14 @@ app.whenReady().then(async () => {
         const canvas=$("face");canvas.style.cssText="position:fixed;inset:0;width:600px;height:600px";
         for(let i=0;i<perView;i++){
           const time=i*info.metadata.duration/perView;
-          set("yaw",Math.PI/6*Math.sin(2*Math.PI*i/(perView-1)));
+          set("yaw",Math.PI/3*Math.sin(2*Math.PI*i/(perView-1)));
           galleryRenderer.draw(time,0);
           const gl=canvas.getContext("webgl2");gl.finish();
-          if(gl.getError())throw Error("Mark hairstyle capture WebGL failure.");
+          if(gl.getError())throw Error("Hairstyle capture WebGL failure.");
           const c=document.createElement("canvas");c.width=600;c.height=680;
           const g=c.getContext("2d");g.fillStyle="#081018";g.fillRect(0,0,600,680);
           g.textAlign="center";g.textBaseline="middle";g.fillStyle="#6ef5db";g.font='600 25px "Segoe UI"';
-          g.fillText(style==="quiff"?"MARK | SHORT TEXTURED QUIFF":"MARK | CLASSIC SIDE PART",300,24);
+          g.fillText(head+" | "+HAIRSTYLES[style].name.toUpperCase(),300,24);
           g.drawImage(canvas,0,48,600,600);
           g.fillStyle="#d8e6e8";g.font='18px "Segoe UI"';
           g.fillText((view==="claire"?"Surface / color + makeup":"FaceMesh")+" | same native Happy speech",300,660);
@@ -192,7 +196,7 @@ app.whenReady().then(async () => {
     }
     const capture=`capture-${style}.json`,verification=`gif-verification-${style}.json`;
     await fs.writeFile(path.join(output,capture),JSON.stringify({
-      model:"mark",hairstyle:style,filename:`mark-vr80-${style}.gif`,dimensions:[600,680],
+      model:catalog.model,hairstyle:style,filename:`hair-vr97-${catalog.model}-${style}.gif`,dimensions:[600,680],
       clips:[{name:"happy",duration:result.duration,images}],views:["Surface","FaceMesh"],
       previewFps:10,silent:true,sourceFps:30,
       limits:"Same native Happy clip replayed in two presentations with authored yaw; not hair physics or live playback."
@@ -205,7 +209,8 @@ app.whenReady().then(async () => {
   assert(!window.isVisible());
   await fs.writeFile(path.join(output,"capture.json"),JSON.stringify({
     model:catalog.model,clips:captures,views,previewFps:catalog.previewFps,
-    ...(catalog.model==="mark"?{filename:"model-vr80-mark.gif",hairstyles,markQualification}:{}),
+    hairstyles,markQualification,
+    ...(catalog.model==="mark"?{filename:"model-vr97-mark.gif"}:{}),
     sourceFps:30,dimensions:[960,1080],hidden:true,sandbox:true,
     errors,external,speechPlayback:false,
     limits:"Offline sampled production draws; fixed synthetic greeting, not runtime FPS or listening acceptance.",

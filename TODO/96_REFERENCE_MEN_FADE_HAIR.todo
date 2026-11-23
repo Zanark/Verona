@@ -1,0 +1,41 @@
+ID: vr-96
+Title: Replace the rejected men hairstyles with reference-guided fades
+GitHub issue: https://github.com/Zanark/Verona/issues/95
+Status: DONE
+Milestone: Two distinct short styles with visible tapered sides
+Dependencies: vr-80
+Purpose:
+  Replace the rejected quiff/side-part geometry, not merely its labels.
+  Use the supplied curly-top and swept-top photographs as appearance guides.
+Tasks:
+  [x] Build textured curls fade and swept quiff fade, retaining waves/curls.
+  [x] Add rest-space side stubble coverage in every existing presentation.
+  [x] Check geometry, isolated real rendering, view switches and resource release.
+  [x] Document current defaults, retired IDs, limitations and evidence.
+Acceptance criteria:
+  Two distinct top silhouettes and an observable skin-to-short-hair side fade.
+  No new model/inference, texture download, per-frame fitting or geometry cache.
+  Mark defaults to the first reference style; live heads are not reconfigured.
+  Original waves and48-lock long curls remain unchanged.
+  Opaque mouths, cosmetics, four presentations and selected-only buffers remain.
+Completion evidence:
+  tests/test_hairstyles.mjs passes deterministic geometry, native fitting,
+  actual temple-transition geometry and explicit retired-ID rejection.
+  Original48-lock curl positions/edges/triangles remain byte-identical.
+  Final isolated appearance suite passes against374baaa pixel baselines:
+  four presentations, native appearance, selected-only resources, original/
+  native blink cadence and24Mark hairstyle/view restoration cases.
+  Actual Mark overview and two5.5s hair loops retained in
+  .local/qualification/reference-fades-97/mark-03; final contact sheet reviewed.
+  Chapter09 explains the bounded crown fit and shared color/ink/depth discard.
+  Project/library/installed Verona skills have identical SHA-256
+  70050301ec977cc2ed685279b95e76ebd07d6d4c7cd1c4129b68dacd5f78af8c.
+  Procedural reference interpretation, not owner visual/likeness acceptance.
+Completion log:
+  2026-11-23: Owner rejects current male hair and requests two supplied styles.
+  Both reference photographs read locally; no reference photo is republished.
+  2026-11-23: Tightened the initially oversized cap using actual Mark skull
+  bands. Replaced both generators/IDs; new Mark defaults to textured curls fade.
+  Existing heads are not restarted or reconfigured.
+  2026-11-23: Concurrent GIF encoding coincided with a blink-cadence failure.
+  Retained that report; final serial rerun passes without weakening assertions.

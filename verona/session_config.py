@@ -4,12 +4,12 @@ import re
 
 
 MODELS = {
-    "claire": "Original Claire",
-    "mpfb": "Native MPFB / neural transfer",
-    "mark": "Original Mark",
-    "reference-structure": "Claire / MPFB structural fit",
-    "reference-shell": "Claire / historical subtle fit",
-    "male-sharp": "Male-SharpJawline",
+    "claire": "Aster / original Claire",
+    "mpfb": "Rowan / native MPFB",
+    "mark": "Kestrel / original Mark",
+    "reference-structure": "Vale / structural Claire",
+    "reference-shell": "Linden / subtle Claire",
+    "male-sharp": "Onyx / sharp-jaw Claire",
 }
 COLOR_KEYS = ("mesh", "eyes", "hair", "lips", "eyebrows")
 

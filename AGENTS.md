@@ -42,15 +42,23 @@ vr-21 replaces Head and neck's flat plane with a shared rest-space jaw/rear
 curve and per-view Visible neck0-6cm (default1.7). Keep conservative curved-
 primitive retention, exact shader clipping, latest-five crop buffer deletion,
 stable Dot/grid fitting and Full bust restoration; no motion/inference change.
-vr-80 extends vr-29's style inventory: Claire waves (original), Spiral curls,
-Short textured quiff and Classic side part are the four choices in
-hairstyles.mjs; curls retain48 locks. New Mark players default to the short
-quiff with hair visible in all four views; other models retain their previous
+vr-96 supersedes vr-80's rejected men cuts: Claire waves (original), Spiral
+curls, Textured curls fade (`curly-fade`) and Swept quiff fade (`swept-quiff`)
+are the four choices in hairstyles.mjs; long curls retain48 locks. New Mark
+players default to textured curls fade with hair visible in all four views;
+other models retain their previous
 style/visibility defaults. Live choices are never overwritten by a draw or
 view switch, and running heads are not automatically restarted or reconfigured.
 Retired implementations/media are removed, not hidden or cached. Never restore
 them from historical docs/receipts without an explicit request.
 No per-frame generation or unbounded style cache.
+Short hair uses a bounded fourth-power crown fit, deterministic side-stubble
+coverage in every depth/ink pass and144coiled/52swept top strands. No extra
+GPU attributes or per-frame fitting. Old quiff/side-part IDs fail explicitly.
+vr-97 uses canonical display names Aster/Rowan/Kestrel/Vale/Linden/Onyx over
+unchanged model IDs. README includes Akari inline but clearly review-only,
+omits supplied-GLB cards, shows women hair on Onyx and men hair on Mark.
+Historical releases/provenance and study reports remain distinct from that curation.
 Keep original plus latest alternative/crop buffers, shared jaw clipping and
 default hair-free views except Mark (vr-80). vr-23 adds exclusive iris/head cursor modes, bounded smoothed
 head rotation around the eye midpoint, exactly centered head-mode irises and

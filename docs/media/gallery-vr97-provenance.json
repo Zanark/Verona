@@ -1,0 +1,257 @@
+{
+  "createdAt": "2026-11-23T18:04:40.309227+05:30",
+  "newGifs": [
+    {
+      "file": "model-vr97-mark.gif",
+      "sha256": "21e80d3e3dd112d072cdc4730f032fe47c352497e8f73a69096325b70df9db76",
+      "bytes": 6909888,
+      "dimensions": [
+        480,
+        540
+      ],
+      "durationMs": 30250,
+      "encodedFrames": 246,
+      "parentFrames": 246,
+      "parentGifSha256": "91e160cc1648be69c8e285bc4878df3723f82166456676e311706001b66b0140",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "model": "mark",
+      "hairstyle": null,
+      "sourceFrames": 308,
+      "freshInference": false,
+      "sourceMotion": "Exact-model retained vr93 synthetic Happy/overview clips; no second adapter.",
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "c0611ae0b60308b2a5b3b499dad59378ef0904bc8f5b5ddca997e385a1914552",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "a0185752c03bb01af5843ab52b23bc6e95a963fca717b862952040372af5422b",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "2097318df963699e78bc132645634c71eaf72b56948e1edc9266dec58baf3981",
+        "scripts/model_gallery.cjs": "cbbbdb353b6a2aa9d873817114b81568cf4ca1ad755a43d895c44a51d81fc5ad"
+      },
+      "views": [
+        "Surface",
+        "FaceMesh",
+        "FaceDot",
+        "UniformPolygons"
+      ],
+      "emotions": [
+        "neutral",
+        "happy",
+        "sad",
+        "surprised",
+        "angry",
+        "cheekiness",
+        "disgust",
+        "fear",
+        "grief",
+        "outofbreath",
+        "pain"
+      ]
+    },
+    {
+      "file": "hair-vr97-mark-curly-fade.gif",
+      "sha256": "ef0cf5615bade62b998cbb11f16ec4641f6890441aa3b2e39c16158a97fa72d0",
+      "bytes": 2624570,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "b7c0d089a7be925eddca6a92586f4f9316dcc44eb991990e1ebb74b34a9b47cd",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "model": "mark",
+      "hairstyle": "curly-fade",
+      "sourceFrames": 56,
+      "freshInference": false,
+      "sourceMotion": "Exact-model retained vr93 synthetic Happy/overview clips; no second adapter.",
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "c0611ae0b60308b2a5b3b499dad59378ef0904bc8f5b5ddca997e385a1914552",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "a0185752c03bb01af5843ab52b23bc6e95a963fca717b862952040372af5422b",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "2097318df963699e78bc132645634c71eaf72b56948e1edc9266dec58baf3981",
+        "scripts/model_gallery.cjs": "cbbbdb353b6a2aa9d873817114b81568cf4ca1ad755a43d895c44a51d81fc5ad"
+      },
+      "views": [
+        "Surface",
+        "FaceMesh"
+      ],
+      "emotions": [
+        "happy"
+      ]
+    },
+    {
+      "file": "hair-vr97-mark-swept-quiff.gif",
+      "sha256": "24335f6cb1672f53d60f398a0baee1bd656eb42d63bdf7b82fc5cffe809fcd85",
+      "bytes": 2585802,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "e8a384a6d3a31f68d6e5d3daf07c1419239c34b3e741b7e9f57b286922b9338f",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "model": "mark",
+      "hairstyle": "swept-quiff",
+      "sourceFrames": 56,
+      "freshInference": false,
+      "sourceMotion": "Exact-model retained vr93 synthetic Happy/overview clips; no second adapter.",
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "c0611ae0b60308b2a5b3b499dad59378ef0904bc8f5b5ddca997e385a1914552",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "a0185752c03bb01af5843ab52b23bc6e95a963fca717b862952040372af5422b",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "2097318df963699e78bc132645634c71eaf72b56948e1edc9266dec58baf3981",
+        "scripts/model_gallery.cjs": "cbbbdb353b6a2aa9d873817114b81568cf4ca1ad755a43d895c44a51d81fc5ad"
+      },
+      "views": [
+        "Surface",
+        "FaceMesh"
+      ],
+      "emotions": [
+        "happy"
+      ]
+    },
+    {
+      "file": "hair-vr97-onyx-waves.gif",
+      "sha256": "5673d43d5836f6d02635443fe418bda66a77f56f75836cdc39eb0f2ea0e6717f",
+      "bytes": 3878650,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "38e1204d4096fce957756a88cf2076032c2f7ec2090a6c51d305bc9dc1cbadf3",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "model": "male-sharp",
+      "hairstyle": "claire",
+      "sourceFrames": 56,
+      "freshInference": false,
+      "sourceMotion": "Exact-model retained vr93 synthetic Happy/overview clips; no second adapter.",
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "c0611ae0b60308b2a5b3b499dad59378ef0904bc8f5b5ddca997e385a1914552",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "6a517780e8c237cfba8e7e49edee564466112f1f215a37cd99a3454d866cbf96",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "2097318df963699e78bc132645634c71eaf72b56948e1edc9266dec58baf3981",
+        "scripts/model_gallery.cjs": "cbbbdb353b6a2aa9d873817114b81568cf4ca1ad755a43d895c44a51d81fc5ad"
+      },
+      "views": [
+        "Surface",
+        "FaceMesh"
+      ],
+      "emotions": [
+        "happy"
+      ]
+    },
+    {
+      "file": "hair-vr97-onyx-curls.gif",
+      "sha256": "08c12c689ddb37faebd6dd3f2019404feb9314a0cbbe53ae0e909c8ed445f728",
+      "bytes": 4190184,
+      "dimensions": [
+        480,
+        544
+      ],
+      "durationMs": 5500,
+      "encodedFrames": 56,
+      "parentFrames": 56,
+      "parentGifSha256": "7b3983a7fc15d8f8909bed4190247aa9fa6e8d61fef40f12084fc45502b6c53c",
+      "everyParentSampleMatchesDecodedTimeline": true,
+      "processing": "Lanczos size reduction; single 256-color palette; no timeline trimming.",
+      "model": "male-sharp",
+      "hairstyle": "curls",
+      "sourceFrames": 56,
+      "freshInference": false,
+      "sourceMotion": "Exact-model retained vr93 synthetic Happy/overview clips; no second adapter.",
+      "audioPcmSha256": "8750ef597e923bc0f084d5cda0c4e1616b436e34d08d5ce4d716315afdc05f90",
+      "captureSourceSha256": {
+        "verona/engine.py": "91feed01a17a53106e3d3d06c5ce78ac689ea3ee84dfc8278ec997e41d4c8528",
+        "verona/variants.py": "f3c20a6234375b06cbeff754f624240fd59540b1e01ebc9e5cbbb7e89c8bda92",
+        "verona/appearance.py": "b51152162b28f02f2669a12b54ca8ee1ba90f8d5c8f5553694ec1929db010b98",
+        "verona/web/app.js": "c0611ae0b60308b2a5b3b499dad59378ef0904bc8f5b5ddca997e385a1914552",
+        "verona/web/blinking.mjs": "c4273a60ac276b788025a90ee00a13d8da1eb708e31db360761fe314799cfeeb",
+        "verona/web/mpfb.js": "0636e6cf894dc8b9c2fbf46d6069714da83cc96e2d74d02cb797e8ff2078e231",
+        "verona/web/mpfb-renderer.mjs": "7eb54e713a42c92b44f3cd0a1b9d2351bb2e9bbf728ca17310596d4587b3650b",
+        "verona/web/presentations.mjs": "d28a8cd7e11537c230f6b5d1afd513611f35cb6bc111305f63504e06df858322",
+        "verona/web/hairstyles.mjs": "6a517780e8c237cfba8e7e49edee564466112f1f215a37cd99a3454d866cbf96",
+        "verona/web/framing.mjs": "52e72e2064f79640891c85c7bbf5ee35134d700b469e10c381b2a9c454f74265",
+        "scripts/mpfb_motion_transfer.py": "7c56ba8904193692934b515a755eb0197bcab4a31d3946c68c5c81bb1085babb",
+        "scripts/model_gallery.py": "2097318df963699e78bc132645634c71eaf72b56948e1edc9266dec58baf3981",
+        "scripts/model_gallery.cjs": "cbbbdb353b6a2aa9d873817114b81568cf4ca1ad755a43d895c44a51d81fc5ad"
+      },
+      "views": [
+        "Surface",
+        "FaceMesh"
+      ],
+      "emotions": [
+        "happy"
+      ]
+    }
+  ],
+  "retiredCurrentMedia": [
+    "model-vr93-mark.gif",
+    "hair-vr93-claire.gif",
+    "hair-vr93-curls.gif",
+    "hair-vr93-quiff.gif",
+    "hair-vr93-side-part.gif",
+    "model-vr80-mark.gif",
+    "mark-vr80-quiff.gif",
+    "mark-vr80-side-part.gif"
+  ],
+  "historicalSnapshot": "https://github.com/Zanark/Verona/tree/v1.0.0/docs/media",
+  "unchangedEmbeds": [
+    "model-vr93-claire.gif",
+    "model-vr93-mpfb.gif",
+    "model-vr93-male-sharp.gif",
+    "model-vr93-reference-structure.gif",
+    "model-vr93-reference-shell.gif",
+    "study-vr93-akari.gif",
+    "gallery-vr36-facemesh-transparent.gif",
+    "gallery-vr36-facemesh-xyz.gif"
+  ],
+  "capturePolicy": "Serial hidden sandboxed windows, private loopback/cache/profile, synthetic greeting. No live head driven.",
+  "referenceRights": "Owner-supplied photographs guide original procedural styles; no photographs are redistributed.",
+  "curation": "Six supplied-GLB studies leave only the README. Reports, credits and original provenance remain.",
+  "limits": "Silent sampled previews, not live FPS, hair physics, exact photographic likeness or owner visual acceptance."
+}

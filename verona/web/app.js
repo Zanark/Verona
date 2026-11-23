@@ -1,7 +1,7 @@
 import { rotationMatrix, cursorGaze, cursorHeadAngles, trackedHeadPose } from "/orientation.mjs";
 import { JAW_CROP, trimJawTopology } from "/framing.mjs";
 import { PRESENTATIONS, presentation, frontFaceTopology, topologyEdges, presentationFit } from "/presentations.mjs";
-import { HAIRSTYLES, hairstyle, createHairstyle } from "/hairstyles.mjs";
+import { HAIRSTYLES, hairstyle, createHairstyle, HAIR_FADE_GLSL } from "/hairstyles.mjs";
 import { startAgent } from "/agent-player.mjs";
 import { APPEARANCE_KEYS, COLOR_SWATCHES, createAppearance, parseFaceColor } from "/face-colors.mjs";
 import { attachBlinking, BLINK_GLSL, CLAIRE_BLINK } from "/blinking.mjs";
@@ -157,6 +157,7 @@ class FaceRenderer {
       uniform float idleYawn;
       uniform vec2 gaze, patternSettings;
       uniform int material, pass, presentationStyle, eyeGlow;
+      ${HAIR_FADE_GLSL}
       ${BLINK_GLSL}
       ${FACIAL_FEATURE_GLSL}
       in vec3 viewNormal, rest;
@@ -187,6 +188,7 @@ class FaceRenderer {
         return monochrome ? vec3(dot(value, vec3(0.2126, 0.7152, 0.0722))) : value;
       }
       void main() {
+        clipHairFade(rest);
         if (pass == 4) {
           outputColor=vec4(0.0);
           return;
@@ -333,8 +335,8 @@ class FaceRenderer {
           float partX=-1.65+0.13*(rest.z-2.0);
           float part=(1.0-smoothstep(0.045,0.10,abs(rest.x-partX)))
             *smoothstep(153.7,155.0,rest.y)*smoothstep(-6.0,-4.5,rest.z);
-          base=mix(base,vec3(0.10,0.055,0.03),part*0.45);
-          polish=0.08+0.03*ribbon;
+          if (!hairFade) base=mix(base,vec3(0.10,0.055,0.03),part*0.45);
+          polish=hairFade ? 0.025 : 0.08+0.03*ribbon;
         } else if (material == 2) {
           vec3 eyeCenter = blinkCenter(rest);
           vec3 local = rest-eyeCenter;
@@ -401,6 +403,9 @@ class FaceRenderer {
     for (const name of ["lipMouth", "lipDepth", "lipUpper", "lipLower", "rowanLids"]) {
       this.uniforms[name] = gl.getUniformLocation(program, name);
     }
+    for (const name of ["hairFade", "hairFadeCenter", "hairFadeAxes"]) {
+      this.uniforms[name] = gl.getUniformLocation(program, name);
+    }
     this.facialProfile = facialProfile(model);
     this.neutralLipSeal = model === "mpfb";
     gl.uniform3fv(this.uniforms.lipMouth, this.facialProfile.mouth);
@@ -437,10 +442,12 @@ class FaceRenderer {
     this.hairEdges = new Uint32Array(binary, hair.edgeOffset, hair.edges * 2);
     this.hairTriangles = new Uint32Array(binary, hair.triangleOffset, hair.triangles * 3);
     this.originalHair = { positions: this.hairData, edges: this.hairEdges, triangles: this.hairTriangles };
-    this.hairStyle = model === "mark" ? "quiff" : "claire";
+    this.hairFade = null;
+    this.hairStyle = model === "mark" ? "curly-fade" : "claire";
     if (this.hairStyle !== "claire") {
       const data = createHairstyle(this.hairStyle, meta, this.neutralData);
       this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
+      this.hairFade = data.fade;
       this.hair = { triangleCount: data.triangles.length / 3, edgeCount: data.edges.length / 2 };
     }
     const eyes = meta.eyes;
@@ -582,6 +589,7 @@ class FaceRenderer {
     });
     this.releaseBuffers(this.hair, ["positions", "normals", "triangles", "edges", "meshEdges"]);
     this.hair = surface; this.hairData = data.positions; this.hairEdges = data.edges; this.hairTriangles = data.triangles;
+    this.hairFade = data.fade || null;
     this.hairStyle = id;
     this.hairFits = {};
     this.activeHair = surface;
@@ -959,6 +967,9 @@ class FaceRenderer {
     gl.uniform1i(u.polygonView,polygonView);
     gl.uniform1i(u.monochrome, this.view.style === 0 && !$("colors").checked);
     gl.uniform1i(u.presentationStyle, this.view.style);
+    gl.uniform1i(u.hairFade, Boolean(this.hairFade));
+    gl.uniform3fv(u.hairFadeCenter, this.hairFade?.center || [0, 0, 0]);
+    gl.uniform3fv(u.hairFadeAxes, this.hairFade?.axes || [1, 1, 1]);
     gl.uniform1i(u.eyeGlow, Number($("eye-glow").value));
     gl.uniform3fv(u.eyeColor, this.eyeColor);
     gl.uniform1i(u.customEyeColor, this.customEyeColor);

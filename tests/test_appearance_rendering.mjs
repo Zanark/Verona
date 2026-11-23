@@ -368,7 +368,7 @@ try{
         f.change("presentation",view);
         for(const visible of [true,false]){
           h.checked=visible;h.dispatchEvent(new Event("input"));
-          for(const style of ["quiff","side-part","curls","claire"]){
+          for(const style of ["curly-fade","swept-quiff","curls","claire"]){
             f.change("hairstyle",style);
             if(view!=="facemesh")for(const framing of ["head-neck","full"]){
               f.change("framing",framing);
@@ -491,7 +491,7 @@ try{
     const cases=[];
     for(let cycle=0;cycle<3;cycle++)for(const view of ["claire","facemesh","facedot","uniform"]){
       change("presentation",view);
-      for(const style of ["quiff","side-part"]){
+      for(const style of ["curly-fade","swept-quiff"]){
         change("hairstyle",style);r.draw(0);
         const data=r.hairData;
         $("hair").checked=false;$("hair").dispatchEvent(new Event("input"));
@@ -503,7 +503,7 @@ try{
     }
     return {initial,cases};
   })()`);
-  assert.equal(report.markHairstyles.initial.style,"quiff");
+  assert.equal(report.markHairstyles.initial.style,"curly-fade");
   assert(report.markHairstyles.initial.visible);
   for(const sample of report.markHairstyles.cases){
     assert.equal(sample.selected,sample.style);

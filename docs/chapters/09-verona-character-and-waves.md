@@ -1,8 +1,77 @@
 # 09 - Designing Verona without replacing the speech system
 
+## Reference-guided fades and a curated named gallery (vr-96/97)
+
+The owner rejects the previous men cuts and supplies a textured/coily top with
+a temple fade and a swept quiff with short sides. `hairstyles.mjs:createHairstyle`
+replaces, rather than relabels, those generators: `curly-fade` has144short
+coiled strands; `swept-quiff` has52flattened swept strands and an asymmetric
+raised front. The previous `quiff`/`side-part` IDs now fail explicitly.
+Original Claire waves and the48-lock long Spiral curls remain unchanged.
+
+A fade is not a dark solid cap ending at an ear. `shortScalp` fits upper-skull
+bounds once when changing a style. Its rounded fourth-power crown uses
+`x*x + z*z + y**4`, rather than the older ellipsoid's uniformly inflated
+radius, to leave room for the broad upper skull without an oversized pointed
+roof. Deterministic rest-space follicle coverage increases from skin to sparse
+stubble to filled hair across normalized height0.10-0.62.
+`HAIR_FADE_GLSL:clipHairFade`, called before every material pass in
+`FaceRenderer`, applies the same holes to color, ink and invisible depth.
+Otherwise invisible depth would incorrectly occlude the exposed skin.
+The original hair's painted part and stronger polish do not leak into fades.
+
+The renderer keeps just the selected hair buffers and two small fit vectors;
+no extra vertex attributes, textures, animation clocks, per-frame fitting,
+new neural model or hidden style cache are introduced. New Mark heads default
+to textured curls fade with hair visible in all views. Existing heads are not
+restarted/reconfigured; hiding hair and switching views preserve selection.
+The two new geometries have12,672/12,288vertices and23,424/23,760triangles.
+These are stylized procedural interpretations, not exact photographic likeness,
+hair physics or owner visual acceptance. Supplied photos are not republished.
+
+`session_config.MODELS` now uses the earlier unique head-combination names
+Aster, Rowan, Kestrel, Vale, Linden and Onyx over unchanged CLI IDs.
+Views/hairstyles are shared presentations, not additional trained identities.
+The README groups Akari with the heads while explicitly retaining review-only
+status. Supplied-GLB cards leave only the README; reports, credits, studies and
+historical receipts survive. Women's hairstyle previews use actual Onyx;
+men's previews use actual Mark. This is the owner's showcase direction, not
+a gender/voice selector.
+
+`model_gallery.capture` supports explicit hairstyle lists and hair-only capture.
+New captures reuse exact-model vr93 synthetic motion/audio hashes, with no
+new inference and no second sculpt adapter. Four complete5.5-second hairstyle
+loops show Surface/FaceMesh turns through60degrees either side; the refreshed
+Mark overview retains all30.25seconds/neutral and ten emotions/four views.
+Each parent/source and public/parent timeline sample is decoded and compared.
+The five new GIFs total20,189,094bytes; the other eight README GIFs are retained.
+[Current provenance](../media/gallery-vr97-provenance.json) distinguishes these
+from the immutable vr93 inventory and v1.0.0 source snapshot.
+
+The first local capture reveals an oversized inherited cap; actual Mark skull
+bands guide the tighter fit and revised crowns. An Onyx reuse attempt stops
+before drawing because its adapter calls a different signature: the retry
+installs already-adapted motion only after preparing native static geometry,
+preventing double sculpting. A timing-sensitive blink test fails while GIF
+encoding contends for CPU; its failed report remains, separate from hair
+geometry/resource checks. Captures use hidden owned windows/private profiles,
+never a running head. Technical checks do not imply owner acceptance.
+
+The final serial appearance suite passes unchanged assertions against the
+`374baaa` original/native pixel baselines, both natural-blink cadences and
+24Mark style/view restoration cases. Focused geometry and14session tests pass;
+the hair-only encoder rerun preserves both Onyx parent GIF hashes.
+Actual GitHub-flavored Markdown/CSS passes1200/768/390px with13GIFs/14images,
+five borderless half-width pairs/two full-width solos, the first hero and one
+closed disclosure. Wide/narrow layouts and the final hair contact sheet are
+agent-reviewed. After verification,1,064raw PNGs/one closed profile are removed
+(350,019,015bytes); parent GIFs, motion, contacts and failed receipts remain.
+Eight superseded public GIFs remove39,323,887bytes from the current source
+tree without altering their frozen release history.
+
 ## A current gallery is a rendering pipeline, not a model catalog (vr-93)
 
-The README now shows six selectable heads, seven separately labelled studies
+At that checkpoint, the README shows six selectable heads, seven separately labelled studies
 and all four hairstyles. Seventeen new GIFs replace stale front-page previews;
 the captioned hero and separate XYZ loop remain explicit historical captures.
 Review names do not add CLI model IDs. The single closed disclosure, centered
@@ -586,12 +655,12 @@ See the [media receipt](../media/README.md) for capture/encoding scope.
 Silent sampled GIFs and geometric checks are not user visual acceptance,
 hair physics or a new runtime performance measurement.
 
-![Mark with the short textured quiff](../media/mark-vr80-quiff.gif)
+[Historical short-quiff capture, superseded by vr-96](https://github.com/Zanark/Verona/blob/v1.0.0/docs/media/mark-vr80-quiff.gif)
 
 *The raised front and fourteen swept ridges preserve a short side silhouette;
 the same native Happy greeting plays in Surface and FaceMesh.*
 
-![Mark with the classic side part](../media/mark-vr80-side-part.gif)
+[Historical side-part capture, superseded by vr-96](https://github.com/Zanark/Verona/blob/v1.0.0/docs/media/mark-vr80-side-part.gif)
 
 *A lower crown and eighteen offset-part ridges give the second short design
 a distinct shape, rather than merely changing the quiff's color.*

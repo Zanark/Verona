@@ -26,7 +26,7 @@ def save(path, value):
     path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 
 
-def capture(output, model):
+def capture(output, model, *, hairstyles=None, hair_only=False):
     subprocess.run(["node", "--check", str(Path(__file__).with_suffix(".cjs"))],
                    check=True, cwd=ROOT)
     os.environ.update(OPENBLAS_NUM_THREADS="2", OMP_NUM_THREADS="2")
@@ -59,6 +59,9 @@ def capture(output, model):
             clips.append({"name": expression, "metadata": clip.metadata, "filename": name})
         catalog = {"model": model, "clips": clips, "voice": speech.voice,
                    "fixedSyntheticText": "Hey, how are you?", "previewFps": 10}
+        if hairstyles is not None:
+            catalog["hairstyles"] = hairstyles
+        catalog["hairOnly"] = hair_only
         save(output / "clips.json", catalog)
         routes["/gallery/clips.json"] = ("clips.json", "application/json")
         state = State(engine, voices)
@@ -128,6 +131,12 @@ def encode(output, capture_name="capture.json", verification_name="gif-verificat
 
     capture = json.loads((output / capture_name).read_text(encoding="utf-8"))
     clips = capture["clips"]
+    if not clips:
+        if not capture.get("hairstyles"):
+            raise ValueError("Gallery capture contains no speech clips or hairstyles.")
+        for hair in capture["hairstyles"]:
+            encode(output, hair["capture"], hair["verification"])
+        return
     # One shared palette includes every expression, not just the first pose.
     swatch = Image.new("RGB", (240 * len(clips), 270))
     for index, clip in enumerate(clips):

@@ -1,6 +1,40 @@
 # Prototype media receipt
 
-## Current all-model front page (vr-93)
+## Curated named-head front page (vr-97)
+
+[Current provenance](gallery-vr97-provenance.json) inventories five new GIFs:
+the Mark/Kestrel four-view overview, two Mark men's fades, and original waves/
+48-lock Spiral curls on actual Onyx for the women's examples. Existing vr93
+motion/audio hashes are reused with the correct model/adapter, not regenerated
+or passed through the sculpt twice. The overview keeps30.25seconds; each hair
+loop keeps5.5seconds of Surface/FaceMesh speech and60degree turns both ways.
+All source/parent and parent/public samples match at their decoded times.
+The five public previews total20,189,094bytes.
+
+The README now embeds13GIFs/14images: six uniquely named production head
+combinations, Akari inline but review-only, four hair demonstrations, and the
+preserved hero/XYZ pair. Supplied-GLB cards are removed from the README only;
+their local reports, source credits, public study GIFs and original receipt
+remain. No photograph is copied into public media. This is curation, not an
+installation, accepted likeness or runtime gender restriction.
+
+Eight obsolete Mark/hairstyle GIFs leave the current media tree. Their exact
+historical bytes remain in [v1.0.0](https://github.com/Zanark/Verona/tree/v1.0.0/docs/media);
+the vr80/93 receipts retain their original inventories/hashes, not rewritten
+as if current captures existed then. Frozen releases/books are unchanged.
+Current geometry is stylized, static and bounded, not photographic hair physics.
+
+Actual GFM/GitHub CSS is qualified at1200/768/390px: five borderless half-width
+pairs, two full-width solos, natural aspects/no overflow/errors/external requests,
+hero first and one initially closed disclosure. Wide/narrow screenshots are
+agent-reviewed. The final serial appearance suite preserves original/native
+pixel baselines, selected-only resources and both blink cadences; an earlier
+concurrent-encoding cadence failure remains in its own report.
+After exact timeline checks,1,064owned raw PNGs/one closed profile are removed,
+recovering350,019,015bytes. Parent GIFs/motion/contact sheets and compact/failed
+receipts survive; the eight obsolete public GIFs account for39,323,887more bytes.
+
+## Historical all-model front page (vr-93)
 
 The [current gallery provenance](gallery-vr93-provenance.json) inventories
 seventeen newly rendered GIFs: six selectable heads, seven separately labelled

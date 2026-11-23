@@ -4,11 +4,14 @@
 source distribution, setup and qualification boundaries. Earlier v0.x milestones
 remain immutable; this designation does not publish local PDF editions.
 
-**Current visual front page (vr-92/93):** the [README](../README.md) separates
-six selectable heads from seven review-only studies, with current GIFs and
-all four hairstyles. [Chapter09](chapters/09-verona-character-and-waves.md#restore-toon-light-without-restoring-old-cosmetic-defects-vr-92)
+**Current visual front page (vr-96/97):** the [README](../README.md) groups six
+uniquely named selectable combinations and review-only Akari, omitting supplied
+GLB cards. Women hairstyle demos use Onyx; men's reference-guided fades use Mark.
+[Current mechanisms](chapters/09-verona-character-and-waves.md#reference-guided-fades-and-a-curated-named-gallery-vr-9697)
+explain side-stubble coverage and bounded crown fitting.
+[Chapter09](chapters/09-verona-character-and-waves.md#restore-toon-light-without-restoring-old-cosmetic-defects-vr-92)
 explains restored Akari cel light without undoing corrected lips/lashes.
-[Gallery mechanisms and qualification](chapters/09-verona-character-and-waves.md#a-current-gallery-is-a-rendering-pipeline-not-a-model-catalog-vr-93)
+[Earlier gallery mechanisms and qualification](chapters/09-verona-character-and-waves.md#a-current-gallery-is-a-rendering-pipeline-not-a-model-catalog-vr-93)
 distinguish fresh inference, reused motion, sampled GIFs and installed models.
 The [source skill](../.github/skills/verona/SKILL.md) also documents current
 creation-only mouth opt-in and honest model/study boundaries (vr-94).
