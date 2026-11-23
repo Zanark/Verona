@@ -1,6 +1,6 @@
 ---
 name: verona
-description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers distinct offline voices, six models, shared controls, thirty tool-owned idle actions, rare quiet local effects, creation-only performance sleep, cancellation and inventory-checked colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
+description: Use Verona as an explicitly opted-in local speaking face for this agent session. Covers distinct offline voices, six selectable models versus review-only studies, four hairstyles, corrected opaque-default mouths with creation-only transparency opt-in, shared controls, thirty tool-owned idle actions, performance sleep, cancellation and inventory-checked colors. Use for "use Verona", "speak through Verona", "give this chat a head", "customize my Verona head", or "make these heads visually distinct". Not permission to narrate secrets, control another session, install dependencies, or activate recording.
 ---
 
 # Verona: a separate, recognizable speaking head for this session
@@ -140,7 +140,22 @@ Optional phonemization includes GPL components; no cloud, cloning or recordings.
 | `male-sharp` | Owner-named Male-SharpJawline, preserved complete-pose sculpt. |
 
 These are six selectable shapes over two neural identities, not six independently
-trained speech models or accepted gender identities. Every head shares Surface
+trained speech models or accepted gender identities. Review aliases are Aster
+(`claire`), Rowan (`mpfb`), Kestrel (`mark`), Vale (`reference-structure`),
+Linden (`reference-shell`) and Onyx (`male-sharp`). CLI requests use the IDs,
+not review aliases. Aster's review label is owner-assigned Female; do not infer
+gender for other models or use it to choose a voice.
+
+Lyra/Elara, Mira/Selene and Neris/Thalia are six separate supplied-GLB review
+candidates, not manager/CLI choices. Akari is a seventh, original Claire-based
+anime review study with enlarged eyes, attached upper lashes and a violet bob.
+Its isolated review renderer restores banded toon skin/hair lighting; that
+does not add an anime shader toggle or Akari to production. Never pass these
+review names as `--model`, import/download a GLB, or replace a head to imitate
+them. Current studies and their limits are documented in chapter09 and the
+GIF-first README; review/capture is not owner selection or installation.
+
+Every selectable head shares Surface
 (legacy ID `claire`), FaceMesh, FaceDot and UniformPolygons, full/head-neck
 framing, neck depth, XYZ/cursor motion, zoom, colors, four procedural
 hairstyles and natural blinking. Surface supports transparent polygons and
@@ -163,7 +178,7 @@ Claire heads never load Mark. Sideways cheekiness adds a procedural asymmetric
 lip pull only on cheekiness clips. Its live checkbox/strength slider can disable
 the cue or restore it without inference/uploads; Stop clears it.
 Do not invent a Female/Male selector or gender-dependent voice policy.
-The session name, head variant and performance-only policy are fixed at creation;
+The session name, head variant, mouth-transparency and performance-only policy are fixed at creation;
 create a new owned head to change them. Normal heads are the default. Do not
 enable performance sleep automatically: only an explicit user choice at
 creation permits `create --performance-mode` or `host --performance-mode`.
@@ -175,8 +190,9 @@ else's head to switch models or policy.
 
 Idle life now owns thirty local actions, including five eye-focused actions
 and ten multi-feature composites. The tool chooses/times them, never the chat.
-Look-around moves eyes in either cursor mode. Yawns open lips around a transparent
-native-rim display aperture and use explicitly prepared ignored local effects selected by
+Look-around moves eyes in either cursor mode. Yawns retain the original opaque
+mouth by default; only creation-time mouth opt-in permits a wide native-rim
+transparent aperture. They use explicitly prepared ignored local effects selected by
 voice style (head fallback if unknown). Sneezes use supplied recordings too;
 neither effect falls back to synthesis.
 Manager `idle-sounds`/`idle-volume` controls mute/level independently of speech
@@ -285,6 +301,19 @@ After selecting your unique name and **checked** colors:
   --lips-color $Lips --eyebrows-color $Eyebrows
 ```
 
+Mouths default to the original opaque surface: no added black cavity or
+transparent neutral seam. Only when the user explicitly requests it, append
+`--mouth-transparency` to `create` (or an explicitly owned direct `host`).
+The manager API equivalent is the creation boolean `mouthTransparency: true`;
+false/omitted keeps the default. The native-rim cutout is then permitted only
+at least 0.65 cm beyond neutral outer-lip separation, not at every opening.
+This is not a live `configure`/settings option, normal head opacity, oral
+retopology or anatomical contact correction. Do not silently enable it for
+speech or idle yawns, and never recreate an existing head just to apply this
+default. Continuous model-aware lip masks follow rest-space coordinates
+through motion; their symmetry is not a guarantee of symmetric projection,
+extreme-pose fit or owner-accepted anatomy.
+
 `starting` is not ready. Wait with bounded backoff (for example 0.5-2 seconds,
 up to 90 seconds), stop on failed/unavailable, and inspect errors rather than
 repeatedly creating. During startup, use the protected manager `inspect` route
@@ -346,7 +375,7 @@ Discover each live control rather than guessing its availability.
 Per-utterance CLI flags include `--voice` (exact installed English voice name),
 `--expression`, `--intensity` (0..0.6), `--gain` (2 or 4), `--voice-only` and
 `--timeout` (1..600 seconds, default180). Neutral/intensity0.35/gain4 are CLI
-defaults; Hazel is preferred when installed. Voice-only requires neutral.
+defaults; omitted `--voice` keeps the head's current voice. Voice-only requires neutral.
 Expressions are `neutral`, `surprised`, `angry`, `cheekiness`, `disgust`, `fear`,
 `grief`, `happy`, `outofbreath`, `pain`, `sad`. Do not invent emotion combinations.
 Expression conditioning changes the face, not the voice's emotion.
@@ -529,8 +558,20 @@ unique name, ready head/model, five confirmed inventory-checked colors,
 same-head actual controls, own job ID and successful terminal result.
 Report color conflicts, unverified preview or failed speech honestly.
 
-**Runtime baseline:** reviewed through vr-78's supplied-sneeze update over
-`39e5270692820f7a996a7bc4d2f99a2195e7207b`, released as v0.3.1.
+The checkout's `book\README.md` index includes the separately frozen
+Living-Face Journal v2 with a clickable 150-topic ELI5 appendix. Frozen books
+retain their own historical cutoff; use current source/guide for later
+behavior. Author-checkout local review HTML/GIFs are not installed head
+assets or guaranteed files in a fresh clone. Old raw capture sequences were
+intentionally pruned during cleanup; do not restore obsolete runtimes or
+download sources merely to reproduce an old receipt.
+
+**Runtime baseline:** reviewed through vr-87/88 at
+`3d5bc5fcdc9d96319a8628697d98aba145722847`: opaque-default creation policy,
+continuous model-aware lip cosmetics, Rowan's effective gain and attached
+Akari lashes. The subsequent vr-92 toon restoration affects the separate
+anime review renderer only (commit `25cb953`); vr-93 refreshes public previews. v0.3.1 is an
+older release, not evidence that these later source changes shipped in it.
 Recheck current checkout behavior
 before assuming commands/defaults stayed unchanged. Authoritative mechanisms:
 `verona\agent.py:main`, `SessionManager.create/list/command` in

@@ -1,17 +1,17 @@
 ID: vr-94
 Title: Synchronize current Verona operating skill at all three locations
-Status: IN_PROGRESS
+Status: DONE
 Milestone: Current source, canonical library and installed operating instructions
-Dependencies: vr-92, vr-93
+Dependencies: vr-92
 Purpose:
   Owner explicitly requests updating the authored skill, library source and
   installed copy with all subsequent behavior and honest feature boundaries.
 Tasks:
-  [ ] Verify runtime flags/defaults against current source and guide.
-  [ ] Document immutable mouth opt-in, corrected lip policy, current six model
+  [x] Verify runtime flags/defaults against current source and guide.
+  [x] Document immutable mouth opt-in, corrected lip policy, current six model
        aliases, four hairstyles, Rowan gain and seven review-only candidates.
-  [ ] Reconcile pre-existing library/installed drift without losing instructions.
-  [ ] Copy reviewed source exactly; verify hashes and skill discovery.
+  [x] Reconcile pre-existing library/installed drift without losing instructions.
+  [x] Copy reviewed source exactly; verify hashes and skill discovery.
 Acceptance criteria:
   Three copies match; no invented CLI model/shader option, automatic narration,
   head recreation, runtime restart or claim that old releases include new work.
@@ -19,5 +19,12 @@ Completion evidence:
   Current agent.py, manager.py and session_config.py confirm --mouth-transparency
   and immutable boolean policy; project skill already includes vr80/83 changes
   absent from library/installed copies.
+  Exact three-copy SHA256 comparison passes after the final update.
+  Actual copilot skill list --json discovers/enables the current project skill.
+  Its identical personal copy remains installed; no active host was restarted.
+  Existing unrelated career-forensics description-length warning is not
+  changed or mistaken for a Verona skill failure.
 Completion log:
   2026-11-23: Owner adds explicit skill-source and installed refresh request.
+  2026-11-23: Updated source/library/personal copies, current baseline and
+    self-contained documentation/cleanup boundaries; verified exact identity.

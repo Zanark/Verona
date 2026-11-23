@@ -5,6 +5,23 @@ The existing M1, native-head and local-voice PDFs remain frozen at their stated
 source cutoffs. This page is authored source, not a newly rendered PDF or a
 claim that those editions include later work. Newest entry first.
 
+## 2026-11-23 - Let the instructions catch up with the face (vr-94)
+
+The owner also requests refreshing Verona's skill at its source and installed
+locations. The library/personal copies lagged behind Mark's short-hair defaults
+and Rowan's effective gain. The source now explains those, the six selectable
+IDs versus seven review-only studies, immutable opaque-default mouth policy
+and explicit `--mouth-transparency` creation flag. Akari's toon study does not
+become an invented production CLI model or settings option.
+
+The project source, canonical library and personal installed `SKILL.md` copies
+are synchronized byte-for-byte. Actual Copilot discovery enables the updated
+project skill; the personal copy is identical. A pre-existing unrelated skill
+description-length warning is left alone. Current source anchors are separate
+from the older release baseline. Reading/installing the skill does not start
+narration, wake other sessions, reload a head or imply that an already-open
+host has adopted the new instructions. Frozen books remain unchanged.
+
 ## 2026-11-23 - Bring back the anime light, not the old lip defect (vr-92)
 
 The owner asks for the anime head's toon shader again. Akari's corrective lip

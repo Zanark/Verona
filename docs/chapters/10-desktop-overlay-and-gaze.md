@@ -200,6 +200,21 @@ this UI without restarting its backend or heads.
 
 ### Operating instructions as an installable skill (vr-48)
 
+The owner's vr-94 refresh reconciles the authored project file, canonical
+library copy and installed personal copy. The older two copies had missed
+Mark's four-style defaults and Rowan's effective gain; the refreshed text also
+documents `create`/`host --mouth-transparency`, its immutable default-false
+manager boolean and the independent wide-opening gate. Reading/installing the
+skill still does not activate narration or restart existing heads.
+
+The six actual CLI model IDs are distinguished from review aliases and the
+seven separate GLB/anime study candidates. Akari's toon shader belongs to the
+isolated study renderer, not a production model or live settings option.
+Current source behavior is tied to vr-87/88 plus the vr-92 study correction,
+not retroactively attributed to the older v0.3.1 release. Exact-copy hashes
+and actual local skill discovery verify delivery, not adoption by every
+already-open host. Missing prerequisites still fail explicitly.
+
 `.github/skills/verona/SKILL.md` is a self-contained operating contract for a
 compatible local agent, not a second application. It documents the current
 CLI and protected settings route, ownership/lifecycle, all six variants,
